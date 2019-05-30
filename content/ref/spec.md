@@ -1,6 +1,6 @@
 ---
 title: The Odin Programming Language Specification
-permalink: "/ref/spec"
+url: "/ref/spec"
 warning: true
 show_table_of_contents: true
 ---

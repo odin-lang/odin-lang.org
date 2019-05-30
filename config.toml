@@ -1,0 +1,50 @@
+baseurl = "https://odin-lang.org/"
+languageCode = "en-gb"
+title = "Odin Programming Language"
+theme = "odin-theme"
+googleAnalytics = ""
+disqusShortname = ""
+preserveTaxonomyNames = true
+# footnotereturnlinkcontents = "↩"
+disableHugoGeneratorInject = true
+
+pygmentsCodeFences = false
+
+staticDir = ["static"]
+
+[permalinks]
+    blog = "/blog/:year/:month/:day/:slug/"
+    docs = "/docs/:slug/"
+    ref = "/ref/:slug/"
+
+[taxonomies]
+    category = "category"
+    tag      = "tags"
+    series   = "series"
+
+[[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+[[menu.main]]
+    name = "Documents"
+    url = "/docs/"
+    weight = 2
+[[menu.main]]
+    name = "Help"
+    url = "/help/"
+    weight = 3
+[[menu.main]]
+    name = "Blog"
+    url = "/blog/"
+    weight = 4
+[[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/odin-lang/Odin"
+    weight = 5
+
+
+[params]
+    description = ""
+    footer = "&copy; 2016&ndash;2019 Ginger Bill"
+

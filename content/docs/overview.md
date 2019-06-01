@@ -199,6 +199,7 @@ Odin has only one loop statement, the `for` loop.
 #### Basic for loop
 
 A basic `for` loop has three components separated by semicolons:
+
 * The initial statement: executed before the first iteration
 * The condition expression: evaluated before every iteration
 * The post statement: executed at the end of every iteration
@@ -452,6 +453,7 @@ In this case, it acts akin to am explicit C++ destructor however, the error hand
 
 ### When statement
 The `when` statement is almost identical to the `if` statement but with some differences:
+
 * Each condition must be a constant expression as a `when` statement is evaluated at compile time.
 * The statements within a branch do not create a new scope
 * The compiler checks the semantics and code __only__ for statements that belong to the first condition that is `true`
@@ -1016,6 +1018,7 @@ y = {.North, .West};
 ```
 
 Bit sets support the following operations:
+
 * `A | B` - union of two sets
 * `A & B` - intersection of two sets
 * `A &~ B` - difference of two sets (A without B's elements)

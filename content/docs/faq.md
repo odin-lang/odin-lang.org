@@ -60,6 +60,7 @@ This idiom allows the user to create a virtual procedure table if they do wish, 
 The design goals of Odin were explicitness and simplicity. Implicit procedure overloading complicates the scoping system. In C++, you cannot nest procedures within procedures so all procedure look-ups are done at the global scope. In Odin, procedures can be nested within procedures and as a result, determining which procedure should be used, in the case of implicit overloading, is complex.
 
 Explicit overloading has many advantages:
+
 * Explicitness of what is overloaded
 * Able to refer to the specific procedure if needed
 * Clear which scope the entity name belongs to

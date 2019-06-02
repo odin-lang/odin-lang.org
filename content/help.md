@@ -11,7 +11,7 @@ url: "help"
 Get live support and talk with other lovers of Odin on the Odin Discord.
 
 
-### [Frequently Asked Questions (FAQ)](/doc/faq)
+### [Frequently Asked Questions (FAQ)](/docs/faq)
 
 Answers to common questions about Odin.
 

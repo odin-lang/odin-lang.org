@@ -20,7 +20,65 @@ The language borrows heavily from (in order of philosophy and impact): Pascal, C
 The Odin compiler and the library are under the [BSD 2-Clause license](https://github.com/odin-lang/Odin/blob/master/LICENSE).
 
 ### Does Odin have any third-party library?
-Check out a view selected libraries at https://github.com/odin-lang/odin-libs.
+Check out a few selected libraries at https://github.com/odin-lang/odin-libs.
+
+### What does Odin offer over other languages?
+
+A quick overview of features (in no particular order):
+
+* Full UTF-8 Support
+* Custom allocators that are simple to use:
+    * Memory arenas/regions, pools, stacks, etc. which can be easily added
+* [Context system](#context-system) for allocations, logging, and thread data
+* Built-in types and procedures that take advantage over the context system:
+    * `new(type)`, and `make` use the context's allocator (unless explicitly given)
+    * Dynamic arrays and hash maps (`[dynamic]int` and `map[string]int`)
+* Array programming
+    * `a, b: [4]f32; c := a * b;`
+    * `i := a.x * b.y;`
+    * `v := swizzle(a, 1, 2, 0);`
+* [Explicit procedure overloading](#why-does-odin-have-explicit-procedure-overloading-but-not-implicit-procedure-overloading)
+* Introspection on all types
+* High control over memory layout
+    * Alignment
+    * Field offsets
+    * Endianness
+    * Data sizes
+* Endian specific integer types (useful for specific data formats)
+    * `u32le`
+    * `u64be`
+* Decent [package](#packages) system and file handling
+* No _bad_ preprocessor
+* Type inference
+    * `x: int = 1;`
+    * `x := 1; // x is deduced to be an int`
+* `using`
+    * making everything a namespacing (similar to Pascal's `with` but on steroids)
+    * Ability to have [subtype polymorphism](#is-odin-an-objective-oriented-language)
+* Multiple return values
+* Clean, consistent, and fast to parse syntax
+* No need for procedure prototypes
+* [`defer` statements](/docs/overview/#defer-statement)
+    * defer a statement until the end of scope (akin to D's `scope(exit)`)
+* Nested procedures and types
+* Tagged unions and untagged unions
+* Ranged `for` loops
+* [Labelled branches](/docs/overview/#branch-statements)
+    * `break label_name;`
+* `break` by default in `switch` statements
+    * Explicit `fallthrough`
+* "Raw" strings
+    * ``` x := `what "the" string?`; ```
+* `cstring` for legacy use
+* [Parametric polymorphism](/docs/overview/#parametric-polymorphism) ("generics")
+* [Foreign system](/docs/overview/#foreign-system)
+* Compile time [`when` statements](/docs/overview/#when-statement)
+* Bounds checking which is togglable at the statement level:
+    * `#no_bounds_check` `#bounds_check`
+* `i128` and `u128` support
+
+And lots more!
+
 
 ## Design
 ### Why does Odin not have feature X?
@@ -33,6 +91,8 @@ If you honestly believe that Odin is missing feature X, please investigate what 
 Coupling exceptions to a control structure, as in the try-catch-finally idiom, complicates the understanding of the program.
 
 Odin uses plain error handling through the use of multiple return values. It is clear which procedure the error value is from compared to a `try-catch` approach which is akin to the [COMEFROM](https://en.wikipedia.org/wiki/COMEFROM) statement.
+
+Please see gingerBill's article for more information: [Exceptions — And Why Odin Will Never Have Them](https://www.gingerbill.org/article/2018/09/05/exceptions-and-why-odin-will-never-have-them/).
 
 ## Types
 ### Is Odin an objective oriented language?
@@ -64,6 +124,7 @@ Explicit overloading has many advantages:
 * Explicitness of what is overloaded
 * Able to refer to the specific procedure if needed
 * Clear which scope the entity name belongs to
+
 ```odin
 foo :: proc{
     foo_bar,
@@ -80,6 +141,7 @@ Array programming is available in Odin; this removes some of the need for operat
 
 ### What does `distinct` do?
 `distinct` makes a type declaration distinct from its base type
+
 ```odin
 Int_Alias :: int;
 #assert(Int_Alias == int);
@@ -233,11 +295,19 @@ Z :: proc() {};
 Z : proc() : proc() {}; // Redundant type declaration
 ```
 
+### Why does Odin not use keywords to prefix declarations?
+
+Please see gingerBill's article [On the Aesthetics of the Syntax of Declarations](https://www.gingerbill.org/article/2018/03/12/on-the-aesthetics-of-the-syntax-of-declarations/).
+
 ### Why are two ways to do type conversions?
 ```odin
 cast(type)value
 type(value) or (type)(value)
 ```
+The reason that there are two ways to do type conversions is because one approach may _feel_ better than the other case. If you are converting a large expression, it sometimes a lot easier to use the operator-style approach, `cast(type)`. The call syntax is commonly used to specify a type of an expression which may be relatively short such as `u32(123)` or `uintptr(ptr)`.
+
+There are two other type conversion operators, [transmute](/docs/overview/#type-conversion) and [auto_cast](/docs/overview/#auto-cast-operation).
+
 ### Why curly brackets?
 Curly brackets to denote a block is a common approach in many programming languages, and Odin's consistency is useful for people already familiar with the style. Curly brackets also allow for more flexible syntax styles for the programmer and it is easier to parse by the compiler because it is not white space sensitive.
 
@@ -247,7 +317,7 @@ Semicolons are used to denote the termination of a statement. If semicolons wher
 ## Implementation
 ### What does the compiler use?
 The compiler is written in C++ but in a very C style.
-For the current backend, LLVM is used to translate code to platform specific code.
+For the current backend, LLVM is used to translate code to platform specific code. A custom backend is in development.
 
 ## Changes from C/C++
 ### Why is the syntax so different from C?
@@ -278,15 +348,16 @@ a := int(123);
 Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the `mem` package provides so utility functions: `mem.ptr_offset` and `mem.ptr_sub`. Odin will allow the programmer to do unsafe things if he wishes so.
 
 ### Why are there no `++` or `--` operators?
-Pre-increment and post-increment, and the decrement equivalents, look simple but are complex. They require knowledge of the evaluation order and lead to subtle bugs. `f(i++)` or `a[++i] = b[i]` are both confusing. Removing this is a significant simplification
+Pre-increment and post-increment, and the decrement equivalents, look simple but are complex. They require knowledge of the evaluation order and lead to subtle bugs. `f(i++)` or `a[++i] = b[i]` are both confusing, even if the rules are well defined. Removing this is a significant simplification.
 
-`x += 1` is slightly longer but it is unambiguous.
+`x += 1;` is slightly longer but it is unambiguous.
 
 ### Does Odin have C++-style constructors?
 No. The philosophy for Odin is that the zero value should be useful. By default, all variables are initialized to zero unless told otherwise with the `---` value.
 ```odin
-x: int; // initialized to zero
-y: int = ---; // uninitialized memory
+x: int;       // initialized to zero
+y: int = 0;   // explicitly initialized to zero
+z: int = ---; // uninitialized memory
 ```
 
 ### Does Odin have C++-style copy constructors?
@@ -306,3 +377,45 @@ defer os.close(f); // will be executed at the end of the scope
 
 ...
 ```
+
+#### Deferred Attributes
+
+There is also the `deferred_*` attributes which can be attached to procedures to have very useful functionality, such as [IMGUIs](https://en.wikipedia.org/wiki/Immediate_Mode_GUI).
+
+
+<table>
+<tbody>
+    <tr><td>deferred_none</td><td>the deferred procedure takes _none_ of the parameters from the original procedure</td></tr>
+    <tr><td>deferred_in</td><td>the deferred procedure takes the _input_ parameters from the original procedure</td></tr>
+    <tr><td>deferred_out</td><td>the deferred procedure takes the _return_ values from the original procedure</td></tr>
+</tbody>
+</table>
+
+Example:
+
+```odin
+begin_menu :: proc(name: string, flags: Flags = nil) -> (open: bool) {
+    ...
+}
+
+end_menu :: proc(open := true) {
+    if !open do return;
+    ...
+}
+@(deferred_out=end_menu)
+menu :: proc(name: string, flags: Flags = nil) -> (open: bool) {
+    return begin_menu(name, flags);
+}
+
+
+if begin_menu("Hello") {
+    defer end_menu();
+}
+
+if menu("Hello") {
+
+}
+```
+
+
+

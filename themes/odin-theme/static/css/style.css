@@ -211,6 +211,10 @@ ul.sub-articles li {
   margin-bottom: 0;
 }
 
+li ul {
+  margin-bottom: 0.5em;
+}
+
 nav#TableOfContents ul {
   list-style-type: none !important;
   margin-bottom: 0;

@@ -765,7 +765,7 @@ My_Int :: int;
 ### Distinct types
 A distinct type allows for the creation of a new type with the same underlying semantics.
 ```odin
-My_Int :: distinct int;F
+My_Int :: distinct int;
 #assert(My_Int != int);
 ```
 

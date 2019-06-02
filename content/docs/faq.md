@@ -7,9 +7,9 @@ show_table_of_contents: true
 ## General
 
 ### What is the history of the project?
-The project started one evening in late July 2016 when Ginger Bill was annoyed with programming in C++. During this annoyance, Bill was also a little drunk. The language began as a Pascal clone (with `begin` and `end` and more) but changed quite quickly to become something else.
+The project started one evening in late July 2016 when Ginger Bill was annoyed with programming in C++. The language began as a Pascal clone (with `begin` and `end` and more) but changed quite quickly to become something else.
 
-Bill originally tried to create a preprocessor for C to augment and add new capabilities to the language however, found this endeavour a dead-end. That drunk evening was the point at which Bill decided to create an entirely new language from scratch than trying to augment C.
+Bill originally tried to create a preprocessor for C to augment and add new capabilities to the language however, found this endeavour a dead-end. That evening was the point at which Bill decided to create an entirely new language from scratch than trying to augment C.
 
 ### What have been the major influences in the language's design?
 The language borrows heavily from (in order of philosophy and impact): Pascal, C, Go, Oberon.

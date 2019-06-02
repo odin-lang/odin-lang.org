@@ -87,4 +87,15 @@ main :: proc() {
 	</a>
 </div>
 
+## Features of Odin
+
+* Built-in types: strings, array, slices, dynamic arrays, maps, 128-bit integers, endian-specific integers
+* Multiple return arguments
+* Consistent value declaration syntax
+* Parametric polymorphism
+* Compile time conditions (`when` statements) and stress where there is not full blown compile time execution
+* The `context` system and memory allocator system
+* Explicit procedure overloading
+
+
 <script async defer src="/js/github-buttons.js"></script>

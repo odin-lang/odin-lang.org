@@ -744,7 +744,7 @@ This is the default behaviour in C.
 ### cstring type
 The `cstring` type is a c-style string value, which is zero-terminated. It is equivalent to `char const *` in C. Its primary purpose is for easy interfacing with C. Please see the [foreign system](#foreign-system) for more information.
 
-A `cstring` is easily convertable to an Odin `string` however, to convert a `string` to a `cstring` it requires allocations if the value is not constant.
+A `cstring` is easily convertible to an Odin `string` however, to convert a `string` to a `cstring` it requires allocations if the value is not constant.
 
 ```odin
 str:  string  = "Hellope";
@@ -836,7 +836,7 @@ fmt.println(s); // 1, 1, 2
 ```
 
 
-Slices are like references to arrays; they do not store any data, rather describing a section, or slice, of an underyling data.
+Slices are like references to arrays; they do not store any data, rather describing a section, or slice, of an underlying data.
 
 Internally, a slice stores a pointer to the data and an integer to store the length of the slice.
 
@@ -1155,7 +1155,7 @@ case:
 ```
 
 ### Maps
-A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in `make` proc returns an initialzed map using the current [context](#context-system), and `delete` can be used to delete a map.
+A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in `make` proc returns an initialized map using the current [context](#context-system), and `delete` can be used to delete a map.
 
 ```odin
 m := make(map[string]int);

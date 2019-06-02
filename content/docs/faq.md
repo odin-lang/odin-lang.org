@@ -53,7 +53,7 @@ A quick overview of features (in no particular order):
     * `x: int = 1;`
     * `x := 1; // x is deduced to be an int`
 * `using`
-    * making everything a namespacing (similar to Pascal's `with` but on steroids)
+    * making everything a namespace (similar to Pascal's `with` but on steroids)
     * Ability to have [subtype polymorphism](#is-odin-an-objective-oriented-language)
 * Multiple return values
 * Clean, consistent, and fast to parse syntax
@@ -343,7 +343,7 @@ a, b: ^int;
 ```
 declares both to be a "pointer to int". This is clearer and more regular. This syntax is borrowed from the Pascal family, along with using `^` to denote a pointer, as it is pointy.
 
-Due to the style of value declarations, the type can be omitted and inferred from the declaration. The follwoing are all equivalent:
+Due to the style of value declarations, the type can be omitted and inferred from the declaration. The following are all equivalent:
 ```odin
 a: int = 123;
 a :    = 123;

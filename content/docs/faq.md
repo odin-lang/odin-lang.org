@@ -206,7 +206,12 @@ Use a procedure.
 ### How do I define a procedure with a different calling convention?
 ```odin
 proc "c" ()
+proc "cdecl" ()
 proc "stdcall" ()
+proc "fastcall" ()
+proc "odin" ()
+proc "contextless" ()
+proc "none" ()
 ```
 
 ### Does Odin have closures?
@@ -246,7 +251,7 @@ slice: []int = make([]int, 16);
 ### What is the difference between `free` and `delete`?
 `free` deallocates memory
 ```odin
-ptr := new(int);
+ptr: ^int = new(int);
 free(ptr);
 ```
 
@@ -300,10 +305,12 @@ Z : proc() : proc() {}; // Redundant type declaration
 Please see gingerBill's article [On the Aesthetics of the Syntax of Declarations](https://www.gingerbill.org/article/2018/03/12/on-the-aesthetics-of-the-syntax-of-declarations/).
 
 ### Why are two ways to do type conversions?
+
 ```odin
 cast(type)value
 type(value) or (type)(value)
 ```
+
 The reason that there are two ways to do type conversions is because one approach may _feel_ better than the other case. If you are converting a large expression, it sometimes a lot easier to use the operator-style approach, `cast(type)`. The call syntax is commonly used to specify a type of an expression which may be relatively short such as `u32(123)` or `uintptr(ptr)`.
 
 There are two other type conversion operators, [transmute](/docs/overview/#type-conversion) and [auto_cast](/docs/overview/#auto-cast-operation).

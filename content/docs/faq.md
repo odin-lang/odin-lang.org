@@ -140,7 +140,7 @@ The design goals of Odin were explicitness and simplicity.  Operator overloading
 Array programming is available in Odin; this removes some of the need for operator overloading when creating mathematical libraries.
 
 ### What does `distinct` do?
-`distinct` makes a type declaration distinct from its base type
+`distinct` makes a type declaration distinct from its base type.
 
 ```odin
 Int_Alias :: int;

@@ -1851,6 +1851,7 @@ case Frog:
 ## Extra information
 More details can be found on the [Github wiki for Odin](https://github.com/odin-lang/Odin/wiki).
 Some of this information includes:
+
 - [Compiler Flags](https://github.com/odin-lang/Odin/wiki/Compiler-Flags)
 - [Attributes and Tags](https://github.com/odin-lang/Odin/wiki/Attributes-and-Tags)
 - [Built in Procedures](https://github.com/odin-lang/Odin/wiki/Built-in-Procedures)

@@ -1409,10 +1409,13 @@ All allocations in Odin are preferably done through allocators. The core library
 ```odin
 ptr := new(int);
 ```
+
 is equivalent to this:
+
 ```
 ptr := new(int, context.allocator);
 ```
+
 The allocator from the `context` is implicitly assigned as a default parameter to the built-in procedure `new`.
 
 The implicit `context` stores two different forms of allocators: `context.allocator` and `context.temp_allocator`. Both can be reassigned to any kind of allocator however, these allocators are to be treated slightly differently.
@@ -1424,18 +1427,23 @@ The implicit `context` stores two different forms of allocators: `context.alloca
 The following procedures are built-in (and also available in `package mem`) and are encouraged for managing memory:
 
 * `new`
+
 ```odin
 ptr := new(int);
 ptr^ = 123;
 ```
+
 * `new_clone`
+
 ```odin
 x: int = 123;
 ptr: int;
 ptr = new_clone(x);
 assert(ptr^ == 123);
 ```
+
 * `make`
+
 ```
 slice := make([]int, 65);
 
@@ -1446,18 +1454,24 @@ dynamic_array_with_length_and_capacity := make([dynamic]int, 16, 64);
 made_map := make(map[string]int);
 made_map_with_reservation := make(map[string]int, 64);
 ```
+
 * `free` - frees the memory at the pointer given. **Note:** only free memory with the allocator it was allocated with.
+
 ```odin
 ptr := new(int);
 free(ptr);
 ```
+
 * `free_all` - frees all the memory of the context's allocator (or given allocator). **Note:** not all allocators support this procedure.
+
 ```odin
 free_all();
 free_all(context.temp_allocator);
 free_all(my_allocator);
 ```
+
 * `delete` - deletes the backing memory of value allocated with make or a string that was allocated through an allocator.
+
 ```odin
 delete(my_slice);
 delete(my_dynamic_array);
@@ -1587,12 +1601,14 @@ for v, i in array {
 
 #### Specialization
 In some cases, you may want to specify that a type must be a specialization of a certain type.
+
 ```odin
 // Only allow types that are specializations of a (polymorphic) slice
 make_slice :: proc($T: typeid/[]$E, len: int) -> T {
 	return make(T, len);
 }
 ```
+
 ```odin
 Table_Slot :: struct(Key, Value: typeid) {
 	occupied: bool,
@@ -1662,6 +1678,7 @@ fmt.println(cross_3d(x, y));
 ```
 
 * Solving disambiguations with polymorphic procedures in a procedure grouping:
+
 ```
 foo :: proc(x: [$N]int) -> bool
     where N > 2 {
@@ -1687,6 +1704,7 @@ assert(ok_y == false);
 ```
 
 * Restrictions on parametric polymorphic parameters for record types:
+
 ```
 Foo :: struct(T: typeid, N: int)
     where intrinsics.type_is_integer(T),

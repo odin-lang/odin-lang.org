@@ -1334,10 +1334,9 @@ bar :: proc() {
 Let's take a very simple entity struct:
 ```odin
 Vector3 :: struct{x, y, z: f32};
-Quaternion :: struct{x, y, z, w: f32};
 Entity :: struct {
     position: Vector3,
-    orientation: Quaternion,
+    orientation: quaternion128,
 }
 ```
 It can used like this:
@@ -1372,7 +1371,7 @@ We can also apply the `using` statement to the struct fields directly, making al
 ```odin
 Entity :: struct {
     using position: Vector3,
-    orientation: Quaternion,
+    orientation: quaternion128,
 }
 foo :: proc(entity: ^Entity) {
     fmt.println(entity.x, entity.y, entity.z);

@@ -151,6 +151,9 @@ y : int : 123;
 z :: y + 7; // constant computations are possible
 ```
 
+For more information regarding value declarations in general, please see the [Odin FAQ](/docs/faq) and Ginger Bill's article [On the Aesthetics of the Syntax of Declarations](https://www.gingerbill.org/article/2018/03/12/on-the-aesthetics-of-the-syntax-of-declarations/).
+
+
 ## Packages
 Every Odin program is made up of packages. Programs begin running in the package `main`.
 
@@ -452,6 +455,7 @@ defer os.close(f);
 ```
 In this case, it acts akin to am explicit C++ destructor however, the error handling is basic control flow.
 
+**Note:** The `defer` construct in Odin differs from Go's `defer`, of which that is function-exit and relies on a closure stack system.
 
 ### When statement
 The `when` statement is almost identical to the `if` statement but with some differences:
@@ -540,6 +544,8 @@ fibonacci :: proc(n: int) -> int {
 fmt.println(fibonacci(3));
 ```
 
+For more information regarding value declarations in general, please see the [Odin FAQ](/docs/faq).
+
 ### Parameters
 Procedures can take zero or many parameters, the following example is basic procedure that multiplies two integers together:
 ```odin
@@ -609,8 +615,7 @@ window1, err1 := create_window("Title1");
 window2, err2 := create_window(title="Title1", width=640, height=360);
 ```
 
-**Note:** These default values must be constant or the `nil` value (if that type supports it).
-
+**Note:** These default values must be compile time known value, such as a constant value or `nil` (if the type supports it).
 
 ### Explicit procedure overloading
 Unlike other languages, Odin provides the ability to explicitly overload procedures:
@@ -630,6 +635,7 @@ Explicit overloading has many advantages:
 * Explicitness of what is overloaded
 * Able to refer to the specific procedure if needed
 * Clear which scope the entity name belongs to
+* Ability to specialize parametric polymorphic procedures if necessary which have the same parameter but different bounds (see [`where` clauses](#where-clauses))
 
 ```odin
 foo :: proc{
@@ -644,8 +650,9 @@ foo :: proc{
 ## Basic types
 Odin's basic types are:
 ```odin
-bool b8 b16 b32 b64
+bool b8 b16 b32 b64 // booleans
 
+// integers
 int  i8 i16 i32 i64 i128
 uint u8 u16 u32 u64 u128 uintptr
 
@@ -653,18 +660,23 @@ uint u8 u16 u32 u64 u128 uintptr
 i16le i32le i64le i128le u16le u32le u64le u128le // little endian
 i16be i32be i64be i128be u16be u32be u64be u128be // big endian
 
-f32 f64
+f32 f64 // floating point numbers
 
-complex64 complex128
+complex64 complex128 // complex numbers
+
+quaternion128 quaternion256 // quaternion numbers
 
 rune // signed 32 bit integer
      // represents a Unicode code point
      // is a distinct type to `i32`
 
+// strings
 string cstring
 
+// raw pointer type
 rawptr
 
+// runtime type information specific type
 typeid
 any
 ```
@@ -1169,6 +1181,25 @@ case:
 }
 ```
 
+#### Union tags
+
+The `#no_nil` tag can be applied to the union type to state that it does not have a `nil` value, and the first variant is its default type:
+
+```odin
+Value :: union #no_nil {bool, string};
+v: Value;
+_, ok := v.(bool);
+assert(ok);
+```
+
+This is useful in very limited cases, and if it is added, there must be at least two variants.
+
+Union's also have the `#align` tag, like structures:
+
+```odin
+union #align 4 {...} // align to 4 bytes
+```
+
 ### Maps
 A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in `make` proc returns an initialized map using the current [context](#context-system), and `delete` can be used to delete a map.
 
@@ -1392,6 +1423,11 @@ main :: proc() {
 supertramp :: proc() {
     c := context; // this `context` is the same as the parent procedure that it was called from
     // From this example, context.user_index == 123
+    // An context.allocator is assigned to the return value of `my_custom_allocator()`
+
+    // The memory management procedure use the `context.allocator` by default unless explicitly specified otherwise
+    ptr := new(int);
+    free(ptr);
 }
 ```
 
@@ -1424,16 +1460,29 @@ The implicit `context` stores two different forms of allocators: `context.alloca
 * `context.temp_allocator` is for temporary and short lived allocations, which are to be freed once per cycle/frame/etc.
 
 
+By default, the `context.allocator` is a OS heap allocator and the `context.temp_allocator` is assigned to a scratch allocator (a ring-buffer based allocator).
+
+
 The following procedures are built-in (and also available in `package mem`) and are encouraged for managing memory:
 
-* `new`
+* `alloc` - allocates memory of a given size (and alignment) in bytes. The result value is a rawptr.
+
+```odin
+ptr: rawptr = alloc(64); // allocate 64 bytes aligned to the default alignment
+x := alloc(128, 16); // allocate 128 bytes aligned to 16 bytes
+
+i := cast(^int)alloc(size_of(int), align_of(int)); // the equivalent of the `new` procedure explained next
+```
+
+* `new` - allocates a value of the type given. The result value is a pointer to the type given.
 
 ```odin
 ptr := new(int);
 ptr^ = 123;
+x: int = ptr^;
 ```
 
-* `new_clone`
+* `new_clone` - allocates a clone of the value passed to it. The resulting value of the type will be a pointer to the type of the value passed.
 
 ```odin
 x: int = 123;
@@ -1442,9 +1491,9 @@ ptr = new_clone(x);
 assert(ptr^ == 123);
 ```
 
-* `make`
+* `make` - allocates memory for a backing data structure of either a [slice](#slices), [dynamic array](#dynamic-arrays), or [map](#maps).
 
-```
+```odin
 slice := make([]int, 65);
 
 dynamic_array_zero_length := make([dynamic]int);
@@ -1567,7 +1616,7 @@ slot: Table_Slot(string, int);
 Parapoly union:
 ```odin
 Error :: enum {Foo0, Foo1, Foo2};
-Param_Union :: union(T: typeid) {T, Error};
+Param_Union :: union(T: typeid) #no_nil {T, Error};
 r: Param_Union(int);
 r = 123;
 r = Error.Foo0;
@@ -1679,7 +1728,7 @@ fmt.println(cross_3d(x, y));
 
 * Solving disambiguations with polymorphic procedures in a procedure grouping:
 
-```
+```odin
 foo :: proc(x: [$N]int) -> bool
     where N > 2 {
     fmt.println(#procedure, "was called with the parameter", x);
@@ -1705,7 +1754,7 @@ assert(ok_y == false);
 
 * Restrictions on parametric polymorphic parameters for record types:
 
-```
+```odin
 Foo :: struct(T: typeid, N: int)
     where intrinsics.type_is_integer(T),
           N > 2 {
@@ -1726,6 +1775,7 @@ The following are useful idioms which are emergent from the semantics on the lan
 ### Basic idioms
 
 #### If-statements with initialization
+
 ```odin
 if str, ok := value.(string); ok {
     ...

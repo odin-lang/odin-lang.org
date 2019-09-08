@@ -22,6 +22,8 @@ For macOS, make sure you've installed the Xcode command-line tools (`xcode-selec
 
 Homebrew will not add LLVM to the PATH, run `echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.bash_profile` to add LLVM to your PATH. Then run `source ~/.bash_profile` to update your PATH variable in the current terminal session.
 
+On newer versions of macOS, some headers are not installed by default. Open `macOS_SDK_headers_for_macOS_*.pkg` in `/Library/Developer/CommandLineTools/Packages/`.
+
 Now navigate to the Odin directory in your terminal, use `make` or `./build.sh`, and you should have a newly-built, fresh Odin compiler!
 
 ### Updating the compiler

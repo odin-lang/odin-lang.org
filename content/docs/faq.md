@@ -229,13 +229,23 @@ foo :: proc() {
 
 ## Context System
 ### What is the context system for?
-TODO(bill)
+
+In each scope, there is an implicit value named `context`. This `context` variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).
+
+The main purpose of the implicit context system is for the ability to intercept third-party code and libraries and modify their functionality. One such case is modifying how a library allocates something or logs something. In C, this was usually achieved with the library defining macros which could be overridden so that the user could define what he wanted. However, not many libraries supported this in many languages by default which meant intercepting third-party code to see what it does and to change how it does it is not possible.
+
+Please see the overview section on the [implicit context system](/docs/overview/#implicit-context-system) for more information.
+
 
 ## Pointers and Allocation
 ### When are procedure parameters passed by value?
-Continuing the C family tradition, everything in Odin is passed by value. The procedure always gets a copy of the thing that has been passed, as if there was an assignment statement to the procedure parameter.
+In Odin is procedure parameters are immutable values. This allows Odin to optimize how procedure values are passed. If it is more efficient to pass by value (making a copy) or more efficient to passed as an immutable pointer internally, it does not matter to the user from a use perspective as the parameter value is immutable (for the Odin calling conventions).
 
-Passing a pointer value makes a copy of the pointer, not the data it points to it. Slices, dynamic arrays, and maps behave like pointers in this case (Internally they are structures that contain values, which include pointers and the "structure" is passed by value).
+Passing a pointer value makes a copy of the pointer, not the data it points to it. Slices, dynamic arrays, and maps behave like pointers in this case (Internally they are structures that contain values, which include pointers and the "structure" and may be passed as an immutable pointer internally for performance).
+
+Originally, continuing the C family tradition, everything in Odin was passed by value. However, for performance reasons, this behaviour was changed for the Odin calling conventions.
+
+
 
 ### What is the difference between `new` and `make`?
 `new` allocates memory.
@@ -423,6 +433,3 @@ if menu("Hello") {
 
 }
 ```
-
-
-

@@ -1528,6 +1528,13 @@ delete(my_string);
 delete(my_cstring);
 ```
 
+* `realloc` - reallocates a block of memory with a different size. **Note:** only realloc memory with the same allocator the original pointer was allocated with; not all allocators may support `realloc` in-place.
+
+```odin
+ptr := alloc(16);
+ptr = realloc(ptr, 32);
+```
+
 To see more uses of allocators, please see [`package mem`](https://github.com/odin-lang/Odin/tree/master/core/mem) in the core library.
 
 For more information regarding memory allocation strategies in general: please [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.

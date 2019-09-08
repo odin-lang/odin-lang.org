@@ -256,7 +256,7 @@ for i in 0..9 {
     fmt.println(i);
 }
 ```
-where `a..b` denotes an open interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
+where `a..b` denotes an closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
 
 Certain built-in types can be iterated over:
 ```odin
@@ -302,9 +302,11 @@ for _, i in some_slice {
 }
 ```
 
+**Note:** When iterating across a string, the characters will be `rune`s and not bytes. `for in` assumes the string to be encoded as UTF-8.
+
 ### If statement
 
-Odin's `if` statements do not need to be surrounded by parentheses `( )` but braces `{ }` or `do` is required.
+Odin's `if` statements do not need to be surrounded by parentheses `( )` but braces `{ }` or `do` are required.
 
 ```odin
 if x >= 0 {
@@ -681,6 +683,8 @@ The zero value is:
 * `""` (the empty string) for strings
 * `nil` for pointer, typeid, and any types.
 
+The expression `{}` can be used for all types to act as a zero type. This is not recommended as it is not clear and if a type has a specific zero value shown above, please prefer that.
+
 
 ### Type conversion
 
@@ -714,6 +718,14 @@ The `transmute` operator is a bit cast conversion between two types of the same 
 f := f32(123);
 u := transmute(u32)f;
 ```
+
+This is akin to doing the following pointer cast manipulations:
+```odin
+f := f32(123);
+u := (^u32)(&f)^;
+```
+however, `transmute` does not require taking the address of the value in question, which may not be possible for many expressions.
+
 ### Untyped types
 In the Odin type system, certain expressions will have an "untyped" type. An untyped type can implicitly convert to a "typed" type. The following are the
 
@@ -726,6 +738,9 @@ y: int = auto_cast x;
 **Note:** This operation is only recommended to be used for prototyping and quick tests. Please do not abuse it.
 
 ### Built-in constants and values
+
+There are a few built-in constants and values in Odin which have different uses:
+
 ```odin
 false // untyped boolean constant equivalent to the expression 0!=0
 true  // untyped boolean constant equivalent to the expression 0==0
@@ -1354,9 +1369,112 @@ frog.x = 123;
 
 
 ## Implicit context system
-TODO
+In each scope, there is an implicit value named `context`. This `context` variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).
+
+The main purpose of the implicit `context` system is for the ability to intercept third-party code and libraries and modify their functionality. One such case is modifying how a library allocates something or logs something. In C, this was usually achieved with the library defining macros which could be overridden so that the user could define what he wanted. However, not many libraries supported this in many languages by default which meant intercepting third-party code to see what it does and to change how it does it is not possible.
+
+
+```odin
+main :: proc() {
+    c := context; // copy the current scope's context
+
+    context.user_index = 456;
+    {
+        context.allocator = my_custom_allocator();
+        context.user_index = 123;
+        supertramp(); // the `context` for this scope is implicitly passed to `supertramp`
+    }
+
+    // `context` value is local to the scope it is in
+    assert(context.user_index == 456);
+}
+
+supertramp :: proc() {
+    c := context; // this `context` is the same as the parent procedure that it was called from
+    // From this example, context.user_index == 123
+}
+```
+
+By default, the `context` value has default values for its parameters which is decided in the package runtime. What the defaults are are compiler specific.
+
+To see what the implicit `context` value contains, please see the following definition in [package runtime](https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin#L215).
+
 ### Allocators
-TODO
+Odin is manual memory management based language. This means that Odin programmers must manage their own memory, allocations, and tracking. To aid with memory management, Odin has huge support for custom allocators, especially through the implicit `context` system.
+
+The built-in types of dynamic arrays and `map`, both contain a custom allocator. This allocator can be either manually set or the allocator from the current `context` will be assigned to the data type.
+
+All allocations in Odin are preferably done through allocators. The core library of Odin takes advantage of allocators through the implicit `context` system. The following call:
+
+```odin
+ptr := new(int);
+```
+is equivalent to this:
+```
+ptr := new(int, context.allocator);
+```
+The allocator from the `context` is implicitly assigned as a default parameter to the built-in procedure `new`.
+
+The implicit `context` stores two different forms of allocators: `context.allocator` and `context.temp_allocator`. Both can be reassigned to any kind of allocator however, these allocators are to be treated slightly differently.
+
+* `context.allocator` is for "general" allocations, for the subsystem it is used within.
+* `context.temp_allocator` is for temporary and short lived allocations, which are to be freed once per cycle/frame/etc.
+
+
+The following procedures are built-in (and also available in `package mem`) and are encouraged for managing memory:
+
+* `new`
+```odin
+ptr := new(int);
+ptr^ = 123;
+```
+* `new_clone`
+```odin
+x: int = 123;
+ptr: int;
+ptr = new_clone(x);
+assert(ptr^ == 123);
+```
+* `make`
+```
+slice := make([]int, 65);
+
+dynamic_array_zero_length := make([dynamic]int);
+dynamic_array_with_length := make([dynamic]int, 32);
+dynamic_array_with_length_and_capacity := make([dynamic]int, 16, 64);
+
+made_map := make(map[string]int);
+made_map_with_reservation := make(map[string]int, 64);
+```
+* `free` - frees the memory at the pointer given. **Note:** only free memory with the allocator it was allocated with.
+```odin
+ptr := new(int);
+free(ptr);
+```
+* `free_all` - frees all the memory of the context's allocator (or given allocator). **Note:** not all allocators support this procedure.
+```odin
+free_all();
+free_all(context.temp_allocator);
+free_all(my_allocator);
+```
+* `delete` - deletes the backing memory of value allocated with make or a string that was allocated through an allocator.
+```odin
+delete(my_slice);
+delete(my_dynamic_array);
+delete(my_map);
+delete(my_string);
+delete(my_cstring);
+```
+
+To see more uses of allocators, please see [`package mem`](https://github.com/odin-lang/Odin/tree/master/core/mem) in the core library.
+
+For more information regarding memory allocation strategies in general: please [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
+
+### Logging System
+
+As part of the implicit `context` system, there is a built-in logging system.
+
+To see more uses of loggers, please see [`package log`](https://github.com/odin-lang/Odin/tree/master/core/log) in the core library.
 
 ## Foreign system
 It is sometimes necessarily to interface with foreign code, such as a C library. In Odin, this is achieved through the `foreign` system. You can "import" a library into the code using the same semantics as a normal import declaration:
@@ -1499,7 +1617,93 @@ find :: proc(table: ^Table($Key, $Value), key: Key) -> (Value, bool) {
 }
 ```
 
+### `where` clauses
+A bound on polymorphic parameters to a procedure or record can be expressed using a `where` clause immediately before opening `{`, rather than at the type's or constant's first mention. Additionally, `where` clauses can apply bounds to arbitrary types, rather than just polymorphic type parameters.
+
+Some cases that a `where` clause may be useful:
+
+* Sanity checks for parameters:
+
+```odin
+simple_sanity_check :: proc(x: [2]int)
+    where len(x) > 1,
+          type_of(x) == [2]int {
+    fmt.println(x);
+}
+```
+
+* Parameter polymorphism checks for procedures:
+
+```odin
+cross_2d :: proc(a, b: $T/[2]$E) -> E
+    where intrinsics.type_is_numeric(E) {
+    return a.x*b.y - a.y*b.x;
+}
+cross_3d :: proc(a, b: $T/[3]$E) -> T
+    where intrinsics.type_is_numeric(E) {
+    x := a.y*b.z - a.z*b.y;
+    y := a.z*b.x - a.x*b.z;
+    z := a.x*b.y - a.y*b.z;
+    return T{x, y, z};
+}
+
+a := [2]int{1, 2};
+b := [2]int{5, -3};
+fmt.println(cross_2d(a, b));
+
+x := [3]f32{1, 4, 9};
+y := [3]f32{-5, 0, 3};
+fmt.println(cross_3d(x, y));
+
+// Failure case
+// i := [2]bool{true, false};
+// j := [2]bool{false, true};
+// fmt.println(cross_2d(i, j));
+```
+
+* Solving disambiguations with polymorphic procedures in a procedure grouping:
+```
+foo :: proc(x: [$N]int) -> bool
+    where N > 2 {
+    fmt.println(#procedure, "was called with the parameter", x);
+    return true;
+}
+
+bar :: proc(x: [$N]int) -> bool
+    where 0 < N,
+          N <= 2 {
+    fmt.println(#procedure, "was called with the parameter", x);
+    return false;
+}
+
+baz :: proc{foo, bar};
+
+x := [3]int{1, 2, 3};
+y := [2]int{4, 9};
+ok_x := baz(x);
+ok_y := baz(y);
+assert(ok_x == true);
+assert(ok_y == false);
+```
+
+* Restrictions on parametric polymorphic parameters for record types:
+```
+Foo :: struct(T: typeid, N: int)
+    where intrinsics.type_is_integer(T),
+          N > 2 {
+    x: [N]T,
+    y: [N-2]T,
+}
+
+T :: i32;
+N :: 5;
+f: Foo(T, N);
+#assert(size_of(f) == (N+N-2)*size_of(T));
+```
+
 ## Useful idioms
+
+The following are useful idioms which are emergent from the semantics on the language.
 
 ### Basic idioms
 

@@ -34,6 +34,10 @@ A wiki maintained by the Odin community.
 
 Get live support and talk with other odiners on the Odin Discord.
 
+### [Demonstration Code Example](/docs/code-example)
+
+A demonstration of the language in Odin code.
+
 ## References
 
 ### [Language Specification](/ref/spec)

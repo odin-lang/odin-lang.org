@@ -459,25 +459,33 @@ if menu("Hello") {
 ## Quotes
 
 > Show me your flowcharts and conceal your tables, and I shall continue to be mystified. Show me your tables, and I won’t usually need your flowcharts; they’ll be obvious.
+
 * Fred Brooks, _The Mythical Man-Month: Essays on Software Engineering_ (1975, 1995)
 
 > A little retrospection shows that although many fine, useful software systems have been designed by committees and built as part of multipart projects, those software systems that have excited passionate fans are those that are the products of one or a few designing minds, great designers.
+
 * Fred Brooks, _No Silver Bullet_
 
 > The language designer should be familiar with many alternative features designed by others, and should have excellent judgment in choosing the best and rejecting any that are mutually inconsistent... One thing he should not do is to include untried ideas of his own. His task is consolidation, not innovation.
+
 * C.A.R. Hoare
 
 > The most important property of a program is whether it accomplishes the intention of its user
+
 * C.A.R. Hoare
 
 > Most ideas come from previous ideas.
+
 * Alan C. Kay, _The Early History Of Smalltalk_
 
 > Reliable and transparent programs are usually not in the interest of the designer.
+
 * Niklaus Wirth, _A Digital Contrarian Retires_ (1999)
 
 > ... we do not consider it as good engineering practice to consume a resource lavishly just because it happens to be cheap
+
 * Niklaus Wirth, _Project Oberon_
 
 > Increasingly, people seem to interpret complexity as sophistication, which is baffling – the incomprehensible should cause suspicion, not admiration. Possibly this results from the mistaken belief that using a mysterious device confers [extra] power on the user.
+
 * Niklaus Wirth

@@ -22,6 +22,16 @@ The Odin compiler and the library are under the [BSD 2-Clause license](https://g
 ### Does Odin have any third-party library?
 Check out a few selected libraries at https://github.com/odin-lang/odin-libs.
 
+### What are the guiding principles behind the design of Odin?
+
+* Simplicity and readability
+* Minimal: there ought to be one way to write something
+* Striving for orthogonality
+* Programs are about transforming data into other forms of data
+    * Code is about expressing algorithms---not the type system
+* There is embedded knowledge and wisdom in older programming languages
+* The entire language specification should be possible to be memorized by a mere mortal
+
 ### What does Odin offer over other languages?
 
 A quick overview of features (in no particular order):
@@ -116,6 +126,17 @@ Derived_By_Ptr :: struct {
 
 This idiom allows the user to create a virtual procedure table if they do wish, akin to C, but in a nicer way by having more control over the memory layout and field access.
 
+### Why does Odin not have Uniform Function Call Syntax (UFCS)?
+The main reason is that it does not make any sense Odin.
+
+It is not "uniform" as Odin does not have the concept of a method. Odin also has the concept of import names for packages, this means procedures are declared within different scopes, meaning it would not make any sense syntactically.
+
+One of Odin's goals is simplicity and striving to only one way to do things, to improve clarity. `x.f(y)` meaning `f(x, y)` is ambiguous as `x` may have a field called `f`. It is not at all clear what it means this means.
+
+Very early on during Odin's development (circa. 2017), infix and suffix syntax for procedure calls was experimented with but was removed them as it was found in practice that they were virtually never used nor did they actually aid with code clarity either.
+
+One of the main reasons people want UFCS is to allow for "dot-autocomplete" in many IDEs, allowing the ability to show a list available procedures, dependent on the context. It is entirely possible to have this with normal procedure call syntax but most IDEs just do not do it for whatever reason.
+
 ### Why does Odin have explicit procedure overloading but not implicit procedure overloading?
 The design goals of Odin were explicitness and simplicity. Implicit procedure overloading complicates the scoping system. In C++, you cannot nest procedures within procedures so all procedure look-ups are done at the global scope. In Odin, procedures can be nested within procedures and as a result, determining which procedure should be used, in the case of implicit overloading, is complex.
 
@@ -163,6 +184,7 @@ My_Int :: distinct int;
 | string       | `string`     |
 | nil          | *            |
 | undef        | *            |
+| type (not first class) | *  |
 
 \* if there is no default type for the untyped type, the type of the value cannot be inferred and this will cause an error.
 
@@ -433,3 +455,29 @@ if menu("Hello") {
 
 }
 ```
+
+## Quotes
+
+> Show me your flowcharts and conceal your tables, and I shall continue to be mystified. Show me your tables, and I won’t usually need your flowcharts; they’ll be obvious.
+* Fred Brooks, _The Mythical Man-Month: Essays on Software Engineering_ (1975, 1995)
+
+> A little retrospection shows that although many fine, useful software systems have been designed by committees and built as part of multipart projects, those software systems that have excited passionate fans are those that are the products of one or a few designing minds, great designers.
+* Fred Brooks, _No Silver Bullet_
+
+> The language designer should be familiar with many alternative features designed by others, and should have excellent judgment in choosing the best and rejecting any that are mutually inconsistent... One thing he should not do is to include untried ideas of his own. His task is consolidation, not innovation.
+* C.A.R. Hoare
+
+> The most important property of a program is whether it accomplishes the intention of its user
+* C.A.R. Hoare
+
+> Most ideas come from previous ideas.
+* Alan C. Kay, _The Early History Of Smalltalk_
+
+> Reliable and transparent programs are usually not in the interest of the designer.
+* Niklaus Wirth, _A Digital Contrarian Retires_ (1999)
+
+> ... we do not consider it as good engineering practice to consume a resource lavishly just because it happens to be cheap
+* Niklaus Wirth, _Project Oberon_
+
+> Increasingly, people seem to interpret complexity as sophistication, which is baffling – the incomprehensible should cause suspicion, not admiration. Possibly this results from the mistaken belief that using a mysterious device confers [extra] power on the user.
+* Niklaus Wirth

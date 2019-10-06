@@ -127,7 +127,7 @@ Derived_By_Ptr :: struct {
 This idiom allows the user to create a virtual procedure table if they do wish, akin to C, but in a nicer way by having more control over the memory layout and field access.
 
 ### Why does Odin not have Uniform Function Call Syntax (UFCS)?
-The main reason is that it does not make any sense Odin.
+The main reason is that it does not make any sense in Odin.
 
 It is not "uniform" as Odin does not have the concept of a method. Odin also has the concept of import names for packages, this means procedures are declared within different scopes, meaning it would not make any sense syntactically.
 

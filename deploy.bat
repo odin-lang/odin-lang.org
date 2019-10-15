@@ -15,6 +15,7 @@ call git add .
 
 git commit -m %1
 git push --progress "origin" gh-pages:gh-pages
+git push --progress "origin" master
 popd
 
 goto end

@@ -31,7 +31,7 @@ staticDir = ["static"]
     url = "/docs/"
     weight = 2
 [[menu.main]]
-    name = "Community"
+    name = "Get Involved"
     url = "/community/"
     weight = 3
 [[menu.main]]

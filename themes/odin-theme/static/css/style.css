@@ -1,18 +1,18 @@
 ::-webkit-selection {
-  background-color: #37E;
-  color: #333;
+  background-color: #D5824F;
+  color: #FFFFFA;
   text-shadow: none;
 }
 
 ::-moz-selection {
-  background-color: #37E;
-  color: #333;
+  background-color: #D5824F;
+  color: #FFFFFA;
   text-shadow: none;
 }
 
 ::selection {
-  background-color: #37E;
-  color: #333;
+  background-color: #D5824F;
+  color: #FFFFFA;
   text-shadow: none;
 }
 
@@ -31,7 +31,7 @@ body {
   font-size: 15px;
   line-height: 1.5;
   color: #333;
-  background-color: #fff;
+  background-color: #FFFFFA;
   font-weight: 400;
   width: 100%;
   margin: 0 auto;
@@ -94,7 +94,7 @@ footer {
 
 hr {
   border-top: 1px solid #ccc;
-  border-bottom: : 1px solid #fff;
+  border-bottom: 1px solid #FFFFFA;
   margin: 1.5em 0;
 }
 

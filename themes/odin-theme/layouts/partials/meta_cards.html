@@ -6,14 +6,14 @@
   <meta property="og:image" content="{{ . | absURL }}" />
   <meta property="og:image" content="{{ . | absURL }}" />
   {{ end }}{{ else }}
-  <meta property="og:image" content="{{ "/images/logo-slim.png" | absURL }}" />
+  <meta property="og:image" content='{{ "/images/logo-slim.png" | absURL }}' />
   {{ end }}
 
   {{- if .IsPage }}
-  {{- if not .PublishDate.IsZero }}<meta property="article:published_time" content="{{ .PublishDate.Format "2006-01-02T15:04:05-07:00" | safeHTMLAttr }}"/>
-  {{ else if not .Date.IsZero }}<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05-07:00" | safeHTMLAttr }}"/>
+  {{- if not .PublishDate.IsZero }}<meta property="article:published_time" content='{{ .PublishDate.Format "2006-01-02T15:04:05-07:00" | safeHTMLAttr }}'/>
+  {{ else if not .Date.IsZero }}<meta property="article:published_time" content='{{ .Date.Format "2006-01-02T15:04:05-07:00" | safeHTMLAttr }}'/>
   {{ end }}
-  {{- if not .Lastmod.IsZero }}<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | safeHTMLAttr }}"/>{{ end }}
+  {{- if not .Lastmod.IsZero }}<meta property="article:modified_time" content='{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | safeHTMLAttr }}'/>{{ end }}
   {{- else }}
   {{- if not .Date.IsZero }}
   <meta property="og:updated_time" content="{{ .Date.Format "2006-01-02T15:04:05-07:00" | safeHTMLAttr }}"/>

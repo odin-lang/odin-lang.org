@@ -3,43 +3,21 @@ title: Documentation
 url: "docs"
 ---
 
-The Odin programming language is fast, concise, readable, pragmatic and open sourced. It is designed with the intent of replacing C with the following goals:
+## Getting Started
 
-* simplicity
-* high performance
-* built for modern systems
-* joy of programming
+1. [Install the Odin compiler and libraries](/docs/install).
 
-## Installing Odin
+2. Take a [tour of the Odin language](/docs/overview).
 
-### [Getting Started](/docs/install)
+## Resources
 
-Instructions for downloading and install the Odin compiler and libraries.
+* [Frequently Asked Questions (FAQ)](/docs/faq) has answers to common questions about Odin.
 
+* [The Odin Wiki](https://github.com/odin-lang/Odin/wiki) is a community-maintained resource.
 
-## Learning Odin
+* [Demonstration Code Example](/docs/code-example) of the language in Odin code.
 
-### [Overview of Odin](/docs/overview)
-
-An overview of the Odin programming language.
-
-### [Frequently Asked Questions (FAQ)](/docs/faq)
-
-Answers to common questions about Odin.
-
-### [The Odin Wiki](https://github.com/odin-lang/Odin/wiki)
-
-A wiki maintained by the Odin community.
-
-### [Demonstration Code Example](/docs/code-example)
-
-A demonstration of the language in Odin code.
-
-## References
-
-### [Language Specification](/ref/spec)
-
-The official Odin Language specification.
+* The official Odin [Language Specification](/ref/spec).
 
 ## Talks
 

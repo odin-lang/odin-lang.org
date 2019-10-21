@@ -1,6 +1,7 @@
 baseurl = "https://odin-lang.org/"
 languageCode = "en-gb"
 title = "Odin Programming Language"
+description = "The Odin programming language is fast, concise, readable, pragmatic and open sourced. It is designed with the intent of creating an alternative to C."
 theme = "odin-theme"
 googleAnalytics = ""
 disqusShortname = ""
@@ -46,5 +47,5 @@ staticDir = ["static"]
 
 [params]
     description = ""
-    footer = "&copy; 2016&ndash;2019 Ginger Bill"
+    copyright = "&copy; 2016&ndash;2019 Ginger Bill"
 

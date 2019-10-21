@@ -57,7 +57,7 @@ body {
 .article-meta {
   margin: -0.5em 0 1em 0;
 }
-.menu, .article-meta, footer {
+.menu, .article-meta {
   text-align: left;
 }
 
@@ -88,8 +88,15 @@ body {
 footer {
   margin: 1em 0 0;
   padding: 1em 0 0;
-  text-align: center;
-  color: #ccc;
+  color: rgb(173, 173, 173);
+}
+#footerLeft {
+  text-align:left;
+  float:left;
+}
+#footerRight {
+  float:right;
+  text-align:right;
 }
 
 hr {

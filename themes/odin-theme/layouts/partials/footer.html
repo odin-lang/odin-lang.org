@@ -1,6 +1,15 @@
-<footer>{{ with .Site.Params.footer }}
-{{ . | markdownify }}
-{{ end }}</footer>
+<footer>
+    <p id="footerLeft">
+        {{ with .Site.Params.copyright }}
+          {{ . | markdownify }}
+        {{ end }}
+    </p>
+    <p id="footerRight">
+      <a href="https://discord.gg/sVBPHEv"><img style="height:35px" src="/images/social/Discord-Logo-Color.png"></a> 
+      <a href="https://github.com/odin-lang/Odin"><img style="height:32px" src="/images/social/GitHub-Mark-32px.png"></a> 
+      <a href="https://www.patreon.com/gingerbill"><img style="height:32px" src="/images/social/become_a_patron_button.png"></a>
+    </p>
+</footer>
 </div>
 </body>
 <script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>

@@ -41,13 +41,6 @@ A demonstration of the language in Odin code.
 
 The official Odin Language specification.
 
-## Articles
-
-### [The Odin Blog](/blog)
-
-The official blog of the Odin programming language, featuring announcements, news, and in-depth articles by the Odin team and guests.
-
-
 ## Talks
 
 The original video demonstrations of the process of creation of Odin.

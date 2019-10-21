@@ -164,9 +164,9 @@ h1#logo img {
 
 h1#logo {
   max-width: 2em !important;
-  margin-left: -0.3em;
+  margin-left: 0em;
   margin-top: 0.7em;
-  margin-bottom: -0.1em;
+  margin-bottom: 0.7em;
 }
 
 h2, h3 {

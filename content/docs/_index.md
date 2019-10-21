@@ -31,10 +31,6 @@ Answers to common questions about Odin.
 
 A wiki maintained by the Odin community.
 
-### [Odin Discord](https://discord.gg/sVBPHEv)
-
-Get live support and talk with other odiners on the Odin Discord.
-
 ### [Demonstration Code Example](/docs/code-example)
 
 A demonstration of the language in Odin code.

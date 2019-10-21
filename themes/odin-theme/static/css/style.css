@@ -127,8 +127,12 @@ h1#logo a:hover {
   text-decoration: none;
 }
 
+h1#logo img {
+  border-radius: 15px;
+}
+
 h1#logo {
-  max-width: 6em !important;
+  max-width: 2em !important;
   margin-left: -0.3em;
   margin-top: 0.7em;
   margin-bottom: -0.1em;

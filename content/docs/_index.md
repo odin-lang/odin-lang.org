@@ -1,5 +1,6 @@
 ---
 title: Documentation
+url: "docs"
 ---
 
 The Odin programming language is fast, concise, readable, pragmatic and open sourced. It is designed with the intent of replacing C with the following goals:

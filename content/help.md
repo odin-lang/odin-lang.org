@@ -1,6 +1,6 @@
 ---
-title: Help
-url: "help"
+title: Community
+url: "community"
 ---
 
 

@@ -4,13 +4,14 @@ hide_title: true
 images:
 - https://odin-lang.org/images/logo-slim.png
 ---
-<center id="home-info">
-<a href="//odin-lang.org">
-	<div style="max-width: 20em"><img alt="Odin Programming Language" src="/images/logo-slim.png"></div>
-</a>
+<center id="hero" class="full-width">
+	<a href="//odin-lang.org">
+		<div style="max-width: 20em"><img class="center" alt="Odin Programming Language" src="/images/logo-slim.png"></div>
+	</a>
+	<p id="hero-text">A fast, concise, readable, pragmatic and open sourced programming language.</p>
+</center>
 
-<p>A fast, concise, readable, pragmatic and open sourced programming language.</p>
-<br>
+<section id="buttons">
 <p>
 	<a class="github-button" href="https://github.com/odin-lang" aria-label="Follow @odin-lang on GitHub">Follow @odin-lang</a>
 	<a class="github-button" href="https://github.com/odin-lang/Odin" data-size="small" aria-label="Star odin-lang/Odin on GitHub">Star</a>
@@ -27,31 +28,18 @@ images:
 		<img src="https://img.shields.io/github/license/odin-lang/odin.svg">
 	</a>
 </p>
-</center>
+</section>
 
-# The Odin Programming Language
+# Design Goals
 
-
-The Odin programming language is fast, concise, readable, pragmatic and open sourced. It is designed with the intent of creating an alternative to C with the following goals:
+The Odin programming language is designed with the intent of creating an alternative to C with the following goals:
 
 * simplicity
 * high performance
 * built for modern systems
 * joy of programming
 
-<br>
-
-<table>
-<tbody>
-<tr><td>GitHub:</td> <td><a href="https://github.com/odin-lang/Odin">https://github.com/odin-lang/Odin</a></td></tr>
-<tr><td>Discord:</td><td><a href="https://discord.gg/sVBPHEv">Discord Server</a></td></tr>
-<tr><td>Patreon:</td><td><a href="https://www.patreon.com/gingerbill">https://www.patreon.com/gingerbill</a></td></tr>
-</tbody>
-</table>
-
-</table>
-
-## Example
+# Example Code
 
 ```odin
 package main
@@ -78,16 +66,7 @@ main :: proc() {
 }
 ```
 
-## Sponsors
-
-<div class="help-sponsor">
-	<a href="https://www.patreon.com/gingerbill">
-		<img src="/images/Patreon_Dark.jpg" alt="Patreon">
-		<p>Sponsor Odin for $1/month or more</p>
-	</a>
-</div>
-
-## Features of Odin
+# Language Features
 
 * Built-in types: strings, array, slices, dynamic arrays, maps, 128-bit integers, endian-specific integers
 * Multiple return arguments

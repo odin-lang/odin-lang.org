@@ -57,12 +57,36 @@ body {
 .article-meta {
   margin: -0.5em 0 1em 0;
 }
-.menu, .article-meta {
+.menu {
   text-align: left;
 }
 
-#home-info {
-  margin-top: 1em;
+#hero {
+  margin-top: 4em;
+  margin-bottom: 3em;
+  padding-top: 3em;
+  padding-bottom: 3em;
+  background-color: #D5824F;
+}
+#hero-text {
+  margin-top: 2em;
+  margin-bottom: 1em;
+  color: #FFFFFA;
+  font-size: 1.5em;
+}
+
+.full-width {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+#buttons {
+  text-align: center;
+  margin-bottom: 3em;
 }
 
 

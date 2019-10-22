@@ -4,7 +4,7 @@ hide_title: true
 images:
 - https://odin-lang.org/images/logo-slim.png
 ---
-<center id="hero" class="full-width">
+<center id="hero">
 	<a href="//odin-lang.org">
 		<div style="max-width: 20em"><img class="center" alt="Odin Programming Language" src="/images/logo-slim.png"></div>
 	</a>

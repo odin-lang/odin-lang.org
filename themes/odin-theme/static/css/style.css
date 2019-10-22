@@ -26,12 +26,16 @@ html {
   width: 100%;
 }
 
+:root {
+  color-scheme: light dark;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 15px;
   line-height: 1.5;
-  color: #333;
-  background-color: #FFFFFA;
+  color: var(--color);
+  background-color: var(--background-color);
   font-weight: 400;
   width: 100%;
   margin: 0 auto;
@@ -96,7 +100,7 @@ body {
 .article-meta h3 {
   /*font-size: 1.1em;*/
   margin: 0.25em 0;
-  color: #444;
+  color: var(--color);
 }
 
 .article-meta .info {
@@ -144,7 +148,7 @@ blockquote {
 h1, h2, h3 {
   line-height: 1.2;
   margin: 1em 0 0.5em;
-  color: #333;
+  color: var(--color);
 }
 
 h1 {
@@ -190,7 +194,7 @@ main ul, main ol {
 }
 
 a {
-  color: #37E;
+  color: #189bfe;
   text-decoration: none;
   font-weight: 500;
 }
@@ -200,22 +204,22 @@ a:hover {
 }
 
 h1 a {
-  color: #333;
+  color: var(--color);
 }
 
 
 .article-meta h1 a, .article-meta h2 a, .article-meta h3 a {
-  color: #37E;
+  color: #189bfe;
 }
 .article-meta h1 a:hover, .article-meta h2 a:hover, .article-meta h3 a:hover {
-  color: #37E;
+  color: #189bfe;
 }
 
 .article-meta h1 a[href^="#"], .article-meta h2 a[href^="#"], .article-meta h3 a[href^="#"] {
-  color: #333;
+  color: var(--color);
 }
 .article-meta h1 a:hover, .article-meta h2 a:hover, .article-meta h3 a:hover {
-  color: #37E;
+  color: #189bfe;
 }
 
 .article-meta p.author {
@@ -236,7 +240,7 @@ ul.articles li {
   margin-bottom: 0.5em;
 }
 ul.articles .date {
-  color: #666;
+  color: var(--color);
 }
 
 ul.sub-articles li {
@@ -280,7 +284,7 @@ nav#TableOfContents > ul > li > ul {
 
 
 h3 > time {
-  color: #666;
+  color: var(--color);
 }
 
 nav + h1 {
@@ -308,8 +312,7 @@ pre {
   border: 1px solid #ccc;
   border-radius: 2px;
   padding: 0.5em 1em;
-  color: #333;
-  background-color: #f7f7f7;
+  background-color: #8a8a8a;
   position: relative;
 }
 
@@ -318,8 +321,7 @@ p code, li code {
   border: 1px solid #ccc;
   border-radius: 2px;
   padding: 1px 3px;
-  color: #333;
-  background-color: #f7f7f7;
+  background-color: #8a8a8a;
 }
 
 .pre-wrap {

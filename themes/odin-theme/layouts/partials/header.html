@@ -8,11 +8,37 @@
 
 
   <title>{{if not .IsHome }}{{ .Title }} - {{end}}{{ .Site.Title }}</title>
-  <link rel="stylesheet" href="{{ "/css/normalize.css" | relURL }}" />
-  <link rel="stylesheet" href="{{ "/css/style.css" | relURL }}" />
-  <link rel="stylesheet" href="{{ "/highlight/style.css" | relURL }}" />
-  <script src="{{ "/highlight/highlight.pack.js" | relURL }}"></script>
+
+  <link rel="stylesheet" href="/css/normalize.css" />
+
+  <script>
+    // If `prefers-color-scheme` is not supported, fall back to light mode.
+    // In this case, light.css will be downloaded with `highest` priority.
+    if (window.matchMedia('(prefers-color-scheme)').media === 'not all') {
+      document.documentElement.style.display = 'none';
+      document.head.insertAdjacentHTML(
+          'beforeend',
+          '<link rel="stylesheet" href="/css/light.css" onload="document.documentElement.style.display = ``">',
+          '<link rel="stylesheet" href="/highlight/styles/a11y-light.css" onload="document.documentElement.style.display = ``">'
+      );
+    }
+  </script>
+  <!--
+    Conditionally either load the light or the dark stylesheet. The matching file
+    will be downloaded with `highest`, the non-matching file with `lowest`
+    priority. If the browser doesn't support `prefers-color-scheme`, the media
+    query is unknown and the files are downloaded with `lowest` priority (but
+    above I already force `highest` priority for my default light experience).
+  -->
+  <link rel="stylesheet" href="/css/dark.css" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="/css/light.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
+  <link rel="stylesheet" href="/css/style.css">
+
+  <link rel="stylesheet" href="/highlight/styles/a11y-dark.css" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="/highlight/styles/a11y-light.css" media="(prefers-color-scheme: no-preference), (prefers-color-scheme: light)">
+  <script src="/highlight/highlight.pack.js"></script>
   <script>hljs.initHighlightingOnLoad();</script>
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
   <script>

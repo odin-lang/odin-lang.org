@@ -6,7 +6,7 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 .hljs {
   color: #333;
-  background: #f7f7f7;
+  background-color: #a5a5a5;
 }
 
 .hljs-comment,
@@ -79,11 +79,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 }
 
 .hljs-deletion {
-  background: #fdd;
+  background: #a5a5a5;
 }
 
 .hljs-addition {
-  background: #dfd;
+  background: #a5a5a5;
 }
 
 .hljs-emphasis {

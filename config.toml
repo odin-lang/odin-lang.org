@@ -27,11 +27,11 @@ staticDir = ["static"]
     url = "/"
     weight = 1
 [[menu.main]]
-    name = "Documents"
+    name = "Documentation"
     url = "/docs/"
     weight = 2
 [[menu.main]]
-    name = "Help"
+    name = "Community"
     url = "/help/"
     weight = 3
 [[menu.main]]

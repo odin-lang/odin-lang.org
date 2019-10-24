@@ -1,9 +1,3 @@
-/*
-
-github.com style (c) Vasily Polovnyov <vast@whiteants.net>
-
-*/
-
 .hljs {
   color: #333;
   background: #f7f7f7;
@@ -92,4 +86,48 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 
 .hljs-strong {
   font-weight: bold;
+}
+
+@media (prefers-color-scheme: dark) {
+  .hljs {
+    color: var(--code-color);
+    background-color: var(--code-bg-color);
+  }
+
+  .hljs-comment,
+  .hljs-quote {
+    color: #776;
+  }
+
+
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-subst {
+    color: #ccd;
+  }
+
+  .hljs-number,
+  .hljs-literal,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-tag .hljs-attr {
+    color: #00a0a0;
+  }
+
+  .hljs-string,
+  .hljs-doctag {
+    color: #f24;
+  }
+
+  .hljs-title,
+  .hljs-section,
+  .hljs-selector-id {
+    color: #900;
+    font-weight: bold;
+  }
+
+  .hljs-built_in,
+  .hljs-builtin-name {
+    color: #4499dd;
+  }
 }

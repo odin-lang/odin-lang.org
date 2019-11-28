@@ -899,7 +899,7 @@ a[:]
 ```
 
 #### Nil slices
-The zero value of a slice is `nil`. A nil slice has a length of 0 and has not underlying memory it points to. Slices can be compared again `nil` and nothing else.
+The zero value of a slice is `nil`. A nil slice has a length of 0 and does not point to any underlying memory. Slices can be compared again `nil` and nothing else.
 ```odin
 s: []int;
 if s == nil {

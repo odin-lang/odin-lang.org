@@ -78,4 +78,4 @@ For a compiler that's in-development like Odin, things move fast. Make sure you 
 
 ## What Next?
 
-Why not check out the [Odin Overview](/docs/overview/) for more information on the Odin Programming Language and what lies await!
+Why not check out the [Odin Overview](/docs/overview/) for more information on the Odin Programming Language!

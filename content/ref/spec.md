@@ -635,7 +635,8 @@ Binary operators of the same precedence associate from left to right. For instan
 
 &    bitwise AND            integers
 |    bitwise OR             integers
-~    bitwise XOR            integers
+~    bitwise XOR (binary)   integers
+~    bitwise NOT (unary)    integers
 &~   bit clear (AND NOT)    integers
 
 <<   left shift             integer << unsigned integer

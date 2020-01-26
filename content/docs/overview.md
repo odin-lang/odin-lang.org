@@ -184,15 +184,21 @@ import foo "core:fmt" // reference a package by different name
 ```
 
 ### Exported names
-In Odin, a name is exported from a package if it does _not_ begin with an underscore `_`. For example, `foo` is an exported name, but `_bar` will not be exported.
 
-Import names are not exported by the package as they are local to that file in the package and not the package itself.
+All declarations in a package are exported by default.
 
-The attribute `@(private)` can be applied to an entity to prevent it from being exported from a package.
+The `private` attribute can be applied to an entity to prevent it from being exported from a package.
 ```odin
 @(private)
-my_variable: int;
+my_variable: int; // cannot be accessed outside this package.
 ```
+
+You may also make an entity private to _the file_ instead of the package.
+```odin
+@(private="file")
+my_variable: int; // cannot be accessed outside this file.
+```
+`@(private)` is equivalent to `@(private="package")`.
 
 
 ## Control flow statements

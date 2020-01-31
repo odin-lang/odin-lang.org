@@ -140,10 +140,14 @@ main {
   hyphens: auto;
 }
 blockquote {
-  background: var(--color);
+  background: var(--code-bg-color);
+  color: var(--code-color);
   border-left: 0.3em solid var(--border-color);
   padding: 0.5em 1em;
   margin: 1em 0;
+}
+blockquote p {
+  color: var(--code-color);
 }
 
 

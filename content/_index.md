@@ -4,35 +4,6 @@ hide_title: true
 images:
 - https://odin-lang.org/images/logo-slim.png
 ---
-<div id="home-info">
-	<a href="//odin-lang.org">
-		<div class="logo" style="max-width: 20em"><img alt="Odin Programming Language" src="/images/logo-slim.png"></div>
-	</a>
-
-	<p>A fast, concise, readable, pragmatic and open sourced programming language.</p>
-	<br>
-	<p>
-		<a class="github-button" href="https://github.com/odin-lang" aria-label="Follow @odin-lang on GitHub">Follow @odin-lang</a>
-		<a class="github-button" href="https://github.com/odin-lang/Odin" data-size="small" aria-label="Star odin-lang/Odin on GitHub">Star</a>
-		<a class="github-button" href="https://github.com/odin-lang/Odin/subscription" aria-label="Watch odin-lang/Odin on GitHub">Watch</a>
-	</p>
-	<p>
-		<a href="https://github.com/odin-lang/odin/releases/latest">
-			<img src="https://img.shields.io/github/release/odin-lang/odin.svg">
-		</a>
-		<a href="https://github.com/odin-lang/odin/releases/latest">
-			<img src="https://img.shields.io/badge/platforms-Windows%20|%20Linux%20|%20macOS-green.svg">
-		</a>
-		<a href="https://github.com/odin-lang/odin/blob/master/LICENSE">
-			<img src="https://img.shields.io/github/license/odin-lang/odin.svg">
-		</a>
-	</p>
-	<p>
-		<a href="https://discord.gg/hnwN2Rj">
-	        <img src="https://img.shields.io/discord/568138951836172421?logo=discord">
-	    </a>
-	</p>
-</div>
 
 # The Odin Programming Language
 

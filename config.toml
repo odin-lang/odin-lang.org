@@ -46,5 +46,5 @@ staticDir = ["static"]
 
 [params]
     description = ""
-    footer = "&copy; 2016&ndash;2019 Ginger Bill"
+    footer = "&copy; 2016&ndash;2020 Ginger Bill"
 

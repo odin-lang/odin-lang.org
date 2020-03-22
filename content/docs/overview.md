@@ -305,14 +305,55 @@ for key, value in some_map {
     fmt.println(key, value);
 }
 ```
-The iterated values are *copies* and cannot be written to. The following idiom is useful for iterating over a container in a by-reference manner:
+
+The iteration variables are _copies_ of the data in the array or map, and cannot be assigned to. See below for a way to get around this.
+
+**Note:** When iterating through a `string`, the characters will be `rune`s and not bytes. `for in` assumes the string to be encoded as UTF-8, and decodes each rune as it goes.
+
+### The Underscore (a.k.a unnamed variables)
+
+In certain situations you need to name a variable, but have no intent to use it.
+
+Consider:
 ```odin
-for _, i in some_slice {
-    some_slice[i] = something;
+for value, index in some_slice {
+    some_slice[index] = something;
 }
 ```
+`value` is never used here.
 
-**Note:** When iterating across a string, the characters will be `rune`s and not bytes. `for in` assumes the string to be encoded as UTF-8.
+In instances like this, you may use `_`:
+```odin
+for _, index in some_slice {
+    some_slice[index] = something;
+}
+```
+This is a useful idiom for iterating over a slice in a "by-reference" manner.
+
+You can also assign to it:
+```odin
+_ = f();
+_ = g();
+_ = h();
+```
+
+And you can use it with `:=` if you're also declaring at least one other variable.
+```odin
+_, ok := j(); // declares 'ok'
+_, ok = j();  // reuses 'ok'
+_ := k(); // nope
+```
+
+In optimized programs, unnamed variables like this will be optimized away.
+
+Another way it can be used is as a field name in a struct:
+```odin
+Stuff :: struct {
+    str: string,
+    _: u64,
+}
+```
+The unnamed `u64` will still be in the struct; you just can't access it by name.
 
 ### If statement
 
@@ -1583,6 +1624,12 @@ default_calling_convention=<string>
 link_prefix=<string>
     prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden
 ```
+
+To use structs defined in external code, you declare a mirror of the struct in Odin code with the same layout, and use that.  
+Struct fields in Odin have the same padding rules as C.
+
+You can also declare structs with the `#raw_union` tag if you need to mirror a C union for one of these structs.  
+See the "Struct tags" section.
 
 
 ## Parametric polymorphism

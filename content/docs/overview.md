@@ -346,6 +346,8 @@ _ := k(); // no new variables declared
 
 In optimized programs, unnamed variables like these will be optimized away.
 
+Also, note that since you cannot have assignments at file scope, you _are_ allowed to have `_ := k();` _at file scope._
+
 Another way it can be used is as a field name in a struct:
 ```odin
 Stuff :: struct {

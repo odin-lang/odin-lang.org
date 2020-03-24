@@ -322,7 +322,7 @@ for value, index in some_slice {
 ```
 `value` is never used here.
 
-In instances like this, you may use `_`:
+In instances like this, you may use the `_`:
 ```odin
 for _, index in some_slice {
     some_slice[index] = something;
@@ -337,14 +337,14 @@ _ = g();
 _ = h();
 ```
 
-And you can use it with `:=` if you're also declaring at least one other variable.
+And you can use it with `:=` if you're also declaring at least one other variable:
 ```odin
 _, ok := j(); // declares 'ok'
 _, ok = j();  // reuses 'ok'
-_ := k(); // nope
+_ := k(); // no new variables declared
 ```
 
-In optimized programs, unnamed variables like this will be optimized away.
+In optimized programs, unnamed variables like these will be optimized away.
 
 Another way it can be used is as a field name in a struct:
 ```odin

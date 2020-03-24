@@ -627,7 +627,8 @@ Binary operators of the same precedence associate from left to right. For instan
 
 ```
 +    sum                    integers, floats, complex values, constant strings values
--    difference             integers, floats, complex values
+-    difference (binary)    integers, floats, complex values
+-    negation   (unary)     integers, floats, complex values
 *    product                integers, floats, complex values
 /    quotient               integers, floats, complex values
 %    modulo dividend        integers
@@ -635,7 +636,8 @@ Binary operators of the same precedence associate from left to right. For instan
 
 &    bitwise AND            integers
 |    bitwise OR             integers
-~    bitwise XOR            integers
+~    bitwise XOR (binary)   integers
+~    bitwise NOT (unary)    integers
 &~   bit clear (AND NOT)    integers
 
 <<   left shift             integer << unsigned integer

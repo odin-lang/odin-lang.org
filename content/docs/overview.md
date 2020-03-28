@@ -688,7 +688,7 @@ typeid
 any
 ```
 
-The `int`, `uint`, and `uintptr` types are pointer sized. When you need an integer value, you should default to using `int` unless you have a specific reason to use a sized or unsigned integer type
+The `int`, `uint`, and `uintptr` types are pointer sized (64 bits). When you need an integer value, you should default to using `int` unless you have a specific reason to use a sized or unsigned integer type
 
 **Note:** The Odin `string` type stores the pointer to the data and the length of the string. `cstring` is used to interface with foreign libraries written in/for C that use zero-terminated strings.
 

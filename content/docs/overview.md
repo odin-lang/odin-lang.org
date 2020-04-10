@@ -1244,7 +1244,7 @@ The first approach is called the "comma ok idiom".
 
 You can also initialize maps with map literals:
 ```odin
-m:map[string]int = {
+m := map[string]int{
     "Bob" = 2,
     "Chloe" = 5,
 };

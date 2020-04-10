@@ -1242,6 +1242,14 @@ ok := key in m; // `ok` is true if the element for that key exists
 
 The first approach is called the "comma ok idiom".
 
+You can also initialize maps with map literals:
+```odin
+m:map[string]int = {
+    "Bob" = 2,
+    "Chloe" = 5,
+};
+```
+
 ### Procedure type
 A procedure type is internally a pointer to a procedure in memory. `nil` is the zero value a procedure type.
 

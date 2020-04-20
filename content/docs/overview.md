@@ -783,7 +783,7 @@ A `cstring` is easily convertible to an Odin `string` however, to convert a `str
 ```odin
 str:  string  = "Hellope";
 cstr: cstring = "Hellope"; // constant literal;
-cstr2 := string(cstr);  // O(n) conversion as it requires search from the zero-terminator
+cstr2 := string(cstr);     // O(n) conversion as it requires search from the zero-terminator
 nstr  := len(str);  // O(1)
 ncstr := len(cstr); // O(n)
 ```

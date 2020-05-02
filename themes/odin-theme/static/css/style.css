@@ -394,3 +394,7 @@ article table tr:nth-child(2n) {
 .help-sponsor p {
   text-align: center;
 }
+
+#nightly-build-list table {
+  width: 100%;
+}

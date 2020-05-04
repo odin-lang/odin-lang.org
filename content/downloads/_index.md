@@ -11,7 +11,7 @@ title: Downloads
 ## Nightly Builds
 
 <div id="nightly-build-list">
-	Please wait...
+	Retrieving nightly builds...
 </div>
 
 

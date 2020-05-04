@@ -5,9 +5,6 @@ images:
 - https://odin-lang.org/images/logo-slim.png
 ---
 
-# LETS TEST THIS STUFF
-
-
 # The Odin Programming Language
 
 

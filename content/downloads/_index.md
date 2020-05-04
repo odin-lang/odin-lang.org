@@ -11,7 +11,7 @@ title: Downloads
 ## Nightly Builds
 
 <div id="nightly-build-list">
-
+	Please wait...
 </div>
 
 
@@ -23,6 +23,7 @@ title: Downloads
 		const keys = Object.keys(json.files).sort().reverse();
 
 		var d = document.getElementById("nightly-build-list");
+		d.innerHTML = "";
 
 		for (const key of keys) {
 			const file_data = json.files[key];

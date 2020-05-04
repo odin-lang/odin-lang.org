@@ -16,7 +16,7 @@ title: Downloads
 
 
 <script type="text/javascript">
-	const json_url = 'https://f001.backblazeb2.com/file/odin-binaries/nightly.json';
+	const json_url = 'https://odinbinaries.northwolfprod.com/file/odin-binaries/nightly.json';
 	const res = fetch(json_url).then((res) => {
 		return res.json()
 	}).then((json) => {

@@ -1,0 +1,285 @@
+<!doctype html><html lang=en-gb><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:title" content="The Odin Programming Language Specification"><meta property="og:description" content="Introduction This is a reference manual for the Odin programming language.
+Odin is a general-purpose language designed for systems programming. It is a strongly typed language with manual memory management. Programs are constructed from packages.
+Notation The syntax is specified using Extended Backus-Naur Form (EBNF):
+Production = production_name &#34;=&#34; [ Expression ] &#34;.&#34; . Expression = Alternative { &#34;|&#34; Alternative } . Alternative = Term { Term } . Term = production_name | token [ &#34;…&#34; token ] | Group | Option | Repetition ."><meta property="og:type" content="article"><meta property="og:url" content="https://odin-lang.org/ref/spec/"><meta property="og:image" content="https://odin-lang.org/images/logo-slim.png"><title>The Odin Programming Language Specification - Odin Programming Language</title><link rel=stylesheet href=/css/normalize.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/highlight/style.css><script src=/highlight/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('js',new Date());gtag('config','UA-67516878-2');</script></head><body><div class=wrapper><header><nav><h1 id=logo><a href=/><img src=/images/logo-slim.png alt=Odin id=nav-log></a></h1><ul class=menu><li><a href=/>Home</a></li><li><a href=/docs/>Documentation</a></li><li><a href=/help/>Community</a></li><li><a href=/blog/>Blog</a></li><li><a href=/downloads/>Downloads</a></li><li><a href=https://github.com/odin-lang/Odin>GitHub</a></li></ul></nav></header><main><article class=article-meta><header><h1>The Odin Programming Language Specification</h1><div class=info><p></p></div></header><b>Warning:</b> This is a work in progress and is subject to change.<hr><aside><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#notation>Notation</a></li><li><a href=#source-code-representation>Source code representation</a><ul><li><a href=#characters>Characters</a></li><li><a href=#letters-and-digits>Letters and digits</a></li></ul></li><li><a href=#lexical-elements>Lexical elements</a><ul><li><a href=#comments>Comments</a></li><li><a href=#tokens>Tokens</a></li><li><a href=#semicolons>Semicolons</a></li><li><a href=#identifiers>Identifiers</a></li><li><a href=#keywords>Keywords</a></li><li><a href=#operators-and-punctuation>Operators and punctuation</a></li><li><a href=#integer-literals>Integer literals</a></li><li><a href=#floating-point-literals>Floating-point literals</a></li><li><a href=#imaginary-literals>Imaginary literals</a></li><li><a href=#rune-literals>Rune literals</a></li><li><a href=#string-literals>String literals</a></li></ul></li><li><a href=#constants>Constants</a></li><li><a href=#variables>Variables</a></li><li><a href=#types>Types</a><ul><li><a href=#boolean-types>Boolean types</a></li><li><a href=#numeric-types>Numeric types</a></li><li><a href=#string-types>String types</a></li><li><a href=#array-types>Array types</a></li><li><a href=#slice-types>Slice types</a></li><li><a href=#dynamic-array-types>Dynamic array types</a></li><li><a href=#struct-types>Struct types</a></li><li><a href=#union-types>Union types</a></li><li><a href=#pointer-types>Pointer types</a></li><li><a href=#procedure-types>Procedure types</a></li><li><a href=#map-types>Map types</a></li><li><a href=#enum-types>Enum types</a></li><li><a href=#bit-set-types>Bit set types</a></li><li><a href=#bit-field-types>Bit field types</a></li><li><a href=#opaque-types>Opaque types</a></li><li><a href=#helper-types>Helper types</a></li><li><a href=#any-type>Any type</a></li><li><a href=#typeid>Typeid</a></li><li><a href=#other>Other</a></li></ul></li><li><a href=#properties-of-types-and-values>Properties of types and values</a><ul><li><a href=#type-identity>Type identity</a></li><li><a href=#assignability>Assignability</a></li><li><a href=#representability>Representability</a></li></ul></li><li><a href=#blocks>Blocks</a></li><li><a href=#declarations-and-scope>Declarations and scope</a><ul><li><a href=#label-scopes>Label scopes</a></li><li><a href=#blank-identifier>Blank identifier</a></li><li><a href=#predeclared-identifiers>Predeclared identifiers</a></li></ul></li><li><a href=#attributes>Attributes</a></li><li><a href=#expressions>Expressions</a><ul><li><a href=#operands>Operands</a></li><li><a href=#qualified-identifiers>Qualified identifiers</a></li><li><a href=#composite-literals>Composite literals</a></li><li><a href=#procedure-literals>Procedure literals</a></li><li><a href=#selectors>Selectors</a></li><li><a href=#index-expressions>Index expressions</a></li><li><a href=#slice-expressions>Slice expressions</a></li><li><a href=#type-assertions>Type assertions</a></li><li><a href=#calls>Calls</a></li><li><a href=#passing-argument-to-variadic-parameters>Passing argument to variadic parameters</a></li><li><a href=#operators>Operators</a></li><li><a href=#operators-1>Operators</a></li><li><a href=#arithmetic-operators>Arithmetic operators</a></li><li><a href=#logical-operators>Logical operators</a></li><li><a href=#address-operators>Address operators</a></li><li><a href=#conversion>Conversion</a></li><li><a href=#constant-expressions>Constant expressions</a></li><li><a href=#order-of-evaluation>Order of evaluation</a></li></ul></li><li><a href=#statements>Statements</a><ul><li><a href=#labelled-statements>Labelled statements</a></li><li><a href=#expression-statements>Expression statements</a></li><li><a href=#assignments>Assignments</a></li><li><a href=#if-statements>If statements</a></li><li><a href=#switch-statements>Switch statements</a></li><li><a href=#for-statements>For statements</a></li><li><a href=#return-statements>Return statements</a></li><li><a href=#break-statements>Break statements</a></li><li><a href=#continue-statements>Continue statements</a></li><li><a href=#fallthrough-statements>Fallthrough statements</a></li><li><a href=#defer-statements>Defer statements</a></li><li><a href=#using-statements>Using statements</a></li></ul></li><li><a href=#built-in-procedures>Built-in procedures</a><ul><li><a href=#length-and-capacity>Length and capacity</a></li><li><a href=#manipulating-complex-numbers>Manipulating complex numbers</a></li><li><a href=#numeric-bounds>Numeric bounds</a></li><li><a href=#directive-based>Directive based</a></li><li><a href=#other-1>Other</a></li></ul></li><li><a href=#packages>Packages</a><ul><li><a href=#source-file-organization>Source file organization</a></li><li><a href=#package-clause>Package clause</a></li><li><a href=#import-declaration>Import declaration</a></li></ul></li><li><a href=#foreign-system>Foreign system</a></li><li><a href=#implicit-context-system>Implicit context system</a></li><li><a href=#parametric-polymorphism>Parametric polymorphism</a></li><li><a href=#initialization-and-execution>Initialization and execution</a><ul><li><a href=#the-zero-value>The zero value</a></li></ul></li><li><a href=#system-considerations>System considerations</a><ul><li><a href=#size-and-alignment-guarantees>Size and alignment guarantees</a></li></ul></li></ul></nav></aside><h2 id=introduction>Introduction</h2><p>This is a reference manual for the Odin programming language.</p><p>Odin is a general-purpose language designed for systems programming. It is a strongly typed language with manual memory management. Programs are constructed from <em>packages</em>.</p><h2 id=notation>Notation</h2><p>The syntax is specified using Extended Backus-Naur Form (EBNF):</p><pre><code>Production  = production_name &quot;=&quot; [ Expression ] &quot;.&quot; .
+Expression  = Alternative { &quot;|&quot; Alternative } .
+Alternative = Term { Term } .
+Term        = production_name | token [ &quot;…&quot; token ] | Group | Option | Repetition .
+Group       = &quot;(&quot; Expression &quot;)&quot; .
+Option      = &quot;[&quot; Expression &quot;]&quot; .
+Repetition  = &quot;{&quot; Expression &quot;}&quot; .
+</code></pre><p>Productions are expressions constructed from terms and the following operators, in increasing precedence:</p><pre><code>|   alternation
+()  grouping
+[]  option (0 or 1 times)
+{}  repetition (0 to n times)
+</code></pre><h2 id=source-code-representation>Source code representation</h2><p>Source code is Unicode text encoded in UTF-8. The text is not canonicalized, so a single accented code point is distinct from the same character constructed from combining an accent and a letter; those are treated as two separate code points. In this document, the term <em>character</em> will be used to refer to a Unicode code point in the source text.</p><p>Each code point is distinct; there is case sensitivity.</p><p>Implementation restriction: A compile <em>must</em> disallow the NUL character (U+0000) in the source text.
+Implementation restriction: A compile <em>may</em> ignore a UTF-8-encoded byte order mark (U+FEFF) if it is the first Unicode code point in the source text. A byte order mark <em>must</em> be disallowed anywhere else in the source text.</p><h3 id=characters>Characters</h3><p>The following terms are used to denote specific Unicode character classes:</p><pre><code>newline        = /* the Unicode code point U+000A */
+unicode_char   = /* an arbitrary Unicode code point except newline */
+unicode_letter = /* a Unicode code point classified as &quot;Letter&quot; */
+unicode_digit  = /* a Unicode code point classified as &quot;Number, decimal digit&quot; */
+</code></pre><p>In <a href=https://www.unicode.org/versions/Unicode8.0.0/>The Unicode Standard 8.0</a>, Section 4.5 &ldquo;General Category&rdquo; defines a set of character categories. Odin treats all characters in any of the Letter categories Lu, Ll, Lt, Lm, or Lo as Unicode letters, and those in the Number category Nd as Unicode digits.</p><h3 id=letters-and-digits>Letters and digits</h3><p>The underscore character <code>_</code> (U+005F) is considered a letter.</p><pre><code>letter        = unicode_letter | &quot;_&quot; .
+binary_digit  = &quot;0&quot; … &quot;1&quot; .
+octal_digit   = &quot;0&quot; … &quot;7&quot; .
+decimal_digit = &quot;0&quot; … &quot;9&quot; .
+dozenal_digit = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;B&quot; | &quot;a&quot; … &quot;b&quot; .
+hex_digit     = &quot;0&quot; … &quot;9&quot; | &quot;A&quot; … &quot;F&quot; | &quot;a&quot; … &quot;f&quot; .
+
+binary_char  = binary_digit  | &quot;_&quot; .
+octal_char   = octal_digit   | &quot;_&quot; .
+decimal_char = decimal_digit | &quot;_&quot; .
+dozenal_char = dozenal_digit | &quot;_&quot; .
+hex_char     = hex_digit     | &quot;_&quot; .
+</code></pre><h2 id=lexical-elements>Lexical elements</h2><h3 id=comments>Comments</h3><p>Comments serve as program documentation. There are three forms:</p><ol><li><em>Line comments</em> start with the character sequence <code>//</code> and stop at the end of the line</li><li><em>General comments</em> start with the character sequence <code>/*</code> and stop with a pairing character sequence <code>*/</code> to allow for nested general comments</li><li><em>Hash-bang comments</em> start with the character sequence <code>#!</code> and stop at the end of the line</li></ol><p>A comment cannot start inside a <em>rune</em> or <em>string</em> literal, or inside a line or hash-bang comment.</p><h3 id=tokens>Tokens</h3><p>Tokens form the vocabulary of the Odin language. There four classes: <em>identifiers</em>, <em>keywords</em>, <em>operators</em> and <em>punctuation</em>, and <em>literals</em>. <em>White space</em>, formed from spaces (U+0020), horizontal tabs (U+0009), carriage returns (U+000D), and new lines (U+000A), is ignored except as it separates tokens that would otherwise combine into a single token</p><h3 id=semicolons>Semicolons</h3><p>The formal grammar uses semicolons <code>;</code> as terminators. Odin programs may omit these semicolons under the following rules:</p><ol><li>followed by one of the operators and punctuation on the same line: <code>}</code>, <code>)</code></li><li>followed by one of the keywords on the same line: <code>else</code></li><li>preceded by one of the statements: block, if, when, for, switch</li><li>preceded by one of the declarations: package, import, foreign import, foreign block</li><li>the last expression in a constant value declaration is one of the expressions followed by a new line: procedure literal</li><li>the last expression in a constant value declaration is one of the types followed by a new line: helper type of [6], pointer type of [6], struct type, union type, enum type, bit field type</li></ol><h3 id=identifiers>Identifiers</h3><p>Identifiers name program entities such as variables and types. An identifier is a sequence of one or more letters and digits. The first character in an identifier must be a letter.</p><pre><code>identifier = letter { letter | unicode_digit } .
+</code></pre><p>Some identifiers are predeclared.</p><h3 id=keywords>Keywords</h3><p>The following keywords are reserved and may not be used as identifiers</p><pre><code>align_of     case        defer       enum           import    no_inline    proc       transmute    when
+auto_cast    cast        distinct    fallthrough    in        notin        return     type_of
+bit_field    const       do          for            inline    offset_of    size_of    typeid
+bit_set      context     dynamic     foreign        macro     opaque       struct     union
+break        continue    else        if             map       package      switch     using
+</code></pre><p>Some keywords are currently not used by the language but are just reserved for future use.</p><h3 id=operators-and-punctuation>Operators and punctuation</h3><p>The following character sequences represent operators (including assignment operators) and punctuation:</p><pre><code>+     &amp;     +=     &amp;=     &amp;&amp;     ==    !=    (    )    #    -&gt;
+-     |     -=     |=     ||     &lt;     &lt;=    [    ]    @    &lt;-
+*     ~     *=     ~=     &amp;&amp;=    &gt;     &gt;=    {    }    $    =&gt;
+/     &lt;&lt;    /=     &lt;&lt;=    ||=    =     ..    ,    ;    ?    ---
+%     &gt;&gt;    %=     &gt;&gt;=           !     ..&lt;   .    :
+%%    &amp;~    %%=    &amp;~=
+</code></pre><p>Implementation option: A compiler may allow the following character sequences as aliases for other operators, punctuation, and keywords:</p><pre><code>'≠' (U+2260) alias for '!='
+'≤' (U+2260) alias for '&lt;='
+'≥' (U+2260) alias for '&gt;='
+'∈' (U+2260) alias for 'in'
+'∉' (U+2260) alias for 'notin'
+</code></pre><h3 id=integer-literals>Integer literals</h3><p>An integer literal is a sequence of digits representing an integer constant. An optional prefix sets a specific radix: <code>0b</code> for binary, <code>0o</code> for octal, <code>0d</code> for decimal, <code>0z</code> for dozenal, or <code>0x</code> for hexadecimal. In dozenal literals, letters <code>a-b</code> and <code>A-B</code> represents values ten through eleven. In hexadecimal literals, letters <code>a-f</code> and <code>A-F</code> represents values ten through fifteen.</p><p>Integer literals may contain any amount of the underscore character <code>_</code> (U+005F) within the literal after the first character.</p><pre><code>int_lit = binary_lit | octal_lit | decimal_lit | dozenal_lit | hex_lit
+binary_lit      = &quot;0b&quot;   binary_digit  { binary_char } .
+octal_lit       = &quot;0o&quot;   octal_digit   { octal_char } .
+decimal_lit     = [&quot;0d&quot;] decimal_digit { decimal_char } .
+dozenal_lit     = &quot;0z&quot;   dozenal_digit { dozenal_char } .
+hexadecimal_lit = &quot;0x&quot;   hex_digit     { hex_char } .
+</code></pre><pre><code>42
+042 // == 42
+0b1001011
+0o712
+0d42
+0z19b3
+0xDeadBeef
+210206826754181103207028761697008013415622289
+210_206_826_754_181_103_207_028_761_697_008_013_415_622_289
+</code></pre><h3 id=floating-point-literals>Floating-point literals</h3><p>A floating-point literal is a textual representation of a floating-point constant. There are two forms of floating-point literals decimal and hexadecimal. Hexadecimal floating-point literals represent the internal integer representation of the floating-point number for that platform.</p><pre><code>float_lit = decimal_float_lit | hexadecimal_float32_lit | hexadecimal_float64_lit .
+decimal_float_lit = decimals &quot;.&quot; [decimals] [exponent] |
+                    decimals exponent |
+                    &quot;.&quot; decimals [exponent] .
+decimals = decimal_digit { decimal_char } .
+exponent = ( &quot;e&quot; | &quot;E&quot; ) [ &quot;+&quot; | &quot;-&quot; ] decimals .
+
+hexadecimal_float32_lit = &quot;0h&quot; hex_digit hex_char hex_char hex_char
+                          hex_char hex_char hex_char hex_char .
+hexadecimal_float64_lit = &quot;0h&quot; hex_digit hex_char hex_char hex_char
+                          hex_char hex_char hex_char hex_char
+                          hex_char hex_char hex_char hex_char
+                          hex_char hex_char hex_char hex_char .
+</code></pre><pre><code>0.
+0.0
+42.36
+042.36  // == 42.36
+6.28318530718
+1.e+0
+1.054571800e-34
+1.054_571_800e-34
+1E9
+.125
+.12345e+5
+</code></pre><h3 id=imaginary-literals>Imaginary literals</h3><p>An imaginary literal is a decimal representation of the imaginary part of a complex constant. It consists of a floating-point literal or a decimal integer followed by the lower-case letter <code>i</code>.</p><pre><code>imaginary_lit = (decimals | float_lit) &quot;i&quot; .
+</code></pre><pre><code>0.i
+0.0i
+42.36i
+042.36i  // == 42.36i
+6.28318530718i
+1.e+0i
+1.054571800e-34i
+1.054_571_800e-34i
+1E9i
+.125i
+.12345e+5i
+</code></pre><h3 id=rune-literals>Rune literals</h3><p>A rune literal represents a rune constant, an integer value identifying a Unicode code point. A rune literal is expressed as one or more characters enclosed in single quotes, such as <code>'b'</code> or <code>'\t'</code>.</p><p>TODO:</p><pre><code>\a   U+0007 alert or bell
+\b   U+0008 backspace
+\e   U+001B escape
+\f   U+000C form feed
+\n   U+000A newline or line feed
+\r   U+000D carriage return
+\t   U+0009 horizontal tab
+\v   U+000B vertical tab
+\\   U+005C backslash
+\'   U+0027 single quote  (valid escape only within rune literals)
+\&quot;   U+0022 double quote  (valid escape only within string literals)
+</code></pre><pre><code>rune_lit         = &quot;'&quot; ( unicode_value | byte_value ) &quot;'&quot; .
+unicode_value    = unicode_char | little_u_value | big_u_value | escaped_char .
+byte_value       = octal_byte_value | hex_byte_value .
+octal_byte_value = `\` octal_digit octal_digit octal_digit .
+hex_byte_value   = `\` &quot;x&quot; hex_digit hex_digit .
+little_u_value   = `\` &quot;u&quot; hex_digit hex_digit hex_digit hex_digit .
+big_u_value      = `\` &quot;U&quot; hex_digit hex_digit hex_digit hex_digit
+                           hex_digit hex_digit hex_digit hex_digit .
+escaped_char     = `\` ( &quot;a&quot; | &quot;b&quot; | &quot;e&quot; | f&quot; | &quot;n&quot; | &quot;r&quot; | &quot;t&quot; | &quot;v&quot; | `\` | &quot;'&quot; | `&quot;` ) .
+</code></pre><h3 id=string-literals>String literals</h3><p>TODO:</p><pre><code>string_lit             = raw_string_lit | interpreted_string_lit .
+raw_string_lit         = &quot;`&quot; { unicode_char | newline } &quot;`&quot; .
+interpreted_string_lit = `&quot;` { unicode_value | byte_value } `&quot;` .
+</code></pre><h2 id=constants>Constants</h2><h2 id=variables>Variables</h2><h2 id=types>Types</h2><p>A type determines a set of values together with operations specific to those values. A type may be denoted by a <em>type name</em>, if it has one, or a specified using a <em>type literal</em>, which composing a type from other existing types.</p><pre><code>Type       = TypeName | TypeLit | &quot;(&quot; Type &quot;)&quot; | HelperType .
+TypeName   = identifier | QualifiedIdent .
+TypeLit    = ArrayType | SliceType | DynamicArrayType | StructType | UnionType |
+             PointerType | ProcedureType | MapType | EnumType |
+             BitSetType | BitFieldType | OpaqueType | HelperType
+</code></pre><h3 id=boolean-types>Boolean types</h3><p>A boolean type represents the set of boolean truth values denoted by the predeclared constants <code>true</code> and <code>false</code>. The predeclared architecture-independent boolean types are:</p><pre><code>bool    1 byte boolean type
+
+b8      8-bit  boolean type
+b16     16-bit boolean type
+b32     32-bit boolean type
+b64     64-bit boolean type
+</code></pre><h3 id=numeric-types>Numeric types</h3><p>A numeric type represents sets of integer, floating-point, or rune values. The predeclared architecture-independent numeric types are:</p><pre><code>u8          the set of all unsigned  8-bit integers  (0 to 255)
+u16         the set of all unsigned 16-bit integers  (0 to 65535)
+u32         the set of all unsigned 32-bit integers  (0 to 4294967295)
+u64         the set of all unsigned 64-bit integers  (0 to 18446744073709551615)
+u128        the set of all unsigned 128-bit integers (0 to 340282366920938463463374607431768211455)
+
+i8          the set of all signed  8-bit  integers (-128 to 127)
+i16         the set of all signed 16-bit  integers (-32768 to 32767)
+i32         the set of all signed 32-bit  integers (-2147483648 to 2147483647)
+i64         the set of all signed 64-bit  integers (-9223372036854775808 to 9223372036854775807)
+i128        the set of all signed 128-bit integers (-170141183460469231731687303715884105728 to 170141183460469231731687303715884105727)
+
+f32         the set of all IEEE-754 32-bit floating-point numbers
+f64         the set of all IEEE-754 64-bit floating-point numbers
+
+complex64   the set of all complex numbers with float32 real and imaginary parts
+complex128  the set of all complex numbers with float64 real and imaginary parts
+
+byte        alias for u8
+rune        the set of all Unicode code points represented by a 32-bit integer (-2147483648 to 2147483647)
+</code></pre><p>The value of an n-bit integer is n bits wide and represented using two&rsquo;s complement arithmetic.</p><p>There is also a set of architecture-independent numeric types with a specified endianess:</p><pre><code>u16le       little endian representation of the set of all unsigned 16-bit integers  (0 to 65535)
+u32le       little endian representation of the set of all unsigned 32-bit integers  (0 to 4294967295)
+u64le       little endian representation of the set of all unsigned 64-bit integers  (0 to 18446744073709551615)
+u128le      little endian representation of the set of all unsigned 128-bit integers (0 to 340282366920938463463374607431768211455)
+
+i16le       little endian representation of the set of all signed 16-bit integers  (-32768 to 32767)
+i32le       little endian representation of the set of all signed 32-bit integers  (-2147483648 to 2147483647)
+i64le       little endian representation of the set of all signed 64-bit integers  (-9223372036854775808 to 9223372036854775807)
+i128le      little endian representation of the set of all signed 128-bit integers  (-170141183460469231731687303715884105728 to 170141183460469231731687303715884105727)
+
+u16be       big endian representation of the set of all unsigned 16-bit integers  (0 to 65535)
+u32be       big endian representation of the set of all unsigned 32-bit integers  (0 to 4294967295)
+u64be       big endian representation of the set of all unsigned 64-bit integers  (0 to 18446744073709551615)
+u128be      big endian representation of the set of all unsigned 128-bit integers (0 to 340282366920938463463374607431768211455)
+
+i16be       big endian representation of the set of all signed 16-bit integers  (-32768 to 32767)
+i32be       big endian representation of the set of all signed 32-bit integers  (-2147483648 to 2147483647)
+i64be       big endian representation of the set of all signed 64-bit integers  (-9223372036854775808 to 9223372036854775807)
+i128be      big endian representation of the set of all signed 128-bit integers (-170141183460469231731687303715884105728 to 170141183460469231731687303715884105727)
+</code></pre><p>There is also a set of predeclared numeric types with implementation-specific sizes:</p><pre><code>uintptr     an unsigned integer large enough to store the uninterpreted bits of a pointer value
+uint        same size as uint
+int         same size as uint
+</code></pre><p>To avoid portability issues for all numeric types are defined types and thus distinct, except <code>byte</code> which is an alias for <code>u8</code>. Explicit conversions are required when different numeric types are mixed in an expression or assignment. For instance, <code>i64</code> and <code>int</code> are not the same type even though they may have the same size on a particular machine.</p><h3 id=string-types>String types</h3><p>A <em>string</em> type represents the set of string values. A string value is a (possibly empty) sequence of bytes. The number of bytes is called the length of the string and is a non-negative integer.</p><p>The predeclared strings types are:</p><pre><code>string
+cstring
+</code></pre><p>The length of a string <code>s</code> can be determined using the built-in procedure <code>len</code>. The length is a compile-time constant if the string is a constant. A string&rsquo;s bytes can only be accessed, for string types not derived from <code>cstring</code>, by integer indices 0 through <code>len(s)-1</code>.</p><h3 id=array-types>Array types</h3><p>An array is a numbered sequence of elements of a single type, called the element type. The number of element is a called the length of the array and is a non-negative integer.</p><pre><code>ArrayType   = &quot;[&quot; ArrayLength &quot;]&quot; ElementType .
+ArrayLength = Expression .
+ElementType = Type .
+</code></pre><p>The length is part of the array&rsquo;s type; it must evaluate to a non-negative constant representable by a value of type <code>int</code>. The length of array <code>a</code> be determined using the built-in procedure <code>len</code>. The elements can be address by indices 0 through <code>len(a)-1</code>. Array types are always one-dimensional but may be composed to form multi-dimensional types.</p><pre><code>[32]byte
+[2*N + 1]union{int, string}
+[42]^f32
+[2][3]int
+[3][3][3]f64 // same as [3]([3]([3]f64))
+</code></pre><h3 id=slice-types>Slice types</h3><p>A slice is a descriptor for a contiguous segment of <em>underlying array/memory</em> and provides access to an indexed sequence of elements from that array/memory. A slice type denotes the set of all slices of arrays of its element type. The number of elements is called the length of the slice and is never negative. The value of an uninitialized slice is <code>nil</code>.</p><pre><code>SliceType = &quot;[&quot; &quot;]&quot; ElementType .
+</code></pre><p>The length of a slice <code>s</code> can be determined by the built-in procedure <code>len</code>. Unlike with regular arrays, this length is not a compile-time constant and must be determined during execution. The elements can be addressed by integer indicies <code>0</code> through <code>len(s)-1</code>.</p><h3 id=dynamic-array-types>Dynamic array types</h3><pre><code>DynamicArrayType = &quot;[&quot; &quot;dynamic&quot; &quot;]&quot; ElementType .
+</code></pre><h3 id=struct-types>Struct types</h3><p>A struct is a sequence of named elements, called fields, each of which has a name and a type. Within a struct, non-blank field names must be unique.</p><pre><code>StructType            = &quot;struct&quot; StructTypeTags &quot;{&quot; FieldList &quot;}&quot; .
+FieldList             = FieldDecl { &quot;,&quot; FieldDecl } .
+FieldDecl             = [ [using] IdentifierList &quot;:&quot; ] Type .
+StructTypeTags        = { (StructTypeTagPacked | StructTypeTagRawUnion | StructTypeTagAlign) } .
+StructTypeTagPacked   = &quot;#&quot; &quot;packed&quot; .
+StructTypeTagRawUnion = &quot;#&quot; &quot;raw_union&quot; .
+StructTypeTagAlign    = &quot;#&quot; &quot;align&quot; Expression .
+</code></pre><pre><code>// An empty struct
+struct {}
+
+// A struct with 5 fields
+struct {
+	x, y: int,
+	f: f32,
+	_: f32, // padding
+	a: ^[]int,
+	p: proc() -&gt; int,
+}
+
+// A struct with no padding between its fields
+struct #packed {
+	a: u8,
+	b: u16,
+	c: u32,
+	d: u8,
+}
+</code></pre><p>The <code>#packed</code> tag states the memory representation of the struct type to have no padding between its fields.</p><p>The <code>#raw_union</code> tag states the memory representation of the struct type to have the size of its largest in size field and alignment of its largest in alignment member, and have all fields be accessed by the same memory offset of zero.</p><p>The <code>#raw_union</code> tag and <code>#packed</code> tag cannot be combined together.</p><p>The <code>#align</code> tag explicitly states the alignment required for the struct type.</p><h3 id=union-types>Union types</h3><h3 id=pointer-types>Pointer types</h3><p>TODO: <code>rawptr</code></p><h3 id=procedure-types>Procedure types</h3><h3 id=map-types>Map types</h3><h3 id=enum-types>Enum types</h3><h3 id=bit-set-types>Bit set types</h3><h3 id=bit-field-types>Bit field types</h3><h3 id=opaque-types>Opaque types</h3><h3 id=helper-types>Helper types</h3><h3 id=any-type>Any type</h3><h3 id=typeid>Typeid</h3><h3 id=other>Other</h3><h4 id=simd-types>SIMD types</h4><h2 id=properties-of-types-and-values>Properties of types and values</h2><h3 id=type-identity>Type identity</h3><p>Two types are either <em>identical</em> or <em>different</em>.</p><p>A distinct type is always different from any other type. Otherwise, type types are identical if their underlying type literals are structurally equivalent; that is, they have the same literal structure and corresponding components have identical types. In detail:</p><ul><li>Two array types are identical if they have identical element types and the same array length</li><li>Two slice types are identical if they have identical element types</li><li>Two dynamic array types are identical if they have identical element types</li><li>Two struct types are identical if they have the same sequence of fields, and if corresponding fields have the same same names and identical types, and have identical memory layout specifications</li><li>Two union types are identical if they have the same sequence of variant types</li><li>Two pointer types are identical if they have identical base types</li><li>Two procedure types are identical if they have the same number of parameters and return values, corresponding parameter and result types are identical, and either both procedures are variadic or neither is. Parameter and return names are not required to match.</li><li>Two map types are identical if they have identical key and element types</li><li>Two enum types are identical if and only if they are the same enum</li><li>Two opaque types are identical if they have the same underlying base type</li><li>Two bit field types are identical if they have the same number of fields, and if corresponding sizes and offsets are identical, and alignment is identical</li><li>Two bit set types are identical if they have identical element types, underlying types, and have an identical value range</li></ul><h3 id=assignability>Assignability</h3><p>A value <code>x</code> is assignment to a variable of type <code>T</code> (&ldquo;<code>x</code> is assignable to <code>T</code>&rdquo;) if one of the following conditions applies:</p><ul><li><code>x</code>'s type is identical to <code>T</code></li><li><code>x</code>'s type <code>v</code> and <code>T</code> have identical underlying types and at least one of <code>v</code> or <code>T</code> is not a distinct type</li><li><code>x</code> is the predeclared identifier <code>nil</code> and <code>T</code> is a pointer, procedure, slice, dynamic array, map, enum, union, bit set, bit field, opaque type, <code>any</code>, <code>cstring</code> or <code>typeid</code>.</li><li><code>x</code> is the <em>uninitialized value</em> <code>---</code> and <code>T</code> is a variable</li><li><code>x</code> is an untyped constant representable by a value of type <code>T</code></li><li><code>x</code> is a procedure group and one of its procedures can be assigned to <code>T</code></li><li><code>x</code>'s type is a pointer and <code>T</code> is <code>rawptr</code></li><li><code>T</code> is a union and <code>x</code>'s type is a variant of the union <code>T</code></li><li><code>T</code> is an <code>any</code> type and <code>x</code> is not <code>nil</code> nor <code>---</code></li><li><code>x</code>'s type is an integer and <code>T</code> is a bit field type</li><li><code>x</code> is a subtype of <code>T</code> from the use of <code>using</code> in <code>T</code></li><li><code>T</code> is an array and <code>x</code>'s type <code>v</code> is assignable to element type of <code>T</code></li></ul><h3 id=representability>Representability</h3><p>A constant <code>x</code> is representable by a value of type <code>T</code> if one of the following conditions applies:</p><ul><li><code>x</code> is in a set of the values determined by <code>T</code></li><li><code>T</code> is a floating-point type and <code>x</code> can be rounded to <code>T</code>'s precision without overflow. Rounding uses IEEE 754 round-to-even rules but with an IEEE negative zero further simplified to an unsigned zero. Note that constant values never result in an IEEE negative zero, NaN, or infinity</li><li><code>T</code> is a complex type, and <code>x</code>'s components <code>real(x)</code> and <code>imag(x)</code> are representable by the values of <code>T</code>'s component type (<code>f32</code> or <code>f64</code>)</li></ul><h2 id=blocks>Blocks</h2><p>A <em>block</em> is a possibly empty sequence of declarations and statements within matching brace brackets.</p><pre><code>Block = &quot;{&quot; StatementList &quot;}&quot; .
+StatementList = { Statement &quot;;&quot; } .
+</code></pre><p>In addition to explicit blocks in the source text, there are implicit blocks:</p><ol><li>The <em>universal block</em> encompasses all Odin source text.</li><li>Each package has a <em>package block</em> containing all Odin source text for that package.</li><li>Each file has a <em>file block</em> containing all Odin source text in that file.</li><li>Each &ldquo;if&rdquo;, &ldquo;for&rdquo;, &ldquo;switch&rdquo; statement is considered to be in its own implicit block.</li></ol><p>Blocks nest and influence scoping.</p><h2 id=declarations-and-scope>Declarations and scope</h2><h3 id=label-scopes>Label scopes</h3><p>Labels are declared by labeled statements and used in the &ldquo;break&rdquo; and &ldquo;continue&rdquo; statements. In contrast to other identifiers, labels are not block scoped. The scope of the label is the body of the procedure in which it is declared and excludes the body of any nested procedure.</p><h3 id=blank-identifier>Blank identifier</h3><p>The <em>blank identifier</em> is represented by the underscore character <code>_</code>. It acts as an anonymous placeholder rather than a regular non-blank identifier. It has a special meaning in declarations and in assignments.</p><h3 id=predeclared-identifiers>Predeclared identifiers</h3><pre><code>Types:
+	bool b8 b16 b32 b64
+	byte complex64 complex128
+	f32 f64
+	int i8 i16 i32 i64
+	i16le i32le i64le i16be i32be i64be
+
+	uint uintptr u8 u16 u32 u64
+	u16le u32le u64le u16be u32be u64be
+
+	any rawptr
+
+	rune string cstring
+
+Constants:
+	true false
+
+Zero value:
+	nil
+
+Procedures:
+	len cap
+	complex real imag conj
+	swizzle expand_to_tuple
+	min max abs clamp
+
+</code></pre><h2 id=attributes>Attributes</h2><h2 id=expressions>Expressions</h2><h3 id=operands>Operands</h3><h3 id=qualified-identifiers>Qualified identifiers</h3><h3 id=composite-literals>Composite literals</h3><h3 id=procedure-literals>Procedure literals</h3><h3 id=selectors>Selectors</h3><h4 id=implicit-selector>Implicit selector</h4><h3 id=index-expressions>Index expressions</h3><h3 id=slice-expressions>Slice expressions</h3><h3 id=type-assertions>Type assertions</h3><h3 id=calls>Calls</h3><h3 id=passing-argument-to-variadic-parameters>Passing argument to variadic parameters</h3><h3 id=operators>Operators</h3><h3 id=operators-1>Operators</h3><h4 id=operator-precedence>Operator precedence</h4><p>Unary operators have the highest precedence.</p><p>There are eight precedence levels for binary operators.</p><pre><code>Precedence     Operator
+    8              &amp; / % %% &lt;&lt; &gt;&gt; &amp; &amp;~
+    7              + - | ~
+    6              'in' 'notin'
+    5              == != &lt; &lt;= &gt; &gt;=
+    4              &amp;&amp;
+    3              ||
+    2              .. // If allowed
+    1              ? // Ternary expression
+</code></pre><p>Binary operators of the same precedence associate from left to right. For instance, <code>x / y * z</code> is the same as <code>(x / y) * z</code>.</p><h3 id=arithmetic-operators>Arithmetic operators</h3><pre><code>+    sum                    integers, floats, complex values, constant strings values
+-    difference (binary)    integers, floats, complex values
+-    negation   (unary)     integers, floats, complex values
+*    product                integers, floats, complex values
+/    quotient               integers, floats, complex values
+%    modulo dividend        integers
+%%   modulo divisor         integers
+
+&amp;    bitwise AND            integers
+|    bitwise OR             integers
+~    bitwise XOR (binary)   integers
+~    bitwise NOT (unary)    integers
+&amp;~   bit clear (AND NOT)    integers
+
+&lt;&lt;   left shift             integer &lt;&lt; unsigned integer
+&gt;&gt;   right shift            integer &gt;&gt; unsigned integer
+</code></pre><p>Arithmetic operators also work on fixed-length arrays of numeric types.</p><h4 id=integer-operators>Integer operators:</h4><p>For two integer values <code>x</code> and <code>y</code>, the integer quotient <code>q = x / y</code> and remainder <code>r = x % y</code> satisfy the following relationships:</p><pre><code>x = q*y + r    and    |r| &lt; |y|
+</code></pre><p>with <code>x / y</code> truncated towards zero ("<a href=https://wikipedia.org/wiki/Modulo_operation>truncated division</a>").</p><h3 id=logical-operators>Logical operators</h3><h3 id=address-operators>Address operators</h3><h3 id=conversion>Conversion</h3><p>A conversion changes the type of an expression to the type specified by the conversion. A conversion may appear literally in the source, or it may be implied by the context in which an expression appears.</p><p>An <em>explicit</em> conversion is an expression of the form <code>T(x)</code> or <code>cast(T)x</code> where <code>T</code> is a type and <code>x</code> is an expression that can be converted to type <code>T</code>.</p><pre><code>Conversion = CallConversion | CastConversion .
+CallConversion = Type &quot;(&quot; Expression [ &quot;, &quot;] &quot;)&quot; .
+CastConversion = &quot;cast&quot; &quot;(&quot; Type &quot;)&quot; Expression .
+</code></pre><h4 id=transmute>Transmute</h4><h3 id=constant-expressions>Constant expressions</h3><h3 id=order-of-evaluation>Order of evaluation</h3><h2 id=statements>Statements</h2><h3 id=labelled-statements>Labelled statements</h3><h3 id=expression-statements>Expression statements</h3><h3 id=assignments>Assignments</h3><h3 id=if-statements>If statements</h3><h3 id=switch-statements>Switch statements</h3><h3 id=for-statements>For statements</h3><h3 id=return-statements>Return statements</h3><h3 id=break-statements>Break statements</h3><h3 id=continue-statements>Continue statements</h3><h3 id=fallthrough-statements>Fallthrough statements</h3><h3 id=defer-statements>Defer statements</h3><h3 id=using-statements>Using statements</h3><h2 id=built-in-procedures>Built-in procedures</h2><h3 id=length-and-capacity>Length and capacity</h3><h3 id=manipulating-complex-numbers>Manipulating complex numbers</h3><h3 id=numeric-bounds>Numeric bounds</h3><h3 id=directive-based>Directive based</h3><h3 id=other-1>Other</h3><h2 id=packages>Packages</h2><h3 id=source-file-organization>Source file organization</h3><h3 id=package-clause>Package clause</h3><h3 id=import-declaration>Import declaration</h3><h2 id=foreign-system>Foreign system</h2><h2 id=implicit-context-system>Implicit context system</h2><h2 id=parametric-polymorphism>Parametric polymorphism</h2><h2 id=initialization-and-execution>Initialization and execution</h2><h3 id=the-zero-value>The zero value</h3><p>When storage is allocated for a variable, through a declaration, or when a new value is created through a composite literal, and no explicit initialization is provided, the variable or value is given a default value. Each element of such a variable or value is set to the <em>zero value</em> for its type.</p><p>These two simple declarations are equivalent:</p><pre><code>i: int;
+i: int = 0;
+</code></pre><h2 id=system-considerations>System considerations</h2><h3 id=size-and-alignment-guarantees>Size and alignment guarantees</h3><pre><code>type                                           size in bytes
+
+byte, u8, i8, b8                               1
+u16, i16, u16le, i16le, b16                    2
+u32, i32, u32le, i32le, b32, f32, rune         4
+u64, i64, u64le, i64le, b64, f64, complex64    8
+complex128                                     16
+</code></pre><p>Minimal alignment properties:</p><ol><li>For a variable <code>x</code> of any type, <code>align_of(x)</code> is at least 1</li><li>For a variable <code>x</code> of array type, <code>align_of(x)</code> is the same as the alignment of a variable of the array&rsquo;s element type</li><li>For a variable <code>x</code> of enum type, <code>align_of(x)</code> is the same as the alignment of a variable of the enum&rsquo;s base type (default of <code>int</code> if not specified)</li><li>For a variable <code>x</code> of struct type, <code>align_of(x)</code> is the largest of all the values <code>align_of(x.f)</code> for each field <code>f</code> of <code>x</code>, but at least 1, unless the alignment has been explicitly stated by the struct tag <code>#align</code>, or the alignment is 1 if the struct is declared to be <code>#packed</code>.</li></ol><p>A struct, bit set, bit field, array, has size zero if it contains not field (or elements) that have a size greater than zero.</p><p>A union has size zero if it contains zero variant types.</p></article></main><footer>© 2016–2020 Ginger Bill</footer></div></body><script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function addHeadingLinks(){var article=document.getElementsByClassName('article-meta')[0];var headings=article.querySelectorAll('h1, h2, h3');headings.forEach(function(heading){if(heading.id){var a=document.createElement('a');a.innerHTML=heading.innerHTML;a.href='#'+heading.id;heading.innerHTML='';heading.appendChild(a);}});})();const DARK='(prefers-color-scheme: dark)';const LIGHT='(prefers-color-scheme: light)';function setColourScheme(scheme){console.log(scheme);if(scheme=='dark'){}else if(scheme=='light'){}}
+(function changeStyle(){function detectColourScheme(){if(!window.matchMedia){return;}
+function listener({matches,media}){if(!matches){return;}
+if(media==DARK){setColourScheme('dark');}else if(media==LIGHT){setColourScheme('light');}}
+const mqDark=window.matchMedia(DARK);const mqLight=window.matchMedia(LIGHT);mqDark.addListener(listener);mqLight.addListener(listener);}})();</script></html>

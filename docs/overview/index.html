@@ -581,16 +581,19 @@ Entity :: struct {
 foo :: proc(entity: ^Entity) {
     fmt.println(entity.x, entity.y, entity.z);
 }
-</code></pre><h3 id=subtype-polymorphism>Subtype polymorphism</h3><p>It is possible to get subtype polymorphism, similar to inheritance-like functionality in C++, but without the requirement of vtables or unknown struct layout:</p><pre><code class=language-odin>Frog :: struct {
+</code></pre><h3 id=subtype-polymorphism>Subtype polymorphism</h3><p>It is possible to get subtype polymorphism, similar to inheritance-like functionality in C++, but without the requirement of vtables or unknown struct layout:</p><pre><code class=language-odin>foo :: proc(entity: Entity) {
+    fmt.println(entity.x, entity.y, entity.z);
+}
+
+Frog :: struct {
     ribbit_volume: f32,
     using entity: Entity,
-    colour: Colour,
 }
 
 frog: Frog;
 // Both work
-foo(frog);
 frog.x = 123;
+foo(frog);
 </code></pre><p><strong>Note:</strong> <code>using</code> can be applied to arbitrarily many things, which allows the ability to have multiple subtype polymorphism (but also its issues).</p><p><strong>Note:</strong> <code>using</code>'d fields can still be referred by name.</p><h2 id=implicit-context-system>Implicit context system</h2><p>In each scope, there is an implicit value named <code>context</code>. This <code>context</code> variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).</p><p>The main purpose of the implicit <code>context</code> system is for the ability to intercept third-party code and libraries and modify their functionality. One such case is modifying how a library allocates something or logs something. In C, this was usually achieved with the library defining macros which could be overridden so that the user could define what he wanted. However, not many libraries supported this in many languages by default which meant intercepting third-party code to see what it does and to change how it does it is not possible.</p><pre><code class=language-odin>main :: proc() {
     c := context; // copy the current scope's context
 

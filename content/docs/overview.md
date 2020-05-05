@@ -1396,16 +1396,19 @@ foo :: proc(entity: ^Entity) {
 ### Subtype polymorphism
 It is possible to get subtype polymorphism, similar to inheritance-like functionality in C++, but without the requirement of vtables or unknown struct layout:
 ```odin
+foo :: proc(entity: Entity) {
+    fmt.println(entity.x, entity.y, entity.z);
+}
+
 Frog :: struct {
     ribbit_volume: f32,
     using entity: Entity,
-    colour: Colour,
 }
 
 frog: Frog;
 // Both work
-foo(frog);
 frog.x = 123;
+foo(frog);
 ```
 
 **Note:** `using` can be applied to arbitrarily many things, which allows the ability to have multiple subtype polymorphism (but also its issues).

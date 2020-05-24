@@ -207,9 +207,11 @@ Character literals such as `'g'`, `'芋'`, and `'\u0123'` are all untyped runes,
 
 Implicit conversions complicate and would be difficult to make consistent across architectures. To increase portability and to simplify the language, Odin uses explicit conversion.
 
-In C, the confusion caused by implicit numeric type conversions is outweighed by the convenience it provides. There are many rules in C which are not at all obvious nor simple to the reader of the code (e.g. is this expression unsigned@ does this expression over/under-flow? etc).
+In C, the confusion caused by implicit numeric type conversions is outweighed by the convenience it provides. There are many rules in C which are not at all obvious nor simple to the reader of the code (e.g. is this expression unsigned does this expression over/under-flow? etc).
 
-The exceptions to this being all pointer types can automatically coerce to a `rawptr` and untyped constants can be convert to a type if that conversion is valid. The constant system does reduce a lot of the issues regarding types as "numbers just work"; there is no need for literally suffixes like in C.
+The exceptions to this being all pointer types can automatically coerce to a `rawptr` untyped constants can be convert to a type if that conversion is valid. The constant system does reduce a lot of the issues regarding types as "numbers just work"; there is no need for literal suffixes like in C.
+
+Most programmers spend most of their time _reading_ code; not _writing_ code. And that has been a big design in Odin: making it clear to the reader what is going on in the program. In most cases Odin has been optimized for the _reader_ of code more than the _writer_ of code; as a result this can annoy the _writer_ in certain cases when there requires a lot of explicit type conversions.
 
 ### Why are slices, dynamic arrays, and maps references whilst arrays are values?
 This is mostly because it "felt" right and is very convenient. Having them as values would require many allocations and may even require automatic memory management to handle correctly.

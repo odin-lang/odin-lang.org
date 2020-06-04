@@ -1060,7 +1060,7 @@ Bit sets support the following operations:
 * `A == B` - set equality
 * `A != B` - set inequality
 * `e in A` - set membership (A contains element e)
-* `e notin A` - A does not contain element e
+* `e not_in A` - A does not contain element e
 * `incl(&A, elem)` - same as `A |= {elem};`
 * `excl(&A, elem)` - same as `A &~= {elem};`
 

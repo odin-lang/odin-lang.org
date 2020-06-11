@@ -1792,6 +1792,51 @@ f: Foo(T, N);
 #assert(size_of(f) == (N+N-2)*size_of(T));
 ```
 
+## Custom iterator functions
+
+Custom functions can be used to iterate over anything you want.
+
+A custom iterator function should take a pointer to a struct that contains context for iteration.
+
+The custom iterator function should return 3 values. The current value for the loop, the current index for the loop, a boolean if odin should continue and run another iteration of the loop.
+
+```odin
+//Iterate a linked list
+Node :: struct {
+    value: int,
+    next: ^Node
+}
+
+MyIterator :: struct {
+  index: int,
+  current: Node
+}
+
+iterate :: proc(it: ^MyIterator) -> (value: Node, index: int, ok: bool) {
+    value = it.current;
+    index = it.index;
+    if value.next != nil {
+      it.current = it.current.next;
+      ok = true;
+      it.index += 1;
+    }
+    return;
+}
+
+main :: proc () {
+    head : Node = {value=10, next=nil};
+    tail : Node = {value=10, next=nil};
+    
+    head.next = tail;
+    
+    it : MyIterator = {index = 0; current=head};
+    
+    for node in iterate(&it) {
+      fmt.println(node);
+    }
+}
+```
+
 ## Useful idioms
 
 The following are useful idioms which are emergent from the semantics on the language.

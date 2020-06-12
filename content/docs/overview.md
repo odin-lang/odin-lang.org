@@ -1794,11 +1794,11 @@ f: Foo(T, N);
 
 ## Custom iterator functions
 
-Custom functions can be used to iterate over anything you want.
+Custom iterator functions can be used to iterate over anything you want.
 
-A custom iterator function should take a pointer to a struct that contains context for iteration.
+A custom iterator function should take a pointer to a struct keeps track of the state of the iteration.
 
-The custom iterator function should return 3 values. The current value for the loop, the current index for the loop, a boolean if odin should continue and run another iteration of the loop.
+The custom iterator function should return 3 values. The next value to be given to the loop, the next index for the loop, and a boolean to signify if the loop should keep running.
 
 ```odin
 //Iterate a linked list
@@ -1811,8 +1811,8 @@ MyIterator :: struct {
   index: int,
   current: Node
 }
-
-iterate :: proc(it: ^MyIterator) -> (value: Node, index: int, ok: bool) {
+//The custom iterator function can be named anything.
+custom_iterator_function :: proc(it: ^MyIterator) -> (value: Node, index: int, ok: bool) {
     value = it.current;
     index = it.index;
     if value.next != nil {
@@ -1831,9 +1831,19 @@ main :: proc () {
     
     it : MyIterator = {index = 0; current=head};
     
-    for node in iterate(&it) {
+    for node in custom_iterator_function(&it) {
       fmt.println(node);
     }
+}
+```
+
+Using a custom iterator function is equivalent to:
+
+```
+it := make_iterator();
+for {
+    value, index, keep_going := my_custom_iterator(&it);
+    if !keep_going do break;
 }
 ```
 

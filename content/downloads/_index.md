@@ -35,7 +35,7 @@ title: Downloads
 			var t = document.createElement('table');
 			t.classList.add('nightly-table');
 			d.appendChild(t);
-			t.innerHTML = '<thead><tr><th>Filename</th><th>SHA1</th></tr></thead>';
+			t.innerHTML = '<thead><tr><th>Filename</th><th>Size</th><th>SHA1</th></tr></thead>';
 			var body = document.createElement('tbody');
 			t.appendChild(body);
 
@@ -46,6 +46,10 @@ title: Downloads
 				var filename = document.createElement('td');
 				filename.innerHTML = '<a href="'+build.url+'">' + build.name + '</a>';
 				row.appendChild(filename);
+
+				var size = document.createElement('td');
+				size.innerHTML = (build.sizeInBytes/1024/1024).toFixed(1) + "MB";
+				row.appendChild(size);
 
 				var hash = document.createElement('td');
 				hash.innerHTML = build.sha1;

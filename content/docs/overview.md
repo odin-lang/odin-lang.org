@@ -1329,11 +1329,7 @@ An `any` type can reference any data type. Internally it contains a pointer to t
 
 
 ## Using statement
-`using` can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import declarations, import names, struct fields, procedure fields, and struct values.
-```odin
-// imports all the exported entities from the `foo` package into this file scope
-using import "foo"
-```
+`using` can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.
 
 ```odin
 import "foo"
@@ -1342,8 +1338,6 @@ bar :: proc() {
     using foo;
 }
 ```
-
-**Note:** It is not advised to use `using import` as it pollutes the file's scope.
 
 ### Using statement with structs
 Let's take a very simple entity struct:

@@ -1792,13 +1792,18 @@ f: Foo(T, N);
 #assert(size_of(f) == (N+N-2)*size_of(T));
 ```
 
-## Custom iterator functions
+## Custom iterator procedures
 
-Custom iterator functions can be used to iterate over anything you want.
+Custom iterator procedure can be used to iterate over anything you want.
 
-A custom iterator function should take a pointer to a struct keeps track of the state of the iteration.
+It is customary for a custom iterator procedure to have a pointer to a value in order to keep track of the state of the iteration.
 
-The custom iterator function should return 3 values. The next value to be given to the loop, the next index for the loop, and a boolean to signify if the loop should keep running.
+Custom iterators can return 1, 2, or 3 values, as long as the last value is a boolean.
+
+In the 3 value variant the return values should be: 
+1. The next value to be given to the loop, 
+2. the next index for the loop, 
+3. boolean to signify if the loop should keep running.
 
 ```odin
 //Iterate a linked list
@@ -1811,7 +1816,7 @@ MyIterator :: struct {
   index: int,
   current: Node
 }
-//The custom iterator function can be named anything.
+//The custom iterator procedure can be named anything.
 custom_iterator_function :: proc(it: ^MyIterator) -> (value: Node, index: int, ok: bool) {
     value = it.current;
     index = it.index;
@@ -1837,7 +1842,7 @@ main :: proc () {
 }
 ```
 
-Using a custom iterator function is equivalent to:
+Using the above custom iterator is equivalent to:
 
 ```
 it := make_iterator();

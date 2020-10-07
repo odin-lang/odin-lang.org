@@ -1240,7 +1240,7 @@ Number :: union {
 main :: proc() {
     n := Number(f32(42.0));
 	
-    #partial switch in n {
+    #partial switch in n { // `v` can be omitted if we don't need it
     case f32:
         fmt.println("Found a f32");
     case:

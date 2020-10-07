@@ -366,7 +366,6 @@ Odin's `switch` is like the one in C or C++, except that Odin only runs the sele
 
 To achieve a C-like fall through into the next case block, the keyword [`fallthrough`](#fallthrough-statement) can be used.
 
-
 Switch cases are evaluated from top to bottom, stopping when a case succeeds. For example:
 ```odin
 switch i {
@@ -407,6 +406,43 @@ case 20..<30:
 	fmt.println("twenties");
 }
 ```
+
+#### `#partial switch`
+
+The default behavior of a `switch` depends on what type of value you `switch` on.
+
+For types with an unbounded number of values like `string`, or a very large number of values like an integer type, the `switch` is implicitly a `#partial switch`; you don't need to have a `case` for every possible value, and you can have a default case, like in [the first example above](#switch-statement).
+
+For `enum` and `union` types however, you have a bounded, small number of possible values.  These `switch` statements are "complete" switches by default; you _must_ provide a case for each value, and cannot provide a default case.
+
+However, maybe you _do_ want to only handle a subset of the possiblities, or have a default case...
+
+In that case, you can use `#partial switch`:
+```odin
+package main
+
+import "core:fmt"
+
+E :: enum {
+    A,
+    B,
+    C,
+}
+
+main :: proc() {
+    e := E.A;
+	
+    #partial switch e {
+    case .A:
+        fmt.println("Found .A");
+    case:
+        fmt.println("It wasn't .A");
+    }
+}
+```
+If you remove `#partial` from this example, you'll get a compile error, informing you of the possiblities that you do not have a `case` for.
+
+**Note:** You can use this to get a list of the possiblities to integrate into the `switch`, so that you'll get a _compile error_ if you add another possiblity later.
 
 ### Defer statement
 A defer statement defers the execution of a statement until the end of the scope it is in.

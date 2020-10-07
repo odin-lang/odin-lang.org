@@ -411,11 +411,11 @@ case 20..<30:
 
 The default behavior of a `switch` depends on what type of value you `switch` on.
 
-For types with an unbounded number of values like `string`, or a very large number of values like an integer type, the `switch` is implicitly a `#partial switch`; you don't need to have a `case` for every possible value, and you can have a default case, like in [the first example above](#switch-statement).
+For types with an unbounded number of values like `string`, or a very large number of values like an integer type, the `switch` is implicitly a `#partial switch`; you don't need to have a `case` for every possible value, like in [the first example above](#switch-statement).
 
-For `enum` and `union` types however, you have a bounded, small number of possible values.  These `switch` statements are "complete" switches by default; you _must_ provide a case for each value, and cannot provide a default case.
+For `enum` and `union` types however, you have a bounded, small number of possible values.  These `switch` statements are "complete" switches by default; you _must_ provide a case for each value. Though, you can still provide a default case for when the value is actually outside of the range of known possibilities, such as if it's been corrupted, for example.
 
-However, maybe you _do_ want to only handle a subset of the possiblities, or have a default case...
+However, maybe you _do_ want to only handle a subset of the possiblities...
 
 In that case, you can use `#partial switch`:
 ```odin

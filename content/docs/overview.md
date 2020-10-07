@@ -440,7 +440,7 @@ main :: proc() {
     }
 }
 ```
-You can also use `#partial` with a `union` type. See [Type Switch](#type-switch-statement).
+You can also use `#partial switch` with a `union` type. See [Type Switch](#type-switch-statement).
 
 If you remove `#partial` from these examples, you'll get a compile error, informing you of the possiblities that you do not have a `case` for.
 

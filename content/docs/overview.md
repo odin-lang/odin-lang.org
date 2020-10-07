@@ -413,13 +413,11 @@ The default behavior of a `switch` depends on what type of value you `switch` on
 
 For types with an unbounded number of values like `string`, or a very large number of values like an integer type, the `switch` is implicitly a `#partial switch`; you don't need to have a `case` for every possible value. This is the case in [the first example above](#switch-statement).
 
-For `enum` and `union` types however, you have a bounded, small number of possible values.  These `switch` statements are "complete" switches by default; you _must_ provide a case for each value. Though, you can still provide a default case for when the value is actually outside of the range of known possibilities, such as if it's been corrupted, for example.
+For `enum` types however, you have a bounded, small number of possible values.  These `switch` statements are "complete" switches by default; you _must_ provide a case for each value. Though, you can still provide a default case for when the value is actually outside of the range of known possibilities, such as if it's been corrupted, for example.
 
 However, maybe you _do_ want to only handle a subset of the possiblities...
 
 In that case, you can use `#partial switch`:
-
-With an `enum`:
 ```odin
 package main
 
@@ -442,28 +440,8 @@ main :: proc() {
     }
 }
 ```
-Or, with a `union`:
-```odin
-package main
+You can also use `#partial` with a `union` type. See [Type Switch](#type-switch-statement).
 
-import "core:fmt"
-
-Number :: union {
-    f32,
-    i32,
-}
-
-main :: proc() {
-    n := Number(f32(42.0));
-	
-    #partial switch n {
-    case f32:
-        fmt.println("Found a f32");
-    case:
-        fmt.println("It wasn't a f32");
-    }
-}
-```
 If you remove `#partial` from these examples, you'll get a compile error, informing you of the possiblities that you do not have a `case` for.
 
 **Note:** You can use this to get a list of the possiblities to integrate into the `switch`, so that you'll get a _compile error_ if you add another possiblity later.
@@ -1247,6 +1225,30 @@ case:
     // In this case, it is `nil`
 }
 ```
+
+A type switch can also use `#partial`, similarly to a normal `switch`:
+```odin
+package main
+
+import "core:fmt"
+
+Number :: union {
+    f32,
+    i32,
+}
+
+main :: proc() {
+    n := Number(f32(42.0));
+	
+    #partial switch n {
+    case f32:
+        fmt.println("Found a f32");
+    case:
+        fmt.println("It wasn't a f32");
+    }
+}
+```
+
 
 #### Union tags
 

@@ -5,6 +5,12 @@ url: "/docs/install"
 
 Odin is dead-simple to get started with!
 
+## Install using Homebrew
+
+```
+brew install odin
+```
+
 ## Clone or download Odin
 
 Clone the repository (recommended, `git clone https://github.com/gingerBill/Odin`) or download [the latest release](https://github.com/gingerBill/Odin/releases/latest).

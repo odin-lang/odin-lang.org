@@ -12,6 +12,9 @@ pygmentsCodeFences = false
 
 staticDir = ["static"]
 
+[markup.goldmark.renderer]
+unsafe= true
+
 [permalinks]
     blog = "/blog/:year/:month/:day/:slug/"
     docs = "/docs/:slug/"
@@ -39,9 +42,13 @@ staticDir = ["static"]
     url = "/blog/"
     weight = 4
 [[menu.main]]
+    name = "Downloads"
+    url = "/downloads/"
+    weight = 5
+[[menu.main]]
     name = "GitHub"
     url = "https://github.com/odin-lang/Odin"
-    weight = 5
+    weight = 6
 
 
 [params]

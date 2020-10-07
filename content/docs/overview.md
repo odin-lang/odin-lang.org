@@ -95,23 +95,23 @@ If the string passed to `len` is a compile-time constant, the value from `len` w
 * `\UNNNNNN` - hexadecimal 24-bit Unicode character UTF-8 encoded (6 digits)
 
 ### Numbers
-Numerical literals are written similar to most other programming languages. A useful feature in Odin is that underscores are allowed for better readability: `1_000_000_000` (one billion). A number that contains a dot is a floating point literal: `1.0e9` (one billion). If a number literal is suffixed with `i`, is an imaginary number literal: `2i` (2 multiply the square root of -1).
+Numerical literals are written similar to most other programming languages. A useful feature in Odin is that underscores are allowed for better readability: `1_000_000_000` (one billion). A number that contains a dot is a floating point literal: `1.0e9` (one billion). If a number literal is suffixed with `i`, it is an imaginary number literal: `2i` (2 multiply the square root of -1).
 
-Binary literals are prefixed with `0b`, octal literals with `0o`, and hexadecimal literals `0x`. A leading zero does not produce an octal constant (unlike C).
+Binary literals are prefixed with `0b`, octal literals with `0o`, and hexadecimal literals with `0x`. A leading zero does not produce an octal constant (unlike C).
 
-In Odin, if a number constant is possible to be represented by a type without precision loss, it will automatically convert to that type.
+In Odin, if a number constant can be represented by a type without precision loss, it will automatically convert to that type.
 ```odin
 x: int = 1.0; // A float literal but it can be represented by an integer without precision loss
 ```
 
 Constant literals are "untyped" which means that they can implicitly convert to a type.
 ```odin
-x: int; // `x` in typed of type `int`
+x: int; // `x` is typed of type `int`
 x = 1; // `1` is an untyped integer literal which can implicitly convert to `int`
 ```
 
 ## Variable declarations
-A variable declaration declares a new variable for that current scope.
+A variable declaration declares a new variable for the current scope.
 ```odin
 x: int; // declares x to have type `int`
 y, z: int; // declares y and z to have type `int`
@@ -172,15 +172,15 @@ main :: proc() {
 }
 ```
 
-The `core:` prefix is to state where the import is meant to look; this is called a library collection. If no prefix is present, the import will look relative to current file.
+The `core:` prefix is used to state where the import is meant to look; this is called a library collection. If no prefix is present, the import will look relative to the current file.
 
 
-**Note**: By convention, the package name is the same as the last element in the import path. `"core:fmt"` package comprises of files that begin with the statement `package fmt`. However, this is not enforced by the compiler, which means that default name for the import name will be determined by the last element in the import path if possible.
+**Note**: By convention, the package name is the same as the last element in the import path. `"core:fmt"` package comprises of files that begin with the statement `package fmt`. However, this is not enforced by the compiler, which means the default name for the import name will be determined by the last element in the import path if possible.
 
 A different import name can be used over the default package name:
 ```
 import "core:fmt"
-import foo "core:fmt" // reference a package by different name
+import foo "core:fmt" // reference a package by a different name
 ```
 
 ### Exported names
@@ -214,7 +214,7 @@ A basic `for` loop has three components separated by semicolons:
 * The condition expression: evaluated before every iteration
 * The post statement: executed at the end of every iteration
 
-The loop will stop executing when the condition is evaluates to `false`.
+The loop will stop executing when the condition is evaluated to `false`.
 
 ```odin
 for i := 0; i < 10; i += 1 {
@@ -266,7 +266,7 @@ for i in 0..9 {
     fmt.println(i);
 }
 ```
-where `a..b` denotes an closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
+where `a..b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
 
 Certain built-in types can be iterated over:
 ```odin
@@ -405,7 +405,7 @@ main :: proc() {
     }
 }
 ```
-Odin's `switch` is like one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
+Odin's `switch` is like the one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
 
 To achieve a C-like fall through into the next case block, the keyword [`fallthrough`](#fallthrough-statement) can be used.
 
@@ -503,9 +503,9 @@ if err != os.ERROR_NONE {
 defer os.close(f);
 // rest of code
 ```
-In this case, it acts akin to am explicit C++ destructor however, the error handling is basic control flow.
+In this case, it acts akin to an explicit C++ destructor however, the error handling is basic control flow.
 
-**Note:** The `defer` construct in Odin differs from Go's `defer`, of which that is function-exit and relies on a closure stack system.
+**Note:** The `defer` construct in Odin differs from Go's `defer`, which is function-exit and relies on a closure stack system.
 
 ### When statement
 The `when` statement is almost identical to the `if` statement but with some differences:
@@ -527,7 +527,7 @@ when ODIN_ARCH == "386" {
 }
 ```
 
-The `when` statement is very useful for writing platform specific code. This is akin to the `#if` construct in C's preprocessor however, in Odin, it is type checked.
+The `when` statement is very useful for writing platform specific code. This is akin to the `#if` construct in C's preprocessor. However, in Odin, it is type checked.
 
 ### Branch statements
 #### Break statement
@@ -563,7 +563,7 @@ for cond {
 ```
 
 #### Fallthrough statement
-Odin's `switch` is like one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
+Odin's `switch` is like the one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
 
 `fallthrough` can be used to explicitly fall through into the next case block:
 ```odin
@@ -597,7 +597,7 @@ fmt.println(fibonacci(3));
 For more information regarding value declarations in general, please see the [Odin FAQ](/docs/faq).
 
 ### Parameters
-Procedures can take zero or many parameters, the following example is basic procedure that multiplies two integers together:
+Procedures can take zero or many parameters. The following example is a basic procedure that multiplies two integers together:
 ```odin
 multiply :: proc(x: int, y: int) -> int {
     return x * y;
@@ -615,9 +615,9 @@ fmt.println(multiply(137, 432));
 
 Continuing the C family tradition, everything in Odin is passed by value. The procedure always gets a copy of the thing that has been passed, as if there was an assignment statement to the procedure parameter.
 
-Passing a pointer value makes a copy of the pointer, not the data it points to it. Slices, dynamic arrays, and maps behave like pointers in this case (Internally they are structures that contain values, which include pointers and the "structure" is passed by value).
+Passing a pointer value makes a copy of the pointer, not the data it points to. Slices, dynamic arrays, and maps behave like pointers in this case (Internally they are structures that contain values, which include pointers, and the "structure" is passed by value).
 
-Parameters in a procedure body will be mutable but as they are copies, they will not affect the original values.
+Parameters in a procedure body will be mutable, but as they are copies, they will not affect the original values.
 
 ### Multiple results
 A procedure in Odin can return any number of results. For example:
@@ -646,7 +646,7 @@ do_math_with_naked_return :: proc(input: int) -> (x, y: int) {
 ```
 
 ### Named arguments
-When calling a procedures, it is not clear in which order parameters might appear. Therefore, the arguments can be named, like a struct literal, to make it clear which argument a parameter is for:
+When calling a procedure, it is not clear in which order parameters might appear. Therefore, the arguments can be named, like a struct literal, to make it clear which argument a parameter is for:
 ```odin
 create_window :: proc(title: string, x, y: int, width, height: int, monitor: ^Monitor) -> (^Window, Window_Error) {...}
 
@@ -657,7 +657,7 @@ window, err := create_window(title="Hellope Title", monitor=nil, width=854, heig
 
 
 ### Default values
-The `create_window` procedure may be easier to use if default values are provided which will be used if they are not specified:
+The `create_window` procedure may be easier to use if default values are provided, which will be used if they are not specified:
 ```odin
 create_window :: proc(title: string, x := 0, y := 0, width := 854, height := 480, monitor: ^Monitor = nil) -> (^Window, Window_Error) {...}
 
@@ -665,7 +665,7 @@ window1, err1 := create_window("Title1");
 window2, err2 := create_window(title="Title1", width=640, height=360);
 ```
 
-**Note:** These default values must be compile time known value, such as a constant value or `nil` (if the type supports it).
+**Note:** These default values must be compile time known values, such as a constant value or `nil` (if the type supports it).
 
 ### Explicit procedure overloading
 Unlike other languages, Odin provides the ability to explicitly overload procedures:
@@ -678,14 +678,14 @@ to_string :: proc{bool_to_string, int_to_string};
 
 #### Rationale behind explicit overloading
 
-The design goals of Odin were explicitness and simplicity. Implicit procedure overloading complicates the scoping system. In C++, you cannot nest procedures within procedures so all procedure look-ups are done at the global scope. In Odin, procedures can be nested within procedures and as a result, determining which procedure should be used, in the case of implicit overloading, is complex.
+The design goals of Odin were explicitness and simplicity. Implicit procedure overloading complicates the scoping system. In C++, you cannot nest procedures within procedures, so all procedure look-ups are done at the global scope. In Odin, procedures can be nested within procedures and, as a result, determining which procedure should be used, in the case of implicit overloading, is complex.
 
 Explicit overloading has many advantages:
 
 * Explicitness of what is overloaded
 * Able to refer to the specific procedure if needed
 * Clear which scope the entity name belongs to
-* Ability to specialize parametric polymorphic procedures if necessary which have the same parameter but different bounds (see [`where` clauses](#where-clauses))
+* Ability to specialize parametric polymorphic procedures if necessary, which have the same parameter but different bounds (see [`where` clauses](#where-clauses))
 
 ```odin
 foo :: proc{
@@ -786,7 +786,7 @@ This is akin to doing the following pointer cast manipulations:
 f := f32(123);
 u := (^u32)(&f)^;
 ```
-however, `transmute` does not require taking the address of the value in question, which may not be possible for many expressions.
+However, `transmute` does not require taking the address of the value in question, which may not be possible for many expressions.
 
 ### Untyped types
 In the Odin type system, certain expressions will have an "untyped" type. An untyped type can implicitly convert to a "typed" type. The following are the
@@ -821,12 +821,12 @@ This is the default behaviour in C.
 ### cstring type
 The `cstring` type is a c-style string value, which is zero-terminated. It is equivalent to `char const *` in C. Its primary purpose is for easy interfacing with C. Please see the [foreign system](#foreign-system) for more information.
 
-A `cstring` is easily convertible to an Odin `string` however, to convert a `string` to a `cstring` it requires allocations if the value is not constant.
+A `cstring` is easily convertible to an Odin `string`. However, to convert a `string` to a `cstring`, it requires allocations if the value is not constant.
 
 ```odin
 str:  string  = "Hellope";
 cstr: cstring = "Hellope"; // constant literal;
-cstr2 := string(cstring);  // O(n) conversion as it requires search from the zero-terminator
+cstr2 := string(cstr);     // O(n) conversion as it requires search from the zero-terminator
 nstr  := len(str);  // O(1)
 ncstr := len(cstr); // O(n)
 ```
@@ -875,7 +875,7 @@ Array access is always bounds checked (at compile-time and at runtime). This can
 
 ```odin
 #no_bounds_check {
-    x[n] = 123; // n could be in out of range of valid indices
+    x[n] = 123; // n could be in or out of range of valid indices
 }
 ```
 
@@ -913,7 +913,7 @@ fmt.println(s); // 1, 1, 2
 ```
 
 
-Slices are like references to arrays; they do not store any data, rather describing a section, or slice, of an underlying data.
+Slices are like references to arrays; they do not store any data, rather they describe a section, or slice, of underlying data.
 
 Internally, a slice stores a pointer to the data and an integer to store the length of the slice.
 
@@ -925,7 +925,7 @@ length_of_x := len(x);
 
 #### Slice literals
 A slice literal is like an array literal without the length.
-This an array literal:
+This is an array literal:
 ```odin
 [3]int{1, 6, 3}
 ```
@@ -939,7 +939,7 @@ For the array:
 ```odin
 a: [6]int;
 ```
-these slice expression are equivalent:
+these slice expressions are equivalent:
 ```odin
 a[0:6]
 a[:6]
@@ -948,7 +948,7 @@ a[:]
 ```
 
 #### Nil slices
-The zero value of a slice is `nil`. A nil slice has a length of 0 and does not point to any underlying memory. Slices can be compared again `nil` and nothing else.
+The zero value of a slice is `nil`. A nil slice has a length of 0 and does not point to any underlying memory. Slices can be compared against `nil` and nothing else.
 ```odin
 s: []int;
 if s == nil {
@@ -959,13 +959,13 @@ if s == nil {
 
 
 ### Dynamic arrays
-Dynamic arrays are similar to slices but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current [context](#context-system)'s allocator.
+Dynamic arrays are similar to slices, but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current [context](#context-system)'s allocator.
 
 ```odin
 x: [dynamic]int;
 ```
 
-Along with the built-in proc `len`, dynamic arrays also have `cap` which can used to determine the dynamic arrays current underlying capacity.
+Along with the built-in proc `len`, dynamic arrays also have `cap` which can used to determine the dynamic array's current underlying capacity.
 
 #### Appending to a dynamic array
 
@@ -977,7 +977,7 @@ append(&x, 4, 1, 74, 3); // append multiple values at once
 ```
 
 #### Making and deleting slices and dynamic arrays
-Slices and dynamic arrays can explicitly allocated with the built-in `make` proc.
+Slices and dynamic arrays can be explicitly allocated with the built-in `make` proc.
 
 ```odin
 a := make([]int, 6);           // len(a) == 6
@@ -1103,7 +1103,7 @@ Bit sets support the following operations:
 * `A == B` - set equality
 * `A != B` - set inequality
 * `e in A` - set membership (A contains element e)
-* `e notin A` - A does not contain element e
+* `e not_in A` - A does not contain element e
 * `incl(&A, elem)` - same as `A |= {elem};`
 * `excl(&A, elem)` - same as `A &~= {elem};`
 
@@ -1119,7 +1119,7 @@ Char_Set :: bit_set['A'..'Z'; u64];
 
 
 ### Pointers
-Odin has pointers. A pointer is an memory address of a value. The type `^T` is a pointer to a `T` value. Its zero value is `nil`.
+Odin has pointers. A pointer is a memory address of a value. The type `^T` is a pointer to a `T` value. Its zero value is `nil`.
 ```odin
 p: ^int;
 ```
@@ -1184,7 +1184,7 @@ assert(v.z == 1);
 ```
 
 #### Struct tags
-Structs can tagged with different memory layout and alignment requirements:
+Structs can be tagged with different memory layout and alignment requirements:
 ```odin
 struct #align 4 {...} // align to 4 bytes
 struct #packed {...} // remove padding between fields
@@ -1244,7 +1244,7 @@ assert(ok);
 
 This is useful in very limited cases, and if it is added, there must be at least two variants.
 
-Union's also have the `#align` tag, like structures:
+Unions also have the `#align` tag, like structures:
 
 ```odin
 union #align 4 {...} // align to 4 bytes
@@ -1274,7 +1274,7 @@ To remove an element:
 delete_key(&m, key);
 ```
 
-If an element of a key does not exist, the zero value of the element will be returned. To check to see if an element exists can be done in two ways:
+If an element of a key does not exist, the zero value of the element will be returned. Checking to see if an element exists can be done in two ways:
 ```odin
 elem, ok := m[key]; // `ok` is true if the element for that key exists
 ```
@@ -1285,28 +1285,36 @@ ok := key in m; // `ok` is true if the element for that key exists
 
 The first approach is called the "comma ok idiom".
 
+You can also initialize maps with map literals:
+```odin
+m := map[string]int{
+    "Bob" = 2,
+    "Chloe" = 5,
+};
+```
+
 ### Procedure type
 A procedure type is internally a pointer to a procedure in memory. `nil` is the zero value a procedure type.
 
 Examples:
 ```odin
 proc(x: int) -> bool
-proc(c: proc(x: int) -> bool) - (i32, f32)
+proc(c: proc(x: int) -> bool) -> (i32, f32)
 ```
 
 #### Calling conventions
 Odin supports the following calling conventions:
 
-* **odin** - default convention used for an Odin **proc**. It is the same **cdecl** but passes an implicit `context` pointer on each call. (**Note:** This is subject to change)
+* **odin** - default convention used for an Odin **proc**. It is the same as **cdecl** but passes an implicit `context` pointer on each call. (**Note:** This is subject to change)
 * **contextless** - This is the same as **odin** but without the implicit `context` pointer.
 * **stdcall** or **std** -- This is the stdcall convention as specified by Microsoft.
 * **cdecl** or **c** -- This is the default calling convention generated of a procedure in C.
 * **fastcall** or **fast** - This is a compiler dependent calling convention.
-* **none** - This is a compiler dependent calling convention which will do nothing to parameters
+* **none** - This is a compiler dependent calling convention which will do nothing to parameters.
 
-Most calling conventions exist only to interface with foreign windows code.
+Most calling conventions exist only to interface with foreign Windows code.
 
-The default calling convention is **odin**, unless it is within a `foreign` block which it is then **cdecl**.
+The default calling convention is **odin**, unless it is within a `foreign` block, where it is then **cdecl**.
 
 A procedure type with a different calling convention can be declared like the following:
 ```odin
@@ -1364,11 +1372,7 @@ An `any` type can reference any data type. Internally it contains a pointer to t
 
 
 ## Using statement
-`using` can used to bring entities declared in a scope/namespace into the current scope. This can be applied to import declarations, import names, struct fields, procedure fields, and struct values.
-```odin
-// imports all the exported entities from the `foo` package into this file scope
-using import "foo"
-```
+`using` can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.
 
 ```odin
 import "foo"
@@ -1377,8 +1381,6 @@ bar :: proc() {
     using foo;
 }
 ```
-
-**Note:** It is not advised that to do `using import` as it pollutes the file's scope.
 
 ### Using statement with structs
 Let's take a very simple entity struct:
@@ -1431,16 +1433,19 @@ foo :: proc(entity: ^Entity) {
 ### Subtype polymorphism
 It is possible to get subtype polymorphism, similar to inheritance-like functionality in C++, but without the requirement of vtables or unknown struct layout:
 ```odin
+foo :: proc(entity: Entity) {
+    fmt.println(entity.x, entity.y, entity.z);
+}
+
 Frog :: struct {
     ribbit_volume: f32,
     using entity: Entity,
-    colour: Colour,
 }
 
 frog: Frog;
 // Both work
-foo(frog);
 frog.x = 123;
+foo(frog);
 ```
 
 **Note:** `using` can be applied to arbitrarily many things, which allows the ability to have multiple subtype polymorphism (but also its issues).
@@ -1451,7 +1456,7 @@ frog.x = 123;
 ## Implicit context system
 In each scope, there is an implicit value named `context`. This `context` variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).
 
-The main purpose of the implicit `context` system is for the ability to intercept third-party code and libraries and modify their functionality. One such case is modifying how a library allocates something or logs something. In C, this was usually achieved with the library defining macros which could be overridden so that the user could define what he wanted. However, not many libraries supported this in many languages by default which meant intercepting third-party code to see what it does and to change how it does it is not possible.
+The main purpose of the implicit `context` system is for the ability to intercept third-party code and libraries and modify their functionality. One such case is modifying how a library allocates something or logs something. In C, this was usually achieved with the library defining macros which could be overridden so that the user could define what he wanted. However, not many libraries supported this in many languages by default which meant intercepting third-party code to see what it does and to change how it does it was not possible.
 
 
 ```odin
@@ -1472,7 +1477,7 @@ main :: proc() {
 supertramp :: proc() {
     c := context; // this `context` is the same as the parent procedure that it was called from
     // From this example, context.user_index == 123
-    // An context.allocator is assigned to the return value of `my_custom_allocator()`
+    // A context.allocator is assigned to the return value of `my_custom_allocator()`
 
     // The memory management procedure use the `context.allocator` by default unless explicitly specified otherwise
     ptr := new(int);
@@ -1480,14 +1485,14 @@ supertramp :: proc() {
 }
 ```
 
-By default, the `context` value has default values for its parameters which is decided in the package runtime. What the defaults are are compiler specific.
+By default, the `context` value has default values for its parameters which is decided in the package runtime. These defaults are compiler specific.
 
 To see what the implicit `context` value contains, please see the following definition in [package runtime](https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin#L215).
 
 ### Allocators
-Odin is manual memory management based language. This means that Odin programmers must manage their own memory, allocations, and tracking. To aid with memory management, Odin has huge support for custom allocators, especially through the implicit `context` system.
+Odin is a manual memory management based language. This means that Odin programmers must manage their own memory, allocations, and tracking. To aid with memory management, Odin has huge support for custom allocators, especially through the implicit `context` system.
 
-The built-in types of dynamic arrays and `map`, both contain a custom allocator. This allocator can be either manually set or the allocator from the current `context` will be assigned to the data type.
+The built-in types of dynamic arrays and `map` both contain a custom allocator. This allocator can be either manually set or the allocator from the current `context` will be assigned to the data type.
 
 All allocations in Odin are preferably done through allocators. The core library of Odin takes advantage of allocators through the implicit `context` system. The following call:
 
@@ -1503,7 +1508,7 @@ ptr := new(int, context.allocator);
 
 The allocator from the `context` is implicitly assigned as a default parameter to the built-in procedure `new`.
 
-The implicit `context` stores two different forms of allocators: `context.allocator` and `context.temp_allocator`. Both can be reassigned to any kind of allocator however, these allocators are to be treated slightly differently.
+The implicit `context` stores two different forms of allocators: `context.allocator` and `context.temp_allocator`. Both can be reassigned to any kind of allocator. However, these allocators are to be treated slightly differently.
 
 * `context.allocator` is for "general" allocations, for the subsystem it is used within.
 * `context.temp_allocator` is for temporary and short lived allocations, which are to be freed once per cycle/frame/etc.
@@ -1568,7 +1573,7 @@ free_all(context.temp_allocator);
 free_all(my_allocator);
 ```
 
-* `delete` - deletes the backing memory of value allocated with make or a string that was allocated through an allocator.
+* `delete` - deletes the backing memory of a value allocated with make or a string that was allocated through an allocator.
 
 ```odin
 delete(my_slice);
@@ -1587,7 +1592,7 @@ ptr = realloc(ptr, 32);
 
 To see more uses of allocators, please see [`package mem`](https://github.com/odin-lang/Odin/tree/master/core/mem) in the core library.
 
-For more information regarding memory allocation strategies in general: please [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
+For more information regarding memory allocation strategies in general, please see [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
 
 ### Logging System
 
@@ -1596,7 +1601,7 @@ As part of the implicit `context` system, there is a built-in logging system.
 To see more uses of loggers, please see [`package log`](https://github.com/odin-lang/Odin/tree/master/core/log) in the core library.
 
 ## Foreign system
-It is sometimes necessarily to interface with foreign code, such as a C library. In Odin, this is achieved through the `foreign` system. You can "import" a library into the code using the same semantics as a normal import declaration:
+It is sometimes necessary to interface with foreign code, such as a C library. In Odin, this is achieved through the `foreign` system. You can "import" a library into the code using the same semantics as a normal import declaration:
 ```odin
 foreign import kernel32 "system:kernel32.lib"
 ```
@@ -1609,7 +1614,7 @@ foreign kernel32 {
 }
 ```
 
-Foreign procedure declarations have the **cdecl**/**c** calling convention by default unless specified otherwise. Due to foreign procedures do not have a body declared within this code, you need append the `---` symbol to the end to distinguish it as a procedure literal without a body and not a procedure type.
+Foreign procedure declarations have the **cdecl**/**c** calling convention by default unless specified otherwise. Due to foreign procedures not having a body declared within this code, you need to append the `---` symbol to the end to distinguish it as a procedure literal without a body and not a procedure type.
 
 The attributes system can be used to change specific properties of entities declared within a block:
 ```odin
@@ -1664,7 +1669,7 @@ ptr := my_new(int);
 ```
 
 #### Data types
-Structures and union may have polymorphic parameters. The `$` prefix is optional for record data types as all parameters must be "constant".
+Structures and unions may have polymorphic parameters. The `$` prefix is optional for record data types as all parameters must be "constant".
 Parapoly struct:
 ```odin
 Table_Slot :: struct(Key, Value: typeid) {
@@ -1685,7 +1690,7 @@ r = Error.Foo0;
 ```
 
 ### Implicit parametric polymorphism
-Implicit implies that the type of parameter is inferred from its input. In this case, the dollar sign `$` can be placed on the type.
+Implicit implies that the type of a parameter is inferred from its input. In this case, the dollar sign `$` can be placed on the type.
 
 Note: Within the Odin code base and documentation, the name "polymorphic name" is usually used.
 

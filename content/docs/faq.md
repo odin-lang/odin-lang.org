@@ -9,7 +9,7 @@ show_table_of_contents: true
 ### What is the history of the project?
 The project started one evening in late July 2016 when Ginger Bill was annoyed with programming in C++. The language began as a Pascal clone (with `begin` and `end` and more) but changed quite quickly to become something else.
 
-Bill originally tried to create a preprocessor for C to augment and add new capabilities to the language however, found this endeavour a dead-end. That evening was the point at which Bill decided to create an entirely new language from scratch than trying to augment C.
+Bill originally tried to create a preprocessor for C to augment and add new capabilities to the language. However, he found this endeavour a dead-end. That evening was the point at which Bill decided to create an entirely new language from scratch instead of trying to augment C.
 
 ### What have been the major influences in the language's design?
 The language borrows heavily from (in order of philosophy and impact): Pascal, C, Go, Oberon.
@@ -40,7 +40,7 @@ A quick overview of features (in no particular order):
 * Custom allocators that are simple to use:
     * Memory arenas/regions, pools, stacks, etc. which can be easily added
 * [Context system](#context-system) for allocations, logging, and thread data
-* Built-in types and procedures that take advantage over the context system:
+* Built-in types and procedures that take advantage of the context system:
     * `new(type)`, and `make` use the context's allocator (unless explicitly given)
     * Dynamic arrays and hash maps (`[dynamic]int` and `map[string]int`)
 * Array programming
@@ -129,11 +129,11 @@ This idiom allows the user to create a virtual procedure table if they do wish, 
 ### Why does Odin not have Uniform Function Call Syntax (UFCS)?
 The main reason is that it does not make any sense in Odin.
 
-It is not "uniform" as Odin does not have the concept of a method. Odin also has the concept of import names for packages, this means procedures are declared within different scopes, meaning it would not make any sense syntactically.
+It is not "uniform" as Odin does not have the concept of a method. Odin also has the concept of import names for packages: this means procedures are declared within different scopes, meaning it would not make any sense syntactically.
 
-One of Odin's goals is simplicity and striving to only one way to do things, to improve clarity. `x.f(y)` meaning `f(x, y)` is ambiguous as `x` may have a field called `f`. It is not at all clear what it means this means.
+One of Odin's goals is simplicity and striving to only offer one way to do things, to improve clarity. `x.f(y)` meaning `f(x, y)` is ambiguous as `x` may have a field called `f`. It is not at all clear what this means.
 
-Very early on during Odin's development (circa. 2017), infix and suffix syntax for procedure calls was experimented with but was removed them as it was found in practice that they were virtually never used nor did they actually aid with code clarity either.
+Very early on during Odin's development (circa. 2017), infix and suffix syntax for procedure calls was experimented with, but they were soon removed as it was found in practice that they were virtually never used nor did they actually aid with code clarity either.
 
 One of the main reasons people want UFCS is to allow for "dot-autocomplete" in many IDEs, allowing the ability to show a list available procedures, dependent on the context. It is entirely possible to have this with normal procedure call syntax but most IDEs just do not do it for whatever reason.
 
@@ -172,7 +172,7 @@ My_Int :: distinct int;
 ```
 
 ### What is the type of `x` in `x := 123;`?
-`123` is an untyped integer literal, if the type has not been specified in the declaration, the default type for the "untyped" type will be chosen. In this case, `x` will be of type `int`.
+`123` is an untyped integer literal: if the type has not been specified in the declaration, the default type for the "untyped" type will be chosen. In this case, `x` will be of type `int`.
 
 | Untyped type | Default Type |
 |--------------|--------------|
@@ -189,9 +189,9 @@ My_Int :: distinct int;
 \* if there is no default type for the untyped type, the type of the value cannot be inferred and this will cause an error.
 
 ### What is the size of `int`?
-`size_of(int) = size_of(uint) = size_of(rawptr)`. For portability, code that relies on a particular size of value should use an explicitly sized type, like `i64`. `int` and `uint` are guaranteed to be big enough to represent a pointer however, please use `uintptr` to represent a pointer.
+`size_of(int) = size_of(uint) = size_of(rawptr)`. For portability, code that relies on a particular size of value should use an explicitly sized type, like `i64`. `int` and `uint` are guaranteed to be big enough to represent a pointer; however, please use `uintptr` to represent a pointer.
 
-For floating-point types and complex types, they are always sized because the programmer should be aware of precision.
+Floating-point types and complex types are always sized, because the programmer should be aware of precision.
 
 ### Which of `f32` and `f64` should I prefer for floating-point mathematics?
 The choice is dependent on the purpose of the program. The default floating point type is `f64` so if in doubt, prefer `f64`.
@@ -205,7 +205,7 @@ Character literals such as `'g'`, `'芋'`, and `'\u0123'` are all untyped runes,
 ## Values
 ### Why does Odin not have implicit numeric type conversions?
 
-Implicit conversions complicate and would be difficult to make consistent across architectures. To increase portability and to simplify the language, Odin uses explicit conversion.
+Implicit conversions complicate things and would be difficult to make consistent across architectures. To increase portability and to simplify the language, Odin uses explicit conversion.
 
 In C, the confusion caused by implicit numeric type conversions is outweighed by the convenience it provides. There are many rules in C which are not at all obvious nor simple to the reader of the code (e.g. is this expression unsigned does this expression over/under-flow? etc).
 
@@ -263,9 +263,9 @@ Please see the overview section on the [implicit context system](/docs/overview/
 
 ## Pointers and Allocation
 ### When are procedure parameters passed by value?
-In Odin is procedure parameters are immutable values. This allows Odin to optimize how procedure values are passed. If it is more efficient to pass by value (making a copy) or more efficient to passed as an immutable pointer internally, it does not matter to the user from a use perspective as the parameter value is immutable (for the Odin calling conventions).
+In Odin, procedure parameters are immutable values. This allows Odin to optimize how procedure values are passed. If it is more efficient to pass them by value (making a copy) or more efficient to pass them as an immutable pointer internally, it does not matter from a user perspective as the parameter value is immutable (because of the Odin calling conventions).
 
-Passing a pointer value makes a copy of the pointer, not the data it points to it. Slices, dynamic arrays, and maps behave like pointers in this case (Internally they are structures that contain values, which include pointers and the "structure" and may be passed as an immutable pointer internally for performance).
+Passing a pointer value makes a copy of the pointer, not the data it points to. Slices, dynamic arrays, and maps behave like pointers in this case (internally they are structures that contain values, which include pointers and the "structure" and may be passed as an immutable pointer internally for performance).
 
 Originally, continuing the C family tradition, everything in Odin was passed by value. However, for performance reasons, this behaviour was changed for the Odin calling conventions.
 
@@ -308,7 +308,7 @@ Put all the `.odin` source files for a package in a directory. Source files must
 
 
 ### Why isn't X in the core library?
-The core library is not yet complete. However when it is complete, it will be small as its purpose is to support the runtime, operating system specific calls, formatted I/O, and other key functionality that most Odin programs require.
+The core library is not yet complete. However when it is complete, it will remain small, as its purpose is to support the runtime, operating system specific calls, formatted I/O, and other key functionality that most Odin programs require.
 
 
 ## Syntax
@@ -353,7 +353,7 @@ There are two other type conversion operators, [transmute](/docs/overview/#type-
 Curly brackets to denote a block is a common approach in many programming languages, and Odin's consistency is useful for people already familiar with the style. Curly brackets also allow for more flexible syntax styles for the programmer and it is easier to parse by the compiler because it is not white space sensitive.
 
 ### Why semicolons?
-Semicolons are used to denote the termination of a statement. If semicolons where made optional, it would mean enforcing a coding style either through sensitive white space (Python-esque) or curly brace positioning (automatic semicolon insertion). With semicolons, the programmer is free to decide what style is best suited for his needs.
+Semicolons are used to denote the termination of a statement. If semicolons where made optional, it would mean enforcing a coding style either through sensitive white space (Python-esque) or curly brace positioning (automatic semicolon insertion). With semicolons, the programmer is free to decide what style is best suited to his needs.
 
 ## Implementation
 ### What does the compiler use?

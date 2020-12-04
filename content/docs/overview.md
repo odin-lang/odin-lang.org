@@ -1059,6 +1059,10 @@ Bit sets support the following operations:
 * `A ~ B` - symmetric difference (Elements that are in A and B but not both)
 * `A == B` - set equality
 * `A != B` - set inequality
+* `A <= B` - subset relation (A is a subset of B or equal to B)
+* `A < B` - strict subset relation (A is a proper subset of B)
+* `A >= B` - superset relation (A is a superset of B or equal to B)
+* `A > B` - strict superset relation (A is a proper superset of B)
 * `e in A` - set membership (A contains element e)
 * `e not_in A` - A does not contain element e
 * `incl(&A, elem)` - same as `A |= {elem};`

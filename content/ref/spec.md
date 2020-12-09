@@ -11,6 +11,8 @@ This is a reference manual for the Odin programming language.
 
 Odin is a general-purpose language designed for systems programming. It is a strongly typed language with manual memory management. Programs are constructed from _packages_.
 
+**NOTE:** This specification is unfinished.
+
 
 ## Notation
 
@@ -363,8 +365,8 @@ i128be      big endian representation of the set of all signed 128-bit integers 
 There is also a set of predeclared numeric types with implementation-specific sizes:
 ```
 uintptr     an unsigned integer large enough to store the uninterpreted bits of a pointer value
-uint        same size as uint
-int         same size as uint
+int         architecture word sized (32-bit or 64-bit depending on the platform)
+uint        same size as int
 ```
 
 To avoid portability issues for all numeric types are defined types and thus distinct, except `byte` which is an alias for `u8`. Explicit conversions are required when different numeric types are mixed in an expression or assignment. For instance, `i64` and `int` are not the same type even though they may have the same size on a particular machine.

@@ -1110,7 +1110,7 @@ A `struct` is a record type in Odin. It is a collection of fields. Struct fields
 Vector2 :: struct {
     x: f32,
     y: f32,
-}
+};
 v := Vector2{1, 2};
 v.x = 4;
 fmt.println(v.x);
@@ -1131,7 +1131,7 @@ A struct literal can be denoted by providing the struct's type followed by `{}`.
 ```odin
 Vector3 :: struct {
     x, y, z: f32,
-}
+};
 v: Vector3;
 v = Vector3{}; // Zero value
 v = Vector3{1, 4, 9};
@@ -1147,9 +1147,9 @@ assert(v.z == 1);
 #### Struct tags
 Structs can be tagged with different memory layout and alignment requirements:
 ```odin
-struct #align 4 {...} // align to 4 bytes
-struct #packed {...} // remove padding between fields
-struct #raw_union {...} // all fields share the same offset (0). This is the same as C's union
+struct #align 4 {...}; // align to 4 bytes
+struct #packed {...}; // remove padding between fields
+struct #raw_union {...}; // all fields share the same offset (0). This is the same as C's union
 ```
 
 ### Unions
@@ -1160,7 +1160,7 @@ Value :: union {
     i32,
     f32,
     string,
-}
+};
 v: Value;
 v = "Hellope";
 

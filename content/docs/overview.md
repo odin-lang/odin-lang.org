@@ -916,7 +916,7 @@ if s == nil {
 
 
 ### Dynamic arrays
-Dynamic arrays are similar to slices, but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current [context](#context-system)'s allocator.
+Dynamic arrays are similar to slices, but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current [context](#implicit-context-system)'s allocator.
 
 ```odin
 x: [dynamic]int;
@@ -1212,7 +1212,7 @@ union #align 4 {...} // align to 4 bytes
 ```
 
 ### Maps
-A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in `make` proc returns an initialized map using the current [context](#context-system), and `delete` can be used to delete a map.
+A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in `make` proc returns an initialized map using the current [context](#implicit-context-system), and `delete` can be used to delete a map.
 
 ```odin
 m := make(map[string]int);

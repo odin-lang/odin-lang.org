@@ -382,7 +382,7 @@ a[:]
 if s == nil {
     fmt.println(&quot;s is nil!&quot;);
 }
-</code></pre><h3 id=dynamic-arrays>Dynamic arrays</h3><p>Dynamic arrays are similar to slices, but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current <a href=#context-system>context</a>&lsquo;s allocator.</p><pre><code class=language-odin>x: [dynamic]int;
+</code></pre><h3 id=dynamic-arrays>Dynamic arrays</h3><p>Dynamic arrays are similar to slices, but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current <a href=#implicit-context-system>context</a>&lsquo;s allocator.</p><pre><code class=language-odin>x: [dynamic]int;
 </code></pre><p>Along with the built-in proc <code>len</code>, dynamic arrays also have <code>cap</code> which can used to determine the dynamic array&rsquo;s current underlying capacity.</p><h4 id=appending-to-a-dynamic-array>Appending to a dynamic array</h4><p>It is common to append new elements to a dynamic array; this can be done so with the built-in <code>append</code> proc.</p><pre><code class=language-odin>x: [dynamic]int;
 append(&amp;x, 123);
 append(&amp;x, 4, 1, 74, 3); // append multiple values at once
@@ -511,7 +511,7 @@ v: Value;
 _, ok := v.(bool);
 assert(ok);
 </code></pre><p>This is useful in very limited cases, and if it is added, there must be at least two variants.</p><p>Unions also have the <code>#align</code> tag, like structures:</p><pre><code class=language-odin>union #align 4 {...} // align to 4 bytes
-</code></pre><h3 id=maps>Maps</h3><p>A <code>map</code> maps keys to values. The zero value of a map is <code>nil</code>. A <code>nil</code> map has no keys. The built-in <code>make</code> proc returns an initialized map using the current <a href=#context-system>context</a>, and <code>delete</code> can be used to delete a map.</p><pre><code class=language-odin>m := make(map[string]int);
+</code></pre><h3 id=maps>Maps</h3><p>A <code>map</code> maps keys to values. The zero value of a map is <code>nil</code>. A <code>nil</code> map has no keys. The built-in <code>make</code> proc returns an initialized map using the current <a href=#implicit-context-system>context</a>, and <code>delete</code> can be used to delete a map.</p><pre><code class=language-odin>m := make(map[string]int);
 defer delete(m);
 m[&quot;Bob&quot;] = 2;
 fmt.println(m[&quot;Bob&quot;]);

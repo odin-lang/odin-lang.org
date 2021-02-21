@@ -803,7 +803,7 @@ My_Int :: distinct int;
 #assert(My_Int != int);
 ```
 
-Aggregate types (struct, enum, union, bit_field) will always be distinct even when named.
+Aggregate types (struct, enum, union) will always be distinct even when named.
 ```odin
 Foo :: struct {};
 #assert(Foo != struct{});
@@ -1284,23 +1284,6 @@ proc "contextless" (s: []int)
 ```
 
 Procedure types are only compatible with the procedures that have the same calling convention and parameter types.
-
-### Bit fields
-A `bit_field` is a record type which allows you to define named integer fields with specific bit widths:
-```odin
-Foo :: bit_field {
-    width_validated: 1,
-    height_validated: 1,
-    age: 3,
-}
-```
-This data struct will be 1 byte wide even though it requires only 5 bits of information.
-The memory layout of a `bit_field` will directly map to an integer:
-```odin
-width_validate == (x>>0) & 0b1
-height_validated == (x>>1) & 0b1
-age == (x>>2) & 0b111
-```
 
 
 ### 'typeid' type

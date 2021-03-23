@@ -1056,6 +1056,8 @@ Bit sets support the following operations:
 * `A | B` - union of two sets
 * `A & B` - intersection of two sets
 * `A &~ B` - difference of two sets (A without B's elements)
+* `A + B` - union of two sets (equivalent to `A | B`)
+* `A - B` - difference of two sets (A without B's elements) (equivalent to `A &~ B`)
 * `A ~ B` - symmetric difference (Elements that are in A and B but not both)
 * `A == B` - set equality
 * `A != B` - set inequality
@@ -1065,8 +1067,8 @@ Bit sets support the following operations:
 * `A > B` - strict superset relation (A is a proper superset of B)
 * `e in A` - set membership (A contains element e)
 * `e not_in A` - A does not contain element e
-* `incl(&A, elem)` - same as `A |= {elem};`
-* `excl(&A, elem)` - same as `A &~= {elem};`
+* `incl(&A, elem)` - same as `A += {elem};`
+* `excl(&A, elem)` - same as `A -= {elem};`
 
 
 Bit sets are often used to denote flags. This is much cleaner than defining integer constants that need to be bitwise or-ed together.

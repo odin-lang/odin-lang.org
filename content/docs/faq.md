@@ -458,6 +458,12 @@ if menu("Hello") {
 }
 ```
 
+## Compiler
+
+## Is the Odin compiler self hosted?
+
+Odin is not current self hosted nor will be until _after_ version 1.0 when the main implementation of the Odin compiler adheres to a specification and is heavily tested. In general, self hosting before a stable language and compiler exists is masturbatory pleasure.
+
 ## Quotes
 
 > Show me your flowcharts and conceal your tables, and I shall continue to be mystified. Show me your tables, and I won’t usually need your flowcharts; they’ll be obvious.

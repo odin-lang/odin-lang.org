@@ -1836,6 +1836,25 @@ To see more uses of allocators, please see [`package mem`](https://github.com/od
 
 For more information regarding memory allocation strategies in general, please see [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
 
+#### Explicit `context` Definition
+Procedures which do not use the `"odin"` calling convention must explicitly assign the `context` if something within its body requires it.
+
+```odin
+explicit_context_definition :: proc "c" () {
+	// Try commenting the following statement out below
+	context = runtime.default_context();
+
+	fmt.println("\n#explicit context definition");
+	dummy_procedure();
+}
+
+dummy_procedure :: proc() {
+	fmt.println("dummy_procedure");
+}
+```
+
+
+
 ### Logging System
 
 As part of the implicit `context` system, there is a built-in logging system.
@@ -1908,7 +1927,7 @@ ptr := my_new(int);
 Structures and unions may have polymorphic parameters. The `$` prefix is optional for record data types as all parameters must be "constant".
 Parapoly struct:
 ```odin
-Table_Slot :: struct(Key, Value: typeid) {
+Table_Slot :: struct($Key, $Value: typeid) {
 	occupied: bool,
 	hash:    u32,
 	key:     Key,
@@ -1919,7 +1938,7 @@ slot: Table_Slot(string, int);
 Parapoly union:
 ```odin
 Error :: enum {Foo0, Foo1, Foo2};
-Param_Union :: union(T: typeid) #no_nil {T, Error};
+Param_Union :: union($T: typeid) #no_nil {T, Error};
 r: Param_Union(int);
 r = 123;
 r = Error.Foo0;
@@ -1962,13 +1981,13 @@ make_slice :: proc($T: typeid/[]$E, len: int) -> T {
 ```
 
 ```odin
-Table_Slot :: struct(Key, Value: typeid) {
+Table_Slot :: struct($Key, $Value: typeid) {
 	occupied: bool,
 	hash:     u32,
 	key:      Key,
 	value:    Value,
 }
-Table :: struct(Key, Value: typeid) {
+Table :: struct($Key, $Value: typeid) {
 	count:     int,
 	allocator: mem.Allocator,
 	slots:     []Table_Slot(Key, Value),
@@ -2058,9 +2077,9 @@ assert(ok_y == false);
 * Restrictions on parametric polymorphic parameters for record types:
 
 ```odin
-Foo :: struct(T: typeid, N: int)
+Foo :: struct($T: typeid, $N: int)
 	where intrinsics.type_is_integer(T),
-		  N > 2 {
+	      N > 2 {
 	x: [N]T,
 	y: [N-2]T,
 }

@@ -8,7 +8,7 @@ categories:
   - feature
 ---
 
-The pull request (PR) [Optional Semicolons #1112](https://github.com/odin-lang/Odin/pull/1112) was recently merged into master. This PR makes semicolons truly optional with the language Odin. This effectively makes the now old flag `-insert-semicolon` ob by default (and not opt-out-able).
+The pull request (PR) [Optional Semicolons #1112](https://github.com/odin-lang/Odin/pull/1112) was recently merged into master. This PR makes semicolons truly optional with the language Odin. This effectively makes the now old flag `-insert-semicolon` on by default (and not opt-out-able).
 
 This is a **NON-BREAKING CHANGE**, which means all valid code before this PR is valid with the PR.
 

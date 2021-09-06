@@ -1,7 +1,7 @@
 ---
 title: "Frequently Asked Questions"
 linktitle: FAQ
-summary: Answers to common questions about Odin.
+summary: Answers to commonly asked questions about Odin.
 weight: 3
 ---
 

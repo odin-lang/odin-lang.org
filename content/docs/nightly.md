@@ -1,6 +1,6 @@
 ---
 title: Nightly Builds
-summary: Get the latest nightly builds of Odin
+summary: Get the latest nightly builds of Odin.
 weight: 4
 ---
 

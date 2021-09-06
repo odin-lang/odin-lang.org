@@ -1,6 +1,6 @@
 ---
 title: Overview
-summary: An overview of the Odin programming language.
+summary: An overview of the Odin programming language and its features.
 weight: 2
 ---
 

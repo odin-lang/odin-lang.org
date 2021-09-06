@@ -1,6 +1,6 @@
 ---
 title: Getting Started
-summary: Getting Started with Odin.
+summary: Getting Started with Odin. Downloading, installing, and getting your first program to compile and run.
 weight: 1
 ---
 

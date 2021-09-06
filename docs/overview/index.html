@@ -1340,7 +1340,20 @@ delete(my_cstring);
 ptr = realloc(ptr, 32);
 </code></pre><p>To see more uses of allocators, please see <a href=https://github.com/odin-lang/Odin/tree/master/core/mem><code>package mem</code></a> in the core library.</p>
 <p>For more information regarding memory allocation strategies in general, please see <a href=https://www.gingerbill.org/series/memory-allocation-strategies/>Ginger Bill&rsquo;s Memory Allocation Strategy</a> series.</p>
-<h3 id=logging-system>Logging System <a class=text-decoration-none href=#logging-system>#</a></h3>
+<h4 id=explicit-context-definition>Explicit <code>context</code> Definition <a class=text-decoration-none href=#explicit-context-definition>#</a></h4>
+<p>Procedures which do not use the <code>"odin"</code> calling convention must explicitly assign the <code>context</code> if something within its body requires it.</p>
+<pre><code class=language-odin data-lang=odin>explicit_context_definition :: proc &quot;c&quot; () {
+	// Try commenting the following statement out below
+	context = runtime.default_context();
+
+	fmt.println(&quot;\n#explicit context definition&quot;);
+	dummy_procedure();
+}
+
+dummy_procedure :: proc() {
+	fmt.println(&quot;dummy_procedure&quot;);
+}
+</code></pre><h3 id=logging-system>Logging System <a class=text-decoration-none href=#logging-system>#</a></h3>
 <p>As part of the implicit <code>context</code> system, there is a built-in logging system.</p>
 <p>To see more uses of loggers, please see <a href=https://github.com/odin-lang/Odin/tree/master/core/log><code>package log</code></a> in the core library.</p>
 <h2 id=foreign-system>Foreign system <a class=text-decoration-none href=#foreign-system>#</a></h2>
@@ -1386,7 +1399,7 @@ ptr := my_new(int);
 </code></pre><h4 id=data-types>Data types <a class=text-decoration-none href=#data-types>#</a></h4>
 <p>Structures and unions may have polymorphic parameters. The <code>$</code> prefix is optional for record data types as all parameters must be &ldquo;constant&rdquo;.
 Parapoly struct:</p>
-<pre><code class=language-odin data-lang=odin>Table_Slot :: struct(Key, Value: typeid) {
+<pre><code class=language-odin data-lang=odin>Table_Slot :: struct($Key, $Value: typeid) {
 	occupied: bool,
 	hash:    u32,
 	key:     Key,
@@ -1395,7 +1408,7 @@ Parapoly struct:</p>
 slot: Table_Slot(string, int);
 </code></pre><p>Parapoly union:</p>
 <pre><code class=language-odin data-lang=odin>Error :: enum {Foo0, Foo1, Foo2};
-Param_Union :: union(T: typeid) #no_nil {T, Error};
+Param_Union :: union($T: typeid) #no_nil {T, Error};
 r: Param_Union(int);
 r = 123;
 r = Error.Foo0;
@@ -1426,13 +1439,13 @@ for v, i in array {
 make_slice :: proc($T: typeid/[]$E, len: int) -&gt; T {
 	return make(T, len);
 }
-</code></pre><pre><code class=language-odin data-lang=odin>Table_Slot :: struct(Key, Value: typeid) {
+</code></pre><pre><code class=language-odin data-lang=odin>Table_Slot :: struct($Key, $Value: typeid) {
 	occupied: bool,
 	hash:     u32,
 	key:      Key,
 	value:    Value,
 }
-Table :: struct(Key, Value: typeid) {
+Table :: struct($Key, $Value: typeid) {
 	count:     int,
 	allocator: mem.Allocator,
 	slots:     []Table_Slot(Key, Value),
@@ -1512,9 +1525,9 @@ assert(ok_y == false);
 </code></pre><ul>
 <li>Restrictions on parametric polymorphic parameters for record types:</li>
 </ul>
-<pre><code class=language-odin data-lang=odin>Foo :: struct(T: typeid, N: int)
+<pre><code class=language-odin data-lang=odin>Foo :: struct($T: typeid, $N: int)
 	where intrinsics.type_is_integer(T),
-		  N &gt; 2 {
+	      N &gt; 2 {
 	x: [N]T,
 	y: [N-2]T,
 }

@@ -12,8 +12,8 @@ Odin is dead-simple to get started with!
 
 ## Clone or download Odin
 
-Clone the repository (recommended, `git clone https://github.com/gingerBill/Odin`).
-Download [the latest release](https://github.com/gingerBill/Odin/releases/latest).
+Clone the repository (recommended, `git clone https://github.com/odin-lang/Odin`).
+Download [the latest release](https://github.com/odin-lang/Odin/releases/latest).
 Download [the latest nightly build](/docs/nightly/).
 
 **Note**: Cloning the repository is recommended in order to make [updating](#updating-the-compiler) easier.
@@ -23,7 +23,7 @@ Download [the latest nightly build](/docs/nightly/).
 Odin supports x86-64/AMD64 on Windows, Linux and macOs, and ARM64 on macOS. Odin also relies on LLVM (for code generation) and an external linker.
 
 #### For Windows...
-There's a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires `link.exe` from VS anyway. 
+There's a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires `link.exe` from VS anyway. The necesary LLVM components for Windows are included in the Odin repository.
 
 Now, it's time to build Odin and get started! Open the X64 Visual Studio command prompt ([if you don't typically use it, here's how to find it](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs)) and navigate to the directory where you downloaded Odin. Run the `build.bat` file, and you should have a successfully built Odin compiler!
 

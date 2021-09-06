@@ -116,9 +116,9 @@
 </li>
 <li>Array programming
 <ul>
-<li><code>a, b: [4]f32; c := a * b;</code></li>
-<li><code>i := a.x * b.y;</code></li>
-<li><code>v := swizzle(a, 1, 2, 0);</code></li>
+<li><code>a, b: [4]f32; c := a * b</code></li>
+<li><code>i := a.x * b.y</code></li>
+<li><code>v := swizzle(a, 1, 2, 0)</code></li>
 </ul>
 </li>
 <li><a href=#why-does-odin-have-explicit-procedure-overloading-but-not-implicit-procedure-overloading>Explicit procedure overloading</a></li>
@@ -141,8 +141,8 @@
 <li>No <em>bad</em> preprocessor</li>
 <li>Type inference
 <ul>
-<li><code>x: int = 1;</code></li>
-<li><code>x := 1; // x is deduced to be an int</code></li>
+<li><code>x: int = 1</code></li>
+<li><code>x := 1 // x is deduced to be an int</code></li>
 </ul>
 </li>
 <li><code>using</code>
@@ -164,7 +164,7 @@
 <li>Ranged <code>for</code> loops</li>
 <li><a href=/docs/overview/#branch-statements>Labelled branches</a>
 <ul>
-<li><code>break label_name;</code></li>
+<li><code>break label_name</code></li>
 </ul>
 </li>
 <li><code>break</code> by default in <code>switch</code> statements
@@ -174,7 +174,7 @@
 </li>
 <li>&ldquo;Raw&rdquo; strings
 <ul>
-<li><code>x := `what "the" string?`;</code></li>
+<li><code>x := `what "the" string?`</code></li>
 </ul>
 </li>
 <li><code>cstring</code> for legacy use</li>
@@ -201,7 +201,7 @@
 <h3 id=is-odin-an-objective-oriented-language>Is Odin an objective oriented language? <a class=text-decoration-none href=#is-odin-an-objective-oriented-language>#</a></h3>
 <p>No. Data structures as just data.</p>
 <p>Subtype polymorphism is possible through the use of <code>using</code> but Odin does not offer methods.</p>
-<pre><code class=language-odin data-lang=odin>Base :: struct {...};
+<pre><code class=language-odin data-lang=odin>Base :: struct {...}
 Derived :: struct {
     using base: Base,
     name: string,
@@ -233,18 +233,18 @@ Derived_By_Ptr :: struct {
     foo_baz,
     foo_baz2,
     another_thing_entirely,
-};
+}
 </code></pre><h3 id=why-does-odin-not-have-operator-overloading>Why does Odin not have operator overloading? <a class=text-decoration-none href=#why-does-odin-not-have-operator-overloading>#</a></h3>
 <p>The design goals of Odin were explicitness and simplicity. Operator overloading is very easily abused and can be used to do many magical things. A procedure is clearer and more explicit.</p>
 <p>Array programming is available in Odin; this removes some of the need for operator overloading when creating mathematical libraries.</p>
 <h3 id=what-does-distinct-do>What does <code>distinct</code> do? <a class=text-decoration-none href=#what-does-distinct-do>#</a></h3>
 <p><code>distinct</code> makes a type declaration distinct from its base type.</p>
-<pre><code class=language-odin data-lang=odin>Int_Alias :: int;
-#assert(Int_Alias == int);
+<pre><code class=language-odin data-lang=odin>Int_Alias :: int
+#assert(Int_Alias == int)
 
-My_Int :: distinct int;
-#assert(My_Int != int);
-</code></pre><h3 id=what-is-the-type-of-x-in-x--123>What is the type of <code>x</code> in <code>x := 123;</code>? <a class=text-decoration-none href=#what-is-the-type-of-x-in-x--123>#</a></h3>
+My_Int :: distinct int
+#assert(My_Int != int)
+</code></pre><h3 id=what-is-the-type-of-x-in-x--123>What is the type of <code>x</code> in <code>x := 123</code>? <a class=text-decoration-none href=#what-is-the-type-of-x-in-x--123>#</a></h3>
 <p><code>123</code> is an untyped integer literal: if the type has not been specified in the declaration, the default type for the &ldquo;untyped&rdquo; type will be chosen. In this case, <code>x</code> will be of type <code>int</code>.</p>
 <table>
 <thead>
@@ -327,11 +327,11 @@ proc &quot;none&quot; ()
 </code></pre><h3 id=does-odin-have-closures>Does Odin have closures? <a class=text-decoration-none href=#does-odin-have-closures>#</a></h3>
 <p>Odin only has non-capturing lambda procedures. For closures to work correctly would require a form of automatic memory management which will never be implemented into Odin.</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc() {
-    y: int;
+    y: int
     x := proc() -&gt; int {
         // `y` is not available in this scope as it is in a different stack frame
-        return 123;
-    };
+        return 123
+    }
 }
 </code></pre><h2 id=context-system>Context System <a class=text-decoration-none href=#context-system>#</a></h2>
 <h3 id=what-is-the-context-system-for>What is the context system for? <a class=text-decoration-none href=#what-is-the-context-system-for>#</a></h3>
@@ -345,22 +345,22 @@ proc &quot;none&quot; ()
 <p>Originally, continuing the C family tradition, everything in Odin was passed by value. However, for performance reasons, this behaviour was changed for the Odin calling conventions.</p>
 <h3 id=what-is-the-difference-between-new-and-make>What is the difference between <code>new</code> and <code>make</code>? <a class=text-decoration-none href=#what-is-the-difference-between-new-and-make>#</a></h3>
 <p><code>new</code> allocates memory.</p>
-<pre><code class=language-odin data-lang=odin>ptr: ^int = new(int);
+<pre><code class=language-odin data-lang=odin>ptr: ^int = new(int)
 </code></pre><p><code>make</code> initializes the slice, dynamic array, and map types.</p>
-<pre><code class=language-odin data-lang=odin>slice: []int = make([]int, 16);
+<pre><code class=language-odin data-lang=odin>slice: []int = make([]int, 16)
 </code></pre><h3 id=what-is-the-difference-between-free-and-delete>What is the difference between <code>free</code> and <code>delete</code>? <a class=text-decoration-none href=#what-is-the-difference-between-free-and-delete>#</a></h3>
 <p><code>free</code> deallocates memory</p>
-<pre><code class=language-odin data-lang=odin>ptr: ^int = new(int);
-free(ptr);
+<pre><code class=language-odin data-lang=odin>ptr: ^int = new(int)
+free(ptr)
 </code></pre><p><code>delete</code> deinitializes the the slice, dynamic array, map, and string types.</p>
-<pre><code class=language-odin data-lang=odin>slice := make([]int, 10);
-delete(slice);
+<pre><code class=language-odin data-lang=odin>slice := make([]int, 10)
+delete(slice)
 
-m := make(map[int]string);
-delete(m);
+m := make(map[int]string)
+delete(m)
 
-str: string = ...;
-delete(str);
+str: string = ...
+delete(str)
 </code></pre><h2 id=packages>Packages <a class=text-decoration-none href=#packages>#</a></h2>
 <h3 id=how-do-i-create-a-multiple-file-package>How do I create a multiple file package? <a class=text-decoration-none href=#how-do-i-create-a-multiple-file-package>#</a></h3>
 <p>Put all the <code>.odin</code> source files for a package in a directory. Source files must have the same <code>package</code> declaration. All source files within a package can refer to items from other files. There is no need for a forward declarations or a header file like in C.</p>
@@ -369,20 +369,20 @@ delete(str);
 <h2 id=syntax>Syntax <a class=text-decoration-none href=#syntax>#</a></h2>
 <h3 id=what-does--mean>What does <code>:=</code> mean? <a class=text-decoration-none href=#what-does--mean>#</a></h3>
 <p>This is two different operators <code>:</code> and <code>=</code>; is used for variable declarations. The following are all equivalent:</p>
-<pre><code class=language-odin data-lang=odin>x : int = 123;
-x :     = 123;
-x := 123;
-x := int(123);
+<pre><code class=language-odin data-lang=odin>x : int = 123
+x :     = 123
+x := 123
+x := int(123)
 </code></pre><h3 id=what-does--mean-1>What does <code>::</code> mean? <a class=text-decoration-none href=#what-does--mean-1>#</a></h3>
 <p>This is two different separate operators <code>:</code> and <code>:</code>; is used for constant value declarations.</p>
-<pre><code class=language-odin data-lang=odin>X :: 123;
-X :   : 123;
+<pre><code class=language-odin data-lang=odin>X :: 123
+X :   : 123
 
-Y : int : 123;
-Y :: int(123);
+Y : int : 123
+Y :: int(123)
 
-Z :: proc() {};
-Z : proc() : proc() {}; // Redundant type declaration
+Z :: proc() {}
+Z : proc() : proc() {} // Redundant type declaration
 </code></pre><h3 id=why-does-odin-not-use-keywords-to-prefix-declarations>Why does Odin not use keywords to prefix declarations? <a class=text-decoration-none href=#why-does-odin-not-use-keywords-to-prefix-declarations>#</a></h3>
 <p>Please see gingerBill&rsquo;s article <a href=https://www.gingerbill.org/article/2018/03/12/on-the-aesthetics-of-the-syntax-of-declarations/>On the Aesthetics of the Syntax of Declarations</a>.</p>
 <h3 id=why-are-two-ways-to-do-type-conversions>Why are two ways to do type conversions? <a class=text-decoration-none href=#why-are-two-ways-to-do-type-conversions>#</a></h3>
@@ -392,8 +392,6 @@ type(value) or (type)(value)
 <p>There are two other type conversion operators, <a href=/docs/overview/#type-conversion>transmute</a> and <a href=/docs/overview/#auto-cast-operation>auto_cast</a>.</p>
 <h3 id=why-curly-brackets>Why curly brackets? <a class=text-decoration-none href=#why-curly-brackets>#</a></h3>
 <p>Curly brackets to denote a block is a common approach in many programming languages, and Odin&rsquo;s consistency is useful for people already familiar with the style. Curly brackets also allow for more flexible syntax styles for the programmer and it is easier to parse by the compiler because it is not white space sensitive.</p>
-<h3 id=why-semicolons>Why semicolons? <a class=text-decoration-none href=#why-semicolons>#</a></h3>
-<p>Semicolons are used to denote the termination of a statement. If semicolons where made optional, it would mean enforcing a coding style either through sensitive white space (Python-esque) or curly brace positioning (automatic semicolon insertion). With semicolons, the programmer is free to decide what style is best suited to his needs.</p>
 <h2 id=implementation>Implementation <a class=text-decoration-none href=#implementation>#</a></h2>
 <h3 id=what-does-the-compiler-use>What does the compiler use? <a class=text-decoration-none href=#what-does-the-compiler-use>#</a></h3>
 <p>The compiler is written in C++ but in a very C style.
@@ -406,34 +404,34 @@ For the current backend, LLVM is used to translate code to platform specific cod
 <p>In C, the declaration:</p>
 <pre><code class=language-odin data-lang=odin>int *a, b;
 </code></pre><p>declares <code>a</code> to be a &ldquo;pointer to int&rdquo; but b to be an &ldquo;int&rdquo;; in Odin</p>
-<pre><code class=language-odin data-lang=odin>a, b: ^int;
+<pre><code class=language-odin data-lang=odin>a, b: ^int
 </code></pre><p>declares both to be a &ldquo;pointer to int&rdquo;. This is clearer and more regular. This syntax is borrowed from the Pascal family, along with using <code>^</code> to denote a pointer, as it is pointy.</p>
 <p>Due to the style of value declarations, the type can be omitted and inferred from the declaration. The following are all equivalent:</p>
-<pre><code class=language-odin data-lang=odin>a: int = 123;
-a :    = 123;
-a := 123;
-a := int(123);
+<pre><code class=language-odin data-lang=odin>a: int = 123
+a :    = 123
+a := 123
+a := int(123)
 </code></pre><h3 id=why-is-there-no-pointer-arithmetic>Why is there no pointer arithmetic? <a class=text-decoration-none href=#why-is-there-no-pointer-arithmetic>#</a></h3>
 <p>Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the <code>mem</code> package provides so utility functions: <code>mem.ptr_offset</code> and <code>mem.ptr_sub</code>. Odin will allow the programmer to do unsafe things if he wishes so.</p>
 <h3 id=why-are-there-no--or----operators>Why are there no <code>++</code> or <code>--</code> operators? <a class=text-decoration-none href=#why-are-there-no--or----operators>#</a></h3>
 <p>Pre-increment and post-increment, and the decrement equivalents, look simple but are complex. They require knowledge of the evaluation order and lead to subtle bugs. <code>f(i++)</code> or <code>a[++i] = b[i]</code> are both confusing, even if the rules are well defined. Removing this is a significant simplification.</p>
-<p><code>x += 1;</code> is slightly longer but it is unambiguous.</p>
+<p><code>x += 1</code> is slightly longer but it is unambiguous.</p>
 <h3 id=does-odin-have-c-style-constructors>Does Odin have C++-style constructors? <a class=text-decoration-none href=#does-odin-have-c-style-constructors>#</a></h3>
 <p>No. The philosophy for Odin is that the zero value should be useful. By default, all variables are initialized to zero unless told otherwise with the <code>---</code> value.</p>
-<pre><code class=language-odin data-lang=odin>x: int;       // initialized to zero
-y: int = 0;   // explicitly initialized to zero
-z: int = ---; // uninitialized memory
+<pre><code class=language-odin data-lang=odin>x: int       // initialized to zero
+y: int = 0   // explicitly initialized to zero
+z: int = --- // uninitialized memory
 </code></pre><h3 id=does-odin-have-c-style-copy-constructors>Does Odin have C++-style copy constructors? <a class=text-decoration-none href=#does-odin-have-c-style-copy-constructors>#</a></h3>
 <p>No. All copies are byte-for-byte copies.</p>
 <h3 id=does-odin-have-c-style-move-constructors>Does Odin have C++-style move constructors? <a class=text-decoration-none href=#does-odin-have-c-style-move-constructors>#</a></h3>
 <p>No. There are no ownership semantics in Odin.</p>
 <h3 id=does-odin-have-c-style-destructors>Does Odin have C++-style destructors? <a class=text-decoration-none href=#does-odin-have-c-style-destructors>#</a></h3>
 <p>No. <code>defer</code> can be used to defer a statement till end of a scope. <code>defer</code> is explicit and much more flexible than a C++-style destructor in that it can be used for anything.</p>
-<pre><code class=language-odin data-lang=odin>f, err := os.open(...);
+<pre><code class=language-odin data-lang=odin>f, err := os.open(...)
 if err != os.ERROR_NONE {
     // handle error
 }
-defer os.close(f); // will be executed at the end of the scope
+defer os.close(f) // will be executed at the end of the scope
 
 ...
 </code></pre><h4 id=deferred-attributes>Deferred Attributes <a class=text-decoration-none href=#deferred-attributes>#</a></h4>
@@ -451,17 +449,17 @@ defer os.close(f); // will be executed at the end of the scope
 }
 
 end_menu :: proc(open := true) {
-    if !open do return;
+    if !open do return
     ...
 }
 @(deferred_out=end_menu)
 menu :: proc(name: string, flags: Flags = nil) -&gt; (open: bool) {
-    return begin_menu(name, flags);
+    return begin_menu(name, flags)
 }
 
 
 if begin_menu(&quot;Hello&quot;) {
-    defer end_menu();
+    defer end_menu()
 }
 
 if menu(&quot;Hello&quot;) {
@@ -548,7 +546,7 @@ if menu(&quot;Hello&quot;) {
 <li><a href=#why-does-odin-have-explicit-procedure-overloading-but-not-implicit-procedure-overloading>Why does Odin have explicit procedure overloading but not implicit procedure overloading?</a></li>
 <li><a href=#why-does-odin-not-have-operator-overloading>Why does Odin not have operator overloading?</a></li>
 <li><a href=#what-does-distinct-do>What does <code>distinct</code> do?</a></li>
-<li><a href=#what-is-the-type-of-x-in-x--123>What is the type of <code>x</code> in <code>x := 123;</code>?</a></li>
+<li><a href=#what-is-the-type-of-x-in-x--123>What is the type of <code>x</code> in <code>x := 123</code>?</a></li>
 <li><a href=#what-is-the-size-of-int>What is the size of <code>int</code>?</a></li>
 <li><a href=#which-of-f32-and-f64-should-i-prefer-for-floating-point-mathematics>Which of <code>f32</code> and <code>f64</code> should I prefer for floating-point mathematics?</a></li>
 <li><a href=#what-is-rune>What is <code>rune</code>?</a></li>
@@ -593,7 +591,6 @@ if menu(&quot;Hello&quot;) {
 <li><a href=#why-does-odin-not-use-keywords-to-prefix-declarations>Why does Odin not use keywords to prefix declarations?</a></li>
 <li><a href=#why-are-two-ways-to-do-type-conversions>Why are two ways to do type conversions?</a></li>
 <li><a href=#why-curly-brackets>Why curly brackets?</a></li>
-<li><a href=#why-semicolons>Why semicolons?</a></li>
 </ul>
 </li>
 <li><a href=#implementation>Implementation</a>

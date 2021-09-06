@@ -23,7 +23,7 @@ Download [the latest nightly build](/docs/nightly/).
 Odin supports x86-64/AMD64 on Windows, Linux and macOs, and ARM64 on macOS. Odin also relies on LLVM (for code generation) and an external linker.
 
 #### For Windows...
-There's a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires `link.exe` from VS anyway. Also, you'll need to download [a couple LLVM binaries](https://github.com/odin-lang/Odin/releases/tag/llvm-windows) and move the `bin` folder in that zip file into your Odin directory. These are used internally by the compiler.
+There's a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires `link.exe` from VS anyway. 
 
 Now, it's time to build Odin and get started! Open the X64 Visual Studio command prompt ([if you don't typically use it, here's how to find it](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs)) and navigate to the directory where you downloaded Odin. Run the `build.bat` file, and you should have a successfully built Odin compiler!
 
@@ -62,7 +62,6 @@ In addition, the following platform-specific steps are necessary:
 
 - Windows
     * Have Visual Studio installed (MSVC 2010 or later, for the linker)
-    * Have a copy of `opt.exe` and `llc.exe` in `Odin/bin`. Pre-built Windows binaries can be found [here](https://github.com/odin-lang/Odin/releases/tag/llvm-windows) and *must* be explicitly copied
     * Open a valid command prompt:
         * **Basic:** run the `x64 Native Tools Command Prompt for VS2017` shortcut bundled with VS 2017, or
         * **Advanced:** run `vcvarsall.bat x64` from a blank `cmd` session
@@ -73,7 +72,6 @@ In addition, the following platform-specific steps are necessary:
     * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable
 
 - GNU/Linux
-    * Have LLVM installed (opt/llc)
     * Have Clang installed (version X.X or later, for linking)
     * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable
 

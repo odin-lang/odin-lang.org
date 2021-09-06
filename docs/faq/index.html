@@ -395,7 +395,7 @@ type(value) or (type)(value)
 <h2 id=implementation>Implementation <a class=text-decoration-none href=#implementation>#</a></h2>
 <h3 id=what-does-the-compiler-use>What does the compiler use? <a class=text-decoration-none href=#what-does-the-compiler-use>#</a></h3>
 <p>The compiler is written in C++ but in a very C style.
-For the current backend, LLVM is used to translate code to platform specific code. A custom backend is in development.</p>
+For the current backend, LLVM is used to translate code to platform specific code.</p>
 <h2 id=changes-from-cc>Changes from C/C++ <a class=text-decoration-none href=#changes-from-cc>#</a></h2>
 <h3 id=why-is-the-syntax-so-different-from-c>Why is the syntax so different from C? <a class=text-decoration-none href=#why-is-the-syntax-so-different-from-c>#</a></h3>
 <p>Other than the declaration syntax, the differences are minor. When designing the syntax, it had to feel right and light. A minimal amount of keywords and syntactic sugar. The syntax has been designed to be very easily to parse without a symbol table. This makes it easier to create build and analysis tools for Odin.</p>

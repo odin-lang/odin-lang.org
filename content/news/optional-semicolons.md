@@ -34,6 +34,13 @@ Rationale behind making statement terminator semicolons fully optional:
 * Aids with tooling such as code generation
 * Minor point regarding advertisement: many people (mostly idiots) will dismiss a language in [the current year] purely for having semicolons still
 
+## General Comments
+
+Semicolons are still required in the following cases:
+
+* As statement separators, e.g. `for i := 0; i < 10; i += 2 {`, `if x, ok := foo(); ok {`
+* Having multiple statements per line, e.g. `foo(); baz(); bar()`
+
 
 ## Lexical Rules
 

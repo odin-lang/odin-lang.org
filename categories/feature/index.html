@@ -9,7 +9,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
 <link href=/css/style.css rel=stylesheet>
-<title>Release dev-2021-08 | Odin Programming Language </title><body><header class=sticky-top>
+<title>feature | Odin Programming Language </title><body><header class=sticky-top>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
 <div class=container>
 <a class=navbar-brand href=/>
@@ -26,7 +26,7 @@
 <a class=nav-link href=/docs>Docs</a>
 </li>
 <li class=nav-item>
-<a class="nav-link active" href=/news aria-current=page>News</a>
+<a class=nav-link href=/news>News</a>
 </li>
 <li class=nav-item>
 <a class=nav-link href=/community>Community</a>
@@ -45,87 +45,22 @@
 <nav class="col-lg-2 odin-sidebar-border navbar-light">
 <div class="sticky-top odin-below-navbar py-3">
 <ul class="nav nav-pills d-flex flex-column">
-<li class=nav-item>
-<a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/dev-2021-09/>Release dev-2021-09</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news/dev-2021-08/ aria-current=page>Release dev-2021-08</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/dev-2021-07/>Release dev-2021-07</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/dev-2021-06/>Release dev-2021-06</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/dev-2021-05/>Release dev-2021-05 (New Backend Release)</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a>
-</li>
 </ul>
 </div>
 </nav>
 <article class="col-lg-8 p-4">
+<article>
 <header>
-<nav aria-label=breadcrumb>
-<ol class=breadcrumb>
-<li class=breadcrumb-item><a href=/news>News</a></li>
-<li class=breadcrumb-item><a href=/dev-2021-08>Dev 2021 08</a></li>
-</ol>
-</nav>
-<h1>Release dev-2021-08</h1>
+<h1>feature</h1>
 </header>
-<div class=odin-article>
-<p><a href=https://github.com/odin-lang/Odin/releases/tag/dev-2021-08>https://github.com/odin-lang/Odin/releases/tag/dev-2021-08</a></p>
-<h2 id=new-language-features>New Language Features <a class=text-decoration-none href=#new-language-features>#</a></h2>
-<ul>
-<li><code>or_else</code> built-in procedure for values which have an optional-ok value</li>
-<li>Allow <code>x in ptr_to_map_or_bit_set</code></li>
-<li>Ability to add custom warnings to procedures with the attribute<code>@(warning=&lt;string>)</code></li>
-</ul>
-<h2 id=compiler-improvements>Compiler Improvements <a class=text-decoration-none href=#compiler-improvements>#</a></h2>
-<ul>
-<li>Multithread the entire Semantic Checker stage of the compiler
-<ul>
-<li>This will decrease <code>odin check</code> times</li>
-<li>Can be disabled with either <code>-no-threaded-checker</code> (disables parsing in only the semantic checker) or <code>-thread-count:1</code> (will also disable threading in parser)</li>
-</ul>
-</li>
-<li>Improve error handling for parsing errors</li>
-<li>Replace the old big int library with libTomMath</li>
-</ul>
-<h2 id=packages>Packages <a class=text-decoration-none href=#packages>#</a></h2>
-<ul>
-<li>Add <code>#no_bounds_check</code> to linalg procedures</li>
-<li>Add <code>slice.sort_by_cmp</code></li>
-<li>Add <code>slice.min</code> and <code>slice.max</code></li>
-<li>Add <code>strings.cut</code></li>
-<li>Deprecate <code>sort.slice</code> and <code>sort.reverse_slice</code></li>
-<li>Add documentation for the overview of <code>package fmt</code></li>
-</ul>
-<h2 id=bug-fixes>Bug Fixes <a class=text-decoration-none href=#bug-fixes>#</a></h2>
-<ul>
-<li>Fix numerous swizzle related bugs</li>
-<li>Fix parametric Polymorphic struct with default parapoly parameter bug</li>
-</ul>
+</article>
+<div>
+<div class=mt-5>
+<a href=https://odin-lang.org/news/optional-semicolons/ class="link-primary text-decoration-none"><h3>Optional Semicolons</h3></a>
+<p>Making semicolons truly optional within the language Odin.</p>
+</div>
 </div>
 </article>
-<div class="col-lg-2 odin-toc-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3">
-<nav id=TableOfContents>
-<ul>
-<li><a href=#new-language-features>New Language Features</a></li>
-<li><a href=#compiler-improvements>Compiler Improvements</a></li>
-<li><a href=#packages>Packages</a></li>
-<li><a href=#bug-fixes>Bug Fixes</a></li>
-</ul>
-</nav>
-</div>
-</div>
 </div>
 </div>
 </main>

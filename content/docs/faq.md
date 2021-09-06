@@ -356,7 +356,7 @@ Curly brackets to denote a block is a common approach in many programming langua
 ## Implementation
 ### What does the compiler use?
 The compiler is written in C++ but in a very C style.
-For the current backend, LLVM is used to translate code to platform specific code. A custom backend is in development.
+For the current backend, LLVM is used to translate code to platform specific code. 
 
 ## Changes from C/C++
 ### Why is the syntax so different from C?

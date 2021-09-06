@@ -1,28 +1,570 @@
-<!doctype html><html lang=en-gb><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:title" content="Home"><meta property="og:description" content><meta property="og:type" content="website"><meta property="og:url" content="https://odin-lang.org/"><meta property="og:image" content="https://odin-lang.org/images/logo-slim.png"><meta property="og:image" content="https://odin-lang.org/images/logo-slim.png"><meta property="og:updated_time" content="2019-03-10T00:00:00+00:00"><title>Odin Programming Language</title><link rel=stylesheet href=/css/normalize.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/highlight/style.css><script src=/highlight/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-67516878-2');</script></head><body><div class=wrapper><header><nav><h1 id=logo><a href=/><img src=/images/logo-slim.png alt=Odin id=nav-log></a></h1><ul class=menu><li><a href=/>Home</a></li><li><a href=/docs/>Documentation</a></li><li><a href=/help/>Community</a></li><li><a href=/blog/>Blog</a></li><li><a href=/downloads/>Downloads</a></li><li><a href=https://github.com/odin-lang/Odin>GitHub</a></li></ul></nav></header><article class=article-meta><h1 id=the-odin-programming-language>The Odin Programming Language</h1><p>The Odin programming language is designed with the intent of creating an alternative to C with the following goals:</p><ul><li>simplicity</li><li>high performance</li><li>built for modern systems</li><li>joy of programming</li></ul><br><h2 id=example-code>Example Code</h2><pre><code class=language-odin>package main
+<!doctype html><html>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href=#ZgotmplZ>
+<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
+<script src=/lib/highlight/highlight.min.js></script>
+<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"align_of auto_cast bit_field bit_set break case cast const context continue defer distinct do dynamic else enum fallthrough for foreign if import in inline macro map no_inline notin offset_of opaque package proc return size_of struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"len cap type_info_of, typeid_of swizzle complex real imag conj expand_to_tuple min max abs clamp"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[dflsi]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
+<script>hljs.highlightAll()</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
+<link href=/css/style.css rel=stylesheet>
+<title>Odin Programming Language</title><body><header class=sticky-top>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
+<div class=container>
+<a class=navbar-brand href=/>
+<img src=/logo.svg height=30 alt=Odin></a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+<div class="collapse navbar-collapse" id=odin-navbar-content>
+<ul class="navbar-nav ms-md-auto">
+<li class=nav-item>
+<a class="nav-link active" href=/ aria-current=page>Home</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/docs>Docs</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news>News</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/community>Community</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+</header>
+<main>
+<section class=section-style-1>
+<div class="container
+d-flex
+flex-column
+justify-content-center
+align-items-center
+text-center
+p-5">
+<img class="img-fluid mb-5 hero-logo" src=/logo.svg height=120 alt=Odin>
+<h1 class=fw-normal><b>Odin</b> Programming Language</h1>
+<h2 class=fw-normal>
+The Data-Oriented Language for Sane Software Development.
+</h2>
+<div class=mt-3>
+<a href=/docs/overview class="btn btn-secondary text-light">
+Overview
+</a>
+<a href=/docs/install class="btn btn-outline-light">
+Download
+</a>
+</div>
+</div>
+</section>
+<section class=section-style-2 id=example>
+<div class="container py-5">
+<div class="row g-4">
+<div class="col-lg col-lg-6">
+<h2 class=mb-4>Programming Done Right</h2>
+<p>
+Odin is a general-purpose programming language with distinct typing, built for high performance, modern systems, and built-in data-oriented data types. The Odin Programming Language, the C alternative for the joy of programming.
+</p>
+<a href=/docs class="btn btn-outline-primary">
+Read the docs
+</a>
+<a href=https://github.com/odin-lang/Odin/blob/master/examples/demo/demo.odin class="btn btn-outline-primary">
+See the full demo
+</a>
+</div>
+<div class="col-lg col-lg-6">
+<div class=tab-content>
+<div class="tab-pane show active example-code" id=example-1-code role=option aria-labelledby=example-1-code>
+<pre><code class="language-odin border-start border-end border-bottom home-code-example">package main
 
-import &quot;core:fmt&quot;
+import "core:fmt"
 
 main :: proc() {
-	program := &quot;+ + * 😃 - /&quot;;
-	accumulator := 0;
+	fmt.println("Hellope!");
+}</code></pre>
+</div>
+<div class="tab-pane example-code" id=example-2-code role=option aria-labelledby=example-2-code>
+<pre><code class="language-odin border-start border-end border-bottom home-code-example">package main
 
-	for token in program {
-		switch token {
-		case '+': accumulator += 1;
-		case '-': accumulator -= 1;
-		case '*': accumulator *= 2;
-		case '/': accumulator /= 2;
-		case '😃': accumulator *= accumulator;
-		case: // Ignore everything else
-		}
+import "core:fmt"
+
+main :: proc() {
+	{
+		a := [3]f32{1, 2, 3};
+		b := [3]f32{5, 6, 7};
+		c := a * b;
+		d := a + b;
+		e := 1 +  (c - d) / 2;
+		fmt.printf("%.1f\n", e); // [0.5, 3.0, 6.5]
 	}
 
-	fmt.printf(&quot;The program \&quot;%s\&quot; calculates the value %d\n&quot;,
-	           program, accumulator);
-}
-</code></pre><h2 id=language-features>Language Features</h2><ul><li>Built-in types: strings, array, slices, dynamic arrays, maps, 128-bit integers, endian-specific integers</li><li><a href=/docs/overview/#multiple-results>Multiple return arguments</a></li><li>Consistent value declaration syntax</li><li><a href=/docs/overview/#parametric-polymorphism>Parametric polymorphism</a></li><li><a href=/docs/overview/#when-statement>Compile time conditions</a> (<code>when</code> statements) and stress where there is not full blown compile time execution</li><li><a href=/docs/overview/#defer-statement><code>defer</code> statement</a></li><li><a href=/docs/overview/#using-statement><code>using</code> statement</a></li><li>The <a href=/docs/overview/#implicit-context-system>implicit <code>context</code> system</a> and <a href=/docs/overview/#allocators>memory allocator system</a></li><li><a href=/docs/overview/#explicit-procedure-overloading>Explicit procedure overloading</a></li></ul><h2 id=financial-support>Financial Support</h2><div class=help-sponsor><a href=https://www.patreon.com/gingerbill><img src=/images/Patreon_Dark.jpg alt=Patreon><p>Sponsor Odin for $1/month or more</p></a></div><script async defer src=/js/github-buttons.js></script></article><footer>© 2016–2021 Ginger Bill</footer></div></body><script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function addHeadingLinks(){var article=document.getElementsByClassName('article-meta')[0];var headings=article.querySelectorAll('h1, h2, h3');headings.forEach(function(heading){if(heading.id){var a=document.createElement('a');a.innerHTML=heading.innerHTML;a.href='#'+heading.id;heading.innerHTML='';heading.appendChild(a);}});})();const DARK='(prefers-color-scheme: dark)';const LIGHT='(prefers-color-scheme: light)';function setColourScheme(scheme){console.log(scheme);if(scheme=='dark'){}else if(scheme=='light'){}}
-(function changeStyle(){function detectColourScheme(){if(!window.matchMedia){return;}
-function listener({matches,media}){if(!matches){return;}
-if(media==DARK){setColourScheme('dark');}else if(media==LIGHT){setColourScheme('light');}}
-const mqDark=window.matchMedia(DARK);const mqLight=window.matchMedia(LIGHT);mqDark.addListener(listener);mqLight.addListener(listener);}})();</script></html>
+	{
+		a := [3]f32{1, 2, 3};
+		b := swizzle(a, 2, 1, 0);
+		assert(b == [3]f32{3, 2, 1});
+
+		c := swizzle(a, 0, 0);
+		assert(c == [2]f32{1, 1});
+		assert(c == 1);
+	}
+
+	{
+		Vector3 :: distinct [3]f32;
+		a := Vector3{1, 2, 3};
+		b := Vector3{5, 6, 7};
+		c := (a * b)/2 + 1;
+		d := c.x + c.y + c.z;
+		fmt.printf("%.1f\n", d); // 22.0
+
+		cross :: proc(a, b: Vector3) -> Vector3 {
+			i := swizzle(a, 1, 2, 0) * swizzle(b, 2, 0, 1);
+			j := swizzle(a, 2, 0, 1) * swizzle(b, 1, 2, 0);
+			return i - j;
+		}
+
+		cross_shorter :: proc(a, b: Vector3) -> Vector3 {
+			i := a.yzx * b.zxy;
+			j := a.zxy * b.yzx;
+			return i - j;
+		}
+
+		blah :: proc(a: Vector3) -> f32 {
+			return a.x + a.y + a.z;
+		}
+
+		x := cross(a, b);
+		fmt.println(x);
+		fmt.println(blah(x));
+	}
+}</code></pre>
+</div>
+<div class="tab-pane example-code" id=example-3-code role=option aria-labelledby=example-3-code>
+<pre><code class="language-odin border-start border-end border-bottom home-code-example">package main
+
+import "core:fmt"
+
+main :: proc() {
+	{
+		Vector3 :: struct {x, y, z: f32};
+
+		N :: 2;
+		v_aos: [N]Vector3;
+		v_aos[0].x = 1;
+		v_aos[0].y = 4;
+		v_aos[0].z = 9;
+
+		fmt.println(len(v_aos));
+		fmt.println(v_aos[0]);
+		fmt.println(v_aos[0].x);
+		fmt.println(&v_aos[0].x);
+
+		v_aos[1] = {0, 3, 4};
+		v_aos[1].x = 2;
+		fmt.println(v_aos[1]);
+		fmt.println(v_aos);
+
+		v_soa: #soa[N]Vector3;
+
+		v_soa[0].x = 1;
+		v_soa[0].y = 4;
+		v_soa[0].z = 9;
+
+
+		// Same syntax as AOS and treat as if it was an array
+		fmt.println(len(v_soa));
+		fmt.println(v_soa[0]);
+		fmt.println(v_soa[0].x);
+		fmt.println(&v_soa[0].x);
+		v_soa[1] = {0, 3, 4};
+		v_soa[1].x = 2;
+		fmt.println(v_soa[1]);
+
+		// Can use SOA syntax if necessary
+		v_soa.x[0] = 1;
+		v_soa.y[0] = 4;
+		v_soa.z[0] = 9;
+		fmt.println(v_soa.x[0]);
+
+		// Same pointer addresses with both syntaxes
+		assert(&v_soa[0].x == &v_soa.x[0]);
+
+
+		// Same fmt printing
+		fmt.println(v_aos);
+		fmt.println(v_soa);
+	}
+	{
+		// Works with arrays of length &lt;= 4 which have the implicit fields xyzw/rgba
+		Vector3 :: distinct [3]f32;
+
+		N :: 2;
+		v_aos: [N]Vector3;
+		v_aos[0].x = 1;
+		v_aos[0].y = 4;
+		v_aos[0].z = 9;
+
+		v_soa: #soa[N]Vector3;
+
+		v_soa[0].x = 1;
+		v_soa[0].y = 4;
+		v_soa[0].z = 9;
+	}
+	{
+		// SOA Slices
+		// Vector3 :: struct {x, y, z: f32};
+		Vector3 :: struct {x: i8, y: i16, z: f32};
+
+		N :: 3;
+		v: #soa[N]Vector3;
+		v[0].x = 1;
+		v[0].y = 4;
+		v[0].z = 9;
+
+		s: #soa[]Vector3;
+		s = v[:];
+		assert(len(s) == N);
+		fmt.println(s);
+		fmt.println(s[0].x);
+
+		a := s[1:2];
+		assert(len(a) == 1);
+		fmt.println(a);
+
+		d: #soa[dynamic]Vector3;
+
+		append_soa(&d, Vector3{1, 2, 3}, Vector3{4, 5, 9}, Vector3{-4, -4, 3});
+		fmt.println(d);
+		fmt.println(len(d));
+		fmt.println(cap(d));
+		fmt.println(d[:]);
+	}
+	{ // soa_zip and soa_unzip
+		fmt.println("\nsoa_zip and soa_unzip");
+
+		x := []i32{1, 3, 9};
+		y := []f32{2, 4, 16};
+		z := []b32{true, false, true};
+
+		// produce an #soa slice the normal slices passed
+		s := soa_zip(a=x, b=y, c=z);
+
+		// iterate over the #soa slice
+		for v, i in s {
+			fmt.println(v, i); // exactly the same as s[i]
+			// NOTE: 'v' is NOT a temporary value but has a specialized addressing mode
+			// which means that when accessing v.a etc, it does the correct transformation
+			// internally:
+			//         s[i].a === s.a[i]
+			fmt.println(v.a, v.b, v.c);
+		}
+
+		// Recover the slices from the #soa slice
+		a, b, c := soa_unzip(s);
+		fmt.println(a, b, c);
+	}
+}</code></pre>
+</div>
+<div class="tab-pane example-code" id=example-4-code role=option aria-labelledby=example-4-code>
+<pre><code class="language-odin border-start border-end border-bottom home-code-example">package main
+
+main :: proc() {
+	// In each scope, there is an implicit value named context. This
+	// context variable is local to each scope and is implicitly passed
+	// by pointer to any procedure call in that scope (if the procedure
+	// has the Odin calling convention).
+
+	// The main purpose of the implicit context system is for the ability
+	// to intercept third-party code and libraries and modify their
+	// functionality. One such case is modifying how a library allocates
+	// something or logs something. In C, this was usually achieved with
+	// the library defining macros which could be overridden so that the
+	// user could define what he wanted. However, not many libraries
+	// supported this in many languages by default which meant intercepting
+	// third-party code to see what it does and to change how it does it is
+	// not possible.
+
+	c := context; // copy the current scope's context
+
+	context.user_index = 456;
+	{
+		context.allocator = my_custom_allocator();
+		context.user_index = 123;
+		what_a_fool_believes(); // the `context` for this scope is implicitly passed to `what_a_fool_believes`
+	}
+
+	// `context` value is local to the scope it is in
+	assert(context.user_index == 456);
+
+	what_a_fool_believes :: proc() {
+		c := context; // this `context` is the same as the parent procedure that it was called from
+		// From this example, context.user_index == 123
+		// An context.allocator is assigned to the return value of `my_custom_allocator()`
+		assert(context.user_index == 123);
+
+		// The memory management procedure use the `context.allocator` by
+		// default unless explicitly specified otherwise
+		china_grove := new(int);
+		free(china_grove);
+
+		_ = c;
+	}
+
+	my_custom_allocator :: mem.nil_allocator;
+	_ = c;
+
+	// By default, the context value has default values for its parameters which is
+	// decided in the package runtime. What the defaults are are compiler specific.
+
+	// To see what the implicit context value contains, please see the following
+	// definition in package runtime.
+}</code></pre>
+</div>
+<div class="tab-pane example-code" id=example-5-code role=option aria-labelledby=example-5-code>
+<pre class=home-code-example><code class="language-odin border-start border-end border-bottom">package main
+
+import "core:fmt"
+import "core:reflect"
+
+main :: proc() {
+	Foo :: struct {
+		x: int    `tag1`,
+		y: string `json:"y_field"`,
+		z: bool, // no tag
+	};
+
+	id := typeid_of(Foo);
+	names := reflect.struct_field_names(id);
+	types := reflect.struct_field_types(id);
+	tags  := reflect.struct_field_tags(id);
+
+	assert(len(names) == len(types) && len(names) == len(tags));
+
+	fmt.println("Foo :: struct {");
+	for tag, i in tags {
+		name, type := names[i], types[i];
+		if tag != "" {
+			fmt.printf("\t%s: %T `%s`,\n", name, type, tag);
+		} else {
+			fmt.printf("\t%s: %T,\n", name, type);
+		}
+	}
+	fmt.println("}");
+
+	for tag, i in tags {
+		if val, ok := reflect.struct_tag_lookup(tag, "json"); ok {
+			fmt.printf("json: %s -> %s\n", names[i], val);
+		}
+	}
+}</code></pre>
+</div>
+</div>
+<select class=form-select id=example-code-select><option id=example-1-select value=example-1-code>Hellope</option><option id=example-2-select value=example-2-code>Array Programming</option><option id=example-3-select value=example-3-code>SOA Types</option><option id=example-4-select value=example-4-code>Context System</option><option id=example-5-select value=example-5-code>Reflection</option></select>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-secondary text-light">
+<div class="container py-5">
+<div class="row justify-content-center align-items-center text-center gy-2">
+<div class="col-auto mx-2">
+<h2>Join the Odin community on Discord.</h2>
+</div>
+<div class="col-auto mx-2">
+<a href=https://discord.com/invite/sVBPHEv class="btn btn-outline-light">Join Discord</a>
+</div>
+</div>
+</div>
+</section>
+<section class=section-style-3 id=principles>
+<div class="container py-5">
+<h2 class=mb-4>The Odin Principles</h2>
+<div class="row g-4">
+<div class=col-lg>
+<h3 class=fw-normal>Simplicity</h3>
+<p>
+Odin has been designed on things like readability, scalability, and
+orthogonality of concepts. Simplicity is complicated to get right,
+clear is better than better.
+</p>
+</div>
+<div class=col-lg>
+<h3 class=fw-normal>High Performance</h3>
+<p>
+Odin allows for the highest performance through low-level
+control over the memory layout, <a href=/docs/overview/#implicit-context-system>memory management</a> and custom <a href=/docs/overview/#allocators>allocators</a> and so much more.
+</p>
+</div>
+<div class=col-lg>
+<h3 class=fw-normal>For Modern Systems</h3>
+<p>
+Odin is designed from the bottom up for the modern
+computer, with built-in support for SOA data types,
+<a href=/docs/overview/#fixed-arrays>array programming</a>,
+and other features.
+</p>
+</div>
+<div class=col-lg>
+<h3 class=fw-normal>Joy of Programming</h3>
+<p>
+We go into programing because we love to solve problems.
+Why shouldn't our tools bring us joy whilst doing it?
+Enjoy programming again, with Odin!
+</p>
+</div>
+</div>
+<div class="d-flex justify-content-center mt-2">
+<a href=/docs/overview class="btn btn-outline-primary">
+See Overview
+</a>
+</div>
+</div>
+</section>
+<section class=section-style-1 id=users>
+<div class="container py-5">
+<h2 class=mb-4>Odin in Production</h2>
+<div class="row g-4">
+<div class=col-lg>
+<p>
+<a href=https://jangafx.com/ target=_blank class=link-light>JangaFX</a> are the creators of the 3D animation software
+<a href=https://jangafx.com/software/embergen/ target=_blank class=link-light>EmberGen</a> written <i>fully</i> in Odin.
+</p>
+<p>
+<a href=https://jangafx.com/software/embergen/ target=_blank class=link-light>EmberGen</a> is a real-time volumetric fluid simulator that can instantly simulate, render, and export flipbooks, image sequences, and VDB volumes. With EmberGen, you can create anything from fire and smoke, to explosions and magic wisps. EmberGen gives you the creative freedom to iterate on your simulations in a few milliseconds instead of hours.
+</p>
+<p>
+Through EmberGen, Odin runs in production among the giants of the games and film industries:
+Bethesda, CAPCOM, Codemasters, THQNordic, Warner Bros, Weta Digital, and many others.
+</p>
+<div class=pt-4>
+<h3 class=d-inline>
+<img src=/jangafx/logo.png alt=JangaFX height=48px>
+&nbsp;Janga<span style=color:#1b4694>FX</span>
+</h3>
+<span class=px-2></span>
+<h3 class=d-inline>
+<img src=/jangafx/em_logo.png alt=EmberGen height=48px>
+&nbsp;Ember<span style=color:#ed5c03>Gen</span>
+</h3>
+</div>
+</div>
+<div class=col-lg>
+<div class="d-flex flex-wrap justify-content-center" style=background-color:#000>
+<video width=33% autoplay loop muted data-vscid=auqox1ke2><source src="https://jangafx.com/videos/gallery/explosion.mp4?v=2"></video>
+<video width=33% autoplay loop muted data-vscid=5vx9sz37u><source src="https://jangafx.com/videos/gallery/engulf.mp4?v=1"></video>
+<video width=33% autoplay loop muted data-vscid=ev0y2nc6k><source src="https://jangafx.com/videos/gallery/flares.mp4?v=1"></video>
+<video width=33% autoplay loop muted data-vscid=jrh7qxfz3><source src="https://jangafx.com/videos/gallery/fireball.mp4?v=1"></video>
+<video width=33% autoplay loop muted data-vscid=ex1zqo98m><source src="https://jangafx.com/videos/gallery/heavy_smoke.mp4?v=1"></video>
+<video width=33% autoplay loop muted data-vscid=qeumrb7hb><source src="https://jangafx.com/videos/gallery/spell.mp4?v=1"></video>
+</div>
+</div>
+</div>
+<div class="pt-5 text-center" id=jangafx-companies>
+<img class=mb-4 height=80px src=/jangafx/companies/arkane.png alt=Arkane>
+<img class=mb-4 height=80px src=/jangafx/companies/bethesda.png alt="Bethesda Game Studio">
+<img class=mb-4 height=80px src=/jangafx/companies/capcom.png alt=Capcom>
+<img class=mb-4 height=80px src=/jangafx/companies/certainaffinity.png alt="Certain Affinity">
+<img class=mb-4 height=80px src=/jangafx/companies/codemasters.png alt=Codemasters height=64px>
+<img class=mb-4 height=80px src=/jangafx/companies/disruptive.png alt=Disruptive>
+<img class=mb-4 height=80px src=/jangafx/companies/fxville.png alt=FXVille>
+<img class=mb-4 height=80px src=/jangafx/companies/gearbox.png alt=Gearbox>
+<img class=mb-4 height=80px src=/jangafx/companies/housemarque.png alt=HouseMarque>
+<img class=mb-4 height=80px src=/jangafx/companies/theastronauts1.png alt="The Astronauts">
+<img class=mb-4 height=80px src=/jangafx/companies/thqnordic.png alt=THQNordic>
+<img class=mb-4 height=80px src=/jangafx/companies/turtlerock.png alt="Turtle Rock Studios">
+<img class=mb-4 height=80px src=/jangafx/companies/wbgames.png alt="WB Games" height=36px>
+<img class=mb-4 height=80px src=/jangafx/companies/weta.png alt="Weta Digital">
+<img class=mb-4 height=80px src=/jangafx/companies/zenimax.png alt="Zenimax Media Inc.">
+<p class="respective text-light opacity-50 text-center">All product names, logos, and brands are property of their respective owners.</p>
+</div>
+</div>
+</section>
+<section class=section-style-3 id=community>
+<div class="container py-5">
+<h2 class=mb-4>The Odin Community</h2>
+<div class="row g-4">
+<div class=col-lg>
+<h3 class=mb-4>Odin is Open Source</h3>
+<p>
+Odin is an open source programming language and contributions from the community are welcome!
+If you want to help out, check the <a href=https://github.com/odin-lang/odin/issues>issue tracker</a> for open issues that may interest you. Those labelled <a href="https://github.com/odin-lang/Odin/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22">help wanted</a> are in particular need of community assistance right now.
+</p>
+<p>
+Join the Odin Discord and help us bring the joy of programming in Odin to all. 🥳
+</p>
+<div class=mt-3>
+<a href=https://github.com/odin-lang/Odin target=_blank class="btn btn-outline-primary">
+Browse Source
+</a>
+<a href=https://discord.com/invite/sVBPHEv target=_blank class="btn btn-outline-primary">
+Join Discord
+</a>
+</div>
+</div>
+<div class=col-lg>
+<h3 class=mb-4>Thank you!</h3>
+<div class=mb-3>
+<a href=https://www.patreon.com/gingerbill>
+<div style=background-color:#ff424d;height:100px!important;width:250px>
+<img src=/Digital-Patreon-Wordmark_White.png alt="Odin Patreon" style="margin:25px auto;width:100%">
+</div>
+</a>
+</div>
+<p>And all our Patreon supporters.</p>
+<div class=mt-3>
+<a href=https://www.patreon.com/gingerbill target=_blank class="btn btn-outline-primary">
+Sponsor Odin
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<script>document.getElementById('example-code-select').addEventListener('change',function(a){document.querySelectorAll('.example-code').forEach(a=>a.classList.remove('active','show')),document.getElementById(a.target.value).classList.add('active','show')})</script>
+<footer class=odin-footer>
+<div class="container pb-5 pt-5">
+<div class="row g-4">
+<div class=col>
+<a class=navbar-brand href=/>
+<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
+<p>
+The Data-Oriented Language for Sane Software Development.
+</p>
+</div>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Resources</h4>
+<ul class=list-unstyled>
+<li><a href=/docs class=link-light>Docs</a></li>
+<li><a href=/blog class=link-light>Blog</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Community</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
+<li><a href=# class=link-light>Discord</a></li>
+<li><a href=# class=link-light>Twitch</a></li>
+<li><a href=# class=link-light>YouTube</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Contribute</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
+<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
+</ul>
+</nav>
+</div>
+<div class="mt-4 text-muted">© 2016–2021 Ginger Bill</div>
+</div>
+</footer>
+<script src=/lib/bootstrap/js/bootstrap.min.js></script>
+<script src=/js/script.js></script>
+</body>
+</html>

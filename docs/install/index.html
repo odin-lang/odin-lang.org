@@ -1,12 +1,209 @@
-<!doctype html><html lang=en-gb><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta property="og:title" content="Getting Started"><meta property="og:description" content="Odin is dead-simple to get started with!
-Install using Homebrew brew install odin  Clone or download Odin Clone the repository (recommended, git clone https://github.com/gingerBill/Odin) or download the latest release.
-Note: Cloning the repository is recommended in order to make updating easier.
-Download and include necessary extras Odin only supports x86-64 at the moment (64-bit) and it relies on LLVM (for code generation) and an external linker.
-For Windows&mldr; There&rsquo;s a couple prerequisites here."><meta property="og:type" content="article"><meta property="og:url" content="https://odin-lang.org/docs/install/"><meta property="og:image" content="https://odin-lang.org/images/logo-slim.png"><title>Getting Started - Odin Programming Language</title><link rel=stylesheet href=/css/normalize.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/highlight/style.css><script src=/highlight/highlight.pack.js></script><script>hljs.initHighlightingOnLoad();</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
-gtag('js',new Date());gtag('config','UA-67516878-2');</script></head><body><div class=wrapper><header><nav><h1 id=logo><a href=/><img src=/images/logo-slim.png alt=Odin id=nav-log></a></h1><ul class=menu><li><a href=/>Home</a></li><li><a href=/docs/>Documentation</a></li><li><a href=/help/>Community</a></li><li><a href=/blog/>Blog</a></li><li><a href=/downloads/>Downloads</a></li><li><a href=https://github.com/odin-lang/Odin>GitHub</a></li></ul></nav></header><main><article class=article-meta><header><h1>Getting Started</h1><div class=info><p></p></div></header><p>Odin is dead-simple to get started with!</p><h2 id=install-using-homebrew>Install using Homebrew</h2><pre><code>brew install odin
-</code></pre><h2 id=clone-or-download-odin>Clone or download Odin</h2><p>Clone the repository (recommended, <code>git clone https://github.com/gingerBill/Odin</code>) or download <a href=https://github.com/gingerBill/Odin/releases/latest>the latest release</a>.</p><p><strong>Note</strong>: Cloning the repository is recommended in order to make <a href=#updating-the-compiler>updating</a> easier.</p><h2 id=download-and-include-necessary-extras>Download and include necessary extras</h2><p>Odin only supports x86-64 at the moment (64-bit) and it relies on LLVM (for code generation) and an external linker.</p><h4 id=for-windows>For Windows&mldr;</h4><p>There&rsquo;s a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires <code>link.exe</code> from VS anyway. Also, you&rsquo;ll need to download <a href=https://github.com/odin-lang/Odin/releases/tag/llvm-windows>a couple LLVM binaries</a> and move the <code>bin</code> folder in that zip file into your Odin directory. These are used internally by the compiler.</p><p>Now, it&rsquo;s time to build Odin and get started! Open the X64 Visual Studio command prompt (<a href=https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs>if you don&rsquo;t typically use it, here&rsquo;s how to find it</a>) and navigate to the directory where you downloaded Odin. Run the <code>build.bat</code> file, and you should have a successfully built Odin compiler!</p><p>To use Odin <code>link.exe</code> is required to be in the PATH of the callee as mentioned, this can either be achieved but calling Odin from the X64 Visual Studio command prompt or by calling the vcvarsall.bat (with x64 as an argument) script either in your shell or in your build script.</p><h4 id=for-mac-and-nix>For Mac and *Nix&mldr;</h4><p>For Linux, make sure you have <code>llvm</code> and <code>clang</code> installed through your package managers.
-For macOS, make sure you&rsquo;ve installed the Xcode command-line tools (<code>xcode-select --install</code>), then install LLVM. If you use <a href=https://brew.sh/>Homebrew</a>, you can run <code>brew install llvm</code> to do this.</p><p>Homebrew will not add LLVM to the PATH, run <code>echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.bash_profile</code> to add LLVM to your PATH. Then run <code>source ~/.bash_profile</code> to update your PATH variable in the current terminal session.</p><p>On newer versions of macOS, some headers are not installed by default. Open <code>macOS_SDK_headers_for_macOS_*.pkg</code> in <code>/Library/Developer/CommandLineTools/Packages/</code>.</p><p>Now navigate to the Odin directory in your terminal, use <code>make</code> or <code>./build.sh</code>, and you should have a newly-built, fresh Odin compiler!</p><h2 id=building-odin>Building Odin</h2><p>Now, it&rsquo;s time to build Odin and get started!</p><h4 id=for-windows-1>For Windows&mldr;</h4><p>The easiest way to build Odin is to use the X64 Visual Studio command prompt (<a href=https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs>if you don&rsquo;t typically use it, here&rsquo;s how to find it</a>). Navigate to the directory where you downloaded Odin. Run the <code>build.bat</code> file, and you should have a successfully built Odin compiler!</p><p>To use Odin <code>link.exe</code> is required to be in the PATH of the callee as mentioned, this can either be achieved but calling Odin from the X64 Visual Studio command prompt or by calling the <code>vcvarsall.bat</code> (with x64 as an argument) script either in your shell or in your build script.</p><h4 id=for-mac-and-nix-1>For Mac and *Nix&mldr;</h4><p>Navigate to the Odin directory in your terminal, use <code>make</code> or <code>./build.sh</code>, and you should have a newly-built, fresh Odin compiler!</p><p><strong>Notes for Linux:</strong>: The compiler currently relies on the <code>core</code> and <code>shared</code> library collection being relative to the compiler executable. Installing the compiler in the usual sense (to <code>/usr/local/bin</code> or similar) is therefore not as straight forward as you need to make sure the mentioned libraries are available. As a result, it is recommended to simply explicitly invoke the compiler with <code>/path/to/odin</code> in your preferred build system, or add <code>/path/to/odin</code> to <code>$PATH</code>.</p><h3 id=general-setup>General Setup</h3><p>In addition, the following platform-specific steps are necessary:</p><ul><li><p>Windows</p><ul><li>Have Visual Studio installed (MSVC 2010 or later, for the linker)</li><li>Have a copy of <code>opt.exe</code> and <code>llc.exe</code> in <code>Odin/bin</code>. Pre-built Windows binaries can be found <a href=https://github.com/odin-lang/Odin/releases/tag/llvm-windows>here</a> and <em>must</em> be explicitly copied</li><li>Open a valid command prompt:<ul><li><strong>Basic:</strong> run the <code>x64 Native Tools Command Prompt for VS2017</code> shortcut bundled with VS 2017, or</li><li><strong>Advanced:</strong> run <code>vcvarsall.bat x64</code> from a blank <code>cmd</code> session</li></ul></li></ul></li><li><p>MacOS</p><ul><li>Have LLVM explicitly installed (<code>brew install llvm</code>)</li><li>Have XCode installed (version X.X or later, for linking)</li><li>Make sure the LLVM binaries and the linker are added to your <code>$PATH</code> environmental variable</li></ul></li><li><p>GNU/Linux</p><ul><li>Have LLVM installed (opt/llc)</li><li>Have Clang installed (version X.X or later, for linking)</li><li>Make sure the LLVM binaries and the linker are added to your <code>$PATH</code> environmental variable</li></ul></li></ul><h3 id=updating-the-compiler>Updating the compiler</h3><p>For a compiler that&rsquo;s in-development like Odin, things move fast. Make sure you keep your compiler up-to-date by running <code>git pull</code> and then rebuilding every now and then. (or, if you use releases, redownload and rebuild)</p><h2 id=what-next>What Next?</h2><p>Why not check out the <a href=/docs/overview/>Odin Overview</a> for more information on the Odin Programming Language!</p></article></main><footer>© 2016–2021 Ginger Bill</footer></div></body><script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script><script>(function addHeadingLinks(){var article=document.getElementsByClassName('article-meta')[0];var headings=article.querySelectorAll('h1, h2, h3');headings.forEach(function(heading){if(heading.id){var a=document.createElement('a');a.innerHTML=heading.innerHTML;a.href='#'+heading.id;heading.innerHTML='';heading.appendChild(a);}});})();const DARK='(prefers-color-scheme: dark)';const LIGHT='(prefers-color-scheme: light)';function setColourScheme(scheme){console.log(scheme);if(scheme=='dark'){}else if(scheme=='light'){}}
-(function changeStyle(){function detectColourScheme(){if(!window.matchMedia){return;}
-function listener({matches,media}){if(!matches){return;}
-if(media==DARK){setColourScheme('dark');}else if(media==LIGHT){setColourScheme('light');}}
-const mqDark=window.matchMedia(DARK);const mqLight=window.matchMedia(LIGHT);mqDark.addListener(listener);mqLight.addListener(listener);}})();</script></html>
+<!doctype html><html>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=stylesheet href=#ZgotmplZ>
+<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
+<script src=/lib/highlight/highlight.min.js></script>
+<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"align_of auto_cast bit_field bit_set break case cast const context continue defer distinct do dynamic else enum fallthrough for foreign if import in inline macro map no_inline notin offset_of opaque package proc return size_of struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"len cap type_info_of, typeid_of swizzle complex real imag conj expand_to_tuple min max abs clamp"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[dflsi]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
+<script>hljs.highlightAll()</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
+<link href=/css/style.css rel=stylesheet>
+<title>Getting Started | Odin Programming Language </title><body><header class=sticky-top>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
+<div class=container>
+<a class=navbar-brand href=/>
+<img src=/logo.svg height=30 alt=Odin></a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+<div class="collapse navbar-collapse" id=odin-navbar-content>
+<ul class="navbar-nav ms-md-auto">
+<li class=nav-item>
+<a class=nav-link href=/>Home</a>
+</li>
+<li class=nav-item>
+<a class="nav-link active" href=/docs aria-current=page>Docs</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news>News</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/community>Community</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+</header>
+<main>
+<div class=container>
+<div class="row odin-main">
+<nav class="col-lg-2 odin-sidebar-border navbar-light">
+<div class="sticky-top odin-below-navbar py-3">
+<ul class="nav nav-pills d-flex flex-column">
+<li class=nav-item>
+<a class="nav-link active" href=/docs/install/ aria-current=page>Getting Started</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/docs/overview/>Overview</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/docs/faq/>FAQ</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/docs/nightly/>Nightly Builds</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/docs/spec/>Specification</a>
+</li>
+</ul>
+</div>
+</nav>
+<article class="col-lg-8 p-4">
+<header>
+<nav aria-label=breadcrumb>
+<ol class=breadcrumb>
+<li class=breadcrumb-item><a href=/docs>Docs</a></li>
+<li class=breadcrumb-item><a href=/install>Install</a></li>
+</ol>
+</nav>
+<h1>Getting Started</h1>
+</header>
+<div class=odin-article>
+<p>Odin is dead-simple to get started with!</p>
+<p><a href=https://github.com/odin-lang/Odin/releases class="btn btn-outline-primary">Latest Release</a>
+<a href=/docs/nightly class="btn btn-outline-primary">Latest Nightly Builds</a></p>
+<h2 id=clone-or-download-odin>Clone or download Odin <a class=text-decoration-none href=#clone-or-download-odin>#</a></h2>
+<p>Clone the repository (recommended, <code>git clone https://github.com/gingerBill/Odin</code>).
+Download <a href=https://github.com/gingerBill/Odin/releases/latest>the latest release</a>.
+Download <a href=/docs/nightly/>the latest nightly build</a>.</p>
+<p><strong>Note</strong>: Cloning the repository is recommended in order to make <a href=#updating-the-compiler>updating</a> easier.</p>
+<h2 id=download-and-include-necessary-extras>Download and include necessary extras <a class=text-decoration-none href=#download-and-include-necessary-extras>#</a></h2>
+<p>Odin supports x86-64/AMD64 on Windows, Linux and macOs, and ARM64 on macOS. Odin also relies on LLVM (for code generation) and an external linker.</p>
+<h4 id=for-windows>For Windows&mldr; <a class=text-decoration-none href=#for-windows>#</a></h4>
+<p>There&rsquo;s a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires <code>link.exe</code> from VS anyway. Also, you&rsquo;ll need to download <a href=https://github.com/odin-lang/Odin/releases/tag/llvm-windows>a couple LLVM binaries</a> and move the <code>bin</code> folder in that zip file into your Odin directory. These are used internally by the compiler.</p>
+<p>Now, it&rsquo;s time to build Odin and get started! Open the X64 Visual Studio command prompt (<a href=https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs>if you don&rsquo;t typically use it, here&rsquo;s how to find it</a>) and navigate to the directory where you downloaded Odin. Run the <code>build.bat</code> file, and you should have a successfully built Odin compiler!</p>
+<p>To use Odin <code>link.exe</code> is required to be in the PATH of the callee as mentioned, this can either be achieved but calling Odin from the X64 Visual Studio command prompt or by calling the vcvarsall.bat (with x64 as an argument) script either in your shell or in your build script.</p>
+<h4 id=for-mac-and-nix>For Mac and *Nix&mldr; <a class=text-decoration-none href=#for-mac-and-nix>#</a></h4>
+<p>For Linux, make sure you have <code>llvm</code> and <code>clang</code> installed through your package managers.
+For macOS, make sure you&rsquo;ve installed the Xcode command-line tools (<code>xcode-select --install</code>), then install LLVM. If you use <a href=https://brew.sh/>Homebrew</a>, you can run <code>brew install llvm</code> to do this.</p>
+<p>Homebrew will not add LLVM to the PATH, run <code>echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.bash_profile</code> to add LLVM to your PATH. Then run <code>source ~/.bash_profile</code> to update your PATH variable in the current terminal session.</p>
+<p>On newer versions of macOS, some headers are not installed by default. Open <code>macOS_SDK_headers_for_macOS_*.pkg</code> in <code>/Library/Developer/CommandLineTools/Packages/</code>.</p>
+<p>Now navigate to the Odin directory in your terminal, use <code>make</code>, and you should have a newly-built, fresh Odin compiler!</p>
+<h2 id=building-odin>Building Odin <a class=text-decoration-none href=#building-odin>#</a></h2>
+<p>Now, it&rsquo;s time to build Odin and get started!</p>
+<h4 id=for-windows-1>For Windows&mldr; <a class=text-decoration-none href=#for-windows-1>#</a></h4>
+<p>The easiest way to build Odin is to use the X64 Visual Studio command prompt (<a href=https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs>if you don&rsquo;t typically use it, here&rsquo;s how to find it</a>). Navigate to the directory where you downloaded Odin. Run the <code>build.bat</code> file, and you should have a successfully built Odin compiler!</p>
+<p>To use Odin <code>link.exe</code> is required to be in the PATH of the callee as mentioned, this can either be achieved but calling Odin from the X64 Visual Studio command prompt or by calling the <code>vcvarsall.bat</code> (with x64 as an argument) script either in your shell or in your build script.</p>
+<h4 id=for-mac-and-nix-1>For Mac and *Nix&mldr; <a class=text-decoration-none href=#for-mac-and-nix-1>#</a></h4>
+<p>Navigate to the Odin directory in your terminal, use <code>make</code>, and you should have a newly-built, fresh Odin compiler!</p>
+<p><strong>Notes for Linux:</strong>: The compiler currently relies on the <code>core</code> and <code>shared</code> library collection being relative to the compiler executable. Installing the compiler in the usual sense (to <code>/usr/local/bin</code> or similar) is therefore not as straight forward as you need to make sure the mentioned libraries are available. As a result, it is recommended to simply explicitly invoke the compiler with <code>/path/to/odin</code> in your preferred build system, or add <code>/path/to/odin</code> to <code>$PATH</code>.</p>
+<h3 id=general-setup>General Setup <a class=text-decoration-none href=#general-setup>#</a></h3>
+<p>In addition, the following platform-specific steps are necessary:</p>
+<ul>
+<li>
+<p>Windows</p>
+<ul>
+<li>Have Visual Studio installed (MSVC 2010 or later, for the linker)</li>
+<li>Have a copy of <code>opt.exe</code> and <code>llc.exe</code> in <code>Odin/bin</code>. Pre-built Windows binaries can be found <a href=https://github.com/odin-lang/Odin/releases/tag/llvm-windows>here</a> and <em>must</em> be explicitly copied</li>
+<li>Open a valid command prompt:
+<ul>
+<li><strong>Basic:</strong> run the <code>x64 Native Tools Command Prompt for VS2017</code> shortcut bundled with VS 2017, or</li>
+<li><strong>Advanced:</strong> run <code>vcvarsall.bat x64</code> from a blank <code>cmd</code> session</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>MacOS</p>
+<ul>
+<li>Have LLVM explicitly installed (<code>brew install llvm</code>)</li>
+<li>Have XCode installed (version X.X or later, for linking)</li>
+<li>Make sure the LLVM binaries and the linker are added to your <code>$PATH</code> environmental variable</li>
+</ul>
+</li>
+<li>
+<p>GNU/Linux</p>
+<ul>
+<li>Have LLVM installed (opt/llc)</li>
+<li>Have Clang installed (version X.X or later, for linking)</li>
+<li>Make sure the LLVM binaries and the linker are added to your <code>$PATH</code> environmental variable</li>
+</ul>
+</li>
+</ul>
+<h3 id=updating-the-compiler>Updating the compiler <a class=text-decoration-none href=#updating-the-compiler>#</a></h3>
+<p>For a compiler that&rsquo;s in-development like Odin, things move fast. Make sure you keep your compiler up-to-date by running <code>git pull</code> and then rebuilding every now and then. (or, if you use releases, redownload and rebuild)</p>
+<h2 id=what-next>What Next? <a class=text-decoration-none href=#what-next>#</a></h2>
+<p>Why not check out the <a href=/docs/overview/>Odin Overview</a> for more information on the Odin Programming Language!</p>
+</div>
+</article>
+<div class="col-lg-2 odin-toc-border navbar-light">
+<div class="sticky-top odin-below-navbar py-3">
+<nav id=TableOfContents>
+<ul>
+<li><a href=#clone-or-download-odin>Clone or download Odin</a></li>
+<li><a href=#download-and-include-necessary-extras>Download and include necessary extras</a>
+<ul>
+<li></li>
+</ul>
+</li>
+<li><a href=#building-odin>Building Odin</a>
+<ul>
+<li></li>
+<li><a href=#general-setup>General Setup</a></li>
+<li><a href=#updating-the-compiler>Updating the compiler</a></li>
+</ul>
+</li>
+<li><a href=#what-next>What Next?</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class=odin-footer>
+<div class="container pb-5 pt-5">
+<div class="row g-4">
+<div class=col>
+<a class=navbar-brand href=/>
+<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
+<p>
+The Data-Oriented Language for Sane Software Development.
+</p>
+</div>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Resources</h4>
+<ul class=list-unstyled>
+<li><a href=/docs class=link-light>Docs</a></li>
+<li><a href=/blog class=link-light>Blog</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Community</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
+<li><a href=# class=link-light>Discord</a></li>
+<li><a href=# class=link-light>Twitch</a></li>
+<li><a href=# class=link-light>YouTube</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Contribute</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
+<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
+</ul>
+</nav>
+</div>
+<div class="mt-4 text-muted">© 2016–2021 Ginger Bill</div>
+</div>
+</footer>
+<script src=/lib/bootstrap/js/bootstrap.min.js></script>
+<script src=/js/script.js></script>
+</body>
+</html>

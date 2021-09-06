@@ -1,0 +1,34 @@
+{{ define "main" }}
+<main>
+    <div class="container">
+        <div class="row odin-main">
+            <!-- Left menu -->
+            {{ partial "sidebar" . }}
+
+            <!-- Content -->
+            <article class="col-lg-8 p-4">
+                <article>
+                    <header>
+                        <h1>{{.Title}}</h1>
+                    </header>
+
+                    {{.Content}}
+                </article>
+
+                <div>
+                    {{ range .Pages }}
+                    <div class="mt-5">
+                        <a
+                            href="{{.Permalink}}"
+                            class="link-primary text-decoration-none"
+                            ><h3>{{.Title}}</h3></a
+                        >
+                        <p>{{.Summary}}</p>
+                    </div>
+                    {{ end }}
+                </div>
+            </article>
+        </div>
+    </div>
+</main>
+{{ end }}

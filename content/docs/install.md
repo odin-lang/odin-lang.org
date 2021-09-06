@@ -1,25 +1,26 @@
 ---
 title: Getting Started
-url: "/docs/install"
+summary: Getting Started with Odin.
+weight: 1
 ---
 
 Odin is dead-simple to get started with!
 
-## Install using Homebrew
+<a href="https://github.com/odin-lang/Odin/releases" class="btn btn-outline-primary">Latest Release</a>
+<a href="/docs/nightly" class="btn btn-outline-primary">Latest Nightly Builds</a>
 
-```
-brew install odin
-```
 
 ## Clone or download Odin
 
-Clone the repository (recommended, `git clone https://github.com/gingerBill/Odin`) or download [the latest release](https://github.com/gingerBill/Odin/releases/latest).
+Clone the repository (recommended, `git clone https://github.com/gingerBill/Odin`).
+Download [the latest release](https://github.com/gingerBill/Odin/releases/latest).
+Download [the latest nightly build](/docs/nightly/).
 
 **Note**: Cloning the repository is recommended in order to make [updating](#updating-the-compiler) easier.
 
 ## Download and include necessary extras
 
-Odin only supports x86-64 at the moment (64-bit) and it relies on LLVM (for code generation) and an external linker.
+Odin supports x86-64/AMD64 on Windows, Linux and macOs, and ARM64 on macOS. Odin also relies on LLVM (for code generation) and an external linker.
 
 #### For Windows...
 There's a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires `link.exe` from VS anyway. Also, you'll need to download [a couple LLVM binaries](https://github.com/odin-lang/Odin/releases/tag/llvm-windows) and move the `bin` folder in that zip file into your Odin directory. These are used internally by the compiler.
@@ -37,7 +38,7 @@ Homebrew will not add LLVM to the PATH, run `echo 'export PATH="/usr/local/opt/l
 
 On newer versions of macOS, some headers are not installed by default. Open `macOS_SDK_headers_for_macOS_*.pkg` in `/Library/Developer/CommandLineTools/Packages/`.
 
-Now navigate to the Odin directory in your terminal, use `make` or `./build.sh`, and you should have a newly-built, fresh Odin compiler!
+Now navigate to the Odin directory in your terminal, use `make`, and you should have a newly-built, fresh Odin compiler!
 
 ## Building Odin
 
@@ -50,7 +51,7 @@ To use Odin `link.exe` is required to be in the PATH of the callee as mentioned,
 
 #### For Mac and \*Nix...
 
-Navigate to the Odin directory in your terminal, use `make` or `./build.sh`, and you should have a newly-built, fresh Odin compiler!
+Navigate to the Odin directory in your terminal, use `make`, and you should have a newly-built, fresh Odin compiler!
 
 **Notes for Linux:**: The compiler currently relies on the `core` and `shared` library collection being relative to the compiler executable. Installing the compiler in the usual sense (to `/usr/local/bin` or similar) is therefore not as straight forward as you need to make sure the mentioned libraries are available. As a result, it is recommended to simply explicitly invoke the compiler with `/path/to/odin` in your preferred build system, or add `/path/to/odin` to `$PATH`.
 

@@ -1,0 +1,83 @@
+.hero-logo {
+    max-height: 120px;
+}
+
+.section-style-1 {
+    background-color: #3882d2;
+    color: var(--bs-light);
+}
+
+.section-style-2 {
+    background-color: #f8f9fa;
+    color: var(--bs-dark);
+}
+
+.section-style-3 {
+    background-color: white;
+    color: var(--bs-dark);
+}
+
+.odin-menu {
+    min-height: 59px;
+}
+
+.odin-footer {
+    background-color: #343a40 !important;
+    color: var(--bs-light);
+    min-height: 292px;
+}
+
+#TableOfContents ul {
+    list-style: none;
+    padding: 0;
+}
+
+#TableOfContents li:not(:last-child) {
+    margin-bottom: 0.25rem;
+}
+
+#TableOfContents li > ul {
+    padding-left: 1.25rem;
+}
+
+#TableOfContents a {
+    font-family: var(--bs-font-sans-serif);
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-decoration: none;
+}
+
+.odin-below-navbar {
+    top: 59px; /* menu bar height */
+    z-index: 0;
+    max-height: calc(100vh - 59px); /* menu bar height */
+    overflow: auto;
+}
+
+/* The glorious scroll-to element with sticky header offset hack. */
+.odin-article h1,
+.odin-article h2,
+.odin-article h3,
+.odin-article h4,
+.odin-article h5 {
+    margin-top: -59px; /* menu bar height */
+    padding-top: calc(59px + 1.5rem); /* menu bar height */
+}
+
+.odin-main {
+    min-height: calc(100vh - 59px - 292px); /* menu bar height and footer height */
+}
+
+/* Borders for left and right sidebars. Border style and breakpoint width are
+copied form Bootstrap. This has the effect of showing borders when the sidebars
+are on the sides, and hiding them when they're collapsed into a column.*/
+@media only screen and (min-width: 992px) {
+    .odin-sidebar-border {
+        border-right: 1px solid #dee2e6;
+    }
+    .odin-toc-border {
+        border-left: 1px solid #dee2e6;
+    }
+}

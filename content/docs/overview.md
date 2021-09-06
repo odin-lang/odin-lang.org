@@ -1,8 +1,7 @@
 ---
-title: Odin Overview
-url: "/docs/overview"
-warning: true
-show_table_of_contents: true
+title: Overview
+summary: An overview of the Odin programming language.
+weight: 2
 ---
 
 ## Introduction

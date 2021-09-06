@@ -15,9 +15,9 @@ hljs.registerLanguage("odin", function(e) {
     return {
         aliases: ["odin", "odinlang", "odin-lang"],
         keywords: {
-            keyword: "align_of auto_cast bit_field bit_set break case cast const context continue defer distinct do dynamic else enum fallthrough for foreign if import in inline macro map no_inline notin offset_of opaque package proc return size_of struct switch transmute type_of typeid union using when where",
+            keyword: "auto_cast bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",
             literal: "true false nil",
-            built_in: "len cap type_info_of, typeid_of swizzle complex real imag conj expand_to_tuple min max abs clamp"
+            built_in: "abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"
         },
         illegal: "</",
         contains: [e.C_LINE_COMMENT_MODE, e.C_BLOCK_COMMENT_MODE, {

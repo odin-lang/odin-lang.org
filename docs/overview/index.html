@@ -961,7 +961,120 @@ x[i:]  -&gt; [^]T
 x[:n]  -&gt; []T
 x[i:n] -&gt; []T
 </code></pre><p><strong>Note:</strong> The name of mutli-pointers may be subject to change.</p>
-<h2 id=using-statement><code>using</code> statement <a class=text-decoration-none href=#using-statement>#</a></h2>
+<h3 id=soa-data-types>SOA Data Types <a class=text-decoration-none href=#soa-data-types>#</a></h3>
+<p><em>Array of Structures (AoS)</em>, <em>Structure of Arrays (SoA)</em>, and <em>Array of Structures of Arrays (AoSoA)</em> refer to differing ways to arrange a sequence of data records in memory, with regard to interleaving. These are of interest in SIMD and SIMT programming.</p>
+<h4 id=soa-struct-arrays>SOA Struct Arrays <a class=text-decoration-none href=#soa-struct-arrays>#</a></h4>
+<pre><code class=language-odin data-lang=odin>Vector3 :: struct {x, y, z: f32};
+
+N :: 2;
+v_aos: [N]Vector3;
+v_aos[0].x = 1;
+v_aos[0].y = 4;
+v_aos[0].z = 9;
+
+fmt.println(len(v_aos));
+fmt.println(v_aos[0]);
+fmt.println(v_aos[0].x);
+fmt.println(&amp;v_aos[0].x);
+
+v_aos[1] = {0, 3, 4};
+v_aos[1].x = 2;
+fmt.println(v_aos[1]);
+fmt.println(v_aos);
+
+v_soa: #soa[N]Vector3;
+
+v_soa[0].x = 1;
+v_soa[0].y = 4;
+v_soa[0].z = 9;
+
+
+// Same syntax as AOS and treat as if it was an array
+fmt.println(len(v_soa));
+fmt.println(v_soa[0]);
+fmt.println(v_soa[0].x);
+fmt.println(&amp;v_soa[0].x);
+v_soa[1] = {0, 3, 4};
+v_soa[1].x = 2;
+fmt.println(v_soa[1]);
+
+// Can use SOA syntax if necessary
+v_soa.x[0] = 1;
+v_soa.y[0] = 4;
+v_soa.z[0] = 9;
+fmt.println(v_soa.x[0]);
+
+// Same pointer addresses with both syntaxes
+assert(&amp;v_soa[0].x == &amp;v_soa.x[0]);
+
+
+// Same fmt printing
+fmt.println(v_aos);
+fmt.println(v_soa);
+</code></pre><p>Works with arrays of length &lt;= 4 which have the implicit fields xyzw/rgba</p>
+<pre><code class=language-odin data-lang=odin>Vector3 :: distinct [3]f32;
+
+N :: 2;
+v_aos: [N]Vector3;
+v_aos[0].x = 1;
+v_aos[0].y = 4;
+v_aos[0].z = 9;
+
+v_soa: #soa[N]Vector3;
+
+v_soa[0].x = 1;
+v_soa[0].y = 4;
+v_soa[0].z = 9;
+</code></pre><h4 id=soa-struct-slices-and-dynamic-arrays>SOA Struct Slices and Dynamic Arrays <a class=text-decoration-none href=#soa-struct-slices-and-dynamic-arrays>#</a></h4>
+<p>Fixed-length SOA types can be sliced to produce SOA slices.</p>
+<pre><code class=language-odin data-lang=odin>Vector3 :: struct {x: i8, y: i16, z: f32};
+
+N :: 3;
+v: #soa[N]Vector3;
+v[0].x = 1;
+v[0].y = 4;
+v[0].z = 9;
+
+s: #soa[]Vector3;
+s = v[:];
+assert(len(s) == N);
+fmt.println(s);
+fmt.println(s[0].x);
+
+a := s[1:2];
+assert(len(a) == 1);
+fmt.println(a);
+</code></pre><p>To be complete with SOA slices, Odin also supports SOA dynamic arrays.</p>
+<pre><code class=language-odin data-lang=odin>d: #soa[dynamic]Vector3;
+
+append_soa(&amp;d, Vector3{1, 2, 3}, Vector3{4, 5, 9}, Vector3{-4, -4, 3});
+fmt.println(d);
+fmt.println(len(d));
+fmt.println(cap(d));
+fmt.println(d[:]);
+</code></pre><h4 id=soa_zip-and-soa_unzip><code>soa_zip</code> and <code>soa_unzip</code> <a class=text-decoration-none href=#soa_zip-and-soa_unzip>#</a></h4>
+<p>SOA is not just useful for high performance scenarios but also for everyday tasks which out only be achieveable in higher level languages. <code>soa_zip</code> is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.</p>
+<pre><code class=language-odin data-lang=odin>x := []i32{1, 3, 9};
+y := []f32{2, 4, 16};
+z := []b32{true, false, true};
+
+// produce an #soa slice the normal slices passed
+s := soa_zip(a=x, b=y, c=z);
+
+// iterate over the #soa slice
+for v, i in s {
+	fmt.println(v, i); // exactly the same as s[i]
+	// NOTE: 'v' is NOT a temporary value but has a specialized addressing mode
+	// which means that when accessing v.a etc, it does the correct transformation
+	// internally:
+	//         s[i].a === s.a[i]
+	fmt.println(v.a, v.b, v.c);
+}
+</code></pre><p><code>soa_unzip</code> is a built-in procedure which allows the user to recover the slices from an <code>#soa</code> slice.</p>
+<pre><code class=language-odin data-lang=odin>// Recover the slices from the #soa slice
+a, b, c := soa_unzip(s);
+fmt.println(a, b, c);
+</code></pre><h2 id=using-statement><code>using</code> statement <a class=text-decoration-none href=#using-statement>#</a></h2>
 <p><code>using</code> can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.</p>
 <pre><code class=language-odin data-lang=odin>import &quot;foo&quot;
 bar :: proc() {
@@ -1555,6 +1668,7 @@ Some of this information includes:</p>
 <li><a href=#typeid-type>&lsquo;typeid&rsquo; type</a></li>
 <li><a href=#any-type>&lsquo;any&rsquo; Type</a></li>
 <li><a href=#multi-pointers>Multi Pointers</a></li>
+<li><a href=#soa-data-types>SOA Data Types</a></li>
 </ul>
 </li>
 <li><a href=#using-statement><code>using</code> statement</a>

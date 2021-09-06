@@ -1,7 +1,8 @@
 ---
 title: "Frequently Asked Questions"
-url: "/docs/faq"
-show_table_of_contents: true
+linktitle: FAQ
+summary: Answers to common questions about Odin.
+weight: 3
 ---
 
 ## General

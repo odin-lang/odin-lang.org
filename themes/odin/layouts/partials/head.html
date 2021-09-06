@@ -1,0 +1,57 @@
+<!-- Required meta tags -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Bootstrap CSS -->
+{{ $scss := resources.Get "scss/custom.scss" }}
+{{ $style := $scss | resources.ToCSS | resources.Minify }}
+<link rel="stylesheet" href="{{ $style.Permalink }}">
+
+<!-- Highlight.JS -->
+<link rel="stylesheet" href="/lib/highlight/styles/github-dark.min.css" />
+<script src="/lib/highlight/highlight.min.js"></script>
+<script>
+hljs.registerLanguage("odin", function(e) {
+    return {
+        aliases: ["odin", "odinlang", "odin-lang"],
+        keywords: {
+            keyword: "align_of auto_cast bit_field bit_set break case cast const context continue defer distinct do dynamic else enum fallthrough for foreign if import in inline macro map no_inline notin offset_of opaque package proc return size_of struct switch transmute type_of typeid union using when where",
+            literal: "true false nil",
+            built_in: "len cap type_info_of, typeid_of swizzle complex real imag conj expand_to_tuple min max abs clamp"
+        },
+        illegal: "</",
+        contains: [e.C_LINE_COMMENT_MODE, e.C_BLOCK_COMMENT_MODE, {
+            className: "string",
+            variants: [e.QUOTE_STRING_MODE, {
+                begin: "'",
+                end: "[^\\\\]'"
+            }, {
+                begin: "`",
+                end: "`"
+            }]
+        }, {
+            className: "number",
+            variants: [{
+                begin: e.C_NUMBER_RE + "[dflsi]",
+                relevance: 1
+            }, e.C_NUMBER_MODE]
+        }]
+    }
+});
+</script>
+<script>hljs.highlightAll();</script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-67516878-2');
+</script>
+
+<!-- Custom CSS -->
+<link href="/css/style.css" rel="stylesheet" />
+
+<title>{{ .Title }}{{ if not .IsHome }} | Odin Programming Language {{ end }}</title>

@@ -11,7 +11,7 @@ This is a reference manual for the Odin programming language.
 
 Odin is a general-purpose language designed for systems programming. It is a strongly typed language with manual memory management. Programs are constructed from _packages_.
 
-**NOTE:** THIS SPECIFICATION IS UNFINISHED AND VERY OUT OF DATE.
+**NOTE:** **THIS SPECIFICATION IS UNFINISHED AND VERY OUT OF DATE.**
 
 
 ## Notation
@@ -94,6 +94,8 @@ A comment cannot start inside a _rune_ or _string_ literal, or inside a line or 
 ### Tokens
 
 Tokens form the vocabulary of the Odin language. There four classes: _identifiers_, _keywords_, _operators_ and _punctuation_, and _literals_. _White space_, formed from spaces (U+0020), horizontal tabs (U+0009), carriage returns (U+000D), and new lines (U+000A), is ignored except as it separates tokens that would otherwise combine into a single token
+
+<!--
 
 ### Semicolons
 
@@ -745,3 +747,5 @@ Minimal alignment properties:
 A struct, bit set, bit field, array, has size zero if it contains not field (or elements) that have a size greater than zero.
 
 A union has size zero if it contains zero variant types.
+
+-->

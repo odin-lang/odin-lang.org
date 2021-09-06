@@ -107,6 +107,12 @@
 <li>Aids with tooling such as code generation</li>
 <li>Minor point regarding advertisement: many people (mostly idiots) will dismiss a language in [the current year] purely for having semicolons still</li>
 </ul>
+<h2 id=general-comments>General Comments <a class=text-decoration-none href=#general-comments>#</a></h2>
+<p>Semicolons are still required in the following cases:</p>
+<ul>
+<li>As statement separators, e.g. <code>for i := 0; i &lt; 10; i += 2 {</code>, <code>if x, ok := foo(); ok {</code></li>
+<li>Having multiple statements per line, e.g. <code>foo(); baz(); bar()</code></li>
+</ul>
 <h2 id=lexical-rules>Lexical Rules <a class=text-decoration-none href=#lexical-rules>#</a></h2>
 <p>Full rules for semicolon insertion (directly from the compiler):</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>switch</span> (token<span style=color:#f92672>-&gt;</span>kind) {
@@ -334,6 +340,7 @@ A semicolon is optional after the following declarations:
 <ul>
 <li><a href=#compiler-features>Compiler Features</a></li>
 <li><a href=#rationale>Rationale</a></li>
+<li><a href=#general-comments>General Comments</a></li>
 <li><a href=#lexical-rules>Lexical Rules</a></li>
 <li><a href=#discussion-around-the-idea>Discussion Around the Idea</a>
 <ul>

@@ -80,13 +80,29 @@ See the full demo
 </div>
 <div class="col-lg col-lg-6">
 <div class=tab-content>
+<select class=form-select id=example-code-select><option id=example-1-select value=example-1-code>Hellope</option><option id=example-2-select value=example-2-code>Array Programming</option><option id=example-3-select value=example-3-code>SOA Types</option><option id=example-4-select value=example-4-code>Context System</option><option id=example-5-select value=example-5-code>Reflection</option></select>
 <div class="tab-pane show active example-code" id=example-1-code role=option aria-labelledby=example-1-code>
 <pre><code class="language-odin border-start border-end border-bottom home-code-example">package main
 
 import "core:fmt"
 
 main :: proc() {
-	fmt.println("Hellope!");
+	program := "+ + * 😃 - /";
+	accumulator := 0;
+
+	for token in program {
+		switch token {
+		case '+': accumulator += 1;
+		case '-': accumulator -= 1;
+		case '*': accumulator *= 2;
+		case '/': accumulator /= 2;
+		case '😃': accumulator *= accumulator;
+		case: // Ignore everything else
+		}
+	}
+
+	fmt.printf("The program \"%s\" calculates the value %d\n",
+	           program, accumulator);
 }</code></pre>
 </div>
 <div class="tab-pane example-code" id=example-2-code role=option aria-labelledby=example-2-code>
@@ -364,7 +380,6 @@ main :: proc() {
 }</code></pre>
 </div>
 </div>
-<select class=form-select id=example-code-select><option id=example-1-select value=example-1-code>Hellope</option><option id=example-2-select value=example-2-code>Array Programming</option><option id=example-3-select value=example-3-code>SOA Types</option><option id=example-4-select value=example-4-code>Context System</option><option id=example-5-select value=example-5-code>Reflection</option></select>
 </div>
 </div>
 </div>

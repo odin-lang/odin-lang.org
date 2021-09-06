@@ -1,5 +1,4 @@
-# baseURL = "https://odin-lang.org"
-baseURL = "localhost:1313"
+baseURL = "https://odin-lang.org"
 title = "Odin Programming Language"
 theme = "odin"
 

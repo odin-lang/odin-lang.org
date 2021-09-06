@@ -78,14 +78,14 @@
 <p><a href=https://github.com/odin-lang/Odin/releases class="btn btn-outline-primary">Latest Release</a>
 <a href=/docs/nightly class="btn btn-outline-primary">Latest Nightly Builds</a></p>
 <h2 id=clone-or-download-odin>Clone or download Odin <a class=text-decoration-none href=#clone-or-download-odin>#</a></h2>
-<p>Clone the repository (recommended, <code>git clone https://github.com/gingerBill/Odin</code>).
-Download <a href=https://github.com/gingerBill/Odin/releases/latest>the latest release</a>.
+<p>Clone the repository (recommended, <code>git clone https://github.com/odin-lang/Odin</code>).
+Download <a href=https://github.com/odin-lang/Odin/releases/latest>the latest release</a>.
 Download <a href=/docs/nightly/>the latest nightly build</a>.</p>
 <p><strong>Note</strong>: Cloning the repository is recommended in order to make <a href=#updating-the-compiler>updating</a> easier.</p>
 <h2 id=download-and-include-necessary-extras>Download and include necessary extras <a class=text-decoration-none href=#download-and-include-necessary-extras>#</a></h2>
 <p>Odin supports x86-64/AMD64 on Windows, Linux and macOs, and ARM64 on macOS. Odin also relies on LLVM (for code generation) and an external linker.</p>
 <h4 id=for-windows>For Windows&mldr; <a class=text-decoration-none href=#for-windows>#</a></h4>
-<p>There&rsquo;s a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires <code>link.exe</code> from VS anyway. Also, you&rsquo;ll need to download <a href=https://github.com/odin-lang/Odin/releases/tag/llvm-windows>a couple LLVM binaries</a> and move the <code>bin</code> folder in that zip file into your Odin directory. These are used internally by the compiler.</p>
+<p>There&rsquo;s a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires <code>link.exe</code> from VS anyway. The necesary LLVM components for Windows are included in the Odin repository.</p>
 <p>Now, it&rsquo;s time to build Odin and get started! Open the X64 Visual Studio command prompt (<a href=https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs>if you don&rsquo;t typically use it, here&rsquo;s how to find it</a>) and navigate to the directory where you downloaded Odin. Run the <code>build.bat</code> file, and you should have a successfully built Odin compiler!</p>
 <p>To use Odin <code>link.exe</code> is required to be in the PATH of the callee as mentioned, this can either be achieved but calling Odin from the X64 Visual Studio command prompt or by calling the vcvarsall.bat (with x64 as an argument) script either in your shell or in your build script.</p>
 <h4 id=for-mac-and-nix>For Mac and *Nix&mldr; <a class=text-decoration-none href=#for-mac-and-nix>#</a></h4>
@@ -109,7 +109,6 @@ For macOS, make sure you&rsquo;ve installed the Xcode command-line tools (<code>
 <p>Windows</p>
 <ul>
 <li>Have Visual Studio installed (MSVC 2010 or later, for the linker)</li>
-<li>Have a copy of <code>opt.exe</code> and <code>llc.exe</code> in <code>Odin/bin</code>. Pre-built Windows binaries can be found <a href=https://github.com/odin-lang/Odin/releases/tag/llvm-windows>here</a> and <em>must</em> be explicitly copied</li>
 <li>Open a valid command prompt:
 <ul>
 <li><strong>Basic:</strong> run the <code>x64 Native Tools Command Prompt for VS2017</code> shortcut bundled with VS 2017, or</li>

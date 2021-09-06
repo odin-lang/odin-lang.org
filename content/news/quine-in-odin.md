@@ -18,7 +18,7 @@ package quine
 import "core:fmt"
 
 main :: proc() {
-	fmt.printf("%s%c%s%c;\n", s, 0x60, s, 0x60);
+	fmt.printf("%s%c%s%c;\n", s, 0x60, s, 0x60)
 }
 
 s := `package quine
@@ -26,7 +26,7 @@ s := `package quine
 import "core:fmt"
 
 main :: proc() {
-	fmt.printf("%s%c%s%c;\n", s, 0x60, s, 0x60);
+	fmt.printf("%s%c%s%c;\n", s, 0x60, s, 0x60)
 }
 
 s := `;

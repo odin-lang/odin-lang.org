@@ -45,9 +45,9 @@ A quick overview of features (in no particular order):
     * `new(type)`, and `make` use the context's allocator (unless explicitly given)
     * Dynamic arrays and hash maps (`[dynamic]int` and `map[string]int`)
 * Array programming
-    * `a, b: [4]f32; c := a * b;`
-    * `i := a.x * b.y;`
-    * `v := swizzle(a, 1, 2, 0);`
+    * `a, b: [4]f32; c := a * b`
+    * `i := a.x * b.y`
+    * `v := swizzle(a, 1, 2, 0)`
 * [Explicit procedure overloading](#why-does-odin-have-explicit-procedure-overloading-but-not-implicit-procedure-overloading)
 * Introspection on all types
 * High control over memory layout
@@ -61,8 +61,8 @@ A quick overview of features (in no particular order):
 * Decent [package](#packages) system and file handling
 * No _bad_ preprocessor
 * Type inference
-    * `x: int = 1;`
-    * `x := 1; // x is deduced to be an int`
+    * `x: int = 1`
+    * `x := 1 // x is deduced to be an int`
 * `using`
     * making everything a namespace (similar to Pascal's `with` but on steroids)
     * Ability to have [subtype polymorphism](#is-odin-an-objective-oriented-language)
@@ -75,11 +75,11 @@ A quick overview of features (in no particular order):
 * Tagged unions and untagged unions
 * Ranged `for` loops
 * [Labelled branches](/docs/overview/#branch-statements)
-    * `break label_name;`
+    * `break label_name`
 * `break` by default in `switch` statements
     * Explicit `fallthrough`
 * "Raw" strings
-    * ``` x := `what "the" string?`; ```
+    * ``` x := `what "the" string?` ```
 * `cstring` for legacy use
 * [Parametric polymorphism](/docs/overview/#parametric-polymorphism) ("generics")
 * [Foreign system](/docs/overview/#foreign-system)
@@ -111,7 +111,7 @@ No. Data structures as just data.
 
 Subtype polymorphism is possible through the use of `using` but Odin does not offer methods.
 ```odin
-Base :: struct {...};
+Base :: struct {...}
 Derived :: struct {
     using base: Base,
     name: string,
@@ -153,7 +153,7 @@ foo :: proc{
     foo_baz,
     foo_baz2,
     another_thing_entirely,
-};
+}
 ```
 
 ### Why does Odin not have operator overloading?
@@ -165,14 +165,14 @@ Array programming is available in Odin; this removes some of the need for operat
 `distinct` makes a type declaration distinct from its base type.
 
 ```odin
-Int_Alias :: int;
-#assert(Int_Alias == int);
+Int_Alias :: int
+#assert(Int_Alias == int)
 
-My_Int :: distinct int;
-#assert(My_Int != int);
+My_Int :: distinct int
+#assert(My_Int != int)
 ```
 
-### What is the type of `x` in `x := 123;`?
+### What is the type of `x` in `x := 123`?
 `123` is an untyped integer literal: if the type has not been specified in the declaration, the default type for the "untyped" type will be chosen. In this case, `x` will be of type `int`.
 
 | Untyped type | Default Type |
@@ -244,11 +244,11 @@ Odin only has non-capturing lambda procedures. For closures to work correctly wo
 
 ```odin
 foo :: proc() {
-    y: int;
+    y: int
     x := proc() -> int {
         // `y` is not available in this scope as it is in a different stack frame
-        return 123;
-    };
+        return 123
+    }
 }
 ```
 
@@ -275,31 +275,31 @@ Originally, continuing the C family tradition, everything in Odin was passed by 
 ### What is the difference between `new` and `make`?
 `new` allocates memory.
 ```odin
-ptr: ^int = new(int);
+ptr: ^int = new(int)
 ```
 
 `make` initializes the slice, dynamic array, and map types.
 ```odin
-slice: []int = make([]int, 16);
+slice: []int = make([]int, 16)
 ```
 
 ### What is the difference between `free` and `delete`?
 `free` deallocates memory
 ```odin
-ptr: ^int = new(int);
-free(ptr);
+ptr: ^int = new(int)
+free(ptr)
 ```
 
 `delete` deinitializes the the slice, dynamic array, map, and string types.
 ```odin
-slice := make([]int, 10);
-delete(slice);
+slice := make([]int, 10)
+delete(slice)
 
-m := make(map[int]string);
-delete(m);
+m := make(map[int]string)
+delete(m)
 
-str: string = ...;
-delete(str);
+str: string = ...
+delete(str)
 ```
 
 
@@ -316,23 +316,23 @@ The core library is not yet complete. However when it is complete, it will remai
 ### What does `:=` mean?
 This is two different operators `:` and `=`; is used for variable declarations. The following are all equivalent:
 ```odin
-x : int = 123;
-x :     = 123;
-x := 123;
-x := int(123);
+x : int = 123
+x :     = 123
+x := 123
+x := int(123)
 ```
 
 ### What does `::` mean?
 This is two different separate operators `:` and `:`; is used for constant value declarations.
 ```odin
-X :: 123;
-X :   : 123;
+X :: 123
+X :   : 123
 
-Y : int : 123;
-Y :: int(123);
+Y : int : 123
+Y :: int(123)
 
-Z :: proc() {};
-Z : proc() : proc() {}; // Redundant type declaration
+Z :: proc() {}
+Z : proc() : proc() {} // Redundant type declaration
 ```
 
 ### Why does Odin not use keywords to prefix declarations?
@@ -353,9 +353,6 @@ There are two other type conversion operators, [transmute](/docs/overview/#type-
 ### Why curly brackets?
 Curly brackets to denote a block is a common approach in many programming languages, and Odin's consistency is useful for people already familiar with the style. Curly brackets also allow for more flexible syntax styles for the programmer and it is easier to parse by the compiler because it is not white space sensitive.
 
-### Why semicolons?
-Semicolons are used to denote the termination of a statement. If semicolons where made optional, it would mean enforcing a coding style either through sensitive white space (Python-esque) or curly brace positioning (automatic semicolon insertion). With semicolons, the programmer is free to decide what style is best suited to his needs.
-
 ## Implementation
 ### What does the compiler use?
 The compiler is written in C++ but in a very C style.
@@ -374,16 +371,16 @@ int *a, b;
 ```
 declares `a` to be a "pointer to int" but b to be an "int"; in Odin
 ```odin
-a, b: ^int;
+a, b: ^int
 ```
 declares both to be a "pointer to int". This is clearer and more regular. This syntax is borrowed from the Pascal family, along with using `^` to denote a pointer, as it is pointy.
 
 Due to the style of value declarations, the type can be omitted and inferred from the declaration. The following are all equivalent:
 ```odin
-a: int = 123;
-a :    = 123;
-a := 123;
-a := int(123);
+a: int = 123
+a :    = 123
+a := 123
+a := int(123)
 ```
 
 ### Why is there no pointer arithmetic?
@@ -392,14 +389,14 @@ Type safety and simplicity. Due to slices being a first-class datatype, a lot of
 ### Why are there no `++` or `--` operators?
 Pre-increment and post-increment, and the decrement equivalents, look simple but are complex. They require knowledge of the evaluation order and lead to subtle bugs. `f(i++)` or `a[++i] = b[i]` are both confusing, even if the rules are well defined. Removing this is a significant simplification.
 
-`x += 1;` is slightly longer but it is unambiguous.
+`x += 1` is slightly longer but it is unambiguous.
 
 ### Does Odin have C++-style constructors?
 No. The philosophy for Odin is that the zero value should be useful. By default, all variables are initialized to zero unless told otherwise with the `---` value.
 ```odin
-x: int;       // initialized to zero
-y: int = 0;   // explicitly initialized to zero
-z: int = ---; // uninitialized memory
+x: int       // initialized to zero
+y: int = 0   // explicitly initialized to zero
+z: int = --- // uninitialized memory
 ```
 
 ### Does Odin have C++-style copy constructors?
@@ -411,11 +408,11 @@ No. There are no ownership semantics in Odin.
 ### Does Odin have C++-style destructors?
 No. `defer` can be used to defer a statement till end of a scope. `defer` is explicit and much more flexible than a C++-style destructor in that it can be used for anything.
 ```odin
-f, err := os.open(...);
+f, err := os.open(...)
 if err != os.ERROR_NONE {
     // handle error
 }
-defer os.close(f); // will be executed at the end of the scope
+defer os.close(f) // will be executed at the end of the scope
 
 ...
 ```
@@ -441,17 +438,17 @@ begin_menu :: proc(name: string, flags: Flags = nil) -> (open: bool) {
 }
 
 end_menu :: proc(open := true) {
-    if !open do return;
+    if !open do return
     ...
 }
 @(deferred_out=end_menu)
 menu :: proc(name: string, flags: Flags = nil) -> (open: bool) {
-    return begin_menu(name, flags);
+    return begin_menu(name, flags)
 }
 
 
 if begin_menu("Hello") {
-    defer end_menu();
+    defer end_menu()
 }
 
 if menu("Hello") {

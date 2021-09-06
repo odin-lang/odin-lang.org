@@ -16,34 +16,34 @@ main :: proc() {
 	// third-party code to see what it does and to change how it does it is
 	// not possible.
 
-	c := context; // copy the current scope's context
+	c := context // copy the current scope's context
 
-	context.user_index = 456;
+	context.user_index = 456
 	{
-		context.allocator = my_custom_allocator();
-		context.user_index = 123;
-		what_a_fool_believes(); // the `context` for this scope is implicitly passed to `what_a_fool_believes`
+		context.allocator = my_custom_allocator()
+		context.user_index = 123
+		what_a_fool_believes() // the `context` for this scope is implicitly passed to `what_a_fool_believes`
 	}
 
 	// `context` value is local to the scope it is in
-	assert(context.user_index == 456);
+	assert(context.user_index == 456)
 
 	what_a_fool_believes :: proc() {
-		c := context; // this `context` is the same as the parent procedure that it was called from
+		c := context // this `context` is the same as the parent procedure that it was called from
 		// From this example, context.user_index == 123
 		// An context.allocator is assigned to the return value of `my_custom_allocator()`
-		assert(context.user_index == 123);
+		assert(context.user_index == 123)
 
 		// The memory management procedure use the `context.allocator` by
 		// default unless explicitly specified otherwise
-		china_grove := new(int);
-		free(china_grove);
+		china_grove := new(int)
+		free(china_grove)
 
-		_ = c;
+		_ = c
 	}
 
-	my_custom_allocator :: mem.nil_allocator;
-	_ = c;
+	my_custom_allocator :: mem.nil_allocator
+	_ = c
 
 	// By default, the context value has default values for its parameters which is
 	// decided in the package runtime. What the defaults are are compiler specific.

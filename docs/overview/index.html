@@ -1575,6 +1575,13 @@ for _, j in foos {
 	using foo := &amp;foos[j] // &quot;reference&quot;, changes to `f` or `i` are visible outside this scope
 	fmt.println(j, foo, f, i)
 }
+
+
+// By-reference range-based through pointer
+for v, j in &amp;foos {
+	using v // v is now a variable reference as `foos` was passed by pointer
+	fmt.println(j, foo, f, i)
+}
 </code></pre><h4 id=defer-if>&lsquo;defer if&rsquo; <a class=text-decoration-none href=#defer-if>#</a></h4>
 <pre><code class=language-odin data-lang=odin>defer if cond {
 }
@@ -1584,7 +1591,7 @@ for _, j in foos {
 	id:   u64,
 	name: string,
 
-	derived: any,
+	variant: union{^Frog},
 }
 
 Frog :: struct {
@@ -1596,13 +1603,13 @@ Frog :: struct {
 
 new_entity :: proc($T: typeid) -&gt; ^T {
 	e := new(T)
-	e.derived = e^
+	e.variant = e
 	return e
 }
 
 entity: ^Entity = new_entity(Frog)
-switch e in entity.derived {
-case Frog:
+switch e in entity.variant {
+case ^Frog:
 	fmt.println(&quot;Ribbit:&quot;, e.volume)
 }
 </code></pre><h2 id=extra-information>Extra information <a class=text-decoration-none href=#extra-information>#</a></h2>

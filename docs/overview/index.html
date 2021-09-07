@@ -1058,12 +1058,12 @@ fmt.println(len(d))
 fmt.println(cap(d))
 fmt.println(d[:])
 </code></pre><h4 id=soa_zip-and-soa_unzip><code>soa_zip</code> and <code>soa_unzip</code> <a class=text-decoration-none href=#soa_zip-and-soa_unzip>#</a></h4>
-<p>SOA is not just useful for high performance scenarios but also for everyday tasks which out only be achieveable in higher level languages. <code>soa_zip</code> is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.</p>
+<p>SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. <code>soa_zip</code> is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.</p>
 <pre><code class=language-odin data-lang=odin>x := []i32{1, 3, 9}
 y := []f32{2, 4, 16}
 z := []b32{true, false, true}
 
-// produce an #soa slice the normal slices passed
+// produce an #soa slice with the normal slices passed
 s := soa_zip(a=x, b=y, c=z)
 
 // iterate over the #soa slice
@@ -1272,7 +1272,7 @@ supertramp :: proc() {
 	free(ptr)
 }
 </code></pre><p>By default, the <code>context</code> value has default values for its parameters which is decided in the package runtime. These defaults are compiler specific.</p>
-<p>To see what the implicit <code>context</code> value contains, please see the following definition in <a href=https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin#L215>package runtime</a>.</p>
+<p>To see what the implicit <code>context</code> value contains, please see the definition of the <code>Context</code> struct in <a href=https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin>package runtime</a>.</p>
 <h3 id=allocators>Allocators <a class=text-decoration-none href=#allocators>#</a></h3>
 <p>Odin is a manual memory management based language. This means that Odin programmers must manage their own memory, allocations, and tracking. To aid with memory management, Odin has huge support for custom allocators, especially through the implicit <code>context</code> system.</p>
 <p>The built-in types of dynamic arrays and <code>map</code> both contain a custom allocator. This allocator can be either manually set or the allocator from the current <code>context</code> will be assigned to the data type.</p>

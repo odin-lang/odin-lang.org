@@ -1461,14 +1461,14 @@ fmt.println(d[:])
 
 #### `soa_zip` and `soa_unzip`
 
-SOA is not just useful for high performance scenarios but also for everyday tasks which out only be achieveable in higher level languages. `soa_zip` is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
+SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. `soa_zip` is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
 
 ```odin
 x := []i32{1, 3, 9}
 y := []f32{2, 4, 16}
 z := []b32{true, false, true}
 
-// produce an #soa slice the normal slices passed
+// produce an #soa slice with the normal slices passed
 s := soa_zip(a=x, b=y, c=z)
 
 // iterate over the #soa slice
@@ -1729,7 +1729,7 @@ supertramp :: proc() {
 
 By default, the `context` value has default values for its parameters which is decided in the package runtime. These defaults are compiler specific.
 
-To see what the implicit `context` value contains, please see the following definition in [package runtime](https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin#L215).
+To see what the implicit `context` value contains, please see the definition of the `Context` struct in [package runtime](https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin).
 
 ### Allocators
 Odin is a manual memory management based language. This means that Odin programmers must manage their own memory, allocations, and tracking. To aid with memory management, Odin has huge support for custom allocators, especially through the implicit `context` system.

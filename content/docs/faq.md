@@ -65,7 +65,7 @@ A quick overview of features (in no particular order):
     * `x := 1 // x is deduced to be an int`
 * `using`
     * making everything a namespace (similar to Pascal's `with` but on steroids)
-    * Ability to have [subtype polymorphism](#is-odin-an-objective-oriented-language)
+    * Ability to have [subtype polymorphism](#is-odin-an-object-oriented-language)
 * Multiple return values
 * Clean, consistent, and fast to parse syntax
 * No need for procedure prototypes
@@ -106,8 +106,8 @@ Odin uses plain error handling through the use of multiple return values. It is 
 Please see gingerBill's article for more information: [Exceptions — And Why Odin Will Never Have Them](https://www.gingerbill.org/article/2018/09/05/exceptions-and-why-odin-will-never-have-them/).
 
 ## Types
-### Is Odin an objective oriented language?
-No. Data structures as just data.
+### Is Odin an object oriented language?
+No. Data structures are just data.
 
 Subtype polymorphism is possible through the use of `using` but Odin does not offer methods.
 ```odin

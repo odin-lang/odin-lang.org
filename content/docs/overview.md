@@ -2132,6 +2132,13 @@ for _, j in foos {
 	using foo := &foos[j] // "reference", changes to `f` or `i` are visible outside this scope
 	fmt.println(j, foo, f, i)
 }
+
+
+// By-reference range-based through pointer
+for v, j in &foos {
+	using v // v is now a variable reference as `foos` was passed by pointer
+	fmt.println(j, foo, f, i)
+}
 ```
 
 #### 'defer if'
@@ -2149,7 +2156,7 @@ Entity :: struct {
 	id:   u64,
 	name: string,
 
-	derived: any,
+	variant: union{^Frog},
 }
 
 Frog :: struct {
@@ -2161,13 +2168,13 @@ Frog :: struct {
 
 new_entity :: proc($T: typeid) -> ^T {
 	e := new(T)
-	e.derived = e^
+	e.variant = e
 	return e
 }
 
 entity: ^Entity = new_entity(Frog)
-switch e in entity.derived {
-case Frog:
+switch e in entity.variant {
+case ^Frog:
 	fmt.println("Ribbit:", e.volume)
 }
 ```

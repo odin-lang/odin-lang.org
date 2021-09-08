@@ -1,7 +1,7 @@
-$blue:      #3882D2;
-$orange:    #EF7A30;
+$blue: #3882d2;
+$orange: #ef7a30;
 
-$primary:   $blue;
+$primary: $blue;
 $secondary: $orange;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
@@ -25,23 +25,9 @@ $secondary: $orange;
         max-width: 96px;
         max-height: 128px;
         -webkit-filter: grayscale(100%);
-                filter: grayscale(100%);
-    }
-    img + img {
-        margin-left: 1rem;
-    }
-    .respective {
-        padding-top: 1rem;
-        font-size: 0.8em;
+        filter: grayscale(100%);
     }
 }
 
-#vendor-packages {
-    img + img {
-        margin-left: 1rem;
-    }
-    .respective {
-        padding-top: 1rem;
-        font-size: 0.8em;
-    }
-}
+// #vendor-packages {
+// }

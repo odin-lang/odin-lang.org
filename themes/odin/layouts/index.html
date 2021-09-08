@@ -1,23 +1,8 @@
 {{ define "main" }}
 <main>
     <section class="section-style-1">
-        <div
-            class="
-                container
-                d-flex
-                flex-column
-                justify-content-center
-                align-items-center
-                text-center
-                p-5
-            "
-        >
-            <img
-                class="img-fluid mb-5 hero-logo"
-                src="/logo.svg"
-                height="120"
-                alt="Odin"
-            />
+        <div class=" container d-flex flex-column justify-content-center align-items-center text-center p-5 ">
+            <img class="img-fluid mb-5 hero-logo" src="/logo.svg" height="120" alt="Odin" />
             <h1 class="fw-normal"><b>Odin</b> Programming Language</h1>
             <h2 class="fw-normal">{{ .Site.Params.Slogan }}</h2>
             <div class="mt-3">
@@ -42,10 +27,7 @@
                     <a href="/docs" class="btn btn-outline-primary">
                         Read The Docs
                     </a>
-                    <a
-                        href="https://github.com/odin-lang/Odin/blob/master/examples/demo/demo.odin"
-                        class="btn btn-outline-primary"
-                    >
+                    <a href="https://github.com/odin-lang/Odin/blob/master/examples/demo/demo.odin" class="btn btn-outline-primary">
                         See The Full Demo
                     </a>
                 </div>
@@ -104,9 +86,7 @@
                             role="option"
                             aria-labelledby="example-5-code"
                         >
-                            <pre
-                                class="home-code-example"
-                            ><code class="language-odin border-start border-end border-bottom"
+                            <pre class="home-code-example"><code class="language-odin border-start border-end border-bottom"
                                 >{{ partial "odin-examples/reflection" }}</code
                             ></pre>
                         </div>
@@ -321,18 +301,8 @@
                     <h3 class="mb-4">Thank you!</h3>
                     <div class="mb-3">
                         <a href="https://www.patreon.com/gingerbill">
-                            <div
-                                style="
-                                    background-color: #ff424d;
-                                    height: 100px !important;
-                                    width: 250px;
-                                "
-                            >
-                                <img
-                                    src="/Digital-Patreon-Wordmark_White.png"
-                                    alt="Odin Patreon"
-                                    style="margin: 25px auto; width: 100%"
-                                />
+                            <div style=" background-color: #ff424d; height: 100px !important; width: 250px; ">
+                                <img src="/Digital-Patreon-Wordmark_White.png" alt="Odin Patreon" style="margin: 25px auto; width: 100%"/>
                             </div>
                         </a>
                     </div>

@@ -332,7 +332,7 @@ if x := foo() x < 0 {
 
 Variables declared inside an `if` initial statement are also available to any of the `else` blocks:
 ```odin
-if x := foo() x < 0 {
+if x := foo(); x < 0 {
 	fmt.println("x is negative")
 } else if x == 0 {
 	fmt.println("x is zero")

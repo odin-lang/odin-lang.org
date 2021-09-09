@@ -288,7 +288,7 @@ for key, value in some_map {
 	fmt.println(&quot;x is negative&quot;)
 }
 </code></pre><p>Variables declared inside an <code>if</code> initial statement are also available to any of the <code>else</code> blocks:</p>
-<pre><code class=language-odin data-lang=odin>if x := foo() x &lt; 0 {
+<pre><code class=language-odin data-lang=odin>if x := foo(); x &lt; 0 {
 	fmt.println(&quot;x is negative&quot;)
 } else if x == 0 {
 	fmt.println(&quot;x is zero&quot;)

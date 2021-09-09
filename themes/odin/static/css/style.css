@@ -2,6 +2,10 @@
     max-height: 120px;
 }
 
+pre {
+    border-radius: 4px;
+}
+
 .section-style-1 {
     background-color: #3882d2;
     color: var(--bs-light);

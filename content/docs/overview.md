@@ -10,7 +10,7 @@ This article is a basic tutorial for the programming language _Odin_. This tutor
 
 ## Hellope!
 
-To begin this tour, let us start with a modified version of the famous "hello world" program:
+Let's start with a modified version of the famous "hello world" program. Create a file called `hellope.odin` with the following contents:
 
 ```odin
 package main
@@ -21,11 +21,15 @@ main :: proc() {
 	fmt.println("Hellope!")
 }
 ```
-Save this code to the file "hellope.odin". Now compile and run it:
+
+Use the `odin run` command to compile the `.odin` file to an executable and run it:
+
 ```
 odin run hellope.odin
 ```
-The `run` command compiles the `.odin` file to an executable and then runs that executable after compilation. If you do not wish to run the executable after compilation, the `build` command can be used.
+
+Or use the `odin build` command to compile without running the executable after:
+
 ```
 odin build hellope.odin
 ```
@@ -54,7 +58,9 @@ Comments are parsed as tokens within the compiler. This is to allow for future w
 
 
 ### String and character literals
+
 String literals are enclosed in double quotes and character literals in single quotes. Special characters are escaped with a backslash `\`.
+
 ```odin
 "This is a string"
 'A'
@@ -68,7 +74,8 @@ Raw string literals are enclosed in single back ticks.
 `C:\Windows\notepad.exe`
 ```
 
-The length of a string can be found using the built-in `len` proc:
+Find the length of a string using the built-in `len` proc:
+
 ```odin
 len("Foo")
 len(some_string)
@@ -77,6 +84,7 @@ len(some_string)
 If the string passed to `len` is a compile-time constant, the value from `len` will be a compile-time constant.
 
 #### Escape Characters
+
 * `\a` - bell (BEL)
 * `\b` - backspace (BS)
 * `\e` - escape (ESC)
@@ -94,23 +102,34 @@ If the string passed to `len` is a compile-time constant, the value from `len` w
 * `\UNNNNNN` - hexadecimal 24-bit Unicode character UTF-8 encoded (6 digits)
 
 ### Numbers
-Numerical literals are written similar to most other programming languages. A useful feature in Odin is that underscores are allowed for better readability: `1_000_000_000` (one billion). A number that contains a dot is a floating point literal: `1.0e9` (one billion). If a number literal is suffixed with `i`, it is an imaginary number literal: `2i` (2 multiply the square root of -1).
 
-Binary literals are prefixed with `0b`, octal literals with `0o`, and hexadecimal literals with `0x`. A leading zero does not produce an octal constant (unlike C).
+Numerical literals are similar to most other programming languages.
 
-In Odin, if a number constant can be represented by a type without precision loss, it will automatically convert to that type.
+* Underscores (`_`) are allowed in numbers for better readability: `1_000_000_000` (one billion).
+* A number with a dot is a floating point literal: `1.0e9` (one billion).
+* A number literal suffixed with `i` is an imaginary number literal: `2i` (2 multiply the square root of -1).
+* Binary literals are prefixed with `0b`.
+* Octal literals are prefixed with `0o`.
+* Hexadecimal literals are prefixed with `0x`.
+* A leading zero does not produce an octal constant (unlike C).
+
+If a number constant can be represented by a type without precision loss, Odin automatically converts it to that type.
+
 ```odin
 x: int = 1.0 // A float literal but it can be represented by an integer without precision loss
 ```
 
-Constant literals are "untyped" which means that they can implicitly convert to a type.
+Constant literals are "untyped", meaning they can implicitly convert to a type.
+
 ```odin
 x: int // `x` is typed of type `int`
 x = 1 // `1` is an untyped integer literal which can implicitly convert to `int`
 ```
 
 ## Variable declarations
+
 A variable declaration declares a new variable for the current scope.
+
 ```odin
 x: int // declares x to have type `int`
 y, z: int // declares y and z to have type `int`
@@ -120,20 +139,24 @@ Variables are initialized to zero by default unless specified otherwise.
 
 ## Assignment statements
 
-The assignment statement assigns a new value to a variable/location:
+The assignment statement assigns a new value to a variable:
+
 ```odin
 x: int = 123 // declares a new variable `x` with type `int` and assigns a value to it
 x = 637 // assigns a new value to `x`
 ```
+
 `=` is the assignment operator.
 
 You can assign multiple variables with it:
+
 ```odin
 x, y := 1, "hello" // declares `x` and `y` and infers the types from the assignments
 y, x = "bye", 5
 ```
 
 **Note:** `:=` is two tokens, `:` and `=`. The following are all equivalent:
+
 ```odin
 x: int = 123
 x:     = 123 // default type for an integer literal is `int`
@@ -141,11 +164,15 @@ x := 123
 ```
 
 ## Constant declarations
-Constants are entities (symbols) which have an assigned value. The constant's value cannot be changed. The constant's value must be able to be evaluated at compile time:
+
+Constants are entities (symbols) with values evaluated at compile time. A constant's value cannot be changed.
+
 ```odin
 x :: "what" // constant `x` has the untyped string value "what"
 ```
+
 Constants can be explicitly typed like a variable declaration:
+
 ```odin
 y : int : 123
 z :: y + 7 // constant computations are possible
@@ -155,6 +182,7 @@ For more information regarding value declarations in general, please see the [Od
 
 
 ## Packages
+
 Every Odin program is made up of packages. Programs begin running in the package `main`.
 
 ### `import` statement
@@ -171,12 +199,12 @@ main :: proc() {
 }
 ```
 
-The `core:` prefix is used to state where the import is meant to look; this is called a library collection. If no prefix is present, the import will look relative to the current file.
-
+The `core:` prefix states where the import is meant to look; this is called a library collection. If no prefix is present, the import looks relative to the current file.
 
 **Note**: By convention, the package name is the same as the last element in the import path. `"core:fmt"` package comprises of files that begin with the statement `package fmt`. However, this is not enforced by the compiler, which means the default name for the import name will be determined by the last element in the import path if possible.
 
 A different import name can be used over the default package name:
+
 ```
 import "core:fmt"
 import foo "core:fmt" // reference a package by a different name
@@ -186,55 +214,63 @@ import foo "core:fmt" // reference a package by a different name
 
 All declarations in a package are exported by default.
 
-The `private` attribute can be applied to an entity to prevent it from being exported from a package.
+Applying the `private` attribute to an entity prevents it from being exported from a package.
+
 ```odin
 @(private)
 my_variable: int // cannot be accessed outside this package.
 ```
 
 You may also make an entity private to _the file_ instead of the package.
+
 ```odin
 @(private="file")
 my_variable: int // cannot be accessed outside this file.
 ```
+
 `@(private)` is equivalent to `@(private="package")`.
 
 
 ## Control flow statements
 
 ### `for` statement
+
 Odin has only one loop statement, the `for` loop.
 
 #### Basic for loop
 
 A basic `for` loop has three components separated by semicolons:
 
-* The initial statement: executed before the first iteration
-* The condition expression: evaluated before every iteration
-* The post statement: executed at the end of every iteration
+* Initial statement: executed before the first iteration
+* Condition expression: evaluated before every iteration
+* Post statement: executed at the end of every iteration
 
-The loop will stop executing when the condition is evaluated to `false`.
+The loop stops executing when the condition is evaluated to `false`.
 
 ```odin
 for i := 0; i < 10; i += 1 {
-	fmt.println(i)
+        fmt.println(i)
 }
 ```
 
-**Note:** Unlike other languages like C, there are no parentheses `( )` surrounding the three components. Braces `{ }` or a `do` are always required.
+Unlike other languages like C, there are no parentheses `( )` surrounding the three components. Braces `{ }` or a `do` are always required.
+
 ```odin
 for i := 0; i < 10; i += 1 { }
 for i := 0; i < 10; i += 1 do single_statement()
 ```
 
 The initial and post statements are optional:
+
 ```odin
 i := 0
 for ; i < 10; {
 	i += 1
 }
 ```
+
 These semicolons can be dropped. This `for` loop is equivalent to C's `while` loop:
+
 ```odin
 i := 0
 for i < 10 {
@@ -242,20 +278,25 @@ for i < 10 {
 }
 ```
 
-If the condition is omitted, this produces an infinite loop:
+Omit the condition as well to create an infinite loop:
+
 ```odin
 for {
 }
 ```
 
 #### Range-based for loop
+
 The basic for loop
+
 ```odin
 for i := 0; i < 10; i += 1 {
 	fmt.println(i)
 }
 ```
+
 can also be written
+
 ```odin
 for i in 0..<10 {
 	fmt.println(i)
@@ -265,9 +306,11 @@ for i in 0..9 {
 	fmt.println(i)
 }
 ```
+
 where `a..b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
 
 Certain built-in types can be iterated over:
+
 ```odin
 for character in some_string {
 	fmt.println(character)
@@ -287,6 +330,7 @@ for value in some_map {
 ```
 
 Alternatively a second index value can be added:
+
 ```odin
 for character, index in some_string {
 	fmt.println(index, character)
@@ -304,7 +348,9 @@ for key, value in some_map {
 	fmt.println(key, value)
 }
 ```
+
 The iterated values are *copies* and cannot be written to. The following idiom is useful for iterating over a container in a by-reference manner:
+
 ```odin
 for _, i in some_slice {
 	some_slice[i] = something
@@ -331,6 +377,7 @@ if x := foo() x < 0 {
 ```
 
 Variables declared inside an `if` initial statement are also available to any of the `else` blocks:
+
 ```odin
 if x := foo(); x < 0 {
 	fmt.println("x is negative")

@@ -22,13 +22,13 @@ main :: proc() {
 }
 ```
 
-Use the `odin run` command to compile the `.odin` file to an executable and run it:
+Use the `run` command to compile the `.odin` file to an executable and run it:
 
 ```
 odin run hellope.odin
 ```
 
-Or use the `odin build` command to compile without running the executable after:
+Or use the `build` command to compile without running the executable after:
 
 ```
 odin build hellope.odin
@@ -253,7 +253,7 @@ for i := 0; i < 10; i += 1 {
 }
 ```
 
-Unlike other languages like C, there are no parentheses `( )` surrounding the three components. Braces `{ }` or a `do` are always required.
+There are no parentheses `( )` surrounding the three components. Braces `{ }` or a `do` are always required.
 
 ```odin
 for i := 0; i < 10; i += 1 { }
@@ -278,7 +278,7 @@ for i < 10 {
 }
 ```
 
-Omit the condition as well to create an infinite loop:
+A `for` loop without statements or a condition creates an infinite loop:
 
 ```odin
 for {
@@ -312,20 +312,31 @@ where `a..b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusi
 Certain built-in types can be iterated over:
 
 ```odin
-for character in some_string {
-	fmt.println(character)
+some_string := "Hello, 世界"
+for character in some_string { // Strings are assumed to be UTF-8
+        fmt.println(character)
 }
+
+some_array := [3]int{1, 4, 9}
 for value in some_array {
-	fmt.println(value)
+        fmt.println(value)
 }
+
+some_slice := []int{1, 4, 9}
 for value in some_slice {
-	fmt.println(value)
+        fmt.println(value)
 }
+
+some_dynamic_array := [dynamic]int{1, 4, 9}
+defer delete(some_dynamic_array)
 for value in some_dynamic_array {
-	fmt.println(value)
+        fmt.println(value)
 }
-for value in some_map {
-	fmt.println(value)
+
+some_map := map[string]int{"A" = 1, "C" = 9, "B" = 4}
+defer delete(some_map)
+for key in some_map {
+        fmt.println(key)
 }
 ```
 
@@ -368,6 +379,7 @@ if x >= 0 {
 	fmt.println("x is positive")
 }
 ```
+
 Like `for`, the `if` statement can start with an initial statement to execute before the condition. Variables declared by the initial statement are only in the scope of that `if` statement.
 
 ```odin
@@ -389,7 +401,8 @@ if x := foo(); x < 0 {
 ```
 
 ### `switch` statement
-A switch statement is another way to write a sequence of if-else statements. In Odin, the default case is denoted as a case without any expression.
+
+A switch statement is another way to write a sequence of if-else statements. In Odin, the default case is a case without the expression.
 
 ```odin
 package main
@@ -408,6 +421,7 @@ main :: proc() {
 	}
 }
 ```
+
 Odin's `switch` is like the one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
 
 To achieve a C-like fall through into the next case block, the keyword [`fallthrough`](#fallthrough-statement) can be used.

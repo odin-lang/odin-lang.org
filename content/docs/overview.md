@@ -402,7 +402,7 @@ if x := foo(); x < 0 {
 
 ### `switch` statement
 
-A switch statement is another way to write a sequence of if-else statements. In Odin, the default case is a case without the expression.
+A `switch` statement is another way to write a sequence of if-else statements. In Odin, the default case is a case without an expression.
 
 ```odin
 package main
@@ -411,60 +411,76 @@ import "core:fmt"
 import "core:os"
 
 main :: proc() {
-	switch arch := ODIN_ARCH; arch {
-	case "386":
-		fmt.println("32 bit")
-	case "amd64":
-		fmt.println("64 bit")
-	case: // default
-		fmt.println("Unsupported architecture")
-	}
+    switch arch := ODIN_ARCH; arch {
+    case "386":
+        fmt.println("32 bit")
+    case "amd64":
+        fmt.println("64 bit")
+    case: // default
+        fmt.println("Unsupported architecture")
+    }
 }
 ```
 
-Odin's `switch` is like the one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
+Odin's `switch` is like a C or C++ `switch`, but has some key differences:
+
+* Odin only runs the selected case
+* `break` statements for each case are not required
+* case values do not have to be integers or constants
 
 To achieve a C-like fall through into the next case block, the keyword [`fallthrough`](#fallthrough-statement) can be used.
 
-
-Switch cases are evaluated from top to bottom, stopping when a case succeeds. For example:
 ```odin
 switch i {
-case 0:
-case foo():
+    case 0:
+        foo()
+        fallthrough
+    case 1:
+        bar()
 }
 ```
+
+Switch cases are evaluated from top to bottom, stopping when a case succeeds. For example:
+
+```odin
+switch i {
+    case 0:
+    case foo():
+}
+```
+
 `foo()` does not get called if `i==0`. If all the case values are constants, the compiler may optimize the switch statement into a jump table (like C).
 
+A `switch` statement without a condition is the same as `switch true`. This can be used to write a clean and long if-else chain and have the ability to [`break`](#fallthrough-statement) if needed:
 
-A `switch` statement without a condition is the same as `switch true`. This can be used to write a clean and long if-else chain and have the ability to [`break`](#fallthrough-statement) if needed
 ```odin
 switch {
-case x < 0:
-	fmt.println("x is negative")
-case x == 0:
-	fmt.println("x is zero")
-case:
-	fmt.println("x is positive")
+    case x < 0:
+        fmt.println("x is negative")
+    case x == 0:
+        fmt.println("x is zero")
+    case:
+        fmt.println("x is positive")
 }
 ```
 
 A `switch` statement can also use ranges like a range-based loop:
+
 ```odin
 switch c {
-case 'A'..'Z', 'a'..'z', '0'..'9':
-	fmt.println("c is alphanumeric")
+    case 'A'..'Z', 'a'..'z', '0'..'9':
+       fmt.println("c is alphanumeric")
 }
 
 switch x {
-case 0..<10:
-	fmt.println("units")
-case 10..<13:
-	fmt.println("pre-teens")
-case 13..<20:
-	fmt.println("teens")
-case 20..<30:
-	fmt.println("twenties")
+    case 0..<10:
+        fmt.println("units")
+    case 10..<13:
+        fmt.println("pre-teens")
+    case 13..<20:
+        fmt.println("teens")
+    case 20..<30:
+        fmt.println("twenties")
 }
 ```
 
@@ -594,7 +610,7 @@ case 1:
 ```
 
 ## Procedures
-In Odin, a procedure is something that can do work, which some languages call _functions_ or _methods_. A procedure literal in Odin is defined with the `proc` keyword:
+In Odin, a procedure is something that can do work. Some languages call these _functions_ or _methods_. A procedure literal is defined with the `proc` keyword:
 
 ```odin
 fibonacci :: proc(n: int) -> int {

@@ -18,7 +18,7 @@ package main
 import "core:fmt"
 
 main :: proc() {
-	fmt.println("Hellope!")
+	fmt.println("Hellope!");
 }
 ```
 Save this code to the file "hellope.odin". Now compile and run it:

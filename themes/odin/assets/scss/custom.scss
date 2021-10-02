@@ -1,0 +1,33 @@
+$blue: #3882d2;
+$orange: #ef7a30;
+
+$primary: $blue;
+$secondary: $orange;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+// Fix text buttons with blue background being black instead of white
+.btn-outline-primary:hover {
+    color: $light;
+}
+
+.example-code pre {
+    margin-bottom: 0.5em;
+}
+
+.home-code-example {
+    // max-height: 31rem;
+    max-height: 18rem;
+}
+
+#jangafx-companies {
+    img {
+        max-width: 96px;
+        max-height: 128px;
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+}
+
+// #vendor-packages {
+// }

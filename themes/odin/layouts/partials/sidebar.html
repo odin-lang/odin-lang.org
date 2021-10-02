@@ -1,0 +1,20 @@
+<nav class="col-lg-2 odin-sidebar-border navbar-light">
+    <div class="sticky-top odin-below-navbar py-3">
+        <ul class="nav nav-pills d-flex flex-column">
+            {{ $currentPage := . }}
+            {{ range where .Site.RegularPages "Section" .Section }}
+                <!-- NOTE(Wojciech): This is not the way they tell you to do this in the docs but the way in the docs is broken.
+                Presumably we can change this when they fix it (haven't for 3 years). -->
+                {{ $active := eq $currentPage.RelPermalink .RelPermalink }}
+                <li class="nav-item">
+                    <a
+                        class="nav-link{{ if $active }} active{{ end }}"
+                        href="{{ .RelPermalink }}"
+                        {{if $active}}aria-current="page"{{end}}
+                        >{{ .LinkTitle }}</a
+                    >
+                </li>
+            {{ end }}
+        </ul>
+    </div>
+</nav>

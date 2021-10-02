@@ -1,0 +1,43 @@
+{{ define "main" }}
+<main>
+    <div class="container">
+        <div class="row odin-main">
+            <!-- Left menu -->
+            {{ partial "sidebar" . }}
+
+            <!-- Content -->
+            <article class="col-lg-8 p-4">
+                <header>
+                    <nav aria-label="breadcrumb">
+                        {{ $url := replace .Permalink ( printf "%s" .Site.BaseURL) "" }}
+                        {{ $.Scratch.Add "path" .Site.BaseURL }}
+                        <ol class="breadcrumb">
+                            {{ range (split .RelPermalink "/") }}
+                                {{ if gt (len . ) 0 }}
+                            <li class="breadcrumb-item"><a href="/{{ . }}">{{ humanize (replace . "posts" "blog") }}</a></li>
+                                {{ end }}
+                            {{ end }}
+                        </ol>
+                    </nav>
+                    <h1>{{ .Title }}</h1>
+                </header>
+                <div class="odin-article">
+                    <!-- {{ .Content }} -->
+
+                    <!-- Add anchors to links -->
+                    {{ .Content | replaceRE "(<h[2-9] id=\"([^\"]+)\".+)(</h[2-9]+>)" "${1} <a class=\"text-decoration-none\" href=\"#${2}\">#</a>${3}" | safeHTML }}
+                </div>
+            </article>
+
+            <!-- Right menu -->
+            {{ if ne .TableOfContents "<nav id=\"TableOfContents\"></nav>" }}
+            <div class="col-lg-2 odin-toc-border navbar-light">
+                <div class="sticky-top odin-below-navbar py-3">
+                    {{ .TableOfContents }}
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</main>
+{{ end }}

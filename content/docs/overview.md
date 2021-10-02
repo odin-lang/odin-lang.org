@@ -1,8 +1,7 @@
 ---
-title: Odin Overview
-url: "/docs/overview"
-warning: true
-show_table_of_contents: true
+title: Overview
+summary: An overview of the Odin programming language and its features.
+weight: 2
 ---
 
 ## Introduction
@@ -19,7 +18,7 @@ package main
 import "core:fmt"
 
 main :: proc() {
-	fmt.println("Hellope!");
+	fmt.println("Hellope!")
 }
 ```
 Save this code to the file "hellope.odin". Now compile and run it:
@@ -37,7 +36,7 @@ Comments can be anywhere outside of a string or character literal. Single line c
 ```odin
 // A comment
 
-my_integer_variable: int; // A comment for documentation
+my_integer_variable: int // A comment for documentation
 ```
 
 Multi-line comments begin with `/*` and end with `*/`. Multi-line comments can be also be nested (unlike in C):
@@ -101,20 +100,20 @@ Binary literals are prefixed with `0b`, octal literals with `0o`, and hexadecima
 
 In Odin, if a number constant can be represented by a type without precision loss, it will automatically convert to that type.
 ```odin
-x: int = 1.0; // A float literal but it can be represented by an integer without precision loss
+x: int = 1.0 // A float literal but it can be represented by an integer without precision loss
 ```
 
 Constant literals are "untyped" which means that they can implicitly convert to a type.
 ```odin
-x: int; // `x` is typed of type `int`
-x = 1; // `1` is an untyped integer literal which can implicitly convert to `int`
+x: int // `x` is typed of type `int`
+x = 1 // `1` is an untyped integer literal which can implicitly convert to `int`
 ```
 
 ## Variable declarations
 A variable declaration declares a new variable for the current scope.
 ```odin
-x: int; // declares x to have type `int`
-y, z: int; // declares y and z to have type `int`
+x: int // declares x to have type `int`
+y, z: int // declares y and z to have type `int`
 ```
 
 Variables are initialized to zero by default unless specified otherwise.
@@ -123,33 +122,33 @@ Variables are initialized to zero by default unless specified otherwise.
 
 The assignment statement assigns a new value to a variable/location:
 ```odin
-x: int = 123; // declares a new variable `x` with type `int` and assigns a value to it
-x = 637; // assigns a new value to `x`
+x: int = 123 // declares a new variable `x` with type `int` and assigns a value to it
+x = 637 // assigns a new value to `x`
 ```
 `=` is the assignment operator.
 
 You can assign multiple variables with it:
 ```odin
-x, y := 1, "hello"; // declares `x` and `y` and infers the types from the assignments
-y, x = "bye", 5;
+x, y := 1, "hello" // declares `x` and `y` and infers the types from the assignments
+y, x = "bye", 5
 ```
 
 **Note:** `:=` is two tokens, `:` and `=`. The following are all equivalent:
 ```odin
-x: int = 123;
-x:     = 123; // default type for an integer literal is `int`
-x := 123;
+x: int = 123
+x:     = 123 // default type for an integer literal is `int`
+x := 123
 ```
 
 ## Constant declarations
 Constants are entities (symbols) which have an assigned value. The constant's value cannot be changed. The constant's value must be able to be evaluated at compile time:
 ```odin
-x :: "what"; // constant `x` has the untyped string value "what"
+x :: "what" // constant `x` has the untyped string value "what"
 ```
 Constants can be explicitly typed like a variable declaration:
 ```odin
-y : int : 123;
-z :: y + 7; // constant computations are possible
+y : int : 123
+z :: y + 7 // constant computations are possible
 ```
 
 For more information regarding value declarations in general, please see the [Odin FAQ](/docs/faq) and Ginger Bill's article [On the Aesthetics of the Syntax of Declarations](https://www.gingerbill.org/article/2018/03/12/on-the-aesthetics-of-the-syntax-of-declarations/).
@@ -158,7 +157,7 @@ For more information regarding value declarations in general, please see the [Od
 ## Packages
 Every Odin program is made up of packages. Programs begin running in the package `main`.
 
-### Import statement
+### `import` statement
 
 The following program imports the the `fmt` and `os` packages from the `core` library collection.
 
@@ -190,20 +189,20 @@ All declarations in a package are exported by default.
 The `private` attribute can be applied to an entity to prevent it from being exported from a package.
 ```odin
 @(private)
-my_variable: int; // cannot be accessed outside this package.
+my_variable: int // cannot be accessed outside this package.
 ```
 
 You may also make an entity private to _the file_ instead of the package.
 ```odin
 @(private="file")
-my_variable: int; // cannot be accessed outside this file.
+my_variable: int // cannot be accessed outside this file.
 ```
 `@(private)` is equivalent to `@(private="package")`.
 
 
 ## Control flow statements
 
-### For statement
+### `for` statement
 Odin has only one loop statement, the `for` loop.
 
 #### Basic for loop
@@ -218,28 +217,28 @@ The loop will stop executing when the condition is evaluated to `false`.
 
 ```odin
 for i := 0; i < 10; i += 1 {
-    fmt.println(i);
+	fmt.println(i)
 }
 ```
 
 **Note:** Unlike other languages like C, there are no parentheses `( )` surrounding the three components. Braces `{ }` or a `do` are always required.
 ```odin
 for i := 0; i < 10; i += 1 { }
-for i := 0; i < 10; i += 1 do single_statement();
+for i := 0; i < 10; i += 1 do single_statement()
 ```
 
 The initial and post statements are optional:
 ```odin
-i := 0;
+i := 0
 for ; i < 10; {
-    i += 1;
+	i += 1
 }
 ```
 These semicolons can be dropped. This `for` loop is equivalent to C's `while` loop:
 ```odin
-i := 0;
+i := 0
 for i < 10 {
-    i += 1;
+	i += 1
 }
 ```
 
@@ -253,17 +252,17 @@ for {
 The basic for loop
 ```odin
 for i := 0; i < 10; i += 1 {
-    fmt.println(i);
+	fmt.println(i)
 }
 ```
 can also be written
 ```odin
 for i in 0..<10 {
-    fmt.println(i);
+	fmt.println(i)
 }
 // or
 for i in 0..9 {
-    fmt.println(i);
+	fmt.println(i)
 }
 ```
 where `a..b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
@@ -271,38 +270,38 @@ where `a..b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusi
 Certain built-in types can be iterated over:
 ```odin
 for character in some_string {
-    fmt.println(character);
+	fmt.println(character)
 }
 for value in some_array {
-    fmt.println(value);
+	fmt.println(value)
 }
 for value in some_slice {
-    fmt.println(value);
+	fmt.println(value)
 }
 for value in some_dynamic_array {
-    fmt.println(value);
+	fmt.println(value)
 }
 for value in some_map {
-    fmt.println(value);
+	fmt.println(value)
 }
 ```
 
 Alternatively a second index value can be added:
 ```odin
 for character, index in some_string {
-    fmt.println(index, character);
+	fmt.println(index, character)
 }
 for value, index in some_array {
-    fmt.println(index, value);
+	fmt.println(index, value)
 }
 for value, index in some_slice {
-    fmt.println(index, value);
+	fmt.println(index, value)
 }
 for value, index in some_dynamic_array {
-    fmt.println(index, value);
+	fmt.println(index, value)
 }
 for key, value in some_map {
-    fmt.println(key, value);
+	fmt.println(key, value)
 }
 ```
 
@@ -325,7 +324,7 @@ for value, index in some_slice {
 In instances like this, you may use the `_`:
 ```odin
 for _, index in some_slice {
-    some_slice[index] = something;
+    some_slice[index] = something
 }
 ```
 This is a useful idiom for iterating over a slice in a "by-reference" manner.
@@ -357,35 +356,35 @@ Stuff :: struct {
 ```
 The unnamed `u64` will still be in the struct; you just can't access it by name.
 
-### If statement
+### `if` statement
 
 Odin's `if` statements do not need to be surrounded by parentheses `( )` but braces `{ }` or `do` are required.
 
 ```odin
 if x >= 0 {
-    fmt.println("x is positive");
+	fmt.println("x is positive")
 }
 ```
 Like `for`, the `if` statement can start with an initial statement to execute before the condition. Variables declared by the initial statement are only in the scope of that `if` statement.
 
 ```odin
-if x := foo(); x < 0 {
-    fmt.println("x is negative");
+if x := foo() x < 0 {
+	fmt.println("x is negative")
 }
 ```
 
 Variables declared inside an `if` initial statement are also available to any of the `else` blocks:
 ```odin
 if x := foo(); x < 0 {
-    fmt.println("x is negative");
+	fmt.println("x is negative")
 } else if x == 0 {
-    fmt.println("x is zero");
+	fmt.println("x is zero")
 } else {
-    fmt.println("x is positive");
+	fmt.println("x is positive")
 }
 ```
 
-### Switch statement
+### `switch` statement
 A switch statement is another way to write a sequence of if-else statements. In Odin, the default case is denoted as a case without any expression.
 
 ```odin
@@ -395,14 +394,14 @@ import "core:fmt"
 import "core:os"
 
 main :: proc() {
-    switch arch := ODIN_ARCH; arch {
-    case "386":
-        fmt.println("32 bit");
-    case "amd64":
-        fmt.println("64 bit");
-    case: // default
-        fmt.println("Unsupported architecture");
-    }
+	switch arch := ODIN_ARCH; arch {
+	case "386":
+		fmt.println("32 bit")
+	case "amd64":
+		fmt.println("64 bit")
+	case: // default
+		fmt.println("Unsupported architecture")
+	}
 }
 ```
 Odin's `switch` is like the one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
@@ -424,11 +423,11 @@ A `switch` statement without a condition is the same as `switch true`. This can 
 ```odin
 switch {
 case x < 0:
-    fmt.println("x is negative");
+	fmt.println("x is negative")
 case x == 0:
-    fmt.println("x is zero");
+	fmt.println("x is zero")
 case:
-    fmt.println("x is positive");
+	fmt.println("x is positive")
 }
 ```
 
@@ -436,22 +435,22 @@ A `switch` statement can also use ranges like a range-based loop:
 ```odin
 switch c {
 case 'A'..'Z', 'a'..'z', '0'..'9':
-	fmt.println("c is alphanumeric");
+	fmt.println("c is alphanumeric")
 }
 
 switch x {
 case 0..<10:
-	fmt.println("units");
+	fmt.println("units")
 case 10..<13:
-	fmt.println("pre-teens");
+	fmt.println("pre-teens")
 case 13..<20:
-	fmt.println("teens");
+	fmt.println("teens")
 case 20..<30:
-	fmt.println("twenties");
+	fmt.println("twenties")
 }
 ```
 
-### Defer statement
+### `defer` statement
 A defer statement defers the execution of a statement until the end of the scope it is in.
 
 The following will print `4` then `234`:
@@ -461,53 +460,53 @@ package main
 import "core:fmt"
 
 main :: proc() {
-    x := 123;
-    defer fmt.println(x);
-    {
-        defer x = 4;
-        x = 2;
-    }
-    fmt.println(x);
+	x := 123
+	defer fmt.println(x)
+	{
+		defer x = 4
+		x = 2
+	}
+	fmt.println(x)
 
-    x = 234;
+	x = 234
 }
 ```
 
 You can defer an entire block too:
 ```odin
 {
-    defer {
-        foo();
-        bar();
-    }
-    defer if cond {
-        bar();
-    }
+	defer {
+		foo()
+		bar()
+	}
+	defer if cond {
+		bar()
+	}
 }
 ```
 
 Defer statements are executed in the reverse order that they were declared:
 ```odin
-defer fmt.println("1");
-defer fmt.println("2");
-defer fmt.println("3");
+defer fmt.println("1")
+defer fmt.println("2")
+defer fmt.println("3")
 ```
 Will print `3`, `2`, and then `1`.
 
 A real world use case for `defer` may be something like the following:
 ```odin
-f, err := os.open("my_file.txt");
+f, err := os.open("my_file.txt")
 if err != os.ERROR_NONE {
-    // handle error
+	// handle error
 }
-defer os.close(f);
+defer os.close(f)
 // rest of code
 ```
 In this case, it acts akin to an explicit C++ destructor however, the error handling is basic control flow.
 
 **Note:** The `defer` construct in Odin differs from Go's `defer`, which is function-exit and relies on a closure stack system.
 
-### When statement
+### `when` statement
 The `when` statement is almost identical to the `if` statement but with some differences:
 
 * Each condition must be a constant expression as a `when` statement is evaluated at compile time.
@@ -519,79 +518,78 @@ The `when` statement is almost identical to the `if` statement but with some dif
 Example:
 ```odin
 when ODIN_ARCH == "386" {
-	fmt.println("32 bit");
+	fmt.println("32 bit")
 } else when ODIN_ARCH == "amd64" {
-	fmt.println("64 bit");
+	fmt.println("64 bit")
 } else {
-	fmt.println("Unsupported architecture");
+	fmt.println("Unsupported architecture")
 }
 ```
 
 The `when` statement is very useful for writing platform specific code. This is akin to the `#if` construct in C's preprocessor. However, in Odin, it is type checked.
 
 ### Branch statements
-#### Break statement
+#### `break` statement
 A for loop or a switch statement can be left prematurely with a `break` statement. It leaves the innermost construct, unless a label of a construct is given:
 ```odin
 for cond {
-    switch {
-    case:
-        if cond {
-            break; // break out of the `switch` statement
-        }
-    }
+	switch {
+	case:
+		if cond {
+			break // break out of the `switch` statement
+		}
+	}
 
-    break; // break out of the `for` statement
+	break; // break out of the `for` statement
 }
 
 loop: for cond1 {
-    for cond2 {
-        break loop; // leaves both loops
-    }
+	for cond2 {
+		break loop // leaves both loops
+	}
 }
 ```
 
-#### Continue statement
+#### `continue` statement
 As in many programming languages, a `continue` statement starts the next iteration of a loop prematurely:
 ```odin
 for cond {
-    if get_foo() {
-        continue;
-    }
-    fmt.println("Hellope");
+	if get_foo() {
+		continue
+	}
+	fmt.println("Hellope")
 }
 ```
 
-#### Fallthrough statement
+#### `fallthrough` statement
 Odin's `switch` is like the one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
 
 `fallthrough` can be used to explicitly fall through into the next case block:
 ```odin
 switch i {
 case 0:
-    foo();
-    fallthrough;
+	foo()
+	fallthrough
 case 1:
-    bar();
+	bar()
 }
 ```
-
 
 ## Procedures
 In Odin, a procedure is something that can do work, which some languages call _functions_ or _methods_. A procedure literal in Odin is defined with the `proc` keyword:
 
 ```odin
 fibonacci :: proc(n: int) -> int {
-    switch {
-    case n < 1:
-        return 0;
-    case n == 1:
-        return 1;
-    }
-    return fibonacci(n-1) + fibonacci(n-2);
+	switch {
+	case n < 1:
+		return 0
+	case n == 1:
+		return 1
+	}
+	return fibonacci(n-1) + fibonacci(n-2)
 }
 
-fmt.println(fibonacci(3));
+fmt.println(fibonacci(3))
 ```
 
 For more information regarding value declarations in general, please see the [Odin FAQ](/docs/faq).
@@ -600,17 +598,17 @@ For more information regarding value declarations in general, please see the [Od
 Procedures can take zero or many parameters. The following example is a basic procedure that multiplies two integers together:
 ```odin
 multiply :: proc(x: int, y: int) -> int {
-    return x * y;
+	return x * y
 }
-fmt.println(multiply(137, 432));
+fmt.println(multiply(137, 432))
 ```
 
 When two or more consecutive parameters share a type, you can omit the other types from previous names, like with variable declarations. In this example: `x: int, y: int` can be shortened to `x, y: int`, for example:
 ```odin
 multiply :: proc(x, y: int) -> int {
-    return x * y;
+	return x * y
 }
-fmt.println(multiply(137, 432));
+fmt.println(multiply(137, 432))
 ```
 
 Continuing the C family tradition, everything in Odin is passed by value. The procedure always gets a copy of the thing that has been passed, as if there was an assignment statement to the procedure parameter.
@@ -623,10 +621,10 @@ Parameters in a procedure body will be mutable, but as they are copies, they wil
 A procedure in Odin can return any number of results. For example:
 ```odin
 swap :: proc(x, y: int) -> (int, int) {
-    return y, x;
+	return y, x
 }
-a, b := swap(1, 2);
-fmt.println(a, b); // 2 1
+a, b := swap(1, 2)
+fmt.println(a, b) // 2 1
 ```
 
 ### Named results
@@ -634,14 +632,14 @@ Return values in Odin may be named. If so, they are treated as variables defined
 
 ```odin
 do_math :: proc(input: int) -> (x, y: int) {
-    x = 2*input + 1;
-    y = 3*input / 5;
-    return x, y;
+	x = 2*input + 1
+	y = 3*input / 5
+	return x, y
 }
 do_math_with_naked_return :: proc(input: int) -> (x, y: int) {
-    x = 2*input + 1;
-    y = 3*input / 5;
-    return;
+	x = 2*input + 1
+	y = 3*input / 5
+	return
 }
 ```
 
@@ -650,7 +648,7 @@ When calling a procedure, it is not clear in which order parameters might appear
 ```odin
 create_window :: proc(title: string, x, y: int, width, height: int, monitor: ^Monitor) -> (^Window, Window_Error) {...}
 
-window, err := create_window(title="Hellope Title", monitor=nil, width=854, height=480, x=0, y=0);
+window, err := create_window(title="Hellope Title", monitor=nil, width=854, height=480, x=0, y=0)
 ```
 
 **Note:** Currently, mixing named and non-named arguments is not allowed. This is subject to change if it is deemed necessary.
@@ -661,8 +659,8 @@ The `create_window` procedure may be easier to use if default values are provide
 ```odin
 create_window :: proc(title: string, x := 0, y := 0, width := 854, height := 480, monitor: ^Monitor = nil) -> (^Window, Window_Error) {...}
 
-window1, err1 := create_window("Title1");
-window2, err2 := create_window(title="Title1", width=640, height=360);
+window1, err1 := create_window("Title1")
+window2, err2 := create_window(title="Title1", width=640, height=360)
 ```
 
 **Note:** These default values must be compile time known values, such as a constant value or `nil` (if the type supports it).
@@ -673,7 +671,7 @@ Unlike other languages, Odin provides the ability to explicitly overload procedu
 bool_to_string :: proc(b: bool) -> string {...}
 int_to_string  :: proc(i: int)  -> string {...}
 
-to_string :: proc{bool_to_string, int_to_string};
+to_string :: proc{bool_to_string, int_to_string}
 ```
 
 #### Rationale behind explicit overloading
@@ -689,11 +687,11 @@ Explicit overloading has many advantages:
 
 ```odin
 foo :: proc{
-    foo_bar,
-    foo_baz,
-    foo_baz2,
-    another_thing_entirely,
-};
+	foo_bar,
+	foo_baz,
+	foo_baz2,
+	another_thing_entirely,
+}
 ```
 
 
@@ -717,8 +715,8 @@ complex64 complex128 // complex numbers
 quaternion128 quaternion256 // quaternion numbers
 
 rune // signed 32 bit integer
-     // represents a Unicode code point
-     // is a distinct type to `i32`
+	 // represents a Unicode code point
+	 // is a distinct type to `i32`
 
 // strings
 string cstring
@@ -752,15 +750,15 @@ The expression `{}` can be used for all types to act as a zero type. This is not
 
 The expression `T(v)` converts the value `v` to the type `T`.
 ```odin
-i: int = 123;
-f: f64 = f64(i);
-u: u32 = u32(f);
+i: int = 123
+f: f64 = f64(i)
+u: u32 = u32(f)
 ```
 or with type inference:
 ```odin
-i := 123;
-f := f64(i);
-u := u32(f);
+i := 123
+f := f64(i)
+u := u32(f)
 ```
 
 Unlike C, assignments between values of a different type require an explicit conversion.
@@ -768,23 +766,23 @@ Unlike C, assignments between values of a different type require an explicit con
 #### Cast operator
 The `cast` operator can also be used to do the same thing:
 ```odin
-i := 123;
-f := cast(f64)i;
-u := cast(u32)f;
+i := 123
+f := cast(f64)i
+u := cast(u32)f
 ```
 This is useful is some contexts but has the same semantic meaning.
 
 #### Transmute operator
 The `transmute` operator is a bit cast conversion between two types of the same size:
 ```odin
-f := f32(123);
-u := transmute(u32)f;
+f := f32(123)
+u := transmute(u32)f
 ```
 
 This is akin to doing the following pointer cast manipulations:
 ```odin
-f := f32(123);
-u := (^u32)(&f)^;
+f := f32(123)
+u := (^u32)(&f)^
 ```
 However, `transmute` does not require taking the address of the value in question, which may not be possible for many expressions.
 
@@ -794,8 +792,8 @@ In the Odin type system, certain expressions will have an "untyped" type. An unt
 ### Auto cast operation
 The `auto_cast` operator automatically casts an expression to the destination's type if possible:
 ```odin
-x: f32 = 123;
-y: int = auto_cast x;
+x: f32 = 123
+y: int = auto_cast x
 ```
 **Note:** This operation is only recommended to be used for prototyping and quick tests. Please do not abuse it.
 
@@ -812,44 +810,44 @@ nil   // untyped nil value used for certain values
 
 `---` is useful if you want to explicitly not initialize a variable with any default value:
 ```odin
-x: int; // initialized with its zero value
-y: int = ---; // uses uninitialized memory
+x: int // initialized with its zero value
+y: int = --- // uses uninitialized memory
 ```
 This is the default behaviour in C.
 
 
-### cstring type
+### `cstring` type
 The `cstring` type is a c-style string value, which is zero-terminated. It is equivalent to `char const *` in C. Its primary purpose is for easy interfacing with C. Please see the [foreign system](#foreign-system) for more information.
 
 A `cstring` is easily convertible to an Odin `string`. However, to convert a `string` to a `cstring`, it requires allocations if the value is not constant.
 
 ```odin
-str:  string  = "Hellope";
-cstr: cstring = "Hellope"; // constant literal;
-cstr2 := string(cstr);     // O(n) conversion as it requires search from the zero-terminator
-nstr  := len(str);  // O(1)
-ncstr := len(cstr); // O(n)
+str:  string  = "Hellope"
+cstr: cstring = "Hellope" // constant literal
+cstr2 := string(cstr)     // O(n) conversion as it requires search from the zero-terminator
+nstr  := len(str)  // O(1)
+ncstr := len(cstr) // O(n)
 ```
 
 ## Advanced types
 ### Type alias
 You can alias a named type with another name:
 ```odin
-My_Int :: int;
-#assert(My_Int == int);
+My_Int :: int
+#assert(My_Int == int)
 ```
 
 ### Distinct types
 A distinct type allows for the creation of a new type with the same underlying semantics.
 ```odin
-My_Int :: distinct int;
-#assert(My_Int != int);
+My_Int :: distinct int
+#assert(My_Int != int)
 ```
 
-Aggregate types (struct, enum, union, bit_field) will always be distinct even when named.
+Aggregate types (struct, enum, union) will always be distinct even when named.
 ```odin
-Foo :: struct {};
-#assert(Foo != struct{});
+Foo :: struct {}
+#assert(Foo != struct{})
 ```
 
 
@@ -858,24 +856,24 @@ An array is a simplified fixed length container. Each element in an array has th
 
 An array can be constructed like the following:
 ```odin
-x := [5]int{1, 2, 3, 4, 5};
+x := [5]int{1, 2, 3, 4, 5}
 for i in 0..4 {
-    fmt.println(x[i]);
+	fmt.println(x[i])
 }
 ```
 The notation `x[i]` is used to access the i-th element of `x`; and 0-index based (like C).
 
 The built-in `len` proc returns the array's length.
 ```odin
-x: [5]int;
-#assert(len(x) == 5);
+x: [5]int
+#assert(len(x) == 5)
 ```
 
 Array access is always bounds checked (at compile-time and at runtime). This can be disabled and enabled at a per block level with the `#no_bounds_check` and `#bounds_check` directives, respectively:
 
 ```odin
 #no_bounds_check {
-    x[n] = 123; // n could be in or out of range of valid indices
+	x[n] = 123 // n could be in or out of range of valid indices
 }
 ```
 
@@ -886,12 +884,12 @@ Odin's fixed length arrays support [array programming](https://en.wikipedia.org/
 
 Example:
 ```odin
-Vector3 :: [3]f32;
-a := Vector3{1, 4, 9};
-b := Vector3{2, 4, 8};
-c := a + b;  // {3, 8, 17}
-d := a * b;  // {2, 16, 72}
-e := c != d; // true
+Vector3 :: [3]f32
+a := Vector3{1, 4, 9}
+b := Vector3{2, 4, 8}
+c := a + b  // {3, 8, 17}
+d := a * b  // {2, 16, 72}
+e := c != d // true
 ```
 
 
@@ -907,9 +905,9 @@ a[low : high]
 This selects a half-open range which includes the lower element, but excludes the higher element.
 
 ```odin
-fibonaccis := [6]int{0, 1, 1, 2, 3, 5};
-s: []int = fibonaccis[1:4]; // creates a slice which includes elements 1 through 3
-fmt.println(s); // 1, 1, 2
+fibonaccis := [6]int{0, 1, 1, 2, 3, 5}
+s: []int = fibonaccis[1:4] // creates a slice which includes elements 1 through 3
+fmt.println(s) // 1, 1, 2
 ```
 
 
@@ -919,8 +917,8 @@ Internally, a slice stores a pointer to the data and an integer to store the len
 
 The built-in `len` proc returns the array's length.
 ```odin
-x: []int = ...;
-length_of_x := len(x);
+x: []int = ...
+length_of_x := len(x)
 ```
 
 #### Slice literals
@@ -937,7 +935,7 @@ This is a slice literal which creates the same array as above, and then creates 
 #### Slice shorthand
 For the array:
 ```odin
-a: [6]int;
+a: [6]int
 ```
 these slice expressions are equivalent:
 ```odin
@@ -950,19 +948,19 @@ a[:]
 #### Nil slices
 The zero value of a slice is `nil`. A nil slice has a length of 0 and does not point to any underlying memory. Slices can be compared against `nil` and nothing else.
 ```odin
-s: []int;
+s: []int
 if s == nil {
-    fmt.println("s is nil!");
+	fmt.println("s is nil!")
 }
 ```
 
 
 
 ### Dynamic arrays
-Dynamic arrays are similar to slices, but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current [context](#context-system)'s allocator.
+Dynamic arrays are similar to slices, but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current [context](#implicit-context-system)'s allocator.
 
 ```odin
-x: [dynamic]int;
+x: [dynamic]int
 ```
 
 Along with the built-in proc `len`, dynamic arrays also have `cap` which can used to determine the dynamic array's current underlying capacity.
@@ -971,26 +969,26 @@ Along with the built-in proc `len`, dynamic arrays also have `cap` which can use
 
 It is common to append new elements to a dynamic array; this can be done so with the built-in `append` proc.
 ```odin
-x: [dynamic]int;
-append(&x, 123);
-append(&x, 4, 1, 74, 3); // append multiple values at once
+x: [dynamic]int
+append(&x, 123)
+append(&x, 4, 1, 74, 3) // append multiple values at once
 ```
 
 #### Making and deleting slices and dynamic arrays
 Slices and dynamic arrays can be explicitly allocated with the built-in `make` proc.
 
 ```odin
-a := make([]int, 6);           // len(a) == 6
-b := make([dynamic]int, 6);    // len(b) == 6, cap(b) == 6
-c := make([dynamic]int, 0, 6); // len(c) == 0, cap(c) == 6
+a := make([]int, 6)           // len(a) == 6
+b := make([dynamic]int, 6)    // len(b) == 6, cap(b) == 6
+c := make([dynamic]int, 0, 6) // len(c) == 0, cap(c) == 6
 ```
 
 Slices and dynamic arrays can be deleted with the built-in `delete` proc.
 
 ```odin
-delete(a);
-delete(b);
-delete(c);
+delete(a)
+delete(b)
+delete(c)
 ```
 
 **Note:** Slices created with `make` must be deallocated with `delete`, whereas a slice literal does not need to be deleted since it is just a slice of an underlying array.
@@ -1000,7 +998,7 @@ delete(c);
 ### Enumerations
 Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:
 ```odin
-Direction :: enum{North, East, South, West};
+Direction :: enum{North, East, South, West}
 ```
 The following holds:
 ```odin
@@ -1012,46 +1010,46 @@ int(Direction.West)  == 3
 Enum fields can be assigned an explicit value:
 ```odin
 Foo :: enum {
-    A,
-    B = 4, // Holes are valid
-    C = 7,
-    D = 1337,
+	A,
+	B = 4, // Holes are valid
+	C = 7,
+	D = 1337,
 }
 ```
 
 If an enumeration requires a specific size, a backing integer type can be specified. By default, `int` is used as the backing type for an enumeration.
 ```odin
-Foo :: enum u8 {A, B, C}; // Foo will only be 8 bits
+Foo :: enum u8 {A, B, C} // Foo will only be 8 bits
 ```
 
 Odin supports implicit selector expressions for enums:
 ```odin
-Foo :: enum {A, B, C};
+Foo :: enum {A, B, C}
 
-f: Foo;
-f = .A;
+f: Foo
+f = .A
 
-BAR :: bit_set[Foo]{.B, .C};
+BAR :: bit_set[Foo]{.B, .C}
 
 switch f {
 case .A:
-    fmt.println("foo");
+	fmt.println("foo")
 case .B:
-    fmt.println("bar");
+	fmt.println("bar")
 case .C:
-    fmt.println("baz");
+	fmt.println("baz")
 }
 ```
 
 [`using`](#using-statement) can also be used with an enumeration to bring the fields into the current scope:
 ```odin
 main :: proc() {
-    Foo :: enum {A, B, C};
-    using Foo;
-    a := A;
+	Foo :: enum {A, B, C}
+	using Foo
+	a := A
 
-    using Bar :: enum {X, Y, Z};
-    x := X;
+	using Bar :: enum {X, Y, Z}
+	x := X
 }
 ```
 
@@ -1064,48 +1062,54 @@ An *implicit selector expression* is an abbreviated way to access a member of an
 ```
 For example:
 ```odin
-Direction :: enum{North, East, South, West};
-d: Direction;
-d = Direction.East;
-d = .East;
+Direction :: enum{North, East, South, West}
+d: Direction
+d = Direction.East
+d = .East
 ```
 
-**Note:** This is preferred to [`using`](#using-statement) an enumeration as it does pollute the current scope.
+**Note:** This is preferred to [`using`](#using-statement) an enumeration as `using` does pollute the current scope.
 
 
 ### Bit sets
 The `bit_set` type models the mathematical notion of a set. A bit_set's element type can be either an enumeration or a range:
 ```odin
-Direction :: enum{North, East, South, West};
+Direction :: enum{North, East, South, West}
 
-Direction_Set :: bit_set[Direction];
+Direction_Set :: bit_set[Direction]
 
-Char_Set :: bit_set['A'..'Z'];
+Char_Set :: bit_set['A'..'Z']
 
-Number_Set :: bit_set[0..<10]; // bit_set[0..9]
+Number_Set :: bit_set[0..<10] // bit_set[0..9]
 ```
 
 Bit sets are implemented as bit vectors internally for high performance. The zero value of a bit set is either `nil` or `{}`.
 
 ```odin
-x: Char_Set;
-x = {'A', 'B', 'Y'};
-y: Direction_Set;
-y = {.North, .West};
+x: Char_Set
+x = {'A', 'B', 'Y'}
+y: Direction_Set
+y = {.North, .West}
 ```
 
 Bit sets support the following operations:
 
-* `A | B` - union of two sets
+* `A + B` - union of two sets (equivalent to `A | B`)
+* `A - B` - difference of two sets (A without B's elements) (equivalent to `A &~ B`)
 * `A & B` - intersection of two sets
-* `A &~ B` - difference of two sets (A without B's elements)
+* `A | B` - union of two sets (equivalent to `A + B`)
+* `A &~ B` - difference of two sets (A without B's elements)  (equivalent to `A - B`)
 * `A ~ B` - symmetric difference (Elements that are in A and B but not both)
 * `A == B` - set equality
 * `A != B` - set inequality
+* `A <= B` - subset relation (A is a subset of B or equal to B)
+* `A < B` - strict subset relation (A is a proper subset of B)
+* `A >= B` - superset relation (A is a superset of B or equal to B)
+* `A > B` - strict superset relation (A is a proper superset of B)
 * `e in A` - set membership (A contains element e)
 * `e not_in A` - A does not contain element e
-* `incl(&A, elem)` - same as `A |= {elem};`
-* `excl(&A, elem)` - same as `A &~= {elem};`
+* `incl(&A, elem)` - same as `A += {elem}`
+* `excl(&A, elem)` - same as `A -= {elem}`
 
 
 Bit sets are often used to denote flags. This is much cleaner than defining integer constants that need to be bitwise or-ed together.
@@ -1113,7 +1117,7 @@ Bit sets are often used to denote flags. This is much cleaner than defining inte
 If a bit set requires a specific size, the underlying integer type can be specified:
 ```odin
 Char_Set :: bit_set['A'..'Z'; u64];
-#assert(size_of(Char_Set) == size_of(u64));
+#assert(size_of(Char_Set) == size_of(u64))
 ```
 
 
@@ -1121,7 +1125,7 @@ Char_Set :: bit_set['A'..'Z'; u64];
 ### Pointers
 Odin has pointers. A pointer is a memory address of a value. The type `^T` is a pointer to a `T` value. Its zero value is `nil`.
 ```odin
-p: ^int;
+p: ^int
 ```
 The `&` operator takes the address to its operand (if possible):
 ```odin
@@ -1131,13 +1135,13 @@ p := &i;
 
 The `^` operator dereferences the pointer's underlying value:
 ```odin
-fmt.println(p^); // read  i through the pointer p
+fmt.println(p^) // read  i through the pointer p
 p^ = 1337;       // write i through the pointer p
 ```
 
 **Note:** C programmers may be used to using `*` to denote pointers. In Odin, the `^` syntax is borrowed from Pascal. This is to keep the convention of the type on the left and its usage on the right:
 ```odin
-p: ^int; // ^ on the left
+p: ^int // ^ on the left
 x := p^; // ^ on the right
 ```
 
@@ -1147,20 +1151,20 @@ x := p^; // ^ on the right
 A `struct` is a record type in Odin. It is a collection of fields. Struct fields are accessed by using a dot:
 ```odin
 Vector2 :: struct {
-    x: f32,
-    y: f32,
+	x: f32,
+	y: f32,
 }
-v := Vector2{1, 2};
-v.x = 4;
-fmt.println(v.x);
+v := Vector2{1, 2}
+v.x = 4
+fmt.println(v.x)
 ```
 
 Struct fields can be accessed through a struct pointer:
 ```odin
-v := Vector2{1, 2};
-p := &v;
-p.x = 1335;
-fmt.println(v);
+v := Vector2{1, 2}
+p := &v
+p.x = 1335
+fmt.println(v)
 ```
 
 We could write `p^.x`, however, it is to nice abstract the ability to not explicitly dereference the pointer. This is very useful when refactoring code to use a pointer rather than a value, and vice versa.
@@ -1169,18 +1173,18 @@ We could write `p^.x`, however, it is to nice abstract the ability to not explic
 A struct literal can be denoted by providing the struct's type followed by `{}`. A struct literal must either provide all the arguments or none:
 ```odin
 Vector3 :: struct {
-    x, y, z: f32,
+	x, y, z: f32,
 }
-v: Vector3;
-v = Vector3{}; // Zero value
-v = Vector3{1, 4, 9};
+v: Vector3
+v = Vector3{} // Zero value
+v = Vector3{1, 4, 9}
 ```
 You can list just a subset of the fields if you specify the field by name (the order of the named fields does not matter):
 ```odin
-v := Vector3{z=1, y=2};
-assert(v.x == 0);
-assert(v.y == 2);
-assert(v.z == 1);
+v := Vector3{z=1, y=2}
+assert(v.x == 0)
+assert(v.y == 2)
+assert(v.z == 1)
 ```
 
 #### Struct tags
@@ -1195,39 +1199,39 @@ struct #raw_union {...} // all fields share the same offset (0). This is the sam
 A `union` in Odin is a discriminated union, also known as a tagged union or sum type. The zero value of a union is `nil`.
 ```odin
 Value :: union {
-    bool,
-    i32,
-    f32,
-    string,
+	bool,
+	i32,
+	f32,
+	string,
 }
-v: Value;
-v = "Hellope";
+v: Value
+v = "Hellope"
 
 // type assert that `v` is a `string` and panic otherwise
-s1 := v.(string);
+s1 := v.(string)
 
 // type assert but with an explicit boolean check. This will not panic
-s2, ok := v.(string);
+s2, ok := v.(string)
 ```
 
 #### Type switch statement
 A type switch is a construct that allows several type assertions in series. A type switch is like a regular switch statement, but the cases are types (not values). For a union, the only case types allowed are that of the union.
 ```odin
-value: Value = ...;
+value: Value = ...
 switch v in value {
 case string:
-    #assert(type_of(v) == string);
+	#assert(type_of(v) == string)
 
 case bool:
-    #assert(type_of(v) == bool);
+	#assert(type_of(v) == bool)
 
 case i32, f32:
-    // This case allows for multiple types, therefore we cannot know which type to use
-    // `v` remains the original union value.
-    #assert(type_of(v) == Value);
+	// This case allows for multiple types, therefore we cannot know which type to use
+	// `v` remains the original union value.
+	#assert(type_of(v) == Value)
 case:
-    // Default case
-    // In this case, it is `nil`
+	// Default case
+	// In this case, it is `nil`
 }
 ```
 
@@ -1236,10 +1240,10 @@ case:
 The `#no_nil` tag can be applied to the union type to state that it does not have a `nil` value, and the first variant is its default type:
 
 ```odin
-Value :: union #no_nil {bool, string};
-v: Value;
-_, ok := v.(bool);
-assert(ok);
+Value :: union #no_nil {bool, string}
+v: Value
+_, ok := v.(bool)
+assert(ok)
 ```
 
 This is useful in very limited cases, and if it is added, there must be at least two variants.
@@ -1251,36 +1255,36 @@ union #align 4 {...} // align to 4 bytes
 ```
 
 ### Maps
-A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in `make` proc returns an initialized map using the current [context](#context-system), and `delete` can be used to delete a map.
+A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in `make` proc returns an initialized map using the current [context](#implicit-context-system), and `delete` can be used to delete a map.
 
 ```odin
-m := make(map[string]int);
-defer delete(m);
-m["Bob"] = 2;
-fmt.println(m["Bob"]);
+m := make(map[string]int)
+defer delete(m)
+m["Bob"] = 2
+fmt.println(m["Bob"])
 ```
 
 To insert or update an element of a map:
 ```odin
-m[key] = elem;
+m[key] = elem
 ```
 To retrieve an element:
 ```odin
-elem = m[key];
+elem = m[key]
 ```
 
 To remove an element:
 ```odin
-delete_key(&m, key);
+delete_key(&m, key)
 ```
 
 If an element of a key does not exist, the zero value of the element will be returned. Checking to see if an element exists can be done in two ways:
 ```odin
-elem, ok := m[key]; // `ok` is true if the element for that key exists
+elem, ok := m[key] // `ok` is true if the element for that key exists
 ```
 or
 ```odin
-ok := key in m; // `ok` is true if the element for that key exists
+ok := key in m // `ok` is true if the element for that key exists
 ```
 
 The first approach is called the "comma ok idiom".
@@ -1288,9 +1292,9 @@ The first approach is called the "comma ok idiom".
 You can also initialize maps with map literals:
 ```odin
 m := map[string]int{
-    "Bob" = 2,
-    "Chloe" = 5,
-};
+	"Bob" = 2,
+	"Chloe" = 5,
+}
 ```
 
 ### Procedure type
@@ -1324,30 +1328,13 @@ proc "contextless" (s: []int)
 
 Procedure types are only compatible with the procedures that have the same calling convention and parameter types.
 
-### Bit fields
-A `bit_field` is a record type which allows you to define named integer fields with specific bit widths:
-```odin
-Foo :: bit_field {
-    width_validated: 1,
-    height_validated: 1,
-    age: 3,
-}
-```
-This data struct will be 1 byte wide even though it requires only 5 bits of information.
-The memory layout of a `bit_field` will directly map to an integer:
-```odin
-width_validate == (x>>0) & 0b1
-height_validated == (x>>1) & 0b1
-age == (x>>2) & 0b111
-```
-
 
 ### 'typeid' type
 A `typeid` is a unique identifier for an Odin type. This construct is used by the `any` type to denote what the underlying data's type is.
 ```odin
-a := typeid_of(bool);
-i: int = 123;
-b := typeid_of(type_of(i));
+a := typeid_of(bool)
+i: int = 123
+b := typeid_of(type_of(i))
 ```
 
 A `typeid` can be mapped to relevant type information which can be used in applications such as printing types and editing data:
@@ -1355,10 +1342,10 @@ A `typeid` can be mapped to relevant type information which can be used in appli
 import "core:runtime"
 
 main :: proc() {
-    u := u8(123);
-    id := typeid_of(type_of(u));
-    info: ^runtime.Type_Info;
-    info = type_info_of(id);
+	u := u8(123)
+	id := typeid_of(type_of(u))
+	info: ^runtime.Type_Info
+	info = type_info_of(id)
 }
 ```
 
@@ -1368,65 +1355,241 @@ An `any` type can reference any data type. Internally it contains a pointer to t
 
 **Note:** The `any` value is only valid for as long as the underlying data is still valid. Passing a literal to an `any` will allocate the literal in the current stack frame.
 
-**Note:** It is highly recommended that you do not use this unless you know what you are doing. Its primary use is for printing procedures.
+**Note:** It is highly recommended that you **do not** use this unless you know what you are doing. Its primary use is for printing procedures.
+
+### Multi Pointers
+
+Multi-Pointers in Odin are a way to describe [`foreign`](#foreign-system) (C-like) pointers which act like arrays (pointers that map to multiple items). The type `[^]T` is a multi-pointer to T value(s). Its zero value is `nil`.
+
+```odin
+p: [^]int
+```
+
+What multi-pointers support:
+
+* Index (without any bounds checking)
+* Slicing (bounds checking on if both the low and high operands are given)
+* Implicit conversions between `^T` and `[^]T`
+* Implicit conversion to `rawptr` (like all pointers)
+
+What multi-pointers DO NOT SUPPORT:
+
+* Dereferencing (which makes it closer to a slim-slice than a pointer)
+
+The main purpose of this type is to aid with `foreign` code and act as a way to auto-document functionality and allow for easier transition to Odin code, especially converting pointers into slices.
+
+The following are the rules for indexing and slicing for multi-pointers, and what type they produce depending on the operands given:
+```
+x: [^]T = ...
+
+x[i]   -> T
+x[:]   -> [^]T
+x[i:]  -> [^]T
+x[:n]  -> []T
+x[i:n] -> []T
+```
+
+**Note:** The name of mutli-pointers may be subject to change.
 
 
-## Using statement
+### SOA Data Types
+
+_Array of Structures (AoS)_, _Structure of Arrays (SoA)_, and _Array of Structures of Arrays (AoSoA)_ refer to differing ways to arrange a sequence of data records in memory, with regard to interleaving. These are of interest in SIMD and SIMT programming.
+
+#### SOA Struct Arrays
+
+```odin
+Vector3 :: struct {x, y, z: f32}
+
+N :: 2
+v_aos: [N]Vector3
+v_aos[0].x = 1
+v_aos[0].y = 4
+v_aos[0].z = 9
+
+fmt.println(len(v_aos))
+fmt.println(v_aos[0])
+fmt.println(v_aos[0].x)
+fmt.println(&v_aos[0].x)
+
+v_aos[1] = {0, 3, 4}
+v_aos[1].x = 2
+fmt.println(v_aos[1])
+fmt.println(v_aos)
+
+v_soa: #soa[N]Vector3
+
+v_soa[0].x = 1
+v_soa[0].y = 4
+v_soa[0].z = 9
+
+
+// Same syntax as AOS and treat as if it was an array
+fmt.println(len(v_soa))
+fmt.println(v_soa[0])
+fmt.println(v_soa[0].x)
+fmt.println(&v_soa[0].x)
+v_soa[1] = {0, 3, 4}
+v_soa[1].x = 2
+fmt.println(v_soa[1])
+
+// Can use SOA syntax if necessary
+v_soa.x[0] = 1
+v_soa.y[0] = 4
+v_soa.z[0] = 9
+fmt.println(v_soa.x[0])
+
+// Same pointer addresses with both syntaxes
+assert(&v_soa[0].x == &v_soa.x[0])
+
+
+// Same fmt printing
+fmt.println(v_aos)
+fmt.println(v_soa)
+```
+
+Works with arrays of length <= 4 which have the implicit fields xyzw/rgba
+
+```odin
+Vector3 :: distinct [3]f32
+
+N :: 2
+v_aos: [N]Vector3
+v_aos[0].x = 1
+v_aos[0].y = 4
+v_aos[0].z = 9
+
+v_soa: #soa[N]Vector3
+
+v_soa[0].x = 1
+v_soa[0].y = 4
+v_soa[0].z = 9
+```
+
+#### SOA Struct Slices and Dynamic Arrays
+
+Fixed-length SOA types can be sliced to produce SOA slices.
+
+```odin
+Vector3 :: struct {x: i8, y: i16, z: f32};
+
+N :: 3
+v: #soa[N]Vector3
+v[0].x = 1
+v[0].y = 4
+v[0].z = 9
+
+s: #soa[]Vector3
+s = v[:]
+assert(len(s) == N)
+fmt.println(s)
+fmt.println(s[0].x)
+
+a := s[1:2]
+assert(len(a) == 1)
+fmt.println(a)
+```
+
+To be complete with SOA slices, Odin also supports SOA dynamic arrays.
+
+```odin
+d: #soa[dynamic]Vector3;
+
+append_soa(&d, Vector3{1, 2, 3}, Vector3{4, 5, 9}, Vector3{-4, -4, 3})
+fmt.println(d)
+fmt.println(len(d))
+fmt.println(cap(d))
+fmt.println(d[:])
+```
+
+#### `soa_zip` and `soa_unzip`
+
+SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. `soa_zip` is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
+
+```odin
+x := []i32{1, 3, 9}
+y := []f32{2, 4, 16}
+z := []b32{true, false, true}
+
+// produce an #soa slice with the normal slices passed
+s := soa_zip(a=x, b=y, c=z)
+
+// iterate over the #soa slice
+for v, i in s {
+	fmt.println(v, i) // exactly the same as s[i]
+	// NOTE: 'v' is NOT a temporary value but has a specialized addressing mode
+	// which means that when accessing v.a etc, it does the correct transformation
+	// internally:
+	//         s[i].a === s.a[i]
+	fmt.println(v.a, v.b, v.c)
+}
+```
+
+`soa_unzip` is a built-in procedure which allows the user to recover the slices from an `#soa` slice.
+
+```odin
+// Recover the slices from the #soa slice
+a, b, c := soa_unzip(s)
+fmt.println(a, b, c)
+```
+
+
+## `using` statement
 `using` can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.
 
 ```odin
 import "foo"
 bar :: proc() {
-    // imports all the exported entities from the `foo` package into this scope
-    using foo;
+	// imports all the exported entities from the `foo` package into this scope
+	using foo
 }
 ```
 
 ### Using statement with structs
 Let's take a very simple entity struct:
 ```odin
-Vector3 :: struct{x, y, z: f32};
+Vector3 :: struct{x, y, z: f32}
 Entity :: struct {
-    position: Vector3,
-    orientation: quaternion128,
+	position: Vector3,
+	orientation: quaternion128,
 }
 ```
 It can used like this:
 ```odin
 foo :: proc(entity: ^Entity) {
-    fmt.println(entity.position.x, entity.position.y, entity.position.z);
+	fmt.println(entity.position.x, entity.position.y, entity.position.z)
 }
 ```
 
 The entity members can be brought into the procedure scope by `using` it:
 ```odin
 foo :: proc(entity: ^Entity) {
-    using entity;
-    fmt.println(position.x, position.y, position.z);
+	using entity
+	fmt.println(position.x, position.y, position.z)
 }
 ```
 The `using` can be applied to the parameter directly:
 ```odin
 foo :: proc(using entity: ^Entity) {
-    fmt.println(position.x, position.y, position.z);
+	fmt.println(position.x, position.y, position.z)
 }
 ```
 It can also be applied to sub-fields:
 ```odin
 foo :: proc(entity: ^Entity) {
-    using entity.position;
-    fmt.println(x, y, z);
+	using entity.position
+	fmt.println(x, y, z)
 }
 ```
 
 We can also apply the `using` statement to the struct fields directly, making all the fields of `position` appear as if they on `Entity` itself:
 ```odin
 Entity :: struct {
-    using position: Vector3,
-    orientation: quaternion128,
+	using position: Vector3,
+	orientation: quaternion128,
 }
 foo :: proc(entity: ^Entity) {
-    fmt.println(entity.x, entity.y, entity.z);
+	fmt.println(entity.x, entity.y, entity.z)
 }
 ```
 
@@ -1434,24 +1597,146 @@ foo :: proc(entity: ^Entity) {
 It is possible to get subtype polymorphism, similar to inheritance-like functionality in C++, but without the requirement of vtables or unknown struct layout:
 ```odin
 foo :: proc(entity: Entity) {
-    fmt.println(entity.x, entity.y, entity.z);
+	fmt.println(entity.x, entity.y, entity.z)
 }
 
 Frog :: struct {
-    ribbit_volume: f32,
-    using entity: Entity,
+	ribbit_volume: f32,
+	using entity: Entity,
 }
 
-frog: Frog;
+frog: Frog
 // Both work
-frog.x = 123;
-foo(frog);
+frog.x = 123
+foo(frog)
 ```
 
 **Note:** `using` can be applied to arbitrarily many things, which allows the ability to have multiple subtype polymorphism (but also its issues).
 
 **Note:** `using`'d fields can still be referred by name.
 
+## `or_else` expression
+
+`or_else` is an infix binary operator that allows the user to define default values for certain expressions with optional-ok semantics.
+
+```odin
+m: map[string]int
+i: int
+ok: bool
+
+if i, ok = m["hellope"]; !ok {
+	i = 123
+}
+// The above can be mapped to 'or_else'
+i = m["hellope"] or_else 123
+
+assert(i == 123)
+```
+
+`or_else` can be used with type assertions too, as they have optional-ok semantics.
+
+```odin
+v: union{int, f64}
+i: int
+i = v.(int) or_else 123
+i = v.? or_else 123 // Type inference magic
+assert(i == 123)
+
+m: Maybe(int)
+i = m.? or_else 456
+assert(i == 456)
+```
+
+## `or_return` statement
+
+The concept of `or_return` will work by popping off the end value in a multiple valued expression and checking whether it was not `nil` or `false`, and if so, set the end return value to value if possible. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, `or_return` will require that all parameters be named so that the end value could be assigned to by name and then an empty return could be called. 
+
+```odin
+Error :: enum {
+	None,
+	Something_Bad,
+	Something_Worse,
+	The_Worst,
+	Your_Mum,
+};
+
+caller_1 :: proc() -> Error {
+	return .None
+}
+
+caller_2 :: proc() -> (int, Error) {
+	return 123, .None
+}
+caller_3 :: proc() -> (int, int, Error) {
+	return 123, 345, .None
+}
+
+foo_1 :: proc() -> Error {
+	// This can be a common idiom in many code bases
+	n0, err := caller_2()
+	if err != nil {
+		return err
+	}
+
+	// The above idiom can be transformed into the following
+	n1 := caller_2() or_return
+
+
+	// And if the expression is 1-valued, it can be used like this
+	caller_1() or_return
+	// which is functionally equivalent to
+	if err1 := caller_1() err1 != nil {
+		return err1
+	}
+
+	// Multiple return values still work with 'or_return' as it only
+	// pops off the end value in the multi-valued expression
+	n0, n1 = caller_3() or_return
+
+	return .None
+}
+foo_2 :: proc() -> (n: int, err: Error) {
+	// It is more common that your procedure turns multiple values
+	// If 'or_return' is used within a procedure multiple parameters (2+),
+	// then all the parameters must be named so that the remaining parameters
+	// so that a bare 'return' statement can be used
+
+	// This can be a common idiom in many code bases
+	x: int
+	x, err = caller_2()
+	if err != nil {
+		return
+	}
+
+	// The above idiom can be transformed into the following
+	y := caller_2() or_return
+	_ = y
+
+	// And if the expression is 1-valued, it can be used like this
+	caller_1() or_return
+
+	// which is functionally equivalent to
+	if err1 := caller_1() err1 != nil {
+		err = err1
+		return
+	}
+
+	// If using a non-bare 'return' statement is required, setting the return values
+	// using the normal idiom is a better choice and clearer to read.
+	if z, zerr := caller_2() zerr != nil {
+		return -345 * z, zerr
+	}
+
+	// If the other return values need to be set depending on what the end value is,
+	// the 'defer if' idiom is can be used
+	defer if err != nil {
+		n = -1
+	}
+
+	n = 123
+	return
+}
+```
 
 ## Implicit context system
 In each scope, there is an implicit value named `context`. This `context` variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).
@@ -1461,33 +1746,33 @@ The main purpose of the implicit `context` system is for the ability to intercep
 
 ```odin
 main :: proc() {
-    c := context; // copy the current scope's context
+	c := context // copy the current scope's context
 
-    context.user_index = 456;
-    {
-        context.allocator = my_custom_allocator();
-        context.user_index = 123;
-        supertramp(); // the `context` for this scope is implicitly passed to `supertramp`
-    }
+	context.user_index = 456
+	{
+		context.allocator = my_custom_allocator()
+		context.user_index = 123
+		supertramp() // the `context` for this scope is implicitly passed to `supertramp`
+	}
 
-    // `context` value is local to the scope it is in
-    assert(context.user_index == 456);
+	// `context` value is local to the scope it is in
+	assert(context.user_index == 456)
 }
 
 supertramp :: proc() {
-    c := context; // this `context` is the same as the parent procedure that it was called from
-    // From this example, context.user_index == 123
-    // A context.allocator is assigned to the return value of `my_custom_allocator()`
+	c := context // this `context` is the same as the parent procedure that it was called from
+	// From this example, context.user_index == 123
+	// A context.allocator is assigned to the return value of `my_custom_allocator()`
 
-    // The memory management procedure use the `context.allocator` by default unless explicitly specified otherwise
-    ptr := new(int);
-    free(ptr);
+	// The memory management procedure use the `context.allocator` by default unless explicitly specified otherwise
+	ptr := new(int)
+	free(ptr)
 }
 ```
 
 By default, the `context` value has default values for its parameters which is decided in the package runtime. These defaults are compiler specific.
 
-To see what the implicit `context` value contains, please see the following definition in [package runtime](https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin#L215).
+To see what the implicit `context` value contains, please see the definition of the `Context` struct in [package runtime](https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin).
 
 ### Allocators
 Odin is a manual memory management based language. This means that Odin programmers must manage their own memory, allocations, and tracking. To aid with memory management, Odin has huge support for custom allocators, especially through the implicit `context` system.
@@ -1497,13 +1782,13 @@ The built-in types of dynamic arrays and `map` both contain a custom allocator. 
 All allocations in Odin are preferably done through allocators. The core library of Odin takes advantage of allocators through the implicit `context` system. The following call:
 
 ```odin
-ptr := new(int);
+ptr := new(int)
 ```
 
 is equivalent to this:
 
 ```
-ptr := new(int, context.allocator);
+ptr := new(int, context.allocator)
 ```
 
 The allocator from the `context` is implicitly assigned as a default parameter to the built-in procedure `new`.
@@ -1522,77 +1807,96 @@ The following procedures are built-in (and also available in `package mem`) and 
 * `alloc` - allocates memory of a given size (and alignment) in bytes. The result value is a rawptr.
 
 ```odin
-ptr: rawptr = alloc(64); // allocate 64 bytes aligned to the default alignment
-x := alloc(128, 16); // allocate 128 bytes aligned to 16 bytes
+ptr: rawptr = alloc(64) // allocate 64 bytes aligned to the default alignment
+x := alloc(128, 16) // allocate 128 bytes aligned to 16 bytes
 
-i := cast(^int)alloc(size_of(int), align_of(int)); // the equivalent of the `new` procedure explained next
+i := cast(^int)alloc(size_of(int), align_of(int)) // the equivalent of the `new` procedure explained next
 ```
 
 * `new` - allocates a value of the type given. The result value is a pointer to the type given.
 
 ```odin
-ptr := new(int);
-ptr^ = 123;
-x: int = ptr^;
+ptr := new(int)
+ptr^ = 123
+x: int = ptr^
 ```
 
 * `new_clone` - allocates a clone of the value passed to it. The resulting value of the type will be a pointer to the type of the value passed.
 
 ```odin
-x: int = 123;
-ptr: int;
-ptr = new_clone(x);
-assert(ptr^ == 123);
+x: int = 123
+ptr: int
+ptr = new_clone(x)
+assert(ptr^ == 123)
 ```
 
 * `make` - allocates memory for a backing data structure of either a [slice](#slices), [dynamic array](#dynamic-arrays), or [map](#maps).
 
 ```odin
-slice := make([]int, 65);
+slice := make([]int, 65)
 
-dynamic_array_zero_length := make([dynamic]int);
-dynamic_array_with_length := make([dynamic]int, 32);
-dynamic_array_with_length_and_capacity := make([dynamic]int, 16, 64);
+dynamic_array_zero_length := make([dynamic]int)
+dynamic_array_with_length := make([dynamic]int, 32)
+dynamic_array_with_length_and_capacity := make([dynamic]int, 16, 64)
 
-made_map := make(map[string]int);
-made_map_with_reservation := make(map[string]int, 64);
+made_map := make(map[string]int)
+made_map_with_reservation := make(map[string]int, 64)
 ```
 
 * `free` - frees the memory at the pointer given. **Note:** only free memory with the allocator it was allocated with.
 
 ```odin
-ptr := new(int);
-free(ptr);
+ptr := new(int)
+free(ptr)
 ```
 
 * `free_all` - frees all the memory of the context's allocator (or given allocator). **Note:** not all allocators support this procedure.
 
 ```odin
-free_all();
-free_all(context.temp_allocator);
-free_all(my_allocator);
+free_all()
+free_all(context.temp_allocator)
+free_all(my_allocator)
 ```
 
 * `delete` - deletes the backing memory of a value allocated with make or a string that was allocated through an allocator.
 
 ```odin
-delete(my_slice);
-delete(my_dynamic_array);
-delete(my_map);
-delete(my_string);
-delete(my_cstring);
+delete(my_slice)
+delete(my_dynamic_array)
+delete(my_map)
+delete(my_string)
+delete(my_cstring)
 ```
 
 * `realloc` - reallocates a block of memory with a different size. **Note:** only realloc memory with the same allocator the original pointer was allocated with; not all allocators may support `realloc` in-place.
 
 ```odin
-ptr := alloc(16);
-ptr = realloc(ptr, 32);
+ptr := alloc(16)
+ptr = realloc(ptr, 32)
 ```
 
 To see more uses of allocators, please see [`package mem`](https://github.com/odin-lang/Odin/tree/master/core/mem) in the core library.
 
 For more information regarding memory allocation strategies in general, please see [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
+
+#### Explicit `context` Definition
+Procedures which do not use the `"odin"` calling convention must explicitly assign the `context` if something within its body requires it.
+
+```odin
+explicit_context_definition :: proc "c" () {
+	// Try commenting the following statement out below
+	context = runtime.default_context()
+
+	fmt.println("\n#explicit context definition")
+	dummy_procedure()
+}
+
+dummy_procedure :: proc() {
+	fmt.println("dummy_procedure")
+}
+```
+
+
 
 ### Logging System
 
@@ -1610,7 +1914,7 @@ This `foreign import` declaration will create a "foreign import name" which can 
 ```odin
 foreign import kernel32 "system:kernel32.lib"
 foreign kernel32 {
-    ExitProcess :: proc "stdcall" (exit_code:  u32) ---;
+	ExitProcess :: proc "stdcall" (exit_code:  u32) ---
 }
 ```
 
@@ -1620,16 +1924,16 @@ The attributes system can be used to change specific properties of entities decl
 ```odin
 @(default_calling_convention = "std")
 foreign kernel32 {
-    @(link_name="GetLastError") get_last_error :: proc() -> i32 ---;
+	@(link_name="GetLastError") get_last_error :: proc() -> i32 ---
 }
 ```
 
 Available attributes for foreign blocks:
 ```odin
 default_calling_convention=<string>
-    default calling convention for procedures declared within this foreign block
+	default calling convention for procedures declared within this foreign block
 link_prefix=<string>
-    prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden
+	prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden
 ```
 
 To use structs defined in external code, you declare a mirror of the struct in Odin code with the same layout, and use that.  
@@ -1650,43 +1954,43 @@ Explicit parametric polymorphism means that the types of the parameters must be 
 To specify that a parameter is "constant", the parameters name must be prefixed with a dollar sign `$`. The following example takes two constant parameters to initialize an array of known length:
 ```odin
 make_f32_array :: inline proc($N: int, $val: f32) -> (res: [N]f32) {
-    for _, i in res {
-        res[i] = val*val;
-    }
-    return;
+	for _, i in res {
+		res[i] = val*val
+	}
+	return
 }
 
-array := make_f32_array(3, 2);
+array := make_f32_array(3, 2)
 ```
 
 Types can also be explicitly passed with specifying that the `typeid` parameter is constant:
 ```odin
 my_new :: proc($T: typeid) -> ^T {
-    return (^T)(alloc(size_of(T), align_of(T)));
+	return (^T)(alloc(size_of(T), align_of(T)))
 }
 
-ptr := my_new(int);
+ptr := my_new(int)
 ```
 
 #### Data types
 Structures and unions may have polymorphic parameters. The `$` prefix is optional for record data types as all parameters must be "constant".
 Parapoly struct:
 ```odin
-Table_Slot :: struct(Key, Value: typeid) {
-    occupied: bool,
-    hash:    u32,
-    key:     Key,
-    value:   Value,
+Table_Slot :: struct($Key, $Value: typeid) {
+	occupied: bool,
+	hash:    u32,
+	key:     Key,
+	value:   Value,
 }
-slot: Table_Slot(string, int);
+slot: Table_Slot(string, int)
 ```
 Parapoly union:
 ```odin
-Error :: enum {Foo0, Foo1, Foo2};
-Param_Union :: union(T: typeid) #no_nil {T, Error};
-r: Param_Union(int);
-r = 123;
-r = Error.Foo0;
+Error :: enum {Foo0, Foo1, Foo2}
+Param_Union :: union($T: typeid) #no_nil {T, Error}
+r: Param_Union(int)
+r = 123
+r = Error.Foo0
 ```
 
 ### Implicit parametric polymorphism
@@ -1701,17 +2005,17 @@ foo :: proc($N: $I, $T: typeid) -> (res: [N]T) {
 	// `I` is the type of N
 	// `T` is the type passed
 	fmt.printf("Generating an array of type %v from the value %v of type %v\n",
-	           typeid_of(type_of(res)), N, typeid_of(I));
+			   typeid_of(type_of(res)), N, typeid_of(I))
 	for i in 0..<N {
-		res[i] = i*i;
+		res[i] = i*i
 	}
-	return;
+	return
 }
 
-T :: int;
-array := foo(4, T);
+T :: int
+array := foo(4, T)
 for v, i in array {
-	assert(v == T(i*i));
+	assert(v == T(i*i))
 }
 ```
 
@@ -1721,18 +2025,18 @@ In some cases, you may want to specify that a type must be a specialization of a
 ```odin
 // Only allow types that are specializations of a (polymorphic) slice
 make_slice :: proc($T: typeid/[]$E, len: int) -> T {
-	return make(T, len);
+	return make(T, len)
 }
 ```
 
 ```odin
-Table_Slot :: struct(Key, Value: typeid) {
+Table_Slot :: struct($Key, $Value: typeid) {
 	occupied: bool,
 	hash:     u32,
 	key:      Key,
 	value:    Value,
 }
-Table :: struct(Key, Value: typeid) {
+Table :: struct($Key, $Value: typeid) {
 	count:     int,
 	allocator: mem.Allocator,
 	slots:     []Table_Slot(Key, Value),
@@ -1758,9 +2062,9 @@ Some cases that a `where` clause may be useful:
 
 ```odin
 simple_sanity_check :: proc(x: [2]int)
-    where len(x) > 1,
-          type_of(x) == [2]int {
-    fmt.println(x);
+	where len(x) > 1,
+		  type_of(x) == [2]int {
+	fmt.println(x)
 }
 ```
 
@@ -1768,71 +2072,71 @@ simple_sanity_check :: proc(x: [2]int)
 
 ```odin
 cross_2d :: proc(a, b: $T/[2]$E) -> E
-    where intrinsics.type_is_numeric(E) {
-    return a.x*b.y - a.y*b.x;
+	where intrinsics.type_is_numeric(E) {
+	return a.x*b.y - a.y*b.x
 }
 cross_3d :: proc(a, b: $T/[3]$E) -> T
-    where intrinsics.type_is_numeric(E) {
-    x := a.y*b.z - a.z*b.y;
-    y := a.z*b.x - a.x*b.z;
-    z := a.x*b.y - a.y*b.z;
-    return T{x, y, z};
+	where intrinsics.type_is_numeric(E) {
+	x := a.y*b.z - a.z*b.y
+	y := a.z*b.x - a.x*b.z
+	z := a.x*b.y - a.y*b.z
+	return T{x, y, z}
 }
 
-a := [2]int{1, 2};
-b := [2]int{5, -3};
-fmt.println(cross_2d(a, b));
+a := [2]int{1, 2}
+b := [2]int{5, -3}
+fmt.println(cross_2d(a, b))
 
-x := [3]f32{1, 4, 9};
-y := [3]f32{-5, 0, 3};
-fmt.println(cross_3d(x, y));
+x := [3]f32{1, 4, 9}
+y := [3]f32{-5, 0, 3}
+fmt.println(cross_3d(x, y))
 
 // Failure case
-// i := [2]bool{true, false};
-// j := [2]bool{false, true};
-// fmt.println(cross_2d(i, j));
+// i := [2]bool{true, false}
+// j := [2]bool{false, true}
+// fmt.println(cross_2d(i, j))
 ```
 
 * Solving disambiguations with polymorphic procedures in a procedure grouping:
 
 ```odin
 foo :: proc(x: [$N]int) -> bool
-    where N > 2 {
-    fmt.println(#procedure, "was called with the parameter", x);
-    return true;
+	where N > 2 {
+	fmt.println(#procedure, "was called with the parameter", x)
+	return true
 }
 
 bar :: proc(x: [$N]int) -> bool
-    where 0 < N,
-          N <= 2 {
-    fmt.println(#procedure, "was called with the parameter", x);
-    return false;
+	where 0 < N,
+		  N <= 2 {
+	fmt.println(#procedure, "was called with the parameter", x)
+	return false
 }
 
-baz :: proc{foo, bar};
+baz :: proc{foo, bar}
 
-x := [3]int{1, 2, 3};
-y := [2]int{4, 9};
-ok_x := baz(x);
-ok_y := baz(y);
-assert(ok_x == true);
-assert(ok_y == false);
+x := [3]int{1, 2, 3}
+y := [2]int{4, 9}
+ok_x := baz(x)
+ok_y := baz(y)
+assert(ok_x == true)
+assert(ok_y == false)
 ```
 
 * Restrictions on parametric polymorphic parameters for record types:
 
 ```odin
-Foo :: struct(T: typeid, N: int)
-    where intrinsics.type_is_integer(T),
-          N > 2 {
-    x: [N]T,
-    y: [N-2]T,
+Foo :: struct($T: typeid, $N: int)
+	where intrinsics.type_is_integer(T),
+	      N > 2 {
+	x: [N]T,
+	y: [N-2]T,
 }
 
-T :: i32;
-N :: 5;
-f: Foo(T, N);
-#assert(size_of(f) == (N+N-2)*size_of(T));
+T :: i32
+N :: 5
+f: Foo(T, N)
+#assert(size_of(f) == (N+N-2)*size_of(T))
 ```
 
 ## Useful idioms
@@ -1844,8 +2148,8 @@ The following are useful idioms which are emergent from the semantics on the lan
 #### If-statements with initialization
 
 ```odin
-if str, ok := value.(string); ok {
-    ...
+if str, ok := value.(string) ok {
+	...
 } else {
    ...
 }
@@ -1854,28 +2158,35 @@ if str, ok := value.(string); ok {
 #### Iterating through slices of structs by value or by reference
 ```odin
 Foo :: struct {
-    f: float,
-    i: int,
+	f: float,
+	i: int,
 }
 
-foos := make([]Foo, num);
+foos := make([]Foo, num)
 
 // By-value basic ranged-based loop, with implicit indexing
 for v, j in foos {
-    using v;
-    fmt.println(i, v, f, i);
+	using v
+	fmt.println(i, v, f, i)
 }
 
 // Alternative range-based loop, with explicit indexing
 for _, j in foos {
-    using foo := foos[j]; // copy
-    fmt.println(j, foo, f, i);
+	using foo := foos[j] // copy
+	fmt.println(j, foo, f, i)
 }
 
 // By-reference range-based explicit indexing loop
 for _, j in foos {
-    using foo := &foos[j]; // "reference", changes to `f` or `i` are visible outside this scope
-    fmt.println(j, foo, f, i);
+	using foo := &foos[j] // "reference", changes to `f` or `i` are visible outside this scope
+	fmt.println(j, foo, f, i)
+}
+
+
+// By-reference range-based through pointer
+for v, j in &foos {
+	using v // v is now a variable reference as `foos` was passed by pointer
+	fmt.println(j, foo, f, i)
 }
 ```
 
@@ -1885,6 +2196,7 @@ defer if cond {
 }
 ```
 
+
 ### Advanced idioms
 
 Subtype polymorphism with runtime type safe down casting:
@@ -1893,7 +2205,7 @@ Entity :: struct {
 	id:   u64,
 	name: string,
 
-	derived: any,
+	variant: union{^Frog},
 }
 
 Frog :: struct {
@@ -1904,15 +2216,15 @@ Frog :: struct {
 
 
 new_entity :: proc($T: typeid) -> ^T {
-	e := new(T);
-	e.derived = e^;
-	return e;
+	e := new(T)
+	e.variant = e
+	return e
 }
 
-entity: ^Entity = new_entity(Frog);
-switch e in entity.derived {
-case Frog:
-	fmt.println("Ribbit:", e.volume);
+entity: ^Entity = new_entity(Frog)
+switch e in entity.variant {
+case ^Frog:
+	fmt.println("Ribbit:", e.volume)
 }
 ```
 
@@ -1921,7 +2233,7 @@ More details can be found on the [Github wiki for Odin](https://github.com/odin-
 Some of this information includes:
 
 - [Compiler Flags](https://github.com/odin-lang/Odin/wiki/Compiler-Flags)
-- [Attributes and Tags](https://github.com/odin-lang/Odin/wiki/Attributes-and-Tags)
+- [Attributes-and-Directives](https://github.com/odin-lang/Odin/wiki/Attributes-and-Directives)
 - [Built in Procedures](https://github.com/odin-lang/Odin/wiki/Built-in-Procedures)
 - [Keywords and Operators](https://github.com/odin-lang/Odin/wiki/Keywords-and-Operators)
 - ...and more

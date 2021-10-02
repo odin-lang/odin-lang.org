@@ -1,57 +1,39 @@
-baseurl = "https://odin-lang.org/"
-languageCode = "en-gb"
+baseURL = "https://odin-lang.org"
 title = "Odin Programming Language"
-theme = "odin-theme"
-googleAnalytics = ""
-disqusShortname = ""
-preserveTaxonomyNames = true
-# footnotereturnlinkcontents = "↩"
-disableHugoGeneratorInject = true
-
-pygmentsCodeFences = false
-
-staticDir = ["static"]
-
-[markup.goldmark.renderer]
-unsafe= true
-
-[permalinks]
-    blog = "/blog/:year/:month/:day/:slug/"
-    docs = "/docs/:slug/"
-    ref = "/ref/:slug/"
-
-[taxonomies]
-    category = "category"
-    tag      = "tags"
-    series   = "series"
-
-[[menu.main]]
-    name = "Home"
-    url = "/"
-    weight = 1
-[[menu.main]]
-    name = "Documentation"
-    url = "/docs/"
-    weight = 2
-[[menu.main]]
-    name = "Community"
-    url = "/help/"
-    weight = 3
-[[menu.main]]
-    name = "Blog"
-    url = "/blog/"
-    weight = 4
-[[menu.main]]
-    name = "Downloads"
-    url = "/downloads/"
-    weight = 5
-[[menu.main]]
-    name = "GitHub"
-    url = "https://github.com/odin-lang/Odin"
-    weight = 6
-
+theme = "odin"
 
 [params]
-    description = ""
-    footer = "&copy; 2016&ndash;2020 Ginger Bill"
+slogan = "The Data-Oriented Language for Sane Software Development."
 
+[markup.goldmark.renderer]
+unsafe = true
+
+[[menu.main]]
+identifier = "home"
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+identifier = "docs"
+name = "Docs"
+url = "/docs"
+weight = 2
+
+[[menu.main]]
+identifier = "news"
+name = "News"
+url = "/news"
+weight = 3
+
+[[menu.main]]
+identifier = "community"
+name = "Community"
+url = "/community"
+weight = 4
+
+[[menu.main]]
+identifier = "github"
+name = "GitHub"
+url = "https://github.com/odin-lang/Odin"
+weight = 5

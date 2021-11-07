@@ -652,7 +652,10 @@ b := Vector3{2, 4, 8}
 c := a + b  // {3, 8, 17}
 d := a * b  // {2, 16, 72}
 e := c != d // true
-</code></pre><h3 id=slices>Slices <a class=text-decoration-none href=#slices>#</a></h3>
+
+a.yzx = b.xxx // native swizzling support
+</code></pre><p>Odin also supports <a href=/docs/overview/#matrix-type><code>matrix</code> types</a>.</p>
+<h3 id=slices>Slices <a class=text-decoration-none href=#slices>#</a></h3>
 <p>Slices look similar to arrays however, their length is not known at compile time. The type <code>[]T</code> is a slice with elements of type <code>T</code>. In practice, slices are much more common than arrays.</p>
 <p>A slice is formed by specifying two indices, a low and high bound, separated by a colon:</p>
 <pre><code class=language-odin data-lang=odin>a[low : high]
@@ -1080,7 +1083,183 @@ for v, i in s {
 <pre><code class=language-odin data-lang=odin>// Recover the slices from the #soa slice
 a, b, c := soa_unzip(s)
 fmt.println(a, b, c)
-</code></pre><h2 id=using-statement><code>using</code> statement <a class=text-decoration-none href=#using-statement>#</a></h2>
+</code></pre><h3 id=matrix-type><code>matrix</code> type <a class=text-decoration-none href=#matrix-type>#</a></h3>
+<p>A <code>matrix</code> is a <a href=https://wikipedia.org/wiki/Matrix_(mathematics)>mathematical type</a> built into Odin. It is a regular array of numbers, arranged in rows and columns.</p>
+<p>The following represents a matrix that has 2 rows and 3 columns:</p>
+<pre><code class=language-odin data-lang=odin>m: matrix[2, 3]f32
+
+m = matrix[2, 3]f32{
+	1, 9, -13,
+	20, 5, -6,
+}
+</code></pre><p>Element types of integers, float, and complex numbers are supported by matrices. There is no support for booleans, quaternions, or any compound type.</p>
+<p>Indexing a matrix can be used with the matrix indexing syntax This mirrors othe type usages: type on the left, usage on the right.</p>
+<pre><code class=language-odin data-lang=odin>elem := m[1, 2] // row 1, column 2
+</code></pre><p>Scalars act as if they are scaled identity matrices and can be assigned to matrices as them</p>
+<pre><code class=language-odin data-lang=odin>b := matrix[2, 2]f32{}
+f := f32(3)
+b = f
+
+fmt.println(&quot;b&quot;, b)
+fmt.println(&quot;b == f&quot;, b == f)
+</code></pre><p>Matrices support multiplication between matrices:</p>
+<pre><code class=language-odin data-lang=odin>a := matrix[2, 3]f32{
+	2, 3, 1,
+	4, 5, 0,
+}
+
+b := matrix[3, 2]f32{
+	1, 2,
+	3, 4,
+	5, 6,
+}
+
+fmt.println(&quot;a&quot;, a)
+fmt.println(&quot;b&quot;, b)
+
+c := a * b
+#assert(type_of(c) == matrix[2, 2]f32)
+fmt.tprintln(&quot;c = a * b&quot;, c)		
+</code></pre><p>Matrices support multiplication between matrices and arrays:</p>
+<pre><code class=language-odin data-lang=odin>m := matrix[4, 4]f32{
+	1, 2, 3, 4, 
+	5, 5, 4, 2, 
+	0, 1, 3, 0, 
+	0, 1, 4, 1,
+}
+
+v := [4]f32{1, 5, 4, 3}
+
+// treating 'v' as a column vector
+fmt.println(&quot;m * v&quot;, m * v)
+
+// treating 'v' as a row vector
+fmt.println(&quot;v * m&quot;, v * m)
+
+// Support with non-square matrices
+s := matrix[2, 4]f32{ // [4][2]f32
+	2, 4, 3, 1, 
+	7, 8, 6, 5, 
+}
+
+w := [2]f32{1, 2}
+r: [4]f32 = w * s
+fmt.println(&quot;r&quot;, r)
+</code></pre><p>Component-wise operations:</p>
+<pre><code class=language-odin data-lang=odin>// if the element type supports it
+// Not support for '/', '%', or '%%' operations
+
+a := matrix[2, 2]i32{
+	1, 2,
+	3, 4,
+}
+
+b := matrix[2, 2]i32{
+	-5,  1,
+	 9, -7,
+}
+
+c0 := a + b
+c1 := a - b
+c2 := a &amp; b
+c3 := a | b
+c4 := a ~ b
+c5 := a &amp;~ b
+
+// component-wise multiplication
+// since a * b would be a standard matrix multiplication
+c6 := hadamard_product(a, b) 
+
+fmt.println(&quot;a + b&quot;,  c0)
+fmt.println(&quot;a - b&quot;,  c1)
+fmt.println(&quot;a &amp; b&quot;,  c2)
+fmt.println(&quot;a | b&quot;,  c3)
+fmt.println(&quot;a ~ b&quot;,  c4)
+fmt.println(&quot;a &amp;~ b&quot;, c5)
+fmt.println(&quot;hadamard_product(a, b)&quot;, c6)
+</code></pre><h4 id=submatrix-casting>Submatrix Casting <a class=text-decoration-none href=#submatrix-casting>#</a></h4>
+<h5 id=submatrix-casting-square-matrices>Submatrix casting square matrices <a class=text-decoration-none href=#submatrix-casting-square-matrices>#</a></h5>
+<p>Casting a square matrix to another square matrix with same element type is supported.</p>
+<ul>
+<li>If the cast is to a smaller matrix type, the top-left submatrix is taken.</li>
+<li>If the cast is to a larger matrix type, the matrix is extended with zeros everywhere and ones in the diagonal for the unfilled elements of the extended matrix.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>mat2 :: distinct matrix[2, 2]f32
+mat4 :: distinct matrix[4, 4]f32
+
+m2 := mat2{
+	1, 3,
+	2, 4,
+}
+
+m4 := mat4(m2)
+assert(m4[2, 2] == 1)
+assert(m4[3, 3] == 1)
+fmt.printf(&quot;m2 %#v\n&quot;, m2)
+fmt.println(&quot;m4&quot;, m4)
+fmt.println(&quot;mat2(m4)&quot;, mat2(m4))
+assert(mat2(m4) == m2)
+
+b4 := mat4{
+	1, 2, 0, 0,
+	3, 4, 0, 0,
+	5, 0, 6, 0,
+	0, 7, 0, 8,
+}
+fmt.println(&quot;b4&quot;, matrix_flatten(b4))
+</code></pre><h5 id=casting-non-square-matrices>Casting non-square matrices <a class=text-decoration-none href=#casting-non-square-matrices>#</a></h5>
+<p>Casting a matrix to another matrix is allowed as long as they share the same element type and the number of elements (rows*columns). Matrices in Odin are stored in column-major order, which means the casts will preserve this element order.</p>
+<pre><code class=language-odin data-lang=odin>mat2x4 :: distinct matrix[2, 4]f32
+mat4x2 :: distinct matrix[4, 2]f32
+
+x := mat2x4{
+	1, 3, 5, 7, 
+	2, 4, 6, 8,
+}
+
+y := mat4x2(x)
+fmt.println(&quot;x&quot;, x)
+fmt.println(&quot;y&quot;, y)
+</code></pre><h4 id=technial-information-of-matrix-types>Technial Information of <code>matrix</code> Types <a class=text-decoration-none href=#technial-information-of-matrix-types>#</a></h4>
+<p>The internal representation of a matrix in Odin is stored in column-major format
+e.g. <code>matrix[2, 3]f32</code> is internally <code>[3][2]f32</code> (with different a alignment requirement).</p>
+<p>Column-major is used in order to utilize (SIMD) vector instructions effectively on modern hardware, if possible.</p>
+<p>Unlike normal arrays, matrices try to maximize alignment to allow for the (SIMD) vectorization properties whilst keeping zero padding (either between columns or at the end of the type).</p>
+<p>Zero padding is a compromise for use with third-party libraries, instead of optimizing for performance. Padding between columns was not taken even if that would have allowed each column to be loaded individually into a SIMD register with the correct alignment properties.</p>
+<p>Currently, matrices are limited to a maximum of 16 elements (rows*columns), and a minimum of 1 element.
+This is because matrices are stored as values (not a reference type), and thus operations on them will
+be stored on the stack. Restricting the maximum element count minimizing the possibility of stack overflows.</p>
+<p>Built-in Procedures (Compiler Level):</p>
+<ul>
+<li><code>transpose(m)</code>
+transposes a matrix</li>
+<li><code>outer_product(a, b)</code>
+takes two array-like data types and returns the outer product
+of the values in a matrix</li>
+<li><code>hadamard_product(a, b)</code>
+component-wise multiplication of two matrices of the same type</li>
+<li><code>matrix_flatten(m)</code>
+<ul>
+<li>converts the matrix into a flatten array of elements in column-major order.</li>
+</ul>
+</li>
+<li><code>conj(x)</code>
+<ul>
+<li>conjugates the elements of a matrix for complex element types only</li>
+</ul>
+</li>
+</ul>
+<p>Built-in Procedures (Runtime Level) (all square matrix procedures):</p>
+<ul>
+<li><code>determinant(m)</code></li>
+<li><code>adjugate(m)</code></li>
+<li><code>inverse(m)</code></li>
+<li><code>inverse_transpose(m)</code></li>
+<li><code>hermitian_adjoint(m)</code></li>
+<li><code>matrix_trace(m)</code></li>
+<li><code>matrix_minor(m)</code></li>
+</ul>
+<h2 id=using-statement><code>using</code> statement <a class=text-decoration-none href=#using-statement>#</a></h2>
 <p><code>using</code> can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.</p>
 <pre><code class=language-odin data-lang=odin>import &quot;foo&quot;
 bar :: proc() {
@@ -1695,6 +1874,7 @@ Some of this information includes:</p>
 <li><a href=#any-type>&lsquo;any&rsquo; Type</a></li>
 <li><a href=#multi-pointers>Multi Pointers</a></li>
 <li><a href=#soa-data-types>SOA Data Types</a></li>
+<li><a href=#matrix-type><code>matrix</code> type</a></li>
 </ul>
 </li>
 <li><a href=#using-statement><code>using</code> statement</a>

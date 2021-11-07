@@ -30,13 +30,13 @@ https://github.com/odin-lang/Odin/releases/tag/dev-2021-11
         * `matrix_flatten`
         * `conj`
     * Built-in procedures (Runtime Level)
-        * determinant
-        * adjugate
-        * inverse
-        * inverse_transpose
-        * hermitian_adjoint
-        * matrix_trace
-        * matrix_minor
+        * `determinant`
+        * `adjugate`
+        * `inverse`
+        * `inverse_transpose`
+        * `hermitian_adjoint`
+        * `matrix_trace`
+        * `matrix_minor`
 * `odin report`
     * Reporting of Platform Specific Information
 * `wasi_wasm32` support

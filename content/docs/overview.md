@@ -407,6 +407,50 @@ case 20..<30:
 }
 ```
 
+
+#### `#partial switch`
+
+With `enum` values:
+```odin
+Foo :: enum {
+	A,
+	B,
+	C,
+	D,
+}
+
+f := Foo.A
+switch f {
+case .A: fmt.println("A")
+case .B: fmt.println("B")
+case .C: fmt.println("C")
+case .D: fmt.println("D")
+case:    fmt.println("?")
+}
+
+#partial switch f {
+case .A: fmt.println("A")
+case .D: fmt.println("D")
+}
+```
+
+With `union` types (see [Type switch statement](#type-switch-statement))
+```odin
+Foo :: union {int, bool}
+f: Foo = 123
+switch in f {
+case int:  fmt.println("int")
+case bool: fmt.println("bool")
+case:
+}
+
+#partial switch in f {
+case bool: fmt.println("bool")
+}
+```
+
+
+
 ### `defer` statement
 A defer statement defers the execution of a statement until the end of the scope it is in.
 
@@ -665,11 +709,15 @@ uint u8 u16 u32 u64 u128 uintptr
 i16le i32le i64le i128le u16le u32le u64le u128le // little endian
 i16be i32be i64be i128be u16be u32be u64be u128be // big endian
 
-f32 f64 // floating point numbers
+f16 f32 f64 // floating point numbers
 
-complex64 complex128 // complex numbers
+// endian specific floating point numbers
+f16le f32le f64le // little endian
+f16be f32be f64be // big endian
 
-quaternion128 quaternion256 // quaternion numbers
+complex32 complex64 complex128 // complex numbers
+
+quaternion64 quaternion128 quaternion256 // quaternion numbers
 
 rune // signed 32 bit integer
 	 // represents a Unicode code point

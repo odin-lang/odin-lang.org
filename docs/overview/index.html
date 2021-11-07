@@ -1296,9 +1296,7 @@ e.g. <code>matrix[2, 3]f32</code> is internally <code>[3][2]f32</code> (with dif
 <p>Column-major is used in order to utilize (SIMD) vector instructions effectively on modern hardware, if possible.</p>
 <p>Unlike normal arrays, matrices try to maximize alignment to allow for the (SIMD) vectorization properties whilst keeping zero padding (either between columns or at the end of the type).</p>
 <p>Zero padding is a compromise for use with third-party libraries, instead of optimizing for performance. Padding between columns was not taken even if that would have allowed each column to be loaded individually into a SIMD register with the correct alignment properties.</p>
-<p>Currently, matrices are limited to a maximum of 16 elements (rows*columns), and a minimum of 1 element.
-This is because matrices are stored as values (not a reference type), and thus operations on them will
-be stored on the stack. Restricting the maximum element count minimizing the possibility of stack overflows.</p>
+<p>Currently, matrices are limited to a maximum of 16 elements (rows*columns), and a minimum of 1 element. This is because matrices are stored as values (not a reference type), and thus operations on them will be stored on the stack. Restricting the maximum element count minimizing the possibility of stack overflows.</p>
 <p>Built-in Procedures (Compiler Level):</p>
 <ul>
 <li><code>transpose(m)</code>

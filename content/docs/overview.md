@@ -2199,7 +2199,7 @@ Explicit parametric polymorphism means that the types of the parameters must be 
 #### Procedures
 To specify that a parameter is "constant", the parameters name must be prefixed with a dollar sign `$`. The following example takes two constant parameters to initialize an array of known length:
 ```odin
-make_f32_array :: inline proc($N: int, $val: f32) -> (res: [N]f32) {
+make_f32_array :: #force_inline proc($N: int, $val: f32) -> (res: [N]f32) {
 	for _, i in res {
 		res[i] = val*val
 	}

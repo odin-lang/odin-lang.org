@@ -1635,7 +1635,7 @@ link_prefix=&lt;string&gt;
 <p>Explicit parametric polymorphism means that the types of the parameters must be explicitly provided.</p>
 <h4 id=procedures-1>Procedures <a class=text-decoration-none href=#procedures-1>#</a></h4>
 <p>To specify that a parameter is &ldquo;constant&rdquo;, the parameters name must be prefixed with a dollar sign <code>$</code>. The following example takes two constant parameters to initialize an array of known length:</p>
-<pre><code class=language-odin data-lang=odin>make_f32_array :: inline proc($N: int, $val: f32) -&gt; (res: [N]f32) {
+<pre><code class=language-odin data-lang=odin>make_f32_array :: #force_inline proc($N: int, $val: f32) -&gt; (res: [N]f32) {
 	for _, i in res {
 		res[i] = val*val
 	}

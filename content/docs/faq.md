@@ -21,7 +21,7 @@ The language borrows heavily from (in order of philosophy and impact): Pascal, C
 The Odin compiler and the library are under the [BSD 3-Clause license](https://github.com/odin-lang/Odin/blob/master/LICENSE).
 
 ### Does Odin have any third-party library?
-Check out a few selected libraries at https://github.com/odin-lang/odin-libs.
+Check out a few selected libraries at https://github.com/odin-lang/Odin/wiki/Odin-Libs.
 
 ### What are the guiding principles behind the design of Odin?
 

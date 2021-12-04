@@ -284,7 +284,7 @@ for key, value in some_map {
 	fmt.println(&quot;x is positive&quot;)
 }
 </code></pre><p>Like <code>for</code>, the <code>if</code> statement can start with an initial statement to execute before the condition. Variables declared by the initial statement are only in the scope of that <code>if</code> statement.</p>
-<pre><code class=language-odin data-lang=odin>if x := foo() x &lt; 0 {
+<pre><code class=language-odin data-lang=odin>if x := foo(); x &lt; 0 {
 	fmt.println(&quot;x is negative&quot;)
 }
 </code></pre><p>Variables declared inside an <code>if</code> initial statement are also available to any of the <code>else</code> blocks:</p>

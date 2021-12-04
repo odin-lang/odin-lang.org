@@ -325,7 +325,7 @@ if x >= 0 {
 Like `for`, the `if` statement can start with an initial statement to execute before the condition. Variables declared by the initial statement are only in the scope of that `if` statement.
 
 ```odin
-if x := foo() x < 0 {
+if x := foo(); x < 0 {
 	fmt.println("x is negative")
 }
 ```

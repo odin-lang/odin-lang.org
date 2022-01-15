@@ -1,7 +1,7 @@
 ---
 title: Release dev-2021-11
 summary: https://github.com/odin-lang/Odin/releases/tag/dev-2021-11
-slug: dev-2021-10
+slug: dev-2021-11
 author: Ginger Bill
 date: '2021-11-02'
 categories:

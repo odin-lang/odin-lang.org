@@ -10,7 +10,7 @@ categories:
 
 ## New Website
 
-Odin is taking documentation seriously. Documentation is large part of making software easy to learn, accessible, and maintainabl; programming languages are no exception.
+Odin is taking documentation seriously. Documentation is large part of making software easy to learn, accessible, and maintainable; programming languages are no exception.
 
 We are proud announce the brand new documentation site for all the official library collections ([`core`](https://github.com/odin-lang/Odin/tree/master/core) and [`vendor`](https://github.com/odin-lang/Odin/tree/master/vendor)): [pkg.odin-lang.org](http://pkg.odin-lang.org/).
 

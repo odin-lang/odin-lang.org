@@ -81,3 +81,40 @@ are on the sides, and hiding them when they're collapsed into a column.*/
         border-left: 1px solid #dee2e6;
     }
 }
+
+
+.showcase-preview {
+    display: block;
+    width: 80%;
+    max-height: 300px!important;
+    margin: 1em auto 0;
+    text-align: center;
+}
+
+@media only screen and (max-width: 991px) {
+    .showcase-preview {
+        width: 100%;
+    }
+}
+
+
+.showcase-left, .showcase-right {
+    width: 100%;
+}
+@media only screen and (min-width: 992px) {
+    .showcase-left, .showcase-right {
+        width: 48%;
+    }
+    .showcase-left, .showcase-right {
+        margin-top: 0.3em;
+        margin-bottom: 0.125em;
+    }
+    .showcase-left {
+        float: left;
+        margin-right: 1em;
+    }
+    .showcase-right {
+        float: right;
+        margin-left: 1em;
+    }
+}

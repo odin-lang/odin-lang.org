@@ -2,7 +2,7 @@
 title: "How You Can Help"
 linktitle: How You Can Help
 summary: Reporting Issues, Contributing Code, Financial Support
-weight: 2
+weight: 3
 ---
 
 ## Reporting Issues

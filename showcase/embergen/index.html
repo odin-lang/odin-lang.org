@@ -1,0 +1,182 @@
+<!doctype html><html>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=icon href=favicon.svg>
+<meta property="og:title" content="EmberGen">
+<meta property="og:description" content="JangaFX are the creators of the 3D animation software EmberGen written fully in Odin. ">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://odin-lang.org/showcase/embergen/">
+<meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
+<meta property="article:published_time" content="2022-01-24T00:00:00+00:00">
+<meta property="article:modified_time" content="2022-01-24T00:00:00+00:00">
+<link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
+<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
+<script src=/lib/highlight/highlight.min.js></script>
+<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[ijk]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
+<script>hljs.highlightAll()</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
+<link href=/css/style.css rel=stylesheet>
+<title>EmberGen | Odin Programming Language </title><body><header class=sticky-top>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
+<div class=container>
+<a class=navbar-brand href=/>
+<img src=/logo.svg height=30 alt=Odin></a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+<div class="collapse navbar-collapse" id=odin-navbar-content>
+<ul class="navbar-nav ms-md-auto">
+<li class=nav-item>
+<a class=nav-link href=/>Home</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/docs>Docs</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://pkg.odin-lang.org/ target=_blank>Packages</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news>News</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/community>Community</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+</header>
+<main>
+<div class=container>
+<div class="row odin-main">
+<nav class="col-lg-2 odin-sidebar-border navbar-light">
+<div class="sticky-top odin-below-navbar py-3">
+<ul class="nav nav-pills d-flex flex-column">
+<li class=nav-item>
+<a class="nav-link active" href=/showcase/embergen/ aria-current=page>EmberGen</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/showcase/todool/>Todool</a>
+</li>
+</ul>
+</div>
+</nav>
+<article class="col-lg-8 p-4">
+<header>
+<nav aria-label=breadcrumb>
+<ol class=breadcrumb>
+<li class=breadcrumb-item><a href=/showcase>Showcase</a></li>
+<li class=breadcrumb-item><a href=/embergen>Embergen</a></li>
+</ol>
+</nav>
+<h1>EmberGen</h1>
+</header>
+<div class=odin-article>
+<p><a href=https://jangafx.com/>JangaFX</a> are the creators of the 3D animation software <a href=https://jangafx.com/software/embergen/>EmberGen</a> written fully in Odin.</p>
+<p><a href=https://jangafx.com/software/embergen/>EmberGen</a> is a real-time volumetric fluid simulator that can instantly simulate, render, and export flipbooks, image sequences, and VDB volumes. With EmberGen, you can create anything from fire and smoke, to explosions and magic wisps. EmberGen gives you the creative freedom to iterate on your simulations in a few milliseconds instead of hours.</p>
+<p>Through EmberGen, Odin runs in production among the giants of the games and film industries: Bethesda, CAPCOM, Codemasters, THQNordic, Warner Bros, Weta Digital, and many others.</p>
+<div class="d-flex justify-content-center mt-2 p-2"><a href=https://jangafx.com/software/embergen/download/ class="btn btn-outline-primary">Try for Free</a></div>
+<div class=clearfix></div>
+<h2 id=075-release-trailer>0.7.5 Release Trailer <a class=text-decoration-none href=#075-release-trailer>#</a></h2>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/8GeRdRsa-6w style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<h2 id=embergen-for-games>EmberGen for Games <a class=text-decoration-none href=#embergen-for-games>#</a></h2>
+<p><video width=100% autoplay loop muted class=showcase-left><source src=https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Games/theascent.mp4></video>
+EmberGen is currently used in over 150 leading game studios. Our games specific workflow has been battle tested in production. From fire and explosions, to energy and magical effects, we have you covered. Not only does EmberGen allow for real-time iteration, but its ease of use and built-in texture export features are unparalleled.</p>
+<div class="pt-1 clearfix"></div>
+<h3 id=iterate-with-unprecedented-speed>Iterate with Unprecedented Speed <a class=text-decoration-none href=#iterate-with-unprecedented-speed>#</a></h3>
+<p><video width=100% autoplay loop muted class=showcase-right><source src=https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Games/embergen-iterations.mp4></video></p>
+<p>We get it: simulations and renders usually take forever to get right. That&rsquo;s why we built EmberGen. Unlike other software, it uses the full power of your GPU—so you can simulate and render volumetric phenomenon in real-time. Not only does EmberGen produce game-ready flipbooks in seconds, it now allows you to create iterations easier and faster than ever before. Utilize random seeds to generate new iterations with rapidity. Do note that all simulations are deterministic, so you can be sure the simulation is the same each time you open your project.</p>
+<div class=clearfix></div>
+<div class="d-flex justify-content-center mt-2 p-2"><a href=https://jangafx.com/software/embergen/download/ class="btn btn-outline-primary">Try for Free</a></div>
+<h3 id=use-in-games>Use in Games <a class=text-decoration-none href=#use-in-games>#</a></h3>
+<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
+<iframe src=https://www.youtube.com/embed/weP1ZieAltQ style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
+</div>
+<h2 id=embergen-for-film--motion-graphics>EmberGen for Film & Motion Graphics <a class=text-decoration-none href=#embergen-for-film--motion-graphics>#</a></h2>
+<p><video width=100% autoplay loop muted class=showcase-right><source src=https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Film/wargaming-01.mp4></video>
+With the release of EmberGen 0.7.5, we&rsquo;re now a force to be reckoned with in the film industry. After adding animated FBX and Alembic support, as well as FBX camera imports and backplates, we guarantee you that EmberGen has a place in your pipeline. In the face of ever-tightening deadlines, studios around the world are turning to EmberGen. EmberGen can help you dramatically reduce time spent on simulations and rendering. Export to EXR/PNG/TGA and openVDB.</p>
+<div class=clearfix></div>
+<h3 id=a-workflow-for-compositing>A workflow for Compositing <a class=text-decoration-none href=#a-workflow-for-compositing>#</a></h3>
+<p><video width=100% autoplay loop muted class=showcase-left><source src=https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Film/film-composite.mp4></video>
+Import your FBX cameras and backplates into EmberGen to create composite ready renders. Backplates can consist of image sequences or just a single image. In your final render, the jittering depicted in the video on the right will not be present. Once EmberGen is out of beta, we hope to smooth the results displayed in the viewport.</p>
+<div class=clearfix></div>
+<h2 id=embergen-for-concept-art>EmberGen for Concept Art <a class=text-decoration-none href=#embergen-for-concept-art>#</a></h2>
+<img src=https://jangafx.com/Q12021Launch/Media_Organized/images/Products/EmberGen/michael-whiteley-depotscene-1-side.jpg alt="Concept Art by Michael Whiteley" class=showcase-right>
+<p>Whether you&rsquo;re painting in 2D, or adding atmospheric effects to a 3D world, EmberGen can help you produce stunning concept art featuring gorgeous visual effects. 3D concept artists love that EmberGen can generate endless VDB volume files or images for compositions. 2D artists can use EmberGen outputs as brushes or items to layer into their work, quickly adding volumetric effects with ease. Using our backplates import feature, import your concept art to properly light and render your simulation before creating your final piece.</p>
+<div class=clearfix></div>
+<div class="d-flex justify-content-center mt-2 p-2"><a href=https://jangafx.com/software/embergen/download/ class="btn btn-outline-primary">Try for Free</a></div>
+</div>
+</article>
+<div class="col-lg-2 odin-toc-border navbar-light">
+<div class="sticky-top odin-below-navbar py-3">
+<nav id=TableOfContents>
+<ul>
+<li><a href=#075-release-trailer>0.7.5 Release Trailer</a></li>
+<li><a href=#embergen-for-games>EmberGen for Games</a>
+<ul>
+<li><a href=#iterate-with-unprecedented-speed>Iterate with Unprecedented Speed</a></li>
+<li><a href=#use-in-games>Use in Games</a></li>
+</ul>
+</li>
+<li><a href=#embergen-for-film--motion-graphics>EmberGen for Film & Motion Graphics</a>
+<ul>
+<li><a href=#a-workflow-for-compositing>A workflow for Compositing</a></li>
+</ul>
+</li>
+<li><a href=#embergen-for-concept-art>EmberGen for Concept Art</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class=odin-footer>
+<div class="container pb-5 pt-5">
+<div class="row g-4">
+<div class=col>
+<a class=navbar-brand href=/>
+<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
+<p>
+The Data-Oriented Language for Sane Software Development.
+</p>
+</div>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Resources</h4>
+<ul class=list-unstyled>
+<li><a href=/docs class=link-light>Docs</a></li>
+<li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li>
+<li><a href=/news class=link-light>News</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Community</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
+<li><a href=https://discord.com/invite/sVBPHEv target=_blank class=link-light>Discord</a></li>
+<li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li>
+<li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li>
+<li><a href=/showcase target=_blank class=link-light>Showcase</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Contribute</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
+<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
+</ul>
+</nav>
+</div>
+<div class="mt-4 text-muted">© 2016–2022 Ginger Bill</div>
+</div>
+</footer>
+<script src=/lib/bootstrap/js/bootstrap.min.js></script>
+<script src=/js/script.js></script>
+</body>
+</html>

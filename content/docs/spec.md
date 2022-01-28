@@ -2,7 +2,7 @@
 title: The Odin Programming Language Specification
 linktitle: Specification
 summary: The Odin Programming Language Specification
-weight: 5
+weight: 6
 ---
 
 ## Introduction

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+    {{ template "_internal/google_analytics_async.html" . }}
+    <meta http-equiv="Refresh" content="0; url='{{ .Params.redirect }}'" />
+</head>
+<body>
+<p>Please click this [link]({{ .Params.redirect }}) if you are not redirected.</p>
+</body>
+</html>

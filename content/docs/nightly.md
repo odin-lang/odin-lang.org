@@ -1,7 +1,7 @@
 ---
 title: Nightly Builds
 summary: Get the latest nightly builds of Odin.
-weight: 4
+weight: 5
 ---
 
 ## Tagged Releases

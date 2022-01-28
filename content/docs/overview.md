@@ -1937,7 +1937,7 @@ foo_1 :: proc() -> Error {
 	// And if the expression is 1-valued, it can be used like this
 	caller_1() or_return
 	// which is functionally equivalent to
-	if err1 := caller_1() err1 != nil {
+	if err1 := caller_1(); err1 != nil {
 		return err1
 	}
 
@@ -1968,14 +1968,14 @@ foo_2 :: proc() -> (n: int, err: Error) {
 	caller_1() or_return
 
 	// which is functionally equivalent to
-	if err1 := caller_1() err1 != nil {
+	if err1 := caller_1(); err1 != nil {
 		err = err1
 		return
 	}
 
 	// If using a non-bare 'return' statement is required, setting the return values
 	// using the normal idiom is a better choice and clearer to read.
-	if z, zerr := caller_2() zerr != nil {
+	if z, zerr := caller_2(); zerr != nil {
 		return -345 * z, zerr
 	}
 

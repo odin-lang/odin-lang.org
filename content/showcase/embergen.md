@@ -29,7 +29,7 @@ EmberGen is commercial software with a [trial version](https://jangafx.com/softw
 <video width="100%" autoplay loop muted class="showcase-left"><source src="https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Games/theascent.mp4"></video>
 EmberGen is currently used in over 150 leading game studios. Our games specific workflow has been battle tested in production. From fire and explosions, to energy and magical effects, we have you covered. Not only does EmberGen allow for real-time iteration, but its ease of use and built-in texture export features are unparalleled.
 
-<div class="clearfix"></div>
+<div class="pt-1 clearfix"></div>
 
 ### Iterate with Unprecedented Speed
 

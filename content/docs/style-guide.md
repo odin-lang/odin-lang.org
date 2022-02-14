@@ -4,13 +4,23 @@ linktitle: Style Guide
 weight: 7
 ---
 
-Note: Non-Native Code(bindings) must use their original name style.
-
 ### Packages
-Package names are denoted with snake case but single words are preferred.
+Package names are denoted with snake case.
+
+Example:
+
+```odin
+package container_small_array
+```
 
 ### Imports
-Import names are denoted with snake case but single words are preferred.
+Import names are denoted with snake case.
+
+Example:
+
+```odin
+import "collection:example_name"
+```
 
 ### Constants 
 Constants are denoted with screaming snake case. 
@@ -38,9 +48,9 @@ init_window :: proc(width: i32, height: i32, title_example: string) -> Window_Ha
 }
 ```
 
-### Structs, Enums, and Unions
+### Type Declarations
 
-Structs, Enums, and Unions are denoted with Ada case.
+All type declarations are denoted with Ada case.
 
 The members within are snake case. Members should have their colon aligned to the left.
 
@@ -66,5 +76,8 @@ Event_Error :: enum {
 ### Indent and Aligning Styles
 Odin uses a tab to indent things and aligns things with spaces.
 
-### Semicolons
-Semicolons are left out in a typical odin codebase and are optional with the exception of the semicolons inside the traditional for loops.
+### Semicolons as Statement Terminators
+Semicolons are left out in a typical odin codebase and are mainly used as a way to end a statement.
+
+### Non-Native Code(bindings)
+Non-Native Code(bindings) must use their original name style.

@@ -257,7 +257,7 @@ foo :: proc() {
 
 In each scope, there is an implicit value named `context`. This `context` variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).
 
-The main purpose of the implicit context system is for the ability to intercept third-party code and libraries and modify their functionality. One such case is modifying how a library allocates something or logs something. In C, this was usually achieved with the library defining macros which could be overridden so that the user could define what he wanted. However, not many libraries supported this in many languages by default which meant intercepting third-party code to see what it does and to change how it does it is not possible.
+The main purpose of the implicit context system is for the ability to intercept third-party code and libraries and modify their functionality. One such case is modifying how a library allocates something or logs something. In C, this was usually achieved with the library defining macros which could be overridden so that the user could define what she or he wanted. However, not many libraries supported this in many languages by default which meant intercepting third-party code to see what it does and to change how it does it is not possible.
 
 Please see the overview section on the [implicit context system](/docs/overview/#implicit-context-system) for more information.
 
@@ -384,7 +384,7 @@ a := int(123)
 ```
 
 ### Why is there no pointer arithmetic?
-Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the `mem` package provides so utility functions: `mem.ptr_offset` and `mem.ptr_sub`. Odin will allow the programmer to do unsafe things if he wishes so.
+Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the `mem` package provides so utility functions: `mem.ptr_offset` and `mem.ptr_sub`. Odin will allow the programmer to do unsafe things if it is their wish.
 
 ### Why are there no `++` or `--` operators?
 Pre-increment and post-increment, and the decrement equivalents, look simple but are complex. They require knowledge of the evaluation order and lead to subtle bugs. `f(i++)` or `a[++i] = b[i]` are both confusing, even if the rules are well defined. Removing this is a significant simplification.

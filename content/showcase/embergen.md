@@ -15,8 +15,9 @@ weight: 1
 
 Through EmberGen, Odin runs in production among the giants of the games and film industries: Bethesda, CAPCOM, Codemasters, THQNordic, Warner Bros, Weta Digital, and many others.
 
-<div class="d-flex justify-content-center mt-2 p-2"><a href="https://jangafx.com/software/embergen/download/" class="btn btn-outline-primary">Try for Free</a></div>
+EmberGen is commercial software with a [trial version](https://jangafx.com/software/embergen/download/) available.
 <div class="clearfix"></div>
+
 
 ## 0.7.5 Release Trailer
 
@@ -37,8 +38,6 @@ EmberGen is currently used in over 150 leading game studios. Our games specific 
 We get it: simulations and renders usually take forever to get right. That's why we built EmberGen. Unlike other software, it uses the full power of your GPU—so you can simulate and render volumetric phenomenon in real-time. Not only does EmberGen produce game-ready flipbooks in seconds, it now allows you to create iterations easier and faster than ever before. Utilize random seeds to generate new iterations with rapidity. Do note that all simulations are deterministic, so you can be sure the simulation is the same each time you open your project.
 
 <div class="clearfix"></div>
-
-<div class="d-flex justify-content-center mt-2 p-2"><a href="https://jangafx.com/software/embergen/download/" class="btn btn-outline-primary">Try for Free</a></div>
 
 
 ### Use in Games
@@ -68,5 +67,3 @@ Import your FBX cameras and backplates into EmberGen to create composite ready r
 Whether you're painting in 2D, or adding atmospheric effects to a 3D world, EmberGen can help you produce stunning concept art featuring gorgeous visual effects. 3D concept artists love that EmberGen can generate endless VDB volume files or images for compositions. 2D artists can use EmberGen outputs as brushes or items to layer into their work, quickly adding volumetric effects with ease. Using our backplates import feature, import your concept art to properly light and render your simulation before creating your final piece.
 
 <div class="clearfix"></div>
-
-<div class="d-flex justify-content-center mt-2 p-2"><a href="https://jangafx.com/software/embergen/download/" class="btn btn-outline-primary">Try for Free</a></div>

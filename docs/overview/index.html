@@ -1799,7 +1799,13 @@ T :: i32
 N :: 5
 f: Foo(T, N)
 #assert(size_of(f) == (N+N-2)*size_of(T))
-</code></pre><h2 id=useful-idioms>Useful idioms <a class=text-decoration-none href=#useful-idioms>#</a></h2>
+</code></pre><h2 id=--operator-selector-call-expressions><code>-></code> operator (selector call expressions) <a class=text-decoration-none href=#--operator-selector-call-expressions>#</a></h2>
+<p>The <code>-></code> operator is called the selector call expression operator and is extremely useful for call procedures stored in vtables. <a href=https://docs.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal>Component Objective Model (COM)</a> APIs is a greate example of where this kind of thing is extremely useful (such as the <a href=https://pkg.odin-lang.org/vendor/directx/d3d11/>Direct3D11 package</a>).</p>
+<pre><code class=language-odin data-lang=odin>x-&gt;y(123)
+// is equivalent to
+x.y(x, 123)
+</code></pre><p>As the <code>-></code> operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through <code>using</code> will work still as expected allow for the emulation of type hierarchies.</p>
+<h2 id=useful-idioms>Useful idioms <a class=text-decoration-none href=#useful-idioms>#</a></h2>
 <p>The following are useful idioms which are emergent from the semantics on the language.</p>
 <h3 id=basic-idioms>Basic idioms <a class=text-decoration-none href=#basic-idioms>#</a></h3>
 <h4 id=if-statements-with-initialization>If-statements with initialization <a class=text-decoration-none href=#if-statements-with-initialization>#</a></h4>
@@ -1977,6 +1983,7 @@ Some of this information includes:</p>
 <li><a href=#where-clauses><code>where</code> clauses</a></li>
 </ul>
 </li>
+<li><a href=#--operator-selector-call-expressions><code>-></code> operator (selector call expressions)</a></li>
 <li><a href=#useful-idioms>Useful idioms</a>
 <ul>
 <li><a href=#basic-idioms>Basic idioms</a></li>

@@ -1,0 +1,262 @@
+<!doctype html><html>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=icon href=/favicon.svg>
+<meta property="og:title" content="Official Metal and Direct3D Support">
+<meta property="og:description" content="Full support for all the major graphics APIs">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://odin-lang.org/news/major-graphics-apis/">
+<meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
+<meta property="article:published_time" content="2022-02-20T00:00:00+00:00">
+<meta property="article:modified_time" content="2022-02-20T00:00:00+00:00">
+<link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
+<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
+<script src=/lib/highlight/highlight.min.js></script>
+<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[ijk]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
+<script>hljs.highlightAll()</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
+<link href=/css/style.css rel=stylesheet>
+<title>Official Metal and Direct3D Support | Odin Programming Language </title>
+<body><header class=sticky-top>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
+<div class=container>
+<a class=navbar-brand href=/>
+<img src=/logo.svg height=30 alt=Odin></a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+<div class="collapse navbar-collapse" id=odin-navbar-content>
+<ul class="navbar-nav ms-md-auto">
+<li class=nav-item>
+<a class=nav-link href=/>Home</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/docs>Docs</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://pkg.odin-lang.org/>Packages</a>
+</li>
+<li class=nav-item>
+<a class="nav-link active" href=/news aria-current=page>News</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/showcase>Showcase</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/community>Community</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+</header>
+<main>
+<div class=container>
+<div class="row odin-main">
+<nav class="col-lg-2 odin-sidebar-border navbar-light">
+<div class="sticky-top odin-below-navbar py-3">
+<ul class="nav nav-pills d-flex flex-column">
+<li class=nav-item>
+<a class="nav-link active" href=/news/major-graphics-apis/ aria-current=page>Official Metal and Direct3D Support</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2022-02/>Release dev-2022-02</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2022-01/>Release dev-2022-01</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2021-12/>Release dev-2021-12</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2021-11/>Release dev-2021-11</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2021-10/>Release dev-2021-10</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2021-09/>Release dev-2021-09</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2021-08/>Release dev-2021-08</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2021-07/>Release dev-2021-07</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2021-06/>Release dev-2021-06</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/dev-2021-05/>Release dev-2021-05 (New Backend Release)</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a>
+</li>
+</ul>
+</div>
+</nav>
+<article class="col-lg-8 p-4">
+<header>
+<nav aria-label=breadcrumb>
+<ol class=breadcrumb>
+<li class=breadcrumb-item><a href=/news>News</a></li>
+<li class=breadcrumb-item><a href=/major-graphics-apis>Major graphics apis</a></li>
+</ol>
+</nav>
+<h1>Official Metal and Direct3D Support</h1>
+</header>
+<div class=odin-article>
+<p>Odin now officially supports both the <a href=https://developer.apple.com/metal/>Metal</a> API and <a href=https://docs.microsoft.com/en-us/windows/win32/direct3d>Direct3D</a> 11 & 12 out-of-the box! This makes Odin currently the only language that officially supports all of the major graphics APIs: <a href=https://pkg.odin-lang.org/vendor/OpenGL/>OpenGL</a>, <a href=https://pkg.odin-lang.org/vendor/vulkan/>Vulkan</a>, <a href=https://pkg.odin-lang.org/vendor/directx/d3d11/>Direct3D11</a>, <a href=https://pkg.odin-lang.org/vendor/directx/d3d12/>Direct3D12</a>, <a href=https://pkg.odin-lang.org/vendor/darwin/Metal/>Metal</a>, and <a href=https://github.com/odin-lang/Odin/tree/master/vendor/wasm/WebGL>WebGL 1 & 2</a>.</p>
+<h2 id=metal>Metal <a class=text-decoration-none href=#metal>#</a></h2>
+<img alt=Metal src=/vendor/companies/Metal_2_Logo.png height=64px style="margin:.5em 0 1em">
+<p>Odin now has <em>NATIVE</em> Metal support, and it is even cleaner than writing it in Objective-C in numerous cases!</p>
+<p>Native support means that Odin is <em>directly</em> caling the Objective-C runtime, and not through a wrapper of another language. This means that the Metal package in Odin will have virtually the same performance as Objective-C code. This means you can now write Metal code without being locked into using an Apple-specific language.</p>
+<h3 id=metal-in-objective-c>Metal in Objective-C <a class=text-decoration-none href=#metal-in-objective-c>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>MTLSamplerDescriptor <span style=color:#f92672>*</span>samplerDescriptor <span style=color:#f92672>=</span> [[MTLSamplerDescriptor alloc] init];
+
+[samplerDescriptor setSAddressMode: MTLSamplerAddressModeRepeat];
+[samplerDescriptor setTAddressMode: MTLSamplerAddressModeRepeat];
+[samplerDescriptor setRAddressMode: MTLSamplerAddressModeRepeat];
+[samplerDescriptor setMagFilter: MTLSamplerMinMagFilterLinear];
+[samplerDescriptor setMinFilter: MTLSamplerMinMagFilterLinear];
+[samplerDescriptor setMipFilter: MTLSamplerMipFilterLinear];
+[samplerDescriptor setSupportArgumentBuffers: YES];
+
+<span style=color:#66d9ef>id</span><span style=color:#f92672>&lt;</span> MTLSamplerState <span style=color:#f92672>&gt;</span> samplerState <span style=color:#f92672>=</span> [device newSamplerStateWithDescriptor:samplerDescriptor];
+
+[samplerDescriptor <span style=color:#66d9ef>release</span>];
+
+<span style=color:#75715e>// ...
+</span><span style=color:#75715e></span>
+[samplerState <span style=color:#66d9ef>release</span>];
+</code></pre></div><h3 id=metal-in-odin>Metal in Odin <a class=text-decoration-none href=#metal-in-odin>#</a></h3>
+<pre><code class=language-odin data-lang=odin>samplerDescriptor := MTL.SamplerDescriptor.alloc()-&gt;init()
+
+samplerDescriptor-&gt;setSAddressMode(.Repeat)
+samplerDescriptor-&gt;setTAddressMode(.Repeat)
+samplerDescriptor-&gt;setRAddressMode(.Repeat)
+samplerDescriptor-&gt;setMagFilter(.Linear)
+samplerDescriptor-&gt;setMinFilter(.Linear)
+samplerDescriptor-&gt;setMipFilter(.Linear)
+samplerDescriptor-&gt;setSupportArgumentBuffers(true)
+
+samplerState := device-&gt;newSamplerState(samplerDescriptor)
+
+samplerDescriptor-&gt;release()
+
+// ...
+
+samplerState-&gt;release()
+</code></pre><h3 id=example-and-documentation>Example and Documentation <a class=text-decoration-none href=#example-and-documentation>#</a></h3>
+<p>You can check out a minimal demonstration of Metal in Odin here: <a href=https://gist.github.com/gingerBill/e1270f60a1739c266934599c2bee46f5>https://gist.github.com/gingerBill/e1270f60a1739c266934599c2bee46f5</a>.</p>
+<p>And the automatically generated package documentation here: <a href=https://pkg.odin-lang.org/vendor/darwin/Metal/><code>package vendor:darwin/Metal</code> documentation</a>.</p>
+<blockquote class=twitter-tweet><p lang=en dir=ltr>Metal in Native Odin!!! No need for Objective-C or Swift any more it seems.<a href=https://t.co/v5D2FP1LlB>https://t.co/v5D2FP1LlB</a> (I had to do the obligatory RGB triangle)<br><br>This means that Odin will ship out of the box with Metal, Vulkan, and OpenGL, and libraries such as GLFW and SDL! <br><br>Only D3D to go! <a href=https://t.co/r6BnzDBXXO>pic.twitter.com/r6BnzDBXXO</a></p>&mdash; gingerBill (@TheGingerBill) <a href="https://twitter.com/TheGingerBill/status/1493581485919678472?ref_src=twsrc%5Etfw">February 15, 2022</a></blockquote>
+<h2 id=directx>DirectX <a class=text-decoration-none href=#directx>#</a></h2>
+<img alt=DirectX src=/vendor/companies/DirectX_logo.svg height=64px style="margin:.5em 0 1em">
+<p>Writing Direct3D code is Odin is really simple! The code will be nearly the same as writing it as if you were using the APIs in native C++ with thanks to the <a href=/docs/overview/#--operator-selector-call-expressions><code>-></code> operator</a>:</p>
+<pre><code class=language-odin data-lang=odin>depth_buffer_desc: D3D11.TEXTURE2D_DESC
+framebuffer-&gt;GetDesc(&amp;depth_buffer_desc)
+depth_buffer_desc.Format = .D24_UNORM_S8_UINT
+depth_buffer_desc.BindFlags = .DEPTH_STENCIL
+
+depth_buffer: ^D3D11.ITexture2D
+device-&gt;CreateTexture2D(&amp;depth_buffer_desc, nil, &amp;depth_buffer)
+
+depth_buffer_view: ^D3D11.IDepthStencilView
+device-&gt;CreateDepthStencilView(depth_buffer, nil, &amp;depth_buffer_view)
+</code></pre><pre><code class=language-odin data-lang=odin>sampler_desc := D3D11.SAMPLER_DESC{
+	Filter         = .MIN_MAG_MIP_POINT,
+	AddressU       = .WRAP,
+	AddressV       = .WRAP,
+	AddressW       = .WRAP,
+	ComparisonFunc = .NEVER,
+}
+sampler_state: ^D3D11.ISamplerState
+device-&gt;CreateSamplerState(&amp;sampler_desc, &amp;sampler_state)
+</code></pre><h3 id=example-and-documentation-1>Example and Documentation <a class=text-decoration-none href=#example-and-documentation-1>#</a></h3>
+<p>You can check out a minimal demonstration of Direct3D11 in Odin here: <a href=https://gist.github.com/gingerBill/b7b75772f92c5511a9cd3ca2e28eca37>https://gist.github.com/gingerBill/b7b75772f92c5511a9cd3ca2e28eca37</a>.</p>
+<p>And the automatically generated package documentation here for both D3D11 and D3D12:</p>
+<ul>
+<li><a href=https://pkg.odin-lang.org/vendor/directx/d3d11/><code>package vendor:directx/d3d11</code> documentation</a></li>
+<li><a href=https://pkg.odin-lang.org/vendor/directx/d3d12/><code>package vendor:directx/d3d12</code> documentation</a></li>
+</ul>
+<blockquote class=twitter-tweet><p lang=en dir=ltr>I got Metal working natively in <a href="https://twitter.com/odinlang?ref_src=twsrc%5Etfw">@odinlang</a> the other day. I've now gone and got D3D11 and D3D12 working in Odin!<a href=https://t.co/cHzyfmeBLG>https://t.co/cHzyfmeBLG</a><br><br>Odin shipping out-of-the-box will all of major graphics APIs: Metal, D3D11, D3D12, Vulkan, OpenGL, and WebGL! <a href=https://t.co/60sau6BRqt>pic.twitter.com/60sau6BRqt</a></p>&mdash; gingerBill (@TheGingerBill) <a href="https://twitter.com/TheGingerBill/status/1494429405640335363?ref_src=twsrc%5Etfw">February 17, 2022</a></blockquote>
+<script async src=https://platform.twitter.com/widgets.js></script>
+</div>
+</article>
+<div class="col-lg-2 odin-toc-border navbar-light">
+<div class="sticky-top odin-below-navbar py-3">
+<nav id=TableOfContents>
+<ul>
+<li><a href=#metal>Metal</a>
+<ul>
+<li><a href=#metal-in-objective-c>Metal in Objective-C</a></li>
+<li><a href=#metal-in-odin>Metal in Odin</a></li>
+<li><a href=#example-and-documentation>Example and Documentation</a></li>
+</ul>
+</li>
+<li><a href=#directx>DirectX</a>
+<ul>
+<li><a href=#example-and-documentation-1>Example and Documentation</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class=odin-footer>
+<div class="container pb-5 pt-5">
+<div class="row g-4">
+<div class=col>
+<a class=navbar-brand href=/>
+<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
+<p>
+The Data-Oriented Language for Sane Software Development.
+</p>
+</div>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Resources</h4>
+<ul class=list-unstyled>
+<li><a href=/docs class=link-light>Docs</a></li>
+<li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li>
+<li><a href=/news class=link-light>News</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Community</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
+<li><a href=https://discord.com/invite/sVBPHEv target=_blank class=link-light>Discord</a></li>
+<li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li>
+<li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li>
+<li><a href=/showcase target=_blank class=link-light>Showcase</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Contribute</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
+<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
+</ul>
+</nav>
+</div>
+<div class="mt-4 text-muted">© 2016–2022 Ginger Bill</div>
+</div>
+</footer>
+<script src=/lib/bootstrap/js/bootstrap.min.js></script>
+<script src=/js/script.js></script>
+</body>
+</html>

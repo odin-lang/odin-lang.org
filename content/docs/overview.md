@@ -2385,6 +2385,19 @@ f: Foo(T, N)
 #assert(size_of(f) == (N+N-2)*size_of(T))
 ```
 
+## `->` operator (selector call expressions)
+
+The `->` operator is called the selector call expression operator and is extremely useful for call procedures stored in vtables. [Component Objective Model (COM)](https://docs.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal) APIs is a greate example of where this kind of thing is extremely useful (such as the [Direct3D11 package](https://pkg.odin-lang.org/vendor/directx/d3d11/)).
+
+```odin
+x->y(123)
+// is equivalent to
+x.y(x, 123)
+```
+
+As the `->` operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through `using` will work still as expected allow for the emulation of type hierarchies.
+
+
 ## Useful idioms
 
 The following are useful idioms which are emergent from the semantics on the language.

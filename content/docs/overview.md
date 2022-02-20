@@ -261,11 +261,11 @@ for i in 0..<10 {
 	fmt.println(i)
 }
 // or
-for i in 0..9 {
+for i in 0..=9 {
 	fmt.println(i)
 }
 ```
-where `a..b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
+where `a..=b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
 
 Certain built-in types can be iterated over:
 ```odin
@@ -862,7 +862,7 @@ An array is a simplified fixed length container. Each element in an array has th
 An array can be constructed like the following:
 ```odin
 x := [5]int{1, 2, 3, 4, 5}
-for i in 0..4 {
+for i in 0..=4 {
 	fmt.println(x[i])
 }
 ```
@@ -1127,7 +1127,7 @@ Direction_Set :: bit_set[Direction]
 
 Char_Set :: bit_set['A'..'Z']
 
-Number_Set :: bit_set[0..<10] // bit_set[0..9]
+Number_Set :: bit_set[0..<10] // bit_set[0..=9]
 ```
 
 Bit sets are implemented as bit vectors internally for high performance. The zero value of a bit set is either `nil` or `{}`.

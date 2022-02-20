@@ -13,7 +13,7 @@ The project started one evening in late July 2016 when Ginger Bill was annoyed w
 Bill originally tried to create a preprocessor for C to augment and add new capabilities to the language. However, he found this endeavour a dead-end. That evening was the point at which Bill decided to create an entirely new language from scratch instead of trying to augment C.
 
 ### What have been the major influences in the language's design?
-The language borrows heavily from (in order of philosophy and impact): Pascal, C, Go, Oberon.
+The language borrows heavily from (in order of philosophy and impact): [Pascal](https://wikipedia.org/wiki/Pascal_(programming_language)), [C](https://wikipedia.org/wiki/C_(programming_language)), [Go](https://en.wikipedia.org/wiki/Go_(programming_language)), [Oberon-2](https://en.wikipedia.org/wiki/Oberon-2), [Newsqueak](https://en.wikipedia.org/wiki/Newsqueak), [GLSL](https://en.wikipedia.org/wiki/OpenGL_Shading_Language).
 
 [Niklaus Wirth](https://en.wikipedia.org/wiki/Niklaus_Wirth) and [Rob Pike](https://en.wikipedia.org/wiki/Rob_Pike) have been the programming language design idols throughout this project.
 
@@ -353,6 +353,16 @@ There are two other type conversion operators, [transmute](/docs/overview/#type-
 ### Why curly brackets?
 Curly brackets to denote a block is a common approach in many programming languages, and Odin's consistency is useful for people already familiar with the style. Curly brackets also allow for more flexible syntax styles for the programmer and it is easier to parse by the compiler because it is not white space sensitive.
 
+### Why does slice expressions use `:` and not the range syntax?
+
+The reason for the specific syntax was done for the following reasons:
+
+* It is the same syntax as Go and Python, making it familiar to others who have used those languages
+* Allows for partial ranges e.g. `x[:]`, `x[:n]`, `x[i:]`
+* Partial ranges with _two_ range expression (`a..<b` and `a..=b`) do not look aesthetically good are also inconsistent: `x[..<]` `x[..=]`, `x[..<n]` `x[..=n]`, `x[i..<]` `x[i..=]`
+* Virtually all slicing cases only ever require the Python/Go like semantics because Odin is a 0-index language
+* Ranges in Odin are only allowed in two contexts: `case`s and `for in` loops
+
 ## Implementation
 ### What does the compiler use?
 The compiler is written in C++ but in a very C style.
@@ -458,7 +468,11 @@ if menu("Hello") {
 
 ## Compiler
 
-## Is the Odin compiler self hosted?
+### What architectures does Odin support?
+
+The official implementation of Odin currently supports: amd64, aarch64, arm64, and wasm32.
+
+### Is the Odin compiler self hosted?
 
 Odin is not currently self hosted nor will be until _after_ version 1.0 when the main implementation of the Odin compiler adheres to a specification and is heavily tested. In general, self hosting before a stable language and compiler exists is masturbatory pleasure.
 

@@ -247,10 +247,10 @@ for i &lt; 10 {
 	fmt.println(i)
 }
 // or
-for i in 0..9 {
+for i in 0..=9 {
 	fmt.println(i)
 }
-</code></pre><p>where <code>a..b</code> denotes a closed interval <code>[a,b]</code>, i.e. the upper limit is <em>inclusive</em>, and <code>a..&lt;b</code> denotes a half-open interval <code>[a,b)</code>, i.e. the upper limit is <em>exclusive</em>.</p>
+</code></pre><p>where <code>a..=b</code> denotes a closed interval <code>[a,b]</code>, i.e. the upper limit is <em>inclusive</em>, and <code>a..&lt;b</code> denotes a half-open interval <code>[a,b)</code>, i.e. the upper limit is <em>exclusive</em>.</p>
 <p>Certain built-in types can be iterated over:</p>
 <pre><code class=language-odin data-lang=odin>for character in some_string {
 	fmt.println(character)
@@ -679,7 +679,7 @@ ncstr := len(cstr) // O(n)
 <p>An array is a simplified fixed length container. Each element in an array has the same type. An array&rsquo;s index can be any integer, character, or enumeration type.</p>
 <p>An array can be constructed like the following:</p>
 <pre><code class=language-odin data-lang=odin>x := [5]int{1, 2, 3, 4, 5}
-for i in 0..4 {
+for i in 0..=4 {
 	fmt.println(x[i])
 }
 </code></pre><p>The notation <code>x[i]</code> is used to access the i-th element of <code>x</code>; and 0-index based (like C).</p>
@@ -847,7 +847,7 @@ Direction_Set :: bit_set[Direction]
 
 Char_Set :: bit_set['A'..'Z']
 
-Number_Set :: bit_set[0..&lt;10] // bit_set[0..9]
+Number_Set :: bit_set[0..&lt;10] // bit_set[0..=9]
 </code></pre><p>Bit sets are implemented as bit vectors internally for high performance. The zero value of a bit set is either <code>nil</code> or <code>{}</code>.</p>
 <pre><code class=language-odin data-lang=odin>x: Char_Set
 x = {'A', 'B', 'Y'}

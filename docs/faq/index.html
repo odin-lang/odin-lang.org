@@ -95,7 +95,7 @@
 <p>The project started one evening in late July 2016 when Ginger Bill was annoyed with programming in C++. The language began as a Pascal clone (with <code>begin</code> and <code>end</code> and more) but changed quite quickly to become something else.</p>
 <p>Bill originally tried to create a preprocessor for C to augment and add new capabilities to the language. However, he found this endeavour a dead-end. That evening was the point at which Bill decided to create an entirely new language from scratch instead of trying to augment C.</p>
 <h3 id=what-have-been-the-major-influences-in-the-languages-design>What have been the major influences in the language&rsquo;s design? <a class=text-decoration-none href=#what-have-been-the-major-influences-in-the-languages-design>#</a></h3>
-<p>The language borrows heavily from (in order of philosophy and impact): Pascal, C, Go, Oberon.</p>
+<p>The language borrows heavily from (in order of philosophy and impact): <a href=https://wikipedia.org/wiki/Pascal_(programming_language)>Pascal</a>, <a href=https://wikipedia.org/wiki/C_(programming_language)>C</a>, <a href=https://en.wikipedia.org/wiki/Go_(programming_language)>Go</a>, <a href=https://en.wikipedia.org/wiki/Oberon-2>Oberon-2</a>, <a href=https://en.wikipedia.org/wiki/Newsqueak>Newsqueak</a>, <a href=https://en.wikipedia.org/wiki/OpenGL_Shading_Language>GLSL</a>.</p>
 <p><a href=https://en.wikipedia.org/wiki/Niklaus_Wirth>Niklaus Wirth</a> and <a href=https://en.wikipedia.org/wiki/Rob_Pike>Rob Pike</a> have been the programming language design idols throughout this project.</p>
 <h3 id=how-is-odin-licensed>How is Odin licensed? <a class=text-decoration-none href=#how-is-odin-licensed>#</a></h3>
 <p>The Odin compiler and the library are under the <a href=https://github.com/odin-lang/Odin/blob/master/LICENSE>BSD 3-Clause license</a>.</p>
@@ -408,6 +408,15 @@ type(value) or (type)(value)
 <p>There are two other type conversion operators, <a href=/docs/overview/#type-conversion>transmute</a> and <a href=/docs/overview/#auto-cast-operation>auto_cast</a>.</p>
 <h3 id=why-curly-brackets>Why curly brackets? <a class=text-decoration-none href=#why-curly-brackets>#</a></h3>
 <p>Curly brackets to denote a block is a common approach in many programming languages, and Odin&rsquo;s consistency is useful for people already familiar with the style. Curly brackets also allow for more flexible syntax styles for the programmer and it is easier to parse by the compiler because it is not white space sensitive.</p>
+<h3 id=why-does-slice-expressions-use--and-not-the-range-syntax>Why does slice expressions use <code>:</code> and not the range syntax? <a class=text-decoration-none href=#why-does-slice-expressions-use--and-not-the-range-syntax>#</a></h3>
+<p>The reason for the specific syntax was done for the following reasons:</p>
+<ul>
+<li>It is the same syntax as Go and Python, making it familiar to others who have used those languages</li>
+<li>Allows for partial ranges e.g. <code>x[:]</code>, <code>x[:n]</code>, <code>x[i:]</code></li>
+<li>Partial ranges with <em>two</em> range expression (<code>a..&lt;b</code> and <code>a..=b</code>) do not look aesthetically good are also inconsistent: <code>x[..&lt;]</code> <code>x[..=]</code>, <code>x[..&lt;n]</code> <code>x[..=n]</code>, <code>x[i..&lt;]</code> <code>x[i..=]</code></li>
+<li>Virtually all slicing cases only ever require the Python/Go like semantics because Odin is a 0-index language</li>
+<li>Ranges in Odin are only allowed in two contexts: <code>case</code>s and <code>for in</code> loops</li>
+</ul>
 <h2 id=implementation>Implementation <a class=text-decoration-none href=#implementation>#</a></h2>
 <h3 id=what-does-the-compiler-use>What does the compiler use? <a class=text-decoration-none href=#what-does-the-compiler-use>#</a></h3>
 <p>The compiler is written in C++ but in a very C style.
@@ -482,7 +491,9 @@ if menu(&quot;Hello&quot;) {
 
 }
 </code></pre><h2 id=compiler>Compiler <a class=text-decoration-none href=#compiler>#</a></h2>
-<h2 id=is-the-odin-compiler-self-hosted>Is the Odin compiler self hosted? <a class=text-decoration-none href=#is-the-odin-compiler-self-hosted>#</a></h2>
+<h3 id=what-architectures-does-odin-support>What architectures does Odin support? <a class=text-decoration-none href=#what-architectures-does-odin-support>#</a></h3>
+<p>The official implementation of Odin currently supports: amd64, aarch64, arm64, and wasm32.</p>
+<h3 id=is-the-odin-compiler-self-hosted>Is the Odin compiler self hosted? <a class=text-decoration-none href=#is-the-odin-compiler-self-hosted>#</a></h3>
 <p>Odin is not currently self hosted nor will be until <em>after</em> version 1.0 when the main implementation of the Odin compiler adheres to a specification and is heavily tested. In general, self hosting before a stable language and compiler exists is masturbatory pleasure.</p>
 <h2 id=quotes>Quotes <a class=text-decoration-none href=#quotes>#</a></h2>
 <blockquote>
@@ -607,6 +618,7 @@ if menu(&quot;Hello&quot;) {
 <li><a href=#why-does-odin-not-use-keywords-to-prefix-declarations>Why does Odin not use keywords to prefix declarations?</a></li>
 <li><a href=#why-are-two-ways-to-do-type-conversions>Why are two ways to do type conversions?</a></li>
 <li><a href=#why-curly-brackets>Why curly brackets?</a></li>
+<li><a href=#why-does-slice-expressions-use--and-not-the-range-syntax>Why does slice expressions use <code>:</code> and not the range syntax?</a></li>
 </ul>
 </li>
 <li><a href=#implementation>Implementation</a>
@@ -626,8 +638,12 @@ if menu(&quot;Hello&quot;) {
 <li><a href=#does-odin-have-c-style-destructors>Does Odin have C++-style destructors?</a></li>
 </ul>
 </li>
-<li><a href=#compiler>Compiler</a></li>
+<li><a href=#compiler>Compiler</a>
+<ul>
+<li><a href=#what-architectures-does-odin-support>What architectures does Odin support?</a></li>
 <li><a href=#is-the-odin-compiler-self-hosted>Is the Odin compiler self hosted?</a></li>
+</ul>
+</li>
 <li><a href=#quotes>Quotes</a></li>
 </ul>
 </nav>

@@ -2417,8 +2417,8 @@ if str, ok := value.(string) ok {
 #### Iterating through slices of structs by value or by reference
 ```odin
 Foo :: struct {
-	f: float,
-	i: int,
+	f: f32,
+	i: i32,
 }
 
 foos := make([]Foo, num)

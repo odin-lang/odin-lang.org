@@ -118,3 +118,9 @@ are on the sides, and hiding them when they're collapsed into a column.*/
         margin-left: 1em;
     }
 }
+
+@media only screen and (max-width: 991px) {
+    .odin-main > nav {
+        display: none;
+    }
+}

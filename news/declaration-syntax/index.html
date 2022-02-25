@@ -160,7 +160,7 @@
 </code></pre></div><h3 id=type-qualifiers>Type Qualifiers <a class=text-decoration-none href=#type-qualifiers>#</a></h3>
 <p>C has many different <a href=https://docs.microsoft.com/en-us/cpp/c-language/type-qualifiers>type qualifiers</a> to indicate specific behaviour of a type. The following is an example of many of them applied to one huge declaration:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>_Atomic <span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>long</span> <span style=color:#66d9ef>long</span> <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>volatile</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>restrict</span> foo[]; <span style=color:#75715e>// Yeah...
-</span></code></pre></div><p>An interesting thing about type qualifiers is that can be in different places and still express the same thing:</p>
+</span></code></pre></div><p>An interesting thing about type qualifiers is that they can be in different places and still express the same thing:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#66d9ef>const</span> x;
 <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>int</span> x;
 
@@ -185,7 +185,7 @@ x = array[i]
 
 ptr: ^int
 x = ptr^
-</code></pre><p><strong>Note:</strong> Odin borrows the <code>^</code> syntax for pointers from the Pascal family, because it is pointy and allows for consistent usage of the type-on-left (i.e. <code>^int</code>, a pointer to an <code>int</code>), and usage-on-right (<code>x^</code>, dereference an pointer to an <code>int</code>) idiom.</p>
+</code></pre><p><strong>Note:</strong> Odin borrows the <code>^</code> syntax for pointers from the Pascal family, because it is pointy and allows for consistent usage of the type-on-left (i.e. <code>^int</code>, a pointer to an <code>int</code>), and usage-on-right (<code>x^</code>, dereference a pointer to an <code>int</code>) idiom.</p>
 <h3 id=procedures-1>Procedures <a class=text-decoration-none href=#procedures-1>#</a></h3>
 <p>Odin&rsquo;s procedure syntax follows a very similar approach as with other variable declarations. Odin&rsquo;s entry point doesn&rsquo;t take or return anything, but if the C form is transliterated into Odin:</p>
 <pre><code class=language-odin data-lang=odin>main :: proc(argc: int, argv: []string) -&gt; int {
@@ -198,7 +198,7 @@ x = ptr^
 <pre><code class=language-odin data-lang=odin>main :: proc(int, []string) -&gt; int {
 	...
 }
-</code></pre><p>Another wonderful aspect of the ability to read-left-to-right is that more complex types are easier to comprehend. Transliteration the C examples for the procedure pointers into the analogous procedure variables in Odin:</p>
+</code></pre><p>Another wonderful aspect of the ability to read-left-to-right is that more complex types are easier to comprehend. Transliterating the C examples for the procedure pointers into the analogous procedure variables in Odin:</p>
 <pre><code class=language-odin data-lang=odin>qp: proc(pp: proc(x: int, y: int) -&gt; int, b: int) -&gt; int
 </code></pre><p>or if <code>qp</code> was to return a procedure:</p>
 <pre><code class=language-odin data-lang=odin>qp: proc(pp: proc(x: int, y: int) -&gt; int, b: int) -&gt; proc(int, int) -&gt; int

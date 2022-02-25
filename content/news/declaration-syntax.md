@@ -111,7 +111,7 @@ C has many different [type qualifiers](https://docs.microsoft.com/en-us/cpp/c-la
 _Atomic unsigned long long int const volatile *restrict foo[]; // Yeah...
 ```
 
-An interesting thing about type qualifiers is that can be in different places and still express the same thing:
+An interesting thing about type qualifiers is that they can be in different places and still express the same thing:
 
 ```c
 int const x;
@@ -157,7 +157,7 @@ x = array[i]
 ptr: ^int
 x = ptr^
 ```
-**Note:** Odin borrows the `^` syntax for pointers from the Pascal family, because it is pointy and allows for consistent usage of the type-on-left (i.e. `^int`, a pointer to an `int`), and usage-on-right (`x^`, dereference an pointer to an `int`) idiom.
+**Note:** Odin borrows the `^` syntax for pointers from the Pascal family, because it is pointy and allows for consistent usage of the type-on-left (i.e. `^int`, a pointer to an `int`), and usage-on-right (`x^`, dereference a pointer to an `int`) idiom.
 
 ### Procedures
 
@@ -182,7 +182,7 @@ main :: proc(int, []string) -> int {
 }
 ```
 
-Another wonderful aspect of the ability to read-left-to-right is that more complex types are easier to comprehend. Transliteration the C examples for the procedure pointers into the analogous procedure variables in Odin:
+Another wonderful aspect of the ability to read-left-to-right is that more complex types are easier to comprehend. Transliterating the C examples for the procedure pointers into the analogous procedure variables in Odin:
 
 ```odin
 qp: proc(pp: proc(x: int, y: int) -> int, b: int) -> int

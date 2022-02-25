@@ -80,7 +80,7 @@ int (*pp)(int x, int y);
 
 Where `pp` is pointer to a procedure because if `(*pp)(x, y)` is written[^procedure-shorthand], it is a call that returns an `int`.
 
-[^procedure-shorthand]: It should be noted that C allows for a shorthand where the programmer does not have to explicit deference the procedure pointer so `pp(x, y)` is valid, but it is still required to declare the procedure as a pointer to a procedure because the procedure has an unknown size.
+[^procedure-shorthand]: It should be noted that C allows for a shorthand where the programmer does not have to explicitly dereference the procedure pointer so `pp(x, y)` is valid, but it is still required to declare the procedure as a pointer to a procedure because the procedure has an unknown size.
 
 This is what is required to use `pp` as one of the parameters of the procedure itself:
 ```c

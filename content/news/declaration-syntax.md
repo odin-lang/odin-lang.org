@@ -96,7 +96,7 @@ int (*)(int, int)
 int (*qp)(int (*)(int x, int y), int b)
 ```
 
-And what if if the procedure pointer `qp` needed to return another procedure pointer instead of `int`?
+And what if the procedure pointer `qp` needed to return another procedure pointer instead of `int`?
 
 ```c
 int (*(*qp)(int (*)(int, int), int))(int, int)

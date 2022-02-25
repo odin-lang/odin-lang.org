@@ -198,7 +198,7 @@ x = ptr^
 <pre><code class=language-odin data-lang=odin>main :: proc(int, []string) -&gt; int {
 	...
 }
-</code></pre><p>Another wonderful aspect of the ability to read-left-to-right is that more complex types are easier to comprehend. Transliterating the C examples for the procedure pointers into the analogous procedure variables in Odin:</p>
+</code></pre><p>Another wonderful aspect of the ability to read left-to-right is that more complex types are easier to comprehend. Transliterating the C examples for the procedure pointers into the analogous procedure variables in Odin:</p>
 <pre><code class=language-odin data-lang=odin>qp: proc(pp: proc(x: int, y: int) -&gt; int, b: int) -&gt; int
 </code></pre><p>or if <code>qp</code> was to return a procedure:</p>
 <pre><code class=language-odin data-lang=odin>qp: proc(pp: proc(x: int, y: int) -&gt; int, b: int) -&gt; proc(int, int) -&gt; int

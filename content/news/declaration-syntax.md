@@ -182,7 +182,7 @@ main :: proc(int, []string) -> int {
 }
 ```
 
-Another wonderful aspect of the ability to read-left-to-right is that more complex types are easier to comprehend. Transliterating the C examples for the procedure pointers into the analogous procedure variables in Odin:
+Another wonderful aspect of the ability to read left-to-right is that more complex types are easier to comprehend. Transliterating the C examples for the procedure pointers into the analogous procedure variables in Odin:
 
 ```odin
 qp: proc(pp: proc(x: int, y: int) -> int, b: int) -> int

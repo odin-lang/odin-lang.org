@@ -212,7 +212,7 @@ x :     = 123
 x := 123
 x := int(123)
 </code></pre><p><strong>Note:</strong> it is more common to see <code>x: int = 123</code> where the <code>:</code> is attached to the variable name itself</p>
-<p>This syntax has its origins in the language <a href=https://swtch.com/~rsc/thread/newsqueak.pdf>Newsqueak</a>. It can be thought of that <code>:</code> declares and <code>=</code> assigns; it is not as single token <a href=/docs/faq/#what-does--mean><code>:=</code></a>.</p>
+<p>This syntax has its origins in the language <a href=https://swtch.com/~rsc/thread/newsqueak.pdf>Newsqueak</a>. It can be thought of that <code>:</code> declares and <code>=</code> assigns; it is not a single token <a href=/docs/faq/#what-does--mean><code>:=</code></a>.</p>
 <p>Odin also has a different kind of declaration for constant value declarations:</p>
 <pre><code class=language-odin data-lang=odin>X :: 123
 X :   : 123
@@ -222,7 +222,7 @@ Y :: int(123)
 
 Z :: proc() {...}
 Z : proc() : proc() {...} // Redundant type declaration
-</code></pre><p>Here the first <code>:</code> still declares, whilst the second <code>:</code> defines; it is not as single token <a href=/docs/faq/#what-does--mean-1><code>::</code></a>.</p>
+</code></pre><p>Here the first <code>:</code> still declares, whilst the second <code>:</code> defines; it is not a single token <a href=/docs/faq/#what-does--mean-1><code>::</code></a>.</p>
 <p><strong>Note:</strong> Constant value declarations are compile known values and not equivalent to C&rsquo;s <code>const</code> (an immutable [runtime] variable) but closer to C&rsquo;s <code>#define</code> in terms of semantics.</p>
 <section class=footnotes role=doc-endnotes>
 <hr>

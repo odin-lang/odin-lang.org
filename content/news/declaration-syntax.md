@@ -62,7 +62,7 @@ int main(argc, argv)
 }
 ```
 
-[^implicit-int]: in those versions of C, if the type was never declared (including the return type), everything was assumed to be of type `int`.
+[^implicit-int]: In those versions of C, if the type was never declared (including the return type), everything was assumed to be of type `int`.
 
 Contemporary C's declaration-matches-usage was merged, making it more familiar:
 

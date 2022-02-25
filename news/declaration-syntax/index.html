@@ -203,7 +203,7 @@ x = ptr^
 </code></pre><p>or if <code>qp</code> was to return a procedure:</p>
 <pre><code class=language-odin data-lang=odin>qp: proc(pp: proc(x: int, y: int) -&gt; int, b: int) -&gt; proc(int, int) -&gt; int
 </code></pre><p>or with all the parameter names removed:</p>
-<pre><code class=language-odin data-lang=odin>qp: proc(pproc(int, int) -&gt; int, int) -&gt; proc(int, int) -&gt; int
+<pre><code class=language-odin data-lang=odin>qp: proc(proc(int, int) -&gt; int, int) -&gt; proc(int, int) -&gt; int
 </code></pre><p>All of these declarations are still read very clearly from left-to-right, and it is still obvious without names what is declared where.</p>
 <h3 id=syntactic-meaning-of->Syntactic Meaning of <code>:</code> <a class=text-decoration-none href=#syntactic-meaning-of->#</a></h3>
 <p>Unlike C, Odin uses <code>:</code> to separate the name from the type in a value declaration. This symbol allows for the ability for the type be omitted and inferred from the declaration. The following are all equivalent:</p>

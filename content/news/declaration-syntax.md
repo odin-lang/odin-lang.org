@@ -212,7 +212,7 @@ x := int(123)
 
 **Note:** it is more common to see `x: int = 123` where the `:` is attached to the variable name itself
 
-This syntax has its origins in the language [Newsqueak](https://swtch.com/~rsc/thread/newsqueak.pdf). It can be thought of that `:` declares and `=` assigns; it is not as single token [`:=`](/docs/faq/#what-does--mean).
+This syntax has its origins in the language [Newsqueak](https://swtch.com/~rsc/thread/newsqueak.pdf). It can be thought of that `:` declares and `=` assigns; it is not a single token [`:=`](/docs/faq/#what-does--mean).
 
 Odin also has a different kind of declaration for constant value declarations:
 
@@ -227,6 +227,6 @@ Z :: proc() {...}
 Z : proc() : proc() {...} // Redundant type declaration
 ```
 
-Here the first `:` still declares, whilst the second `:` defines; it is not as single token [`::`](/docs/faq/#what-does--mean-1).
+Here the first `:` still declares, whilst the second `:` defines; it is not a single token [`::`](/docs/faq/#what-does--mean-1).
 
 **Note:** Constant value declarations are compile known values and not equivalent to C's `const` (an immutable [runtime] variable) but closer to C's `#define` in terms of semantics.

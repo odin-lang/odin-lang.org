@@ -193,7 +193,7 @@ qp: proc(pp: proc(x: int, y: int) -> int, b: int) -> proc(int, int) -> int
 ```
 or with all the parameter names removed:
 ```odin
-qp: proc(pproc(int, int) -> int, int) -> proc(int, int) -> int
+qp: proc(proc(int, int) -> int, int) -> proc(int, int) -> int
 ```
 
 All of these declarations are still read very clearly from left-to-right, and it is still obvious without names what is declared where.

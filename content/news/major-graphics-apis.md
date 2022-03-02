@@ -20,6 +20,16 @@ Odin now has _NATIVE_ Metal support, and it is even cleaner than writing it in O
 
 Native support means that Odin is _directly_ caling the Objective-C runtime, and not through a wrapper of another language. This means that the Metal package in Odin will have virtually the same performance as Objective-C code. This means you can now write Metal code without being locked into using an Apple-specific language.
 
+
+### Example and Documentation
+
+You can check out a minimal demonstration of Metal in Odin here: <https://gist.github.com/gingerBill/e1270f60a1739c266934599c2bee46f5>.
+
+And the automatically generated package documentation here: [`package vendor:darwin/Metal` documentation](https://pkg.odin-lang.org/vendor/darwin/Metal/).
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Metal in Native Odin!!! No need for Objective-C or Swift any more it seems.<a href="https://t.co/v5D2FP1LlB">https://t.co/v5D2FP1LlB</a> (I had to do the obligatory RGB triangle)<br><br>This means that Odin will ship out of the box with Metal, Vulkan, and OpenGL, and libraries such as GLFW and SDL! <br><br>Only D3D to go! <a href="https://t.co/r6BnzDBXXO">pic.twitter.com/r6BnzDBXXO</a></p>&mdash; gingerBill (@TheGingerBill) <a href="https://twitter.com/TheGingerBill/status/1493581485919678472?ref_src=twsrc%5Etfw">February 15, 2022</a></blockquote>
+
+
 ### Metal in Objective-C
 
 ```objc
@@ -64,17 +74,22 @@ samplerDescriptor->release()
 samplerState->release()
 ```
 
-### Example and Documentation
-
-You can check out a minimal demonstration of Metal in Odin here: <https://gist.github.com/gingerBill/e1270f60a1739c266934599c2bee46f5>.
-
-And the automatically generated package documentation here: [`package vendor:darwin/Metal` documentation](https://pkg.odin-lang.org/vendor/darwin/Metal/).
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Metal in Native Odin!!! No need for Objective-C or Swift any more it seems.<a href="https://t.co/v5D2FP1LlB">https://t.co/v5D2FP1LlB</a> (I had to do the obligatory RGB triangle)<br><br>This means that Odin will ship out of the box with Metal, Vulkan, and OpenGL, and libraries such as GLFW and SDL! <br><br>Only D3D to go! <a href="https://t.co/r6BnzDBXXO">pic.twitter.com/r6BnzDBXXO</a></p>&mdash; gingerBill (@TheGingerBill) <a href="https://twitter.com/TheGingerBill/status/1493581485919678472?ref_src=twsrc%5Etfw">February 15, 2022</a></blockquote>
-
 ## DirectX
 
 <img alt="DirectX" src="/vendor/companies/DirectX_logo.svg" height="64px" style="margin: 0.5em 0 1em">
+
+### Example and Documentation
+
+
+You can check out a minimal demonstration of Direct3D11 in Odin here: <https://gist.github.com/gingerBill/b7b75772f92c5511a9cd3ca2e28eca37>.
+
+And the automatically generated package documentation here for both D3D11 and D3D12:
+
+* [`package vendor:directx/d3d11` documentation](https://pkg.odin-lang.org/vendor/directx/d3d11/)
+* [`package vendor:directx/d3d12` documentation](https://pkg.odin-lang.org/vendor/directx/d3d12/)
+
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I got Metal working natively in <a href="https://twitter.com/odinlang?ref_src=twsrc%5Etfw">@odinlang</a> the other day. I&#39;ve now gone and got D3D11 and D3D12 working in Odin!<a href="https://t.co/cHzyfmeBLG">https://t.co/cHzyfmeBLG</a><br><br>Odin shipping out-of-the-box will all of major graphics APIs: Metal, D3D11, D3D12, Vulkan, OpenGL, and WebGL! <a href="https://t.co/60sau6BRqt">pic.twitter.com/60sau6BRqt</a></p>&mdash; gingerBill (@TheGingerBill) <a href="https://twitter.com/TheGingerBill/status/1494429405640335363?ref_src=twsrc%5Etfw">February 17, 2022</a></blockquote>
 
 Writing Direct3D code is Odin is really simple! The code will be nearly the same as writing it as if you were using the APIs in native C++ with thanks to the [`->` operator](/docs/overview/#--operator-selector-call-expressions):
 ```odin
@@ -101,17 +116,5 @@ sampler_state: ^D3D11.ISamplerState
 device->CreateSamplerState(&sampler_desc, &sampler_state)
 ```
 
-### Example and Documentation
-
-
-You can check out a minimal demonstration of Direct3D11 in Odin here: <https://gist.github.com/gingerBill/b7b75772f92c5511a9cd3ca2e28eca37>.
-
-And the automatically generated package documentation here for both D3D11 and D3D12:
-
-* [`package vendor:directx/d3d11` documentation](https://pkg.odin-lang.org/vendor/directx/d3d11/)
-* [`package vendor:directx/d3d12` documentation](https://pkg.odin-lang.org/vendor/directx/d3d12/)
-
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I got Metal working natively in <a href="https://twitter.com/odinlang?ref_src=twsrc%5Etfw">@odinlang</a> the other day. I&#39;ve now gone and got D3D11 and D3D12 working in Odin!<a href="https://t.co/cHzyfmeBLG">https://t.co/cHzyfmeBLG</a><br><br>Odin shipping out-of-the-box will all of major graphics APIs: Metal, D3D11, D3D12, Vulkan, OpenGL, and WebGL! <a href="https://t.co/60sau6BRqt">pic.twitter.com/60sau6BRqt</a></p>&mdash; gingerBill (@TheGingerBill) <a href="https://twitter.com/TheGingerBill/status/1494429405640335363?ref_src=twsrc%5Etfw">February 17, 2022</a></blockquote>
 
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

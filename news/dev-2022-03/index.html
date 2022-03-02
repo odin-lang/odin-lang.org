@@ -2,13 +2,13 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <link rel=icon href=/favicon.svg>
-<meta property="og:title" content="Release dev-2021-07">
-<meta property="og:description" content="https://github.com/odin-lang/Odin/releases/tag/dev-2021-07">
+<meta property="og:title" content="Release dev-2022-03">
+<meta property="og:description" content="https://github.com/odin-lang/Odin/releases/tag/dev-2022-03">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://odin-lang.org/news/dev-2021-07/">
+<meta property="og:url" content="https://odin-lang.org/news/dev-2022-03/">
 <meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
-<meta property="article:published_time" content="2021-07-01T00:00:00+00:00">
-<meta property="article:modified_time" content="2021-07-01T00:00:00+00:00">
+<meta property="article:published_time" content="2022-03-01T00:00:00+00:00">
+<meta property="article:modified_time" content="2022-03-01T00:00:00+00:00">
 <link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
 <link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
 <script src=/lib/highlight/highlight.min.js></script>
@@ -17,7 +17,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
 <link href=/css/style.css rel=stylesheet>
-<title>Release dev-2021-07 | Odin Programming Language </title>
+<title>Release dev-2022-03 | Odin Programming Language </title>
 <body><header class=sticky-top>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
 <div class=container>
@@ -61,7 +61,7 @@
 <div class="sticky-top odin-below-navbar py-3">
 <ul class="nav nav-pills d-flex flex-column">
 <li class=nav-item>
-<a class=nav-link href=/news/dev-2022-03/>Release dev-2022-03</a>
+<a class="nav-link active" href=/news/dev-2022-03/ aria-current=page>Release dev-2022-03</a>
 </li>
 <li class=nav-item>
 <a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a>
@@ -97,7 +97,7 @@
 <a class=nav-link href=/news/dev-2021-08/>Release dev-2021-08</a>
 </li>
 <li class=nav-item>
-<a class="nav-link active" href=/news/dev-2021-07/ aria-current=page>Release dev-2021-07</a>
+<a class=nav-link href=/news/dev-2021-07/>Release dev-2021-07</a>
 </li>
 <li class=nav-item>
 <a class=nav-link href=/news/dev-2021-06/>Release dev-2021-06</a>
@@ -116,67 +116,79 @@
 <nav aria-label=breadcrumb>
 <ol class=breadcrumb>
 <li class=breadcrumb-item><a href=/news>News</a></li>
-<li class=breadcrumb-item><a href=/dev-2021-07>Dev 2021 07</a></li>
+<li class=breadcrumb-item><a href=/dev-2022-03>Dev 2022 03</a></li>
 </ol>
 </nav>
-<h1>Release dev-2021-07</h1>
+<h1>Release dev-2022-03</h1>
 </header>
 <div class=odin-article>
-<p><a href=https://github.com/odin-lang/Odin/releases/tag/dev-2021-07>https://github.com/odin-lang/Odin/releases/tag/dev-2021-07</a></p>
+<p><a href=https://github.com/odin-lang/Odin/releases/tag/dev-2022-03>https://github.com/odin-lang/Odin/releases/tag/dev-2022-03</a></p>
 <h2 id=new-language-features>New Language Features <a class=text-decoration-none href=#new-language-features>#</a></h2>
 <ul>
-<li>Swizzling syntax for arrays len &lt;= 4 (GLSL-like behaviour)
+<li><code>[Enum]Type{...}</code> checks for missing enumerated fields in a compound literal by default
 <ul>
-<li>e.g. <code>v.xyz</code>, <code>v.zyx</code>, <code>v.xxx</code></li>
-<li>e.g. <code>v.rgb</code>, <code>v.bgr</code>, <code>v.rrr</code></li>
+<li>Opt-out with <code>#partial [Enum]Type{...}</code></li>
 </ul>
 </li>
-<li>Optional Ok Pointer addressing mode:
+<li><code>#sparse[Enum]Type</code> for non-contiguous enum fields used in an enumerated array type
 <ul>
-<li><code>ptr, ok := &m[v];</code></li>
-<li><code>ptr, ok := &v.(T);</code></li>
+<li><code>#partial #sparse[Enum]Type{...}</code> can be combined to allow for missing fields in a sparse enumerated array compound literal</li>
 </ul>
 </li>
-<li>Disallow <code>defer</code>s in a scope which terminates with a diverging procedure <code>-> !</code></li>
-<li>Compound literals for <code>struct #raw_union</code> types</li>
-<li>Allow alternative syntax for <code>offset_of</code>:
+</ul>
+<h2 id=new-compiler-features>New Compiler Features <a class=text-decoration-none href=#new-compiler-features>#</a></h2>
 <ul>
-<li><code>offset_of(Struct_Type, field)</code> (current syntax)</li>
-<li><code>offset_of(value.field)</code> (new alternative syntax)</li>
+<li>OpenBSD support</li>
+<li>Objective-C Runtime Intrinsics
+<ul>
+<li><code>intrinsics.objc_send</code></li>
+<li><code>intrinsics.find_selector</code></li>
+<li><code>intrinsics.find_class</code></li>
+<li><code>intrinsics.register_selector</code> (only required when creating Objective-C classes at runtime)</li>
+<li><code>intrinsics.register_class</code> (only required when creating Objective-C classes at runtime)</li>
 </ul>
 </li>
+<li><code>intrinsics.constant_utf16_cstring</code></li>
 </ul>
 <h2 id=compiler-improvements>Compiler Improvements <a class=text-decoration-none href=#compiler-improvements>#</a></h2>
 <ul>
-<li>Performance optimizations for <code>switch</code> statements (normal and type)</li>
-<li>Performance optimizations for array programming</li>
-</ul>
-<h2 id=packages>Packages <a class=text-decoration-none href=#packages>#</a></h2>
+<li><code>//+private file</code> support</li>
+<li>Numerous bug fixes</li>
+<li>Removal of <code>context.user_data</code>
 <ul>
-<li>Remove <code>context.thread_id</code></li>
-<li>Improve documentation for the Odin binary doc-format spec</li>
-<li>Improvements to <code>reflect</code></li>
-<li>Add <code>intrinsics.type_is_endian_platform</code></li>
-<li>Add <code>bufio.Scanner</code></li>
-<li>Add <code>bufio.Lookahead_Reader</code></li>
-<li>Many improvements to <code>png</code></li>
-<li>Many improvements to <code>gzip</code></li>
-<li>Many improvements to <code>zlib</code></li>
-<li>Huge performance improvements to hashing procedures:
-<ul>
-<li><code>hash.crc32</code></li>
-<li><code>hash.adler32</code></li>
+<li>Prefer <code>context.user_ptr</code></li>
 </ul>
 </li>
 </ul>
-<h2 id=bug-fixes>Bug Fixes <a class=text-decoration-none href=#bug-fixes>#</a></h2>
+<h2 id=new-packages>New Packages <a class=text-decoration-none href=#new-packages>#</a></h2>
 <ul>
-<li>Fix <code>filepath</code> bug leak</li>
-<li>Improve linalg.transpose return type behaviour</li>
-<li>Fix 128-bit integer to float cast by explicitly calling the procedure (was an LLVM bug)</li>
-<li>Fix <code>-lld</code> on Windows</li>
-<li>FIx double evaluation buf with selector call expressions <code>x->y(z)->w(a)</code></li>
-<li>Fix semicolon insertion rule for <code>---</code></li>
+<li><strong>Native</strong> Metal package:
+<ul>
+<li>These directly call the Objective-C message sending runtime directly and does not use a wrapper
+<ul>
+<li>Article: <a href=https://odin-lang.org/news/major-graphics-apis/>https://odin-lang.org/news/major-graphics-apis/</a></li>
+</ul>
+</li>
+<li><code>vendor:darwin/Metal</code></li>
+<li><code>vendor:darwin/QuartzCore</code></li>
+<li><code>vendor:darwin/Foundation</code></li>
+</ul>
+</li>
+<li>DirectX packages
+<ul>
+<li>Article: <a href=https://odin-lang.org/news/major-graphics-apis/>https://odin-lang.org/news/major-graphics-apis/</a></li>
+<li><code>vendor:directx/d3d11</code></li>
+<li><code>vendor:directx/d3d12</code></li>
+<li><code>vendor:directx/d3d_compiler</code></li>
+<li><code>vendor:directx/dxgi</code></li>
+</ul>
+</li>
+<li><code>core:container/topological_sort</code></li>
+</ul>
+<h2 id=package-improvements>Package Improvements <a class=text-decoration-none href=#package-improvements>#</a></h2>
+<ul>
+<li><code>core:mem/virtual</code> Linux Support</li>
+<li>Add <code>is_16_bit_from_memory</code> to <code>vendor:stb/image</code></li>
 </ul>
 </div>
 </article>
@@ -185,9 +197,10 @@
 <nav id=TableOfContents>
 <ul>
 <li><a href=#new-language-features>New Language Features</a></li>
+<li><a href=#new-compiler-features>New Compiler Features</a></li>
 <li><a href=#compiler-improvements>Compiler Improvements</a></li>
-<li><a href=#packages>Packages</a></li>
-<li><a href=#bug-fixes>Bug Fixes</a></li>
+<li><a href=#new-packages>New Packages</a></li>
+<li><a href=#package-improvements>Package Improvements</a></li>
 </ul>
 </nav>
 </div>

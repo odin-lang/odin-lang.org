@@ -2170,6 +2170,14 @@ foreign kernel32 {
 }
 ```
 
+If a library exports global variables, you can import those into Odin as well.
+
+```odin
+foreign lib {
+	x: i32
+}
+```
+
 Foreign procedure declarations have the **cdecl**/**c** calling convention by default unless specified otherwise. Due to foreign procedures not having a body declared within this code, you need to append the `---` symbol to the end to distinguish it as a procedure literal without a body and not a procedure type.
 
 The attributes system can be used to change specific properties of entities declared within a block:

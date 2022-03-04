@@ -1627,6 +1627,10 @@ dummy_procedure :: proc() {
 foreign kernel32 {
 	ExitProcess :: proc &quot;stdcall&quot; (exit_code:  u32) ---
 }
+</code></pre><p>If a library exports global variables, you can import those into Odin as well.</p>
+<pre><code class=language-odin data-lang=odin>foreign lib {
+	x: i32
+}
 </code></pre><p>Foreign procedure declarations have the <strong>cdecl</strong>/<strong>c</strong> calling convention by default unless specified otherwise. Due to foreign procedures not having a body declared within this code, you need to append the <code>---</code> symbol to the end to distinguish it as a procedure literal without a body and not a procedure type.</p>
 <p>The attributes system can be used to change specific properties of entities declared within a block:</p>
 <pre><code class=language-odin data-lang=odin>@(default_calling_convention = &quot;std&quot;)

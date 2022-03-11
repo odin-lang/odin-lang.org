@@ -85,7 +85,7 @@ For a compiler that's in-development like Odin, things move fast. Make sure you 
 
 ### Windows
 
-Windows user can install last released version using [Scoop](https://scoop.sh/). First you need to make sure the `versions` bucket is registered with:
+Windows user can install latest version using [Scoop](https://scoop.sh/). First you need to make sure the `versions` bucket is registered with:
 
 ```bash
 scoop bucket add versions

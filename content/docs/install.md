@@ -9,6 +9,7 @@ Odin is dead-simple to get started with!
 <a href="https://github.com/odin-lang/Odin/releases" class="btn btn-outline-primary">Latest Release</a>
 <a href="/docs/nightly" class="btn btn-outline-primary">Latest Nightly Builds</a>
 
+
 ## Clone or download Odin
 
 Clone the repository (recommended, `git clone https://github.com/odin-lang/Odin`).

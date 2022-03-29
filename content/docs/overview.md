@@ -1747,7 +1747,7 @@ fmt.println("x", x)
 fmt.println("y", y)
 ```
 
-#### Technial Information of `matrix` Types
+#### Technical Information of `matrix` Types
 
 The internal representation of a matrix in Odin is stored in column-major format
 e.g. `matrix[2, 3]f32` is internally `[3][2]f32` (with different a alignment requirement).
@@ -1899,7 +1899,7 @@ i = m.? or_else 456
 assert(i == 456)
 ```
 
-## `or_return` statement
+## `or_return` operator
 
 The concept of `or_return` will work by popping off the end value in a multiple valued expression and checking whether it was not `nil` or `false`, and if so, set the end return value to value if possible. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, `or_return` will require that all parameters be named so that the end value could be assigned to by name and then an empty return could be called. 
 

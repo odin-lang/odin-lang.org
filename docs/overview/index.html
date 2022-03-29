@@ -1300,7 +1300,7 @@ x := mat2x4{
 y := mat4x2(x)
 fmt.println(&quot;x&quot;, x)
 fmt.println(&quot;y&quot;, y)
-</code></pre><h4 id=technial-information-of-matrix-types>Technial Information of <code>matrix</code> Types <a class=text-decoration-none href=#technial-information-of-matrix-types>#</a></h4>
+</code></pre><h4 id=technical-information-of-matrix-types>Technical Information of <code>matrix</code> Types <a class=text-decoration-none href=#technical-information-of-matrix-types>#</a></h4>
 <p>The internal representation of a matrix in Odin is stored in column-major format
 e.g. <code>matrix[2, 3]f32</code> is internally <code>[3][2]f32</code> (with different a alignment requirement).</p>
 <p>Column-major is used in order to utilize (SIMD) vector instructions effectively on modern hardware, if possible.</p>
@@ -1417,7 +1417,7 @@ assert(i == 123)
 m: Maybe(int)
 i = m.? or_else 456
 assert(i == 456)
-</code></pre><h2 id=or_return-statement><code>or_return</code> statement <a class=text-decoration-none href=#or_return-statement>#</a></h2>
+</code></pre><h2 id=or_return-operator><code>or_return</code> operator <a class=text-decoration-none href=#or_return-operator>#</a></h2>
 <p>The concept of <code>or_return</code> will work by popping off the end value in a multiple valued expression and checking whether it was not <code>nil</code> or <code>false</code>, and if so, set the end return value to value if possible. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, <code>or_return</code> will require that all parameters be named so that the end value could be assigned to by name and then an empty return could be called.</p>
 <pre><code class=language-odin data-lang=odin>Error :: enum {
 	None,
@@ -1972,7 +1972,7 @@ Some of this information includes:</p>
 </ul>
 </li>
 <li><a href=#or_else-expression><code>or_else</code> expression</a></li>
-<li><a href=#or_return-statement><code>or_return</code> statement</a></li>
+<li><a href=#or_return-operator><code>or_return</code> operator</a></li>
 <li><a href=#implicit-context-system>Implicit context system</a>
 <ul>
 <li><a href=#allocators>Allocators</a></li>

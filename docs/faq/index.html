@@ -287,6 +287,10 @@ My_Int :: distinct int
 <td><code>complex128</code></td>
 </tr>
 <tr>
+<td>quaternion</td>
+<td><code>quaternion256</code></td>
+</tr>
+<tr>
 <td>rune</td>
 <td><code>rune</code></td>
 </tr>
@@ -339,7 +343,7 @@ proc &quot;stdcall&quot; ()
 proc &quot;fastcall&quot; ()
 proc &quot;odin&quot; ()
 proc &quot;contextless&quot; ()
-proc &quot;none&quot; ()
+proc &quot;naked&quot; ()
 </code></pre><h3 id=does-odin-have-closures>Does Odin have closures? <a class=text-decoration-none href=#does-odin-have-closures>#</a></h3>
 <p>Odin only has non-capturing lambda procedures. For closures to work correctly would require a form of automatic memory management which will never be implemented into Odin.</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc() {
@@ -349,7 +353,9 @@ proc &quot;none&quot; ()
         return 123
     }
 }
-</code></pre><h2 id=context-system>Context System <a class=text-decoration-none href=#context-system>#</a></h2>
+</code></pre><h3 id=why-are-maps-built-in>Why are maps built-in? <a class=text-decoration-none href=#why-are-maps-built-in>#</a></h3>
+<p>The same reason why strings and dynamic arrays are: they are such a useful, powerful, and important data structure that providing an excellent first class implementation with syntactic support makes programming more of a joy. Odin&rsquo;s main implementation of <code>map</code> types are strong for the vast majority of use cases. If something specific is needed, it is possible to write your own but it will not benefit from the same convenient syntax. We believe that this is a reasonable trade-off between clarity and flexibility.</p>
+<h2 id=context-system>Context System <a class=text-decoration-none href=#context-system>#</a></h2>
 <h3 id=what-is-the-context-system-for>What is the context system for? <a class=text-decoration-none href=#what-is-the-context-system-for>#</a></h3>
 <p>In each scope, there is an implicit value named <code>context</code>. This <code>context</code> variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).</p>
 <p>The main purpose of the implicit context system is for the ability to intercept third-party code and libraries and modify their functionality. One such case is modifying how a library allocates something or logs something. In C, this was usually achieved with the library defining macros which could be overridden so that the user could define what he wanted. However, not many libraries supported this in many languages by default which meant intercepting third-party code to see what it does and to change how it does it is not possible.</p>
@@ -401,14 +407,14 @@ Z :: proc() {}
 Z : proc() : proc() {} // Redundant type declaration
 </code></pre><h3 id=why-does-odin-not-use-keywords-to-prefix-declarations>Why does Odin not use keywords to prefix declarations? <a class=text-decoration-none href=#why-does-odin-not-use-keywords-to-prefix-declarations>#</a></h3>
 <p>Please see gingerBill&rsquo;s article <a href=https://www.gingerbill.org/article/2018/03/12/on-the-aesthetics-of-the-syntax-of-declarations/>On the Aesthetics of the Syntax of Declarations</a>.</p>
-<h3 id=why-are-two-ways-to-do-type-conversions>Why are two ways to do type conversions? <a class=text-decoration-none href=#why-are-two-ways-to-do-type-conversions>#</a></h3>
+<h3 id=why-are-there-two-ways-to-do-type-conversions>Why are there two ways to do type conversions? <a class=text-decoration-none href=#why-are-there-two-ways-to-do-type-conversions>#</a></h3>
 <pre><code class=language-odin data-lang=odin>cast(type)value
 type(value) or (type)(value)
 </code></pre><p>The reason that there are two ways to do type conversions is because one approach may <em>feel</em> better than the other case. If you are converting a large expression, it sometimes a lot easier to use the operator-style approach, <code>cast(type)</code>. The call syntax is commonly used to specify a type of an expression which may be relatively short such as <code>u32(123)</code> or <code>uintptr(ptr)</code>.</p>
 <p>There are two other type conversion operators, <a href=/docs/overview/#type-conversion>transmute</a> and <a href=/docs/overview/#auto-cast-operation>auto_cast</a>.</p>
 <h3 id=why-curly-brackets>Why curly brackets? <a class=text-decoration-none href=#why-curly-brackets>#</a></h3>
 <p>Curly brackets to denote a block is a common approach in many programming languages, and Odin&rsquo;s consistency is useful for people already familiar with the style. Curly brackets also allow for more flexible syntax styles for the programmer and it is easier to parse by the compiler because it is not white space sensitive.</p>
-<h3 id=why-does-slice-expressions-use--and-not-the-range-syntax>Why does slice expressions use <code>:</code> and not the range syntax? <a class=text-decoration-none href=#why-does-slice-expressions-use--and-not-the-range-syntax>#</a></h3>
+<h3 id=why-do-slice-expressions-use--and-not-the-range-syntax>Why do slice expressions use <code>:</code> and not the range syntax? <a class=text-decoration-none href=#why-do-slice-expressions-use--and-not-the-range-syntax>#</a></h3>
 <p>The reason for the specific syntax was done for the following reasons:</p>
 <ul>
 <li>It is the same syntax as Go and Python, making it familiar to others who have used those languages</li>
@@ -426,6 +432,7 @@ For the current backend, LLVM is used to translate code to platform specific cod
 <p>Other than the declaration syntax, the differences are minor. When designing the syntax, it had to feel right and light. A minimal amount of keywords and syntactic sugar. The syntax has been designed to be very easily to parse without a symbol table. This makes it easier to create build and analysis tools for Odin.</p>
 <h3 id=why-are-declarations-backwards>Why are declarations backwards? <a class=text-decoration-none href=#why-are-declarations-backwards>#</a></h3>
 <p>Declarations are only backwards if you are used to C. In C, declarations follow the <a href=http://c-faq.com/decl/spiral.anderson.html>&ldquo;clockwise/spiral rule&rdquo;</a> to reflect the usage of the declaration. This is can be confusing when reading.</p>
+<p>Please see: <a href=https://odin-lang.org/news/declaration-syntax/>https://odin-lang.org/news/declaration-syntax/</a></p>
 <p>In C, the declaration:</p>
 <pre><code class=language-odin data-lang=odin>int *a, b;
 </code></pre><p>declares <code>a</code> to be a &ldquo;pointer to int&rdquo; but b to be an &ldquo;int&rdquo;; in Odin</p>
@@ -438,6 +445,7 @@ a := 123
 a := int(123)
 </code></pre><h3 id=why-is-there-no-pointer-arithmetic>Why is there no pointer arithmetic? <a class=text-decoration-none href=#why-is-there-no-pointer-arithmetic>#</a></h3>
 <p>Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the <code>mem</code> package provides so utility functions: <code>mem.ptr_offset</code> and <code>mem.ptr_sub</code>. Odin will allow the programmer to do unsafe things if he wishes so.</p>
+<p>If pointer arithmetic operations are still required and common (maybe due to interfacing with foreign C-like code), <a href=https://odin-lang.org/docs/overview/#multi-pointers>multi-pointers</a> may be a better option to use.</p>
 <h3 id=why-are-there-no--or----operators>Why are there no <code>++</code> or <code>--</code> operators? <a class=text-decoration-none href=#why-are-there-no--or----operators>#</a></h3>
 <p>Pre-increment and post-increment, and the decrement equivalents, look simple but are complex. They require knowledge of the evaluation order and lead to subtle bugs. <code>f(i++)</code> or <code>a[++i] = b[i]</code> are both confusing, even if the rules are well defined. Removing this is a significant simplification.</p>
 <p><code>x += 1</code> is slightly longer but it is unambiguous.</p>
@@ -591,6 +599,7 @@ if menu(&quot;Hello&quot;) {
 <li><a href=#why-does-odin-not-have-any-methods>Why does Odin not have any methods?</a></li>
 <li><a href=#how-do-i-define-a-procedure-with-a-different-calling-convention>How do I define a procedure with a different calling convention?</a></li>
 <li><a href=#does-odin-have-closures>Does Odin have closures?</a></li>
+<li><a href=#why-are-maps-built-in>Why are maps built-in?</a></li>
 </ul>
 </li>
 <li><a href=#context-system>Context System</a>
@@ -616,9 +625,9 @@ if menu(&quot;Hello&quot;) {
 <li><a href=#what-does--mean>What does <code>:=</code> mean?</a></li>
 <li><a href=#what-does--mean-1>What does <code>::</code> mean?</a></li>
 <li><a href=#why-does-odin-not-use-keywords-to-prefix-declarations>Why does Odin not use keywords to prefix declarations?</a></li>
-<li><a href=#why-are-two-ways-to-do-type-conversions>Why are two ways to do type conversions?</a></li>
+<li><a href=#why-are-there-two-ways-to-do-type-conversions>Why are there two ways to do type conversions?</a></li>
 <li><a href=#why-curly-brackets>Why curly brackets?</a></li>
-<li><a href=#why-does-slice-expressions-use--and-not-the-range-syntax>Why does slice expressions use <code>:</code> and not the range syntax?</a></li>
+<li><a href=#why-do-slice-expressions-use--and-not-the-range-syntax>Why do slice expressions use <code>:</code> and not the range syntax?</a></li>
 </ul>
 </li>
 <li><a href=#implementation>Implementation</a>

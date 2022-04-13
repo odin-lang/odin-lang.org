@@ -17,9 +17,13 @@ main :: proc() {
 		b := swizzle(a, 2, 1, 0)
 		assert(b == [3]f32{3, 2, 1})
 
-		c := swizzle(a, 0, 0)
+		c := a.xx
 		assert(c == [2]f32{1, 1})
 		assert(c == 1)
+
+		d := swizzle(a, 0, 0)
+		assert(d == [2]f32{1, 1})
+		assert(d == 1)
 	}
 
 	{
@@ -31,14 +35,14 @@ main :: proc() {
 		fmt.printf("%.1f\n", d) // 22.0
 
 		cross :: proc(a, b: Vector3) -> Vector3 {
-			i := swizzle(a, 1, 2, 0) * swizzle(b, 2, 0, 1)
-			j := swizzle(a, 2, 0, 1) * swizzle(b, 1, 2, 0)
+			i := a.yzx * b.zxy
+			j := a.zxy * b.yzx
 			return i - j
 		}
 
-		cross_shorter :: proc(a, b: Vector3) -> Vector3 {
-			i := a.yzx * b.zxy
-			j := a.zxy * b.yzx
+		cross_explicit :: proc(a, b: Vector3) -> Vector3 {
+			i := swizzle(a, 1, 2, 0) * swizzle(b, 2, 0, 1)
+			j := swizzle(a, 2, 0, 1) * swizzle(b, 1, 2, 0)
 			return i - j
 		}
 

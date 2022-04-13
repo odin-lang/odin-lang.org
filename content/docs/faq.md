@@ -175,17 +175,18 @@ My_Int :: distinct int
 ### What is the type of `x` in `x := 123`?
 `123` is an untyped integer literal: if the type has not been specified in the declaration, the default type for the "untyped" type will be chosen. In this case, `x` will be of type `int`.
 
-| Untyped type | Default Type |
-|--------------|--------------|
-| boolean      | `bool`       |
-| integer      | `int`        |
-| float        | `f64`        |
-| complex      | `complex128` |
-| rune         | `rune`       |
-| string       | `string`     |
-| nil          | *            |
-| undef        | *            |
-| type (not first class) | *  |
+| Untyped type | Default Type    |
+|--------------|-----------------|
+| boolean      | `bool`          |
+| integer      | `int`           |
+| float        | `f64`           |
+| complex      | `complex128`    |
+| quaternion   | `quaternion256` |
+| rune         | `rune`          |
+| string       | `string`        |
+| nil          | *               |
+| undef        | *               |
+| type (not first class) | *     |
 
 \* if there is no default type for the untyped type, the type of the value cannot be inferred and this will cause an error.
 
@@ -236,7 +237,7 @@ proc "stdcall" ()
 proc "fastcall" ()
 proc "odin" ()
 proc "contextless" ()
-proc "none" ()
+proc "naked" ()
 ```
 
 ### Does Odin have closures?
@@ -251,6 +252,10 @@ foo :: proc() {
     }
 }
 ```
+
+### Why are maps built-in?
+
+The same reason why strings and dynamic arrays are: they are such a useful, powerful, and important data structure that providing an excellent first class implementation with syntactic support makes programming more of a joy. Odin's main implementation of `map` types are strong for the vast majority of use cases. If something specific is needed, it is possible to write your own but it will not benefit from the same convenient syntax. We believe that this is a reasonable trade-off between clarity and flexibility.
 
 ## Context System
 ### What is the context system for?
@@ -339,7 +344,7 @@ Z : proc() : proc() {} // Redundant type declaration
 
 Please see gingerBill's article [On the Aesthetics of the Syntax of Declarations](https://www.gingerbill.org/article/2018/03/12/on-the-aesthetics-of-the-syntax-of-declarations/).
 
-### Why are two ways to do type conversions?
+### Why are there two ways to do type conversions?
 
 ```odin
 cast(type)value
@@ -353,7 +358,7 @@ There are two other type conversion operators, [transmute](/docs/overview/#type-
 ### Why curly brackets?
 Curly brackets to denote a block is a common approach in many programming languages, and Odin's consistency is useful for people already familiar with the style. Curly brackets also allow for more flexible syntax styles for the programmer and it is easier to parse by the compiler because it is not white space sensitive.
 
-### Why does slice expressions use `:` and not the range syntax?
+### Why do slice expressions use `:` and not the range syntax?
 
 The reason for the specific syntax was done for the following reasons:
 
@@ -375,6 +380,8 @@ Other than the declaration syntax, the differences are minor. When designing the
 ### Why are declarations backwards?
 Declarations are only backwards if you are used to C. In C, declarations follow the ["clockwise/spiral rule"](http://c-faq.com/decl/spiral.anderson.html) to reflect the usage of the declaration. This is can be confusing when reading.
 
+Please see: <https://odin-lang.org/news/declaration-syntax/>
+
 In C, the declaration:
 ```odin
 int *a, b;
@@ -395,6 +402,8 @@ a := int(123)
 
 ### Why is there no pointer arithmetic?
 Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the `mem` package provides so utility functions: `mem.ptr_offset` and `mem.ptr_sub`. Odin will allow the programmer to do unsafe things if he wishes so.
+
+If pointer arithmetic operations are still required and common (maybe due to interfacing with foreign C-like code), [multi-pointers](https://odin-lang.org/docs/overview/#multi-pointers) may be a better option to use.
 
 ### Why are there no `++` or `--` operators?
 Pre-increment and post-increment, and the decrement equivalents, look simple but are complex. They require knowledge of the evaluation order and lead to subtle bugs. `f(i++)` or `a[++i] = b[i]` are both confusing, even if the rules are well defined. Removing this is a significant simplification.

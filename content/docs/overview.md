@@ -352,12 +352,12 @@ import "core:os"
 
 main :: proc() {
 	switch arch := ODIN_ARCH; arch {
-	case "386":
+	case .i386, .wasm32:
 		fmt.println("32 bit")
-	case "amd64":
+	case .amd64, .wasm64, .arm64:
 		fmt.println("64 bit")
-	case: // default
-		fmt.println("Unsupported architecture")
+	case .Unknown:
+		fmt.println("Unknown architecture")
 	}
 }
 ```

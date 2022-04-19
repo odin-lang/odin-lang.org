@@ -314,12 +314,12 @@ import &quot;core:os&quot;
 
 main :: proc() {
 	switch arch := ODIN_ARCH; arch {
-	case &quot;386&quot;:
+	case .i386, .wasm32:
 		fmt.println(&quot;32 bit&quot;)
-	case &quot;amd64&quot;:
+	case .amd64, .wasm64, .arm64:
 		fmt.println(&quot;64 bit&quot;)
-	case: // default
-		fmt.println(&quot;Unsupported architecture&quot;)
+	case .Unknown:
+		fmt.println(&quot;Unknown architecture&quot;)
 	}
 }
 </code></pre><p>Odin&rsquo;s <code>switch</code> is like the one in C or C++, except that Odin only runs the selected case. This means that a <code>break</code> statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.</p>

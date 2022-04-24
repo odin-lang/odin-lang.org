@@ -101,10 +101,12 @@ import &quot;core:fmt&quot;
 main :: proc() {
 	fmt.println(&quot;Hellope!&quot;)
 }
-</code></pre><p>Save this code to the file &ldquo;hellope.odin&rdquo;. Now compile and run it:</p>
-<pre><code>odin run hellope.odin
+</code></pre><p>Save this code to a <code>.odin</code> file, then compile and run it using <code>odin run &lt;dir></code>. For the current directory:</p>
+<pre><code>odin run .
 </code></pre><p>The <code>run</code> command compiles the <code>.odin</code> file to an executable and then runs that executable after compilation. If you do not wish to run the executable after compilation, the <code>build</code> command can be used.</p>
-<pre><code>odin build hellope.odin
+<pre><code>odin build &lt;dir&gt;
+</code></pre><p>Odin thinks in terms of directory-based packages. To tell it to treat a single file as a standalone package, add <code>-file</code>, like so:</p>
+<pre><code>odin run hellope.odin -file
 </code></pre><h2 id=lexical-elements-and-literals>Lexical elements and literals <a class=text-decoration-none href=#lexical-elements-and-literals>#</a></h2>
 <h3 id=comments>Comments <a class=text-decoration-none href=#comments>#</a></h3>
 <p>Comments can be anywhere outside of a string or character literal. Single line comments begin with <code>//</code>:</p>

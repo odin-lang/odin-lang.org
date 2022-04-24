@@ -21,13 +21,18 @@ main :: proc() {
 	fmt.println("Hellope!")
 }
 ```
-Save this code to the file "hellope.odin". Now compile and run it:
+Save this code to a `.odin` file, then compile and run it using `odin run <dir>`. For the current directory:
 ```
-odin run hellope.odin
+odin run .
 ```
 The `run` command compiles the `.odin` file to an executable and then runs that executable after compilation. If you do not wish to run the executable after compilation, the `build` command can be used.
 ```
-odin build hellope.odin
+odin build <dir>
+```
+
+Odin thinks in terms of directory-based packages. To tell it to treat a single file as a standalone package, add `-file`, like so:
+```
+odin run hellope.odin -file
 ```
 
 ## Lexical elements and literals

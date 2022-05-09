@@ -873,7 +873,7 @@ for i in 0..=4 {
 ```
 The notation `x[i]` is used to access the i-th element of `x`; and 0-index based (like C).
 
-The above array can be constructed with a question mark (`?`) to automatically infer its length:
+The above array can also be constructed with a question mark (`?`) to automatically infer its length:
 
 ```odin
 x := [?]int{1, 2, 3, 4, 5}

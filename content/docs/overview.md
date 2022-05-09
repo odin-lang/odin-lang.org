@@ -873,6 +873,12 @@ for i in 0..=4 {
 ```
 The notation `x[i]` is used to access the i-th element of `x`; and 0-index based (like C).
 
+The above array can be constructed with a question mark (`?`) to automatically infer its length:
+
+```odin
+x := [?]int{1, 2, 3, 4, 5}
+```
+
 The built-in `len` proc returns the array's length.
 ```odin
 x: [5]int
@@ -888,6 +894,8 @@ Array access is always bounds checked (at compile-time and at runtime). This can
 ```
 
 `#no_bounds_check` can be used to improve performance when the bounds are known to not exceed.
+
+You can infer
 
 #### Array programming
 Odin's fixed length arrays support [array programming](https://en.wikipedia.org/wiki/Array_programming).

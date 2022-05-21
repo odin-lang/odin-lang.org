@@ -1601,7 +1601,7 @@ m = matrix[2, 3]f32{
 
 Element types of integers, float, and complex numbers are supported by matrices. There is no support for booleans, quaternions, or any compound type.
 		
-Indexing a matrix can be used with the matrix indexing syntax This mirrors othe type usages: type on the left, usage on the right.
+Indexing a matrix can be used with the matrix indexing syntax. This mirrors othe type usages: type on the left, usage on the right.
 		
 ```odin
 elem := m[1, 2] // row 1, column 2

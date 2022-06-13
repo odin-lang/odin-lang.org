@@ -1815,8 +1815,11 @@ x.y(x, 123)
 <p>The following are useful idioms which are emergent from the semantics on the language.</p>
 <h3 id=basic-idioms>Basic idioms <a class=text-decoration-none href=#basic-idioms>#</a></h3>
 <h4 id=ternary-operator>Ternary operator <a class=text-decoration-none href=#ternary-operator>#</a></h4>
-<pre><code class=language-odin data-lang=odin>foo := 1 if condition else 42
-bar := condition ? 1 : 42
+<p>The following two snippets are identical:</p>
+<pre><code class=language-odin data-lang=odin>bar := condition ? 1 : 42
+</code></pre><pre><code class=language-odin data-lang=odin>bar := 1 if condition else 42
+</code></pre><p>You can also use ternary expressions with constants at compile-time:</p>
+<pre><code class=language-odin data-lang=odin>DEBUG_LOG_SIZE :: 1024 when DEBUG else 0
 </code></pre><h4 id=if-statements-with-initialization>If-statements with initialization <a class=text-decoration-none href=#if-statements-with-initialization>#</a></h4>
 <pre><code class=language-odin data-lang=odin>if str, ok := value.(string) ok {
 	...

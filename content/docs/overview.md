@@ -2419,9 +2419,17 @@ The following are useful idioms which are emergent from the semantics on the lan
 
 #### Ternary operator
 
+The following two snippets are identical:
 ```odin
-foo := 1 if condition else 42
 bar := condition ? 1 : 42
+```
+```odin
+bar := 1 if condition else 42
+```
+
+You can also use ternary expressions with constants at compile-time:
+```odin
+DEBUG_LOG_SIZE :: 1024 when DEBUG else 0
 ```
 
 #### If-statements with initialization

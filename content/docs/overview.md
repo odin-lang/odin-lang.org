@@ -2417,6 +2417,13 @@ The following are useful idioms which are emergent from the semantics on the lan
 
 ### Basic idioms
 
+#### Ternary operator
+
+```odin
+foo := 1 if condition else 42
+bar := condition ? 1 : 42
+```
+
 #### If-statements with initialization
 
 ```odin

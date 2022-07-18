@@ -2483,6 +2483,206 @@ defer if cond {
 }
 ```
 
+### Attributes
+
+Attributes can be applied to different kinds of declarations to modify the compilation details or behaviour of that declaration.
+
+#### General Attributes
+
+* **@(private)**
+
+Prevents a top level element from being exported with the package.
+```odin
+@(private)
+my_variable: int; // cannot be accessed outside this package.
+```
+
+You may also make an entity private to _the file_ instead of the package.
+```odin
+@(private="file")
+my_variable: int; // cannot be accessed outside this file.
+```
+`@(private)` is equivalent to `@(private="package")`.
+
+Using `//+private` in a file at the package declaration will automatically add `@(private)` to everything in the file
+```odin
+//+private
+package foo
+```
+
+And `//+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that the remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
+
+* **@(require)**
+
+Requires that the declaration is added to the final compilation and not optimized out.
+
+#### Linking and Foreign Attributes
+
+* **@(link_name=\<string\>)**
+
+This attribute can be attached to variable and procedure declarations inside a `foreign` block. This specifies what the variable/proc is called in the library.
+Example:
+```odin
+foreign foo {
+    @(link_name = "bar")
+    testbar :: proc(baz: int) ---
+}
+```
+
+* **@(link_prefix=\<string\>)**
+
+This attribute can be attached to a `foreign` block to specify a prefix to all names. So if functions are prefixed with `ltb_` in the library is you can attach this and not specify that on the procedure on the odin side. Example:
+```odin
+@(link_prefix = "ltb_")
+foreign foo {
+    testbar :: proc(baz: int) --- // This now refers to ltb_testbar
+}
+```
+
+* **@export** or **@(export=true/false)**
+
+Exports a variable or procedure symbol, useful for producing DLLs.
+
+* **@(linkage=\<string\>)**
+
+Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: `"internal"`, `"strong"`, `"weak"`, and `"link_once"`.
+
+
+* **@(default_calling_convention=\<string\>)**
+
+This attribute can be attached to a `foreign` block to specify the default calling convention for all procedures in the block. Example:
+```odin
+@(default_calling_convention = "std")
+foreign kernel32 {
+    @(link_name="LoadLibraryA") load_library_a  :: proc(c_str: ^u8) -> Hmodule ---
+}
+```
+
+* **@(link_section=\<string\>)**
+
+Specify the link section for a global variable.
+
+```
+@(link_section=".foo")
+my_global: i32
+```
+
+#### Procedure Attributes
+
+* **@(deferred_in=\<proc\>)**
+* **@(deferred_out=\<proc\>)**
+* **@(deferred_in_out=\<proc\>)**
+* **@(deferred_none=\<proc\>)**
+
+These attributes can be attached to a procedure `X` which will be called at the end of the calling scope for `X`s caller.
+`deferred_in` will receive the same parameters as the called proc. `deferred_out` will receive the result of the called proc. `deferred_in_out` will receive both. `deferred_none` will receive no parameters.
+```odin
+baz :: proc() {
+    fmt.println("In baz")
+}
+
+@(deferred_none=baz)
+bar :: proc() {
+    fmt.println("In bar")
+}
+
+foo :: proc() {
+    fmt.println("Entered foo")
+    bar()
+    fmt.println("Leaving foo")
+}
+// Prints:
+// Entered foo
+// In bar
+// Leaving foo
+// In baz
+```
+
+* **@(deprecated=\<string\>)**
+
+Mark a procedure as deprecated. Running `odin build/run/check` will print out the message for each usage of the deprecated proc.
+```odin
+@(deprecated="'foo' deprecated, use 'bar' instead")
+foo :: proc() {
+    ...
+}
+```
+
+* **@(require_results)**
+
+Ensures procedure return values are acknowledged.
+```odin
+@(require_results)
+foo :: proc() -> bool {
+    return true
+}
+
+main :: proc() {
+    foo() // won't compile
+    _ = foo() // Ok
+}
+```
+
+* **@(warning=\<string\>)**
+
+Produces a warning when a procedure is called.
+
+* **@(disabled=\<boolean\>)**
+
+If the provided boolean is set, the procedure will not be used when called.
+
+* **@(init)**
+
+Applied to a procedure with not input parameters nor return values and will be called at the start of the program before `main` is called. The order of initialization is deterministically with a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
+
+
+* **@(cold)**
+
+A hint to the compiler that this procedure is rarely called, and thus "cold".
+
+
+#### Variable Attributes
+
+* **@(static)**
+
+Can be applied to a variable to have it keep its' state even when going out of scope.
+Same as a static local variable in C.
+```odin
+test :: proc() -> int {
+    @(static) foo := 0
+    foo += 1
+    return foo
+}
+
+main :: proc() {
+    fmt.println(test()) // prints 1
+    fmt.println(test()) // prints 2
+    fmt.println(test()) // prints 3
+}
+```
+
+* **@(thread_local)**
+
+Can be applied to a variable at file scope
+```odin
+@(thread_local) foo: int
+```
+
+
+#### Specialized Attributes
+
+* **@(builtin)**
+Marks builtin procs in Odin's "core:runtime" package. Cannot be used in user code.
+
+* **@(objc_name=\<string\>)**
+* **@(objc_type=\<type\>)**
+* **@(objc_is_class_method=\<boolean\>)**
+
+* **@(require_target_feature=\<string\>)**
+* **@(enable_target_feature=\<string\>)**
+
+
+
 
 ### Advanced idioms
 

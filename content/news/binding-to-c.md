@@ -1,6 +1,6 @@
 ---
 title: Binding to C
-summary: Using Odin to binding to the C and other foreign languages
+summary: Using Odin to bind to C and other foreign languages
 slug: binding-to-c
 author: Ginger Bill
 date: '2022-07-18'

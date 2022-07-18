@@ -2939,7 +2939,6 @@ More details can be found on the [Github wiki for Odin](https://github.com/odin-
 Some of this information includes:
 
 - [Compiler Flags](https://github.com/odin-lang/Odin/wiki/Compiler-Flags)
-- [Attributes-and-Directives](https://github.com/odin-lang/Odin/wiki/Attributes-and-Directives)
 - [Built in Procedures](https://github.com/odin-lang/Odin/wiki/Built-in-Procedures)
 - [Keywords and Operators](https://github.com/odin-lang/Odin/wiki/Keywords-and-Operators)
 - ...and more

@@ -209,9 +209,10 @@ foreign import foo &quot;system:foo.lib&quot; // system library (static or impor
 </code></pre><h3 id=calling-conventions>Calling conventions <a class=text-decoration-none href=#calling-conventions>#</a></h3>
 <p>C supports a plethora of calling conventions, most of them for Windows. Procedure calling conventions are added after the <code>proc</code> in the signature:</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc &quot;c&quot; () {}
-bar :: proc &quot;std&quot; () {}
+bar :: proc &quot;stdcall&quot; () {}
+bar :: proc &quot;system&quot; () {} // &quot;stdcall&quot; on Windows, &quot;c&quot; on *nix systems
 </code></pre><p>Procedure declarations in <code>foreign</code> blocks default to the &ldquo;c&rdquo; calling convention, but this can be changed by adding the <code>@(default_calling_convention=&lt;string>)</code> attribute prior to the <code>foreign</code> block.</p>
-<pre><code class=language-nodin data-lang=nodin>@(default_calling_convention=&quot;std&quot;)
+<pre><code class=language-odin data-lang=odin>@(default_calling_convention=&quot;std&quot;)
 foreign lib {
     ...
 }

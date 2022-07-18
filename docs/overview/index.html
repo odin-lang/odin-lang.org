@@ -1861,7 +1861,177 @@ for v, j in &amp;foos {
 </code></pre><h4 id=defer-if>&lsquo;defer if&rsquo; <a class=text-decoration-none href=#defer-if>#</a></h4>
 <pre><code class=language-odin data-lang=odin>defer if cond {
 }
-</code></pre><h3 id=advanced-idioms>Advanced idioms <a class=text-decoration-none href=#advanced-idioms>#</a></h3>
+</code></pre><h3 id=attributes>Attributes <a class=text-decoration-none href=#attributes>#</a></h3>
+<p>Attributes can be applied to different kinds of declarations to modify the compilation details or behaviour of that declaration.</p>
+<h4 id=general-attributes>General Attributes <a class=text-decoration-none href=#general-attributes>#</a></h4>
+<ul>
+<li><strong>@(private)</strong></li>
+</ul>
+<p>Prevents a top level element from being exported with the package.</p>
+<pre><code class=language-odin data-lang=odin>@(private)
+my_variable: int; // cannot be accessed outside this package.
+</code></pre><p>You may also make an entity private to <em>the file</em> instead of the package.</p>
+<pre><code class=language-odin data-lang=odin>@(private=&quot;file&quot;)
+my_variable: int; // cannot be accessed outside this file.
+</code></pre><p><code>@(private)</code> is equivalent to <code>@(private="package")</code>.</p>
+<p>Using <code>//+private</code> in a file at the package declaration will automatically add <code>@(private)</code> to everything in the file</p>
+<pre><code class=language-odin data-lang=odin>//+private
+package foo
+</code></pre><p>And <code>//+private file</code> will be equivalent to automatically adding <code>@(private="file")</code> to each declaration. This means that the remove the private-to-file association, you must apply a private-to-package attribute <code>@(private)</code> to the declaration.</p>
+<ul>
+<li><strong>@(require)</strong></li>
+</ul>
+<p>Requires that the declaration is added to the final compilation and not optimized out.</p>
+<h4 id=linking-and-foreign-attributes>Linking and Foreign Attributes <a class=text-decoration-none href=#linking-and-foreign-attributes>#</a></h4>
+<ul>
+<li><strong>@(link_name=&lt;string>)</strong></li>
+</ul>
+<p>This attribute can be attached to variable and procedure declarations inside a <code>foreign</code> block. This specifies what the variable/proc is called in the library.
+Example:</p>
+<pre><code class=language-odin data-lang=odin>foreign foo {
+    @(link_name = &quot;bar&quot;)
+    testbar :: proc(baz: int) ---
+}
+</code></pre><ul>
+<li><strong>@(link_prefix=&lt;string>)</strong></li>
+</ul>
+<p>This attribute can be attached to a <code>foreign</code> block to specify a prefix to all names. So if functions are prefixed with <code>ltb_</code> in the library is you can attach this and not specify that on the procedure on the odin side. Example:</p>
+<pre><code class=language-odin data-lang=odin>@(link_prefix = &quot;ltb_&quot;)
+foreign foo {
+    testbar :: proc(baz: int) --- // This now refers to ltb_testbar
+}
+</code></pre><ul>
+<li><strong>@export</strong> or <strong>@(export=true/false)</strong></li>
+</ul>
+<p>Exports a variable or procedure symbol, useful for producing DLLs.</p>
+<ul>
+<li><strong>@(linkage=&lt;string>)</strong></li>
+</ul>
+<p>Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: <code>"internal"</code>, <code>"strong"</code>, <code>"weak"</code>, and <code>"link_once"</code>.</p>
+<ul>
+<li><strong>@(default_calling_convention=&lt;string>)</strong></li>
+</ul>
+<p>This attribute can be attached to a <code>foreign</code> block to specify the default calling convention for all procedures in the block. Example:</p>
+<pre><code class=language-odin data-lang=odin>@(default_calling_convention = &quot;std&quot;)
+foreign kernel32 {
+    @(link_name=&quot;LoadLibraryA&quot;) load_library_a  :: proc(c_str: ^u8) -&gt; Hmodule ---
+}
+</code></pre><ul>
+<li><strong>@(link_section=&lt;string>)</strong></li>
+</ul>
+<p>Specify the link section for a global variable.</p>
+<pre><code>@(link_section=&quot;.foo&quot;)
+my_global: i32
+</code></pre><h4 id=procedure-attributes>Procedure Attributes <a class=text-decoration-none href=#procedure-attributes>#</a></h4>
+<ul>
+<li><strong>@(deferred_in=&lt;proc>)</strong></li>
+<li><strong>@(deferred_out=&lt;proc>)</strong></li>
+<li><strong>@(deferred_in_out=&lt;proc>)</strong></li>
+<li><strong>@(deferred_none=&lt;proc>)</strong></li>
+</ul>
+<p>These attributes can be attached to a procedure <code>X</code> which will be called at the end of the calling scope for <code>X</code>s caller.
+<code>deferred_in</code> will receive the same parameters as the called proc. <code>deferred_out</code> will receive the result of the called proc. <code>deferred_in_out</code> will receive both. <code>deferred_none</code> will receive no parameters.</p>
+<pre><code class=language-odin data-lang=odin>baz :: proc() {
+    fmt.println(&quot;In baz&quot;)
+}
+
+@(deferred_none=baz)
+bar :: proc() {
+    fmt.println(&quot;In bar&quot;)
+}
+
+foo :: proc() {
+    fmt.println(&quot;Entered foo&quot;)
+    bar()
+    fmt.println(&quot;Leaving foo&quot;)
+}
+// Prints:
+// Entered foo
+// In bar
+// Leaving foo
+// In baz
+</code></pre><ul>
+<li><strong>@(deprecated=&lt;string>)</strong></li>
+</ul>
+<p>Mark a procedure as deprecated. Running <code>odin build/run/check</code> will print out the message for each usage of the deprecated proc.</p>
+<pre><code class=language-odin data-lang=odin>@(deprecated=&quot;'foo' deprecated, use 'bar' instead&quot;)
+foo :: proc() {
+    ...
+}
+</code></pre><ul>
+<li><strong>@(require_results)</strong></li>
+</ul>
+<p>Ensures procedure return values are acknowledged.</p>
+<pre><code class=language-odin data-lang=odin>@(require_results)
+foo :: proc() -&gt; bool {
+    return true
+}
+
+main :: proc() {
+    foo() // won't compile
+    _ = foo() // Ok
+}
+</code></pre><ul>
+<li><strong>@(warning=&lt;string>)</strong></li>
+</ul>
+<p>Produces a warning when a procedure is called.</p>
+<ul>
+<li><strong>@(disabled=&lt;boolean>)</strong></li>
+</ul>
+<p>If the provided boolean is set, the procedure will not be used when called.</p>
+<ul>
+<li><strong>@(init)</strong></li>
+</ul>
+<p>Applied to a procedure with not input parameters nor return values and will be called at the start of the program before <code>main</code> is called. The order of initialization is deterministically with a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.</p>
+<ul>
+<li><strong>@(cold)</strong></li>
+</ul>
+<p>A hint to the compiler that this procedure is rarely called, and thus &ldquo;cold&rdquo;.</p>
+<h4 id=variable-attributes>Variable Attributes <a class=text-decoration-none href=#variable-attributes>#</a></h4>
+<ul>
+<li><strong>@(static)</strong></li>
+</ul>
+<p>Can be applied to a variable to have it keep its' state even when going out of scope.
+Same as a static local variable in C.</p>
+<pre><code class=language-odin data-lang=odin>test :: proc() -&gt; int {
+    @(static) foo := 0
+    foo += 1
+    return foo
+}
+
+main :: proc() {
+    fmt.println(test()) // prints 1
+    fmt.println(test()) // prints 2
+    fmt.println(test()) // prints 3
+}
+</code></pre><ul>
+<li><strong>@(thread_local)</strong></li>
+</ul>
+<p>Can be applied to a variable at file scope</p>
+<pre><code class=language-odin data-lang=odin>@(thread_local) foo: int
+</code></pre><h4 id=specialized-attributes>Specialized Attributes <a class=text-decoration-none href=#specialized-attributes>#</a></h4>
+<ul>
+<li>
+<p><strong>@(builtin)</strong>
+Marks builtin procs in Odin&rsquo;s &ldquo;core:runtime&rdquo; package. Cannot be used in user code.</p>
+</li>
+<li>
+<p><strong>@(objc_name=&lt;string>)</strong></p>
+</li>
+<li>
+<p><strong>@(objc_type=&lt;type>)</strong></p>
+</li>
+<li>
+<p><strong>@(objc_is_class_method=&lt;boolean>)</strong></p>
+</li>
+<li>
+<p><strong>@(require_target_feature=&lt;string>)</strong></p>
+</li>
+<li>
+<p><strong>@(enable_target_feature=&lt;string>)</strong></p>
+</li>
+</ul>
+<h3 id=advanced-idioms>Advanced idioms <a class=text-decoration-none href=#advanced-idioms>#</a></h3>
 <p>Subtype polymorphism with runtime type safe down casting:</p>
 <pre><code class=language-odin data-lang=odin>Entity :: struct {
 	id:   u64,
@@ -1999,6 +2169,7 @@ Some of this information includes:</p>
 <li><a href=#useful-idioms>Useful idioms</a>
 <ul>
 <li><a href=#basic-idioms>Basic idioms</a></li>
+<li><a href=#attributes>Attributes</a></li>
 <li><a href=#advanced-idioms>Advanced idioms</a></li>
 </ul>
 </li>

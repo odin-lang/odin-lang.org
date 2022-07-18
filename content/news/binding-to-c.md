@@ -118,10 +118,12 @@ C supports a plethora of calling conventions, most of them for Windows. Procedur
 
 ```odin
 foo :: proc "c" () {}
-bar :: proc "std" () {}
+bar :: proc "stdcall" () {}
+bar :: proc "system" () {} // "stdcall" on Windows, "c" on *nix systems
 ```
 Procedure declarations in `foreign` blocks default to the "c" calling convention, but this can be changed by adding the `@(default_calling_convention=<string>)` attribute prior to the `foreign` block.
-```nodin
+
+```odin
 @(default_calling_convention="std")
 foreign lib {
     ...

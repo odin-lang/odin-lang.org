@@ -2031,7 +2031,186 @@ Marks builtin procs in Odin&rsquo;s &ldquo;core:runtime&rdquo; package. Cannot b
 <p><strong>@(enable_target_feature=&lt;string>)</strong></p>
 </li>
 </ul>
-<h3 id=advanced-idioms>Advanced idioms <a class=text-decoration-none href=#advanced-idioms>#</a></h3>
+<h3 id=directives>Directives <a class=text-decoration-none href=#directives>#</a></h3>
+<p>Directives a way of extending the core behaviour of the Odin programming language; have the form <code>#name</code>.</p>
+<h4 id=record-memory-layout>Record Memory Layout <a class=text-decoration-none href=#record-memory-layout>#</a></h4>
+<ul>
+<li><strong>#packed</strong></li>
+</ul>
+<p>This tag can be applied to struct. By doing so, the Odin compiler will omit padding and preserve the order of fields in a struct.</p>
+<pre><code class=language-odin data-lang=odin>struct #packed {x: u8, y: i32, z: u16, w: u8}
+</code></pre><ul>
+<li><strong>#raw_union</strong></li>
+</ul>
+<p>This tag can be applied to a struct. Struct&rsquo;s fields will share the same memory space which serves the same functionality as <code>union</code>s in C language. Useful when writing bindings especially.</p>
+<pre><code class=language-odin data-lang=odin>struct #raw_union {u: u32, i: i32, f: f32}
+</code></pre><ul>
+<li><strong>#align</strong>
+This tag can be applied to a struct or union. This tag in form <code>#align N</code> specifies the struct&rsquo;s alignment to N bytes.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>Foo :: struct #align 4 {
+    b: bool,
+}
+Bar :: union #align 4 {
+    i32,
+    u8,
+}
+</code></pre><ul>
+<li><strong>#no_nil</strong>
+This tag can be applied to a union to not allow nil values.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>A :: union {int, bool}
+B :: union #no_nil {int, bool}
+</code></pre><pre><code>Possible states of A:
+{} // nil
+{int}
+{bool}
+
+Possible states of B:
+{int} // default state
+{bool}
+</code></pre><h4 id=control-statements>Control Statements <a class=text-decoration-none href=#control-statements>#</a></h4>
+<ul>
+<li><strong>#partial</strong></li>
+</ul>
+<p>By default all <code>case</code>s of an <code>enum</code> or union have to be covered in a <code>switch</code> statement. The <code>#partial</code> tag allows to use wanted <code>case</code>s:</p>
+<pre><code class=language-odin data-lang=odin>Foo :: enum {
+    A,
+    B,
+    C,
+}
+
+test :: proc() {
+    bar := Foo.A
+
+    // All cases required, removing any would result in an error
+    switch bar {
+    case .A:
+    case .B:
+    case .C:
+    }
+
+    // Partially state wanted cases
+    #partial switch bar {
+    case .A:
+    case .B:
+    }
+}
+</code></pre><h4 id=procedure-parameters>Procedure Parameters <a class=text-decoration-none href=#procedure-parameters>#</a></h4>
+<ul>
+<li><strong>#no_alias</strong></li>
+</ul>
+<p>This tag can be applied to a procedure parameter that is a pointer. This is a hint to the compiler that this parameter will not alias other parameters. This is equivalent to C&rsquo;s <code>__restrict</code>.</p>
+<pre><code class=language-odin data-lang=odin>foo :: proc(#no_alias a, b: ^int) {}
+</code></pre><ul>
+<li><strong>#caller_location</strong></li>
+</ul>
+<p>This tag is used as a function&rsquo;s parameter value. In the following function signature,</p>
+<pre><code class=language-odin data-lang=odin>alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_location) -&gt; rawptr
+</code></pre><p><code>loc</code> is a variable of type <code>Source_Code_Location</code> (see <code>core/runtime/core.odin</code>) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling <code>alloc</code>).</p>
+<ul>
+<li><strong>#c_vararg</strong>
+Used to interface with vararg functions in foreign procedures.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>foreign foo {
+    bar :: proc(n: int, #c_vararg args: ..any) ---
+}
+</code></pre><ul>
+<li><strong>#optional_ok</strong></li>
+</ul>
+<p>Allows skipping the last return parameter, which needs to be a <code>bool</code></p>
+<pre><code class=language-odin data-lang=odin>import &quot;core:fmt&quot;
+
+foo :: proc(x: int) -&gt; (value: int, ok: bool) #optional_ok {
+    return x + 1, true
+}
+
+main :: proc() {
+    for x := 0; x &lt; 11; x = foo(x) {
+        fmt.printf(&quot;v: %v\n&quot;, x)
+    }
+}
+</code></pre><h4 id=expressions>Expressions <a class=text-decoration-none href=#expressions>#</a></h4>
+<ul>
+<li><strong>#type</strong></li>
+</ul>
+<p>This tag doesn&rsquo;t serve a functional purpose in the compiler, this is for telling someone reading the code that the expression is a type. The main case is for showing that a procedure signature without a body is a type and not just missing its body, for example:</p>
+<pre><code class=language-odin data-lang=odin>foo :: #type proc(foo: string)
+
+bar :: struct {
+    gin: foo,
+}
+</code></pre><h4 id=statements>Statements <a class=text-decoration-none href=#statements>#</a></h4>
+<ul>
+<li><strong>#bounds_check</strong></li>
+<li><strong>#no_bounds_check</strong></li>
+</ul>
+<p><code>#bounds_check</code> and <code>#no_bounds_check</code> are flags that control Odin&rsquo;s built-in bounds checking of arrays and slices. Any statement, block, or function with one of these flags will have their bounds checking turned on or off, depending on the flag provided. Valid uses of these flags include:</p>
+<pre><code class=language-odin data-lang=odin>proc_without_bounds_check :: proc() #no_bounds_check {
+    #bounds_check {
+        #no_bounds_check fmt.println(os.args[1])
+    }
+}
+</code></pre><h4 id=built-in-procedures>Built-in Procedures <a class=text-decoration-none href=#built-in-procedures>#</a></h4>
+<ul>
+<li><strong>#assert(&lt;boolean>)</strong>
+Assert ran at compile time.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>#assert(SOME_CONST_CONDITION)
+</code></pre><ul>
+<li><strong>#panic(&lt;string>)</strong>
+Panic ran at compile time. Equivalent to an <code>#assert</code> with a <code>false</code> condition.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>#panic(SOME_message_CONDITION)
+</code></pre><ul>
+<li><strong>#config(&lt;identifer>, default)</strong></li>
+</ul>
+<p>Checks if an identifier is defined through the command line, or gives a default value instead.</p>
+<p>Values can be set with the <code>-define:NAME=VALUE</code> command line flag.</p>
+<ul>
+<li><strong>#defined</strong>
+Checks if an identifier is defined. This may only be used within a procedure&rsquo;s body.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>n: int
+when #defined(n) { fmt.println(&quot;true&quot;) }
+if #defined(int) { fmt.println(&quot;true&quot;) }
+when #defined(nonexistent_proc) == false { fmt.println(&quot;proc was not defined&quot;) }
+</code></pre><ul>
+<li>
+<p><strong>#file #line #procedure</strong>
+Return the current file path, line number, or procedure name, respectively. Used like a constant value. <code>file_name :: #file</code></p>
+</li>
+<li>
+<p><strong>#location()</strong> or <strong>#location(&lt;\entity>)</strong>
+Returns a <code>runtime.Source_Code_Location</code> (see <code>core/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration</p>
+</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>foo :: proc() {}
+
+main :: proc() {
+    n: int
+    fmt.println(#location())
+    fmt.println(#location(foo))
+    fmt.println(#location(n))
+}
+</code></pre><ul>
+<li><strong>#load(&lt;string>)</strong>
+Returns a <code>[]u8</code> of file contents at compile time</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>foo := #load(&quot;path/to/file&quot;)
+fmt.println(string(foo))
+</code></pre><ul>
+<li><strong>#load_or(&lt;string>, default)</strong>
+Returns a <code>[]u8</code> of file contents at compile time, otherwhise default content when the file wasn&rsquo;t found</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>foo := #load_or(&quot;path/to/file&quot;, []u8 { 104, 105 })
+fmt.println(string(foo))
+</code></pre><ul>
+<li><strong>#load_hash(&lt;string-path>, &lt;string-hash>)</strong>
+Returns a constant integer of the hash of file contents at compile time. Available hashes: <code>"adler32"</code>, <code>"crc32"</code>, <code>"crc64"</code>, <code>"fnv32"</code>, <code>"fnv64"</code>, <code>"fnv32a"</code>, <code>"fnv64a"</code>, <code>"murmur32"</code>, or <code>"murmur64"</code>.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>hash :: #load_hash(&quot;path/to/file&quot;, &quot;crc32&quot;)
+</code></pre><h3 id=advanced-idioms>Advanced idioms <a class=text-decoration-none href=#advanced-idioms>#</a></h3>
 <p>Subtype polymorphism with runtime type safe down casting:</p>
 <pre><code class=language-odin data-lang=odin>Entity :: struct {
 	id:   u64,
@@ -2170,6 +2349,7 @@ Some of this information includes:</p>
 <ul>
 <li><a href=#basic-idioms>Basic idioms</a></li>
 <li><a href=#attributes>Attributes</a></li>
+<li><a href=#directives>Directives</a></li>
 <li><a href=#advanced-idioms>Advanced idioms</a></li>
 </ul>
 </li>

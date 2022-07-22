@@ -126,7 +126,7 @@ read_file_by_lines_in_whole :: proc(filepath: string) {
 <pre><code class=language-odin data-lang=odin>import &quot;core:bufio&quot;
 
 read_file_by_lines_with_buffering :: proc(filepath: string) {
-	f, ferr := os.read(filepath)
+	f, ferr := os.open(filepath)
 	if ferr != 0 {
 		// handle error appropriately
 		return

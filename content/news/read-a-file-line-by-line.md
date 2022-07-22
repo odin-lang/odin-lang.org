@@ -49,7 +49,7 @@ _This is useful for when you have a general `io.Reader` which cannot read everyt
 import "core:bufio"
 
 read_file_by_lines_with_buffering :: proc(filepath: string) {
-	f, ferr := os.read(filepath)
+	f, ferr := os.open(filepath)
 	if ferr != 0 {
 		// handle error appropriately
 		return

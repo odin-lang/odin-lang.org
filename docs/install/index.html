@@ -107,7 +107,12 @@ Download <a href=/docs/nightly/>the latest nightly build</a>.</p>
 <h4 id=for-mac-and-nix>For Mac and *Nix&mldr; <a class=text-decoration-none href=#for-mac-and-nix>#</a></h4>
 <p>For Linux, make sure you have <code>llvm</code> and <code>clang</code> installed through your package managers.
 For macOS, make sure you&rsquo;ve installed the Xcode command-line tools (<code>xcode-select --install</code>), then install LLVM. If you use <a href=https://brew.sh/>Homebrew</a>, you can run <code>brew install llvm</code> to do this.</p>
-<p>Homebrew will not add LLVM to the PATH, run <code>echo 'export PATH="/opt/homebrew/Cellar/llvm/14.0.6_1/bin:$PATH"' >> ~/.zshrc</code> to add LLVM to your PATH. Then run <code>source ~/.bash_profile #or ~/.zshrc</code> to update your PATH variable in the current terminal session.</p>
+<p>Homebrew will not add LLVM to the PATH,</p>
+<ul>
+<li><strong>Intel</strong> : run <code>echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.bash_profile</code> to add LLVM to your PATH.</li>
+<li><strong>Apple Sillicon</strong> : run <code>echo 'export PATH="/opt/homebrew/Cellar/llvm/14.0.6_1/bin:$PATH"' >> ~/.zshrc</code> to add LLVM to your PATH.</li>
+</ul>
+<p>Then run <code>source ~/.bash_profile # or ~/.zshrc</code> to update your PATH variable in the current terminal session.</p>
 <p>On newer versions of macOS, some headers are not installed by default. Open <code>macOS_SDK_headers_for_macOS_*.pkg</code> in <code>/Library/Developer/CommandLineTools/Packages/</code>.</p>
 <p>Now navigate to the Odin directory in your terminal, use <code>make</code>, and you should have a newly-built, fresh Odin compiler!</p>
 <h2 id=building-odin>Building Odin <a class=text-decoration-none href=#building-odin>#</a></h2>

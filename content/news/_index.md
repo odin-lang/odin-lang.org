@@ -1,3 +1,3 @@
 ---
-title: Odin News
+title: Odin News and Articles
 ---

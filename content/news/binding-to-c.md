@@ -181,6 +181,8 @@ C's pointers allow for both arithmetic and indexing. Odin has done away for the 
 
 Normal pointers in Odin effectively assume to be pointing to a value at an address. Its zero value is `nil`. These normal pointer types can only be deferenced, and do not support arithmetic nor indexing. For the Odin-like equivalent, that is where multi-pointers come in.
 
+The equivalent to C's `void *` is `rawptr` in Odin.
+
 Multi-Pointers in Odin are a way to describe foreign (C-like) pointers which act like arrays (pointers that map to multiple items). The type `[^]T` is a multi-pointer to `T` value(s). Its zero value is `nil`.
 
 ```odin
@@ -191,8 +193,8 @@ What multi-pointers support:
 
 * Index (without any bounds checking)
 * Slicing (bounds checking on if both the low and high operands are given)
-* Implicit conversions between ^T and [^]T
-* Implicit conversion to rawptr (like all pointers)
+* Implicit conversions between `^T` and `[^]T`
+* Implicit conversion to `rawptr` (like all pointers)
 
 What multi-pointers DO NOT SUPPORT:
 

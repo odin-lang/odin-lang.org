@@ -210,14 +210,15 @@ You may still declare such a union however by using a struct with the <code>#raw
 <h4 id=pointers>Pointers <a class=text-decoration-none href=#pointers>#</a></h4>
 <p>C&rsquo;s pointers allow for both arithmetic and indexing. Odin has done away for the need for both by providing a much richer type system through actual array types (fixed-arrays, slices, dynamic arrays, etc) and a feature specifically added for interfacing with foreign languages such as C: <a href=/docs/overview/#multi-pointers>multi-pointers</a>.</p>
 <p>Normal pointers in Odin effectively assume to be pointing to a value at an address. Its zero value is <code>nil</code>. These normal pointer types can only be deferenced, and do not support arithmetic nor indexing. For the Odin-like equivalent, that is where multi-pointers come in.</p>
+<p>The equivalent to C&rsquo;s <code>void *</code> is <code>rawptr</code> in Odin.</p>
 <p>Multi-Pointers in Odin are a way to describe foreign (C-like) pointers which act like arrays (pointers that map to multiple items). The type <code>[^]T</code> is a multi-pointer to <code>T</code> value(s). Its zero value is <code>nil</code>.</p>
 <pre><code class=language-odin data-lang=odin>p: [^]f32
 </code></pre><p>What multi-pointers support:</p>
 <ul>
 <li>Index (without any bounds checking)</li>
 <li>Slicing (bounds checking on if both the low and high operands are given)</li>
-<li>Implicit conversions between ^T and [^]T</li>
-<li>Implicit conversion to rawptr (like all pointers)</li>
+<li>Implicit conversions between <code>^T</code> and <code>[^]T</code></li>
+<li>Implicit conversion to <code>rawptr</code> (like all pointers)</li>
 </ul>
 <p>What multi-pointers DO NOT SUPPORT:</p>
 <ul>

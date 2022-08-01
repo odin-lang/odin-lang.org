@@ -155,10 +155,10 @@ The Odin equivalent to this is `cstring`, which is just a `^u8` internally (`cha
 To work with C strings in Odin, it's highly recommended that you use this type, and, as required, convert them to `string` with a cast: `string(my_cstring)` or `cast(string) my_cstring`, which creates a string that just points to the `cstring`'s data. No allocation or copy is performed.
 Despite being just a cast, this takes `O(N)` time as it will scan the memory, looking for the null terminator, in order to determine the length of the string, since Odin strings keep track of the length.
 
-To go the other way, you may import `core:strings` and use `strings.clone_to_cstring(my_cstring)`, which makes a copy of the underlying string, and puts a null terminator on the end.
+To go the other way, you may import `core:strings` and use `strings.clone_to_cstring(my_string)`, which makes a copy of the underlying string, and puts a null terminator on the end.
 The returned `cstring` is allocated and so therefore should be freed once you no longer need it.
 
-Rather than a dynamic allocation, you might alternatively want to use `strings.clone_to_cstring(my_cstring, context.temp_allocator)` to use temporary storage instead.
+Rather than a dynamic allocation, you might alternatively want to use `strings.clone_to_cstring(my_string, context.temp_allocator)` to use temporary storage instead.
 
 #### Structs
 

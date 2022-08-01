@@ -34,7 +34,11 @@ To use Odin `link.exe` is required to be in the PATH of the callee as mentioned,
 For Linux, make sure you have `llvm` and `clang` installed through your package managers.
 For macOS, make sure you've installed the Xcode command-line tools (`xcode-select --install`), then install LLVM. If you use [Homebrew](https://brew.sh/), you can run `brew install llvm` to do this.
 
-Homebrew will not add LLVM to the PATH, run `echo 'export PATH="/opt/homebrew/Cellar/llvm/14.0.6_1/bin:$PATH"' >> ~/.zshrc` to add LLVM to your PATH. Then run `source ~/.bash_profile #or ~/.zshrc` to update your PATH variable in the current terminal session.
+Homebrew will not add LLVM to the PATH,
+- **Intel** : run `echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.bash_profile` to add LLVM to your PATH.
+- **Apple Sillicon** : run `echo 'export PATH="/opt/homebrew/Cellar/llvm/14.0.6_1/bin:$PATH"' >> ~/.zshrc` to add LLVM to your PATH.
+
+Then run `source ~/.bash_profile # or ~/.zshrc` to update your PATH variable in the current terminal session.
 
 On newer versions of macOS, some headers are not installed by default. Open `macOS_SDK_headers_for_macOS_*.pkg` in `/Library/Developer/CommandLineTools/Packages/`.
 

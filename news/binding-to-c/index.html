@@ -196,9 +196,9 @@ There&rsquo;s a package in the core library (<a href=https://github.com/odin-lan
 The Odin equivalent to this is <code>cstring</code>, which is just a <code>^u8</code> internally (<code>char const *</code>).</p>
 <p>To work with C strings in Odin, it&rsquo;s highly recommended that you use this type, and, as required, convert them to <code>string</code> with a cast: <code>string(my_cstring)</code> or <code>cast(string) my_cstring</code>, which creates a string that just points to the <code>cstring</code>&rsquo;s data. No allocation or copy is performed.
 Despite being just a cast, this takes <code>O(N)</code> time as it will scan the memory, looking for the null terminator, in order to determine the length of the string, since Odin strings keep track of the length.</p>
-<p>To go the other way, you may import <code>core:strings</code> and use <code>strings.clone_to_cstring(my_cstring)</code>, which makes a copy of the underlying string, and puts a null terminator on the end.
+<p>To go the other way, you may import <code>core:strings</code> and use <code>strings.clone_to_cstring(my_string)</code>, which makes a copy of the underlying string, and puts a null terminator on the end.
 The returned <code>cstring</code> is allocated and so therefore should be freed once you no longer need it.</p>
-<p>Rather than a dynamic allocation, you might alternatively want to use <code>strings.clone_to_cstring(my_cstring, context.temp_allocator)</code> to use temporary storage instead.</p>
+<p>Rather than a dynamic allocation, you might alternatively want to use <code>strings.clone_to_cstring(my_string, context.temp_allocator)</code> to use temporary storage instead.</p>
 <h4 id=structs>Structs <a class=text-decoration-none href=#structs>#</a></h4>
 <p>Odin structs with fields that are the same size as their C equivalents, (see <a href=https://github.com/odin-lang/Odin/blob/master/core/c/c.odin><code>core:c</code></a>) Odin structs have the same layout as the equivalent C struct. <em>Please note</em> that structs initialized from C may not have their padding between fields zeroed unlike Odin. Please take this into consideration when interfacing with foreign code in general.</p>
 <p>Packed structs in Odin work the same as C with compiler extensions, with the <code>#packed</code> tag:</p>

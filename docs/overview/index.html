@@ -1647,7 +1647,7 @@ foreign kernel32 {
 	@(link_name=&quot;GetLastError&quot;) get_last_error :: proc() -&gt; i32 ---
 }
 </code></pre><p>Available attributes for foreign blocks:</p>
-<pre><code class=language-odin data-lang=odin>default_calling_convention=&lt;string&gt;
+<pre><code>default_calling_convention=&lt;string&gt;
 	default calling convention for procedures declared within this foreign block
 link_prefix=&lt;string&gt;
 	prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden

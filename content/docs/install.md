@@ -85,6 +85,22 @@ In addition, the following platform-specific steps are necessary:
 For a compiler that's in-development like Odin, things move fast. Make sure you keep your compiler up-to-date by running `git pull` and then rebuilding every now and then. (or, if you use releases, redownload and rebuild)
 
 
+## Installing from package manager
+
+### Windows
+
+Windows user can install latest version using [Scoop](https://scoop.sh/). First you need to make sure the `versions` bucket is registered with:
+
+```bash
+scoop bucket add versions
+```
+
+And once that's done you can go ahead and install Odin with:
+
+```bash
+scoop install odin
+```
+
 ## What Next?
 
 Why not check out the [Odin Overview](/docs/overview/) for more information on the Odin Programming Language!

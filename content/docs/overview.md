@@ -1765,7 +1765,7 @@ fmt.println("y", y)
 #### Technical Information of `matrix` Types
 
 The internal representation of a matrix in Odin is stored in column-major format
-e.g. `matrix[2, 3]f32` is internally `[3][2]f32` (with different a alignment requirement).
+e.g. `matrix[2, 3]f32` is internally `[3][2]f32` (with a different alignment requirement).
 
 Column-major is used in order to utilize (SIMD) vector instructions effectively on modern hardware, if possible.
 
@@ -1821,7 +1821,7 @@ Entity :: struct {
 	orientation: quaternion128,
 }
 ```
-It can used like this:
+It can be used like this:
 ```odin
 foo :: proc(entity: ^Entity) {
 	fmt.println(entity.position.x, entity.position.y, entity.position.z)

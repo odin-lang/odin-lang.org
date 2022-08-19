@@ -1311,7 +1311,7 @@ fmt.println(&quot;x&quot;, x)
 fmt.println(&quot;y&quot;, y)
 </code></pre><h4 id=technical-information-of-matrix-types>Technical Information of <code>matrix</code> Types <a class=text-decoration-none href=#technical-information-of-matrix-types>#</a></h4>
 <p>The internal representation of a matrix in Odin is stored in column-major format
-e.g. <code>matrix[2, 3]f32</code> is internally <code>[3][2]f32</code> (with different a alignment requirement).</p>
+e.g. <code>matrix[2, 3]f32</code> is internally <code>[3][2]f32</code> (with a different alignment requirement).</p>
 <p>Column-major is used in order to utilize (SIMD) vector instructions effectively on modern hardware, if possible.</p>
 <p>Unlike normal arrays, matrices try to maximize alignment to allow for the (SIMD) vectorization properties whilst keeping zero padding (either between columns or at the end of the type).</p>
 <p>Zero padding is a compromise for use with third-party libraries, instead of optimizing for performance. Padding between columns was not taken even if that would have allowed each column to be loaded individually into a SIMD register with the correct alignment properties.</p>

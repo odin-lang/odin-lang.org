@@ -2204,7 +2204,7 @@ foreign kernel32 {
 ```
 
 Available attributes for foreign blocks:
-```odin
+```
 default_calling_convention=<string>
 	default calling convention for procedures declared within this foreign block
 link_prefix=<string>

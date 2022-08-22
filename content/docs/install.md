@@ -67,7 +67,7 @@ On newer versions of macOS, some headers are not installed by default. Open `mac
 Now navigate to the Odin directory in your terminal, use `make`, and you should have a newly-built, fresh Odin compiler!
 
 #### For Linux and other \*Nix
-For Linux, make sure you have `llvm`, `clang` and `build utils` installed through your package managers.
+For Linux, make sure you have `llvm` and `clang` installed through your package managers.
 
 Now navigate to the Odin directory in your terminal, use `make`, and you should have a newly-built, fresh Odin compiler!
 

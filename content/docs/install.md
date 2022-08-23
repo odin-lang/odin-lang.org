@@ -30,7 +30,7 @@ Odin supports x86-64/AMD64 on Windows, Linux and macOS, and ARM64 on macOS. Odin
 The following platform-specific steps are necessary:
 
 - Windows
-    * Have Visual Studio installed (MSVC 2010 or later, for the linker)
+    * Have Visual Studio installed (VS2019-2022 is recommend, VS2017 will likely work, for the linker)
     * Open a valid command prompt:
         * **Basic:** run the `x64 Native Tools Command Prompt for VS2017` shortcut bundled with VS 2017, or
         * **Advanced:** run `vcvarsall.bat x64` from a blank `cmd` session

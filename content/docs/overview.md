@@ -895,8 +895,6 @@ Array access is always bounds checked (at compile-time and at runtime). This can
 
 `#no_bounds_check` can be used to improve performance when the bounds are known to not exceed.
 
-You can infer
-
 #### Array programming
 Odin's fixed length arrays support [array programming](https://en.wikipedia.org/wiki/Array_programming).
 

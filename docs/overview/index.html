@@ -885,6 +885,11 @@ y = {.North, .West}
 <p>If a bit set requires a specific size, the underlying integer type can be specified:</p>
 <pre><code class=language-odin data-lang=odin>Char_Set :: bit_set['A'..'Z'; u64];
 #assert(size_of(Char_Set) == size_of(u64))
+</code></pre><p>To get the number of elements set, its cardinality, of a bit_set, use the built-in card procedure:</p>
+<pre><code class=language-odin data-lang=odin>x: Direction_Set
+x = {.North, .West}
+count := card(x)
+assert(count == 2)
 </code></pre><h3 id=pointers>Pointers <a class=text-decoration-none href=#pointers>#</a></h3>
 <p>Odin has pointers. A pointer is a memory address of a value. The type <code>^T</code> is a pointer to a <code>T</code> value. Its zero value is <code>nil</code>.</p>
 <pre><code class=language-odin data-lang=odin>p: ^int

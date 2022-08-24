@@ -1182,6 +1182,13 @@ Char_Set :: bit_set['A'..'Z'; u64];
 #assert(size_of(Char_Set) == size_of(u64))
 ```
 
+To get the number of elements in a bit set, use the `card` builtin procedure:
+```odin
+x: Direction_Set
+x = {.North, .West}
+count := card(x)
+#assert(count == 2)
+```
 
 
 ### Pointers

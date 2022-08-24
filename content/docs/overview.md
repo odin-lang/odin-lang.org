@@ -1187,7 +1187,7 @@ To get the number of elements in a bit set, use the `card` builtin procedure:
 x: Direction_Set
 x = {.North, .West}
 count := card(x)
-#assert(count == 2)
+assert(count == 2)
 ```
 
 

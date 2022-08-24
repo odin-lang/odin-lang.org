@@ -36,14 +36,15 @@ The following platform-specific steps are necessary:
         * **Advanced:** run `vcvarsall.bat x64` from a blank `cmd` session
 
 - MacOS
-    * Install the latest XCode (version X.X or later, for linking)
+    * Install the latest XCode (from the App Store or the [Xcode website](https://developer.apple.com/xcode/))
     * Install XCode command-line tools `xcode-select --install`
     * Install [Homebrew](https://brew.sh/) 
     * Install LLVM through Homebrew with: `brew install llvm`
     * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable
 
-- GNU/Linux
-    * Have Clang installed (version X.X or later, for linking)
+- GNU/Linux and other \*Nix
+    * For Linux: clang and llvm (Using your distro's packet manager)
+    * For FreeBSD: `pkg install bash git llvm14`
     * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable
 
 ## Building Odin
@@ -66,12 +67,16 @@ On newer versions of macOS, some headers are not installed by default. Open `mac
 
 Now navigate to the Odin directory in your terminal, use `make`, and you should have a newly-built, fresh Odin compiler!
 
+Now you can export the odin folder to the PATH
+
 #### For Linux and other \*Nix
 For Linux, make sure you have `llvm` and `clang` installed through your package managers.
 
+For FreeBSD make sure you have `bash`, `git` and the latest version of LLVM (the base `llvm` package is most of the times outdated).
+
 Now navigate to the Odin directory in your terminal, use `make`, and you should have a newly-built, fresh Odin compiler!
 
-**Notes for Linux:**: The compiler currently relies on the `core` and `shared` library collection being relative to the compiler executable. Installing the compiler in the usual sense (to `/usr/local/bin` or similar) is therefore not as straight forward as you need to make sure the mentioned libraries are available. As a result, it is recommended to simply explicitly invoke the compiler with `/path/to/odin` in your preferred build system, or add `/path/to/odin` to `$PATH`.
+**Notes for Linux:** The compiler currently relies on the `core` and `shared` library collection being relative to the compiler executable. Installing the compiler in the usual sense (to `/usr/local/bin` or similar) is therefore not as straight forward as you need to make sure the mentioned libraries are available. As a result, it is recommended to simply explicitly invoke the compiler with `/path/to/odin` in your preferred build system, or add `/path/to/odin` to `$PATH`.
 
 ### Updating the compiler
 For a compiler that's in-development like Odin, things move fast. Make sure you keep your compiler up-to-date by running `git pull` and then rebuilding every now and then. (or, if you use releases, redownload and rebuild)

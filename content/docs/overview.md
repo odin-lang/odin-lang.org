@@ -1037,7 +1037,7 @@ The exception to these rules are when the dividend `x` is the most non-negative 
 
 If the divisor is a constant, it must not be zero. If the divisor is zero at runtime, a runtime panic occurs.
 
-The shift operators shift the left operand by the shift count specified by the right operand, which must be non-negative. The shift operators implement arithmetic shifts if the left operand a signed integer and logical shifts if the it is an unsigned integer. There is not upper limit on the shift count. Shifts behave as if the left operand is shift `n` types by `1` for a shift count of `n`. Therefore, `x<<1` is the same as `x*2` and `x>>1` is the same as `x/2` but truncated towards negative infinity.
+The shift operators shift the left operand by the shift count specified by the right operand, which must be non-negative. The shift operators implement arithmetic shifts if the left operand a signed integer and logical shifts if the it is an unsigned integer. There is not an upper limit on the shift count. Shifts behave as if the left operand is shifted `n` times by `1` for a shift count of `n`. Therefore, `x<<1` is the same as `x*2` and `x>>1` is the same as `x/2` but truncated towards negative infinity.
 
 ```
 x << y         is "x << y if y < 8*size_of(x) else 0"

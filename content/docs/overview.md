@@ -849,6 +849,172 @@ nstr  := len(str)  // O(1)
 ncstr := len(cstr) // O(n)
 ```
 
+## Operators
+
+
+Operators combine operands into expressions. For binary operations, operand types must be identical or implicitly convertible unless the operation involves shifts or untyped constants.
+
+
+### Arithmetic operators
+
+Unary:
+
+```txt
++                           is 0 + x
+-    negation               is 0 - x
+~    bitwise complement     is m ~ x where m = "all bits set to 1" for unsigned x
+                                     and m = -1 for signed x
+```
+
+Binary:
+
+```txt
++       sum                        integers, enums, floats, complex values, quaternions, arrays of numeric types, matrices, constant strings
+-       subtraction                integers, enums, floats, complex values, quaternions, arrays of numeric types, matrices
+*       multiplication             integers, floats, complex values, quaternions, arrays of numeric types, matrices
+/       division                   integers, floats, complex values, quaternions, arrays of numeric types
+%       modulo (truncated)         integers
+%%      remainder (floored)        integers
+
+|       bitwise or                 integers, enums
+~       bitwise xor                integers, enums
+&       bitwise and                integers, enums
+&~      bitwise and-not            integers, enums
+<<      left shift                 integer << integer >= 0
+>>      right shift                integer >> integer >= 0
+```
+
+Except for shift operations, if one operand is an untyped constant and the other operand is not, the constant is implicitly converted to the type of the other operand (if possible).
+
+The right operand in a shift expression must have an unsigned integer type or be an untyped constant representable by a typed unsigned integer. If the left operand of a non-constant shift expression is an untyped constant, it is first implicitly converted to the type it would assume if the shift expression were replaced solely by the left operand alone (with type inference and hinting rules applied).
+
+### Comparison operators
+
+```txt
+==      equal
+!=      not equal
+<       less
+<=      less or equal
+>       greater
+>=      greater or equal
+&&      short-circuiting logical and
+||      short-circuiting logical or
+```
+
+In any comparison, the first operand must be assignable to the type of the second, or vice versa.
+
+The equality operators `==` and `!=` apply to operands that are _comparable_. The ordering operators `<`, `<=`, `>`, and `>=` apply to operands that are _ordered_. These terms and the result of the comparisons are defined as follows:
+
+* Boolean values are comparable.
+* Integers values are comparable and ordered.
+* Floating-point values are comparable and ordered, defined by the IEEE-754 standard.
+* Complex values are comparable.
+* Quaternion values are comparable.
+* Rune values are comparable and ordered.
+* String values are comparable and ordered, lexically byte-wise.
+* Matrix values are comparable.
+* Pointer values are comparable and ordered.
+* Multi-pointer values are comparable and ordered.
+* Soa-pointer values are comparable.
+* Enum values are comparable and ordered.
+* Bit-set values are comparable.
+* Struct values are comparable if all their fields are comparable.
+* Union values are comparable if all their variants are comparable.
+* Array and enumerated array values are comparable if values of the element type are comparable.
+* `typeid` is comparable.
+* Simd vectors are comparable.
+
+Bit-set values use different logic compared to integers when comparison operators are used: please see the section of [bit sets](/docs/overview/#bit-sets)
+
+### Logical operators
+
+Logical operators apply to boolean values. The right operand is evaluated conditionally
+
+```txt
+&&      conditional AND    a && b  is "b if a else false"
+||      conditional or     a && b  is "true if a else b"
+!       NOT                !a      is "not a"
+```
+
+### Address operator
+For an operand `x` of type `T`, the address operation `&x` generates a pointer of `^T` to `x`. The operand must be _addressable_, meaning that either a variable, pointer indirection, or slice/dynamic array indexing operator; or a field selector of an addressable struct operand; or an array index operation of an addressable array; or a type assertion of an addressable union or `any`; or a compound literal value.
+
+For an operand `x` of pointer type `^T`, the pointer indirection `x^` denotes the variable of type `T` pointed to by `x`. If `x` is an invalid address, such as `nil`, an attempt to evaluate `x^` will cause a runtime panic.
+
+```txt
+&x
+&a[foo(123)]
+&Foo{1, 2}
+
+p^
+pproc(a)^
+
+x: ^int = nil
+x^      // causes a runtime panic
+```
+
+### Ternary Operators
+
+```txt
+x if cond else y    ternary runtime conditional expression
+x when cond else y  ternary compile-time conditional expression
+cond ? x : y        ternary runtime conditional expression, equivalent to "x if cond else y"
+```
+
+### Other operators
+
+* `or_else`
+	* see section on [`or_else`](/docs/overview/#or_else-expression)
+* `or_return`
+	* see section on [`or_return`](/docs/overview/#or_return-operator)
+* `in` - set membership (`e in A`, `A` contains element `e`)
+	* Used for `bit_set` types and `map` types
+* `not_in` - not set membership (`e not_in A`, `A` does not contain `e`)
+	* Used for `bit_set` types and `map` types
+* `..=` - inclusive range
+* `..<` - half open range
+
+The range operations `..=` and `..<` are only possible within certain contexts:
+
+```txt
+for x in a..<b {}
+for x in a..=b {}
+
+switch x {
+case a..<b:
+case c..=d:
+}
+
+bit_set[a..<b]
+bit_set[a..=b]
+```
+
+`in` and `not_in` are not allowed in within a for loop condition without ambiguity:
+```txt
+for x in y {}    // range loop
+for (x in y) {}  // condition-only for-loop (while-loop in some other languages)
+```
+
+### Operator precedence
+
+Unary operators have the highest precedence.
+
+There are seven precedence levels for binary (and ternary) operators.
+
+```txt
+Precedence    Operator
+     7           *   /   %   %%   &   &~  <<   >>
+     6           +   -   |   ~    in  not_in
+     5           ==  !=  <   >    <=  >=
+     4           &&
+     3           ||
+     2           ..=    ..<
+     1           or_else     ?    if  when
+
+```
+
+Binary operators of the same precedence associate from left to right. For instance `x / y * z` is the same as `(x / y) * z`.
+
 ## Advanced types
 ### Type alias
 You can alias a named type with another name:

@@ -672,7 +672,136 @@ cstr: cstring = &quot;Hellope&quot; // constant literal
 cstr2 := string(cstr)     // O(n) conversion as it requires search from the zero-terminator
 nstr  := len(str)  // O(1)
 ncstr := len(cstr) // O(n)
-</code></pre><h2 id=advanced-types>Advanced types <a class=text-decoration-none href=#advanced-types>#</a></h2>
+</code></pre><h2 id=operators>Operators <a class=text-decoration-none href=#operators>#</a></h2>
+<p>Operators combine operands into expressions. For binary operations, operand types must be identical or implicitly convertible unless the operation involves shifts or untyped constants.</p>
+<h3 id=arithmetic-operators>Arithmetic operators <a class=text-decoration-none href=#arithmetic-operators>#</a></h3>
+<p>Unary:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>+                           is 0 + x
+-    negation               is 0 - x
+~    bitwise complement     is m ~ x where m = &#34;all bits set to 1&#34; for unsigned x
+                                     and m = -1 for signed x
+</code></pre></div><p>Binary:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>+       sum                        integers, enums, floats, complex values, quaternions, arrays of numeric types, matrices, constant strings
+-       subtraction                integers, enums, floats, complex values, quaternions, arrays of numeric types, matrices
+*       multiplication             integers, floats, complex values, quaternions, arrays of numeric types, matrices
+/       division                   integers, floats, complex values, quaternions, arrays of numeric types
+%       modulo (truncated)         integers
+%%      remainder (floored)        integers
+
+|       bitwise or                 integers, enums
+~       bitwise xor                integers, enums
+&amp;       bitwise and                integers, enums
+&amp;~      bitwise and-not            integers, enums
+&lt;&lt;      left shift                 integer &lt;&lt; integer &gt;= 0
+&gt;&gt;      right shift                integer &gt;&gt; integer &gt;= 0
+</code></pre></div><p>Except for shift operations, if one operand is an untyped constant and the other operand is not, the constant is implicitly converted to the type of the other operand (if possible).</p>
+<p>The right operand in a shift expression must have an unsigned integer type or be an untyped constant representable by a typed unsigned integer. If the left operand of a non-constant shift expression is an untyped constant, it is first implicitly converted to the type it would assume if the shift expression were replaced solely by the left operand alone (with type inference and hinting rules applied).</p>
+<h3 id=comparison-operators>Comparison operators <a class=text-decoration-none href=#comparison-operators>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>==      equal
+!=      not equal
+&lt;       less
+&lt;=      less or equal
+&gt;       greater
+&gt;=      greater or equal
+&amp;&amp;      short-circuiting logical and
+||      short-circuiting logical or
+</code></pre></div><p>In any comparison, the first operand must be assignable to the type of the second, or vice versa.</p>
+<p>The equality operators <code>==</code> and <code>!=</code> apply to operands that are <em>comparable</em>. The ordering operators <code>&lt;</code>, <code>&lt;=</code>, <code>></code>, and <code>>=</code> apply to operands that are <em>ordered</em>. These terms and the result of the comparisons are defined as follows:</p>
+<ul>
+<li>Boolean values are comparable.</li>
+<li>Integers values are comparable and ordered.</li>
+<li>Floating-point values are comparable and ordered, defined by the IEEE-754 standard.</li>
+<li>Complex values are comparable.</li>
+<li>Quaternion values are comparable.</li>
+<li>Rune values are comparable and ordered.</li>
+<li>String values are comparable and ordered, lexically byte-wise.</li>
+<li>Matrix values are comparable.</li>
+<li>Pointer values are comparable and ordered.</li>
+<li>Multi-pointer values are comparable and ordered.</li>
+<li>Soa-pointer values are comparable.</li>
+<li>Enum values are comparable and ordered.</li>
+<li>Bit-set values are comparable.</li>
+<li>Struct values are comparable if all their fields are comparable.</li>
+<li>Union values are comparable if all their variants are comparable.</li>
+<li>Array and enumerated array values are comparable if values of the element type are comparable.</li>
+<li><code>typeid</code> is comparable.</li>
+<li>Simd vectors are comparable.</li>
+</ul>
+<p>Bit-set values use different logic compared to integers when comparison operators are used: please see the section of <a href=/docs/overview/#bit-sets>bit sets</a></p>
+<h3 id=logical-operators>Logical operators <a class=text-decoration-none href=#logical-operators>#</a></h3>
+<p>Logical operators apply to boolean values. The right operand is evaluated conditionally</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>&amp;&amp;      conditional AND    a &amp;&amp; b  is &#34;b if a else false&#34;
+||      conditional or     a &amp;&amp; b  is &#34;true if a else b&#34;
+!       NOT                !a      is &#34;not a&#34;
+</code></pre></div><h3 id=address-operator>Address operator <a class=text-decoration-none href=#address-operator>#</a></h3>
+<p>For an operand <code>x</code> of type <code>T</code>, the address operation <code>&x</code> generates a pointer of <code>^T</code> to <code>x</code>. The operand must be <em>addressable</em>, meaning that either a variable, pointer indirection, or slice/dynamic array indexing operator; or a field selector of an addressable struct operand; or an array index operation of an addressable array; or a type assertion of an addressable union or <code>any</code>; or a compound literal value.</p>
+<p>For an operand <code>x</code> of pointer type <code>^T</code>, the pointer indirection <code>x^</code> denotes the variable of type <code>T</code> pointed to by <code>x</code>. If <code>x</code> is an invalid address, such as <code>nil</code>, an attempt to evaluate <code>x^</code> will cause a runtime panic.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>&amp;x
+&amp;a[foo(123)]
+&amp;Foo{1, 2}
+
+p^
+pproc(a)^
+
+x: ^int = nil
+x^      // causes a runtime panic
+</code></pre></div><h3 id=ternary-operators>Ternary Operators <a class=text-decoration-none href=#ternary-operators>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>x if cond else y    ternary runtime conditional expression
+x when cond else y  ternary compile-time conditional expression
+cond ? x : y        ternary runtime conditional expression, equivalent to &#34;x if cond else y&#34;
+</code></pre></div><h3 id=other-operators>Other operators <a class=text-decoration-none href=#other-operators>#</a></h3>
+<ul>
+<li><code>or_else</code>
+<ul>
+<li>see section on <a href=/docs/overview/#or_else-expression><code>or_else</code></a></li>
+</ul>
+</li>
+<li><code>or_return</code>
+<ul>
+<li>see section on <a href=/docs/overview/#or_return-operator><code>or_return</code></a></li>
+</ul>
+</li>
+<li><code>in</code> - set membership (<code>e in A</code>, <code>A</code> contains element <code>e</code>)
+<ul>
+<li>Used for <code>bit_set</code> types and <code>map</code> types</li>
+</ul>
+</li>
+<li><code>not_in</code> - not set membership (<code>e not_in A</code>, <code>A</code> does not contain <code>e</code>)
+<ul>
+<li>Used for <code>bit_set</code> types and <code>map</code> types</li>
+</ul>
+</li>
+<li><code>..=</code> - inclusive range</li>
+<li><code>..&lt;</code> - half open range</li>
+</ul>
+<p>The range operations <code>..=</code> and <code>..&lt;</code> are only possible within certain contexts:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>for x in a..&lt;b {}
+for x in a..=b {}
+
+switch x {
+case a..&lt;b:
+case c..=d:
+}
+
+bit_set[a..&lt;b]
+bit_set[a..=b]
+</code></pre></div><p><code>in</code> and <code>not_in</code> are not allowed in within a for loop condition without ambiguity:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>for x in y {}    // range loop
+for (x in y) {}  // condition-only for-loop (while-loop in some other languages)
+</code></pre></div><h3 id=operator-precedence>Operator precedence <a class=text-decoration-none href=#operator-precedence>#</a></h3>
+<p>Unary operators have the highest precedence.</p>
+<p>There are seven precedence levels for binary (and ternary) operators.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>Precedence    Operator
+     7           *   /   %   %%   &amp;   &amp;~  &lt;&lt;   &gt;&gt;
+     6           +   -   |   ~    in  not_in
+     5           ==  !=  &lt;   &gt;    &lt;=  &gt;=
+     4           &amp;&amp;
+     3           ||
+     2           ..=    ..&lt;
+     1           or_else     ?    if  when
+
+</code></pre></div><p>Binary operators of the same precedence associate from left to right. For instance <code>x / y * z</code> is the same as <code>(x / y) * z</code>.</p>
+<h2 id=advanced-types>Advanced types <a class=text-decoration-none href=#advanced-types>#</a></h2>
 <h3 id=type-alias>Type alias <a class=text-decoration-none href=#type-alias>#</a></h3>
 <p>You can alias a named type with another name:</p>
 <pre><code class=language-odin data-lang=odin>My_Int :: int
@@ -2312,6 +2441,17 @@ Some of this information includes:</p>
 <li><a href=#auto-cast-operation>Auto cast operation</a></li>
 <li><a href=#built-in-constants-and-values>Built-in constants and values</a></li>
 <li><a href=#cstring-type><code>cstring</code> type</a></li>
+</ul>
+</li>
+<li><a href=#operators>Operators</a>
+<ul>
+<li><a href=#arithmetic-operators>Arithmetic operators</a></li>
+<li><a href=#comparison-operators>Comparison operators</a></li>
+<li><a href=#logical-operators>Logical operators</a></li>
+<li><a href=#address-operator>Address operator</a></li>
+<li><a href=#ternary-operators>Ternary Operators</a></li>
+<li><a href=#other-operators>Other operators</a></li>
+<li><a href=#operator-precedence>Operator precedence</a></li>
 </ul>
 </li>
 <li><a href=#advanced-types>Advanced types</a>

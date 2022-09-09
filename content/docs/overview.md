@@ -1015,6 +1015,53 @@ Precedence    Operator
 
 Binary operators of the same precedence associate from left to right. For instance `x / y * z` is the same as `(x / y) * z`.
 
+### Integer operators
+
+For two integers values `x` and `y`, the integer quotient `q = x/y` and modulo `m = x%y` satisfies the following relationships:
+```txt
+x = q*y + r   and |r| < |y|
+```
+
+with `x/y` truncated towards zero ([truncated division](https://wikipedia.org/wiki/Modulo_operation)).
+
+
+For two integers values `x` and `y`, the integer quotient `q = x/y` and remainder `r = x%%y` satisfies the following relationships:
+```txt
+r = x - y*floor(x/y)
+```
+
+([floored division](https://archive.org/details/artofcomputerpro0003knut))
+
+
+The exception to these rules are when the dividend `x` is the most non-negative value for the integer type of `x`, and the quotient `q = x/-1` is equal to `x` (and `r or m = 0`) due to two's complement integer overflow.
+
+If the divisor is a constant, it must not be zero. If the divisor is zero at runtime, a runtime panic occurs.
+
+The shift operators shift the left operand by the shift count specified by the right operand, which must be non-negative. The shift operators implement arithmetic shifts if the left operand a signed integer and logical shifts if the it is an unsigned integer. There is not upper limit on the shift count. Shifts behave as if the left operand is shift `n` types by `1` for a shift count of `n`. Therefore, `x<<1` is the same as `x*2` and `x>>1` is the same as `x/2` but truncated towards negative infinity.
+
+```
+x << y         is "x << y if y < 8*size_of(x) else 0"
+x >> y         is "x >> y if y < 8*size_of(x) else 0"
+```
+
+
+### Integer overflow
+
+For unsigned integers, the operations `+`, `-`, `*`, and `<<` are computed modulo 2<sup>n</sup>, where _n_ is the bit width of the unsigned integer's type. In a sense, these unsigned integer operations discard the high bits upon overflow, and programs may rely on "wrap around".
+
+For signed integers, the operations `+`, `-`, `*`, `/`, and `<<` may legally overflow and the resulting value exists and is deterministically defined by the signed integer representation. Overflow __does not__ cause a runtime panic. A compile may not optimize code under the assumption that overflow does not occur. For instance, `x < x+1` may not be assumed to be always true.
+
+### FLoating-point operators
+
+For floating-point, complex numbers, quaternions, and other floating-point embedded types:
+
+* `+x` is the same as `x`
+* `-x` is the negation of `x`
+
+The result of a floating-point related division by zero is not specified beyond the IEEE-754 standard; a runtime panic will occur.
+
+An implementation may combine multiple floating-point operations into a single fused operation, and produce a result that differs from the value obtained by executing and rounding the instructions individually.
+
 ## Advanced types
 ### Type alias
 You can alias a named type with another name:

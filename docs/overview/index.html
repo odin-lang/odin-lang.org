@@ -801,6 +801,29 @@ for (x in y) {}  // condition-only for-loop (while-loop in some other languages)
      1           or_else     ?    if  when
 
 </code></pre></div><p>Binary operators of the same precedence associate from left to right. For instance <code>x / y * z</code> is the same as <code>(x / y) * z</code>.</p>
+<h3 id=integer-operators>Integer operators <a class=text-decoration-none href=#integer-operators>#</a></h3>
+<p>For two integers values <code>x</code> and <code>y</code>, the integer quotient <code>q = x/y</code> and modulo <code>m = x%y</code> satisfies the following relationships:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>x = q*y + r   and |r| &lt; |y|
+</code></pre></div><p>with <code>x/y</code> truncated towards zero (<a href=https://wikipedia.org/wiki/Modulo_operation>truncated division</a>).</p>
+<p>For two integers values <code>x</code> and <code>y</code>, the integer quotient <code>q = x/y</code> and remainder <code>r = x%%y</code> satisfies the following relationships:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>r = x - y*floor(x/y)
+</code></pre></div><p>(<a href=https://archive.org/details/artofcomputerpro0003knut>floored division</a>)</p>
+<p>The exception to these rules are when the dividend <code>x</code> is the most non-negative value for the integer type of <code>x</code>, and the quotient <code>q = x/-1</code> is equal to <code>x</code> (and <code>r or m = 0</code>) due to two&rsquo;s complement integer overflow.</p>
+<p>If the divisor is a constant, it must not be zero. If the divisor is zero at runtime, a runtime panic occurs.</p>
+<p>The shift operators shift the left operand by the shift count specified by the right operand, which must be non-negative. The shift operators implement arithmetic shifts if the left operand a signed integer and logical shifts if the it is an unsigned integer. There is not upper limit on the shift count. Shifts behave as if the left operand is shift <code>n</code> types by <code>1</code> for a shift count of <code>n</code>. Therefore, <code>x&lt;&lt;1</code> is the same as <code>x*2</code> and <code>x>>1</code> is the same as <code>x/2</code> but truncated towards negative infinity.</p>
+<pre><code>x &lt;&lt; y         is &quot;x &lt;&lt; y if y &lt; 8*size_of(x) else 0&quot;
+x &gt;&gt; y         is &quot;x &gt;&gt; y if y &lt; 8*size_of(x) else 0&quot;
+</code></pre><h3 id=integer-overflow>Integer overflow <a class=text-decoration-none href=#integer-overflow>#</a></h3>
+<p>For unsigned integers, the operations <code>+</code>, <code>-</code>, <code>*</code>, and <code>&lt;&lt;</code> are computed modulo 2<sup>n</sup>, where <em>n</em> is the bit width of the unsigned integer&rsquo;s type. In a sense, these unsigned integer operations discard the high bits upon overflow, and programs may rely on &ldquo;wrap around&rdquo;.</p>
+<p>For signed integers, the operations <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, and <code>&lt;&lt;</code> may legally overflow and the resulting value exists and is deterministically defined by the signed integer representation. Overflow <strong>does not</strong> cause a runtime panic. A compile may not optimize code under the assumption that overflow does not occur. For instance, <code>x &lt; x+1</code> may not be assumed to be always true.</p>
+<h3 id=floating-point-operators>FLoating-point operators <a class=text-decoration-none href=#floating-point-operators>#</a></h3>
+<p>For floating-point, complex numbers, quaternions, and other floating-point embedded types:</p>
+<ul>
+<li><code>+x</code> is the same as <code>x</code></li>
+<li><code>-x</code> is the negation of <code>x</code></li>
+</ul>
+<p>The result of a floating-point related division by zero is not specified beyond the IEEE-754 standard; a runtime panic will occur.</p>
+<p>An implementation may combine multiple floating-point operations into a single fused operation, and produce a result that differs from the value obtained by executing and rounding the instructions individually.</p>
 <h2 id=advanced-types>Advanced types <a class=text-decoration-none href=#advanced-types>#</a></h2>
 <h3 id=type-alias>Type alias <a class=text-decoration-none href=#type-alias>#</a></h3>
 <p>You can alias a named type with another name:</p>
@@ -2452,6 +2475,9 @@ Some of this information includes:</p>
 <li><a href=#ternary-operators>Ternary Operators</a></li>
 <li><a href=#other-operators>Other operators</a></li>
 <li><a href=#operator-precedence>Operator precedence</a></li>
+<li><a href=#integer-operators>Integer operators</a></li>
+<li><a href=#integer-overflow>Integer overflow</a></li>
+<li><a href=#floating-point-operators>FLoating-point operators</a></li>
 </ul>
 </li>
 <li><a href=#advanced-types>Advanced types</a>

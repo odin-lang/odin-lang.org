@@ -62,8 +62,6 @@ Import your FBX cameras and backplates into EmberGen to create composite ready r
 
 ## EmberGen for Concept Art
 
-<img src="https://jangafx.com/Q12021Launch/Media_Organized/images/Products/EmberGen/michael-whiteley-depotscene-1-side.jpg" alt="Concept Art by Michael Whiteley" class="showcase-right">
-
 Whether you're painting in 2D, or adding atmospheric effects to a 3D world, EmberGen can help you produce stunning concept art featuring gorgeous visual effects. 3D concept artists love that EmberGen can generate endless VDB volume files or images for compositions. 2D artists can use EmberGen outputs as brushes or items to layer into their work, quickly adding volumetric effects with ease. Using our backplates import feature, import your concept art to properly light and render your simulation before creating your final piece.
 
 <div class="clearfix"></div>

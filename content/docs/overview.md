@@ -1051,7 +1051,7 @@ For unsigned integers, the operations `+`, `-`, `*`, and `<<` are computed modul
 
 For signed integers, the operations `+`, `-`, `*`, `/`, and `<<` may legally overflow and the resulting value exists and is deterministically defined by the signed integer representation. Overflow __does not__ cause a runtime panic. A compile may not optimize code under the assumption that overflow does not occur. For instance, `x < x+1` may not be assumed to be always true.
 
-### FLoating-point operators
+### Floating-point operators
 
 For floating-point, complex numbers, quaternions, and other floating-point embedded types:
 

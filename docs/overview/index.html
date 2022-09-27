@@ -816,7 +816,7 @@ x &gt;&gt; y         is &quot;x &gt;&gt; y if y &lt; 8*size_of(x) else 0&quot;
 </code></pre><h3 id=integer-overflow>Integer overflow <a class=text-decoration-none href=#integer-overflow>#</a></h3>
 <p>For unsigned integers, the operations <code>+</code>, <code>-</code>, <code>*</code>, and <code>&lt;&lt;</code> are computed modulo 2<sup>n</sup>, where <em>n</em> is the bit width of the unsigned integer&rsquo;s type. In a sense, these unsigned integer operations discard the high bits upon overflow, and programs may rely on &ldquo;wrap around&rdquo;.</p>
 <p>For signed integers, the operations <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, and <code>&lt;&lt;</code> may legally overflow and the resulting value exists and is deterministically defined by the signed integer representation. Overflow <strong>does not</strong> cause a runtime panic. A compile may not optimize code under the assumption that overflow does not occur. For instance, <code>x &lt; x+1</code> may not be assumed to be always true.</p>
-<h3 id=floating-point-operators>FLoating-point operators <a class=text-decoration-none href=#floating-point-operators>#</a></h3>
+<h3 id=floating-point-operators>Floating-point operators <a class=text-decoration-none href=#floating-point-operators>#</a></h3>
 <p>For floating-point, complex numbers, quaternions, and other floating-point embedded types:</p>
 <ul>
 <li><code>+x</code> is the same as <code>x</code></li>
@@ -2477,7 +2477,7 @@ Some of this information includes:</p>
 <li><a href=#operator-precedence>Operator precedence</a></li>
 <li><a href=#integer-operators>Integer operators</a></li>
 <li><a href=#integer-overflow>Integer overflow</a></li>
-<li><a href=#floating-point-operators>FLoating-point operators</a></li>
+<li><a href=#floating-point-operators>Floating-point operators</a></li>
 </ul>
 </li>
 <li><a href=#advanced-types>Advanced types</a>

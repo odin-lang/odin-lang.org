@@ -2665,7 +2665,7 @@ bar := 1 if condition else 42
 
 You can also use ternary expressions with constants at compile-time:
 ```odin
-DEBUG_LOG_SIZE :: 1024 when DEBUG else 0
+DEBUG_LOG_SIZE :: 1024 when ODIN_DEBUG else 0
 ```
 
 #### If-statements with initialization

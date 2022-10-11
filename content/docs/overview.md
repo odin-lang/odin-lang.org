@@ -3010,6 +3010,18 @@ This tag can be applied to a procedure parameter that is a pointer. This is a hi
 ```odin
 foo :: proc(#no_alias a, b: ^int) {}
 ```
+
+* **#any_int**
+
+This tag can be applied to a procedure parameter that is an integer. This allows implicit casts to the procedures integer type at
+the call site.
+
+```odin
+foo :: proc(#any_int a: int) {}
+x : i32
+foo(x) // This is now allowed without an explicit cast
+```
+
 * **#caller_location**
 
 This tag is used as a function's parameter value. In the following function signature,
@@ -3025,6 +3037,19 @@ Used to interface with vararg functions in foreign procedures.
 foreign foo {
     bar :: proc(n: int, #c_vararg args: ..any) ---
 }
+```
+
+* **#by_ptr**
+Used to interface with const reference parameters in foreign procedures.
+The parameter is passed by pointer internally.
+```odin
+foreign foo {
+    bar :: proc(#by_ptr p: T) ---
+}
+```
+to represent
+```c
+void bar(const T*)
 ```
 
 * **#optional_ok**

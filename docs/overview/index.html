@@ -2269,6 +2269,14 @@ test :: proc() {
 <p>This tag can be applied to a procedure parameter that is a pointer. This is a hint to the compiler that this parameter will not alias other parameters. This is equivalent to C&rsquo;s <code>__restrict</code>.</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc(#no_alias a, b: ^int) {}
 </code></pre><ul>
+<li><strong>#any_int</strong></li>
+</ul>
+<p>This tag can be applied to a procedure parameter that is an integer. This allows implicit casts to the procedures integer type at
+the call site.</p>
+<pre><code class=language-odin data-lang=odin>foo :: proc(#any_int a: int) {}
+x : i32
+foo(x) // This is now allowed without an explicit cast
+</code></pre><ul>
 <li><strong>#caller_location</strong></li>
 </ul>
 <p>This tag is used as a function&rsquo;s parameter value. In the following function signature,</p>
@@ -2282,6 +2290,16 @@ Used to interface with vararg functions in foreign procedures.</li>
     bar :: proc(n: int, #c_vararg args: ..any) ---
 }
 </code></pre><ul>
+<li><strong>#by_ptr</strong>
+Used to interface with const reference parameters in foreign procedures.
+The parameter is passed by pointer internally.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>foreign foo {
+    bar :: proc(#by_ptr p: T) ---
+}
+</code></pre><p>to represent</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>void</span> bar(<span style=color:#66d9ef>const</span> T<span style=color:#f92672>*</span>)
+</code></pre></div><ul>
 <li><strong>#optional_ok</strong></li>
 </ul>
 <p>Allows skipping the last return parameter, which needs to be a <code>bool</code></p>

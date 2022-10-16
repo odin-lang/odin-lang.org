@@ -1262,6 +1262,11 @@ Slices and dynamic arrays can be explicitly allocated with the built-in `make` p
 a := make([]int, 6)           // len(a) == 6
 b := make([dynamic]int, 6)    // len(b) == 6, cap(b) == 6
 c := make([dynamic]int, 0, 6) // len(c) == 0, cap(c) == 6
+d := []int{1, 2, 3}           // a slice literal, for comparison
+
+// with an explicit allocator:
+e := make([]int, 6, context.allocator)
+f := make([dynamic]int, 0, 6, context.temp_allocator)
 ```
 
 Slices and dynamic arrays can be deleted with the built-in `delete` proc.
@@ -1270,11 +1275,12 @@ Slices and dynamic arrays can be deleted with the built-in `delete` proc.
 delete(a)
 delete(b)
 delete(c)
+// delete(c)                  // no need to clean up slice literals
+delete(e)                     // dynamic arrays remember their allocator
+// delete(f)                  // the temp allocator will reuse the space
 ```
 
-**Note:** Slices created with `make` must be deallocated with `delete`, whereas a slice literal does not need to be deleted since it is just a slice of an underlying array.
-
-**Note:** There is not automatic memory management in Odin. Slices may not be allocated using an [allocator](#allocators).
+**Note:** There is no automatic memory management in Odin.
 
 ### Enumerations
 Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:

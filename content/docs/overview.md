@@ -633,6 +633,21 @@ foo :: proc(x: int) {
 }
 ```
 
+Procedures can be variadic, taking a varying number of arguments:
+
+```odin
+sum :: proc(nums: ..int) -> (result: int) {
+	for n in nums do result += n
+	return
+}
+fmt.println(sum())              // 0
+fmt.println(sum(1, 2))          // 3
+fmt.println(sum(1, 2, 3, 4, 5)) // 15
+
+odds := []int{1, 3, 5}
+fmt.println(sum(..odds))        // 9, passing a slice as varargs
+```
+
 ### Multiple results
 A procedure in Odin can return any number of results. For example:
 ```odin

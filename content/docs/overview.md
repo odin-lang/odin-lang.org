@@ -637,7 +637,9 @@ Procedures can be variadic, taking a varying number of arguments:
 
 ```odin
 sum :: proc(nums: ..int) -> (result: int) {
-	for n in nums do result += n
+	for n in nums {
+		result += n
+	}
 	return
 }
 fmt.println(sum())              // 0
@@ -1281,7 +1283,7 @@ d := []int{1, 2, 3}           // a slice literal, for comparison
 
 // with an explicit allocator:
 e := make([]int, 6, context.allocator)
-f := make([dynamic]int, 0, 6, context.temp_allocator)
+f := make([dynamic]int, 0, 6, context.allocator)
 ```
 
 Slices and dynamic arrays can be deleted with the built-in `delete` proc.
@@ -1290,9 +1292,9 @@ Slices and dynamic arrays can be deleted with the built-in `delete` proc.
 delete(a)
 delete(b)
 delete(c)
-// delete(c)                  // no need to clean up slice literals
-delete(e)                     // dynamic arrays remember their allocator
-// delete(f)                  // the temp allocator will reuse the space
+// delete(d)                  // no need to clean up slice literals
+delete(e)                     // slices are always deleted from context.allocator
+delete(f)                     // dynamic arrays remember their allocator
 ```
 
 **Note:** There is no automatic memory management in Odin.

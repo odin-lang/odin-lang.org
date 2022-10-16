@@ -2740,6 +2740,22 @@ defer if cond {
 }
 ```
 
+#### 'Maybe(T)'
+```odin
+halve :: proc(n: int) -> Maybe(int) {
+	if n % 2 != 0 do return nil
+	return n / 2
+}
+
+half, ok := halve(2).?
+if ok do fmt.println(half)       // 1
+half, ok = halve(3).?
+if !ok do fmt.println("3/2 isn't an int")
+
+n := halve(4).? or_else 0
+fmt.println(n)                   // 2
+```
+
 ### Attributes
 
 Attributes can be applied to different kinds of declarations to modify the compilation details or behaviour of that declaration.

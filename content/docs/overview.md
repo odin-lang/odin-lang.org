@@ -633,6 +633,23 @@ foo :: proc(x: int) {
 }
 ```
 
+Procedures can be variadic, taking a varying number of arguments:
+
+```odin
+sum :: proc(nums: ..int) -> (result: int) {
+	for n in nums {
+		result += n
+	}
+	return
+}
+fmt.println(sum())              // 0
+fmt.println(sum(1, 2))          // 3
+fmt.println(sum(1, 2, 3, 4, 5)) // 15
+
+odds := []int{1, 3, 5}
+fmt.println(sum(..odds))        // 9, passing a slice as varargs
+```
+
 ### Multiple results
 A procedure in Odin can return any number of results. For example:
 ```odin
@@ -1262,6 +1279,11 @@ Slices and dynamic arrays can be explicitly allocated with the built-in `make` p
 a := make([]int, 6)           // len(a) == 6
 b := make([dynamic]int, 6)    // len(b) == 6, cap(b) == 6
 c := make([dynamic]int, 0, 6) // len(c) == 0, cap(c) == 6
+d := []int{1, 2, 3}           // a slice literal, for comparison
+
+// with an explicit allocator:
+e := make([]int, 6, context.allocator)
+f := make([dynamic]int, 0, 6, context.allocator)
 ```
 
 Slices and dynamic arrays can be deleted with the built-in `delete` proc.
@@ -1270,11 +1292,12 @@ Slices and dynamic arrays can be deleted with the built-in `delete` proc.
 delete(a)
 delete(b)
 delete(c)
+// delete(d)                  // no need to clean up slice literals
+delete(e)                     // slices are always deleted from context.allocator
+delete(f)                     // dynamic arrays remember their allocator
 ```
 
-**Note:** Slices created with `make` must be deallocated with `delete`, whereas a slice literal does not need to be deleted since it is just a slice of an underlying array.
-
-**Note:** There is not automatic memory management in Odin. Slices may not be allocated using an [allocator](#allocators).
+**Note:** There is no automatic memory management in Odin.
 
 ### Enumerations
 Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:
@@ -2717,6 +2740,22 @@ for v, j in &foos {
 ```odin
 defer if cond {
 }
+```
+
+#### 'Maybe(T)'
+```odin
+halve :: proc(n: int) -> Maybe(int) {
+	if n % 2 != 0 do return nil
+	return n / 2
+}
+
+half, ok := halve(2).?
+if ok do fmt.println(half)       // 1
+half, ok = halve(3).?
+if !ok do fmt.println("3/2 isn't an int")
+
+n := halve(4).? or_else 0
+fmt.println(n)                   // 2
 ```
 
 ### Attributes

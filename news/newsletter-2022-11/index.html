@@ -3,7 +3,7 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <link rel=icon href=/favicon.svg>
 <meta property="og:title" content="November 2022 Newsletter">
-<meta property="og:description" content="Release note highlights  raw_data was made an intrinsic, resulting in a speedup for slice heavy code. transmute can now be used on integer constants of the same internal endianness Static_Arena and Growing_Arena have been unified into Arena, along with many other improvements to core:mem/virtual. Heavily improve time handling on Windows for time.now() and os.File_Info And much more!  Interview with Skytrias, author of Todool Q: Why don&rsquo;t we begin with you telling us a bit about how you found out about Odin.">
+<meta property="og:description" content="Release note highlights  raw_data was made an intrinsic, resulting in a speedup for slice heavy code. transmute can now be used on integer constants of the same internal endianness. Static_Arena and Growing_Arena have been unified into Arena, along with many other improvements to core:mem/virtual. Heavily improve time handling on Windows for time.now() and os.File_Info. And much more!  Interview with Skytrias, author of Todool Q: Why don&rsquo;t we begin with you telling us a bit about how you found out about Odin.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://odin-lang.org/news/newsletter-2022-11/">
 <meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
@@ -104,24 +104,24 @@
 <h2 id=release-note-highlights>Release note highlights <a class=text-decoration-none href=#release-note-highlights>#</a></h2>
 <ul>
 <li><code>raw_data</code> was made an intrinsic, resulting in a speedup for slice heavy code.</li>
-<li><code>transmute</code> can now be used on integer constants of the same internal endianness</li>
+<li><code>transmute</code> can now be used on integer constants of the same internal endianness.</li>
 <li><code>Static_Arena</code> and <code>Growing_Arena</code> have been unified into <code>Arena</code>, along with many other improvements to <code>core:mem/virtual</code>.</li>
-<li>Heavily improve time handling on Windows for <code>time.now()</code> and <code>os.File_Info</code></li>
+<li>Heavily improve time handling on Windows for <code>time.now()</code> and <code>os.File_Info</code>.</li>
 <li>And <a href=https://github.com/odin-lang/Odin/releases/tag/dev-2022-11>much more</a>!</li>
 </ul>
 <h2 id=interview-with-skytrias-author-of-todool>Interview with Skytrias, author of Todool <a class=text-decoration-none href=#interview-with-skytrias-author-of-todool>#</a></h2>
 <p>Q: Why don&rsquo;t we begin with you telling us a bit about how you found out about <a href=https://odin-lang.org>Odin</a>.</p>
 <p>A: I watched <a href=https://handmadehero.org>Handmade Hero</a> and found the <a href=https://handmade.network>Handmade Network site</a> - which hosted a bunch of projects.
 After some game development I wanted to try making my own engine like Handmade Hero did but didn&rsquo;t like C - so I searched through Handmade Network for some system languages.
-That&rsquo;s where I found out about <a href=https://odin.handmade.network/>Odin</a>&rsquo;s 🙂</p>
+That&rsquo;s where I found out about <a href=https://odin.handmade.network/>Odin</a>&rsquo;s. 🙂</p>
 <p>Q: And what attracted you to it?</p>
 <p>A: GB linked to some YouTube videos where he went through several features and you can see how clean the language already was back then.</p>
 <p>Q: And so you gave it a real punt. Fast forwarding, you started working on <a href=https://skytrias.itch.io/todool>Todool</a>. Did you decide to write Todool in Odin because you were comfortable with the language, as an extended exercise to improve your mastery of the language, a bit of both? And were there other factors that made you choose Odin for what is intended to be a commercial project?</p>
 <p>A: In 2020 I went back and forth between Rust and Odin for several small games/clones I did. Ever since then I stuck with Odin - so I had prior experience with it before I started working on Todool.</p>
-<p>The thing I like about Odin is how simple it is to use. You can keep all of it in your head and make use of it&rsquo;s core library - which follows the simplicity of Handmade Hero.</p>
+<p>The thing I like about Odin is how simple it is to use. You can keep all of it in your head and make use of its core library - which follows the simplicity of Handmade Hero.</p>
 <p>Another thing I liked was the simple compiler commands (build | run | check) and the lack of a package manager.</p>
 <p>Nowadays I really appreciate the C binding model in Odin but also how close to C code looks when ported over from it in entirety (like single-header stb libraries).</p>
-<p>Q: What would you say is your favorite thing about Odin, and what would you say could be improved? This could be a feature, syntax, the community, documentation, tooling, anything and everything related to working with Odin that you really like and think could use some love, respectively, and why?</p>
+<p>Q: What would you say your favorite thing about Odin is, and what would you say could be improved? This could be a feature, syntax, the community, documentation, tooling, anything and everything related to working with Odin that you really like and think could use some love, respectively, and why?</p>
 <p>A: Definitely the <a href=https://pkg.odin-lang.org/core/>core</a> library. You have all the power at your fingertips - from doing various encodings, string manipulation, formatting, etc.</p>
 <p>The core library could also use some <em>more</em> love/help from the community. There are a few unfinished packages and code that needs more fixing/testing.</p>
 <p>Q: We&rsquo;ve enjoyed your Todool progress updates in <code>#showcase</code> on our <a href=https://discord.com/invite/sVBPHEv>Discord</a> and your <a href=https://www.youtube.com/c/Skytrias/videos>YT channel</a>. Is there a site people can pre-order it at?</p>

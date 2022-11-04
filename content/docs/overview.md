@@ -1034,7 +1034,7 @@ Binary operators of the same precedence associate from left to right. For instan
 
 ### Integer operators
 
-For two integers values `x` and `y`, the integer quotient `q = x/y` and modulo `m = x%y` satisfies the following relationships:
+For two integers values `x` and `y`, the integer quotient `q = x/y` and remainder `r = x%y` satisfies the following relationships:
 ```txt
 x = q*y + r   and |r| < |y|
 ```
@@ -1046,9 +1046,6 @@ For two integers values `x` and `y`, the integer quotient `q = x/y` and remainde
 ```txt
 r = x - y*floor(x/y)
 ```
-
-([floored division](https://archive.org/details/artofcomputerpro0003knut))
-
 
 The exception to these rules are when the dividend `x` is the most non-negative value for the integer type of `x`, and the quotient `q = x/-1` is equal to `x` (and `r or m = 0`) due to two's complement integer overflow.
 

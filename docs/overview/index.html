@@ -877,13 +877,13 @@ d := a * b  // {2, 16, 72}
 e := c != d // true
 </code></pre><p><strong>n.b.</strong> Odin also supports <a href=/docs/overview/#matrix-type><code>matrix</code> types</a>.</p>
 <h5 id=swizzle-operations>Swizzle Operations <a class=text-decoration-none href=#swizzle-operations>#</a></h5>
-<pre><code class=language-odin data-lang=odin>a := [3]f32{1, 2, 3}
+<pre><code class=language-odin data-lang=odin>a := [3]f32{10, 20, 30}
 b := swizzle(a, 2, 1, 0)
-assert(b == [3]f32{3, 2, 1})
+assert(b == [3]f32{30, 20, 10})
 
 c := swizzle(a, 0, 0)
-assert(c == [2]f32{1, 1})
-assert(c == 1)
+assert(c == [2]f32{10, 10})
+assert(c == 10) // assert all elements == 10
 </code></pre><pre><code class=language-odin data-lang=odin>Vector3 :: distinct [3]f32
 a := Vector3{1, 2, 3}
 b := Vector3{5, 6, 7}

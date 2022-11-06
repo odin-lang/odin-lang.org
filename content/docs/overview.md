@@ -1150,13 +1150,13 @@ e := c != d // true
 ##### Swizzle Operations
 
 ```odin
-a := [3]f32{1, 2, 3}
+a := [3]f32{10, 20, 30}
 b := swizzle(a, 2, 1, 0)
-assert(b == [3]f32{3, 2, 1})
+assert(b == [3]f32{30, 20, 10})
 
 c := swizzle(a, 0, 0)
-assert(c == [2]f32{1, 1})
-assert(c == 1)
+assert(c == [2]f32{10, 10})
+assert(c == 10) // assert all elements == 10
 ```
 
 ```odin

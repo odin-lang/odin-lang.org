@@ -1323,11 +1323,18 @@ If an enumeration requires a specific size, a backing integer type can be specif
 Foo :: enum u8 {A, B, C} // Foo will only be 8 bits
 ```
 
-Odin supports implicit selector expressions for enums:
-```odin
-Foo :: enum {A, B, C}
+#### Implicit Selector Expression
 
+An *implicit selector expression* is an abbreviated way to access a member of an enumeration, in a context where type inference can determine the implied type. It has the following form:
+
+```odin
+.member_name
+```
+For example:
+```odin
+Foo :: enum{A, B, C}
 f: Foo
+f = Foo.A
 f = .A
 
 switch f {
@@ -1352,22 +1359,7 @@ main :: proc() {
 }
 ```
 
-#### Implicit Selector Expression
-
-An *implicit selector expression* is an abbreviated way to access a member of an enumeration, in a context where type inference can determine the implied type. It has the following form:
-
-```odin
-.member_name
-```
-For example:
-```odin
-Direction :: enum{North, East, South, West}
-d: Direction
-d = Direction.East
-d = .East
-```
-
-**Note:** This is preferred to [`using`](#using-statement) an enumeration as `using` does pollute the current scope.
+**Note:** Implicit selector expression is preferred to [`using`](#using-statement) an enumeration as `using` does pollute the current scope.
 
 
 ### Bit sets

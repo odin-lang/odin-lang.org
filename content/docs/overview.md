@@ -1330,8 +1330,6 @@ Foo :: enum {A, B, C}
 f: Foo
 f = .A
 
-BAR :: bit_set[Foo]{.B, .C}
-
 switch f {
 case .A:
 	fmt.println("foo")

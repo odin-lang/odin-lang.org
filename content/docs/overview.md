@@ -96,7 +96,7 @@ If the string passed to `len` is a compile-time constant, the value from `len` w
 * `\NN`- octal 4 bit character (2 digits)
 * `\xNN` - hexadecimal 8 bit character (2 digits)
 * `\uNNNN` - hexadecimal 16-bit Unicode character UTF-8 encoded (4 digits)
-* `\UNNNNNN` - hexadecimal 24-bit Unicode character UTF-8 encoded (6 digits)
+* `\UNNNNNNNN` - hexadecimal 32-bit Unicode character UTF-8 encoded (8 digits)
 
 ### Numbers
 Numerical literals are written similar to most other programming languages. A useful feature in Odin is that underscores are allowed for better readability: `1_000_000_000` (one billion). A number that contains a dot is a floating point literal: `1.0e9` (one billion). If a number literal is suffixed with `i`, it is an imaginary number literal: `2i` (2 multiply the square root of -1).

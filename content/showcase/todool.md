@@ -1,7 +1,7 @@
 ---
 title: Todool
 slug: todool
-summary: Distraction-free & Automated Task Editor <video width="100%" autoplay loop muted class="showcase-preview"><source src="/vendor/showcase/todool/Peek_2022-01-22_19-35.mp4"></video>
+summary: To-Do Editor with different modes, advanced movement & powerful commands <img src="https://img.itch.zone/aW1nLzEwNTQ2NDQxLnBuZw==/original/dgSdqI.png" width="100%" class="showcase-preview">
 author: Ginger Bill
 date: '2022-01-24'
 categories:
@@ -9,39 +9,102 @@ categories:
 ---
 
 <div class="d-flex justify-content-center mt-2 p-2">
-<img src="https://handmade.network/public/media/members/avatars/skytrias.png" style="max-width: 300px">
+<img src="https://img.itch.zone/aW1nLzEwNTQ2NDQxLnBuZw==/original/dgSdqI.png" width="100%">
 </div>
 
+[Todool](https://skytrias.itch.io/todool) is a To-Do Editor with different modes, advanced movement & powerful commands. Track your development cycle with ease.
 
-Ever wanted an easier life managing To-Do lists? [Todool](https://todool.handmade.network/) is a full blown environment for managing large trees of task lists.
+## Text Editing Experience
+<img class="showcase-left" src="https://img.itch.zone/aW1hZ2UvMTY3MzU2Mi8xMDU0NjY1OC5naWY=/original/EKSlHU.gif">
 
-[Todool](https://todool.handmade.network/) is still in active development, so instead of claiming things, here's a list of things that already exist.
+Enjoy a normal text editing experience in a tree like outline. 
 
-<div class="d-flex justify-content-center mt-2 p-2"><a href="https://todool.handmade.network/" class="btn btn-secondary text-light">Check It Out!</a></div>
+Hide children tasks or cross tasks off one by one. 
 
-Features:
+Mutli-Selection allows performing all commands on multiple tasks at once.
 
-* Auto layout
-* Task States for progression
-	* Autocomplete parent based on children
-* Progression statistics (i.e. 1/4 done)
-* Commands based on tasks and their children
+Mouse usage is optional.
 
-Technical:
+<div class="clearfix"></div>
 
-* One-Draw-Call Rendering of the full editor
-* Made in Odin with GLFW + OpenGL + stbtruetype
-* no web tech
+### Task Tagging
 
-Format:
+<img class="showcase-right" src="https://img.itch.zone/aW1hZ2UvMTY3MzU2Mi8xMDU0NjY1OS5naWY=/original/9MJECI.gif">
 
-* Custom binary de/serialization of all tree & view data
-* Save file includes everything, even the Options, Theme, Keymap, ...
-* Release Date set for Q1-Q2 in 2022
+You can assign 1-8 tags to each task and switch between how the tags are showcased.
 
-Discussion can be held on the forums / blogs / [Discord](https://discord.com/invite/UZaXnYaHWA)
+Edit the tag content to whatever your file needs.
 
-<div class="d-flex justify-content-center mt-2 p-2"><a href="https://todool.handmade.network/" class="btn btn-outline-primary">Learn More About Todool</a></div>
+Each tag also uses a customizable color from the theme.
 
-<video width="100%" autoplay loop muted><source src="/vendor/showcase/todool/Peek_2022-01-22_19-35.mp4"></video>
+<div class="clearfix"></div>
 
+### Render Modes
+
+<img class="showcase-left" src="https://img.itch.zone/aW1hZ2UvMTY3MzU2Mi8xMDU0NjY2Mi5naWY=/original/zZfEoU.gif">
+
+Seamlessly switch between ***List*** and ***Kanban*** mode at any point.
+
+Prompts like *Search* and *Goto* remain working in both modes.
+
+<div class="clearfix"></div>
+
+### Bookmarks & Jumps
+
+<img class="showcase-right" src="https://img.itch.zone/aW1hZ2UvMTY3MzU2Mi8xMDU0NjY2My5naWY=/original/%2BdSPOE.gif">
+
+***Bookmarks*** can be assigned to each task to allow quick-jumping forwards/backwards.
+
+Once you start moving the next jump will be lead to the nearest bookmark.
+
+<div class="clearfix"></div>
+
+### Cut, Copy & Paste
+
+<img class="showcase-left" src="https://img.itch.zone/aW1hZ2UvMTY3MzU2Mi8xMDU0NjY2NC5naWY=/original/p86Rfy.gif">
+
+*Cut, Copy & Paste* can be done in 2 modes: Task | Text.
+
+When no text is selected and you perform a cut/copy - the next mode will be a task cut/copy. The next paste will then result in copying all selected tasks with all attached data like tags.
+
+Selecting text and performing a cut/copy will result in a paste of the normal text content.
+
+<div class="clearfix"></div>
+
+## Sidebar / Options
+
+<img class="showcase-right" src="https://img.itch.zone/aW1hZ2UvMTY3MzU2Mi8xMDU0NjY2NS5naWY=/original/LiXpzx.gif">
+
+Change the look & feel of the editor to your liking with several options.
+
+The **Achive** stores any deleted task in case you lost tasks previously.
+
+Customize amount of time **pomodoro** timers should last for.
+
+<div class="clearfix"></div>
+
+## Power Mode!
+
+<img class="showcase-left" src="https://img.itch.zone/aW1hZ2UvMTY3MzU2Mi8xMDU0NjY2OS5naWY=/original/cU1Ky8.gif">
+
+***Power-Mode*** makes typing and adding task properties feel great.
+
+Enjoy particles flying throughout any action you take.
+
+Options allow you to disable or adjust screenshake or coloring of the particles.
+
+<div class="clearfix"></div>
+
+## Theme Editor
+
+<img class="showcase-right" src="https://img.itch.zone/aW1hZ2UvMTY3MzU2Mi8xMDU0NjY3Mi5naWY=/original/t33NcF.gif">
+
+Tired of the simple default themes? Customize your theme to whatever you enjoy with the builtin ***Theme-Editor***
+
+Change color RGBA values manually or use the color picker.
+
+Randomize wanted colors between *Low* / *High* ranges in the HSV color space.
+
+<div class="clearfix"></div>
+
+<div class="d-flex justify-content-center mt-2 p-2"><a href="https://skytrias.itch.io/todool" class="btn btn-outline-primary">Available on itch.io</a></div>

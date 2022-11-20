@@ -39,8 +39,8 @@ The following platform-specific steps are necessary:
     * Install the latest XCode (from the App Store or the [Xcode website](https://developer.apple.com/xcode/))
     * Install XCode command-line tools `xcode-select --install`
     * Install [Homebrew](https://brew.sh/) 
-    * Install LLVM through Homebrew with: `brew install llvm`
-    * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable
+    * Install LLVM through Homebrew with: `brew install llvm@11`
+    * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable (see `brew info llvm@11`)
 
 - GNU/Linux and other \*Nix
     * For Linux: clang and llvm (Using your distro's packet manager)

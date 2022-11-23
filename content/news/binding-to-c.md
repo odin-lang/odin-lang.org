@@ -67,7 +67,7 @@ Note that the procedure declaration has to end in `---` inside the `foreign` blo
 
 Odin supports multiple ways of making binding to C easier.
 
-By default, the foreign block links to a function of the same name as the name you specify inside the `foreign` block. This can be explicitly changed by using the `@(link_name=<string>)` and `@(link_prefix=<string>)` [attributes](Attributes-and-Tags). The following are all equivalent:
+By default, the foreign block links to a function of the same name as the name you specify inside the `foreign` block. This can be explicitly changed by using the `@(link_name=<string>)` and `@(link_prefix=<string>)` [attributes](https://odin-lang.org/docs/overview/#linking-and-foreign-attributes). The following are all equivalent:
 
 ```odin
 foreign foo {

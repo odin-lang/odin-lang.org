@@ -661,8 +661,11 @@ u := transmute(u32)f
 u := (^u32)(&amp;f)^
 </code></pre><p>However, <code>transmute</code> does not require taking the address of the value in question, which may not be possible for many expressions.</p>
 <h3 id=untyped-types>Untyped types <a class=text-decoration-none href=#untyped-types>#</a></h3>
-<p>In the Odin type system, certain expressions will have an &ldquo;untyped&rdquo; type. An untyped type can implicitly convert to a &ldquo;typed&rdquo; type. The following are the</p>
-<h3 id=auto-cast-operation>Auto cast operation <a class=text-decoration-none href=#auto-cast-operation>#</a></h3>
+<p>In the Odin type system, certain expressions will have an &ldquo;untyped&rdquo; type. An untyped type can implicitly convert to a &ldquo;typed&rdquo; type.</p>
+<pre><code class=language-odin data-lang=odin>I :: 42        // untyped integer, will implicitly convert to int, uint and its sized variants
+S :: &quot;Hellope&quot; // untyped string,  will implicitly convert to string and cstring
+B :: true      // untyped boolean, will implicitly convert to bool, b8, b16, etc.
+</code></pre><h3 id=auto-cast-operation>Auto cast operation <a class=text-decoration-none href=#auto-cast-operation>#</a></h3>
 <p>The <code>auto_cast</code> operator automatically casts an expression to the destination&rsquo;s type if possible:</p>
 <pre><code class=language-odin data-lang=odin>x: f32 = 123
 y: int = auto_cast x

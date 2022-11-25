@@ -824,7 +824,12 @@ u := (^u32)(&f)^
 However, `transmute` does not require taking the address of the value in question, which may not be possible for many expressions.
 
 ### Untyped types
-In the Odin type system, certain expressions will have an "untyped" type. An untyped type can implicitly convert to a "typed" type. The following are the
+In the Odin type system, certain expressions will have an "untyped" type. An untyped type can implicitly convert to a "typed" type.
+```odin
+I :: 42        // untyped integer, will implicitly convert to int, uint and its sized variants
+S :: "Hellope" // untyped string,  will implicitly convert to string and cstring
+B :: true      // untyped boolean, will implicitly convert to bool, b8, b16, etc.
+```
 
 ### Auto cast operation
 The `auto_cast` operator automatically casts an expression to the destination's type if possible:

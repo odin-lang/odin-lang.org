@@ -2969,7 +2969,7 @@ Directives a way of extending the core behaviour of the Odin programming languag
 
 * **#packed**
 
-This tag can be applied to struct. It's field will remain in source-order.
+This tag can be applied to struct. Its fields will remain in source-order.
 ```odin
 struct #packed {x: u8, y: i32, z: u16, w: u8}
 ```
@@ -2982,7 +2982,7 @@ struct #raw_union {u: u32, i: i32, f: f32}
 ```
 
 * **#align**
-This tag can be applied to a struct or union. This tag in form `#align N` specifies the struct's alignment to N bytes. It's field will remain in source-order.
+This tag can be applied to a struct or union. This tag in form `#align N` specifies the struct's alignment to N bytes. Its fields will remain in source-order.
 ```odin
 Foo :: struct #align 4 {
     b: bool,

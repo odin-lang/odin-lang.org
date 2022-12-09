@@ -7,7 +7,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://odin-lang.org/categories/c/">
 <meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
-<meta property="og:updated_time" content="2022-11-02T00:00:00+00:00">
+<meta property="og:updated_time" content="2022-12-07T00:00:00+00:00">
 <link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
 <link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
 <script src=/lib/highlight/highlight.min.js></script>
@@ -69,6 +69,10 @@
 </header>
 </article>
 <div>
+<div class=mt-5>
+<a href=https://odin-lang.org/news/newsletter-2022-12/ class="link-primary text-decoration-none"><h3>December 2022 Newsletter</h3></a>
+<p>Release note highlights New map implementation is that high performance, cache-friendly, and uses a open-addressed Robin Hood hash map data structure with various optimizations for Odin Uses a smaller data structure than previously (4 pointers, down from 7) SOA-based memory layout Up to 4x-6x faster insertion and lookup on average Entries are store in non-contiguous cell-layout which means no element straddles across a cache line Only one allocation per map instead of two (previously hashes and entries) Allows for calling delete_key whilst iterating across the map And much more!</p>
+</div>
 <div class=mt-5>
 <a href=https://odin-lang.org/news/newsletter-2022-11/ class="link-primary text-decoration-none"><h3>November 2022 Newsletter</h3></a>
 <p>Release note highlights raw_data was made an intrinsic, resulting in a speedup for slice heavy code. transmute can now be used on integer constants of the same internal endianness. Static_Arena and Growing_Arena have been unified into Arena, along with many other improvements to core:mem/virtual. Heavily improve time handling on Windows for time.now() and os.File_Info. And much more! Interview with Skytrias, author of Todool Q: Why don&rsquo;t we begin with you telling us a bit about how you found out about Odin.</p>

@@ -946,6 +946,13 @@ a[:]
 if s == nil {
 	fmt.println(&quot;s is nil!&quot;)
 }
+</code></pre><h4 id=sort-slices>Sort slices <a class=text-decoration-none href=#sort-slices>#</a></h4>
+<p>A slice literal can be sorted in ascending order as follows:</p>
+<pre><code class=language-odin data-lang=odin>s := []int{1, 6, 3, 5 ,7, 3, 0}
+slice.sort(s)
+</code></pre><p>or in descending order</p>
+<pre><code class=language-odin data-lang=odin>r := []int{1, 6, 3, 5 ,7, 3, 0}
+slice.reverse_sort(r)
 </code></pre><h3 id=dynamic-arrays>Dynamic arrays <a class=text-decoration-none href=#dynamic-arrays>#</a></h3>
 <p>Dynamic arrays are similar to slices, but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current <a href=#implicit-context-system>context</a>&rsquo;s allocator.</p>
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
@@ -955,6 +962,12 @@ if s == nil {
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
 append(&amp;x, 123)
 append(&amp;x, 4, 1, 74, 3) // append multiple values at once
+</code></pre><h4 id=sorting-a-dynamic-array>Sorting a dynamic array <a class=text-decoration-none href=#sorting-a-dynamic-array>#</a></h4>
+<p>Although dynamic arrays and slices are different concepts, dynamic arrays can be &lsquo;sliced&rsquo;
+and sorted as follows:</p>
+<pre><code class=language-odin data-lang=odin>s: [dynamic]int
+append(&amp;s, 1, 6, 3, 5 ,7, 3, 0)
+slice.sort(s[:])
 </code></pre><h4 id=making-and-deleting-slices-and-dynamic-arrays>Making and deleting slices and dynamic arrays <a class=text-decoration-none href=#making-and-deleting-slices-and-dynamic-arrays>#</a></h4>
 <p>Slices and dynamic arrays can be explicitly allocated with the built-in <code>make</code> proc.</p>
 <pre><code class=language-odin data-lang=odin>a := make([]int, 6)           // len(a) == 6

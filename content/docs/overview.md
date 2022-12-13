@@ -1254,6 +1254,17 @@ if s == nil {
 }
 ```
 
+#### Sort slices
+A slice literal can be sorted in ascending order as follows:
+```odin
+s := []int{1, 6, 3, 5 ,7, 3, 0}
+slice.sort(s)
+```
+or in descending order
+```odin
+r := []int{1, 6, 3, 5 ,7, 3, 0}
+slice.reverse_sort(r)
+```
 
 
 ### Dynamic arrays
@@ -1272,6 +1283,15 @@ It is common to append new elements to a dynamic array; this can be done so with
 x: [dynamic]int
 append(&x, 123)
 append(&x, 4, 1, 74, 3) // append multiple values at once
+```
+
+#### Sorting a dynamic array
+Although dynamic arrays and slices are different concepts, dynamic arrays can be 'sliced'
+and sorted as follows:
+```odin
+s: [dynamic]int
+append(&s, 1, 6, 3, 5 ,7, 3, 0)
+slice.sort(s[:])
 ```
 
 #### Making and deleting slices and dynamic arrays

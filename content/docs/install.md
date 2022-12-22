@@ -35,9 +35,9 @@ The following platform-specific steps are necessary:
         * **Basic:** run the `x64 Native Tools Command Prompt for VS2017` shortcut bundled with VS 2017, or
         * **Advanced:** run `vcvarsall.bat x64` from a blank `cmd` session
 
-- MacOS
-    * Install the latest XCode (from the App Store or the [Xcode website](https://developer.apple.com/xcode/))
-    * Install XCode command-line tools `xcode-select --install`
+- macOS
+    * Install the latest Xcode (from the App Store or the [Xcode website](https://developer.apple.com/xcode/))
+    * Install Xcode command-line tools `xcode-select --install`
     * Install [Homebrew](https://brew.sh/) 
     * Install LLVM through Homebrew with: `brew install llvm@11`
     * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable (see `brew info llvm@11`)
@@ -57,8 +57,8 @@ Now, it's time to build Odin and get started! Open the X64 Visual Studio command
 
 To use Odin `link.exe` is required to be in the PATH of the callee as mentioned, this can either be achieved but calling Odin from the X64 Visual Studio command prompt or by calling the vcvarsall.bat (with x64 as an argument) script either in your shell or in your build script.
 
-#### For MacOS
-Make sure all requirements for MacOS are installed, after installing LLVM through Homebrew make sure to add it to the PATH:
+#### For macOS
+Make sure all requirements for macOS are installed, after installing LLVM through Homebrew make sure to add it to the PATH:
 - run `echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.zshrc_profile` to add LLVM to your PATH.
 
 Then run `source ~/.bash_profile` or `source ~/.zshrc` to update your PATH variable in the current terminal session depending on your shell.

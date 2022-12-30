@@ -807,7 +807,7 @@ i := 123
 f := cast(f64)i
 u := cast(u32)f
 ```
-This is useful is some contexts but has the same semantic meaning.
+This is useful in some contexts but has the same semantic meaning.
 
 #### Transmute operator
 The `transmute` operator is a bit cast conversion between two types of the same size:

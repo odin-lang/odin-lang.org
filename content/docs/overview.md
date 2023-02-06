@@ -1244,6 +1244,14 @@ a[:6]
 a[0:]
 a[:]
 ```
+When grabbing a chunk of a slice:
+```odin
+a[offset:offset+length]
+```
+can also be written:
+```odin
+a[offset:][:length]
+```
 
 #### Nil slices
 The zero value of a slice is `nil`. A nil slice has a length of 0 and does not point to any underlying memory. Slices can be compared against `nil` and nothing else.

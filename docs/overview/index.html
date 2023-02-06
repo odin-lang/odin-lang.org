@@ -940,6 +940,10 @@ This is an array literal:</p>
 a[:6]
 a[0:]
 a[:]
+</code></pre><p>When grabbing a chunk of a slice:</p>
+<pre><code class=language-odin data-lang=odin>a[offset:offset+length]
+</code></pre><p>can also be written:</p>
+<pre><code class=language-odin data-lang=odin>a[offset:][:length]
 </code></pre><h4 id=nil-slices>Nil slices <a class=text-decoration-none href=#nil-slices>#</a></h4>
 <p>The zero value of a slice is <code>nil</code>. A nil slice has a length of 0 and does not point to any underlying memory. Slices can be compared against <code>nil</code> and nothing else.</p>
 <pre><code class=language-odin data-lang=odin>s: []int

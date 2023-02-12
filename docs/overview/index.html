@@ -443,9 +443,9 @@ defer os.close(f)
 <li><code>when</code> statements are allowed at file scope</li>
 </ul>
 <p>Example:</p>
-<pre><code class=language-odin data-lang=odin>when ODIN_ARCH == &quot;386&quot; {
+<pre><code class=language-odin data-lang=odin>when ODIN_ARCH == .i386 {
 	fmt.println(&quot;32 bit&quot;)
-} else when ODIN_ARCH == &quot;amd64&quot; {
+} else when ODIN_ARCH == .amd64 {
 	fmt.println(&quot;64 bit&quot;)
 } else {
 	fmt.println(&quot;Unsupported architecture&quot;)

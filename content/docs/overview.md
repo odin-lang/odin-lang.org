@@ -523,9 +523,9 @@ The `when` statement is almost identical to the `if` statement but with some dif
 
 Example:
 ```odin
-when ODIN_ARCH == "386" {
+when ODIN_ARCH == .i386 {
 	fmt.println("32 bit")
-} else when ODIN_ARCH == "amd64" {
+} else when ODIN_ARCH == .amd64 {
 	fmt.println("64 bit")
 } else {
 	fmt.println("Unsupported architecture")

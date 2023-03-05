@@ -2371,7 +2371,7 @@ x: int = ptr^
 
 ```odin
 x: int = 123
-ptr: int
+ptr: ^int
 ptr = new_clone(x)
 assert(ptr^ == 123)
 ```

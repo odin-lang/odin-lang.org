@@ -1770,7 +1770,7 @@ x: int = ptr^
 <li><code>new_clone</code> - allocates a clone of the value passed to it. The resulting value of the type will be a pointer to the type of the value passed.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>x: int = 123
-ptr: int
+ptr: ^int
 ptr = new_clone(x)
 assert(ptr^ == 123)
 </code></pre><ul>

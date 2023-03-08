@@ -2026,7 +2026,7 @@ x.y(x, 123)
 </code></pre><p>You can also use ternary expressions with constants at compile-time:</p>
 <pre><code class=language-odin data-lang=odin>DEBUG_LOG_SIZE :: 1024 when ODIN_DEBUG else 0
 </code></pre><h4 id=if-statements-with-initialization>If-statements with initialization <a class=text-decoration-none href=#if-statements-with-initialization>#</a></h4>
-<pre><code class=language-odin data-lang=odin>if str, ok := value.(string) ok {
+<pre><code class=language-odin data-lang=odin>if str, ok := value.(string); ok {
 	...
 } else {
    ...

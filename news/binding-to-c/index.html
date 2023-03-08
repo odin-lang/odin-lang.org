@@ -142,7 +142,7 @@ main :: proc() {
 </code></pre><p>Note that the procedure declaration has to end in <code>---</code> inside the <code>foreign</code> block to denote that the body is found elsewhere. This is to prevent a parsing ambiguity with procedure variables and types. See the <a href=https://odin-lang.org/docs/overview/#attributes>Attributes and Directives sections</a> for more information.</p>
 <h3 id=foreign-blocks>Foreign blocks <a class=text-decoration-none href=#foreign-blocks>#</a></h3>
 <p>Odin supports multiple ways of making binding to C easier.</p>
-<p>By default, the foreign block links to a function of the same name as the name you specify inside the <code>foreign</code> block. This can be explicitly changed by using the <code>@(link_name=&lt;string>)</code> and <code>@(link_prefix=&lt;string>)</code> <a href=Attributes-and-Tags>attributes</a>. The following are all equivalent:</p>
+<p>By default, the foreign block links to a function of the same name as the name you specify inside the <code>foreign</code> block. This can be explicitly changed by using the <code>@(link_name=&lt;string>)</code> and <code>@(link_prefix=&lt;string>)</code> <a href=https://odin-lang.org/docs/overview/#linking-and-foreign-attributes>attributes</a>. The following are all equivalent:</p>
 <pre><code class=language-odin data-lang=odin>foreign foo {
     foo_add_int    :: proc(a, b: c.int)    -&gt; c.int ---
     foo_add_double :: proc(a, b: c.double) -&gt; c.double ---

@@ -2724,7 +2724,7 @@ DEBUG_LOG_SIZE :: 1024 when ODIN_DEBUG else 0
 #### If-statements with initialization
 
 ```odin
-if str, ok := value.(string) ok {
+if str, ok := value.(string); ok {
 	...
 } else {
    ...

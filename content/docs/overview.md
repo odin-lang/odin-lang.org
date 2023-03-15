@@ -1286,7 +1286,7 @@ Along with the built-in proc `len`, dynamic arrays also have `cap` which can use
 
 #### Appending to a dynamic array
 
-It is common to append new elements to a dynamic array; this can be done so with the built-in `append` proc.
+It is common to append new elements to a dynamic array; this can be done using the built-in `append` proc.
 ```odin
 x: [dynamic]int
 append(&x, 123)

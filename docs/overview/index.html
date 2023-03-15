@@ -1086,7 +1086,7 @@ assert(count == 2)
 </code></pre><h3 id=pointers>Pointers <a class=text-decoration-none href=#pointers>#</a></h3>
 <p>Odin has pointers. A pointer is a memory address of a value. The type <code>^T</code> is a pointer to a <code>T</code> value. Its zero value is <code>nil</code>.</p>
 <pre><code class=language-odin data-lang=odin>p: ^int
-</code></pre><p>The <code>&</code> operator takes the address to its operand (if possible):</p>
+</code></pre><p>The <code>&</code> operator takes the address of its operand (if possible):</p>
 <pre><code class=language-odin data-lang=odin>i := 123;
 p := &amp;i;
 </code></pre><p>The <code>^</code> operator dereferences the pointer&rsquo;s underlying value:</p>

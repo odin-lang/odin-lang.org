@@ -1047,7 +1047,7 @@ d = .East
 
 Direction_Set :: bit_set[Direction]
 
-Char_Set :: bit_set['A'..'Z']
+Char_Set :: bit_set['A'..='Z']
 
 Number_Set :: bit_set[0..&lt;10] // bit_set[0..=9]
 </code></pre><p>Bit sets are implemented as bit vectors internally for high performance. The zero value of a bit set is either <code>nil</code> or <code>{}</code>.</p>

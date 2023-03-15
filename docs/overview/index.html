@@ -962,7 +962,7 @@ slice.reverse_sort(r)
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
 </code></pre><p>Along with the built-in proc <code>len</code>, dynamic arrays also have <code>cap</code> which can used to determine the dynamic array&rsquo;s current underlying capacity.</p>
 <h4 id=appending-to-a-dynamic-array>Appending to a dynamic array <a class=text-decoration-none href=#appending-to-a-dynamic-array>#</a></h4>
-<p>It is common to append new elements to a dynamic array; this can be done so with the built-in <code>append</code> proc.</p>
+<p>It is common to append new elements to a dynamic array; this can be done using the built-in <code>append</code> proc.</p>
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
 append(&amp;x, 123)
 append(&amp;x, 4, 1, 74, 3) // append multiple values at once

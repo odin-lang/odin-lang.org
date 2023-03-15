@@ -1468,7 +1468,7 @@ Odin has pointers. A pointer is a memory address of a value. The type `^T` is a 
 ```odin
 p: ^int
 ```
-The `&` operator takes the address to its operand (if possible):
+The `&` operator takes the address of its operand (if possible):
 ```odin
 i := 123;
 p := &i;

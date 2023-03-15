@@ -1412,7 +1412,7 @@ Direction :: enum{North, East, South, West}
 
 Direction_Set :: bit_set[Direction]
 
-Char_Set :: bit_set['A'..'Z']
+Char_Set :: bit_set['A'..='Z']
 
 Number_Set :: bit_set[0..<10] // bit_set[0..=9]
 ```

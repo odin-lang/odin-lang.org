@@ -1007,13 +1007,14 @@ int(Direction.West)  == 3
 }
 </code></pre><p>If an enumeration requires a specific size, a backing integer type can be specified. By default, <code>int</code> is used as the backing type for an enumeration.</p>
 <pre><code class=language-odin data-lang=odin>Foo :: enum u8 {A, B, C} // Foo will only be 8 bits
-</code></pre><p>Odin supports implicit selector expressions for enums:</p>
-<pre><code class=language-odin data-lang=odin>Foo :: enum {A, B, C}
-
+</code></pre><h4 id=implicit-selector-expression>Implicit Selector Expression <a class=text-decoration-none href=#implicit-selector-expression>#</a></h4>
+<p>An <em>implicit selector expression</em> is an abbreviated way to access a member of an enumeration, in a context where type inference can determine the implied type. It has the following form:</p>
+<pre><code class=language-odin data-lang=odin>.member_name
+</code></pre><p>For example:</p>
+<pre><code class=language-odin data-lang=odin>Foo :: enum{A, B, C}
 f: Foo
+f = Foo.A
 f = .A
-
-BAR :: bit_set[Foo]{.B, .C}
 
 switch f {
 case .A:
@@ -1032,15 +1033,7 @@ case .C:
 	using Bar :: enum {X, Y, Z}
 	x := X
 }
-</code></pre><h4 id=implicit-selector-expression>Implicit Selector Expression <a class=text-decoration-none href=#implicit-selector-expression>#</a></h4>
-<p>An <em>implicit selector expression</em> is an abbreviated way to access a member of an enumeration, in a context where type inference can determine the implied type. It has the following form:</p>
-<pre><code class=language-odin data-lang=odin>.member_name
-</code></pre><p>For example:</p>
-<pre><code class=language-odin data-lang=odin>Direction :: enum{North, East, South, West}
-d: Direction
-d = Direction.East
-d = .East
-</code></pre><p><strong>Note:</strong> This is preferred to <a href=#using-statement><code>using</code></a> an enumeration as <code>using</code> does pollute the current scope.</p>
+</code></pre><p><strong>Note:</strong> Implicit selector expression is preferred to <a href=#using-statement><code>using</code></a> an enumeration as <code>using</code> does pollute the current scope.</p>
 <h3 id=bit-sets>Bit sets <a class=text-decoration-none href=#bit-sets>#</a></h3>
 <p>The <code>bit_set</code> type models the mathematical notion of a set. A bit_set&rsquo;s element type can be either an enumeration or a range:</p>
 <pre><code class=language-odin data-lang=odin>Direction :: enum{North, East, South, West}

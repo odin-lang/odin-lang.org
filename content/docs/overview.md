@@ -2310,7 +2310,7 @@ supertramp :: proc() {
 	// From this example, context.user_index == 123
 	// A context.allocator is assigned to the return value of `my_custom_allocator()`
 
-	// The memory management procedure use the `context.allocator` by default unless explicitly specified otherwise
+	// The memory management procedure uses the `context.allocator` by default unless explicitly specified otherwise
 	ptr := new(int)
 	free(ptr)
 }

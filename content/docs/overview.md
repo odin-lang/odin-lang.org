@@ -2243,8 +2243,8 @@ foo_1 :: proc() -> Error {
 }
 foo_2 :: proc() -> (n: int, err: Error) {
 	// It is more common that your procedure returns multiple values
-	// If 'or_return' is used within a procedure multiple parameters (2+),
-	// then all the parameters must be named so that the remaining parameters
+	// If 'or_return' is used within a procedure that returns multiple 
+	// values (2+), then all the returned values must be named 
 	// so that a bare 'return' statement can be used
 
 	// This can be a common idiom in many code bases

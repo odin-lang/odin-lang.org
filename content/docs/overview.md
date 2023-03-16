@@ -2544,7 +2544,7 @@ r = Error.Foo0
 ### Implicit parametric polymorphism
 Implicit implies that the type of a parameter is inferred from its input. In this case, the dollar sign `$` can be placed on the type.
 
-Note: Within the Odin code base and documentation, the name "polymorphic name" is usually used.
+**Note:** Within the Odin code base and documentation, the name "polymorphic name" is usually used.
 
 #### Procedures
 ```odin

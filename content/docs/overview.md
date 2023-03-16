@@ -2489,7 +2489,21 @@ Parametric polymorphism, commonly referred to as "generics", allow the user to c
 ### Explicit parametric polymorphism
 Explicit parametric polymorphism means that the types of the parameters must be explicitly provided.
 #### Procedures
-To specify that a parameter is "constant", the parameters name must be prefixed with a dollar sign `$`. The following example takes two constant parameters to initialize an array of known length:
+As a reminder, all parameters passed into a function are run-time "constants" by default in the sense that they can't have their value changed using `=` directly. Yet, if instead one wishes to use parameter names mutably, then one must indicate so using `:=` like so:
+
+```odin
+sin_tau :: proc(angle_in_cycles: f64) -> f64 {
+    angle_in_cycles := angle_in_cycles   // Enables treating `angle_in_cycles` mutably!
+    
+    TAU :: 2 * math.PI
+    angle_in_cycles *= TAU
+    return math.sin(angle_in_cycles)
+}
+assert(math.abs(sin_tau(0.25) - 1) <= 0.001)   // sin_tau(0.25) is approximately 1
+assert(math.abs(sin_tau(0.75) - -1) <= 0.001)  // sin_tau(0.75) is approximately -1
+```
+
+However, to specify that a parameter must be a **compile-time** constant, which is not the same thing as a run-time constant and may sometimes be necessary or desirable, the parameter's name must be prefixed with a dollar sign `$`. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:
 ```odin
 make_f32_array :: #force_inline proc($N: int, $val: f32) -> (res: [N]f32) {
 	for _, i in res {
@@ -2501,7 +2515,7 @@ make_f32_array :: #force_inline proc($N: int, $val: f32) -> (res: [N]f32) {
 array := make_f32_array(3, 2)
 ```
 
-Types can also be explicitly passed with specifying that the `typeid` parameter is constant:
+Types can also be explicitly passed by specifying that the `typeid` parameter is constant:
 ```odin
 my_new :: proc($T: typeid) -> ^T {
 	return (^T)(alloc(size_of(T), align_of(T)))

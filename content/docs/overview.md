@@ -2494,7 +2494,7 @@ link_prefix=<string>
 ## Parametric polymorphism
 Parametric polymorphism, commonly referred to as "generics", allow the user to create a procedure or data that can be written _generically_ so it can handle values in the same manner.
 
-Note: Within the Odin code base and documentation, the nickname "parapoly" is usually used.
+**Note:** Within the Odin code base and documentation, the nickname "parapoly" is usually used.
 
 ### Explicit parametric polymorphism
 Explicit parametric polymorphism means that the types of the parameters must be explicitly provided.

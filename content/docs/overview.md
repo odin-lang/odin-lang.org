@@ -2128,7 +2128,7 @@ foo :: proc(entity: ^Entity) {
 }
 ```
 
-We can also apply the `using` statement to the struct fields directly, making all the fields of `position` appear as if they on `Entity` itself:
+We can also apply the `using` statement to the struct fields directly, making all the fields of `position` appear as if they are on `Entity` itself:
 ```odin
 Entity :: struct {
 	using position: Vector3,

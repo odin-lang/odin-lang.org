@@ -1576,7 +1576,7 @@ Entity :: struct {
 	using entity.position
 	fmt.println(x, y, z)
 }
-</code></pre><p>We can also apply the <code>using</code> statement to the struct fields directly, making all the fields of <code>position</code> appear as if they on <code>Entity</code> itself:</p>
+</code></pre><p>We can also apply the <code>using</code> statement to the struct fields directly, making all the fields of <code>position</code> appear as if they are on <code>Entity</code> itself:</p>
 <pre><code class=language-odin data-lang=odin>Entity :: struct {
 	using position: Vector3,
 	orientation: quaternion128,

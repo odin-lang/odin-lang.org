@@ -2679,7 +2679,7 @@ f: Foo(T, N)
 
 ## `->` operator (selector call expressions)
 
-The `->` operator is called the selector call expression operator and is extremely useful for call procedures stored in vtables. [Component Objective Model (COM)](https://docs.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal) APIs is a greate example of where this kind of thing is extremely useful (such as the [Direct3D11 package](https://pkg.odin-lang.org/vendor/directx/d3d11/)).
+The `->` operator is called the selector call expression operator and is extremely useful for call procedures stored in vtables. [Component Objective Model (COM)](https://docs.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal) APIs is a great example of where this kind of thing is extremely useful (such as the [Direct3D11 package](https://pkg.odin-lang.org/vendor/directx/d3d11/)).
 
 ```odin
 x->y(123)
@@ -2733,7 +2733,7 @@ foos := make([]Foo, num)
 // By-value basic ranged-based loop, with implicit indexing
 for v, j in foos {
 	using v
-	fmt.println(i, v, f, i)
+	fmt.println(j, v, f, i)
 }
 
 // Alternative range-based loop, with explicit indexing

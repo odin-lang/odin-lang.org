@@ -2004,7 +2004,7 @@ N :: 5
 f: Foo(T, N)
 #assert(size_of(f) == (N+N-2)*size_of(T))
 </code></pre><h2 id=--operator-selector-call-expressions><code>-></code> operator (selector call expressions) <a class=text-decoration-none href=#--operator-selector-call-expressions>#</a></h2>
-<p>The <code>-></code> operator is called the selector call expression operator and is extremely useful for call procedures stored in vtables. <a href=https://docs.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal>Component Objective Model (COM)</a> APIs is a greate example of where this kind of thing is extremely useful (such as the <a href=https://pkg.odin-lang.org/vendor/directx/d3d11/>Direct3D11 package</a>).</p>
+<p>The <code>-></code> operator is called the selector call expression operator and is extremely useful for call procedures stored in vtables. <a href=https://docs.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal>Component Objective Model (COM)</a> APIs is a great example of where this kind of thing is extremely useful (such as the <a href=https://pkg.odin-lang.org/vendor/directx/d3d11/>Direct3D11 package</a>).</p>
 <pre><code class=language-odin data-lang=odin>x-&gt;y(123)
 // is equivalent to
 x.y(x, 123)
@@ -2035,7 +2035,7 @@ foos := make([]Foo, num)
 // By-value basic ranged-based loop, with implicit indexing
 for v, j in foos {
 	using v
-	fmt.println(i, v, f, i)
+	fmt.println(j, v, f, i)
 }
 
 // Alternative range-based loop, with explicit indexing

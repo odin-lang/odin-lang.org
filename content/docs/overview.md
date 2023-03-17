@@ -3020,7 +3020,7 @@ struct #raw_union {u: u32, i: i32, f: f32}
 ```
 
 * **#align**
-This tag can be applied to a struct or union. This tag in form `#align N` specifies the struct's alignment to N bytes. Its fields will remain in source-order.
+This tag can be applied to a `struct` or `union`. When `#align` is passed an integer `N` (as in `#align N`), it specifies that the `struct` will be aligned to `N` bytes. The `struct`'s fields will remain in source-order.
 ```odin
 Foo :: struct #align 4 {
     b: bool,

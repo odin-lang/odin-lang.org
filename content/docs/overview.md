@@ -2919,7 +2919,7 @@ foo :: proc() {
 
 * **@(require_results)**
 
-Ensures procedure return values are acknowledged.
+Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
 ```odin
 @(require_results)
 foo :: proc() -> bool {

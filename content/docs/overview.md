@@ -3233,7 +3233,7 @@ fmt.println(string(foo))
 ```
 
 * **#load_hash(\<string-path\>, \<string-hash\>)**
-Returns a constant integer of the hash of file contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
+Returns a constant integer of the hash of a file's contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
 
 ```odin
 hash :: #load_hash("path/to/file", "crc32")

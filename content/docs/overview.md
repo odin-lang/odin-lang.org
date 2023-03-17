@@ -2954,8 +2954,8 @@ A hint to the compiler that this procedure is rarely called, and thus "cold".
 
 * **@(static)**
 
-Can be applied to a variable to have it keep its' state even when going out of scope.
-Same as a static local variable in C.
+This attribute can be applied to a variable to have it keep its state even when going out of scope.
+This is the same behavior as a `static` local variable in C.
 ```odin
 test :: proc() -> int {
     @(static) foo := 0

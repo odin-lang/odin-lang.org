@@ -2842,7 +2842,7 @@ foreign foo {
 
 * **@(link_prefix=\<string\>)**
 
-This attribute can be attached to a `foreign` block to specify a prefix to all names. So if functions are prefixed with `ltb_` in the library is you can attach this and not specify that on the procedure on the odin side. Example:
+This attribute can be attached to a `foreign` block to specify a prefix to all names. So if functions are prefixed with `ltb_` in the library is you can attach this and not specify that on the procedure on the Odin side. Example:
 ```odin
 @(link_prefix = "ltb_")
 foreign foo {

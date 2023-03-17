@@ -1848,7 +1848,17 @@ link_prefix=&lt;string&gt;
 <h3 id=explicit-parametric-polymorphism>Explicit parametric polymorphism <a class=text-decoration-none href=#explicit-parametric-polymorphism>#</a></h3>
 <p>Explicit parametric polymorphism means that the types of the parameters must be explicitly provided.</p>
 <h4 id=procedures-1>Procedures <a class=text-decoration-none href=#procedures-1>#</a></h4>
-<p>To specify that a parameter is &ldquo;constant&rdquo;, the parameters name must be prefixed with a dollar sign <code>$</code>. The following example takes two constant parameters to initialize an array of known length:</p>
+<p>As a reminder, all parameters passed into a function are immutable in the sense that they can&rsquo;t have their value changed using <code>=</code> directly. A useful idiom is <code>var := var</code>, which expresses a variable shadowing itself. When used at the top of a procedure the compiler understands the use case of enabling local modification of the otherwise immutable parameter variable, and won&rsquo;t complain about the shadowing when you compile with <code>-vet</code>.</p>
+<pre><code class=language-odin data-lang=odin>sin_tau :: proc(angle_in_cycles: f64) -&gt; f64 {
+    angle_in_cycles := angle_in_cycles   // Allows `angle_in_cycles` to have its value changed
+    
+    TAU :: 2 * math.PI
+    angle_in_cycles *= TAU
+    return math.sin(angle_in_cycles)
+}
+assert(math.abs(sin_tau(0.25) - 1) &lt;= 0.001)   // sin_tau(0.25) is approximately 1
+assert(math.abs(sin_tau(0.75) - -1) &lt;= 0.001)  // sin_tau(0.75) is approximately -1
+</code></pre><p>However, to specify that a parameter must be a <strong>compile-time</strong> constant, which is not the same thing as an immutable parameter, and may sometimes be necessary or desirable, the parameter&rsquo;s name must be prefixed with a dollar sign <code>$</code>. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:</p>
 <pre><code class=language-odin data-lang=odin>make_f32_array :: #force_inline proc($N: int, $val: f32) -&gt; (res: [N]f32) {
 	for _, i in res {
 		res[i] = val*val
@@ -1857,7 +1867,7 @@ link_prefix=&lt;string&gt;
 }
 
 array := make_f32_array(3, 2)
-</code></pre><p>Types can also be explicitly passed with specifying that the <code>typeid</code> parameter is constant:</p>
+</code></pre><p>Types can also be explicitly passed by specifying that the <code>typeid</code> parameter is constant:</p>
 <pre><code class=language-odin data-lang=odin>my_new :: proc($T: typeid) -&gt; ^T {
 	return (^T)(alloc(size_of(T), align_of(T)))
 }

@@ -2489,11 +2489,11 @@ Parametric polymorphism, commonly referred to as "generics", allow the user to c
 ### Explicit parametric polymorphism
 Explicit parametric polymorphism means that the types of the parameters must be explicitly provided.
 #### Procedures
-As a reminder, all parameters passed into a function are run-time "constants" by default in the sense that they can't have their value changed using `=` directly. Yet, if instead one wishes to use parameter names mutably, then one must indicate so using `:=` like so:
+As a reminder, all parameters passed into a function are immutable in the sense that they can't have their value changed using `=` directly. A useful idiom is `var := var`, which expresses a variable shadowing itself. When used at the top of a procedure the compiler understands the use case of enabling local modification of the otherwise immutable parameter variable, and won't complain about the shadowing when you compile with `-vet`.
 
 ```odin
 sin_tau :: proc(angle_in_cycles: f64) -> f64 {
-    angle_in_cycles := angle_in_cycles   // Enables treating `angle_in_cycles` mutably!
+    angle_in_cycles := angle_in_cycles   // Allows `angle_in_cycles` to have its value changed
     
     TAU :: 2 * math.PI
     angle_in_cycles *= TAU
@@ -2503,7 +2503,7 @@ assert(math.abs(sin_tau(0.25) - 1) <= 0.001)   // sin_tau(0.25) is approximately
 assert(math.abs(sin_tau(0.75) - -1) <= 0.001)  // sin_tau(0.75) is approximately -1
 ```
 
-However, to specify that a parameter must be a **compile-time** constant, which is not the same thing as a run-time constant and may sometimes be necessary or desirable, the parameter's name must be prefixed with a dollar sign `$`. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:
+However, to specify that a parameter must be a **compile-time** constant, which is not the same thing as an immutable parameter, and may sometimes be necessary or desirable, the parameter's name must be prefixed with a dollar sign `$`. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:
 ```odin
 make_f32_array :: #force_inline proc($N: int, $val: f32) -> (res: [N]f32) {
 	for _, i in res {

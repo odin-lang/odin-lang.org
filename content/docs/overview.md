@@ -3183,7 +3183,7 @@ Assert ran at compile time.
 * **#panic(\<string\>)**
 Panic ran at compile time. Equivalent to an `#assert` with a `false` condition.
 ```odin
-#panic(SOME_message_CONDITION)
+#panic(message)
 ```
 
 * **#config(\<identifer\>, default)**

@@ -2703,7 +2703,7 @@ x->y(123)
 x.y(x, 123)
 ```
 
-As the `->` operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through `using` will work still as expected allow for the emulation of type hierarchies.
+As the `->` operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through `using` will still work as expected to allow for the emulation of type hierarchies.
 
 
 ## Useful idioms

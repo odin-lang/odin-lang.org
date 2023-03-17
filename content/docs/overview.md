@@ -2821,7 +2821,7 @@ Using `//+private` in a file at the package declaration will automatically add `
 package foo
 ```
 
-And `//+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that the remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
+And `//+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
 
 * **@(require)**
 

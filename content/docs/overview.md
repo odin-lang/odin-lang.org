@@ -3053,7 +3053,7 @@ Possible states of B:
 
 * **#partial**
 
-By default all `case`s of an `enum` or union have to be covered in a `switch` statement. The `#partial` tag allows to use wanted `case`s:
+By default all `case`s of an `enum` or union have to be covered in a `switch` statement. The reason for this requirement is because it makes accidental bugs less likely. However, the `#partial` tag allows you to not have to write out `case`s that you don't need to handle:
 ```odin
 Foo :: enum {
     A,

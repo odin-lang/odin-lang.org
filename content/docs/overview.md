@@ -2487,8 +2487,9 @@ Parametric polymorphism, commonly referred to as "generics", allow the user to c
 **Note:** Within the Odin code base and documentation, the nickname "parapoly" is usually used.
 
 ### Explicit parametric polymorphism
-Explicit parametric polymorphism means that the types of the parameters must be explicitly provided.
-#### Procedures
+Explicit parametric polymorphism means that the types of the parameters of a `proc` or of the data fields of a `struct` (when intended to potentially be used with multiple possible types) must be explicitly provided. This is similar to how C++ allows the use of `template`s to fill out the body of a procedure or data structure with the types that are given at compile-time as input to the `template` parameters, but in Odin explicit parametric polymorphism is safer and cleaner to work with. 
+
+#### Procedures using explicit parametric polymorphism (parapoly)
 As a reminder, all parameters passed into a function are immutable in the sense that they can't have their value changed using `=` directly. A useful idiom is `var := var`, which expresses a variable shadowing itself. When used at the top of a procedure the compiler understands the use case of enabling local modification of the otherwise immutable parameter variable, and won't complain about the shadowing when you compile with `-vet`.
 
 ```odin
@@ -2503,7 +2504,7 @@ assert(math.abs(sin_tau(0.25) - 1) <= 0.001)   // sin_tau(0.25) is approximately
 assert(math.abs(sin_tau(0.75) - -1) <= 0.001)  // sin_tau(0.75) is approximately -1
 ```
 
-However, to specify that a parameter must be a **compile-time** constant, which is not the same thing as an immutable parameter, and may sometimes be necessary or desirable, the parameter's name must be prefixed with a dollar sign `$`. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:
+However, to specify that a parameter must be a **compile-time** constant, which is not the same thing as an immutable parameter, and may sometimes be necessary (e.g. for parapoly) or desirable (e.g. to enforce compile-time computation), the parameter's name must be prefixed with a dollar sign `$`. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:
 ```odin
 make_f32_array :: #force_inline proc($N: int, $val: f32) -> (res: [N]f32) {
 	for _, i in res {
@@ -2524,9 +2525,9 @@ my_new :: proc($T: typeid) -> ^T {
 ptr := my_new(int)
 ```
 
-#### Data types
-Structures and unions may have polymorphic parameters. The `$` prefix is optional for record data types as all parameters must be "constant".
-Parapoly struct:
+#### Data types using explicit parametric polymorphism (parapoly)
+Structures and unions may have polymorphic parameters and the syntax for doing so is similar to procedure call syntax.
+**Parapoly struct:**
 ```odin
 Table_Slot :: struct($Key, $Value: typeid) {
 	occupied: bool,
@@ -2536,7 +2537,7 @@ Table_Slot :: struct($Key, $Value: typeid) {
 }
 slot: Table_Slot(string, int)
 ```
-Parapoly union:
+**Parapoly union:**
 ```odin
 Error :: enum {Foo0, Foo1, Foo2}
 Param_Union :: union($T: typeid) #no_nil {T, Error}
@@ -2544,13 +2545,14 @@ r: Param_Union(int)
 r = 123
 r = Error.Foo0
 ```
+The `$` prefix is optional for record data types as all parameters must be "constant".
 
 ### Implicit parametric polymorphism
 Implicit implies that the type of a parameter is inferred from its input. In this case, the dollar sign `$` can be placed on the type.
 
 **Note:** Within the Odin code base and documentation, the name "polymorphic name" is usually used.
 
-#### Procedures
+#### Procedures using implicit parametric polymorphism (parapoly)
 ```odin
 foo :: proc($N: $I, $T: typeid) -> (res: [N]T) {
 	// `N` is the constant value passed

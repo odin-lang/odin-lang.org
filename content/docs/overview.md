@@ -3178,7 +3178,7 @@ proc_without_bounds_check :: proc() #no_bounds_check {
 #### Built-in Procedures
 
 * **#assert(\<boolean\>)**
-Assert ran at compile time.
+Unlike `assert`, `#assert` runs at compile-time. `#assert` breaks compilation if the given bool expression is false, and thus `#assert` is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.
 ```odin
 #assert(SOME_CONST_CONDITION)
 ```

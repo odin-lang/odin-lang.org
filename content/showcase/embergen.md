@@ -47,7 +47,7 @@ We get it: simulations and renders usually take forever to get right. That's why
 ## EmberGen for Film & Motion Graphics
 
 <video width="100%" autoplay loop muted class="showcase-right"><source src="https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Film/wargaming-01.mp4"></video>
-With the release of EmberGen 0.7.5, we're now a force to be reckoned with in the film industry. After adding animated FBX and Alembic support, as well as FBX camera imports and backplates, we guarantee you that EmberGen has a place in your pipeline. In the face of ever-tightening deadlines, studios around the world are turning to EmberGen. EmberGen can help you dramatically reduce time spent on simulations and rendering. Export to EXR/PNG/TGA and openVDB.
+With the release of EmberGen 1.0, we're now a force to be reckoned with in the film industry. After adding animated FBX and Alembic support, as well as FBX camera imports and backplates, we guarantee you that EmberGen has a place in your pipeline. In the face of ever-tightening deadlines, studios around the world are turning to EmberGen. EmberGen can help you dramatically reduce time spent on simulations and rendering. Export to EXR/PNG/TGA and openVDB.
 
 <div class="clearfix"></div>
 

@@ -3186,7 +3186,7 @@ Unlike `assert`, `#assert` runs at compile-time. `#assert` breaks compilation if
 * **#panic(\<string\>)**
 Panic runs at compile-time. It is functionally equivalent to an `#assert` with a `false` condition, but `#panic` has an error message string parameter.
 ```odin
-#panic(SOME_message_CONDITION)
+#panic(message)
 ```
 
 * **#config(\<identifer\>, default)**

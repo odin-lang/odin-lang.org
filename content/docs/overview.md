@@ -3242,7 +3242,7 @@ hash :: #load_hash("path/to/file", "crc32")
 
 ### Advanced idioms
 
-Subtype polymorphism with runtime type safe down casting:
+Subtype polymorphism with run-time type-safe down-casting:
 ```odin
 Entity :: struct {
 	id:   u64,

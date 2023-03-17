@@ -2706,7 +2706,7 @@ As the `->` operator is effectively syntactic sugar, all of the same semantics s
 
 ## Useful idioms
 
-The following are useful idioms which are emergent from the semantics on the language.
+The following are useful idioms which are emergent from the semantics of the language.
 
 ### Basic idioms
 

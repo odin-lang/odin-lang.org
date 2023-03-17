@@ -2996,7 +2996,7 @@ Marks builtin procs in Odin's "core:runtime" package. Cannot be used in user cod
 
 ### Directives
 
-Directives a way of extending the core behaviour of the Odin programming language; have the form `#name`.
+Directives are a way of extending the core behaviour of the Odin programming language. They have the form `#directive_name`.
 
 
 #### Record Memory Layout

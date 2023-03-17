@@ -3219,14 +3219,14 @@ main :: proc() {
 ```
 
 * **#load(\<string\>)**
-Returns a `[]u8` of file contents at compile time
+Returns a `[]u8` of file contents at compile time.
 ```odin
 foo := #load("path/to/file")
 fmt.println(string(foo))
 ```
 
 * **#load_or(\<string\>, default)**
-Returns a `[]u8` of file contents at compile time, otherwhise default content when the file wasn't found
+Returns a `[]u8` of file contents at compile time, otherwhise default content when the file wasn't found.
 ```odin
 foo := #load_or("path/to/file", []u8 { 104, 105 })
 fmt.println(string(foo))

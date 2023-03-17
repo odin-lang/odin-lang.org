@@ -2942,7 +2942,7 @@ If the provided boolean is set, the procedure will not be used when called.
 
 * **@(init)**
 
-Applied to a procedure with not input parameters nor return values and will be called at the start of the program before `main` is called. The order of initialization is deterministically with a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
+This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by `@(init)` will then be called at the start of the program before `main` is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
 
 
 * **@(cold)**

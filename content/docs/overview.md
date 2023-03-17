@@ -3206,7 +3206,7 @@ when #defined(nonexistent_proc) == false { fmt.println("proc was not defined") }
 Return the current file path, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
 
 * **#location()** or **#location(<\entity\>)**
-Returns a `runtime.Source_Code_Location` (see `core/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration
+Returns a `runtime.Source_Code_Location` (see `core/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
 ```odin
 foo :: proc() {}
 

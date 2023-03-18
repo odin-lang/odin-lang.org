@@ -2487,8 +2487,9 @@ Parametric polymorphism, commonly referred to as "generics", allow the user to c
 **Note:** Within the Odin code base and documentation, the nickname "parapoly" is usually used.
 
 ### Explicit parametric polymorphism
-Explicit parametric polymorphism means that the types of the parameters must be explicitly provided.
-#### Procedures
+Explicit parametric polymorphism means that the types of the parameters of a `proc` or of the data fields of a `struct` (when intended to potentially be used with multiple possible types) must be explicitly provided. This is similar to how C++ allows the use of `template`s to fill out the body of a procedure or data structure with the types that are given at compile-time as input to the `template` parameters, but in Odin explicit parametric polymorphism is safer and cleaner to work with. 
+
+#### Procedures using explicit parametric polymorphism (parapoly)
 As a reminder, all parameters passed into a function are immutable in the sense that they can't have their value changed using `=` directly. A useful idiom is `var := var`, which expresses a variable shadowing itself. When used at the top of a procedure the compiler understands the use case of enabling local modification of the otherwise immutable parameter variable, and won't complain about the shadowing when you compile with `-vet`.
 
 ```odin
@@ -2503,7 +2504,7 @@ assert(math.abs(sin_tau(0.25) - 1) <= 0.001)   // sin_tau(0.25) is approximately
 assert(math.abs(sin_tau(0.75) - -1) <= 0.001)  // sin_tau(0.75) is approximately -1
 ```
 
-However, to specify that a parameter must be a **compile-time** constant, which is not the same thing as an immutable parameter, and may sometimes be necessary or desirable, the parameter's name must be prefixed with a dollar sign `$`. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:
+However, to specify that a parameter must be a **compile-time** constant, which is not the same thing as an immutable parameter, and may sometimes be necessary (e.g. for parapoly) or desirable (e.g. to enforce compile-time computation), the parameter's name must be prefixed with a dollar sign `$`. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:
 ```odin
 make_f32_array :: #force_inline proc($N: int, $val: f32) -> (res: [N]f32) {
 	for _, i in res {
@@ -2524,9 +2525,9 @@ my_new :: proc($T: typeid) -> ^T {
 ptr := my_new(int)
 ```
 
-#### Data types
-Structures and unions may have polymorphic parameters. The `$` prefix is optional for record data types as all parameters must be "constant".
-Parapoly struct:
+#### Data types using explicit parametric polymorphism (parapoly)
+Structures and unions may have polymorphic parameters and the syntax for doing so is similar to procedure call syntax.
+**Parapoly struct:**
 ```odin
 Table_Slot :: struct($Key, $Value: typeid) {
 	occupied: bool,
@@ -2536,7 +2537,7 @@ Table_Slot :: struct($Key, $Value: typeid) {
 }
 slot: Table_Slot(string, int)
 ```
-Parapoly union:
+**Parapoly union:**
 ```odin
 Error :: enum {Foo0, Foo1, Foo2}
 Param_Union :: union($T: typeid) #no_nil {T, Error}
@@ -2544,13 +2545,14 @@ r: Param_Union(int)
 r = 123
 r = Error.Foo0
 ```
+The `$` prefix is optional for record data types as all parameters must be "constant".
 
 ### Implicit parametric polymorphism
 Implicit implies that the type of a parameter is inferred from its input. In this case, the dollar sign `$` can be placed on the type.
 
 **Note:** Within the Odin code base and documentation, the name "polymorphic name" is usually used.
 
-#### Procedures
+#### Procedures using implicit parametric polymorphism (parapoly)
 ```odin
 foo :: proc($N: $I, $T: typeid) -> (res: [N]T) {
 	// `N` is the constant value passed
@@ -2701,12 +2703,12 @@ x->y(123)
 x.y(x, 123)
 ```
 
-As the `->` operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through `using` will work still as expected allow for the emulation of type hierarchies.
+As the `->` operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through `using` will still work as expected to allow for the emulation of type hierarchies.
 
 
 ## Useful idioms
 
-The following are useful idioms which are emergent from the semantics on the language.
+The following are useful idioms which are emergent from the semantics of the language.
 
 ### Basic idioms
 
@@ -2819,7 +2821,7 @@ Using `//+private` in a file at the package declaration will automatically add `
 package foo
 ```
 
-And `//+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that the remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
+And `//+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
 
 * **@(require)**
 
@@ -2840,7 +2842,7 @@ foreign foo {
 
 * **@(link_prefix=\<string\>)**
 
-This attribute can be attached to a `foreign` block to specify a prefix to all names. So if functions are prefixed with `ltb_` in the library is you can attach this and not specify that on the procedure on the odin side. Example:
+This attribute can be attached to a `foreign` block to specify a prefix to all names. So if functions are prefixed with `ltb_` in the library is you can attach this and not specify that on the procedure on the Odin side. Example:
 ```odin
 @(link_prefix = "ltb_")
 foreign foo {
@@ -2919,7 +2921,7 @@ foo :: proc() {
 
 * **@(require_results)**
 
-Ensures procedure return values are acknowledged.
+Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called, the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
 ```odin
 @(require_results)
 foo :: proc() -> bool {
@@ -2942,7 +2944,7 @@ If the provided boolean is set, the procedure will not be used when called.
 
 * **@(init)**
 
-Applied to a procedure with not input parameters nor return values and will be called at the start of the program before `main` is called. The order of initialization is deterministically with a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
+This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by `@(init)` will then be called at the start of the program before `main` is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
 
 
 * **@(cold)**
@@ -2954,8 +2956,8 @@ A hint to the compiler that this procedure is rarely called, and thus "cold".
 
 * **@(static)**
 
-Can be applied to a variable to have it keep its' state even when going out of scope.
-Same as a static local variable in C.
+This attribute can be applied to a variable to have it keep its state even when going out of scope.
+This is the same behavior as a `static` local variable in C.
 ```odin
 test :: proc() -> int {
     @(static) foo := 0
@@ -2994,7 +2996,7 @@ Marks builtin procs in Odin's "core:runtime" package. Cannot be used in user cod
 
 ### Directives
 
-Directives a way of extending the core behaviour of the Odin programming language; have the form `#name`.
+Directives are a way of extending the core behaviour of the Odin programming language. They have the form `#directive_name`.
 
 
 #### Record Memory Layout
@@ -3003,8 +3005,9 @@ Directives a way of extending the core behaviour of the Odin programming languag
 
 This tag can be applied to a struct. Removes padding between fields that's normally inserted to ensure all fields meet their type's alignment requirements. Fields remain in source order.
 
-This is useful where the structure is unlikely to be correctly aligned (the insertion rules for padding assume it **_is_**), or if the space-savings are more important or useful than the access speed of the fields.  
-Accessing a field in packed struct may require copying the field out of the struct into a temporary location, or using a machine instruction that doesn't assume the pointer address is correctly aligned, in order to be performant or avoid crashing on some systems. (See `intrinsics.unaligned_load`.)
+This is useful where the structure is unlikely to be correctly aligned (the insertion rules for padding assume it **_is_**), or if the space-savings are more important or useful than the access speed of the fields.
+
+Accessing a field in a packed struct may require copying the field out of the struct into a temporary location, or using a machine instruction that doesn't assume the pointer address is correctly aligned, in order to be performant or avoid crashing on some systems. (See `intrinsics.unaligned_load`.)
 ```odin
 struct #packed {x: u8, y: i32, z: u16, w: u8}
 ```
@@ -3017,7 +3020,7 @@ struct #raw_union {u: u32, i: i32, f: f32}
 ```
 
 * **#align**
-This tag can be applied to a struct or union. This tag in form `#align N` specifies the struct's alignment to N bytes. Its fields will remain in source-order.
+This tag can be applied to a `struct` or `union`. When `#align` is passed an integer `N` (as in `#align N`), it specifies that the `struct` will be aligned to `N` bytes. The `struct`'s fields will remain in source-order.
 ```odin
 Foo :: struct #align 4 {
     b: bool,
@@ -3050,7 +3053,7 @@ Possible states of B:
 
 * **#partial**
 
-By default all `case`s of an `enum` or union have to be covered in a `switch` statement. The `#partial` tag allows to use wanted `case`s:
+By default all `case`s of an `enum` or union have to be covered in a `switch` statement. The reason for this requirement is because it makes accidental bugs less likely. However, the `#partial` tag allows you to not have to write out `case`s that you don't need to handle:
 ```odin
 Foo :: enum {
     A,
@@ -3175,15 +3178,15 @@ proc_without_bounds_check :: proc() #no_bounds_check {
 #### Built-in Procedures
 
 * **#assert(\<boolean\>)**
-Assert ran at compile time.
+Unlike `assert`, `#assert` runs at compile-time. `#assert` breaks compilation if the given bool expression is false, and thus `#assert` is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.
 ```odin
 #assert(SOME_CONST_CONDITION)
 ```
 
 * **#panic(\<string\>)**
-Panic ran at compile time. Equivalent to an `#assert` with a `false` condition.
+Panic runs at compile-time. It is functionally equivalent to an `#assert` with a `false` condition, but `#panic` has an error message string parameter.
 ```odin
-#panic(SOME_message_CONDITION)
+#panic(message)
 ```
 
 * **#config(\<identifer\>, default)**
@@ -3206,7 +3209,7 @@ when #defined(nonexistent_proc) == false { fmt.println("proc was not defined") }
 Return the current file path, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
 
 * **#location()** or **#location(<\entity\>)**
-Returns a `runtime.Source_Code_Location` (see `core/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration
+Returns a `runtime.Source_Code_Location` (see `core/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
 ```odin
 foo :: proc() {}
 
@@ -3218,22 +3221,26 @@ main :: proc() {
 }
 ```
 
-* **#load(\<string\>)**
-Returns a `[]u8` of file contents at compile time
+* **#load(\<string-path\>)** or **#load(\<string-path\>, \<type\>)**
+Returns a `[]u8` of file contents at compile time, or optionally as another type.
 ```odin
 foo := #load("path/to/file")
-fmt.println(string(foo))
+bar := #load("path/to/file", string)
+fmt.println(bar)
+
+If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
+baz := #load("path/to/file", []f32)
 ```
 
-* **#load_or(\<string\>, default)**
-Returns a `[]u8` of file contents at compile time, otherwhise default content when the file wasn't found
+* **#load_or(\<string-path\>, default)**
+Returns a `[]u8` of file contents at compile time, otherwise default content when the file wasn't found.
 ```odin
 foo := #load_or("path/to/file", []u8 { 104, 105 })
 fmt.println(string(foo))
 ```
 
 * **#load_hash(\<string-path\>, \<string-hash\>)**
-Returns a constant integer of the hash of file contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
+Returns a constant integer of the hash of a file's contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
 
 ```odin
 hash :: #load_hash("path/to/file", "crc32")
@@ -3242,7 +3249,7 @@ hash :: #load_hash("path/to/file", "crc32")
 
 ### Advanced idioms
 
-Subtype polymorphism with runtime type safe down casting:
+Subtype polymorphism with run-time type-safe down-casting:
 ```odin
 Entity :: struct {
 	id:   u64,

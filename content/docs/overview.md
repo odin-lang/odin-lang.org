@@ -2921,7 +2921,7 @@ foo :: proc() {
 
 * **@(require_results)**
 
-Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
+Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called, the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
 ```odin
 @(require_results)
 foo :: proc() -> bool {
@@ -3221,15 +3221,19 @@ main :: proc() {
 }
 ```
 
-* **#load(\<string\>)**
-Returns a `[]u8` of file contents at compile time.
+* **#load(\<string-path\>)** or **#load(\<string-path\>, \<type\>)**
+Returns a `[]u8` of file contents at compile time, or optionally as another type.
 ```odin
 foo := #load("path/to/file")
-fmt.println(string(foo))
+bar := #load("path/to/file", string)
+fmt.println(bar)
+
+If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
+baz := #load("path/to/file", []f32)
 ```
 
-* **#load_or(\<string\>, default)**
-Returns a `[]u8` of file contents at compile time, otherwhise default content when the file wasn't found.
+* **#load_or(\<string-path\>, default)**
+Returns a `[]u8` of file contents at compile time, otherwise default content when the file wasn't found.
 ```odin
 foo := #load_or("path/to/file", []u8 { 104, 105 })
 fmt.println(string(foo))

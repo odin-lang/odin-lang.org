@@ -3205,10 +3205,12 @@ if #defined(int) { fmt.println("true") }
 when #defined(nonexistent_proc) == false { fmt.println("proc was not defined") }
 ```
 
-* **#file #line #procedure**
+* **#file**, **#line**, **#procedure**
+
 Return the current file path, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
 
 * **#location()** or **#location(<\entity\>)**
+
 Returns a `runtime.Source_Code_Location` (see `core/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
 ```odin
 foo :: proc() {}
@@ -3222,6 +3224,7 @@ main :: proc() {
 ```
 
 * **#load(\<string-path\>)** or **#load(\<string-path\>, \<type\>)**
+
 Returns a `[]u8` of file contents at compile time, or optionally as another type.
 ```odin
 foo := #load("path/to/file")
@@ -3233,6 +3236,7 @@ baz := #load("path/to/file", []f32)
 ```
 
 * **#load_or(\<string-path\>, default)**
+
 Returns a `[]u8` of file contents at compile time, otherwise default content when the file wasn't found.
 ```odin
 foo := #load_or("path/to/file", []u8 { 104, 105 })
@@ -3240,6 +3244,7 @@ fmt.println(string(foo))
 ```
 
 * **#load_hash(\<string-path\>, \<string-hash\>)**
+
 Returns a constant integer of the hash of a file's contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
 
 ```odin

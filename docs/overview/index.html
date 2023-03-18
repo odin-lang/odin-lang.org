@@ -1846,8 +1846,8 @@ link_prefix=&lt;string&gt;
 <p>Parametric polymorphism, commonly referred to as &ldquo;generics&rdquo;, allow the user to create a procedure or data that can be written <em>generically</em> so it can handle values in the same manner.</p>
 <p><strong>Note:</strong> Within the Odin code base and documentation, the nickname &ldquo;parapoly&rdquo; is usually used.</p>
 <h3 id=explicit-parametric-polymorphism>Explicit parametric polymorphism <a class=text-decoration-none href=#explicit-parametric-polymorphism>#</a></h3>
-<p>Explicit parametric polymorphism means that the types of the parameters must be explicitly provided.</p>
-<h4 id=procedures-1>Procedures <a class=text-decoration-none href=#procedures-1>#</a></h4>
+<p>Explicit parametric polymorphism means that the types of the parameters of a <code>proc</code> or of the data fields of a <code>struct</code> (when intended to potentially be used with multiple possible types) must be explicitly provided. This is similar to how C++ allows the use of <code>template</code>s to fill out the body of a procedure or data structure with the types that are given at compile-time as input to the <code>template</code> parameters, but in Odin explicit parametric polymorphism is safer and cleaner to work with.</p>
+<h4 id=procedures-using-explicit-parametric-polymorphism-parapoly>Procedures using explicit parametric polymorphism (parapoly) <a class=text-decoration-none href=#procedures-using-explicit-parametric-polymorphism-parapoly>#</a></h4>
 <p>As a reminder, all parameters passed into a function are immutable in the sense that they can&rsquo;t have their value changed using <code>=</code> directly. A useful idiom is <code>var := var</code>, which expresses a variable shadowing itself. When used at the top of a procedure the compiler understands the use case of enabling local modification of the otherwise immutable parameter variable, and won&rsquo;t complain about the shadowing when you compile with <code>-vet</code>.</p>
 <pre><code class=language-odin data-lang=odin>sin_tau :: proc(angle_in_cycles: f64) -&gt; f64 {
     angle_in_cycles := angle_in_cycles   // Allows `angle_in_cycles` to have its value changed
@@ -1858,7 +1858,7 @@ link_prefix=&lt;string&gt;
 }
 assert(math.abs(sin_tau(0.25) - 1) &lt;= 0.001)   // sin_tau(0.25) is approximately 1
 assert(math.abs(sin_tau(0.75) - -1) &lt;= 0.001)  // sin_tau(0.75) is approximately -1
-</code></pre><p>However, to specify that a parameter must be a <strong>compile-time</strong> constant, which is not the same thing as an immutable parameter, and may sometimes be necessary or desirable, the parameter&rsquo;s name must be prefixed with a dollar sign <code>$</code>. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:</p>
+</code></pre><p>However, to specify that a parameter must be a <strong>compile-time</strong> constant, which is not the same thing as an immutable parameter, and may sometimes be necessary (e.g. for parapoly) or desirable (e.g. to enforce compile-time computation), the parameter&rsquo;s name must be prefixed with a dollar sign <code>$</code>. The following example takes two compile-time constant parameters and then uses them to initialize an array of known length:</p>
 <pre><code class=language-odin data-lang=odin>make_f32_array :: #force_inline proc($N: int, $val: f32) -&gt; (res: [N]f32) {
 	for _, i in res {
 		res[i] = val*val
@@ -1873,9 +1873,9 @@ array := make_f32_array(3, 2)
 }
 
 ptr := my_new(int)
-</code></pre><h4 id=data-types>Data types <a class=text-decoration-none href=#data-types>#</a></h4>
-<p>Structures and unions may have polymorphic parameters. The <code>$</code> prefix is optional for record data types as all parameters must be &ldquo;constant&rdquo;.
-Parapoly struct:</p>
+</code></pre><h4 id=data-types-using-explicit-parametric-polymorphism-parapoly>Data types using explicit parametric polymorphism (parapoly) <a class=text-decoration-none href=#data-types-using-explicit-parametric-polymorphism-parapoly>#</a></h4>
+<p>Structures and unions may have polymorphic parameters and the syntax for doing so is similar to procedure call syntax.
+<strong>Parapoly struct:</strong></p>
 <pre><code class=language-odin data-lang=odin>Table_Slot :: struct($Key, $Value: typeid) {
 	occupied: bool,
 	hash:    u32,
@@ -1883,16 +1883,17 @@ Parapoly struct:</p>
 	value:   Value,
 }
 slot: Table_Slot(string, int)
-</code></pre><p>Parapoly union:</p>
+</code></pre><p><strong>Parapoly union:</strong></p>
 <pre><code class=language-odin data-lang=odin>Error :: enum {Foo0, Foo1, Foo2}
 Param_Union :: union($T: typeid) #no_nil {T, Error}
 r: Param_Union(int)
 r = 123
 r = Error.Foo0
-</code></pre><h3 id=implicit-parametric-polymorphism>Implicit parametric polymorphism <a class=text-decoration-none href=#implicit-parametric-polymorphism>#</a></h3>
+</code></pre><p>The <code>$</code> prefix is optional for record data types as all parameters must be &ldquo;constant&rdquo;.</p>
+<h3 id=implicit-parametric-polymorphism>Implicit parametric polymorphism <a class=text-decoration-none href=#implicit-parametric-polymorphism>#</a></h3>
 <p>Implicit implies that the type of a parameter is inferred from its input. In this case, the dollar sign <code>$</code> can be placed on the type.</p>
 <p><strong>Note:</strong> Within the Odin code base and documentation, the name &ldquo;polymorphic name&rdquo; is usually used.</p>
-<h4 id=procedures-2>Procedures <a class=text-decoration-none href=#procedures-2>#</a></h4>
+<h4 id=procedures-using-implicit-parametric-polymorphism-parapoly>Procedures using implicit parametric polymorphism (parapoly) <a class=text-decoration-none href=#procedures-using-implicit-parametric-polymorphism-parapoly>#</a></h4>
 <pre><code class=language-odin data-lang=odin>foo :: proc($N: $I, $T: typeid) -&gt; (res: [N]T) {
 	// `N` is the constant value passed
 	// `I` is the type of N
@@ -2018,9 +2019,9 @@ f: Foo(T, N)
 <pre><code class=language-odin data-lang=odin>x-&gt;y(123)
 // is equivalent to
 x.y(x, 123)
-</code></pre><p>As the <code>-></code> operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through <code>using</code> will work still as expected allow for the emulation of type hierarchies.</p>
+</code></pre><p>As the <code>-></code> operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through <code>using</code> will still work as expected to allow for the emulation of type hierarchies.</p>
 <h2 id=useful-idioms>Useful idioms <a class=text-decoration-none href=#useful-idioms>#</a></h2>
-<p>The following are useful idioms which are emergent from the semantics on the language.</p>
+<p>The following are useful idioms which are emergent from the semantics of the language.</p>
 <h3 id=basic-idioms>Basic idioms <a class=text-decoration-none href=#basic-idioms>#</a></h3>
 <h4 id=ternary-operator>Ternary operator <a class=text-decoration-none href=#ternary-operator>#</a></h4>
 <p>The following two snippets are identical:</p>
@@ -2098,7 +2099,7 @@ my_variable: int; // cannot be accessed outside this file.
 <p>Using <code>//+private</code> in a file at the package declaration will automatically add <code>@(private)</code> to everything in the file</p>
 <pre><code class=language-odin data-lang=odin>//+private
 package foo
-</code></pre><p>And <code>//+private file</code> will be equivalent to automatically adding <code>@(private="file")</code> to each declaration. This means that the remove the private-to-file association, you must apply a private-to-package attribute <code>@(private)</code> to the declaration.</p>
+</code></pre><p>And <code>//+private file</code> will be equivalent to automatically adding <code>@(private="file")</code> to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute <code>@(private)</code> to the declaration.</p>
 <ul>
 <li><strong>@(require)</strong></li>
 </ul>
@@ -2116,7 +2117,7 @@ Example:</p>
 </code></pre><ul>
 <li><strong>@(link_prefix=&lt;string>)</strong></li>
 </ul>
-<p>This attribute can be attached to a <code>foreign</code> block to specify a prefix to all names. So if functions are prefixed with <code>ltb_</code> in the library is you can attach this and not specify that on the procedure on the odin side. Example:</p>
+<p>This attribute can be attached to a <code>foreign</code> block to specify a prefix to all names. So if functions are prefixed with <code>ltb_</code> in the library is you can attach this and not specify that on the procedure on the Odin side. Example:</p>
 <pre><code class=language-odin data-lang=odin>@(link_prefix = &quot;ltb_&quot;)
 foreign foo {
     testbar :: proc(baz: int) --- // This now refers to ltb_testbar
@@ -2182,7 +2183,7 @@ foo :: proc() {
 </code></pre><ul>
 <li><strong>@(require_results)</strong></li>
 </ul>
-<p>Ensures procedure return values are acknowledged.</p>
+<p>Ensures procedure return values are acknowledged, meaning that in any scope where a procedure <code>p</code> having procedure attribute <code>@(require_results)</code> is called, the scope must explicitly handle the return values of procedure <code>p</code> in some way, such as by storing the return values of <code>p</code> in variables or explicitly dropping the values by setting <code>_</code> equal them.</p>
 <pre><code class=language-odin data-lang=odin>@(require_results)
 foo :: proc() -&gt; bool {
     return true
@@ -2203,7 +2204,7 @@ main :: proc() {
 <ul>
 <li><strong>@(init)</strong></li>
 </ul>
-<p>Applied to a procedure with not input parameters nor return values and will be called at the start of the program before <code>main</code> is called. The order of initialization is deterministically with a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.</p>
+<p>This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by <code>@(init)</code> will then be called at the start of the program before <code>main</code> is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.</p>
 <ul>
 <li><strong>@(cold)</strong></li>
 </ul>
@@ -2212,8 +2213,8 @@ main :: proc() {
 <ul>
 <li><strong>@(static)</strong></li>
 </ul>
-<p>Can be applied to a variable to have it keep its' state even when going out of scope.
-Same as a static local variable in C.</p>
+<p>This attribute can be applied to a variable to have it keep its state even when going out of scope.
+This is the same behavior as a <code>static</code> local variable in C.</p>
 <pre><code class=language-odin data-lang=odin>test :: proc() -&gt; int {
     @(static) foo := 0
     foo += 1
@@ -2253,14 +2254,14 @@ Marks builtin procs in Odin&rsquo;s &ldquo;core:runtime&rdquo; package. Cannot b
 </li>
 </ul>
 <h3 id=directives>Directives <a class=text-decoration-none href=#directives>#</a></h3>
-<p>Directives a way of extending the core behaviour of the Odin programming language; have the form <code>#name</code>.</p>
+<p>Directives are a way of extending the core behaviour of the Odin programming language. They have the form <code>#directive_name</code>.</p>
 <h4 id=record-memory-layout>Record Memory Layout <a class=text-decoration-none href=#record-memory-layout>#</a></h4>
 <ul>
 <li><strong>#packed</strong></li>
 </ul>
 <p>This tag can be applied to a struct. Removes padding between fields that&rsquo;s normally inserted to ensure all fields meet their type&rsquo;s alignment requirements. Fields remain in source order.</p>
-<p>This is useful where the structure is unlikely to be correctly aligned (the insertion rules for padding assume it <strong><em>is</em></strong>), or if the space-savings are more important or useful than the access speed of the fields.<br>
-Accessing a field in packed struct may require copying the field out of the struct into a temporary location, or using a machine instruction that doesn&rsquo;t assume the pointer address is correctly aligned, in order to be performant or avoid crashing on some systems. (See <code>intrinsics.unaligned_load</code>.)</p>
+<p>This is useful where the structure is unlikely to be correctly aligned (the insertion rules for padding assume it <strong><em>is</em></strong>), or if the space-savings are more important or useful than the access speed of the fields.</p>
+<p>Accessing a field in a packed struct may require copying the field out of the struct into a temporary location, or using a machine instruction that doesn&rsquo;t assume the pointer address is correctly aligned, in order to be performant or avoid crashing on some systems. (See <code>intrinsics.unaligned_load</code>.)</p>
 <pre><code class=language-odin data-lang=odin>struct #packed {x: u8, y: i32, z: u16, w: u8}
 </code></pre><ul>
 <li><strong>#raw_union</strong></li>
@@ -2269,7 +2270,7 @@ Accessing a field in packed struct may require copying the field out of the stru
 <pre><code class=language-odin data-lang=odin>struct #raw_union {u: u32, i: i32, f: f32}
 </code></pre><ul>
 <li><strong>#align</strong>
-This tag can be applied to a struct or union. This tag in form <code>#align N</code> specifies the struct&rsquo;s alignment to N bytes. Its fields will remain in source-order.</li>
+This tag can be applied to a <code>struct</code> or <code>union</code>. When <code>#align</code> is passed an integer <code>N</code> (as in <code>#align N</code>), it specifies that the <code>struct</code> will be aligned to <code>N</code> bytes. The <code>struct</code>&rsquo;s fields will remain in source-order.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>Foo :: struct #align 4 {
     b: bool,
@@ -2296,7 +2297,7 @@ Possible states of B:
 <ul>
 <li><strong>#partial</strong></li>
 </ul>
-<p>By default all <code>case</code>s of an <code>enum</code> or union have to be covered in a <code>switch</code> statement. The <code>#partial</code> tag allows to use wanted <code>case</code>s:</p>
+<p>By default all <code>case</code>s of an <code>enum</code> or union have to be covered in a <code>switch</code> statement. The reason for this requirement is because it makes accidental bugs less likely. However, the <code>#partial</code> tag allows you to not have to write out <code>case</code>s that you don&rsquo;t need to handle:</p>
 <pre><code class=language-odin data-lang=odin>Foo :: enum {
     A,
     B,
@@ -2395,14 +2396,14 @@ bar :: struct {
 </code></pre><h4 id=built-in-procedures>Built-in Procedures <a class=text-decoration-none href=#built-in-procedures>#</a></h4>
 <ul>
 <li><strong>#assert(&lt;boolean>)</strong>
-Assert ran at compile time.</li>
+Unlike <code>assert</code>, <code>#assert</code> runs at compile-time. <code>#assert</code> breaks compilation if the given bool expression is false, and thus <code>#assert</code> is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>#assert(SOME_CONST_CONDITION)
 </code></pre><ul>
 <li><strong>#panic(&lt;string>)</strong>
-Panic ran at compile time. Equivalent to an <code>#assert</code> with a <code>false</code> condition.</li>
+Panic runs at compile-time. It is functionally equivalent to an <code>#assert</code> with a <code>false</code> condition, but <code>#panic</code> has an error message string parameter.</li>
 </ul>
-<pre><code class=language-odin data-lang=odin>#panic(SOME_message_CONDITION)
+<pre><code class=language-odin data-lang=odin>#panic(message)
 </code></pre><ul>
 <li><strong>#config(&lt;identifer>, default)</strong></li>
 </ul>
@@ -2423,7 +2424,7 @@ Return the current file path, line number, or procedure name, respectively. Used
 </li>
 <li>
 <p><strong>#location()</strong> or <strong>#location(&lt;\entity>)</strong>
-Returns a <code>runtime.Source_Code_Location</code> (see <code>core/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration</p>
+Returns a <code>runtime.Source_Code_Location</code> (see <code>core/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.</p>
 </li>
 </ul>
 <pre><code class=language-odin data-lang=odin>foo :: proc() {}
@@ -2435,24 +2436,28 @@ main :: proc() {
     fmt.println(#location(n))
 }
 </code></pre><ul>
-<li><strong>#load(&lt;string>)</strong>
-Returns a <code>[]u8</code> of file contents at compile time</li>
+<li><strong>#load(&lt;string-path>)</strong> or <strong>#load(&lt;string-path>, &lt;type>)</strong>
+Returns a <code>[]u8</code> of file contents at compile time, or optionally as another type.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>foo := #load(&quot;path/to/file&quot;)
-fmt.println(string(foo))
+bar := #load(&quot;path/to/file&quot;, string)
+fmt.println(bar)
+
+If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
+baz := #load(&quot;path/to/file&quot;, []f32)
 </code></pre><ul>
-<li><strong>#load_or(&lt;string>, default)</strong>
-Returns a <code>[]u8</code> of file contents at compile time, otherwhise default content when the file wasn&rsquo;t found</li>
+<li><strong>#load_or(&lt;string-path>, default)</strong>
+Returns a <code>[]u8</code> of file contents at compile time, otherwise default content when the file wasn&rsquo;t found.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>foo := #load_or(&quot;path/to/file&quot;, []u8 { 104, 105 })
 fmt.println(string(foo))
 </code></pre><ul>
 <li><strong>#load_hash(&lt;string-path>, &lt;string-hash>)</strong>
-Returns a constant integer of the hash of file contents at compile time. Available hashes: <code>"adler32"</code>, <code>"crc32"</code>, <code>"crc64"</code>, <code>"fnv32"</code>, <code>"fnv64"</code>, <code>"fnv32a"</code>, <code>"fnv64a"</code>, <code>"murmur32"</code>, or <code>"murmur64"</code>.</li>
+Returns a constant integer of the hash of a file&rsquo;s contents at compile time. Available hashes: <code>"adler32"</code>, <code>"crc32"</code>, <code>"crc64"</code>, <code>"fnv32"</code>, <code>"fnv64"</code>, <code>"fnv32a"</code>, <code>"fnv64a"</code>, <code>"murmur32"</code>, or <code>"murmur64"</code>.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>hash :: #load_hash(&quot;path/to/file&quot;, &quot;crc32&quot;)
 </code></pre><h3 id=advanced-idioms>Advanced idioms <a class=text-decoration-none href=#advanced-idioms>#</a></h3>
-<p>Subtype polymorphism with runtime type safe down casting:</p>
+<p>Subtype polymorphism with run-time type-safe down-casting:</p>
 <pre><code class=language-odin data-lang=odin>Entity :: struct {
 	id:   u64,
 	name: string,

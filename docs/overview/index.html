@@ -2418,15 +2418,13 @@ when #defined(n) { fmt.println(&quot;true&quot;) }
 if #defined(int) { fmt.println(&quot;true&quot;) }
 when #defined(nonexistent_proc) == false { fmt.println(&quot;proc was not defined&quot;) }
 </code></pre><ul>
-<li>
-<p><strong>#file #line #procedure</strong>
-Return the current file path, line number, or procedure name, respectively. Used like a constant value. <code>file_name :: #file</code></p>
-</li>
-<li>
-<p><strong>#location()</strong> or <strong>#location(&lt;\entity>)</strong>
-Returns a <code>runtime.Source_Code_Location</code> (see <code>core/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.</p>
-</li>
+<li><strong>#file</strong>, <strong>#line</strong>, <strong>#procedure</strong></li>
 </ul>
+<p>Return the current file path, line number, or procedure name, respectively. Used like a constant value. <code>file_name :: #file</code></p>
+<ul>
+<li><strong>#location()</strong> or <strong>#location(&lt;\entity>)</strong></li>
+</ul>
+<p>Returns a <code>runtime.Source_Code_Location</code> (see <code>core/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc() {}
 
 main :: proc() {
@@ -2436,9 +2434,9 @@ main :: proc() {
     fmt.println(#location(n))
 }
 </code></pre><ul>
-<li><strong>#load(&lt;string-path>)</strong> or <strong>#load(&lt;string-path>, &lt;type>)</strong>
-Returns a <code>[]u8</code> of file contents at compile time, or optionally as another type.</li>
+<li><strong>#load(&lt;string-path>)</strong> or <strong>#load(&lt;string-path>, &lt;type>)</strong></li>
 </ul>
+<p>Returns a <code>[]u8</code> of file contents at compile time, or optionally as another type.</p>
 <pre><code class=language-odin data-lang=odin>foo := #load(&quot;path/to/file&quot;)
 bar := #load(&quot;path/to/file&quot;, string)
 fmt.println(bar)
@@ -2446,15 +2444,15 @@ fmt.println(bar)
 If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
 baz := #load(&quot;path/to/file&quot;, []f32)
 </code></pre><ul>
-<li><strong>#load_or(&lt;string-path>, default)</strong>
-Returns a <code>[]u8</code> of file contents at compile time, otherwise default content when the file wasn&rsquo;t found.</li>
+<li><strong>#load_or(&lt;string-path>, default)</strong></li>
 </ul>
+<p>Returns a <code>[]u8</code> of file contents at compile time, otherwise default content when the file wasn&rsquo;t found.</p>
 <pre><code class=language-odin data-lang=odin>foo := #load_or(&quot;path/to/file&quot;, []u8 { 104, 105 })
 fmt.println(string(foo))
 </code></pre><ul>
-<li><strong>#load_hash(&lt;string-path>, &lt;string-hash>)</strong>
-Returns a constant integer of the hash of a file&rsquo;s contents at compile time. Available hashes: <code>"adler32"</code>, <code>"crc32"</code>, <code>"crc64"</code>, <code>"fnv32"</code>, <code>"fnv64"</code>, <code>"fnv32a"</code>, <code>"fnv64a"</code>, <code>"murmur32"</code>, or <code>"murmur64"</code>.</li>
+<li><strong>#load_hash(&lt;string-path>, &lt;string-hash>)</strong></li>
 </ul>
+<p>Returns a constant integer of the hash of a file&rsquo;s contents at compile time. Available hashes: <code>"adler32"</code>, <code>"crc32"</code>, <code>"crc64"</code>, <code>"fnv32"</code>, <code>"fnv64"</code>, <code>"fnv32a"</code>, <code>"fnv64a"</code>, <code>"murmur32"</code>, or <code>"murmur64"</code>.</p>
 <pre><code class=language-odin data-lang=odin>hash :: #load_hash(&quot;path/to/file&quot;, &quot;crc32&quot;)
 </code></pre><h3 id=advanced-idioms>Advanced idioms <a class=text-decoration-none href=#advanced-idioms>#</a></h3>
 <p>Subtype polymorphism with run-time type-safe down-casting:</p>

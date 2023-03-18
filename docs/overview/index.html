@@ -2395,14 +2395,14 @@ bar :: struct {
 }
 </code></pre><h4 id=built-in-procedures>Built-in Procedures <a class=text-decoration-none href=#built-in-procedures>#</a></h4>
 <ul>
-<li><strong>#assert(&lt;boolean>)</strong>
-Unlike <code>assert</code>, <code>#assert</code> runs at compile-time. <code>#assert</code> breaks compilation if the given bool expression is false, and thus <code>#assert</code> is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.</li>
+<li><strong>#assert(&lt;boolean>)</strong></li>
 </ul>
+<p>Unlike <code>assert</code>, <code>#assert</code> runs at compile-time. <code>#assert</code> breaks compilation if the given bool expression is false, and thus <code>#assert</code> is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.</p>
 <pre><code class=language-odin data-lang=odin>#assert(SOME_CONST_CONDITION)
 </code></pre><ul>
-<li><strong>#panic(&lt;string>)</strong>
-Panic runs at compile-time. It is functionally equivalent to an <code>#assert</code> with a <code>false</code> condition, but <code>#panic</code> has an error message string parameter.</li>
+<li><strong>#panic(&lt;string>)</strong></li>
 </ul>
+<p>Panic runs at compile-time. It is functionally equivalent to an <code>#assert</code> with a <code>false</code> condition, but <code>#panic</code> has an error message string parameter.</p>
 <pre><code class=language-odin data-lang=odin>#panic(message)
 </code></pre><ul>
 <li><strong>#config(&lt;identifer>, default)</strong></li>
@@ -2410,9 +2410,9 @@ Panic runs at compile-time. It is functionally equivalent to an <code>#assert</c
 <p>Checks if an identifier is defined through the command line, or gives a default value instead.</p>
 <p>Values can be set with the <code>-define:NAME=VALUE</code> command line flag.</p>
 <ul>
-<li><strong>#defined</strong>
-Checks if an identifier is defined. This may only be used within a procedure&rsquo;s body.</li>
+<li><strong>#defined</strong></li>
 </ul>
+<p>Checks if an identifier is defined. This may only be used within a procedure&rsquo;s body.</p>
 <pre><code class=language-odin data-lang=odin>n: int
 when #defined(n) { fmt.println(&quot;true&quot;) }
 if #defined(int) { fmt.println(&quot;true&quot;) }

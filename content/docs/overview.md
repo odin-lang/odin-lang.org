@@ -3178,12 +3178,14 @@ proc_without_bounds_check :: proc() #no_bounds_check {
 #### Built-in Procedures
 
 * **#assert(\<boolean\>)**
+
 Unlike `assert`, `#assert` runs at compile-time. `#assert` breaks compilation if the given bool expression is false, and thus `#assert` is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.
 ```odin
 #assert(SOME_CONST_CONDITION)
 ```
 
 * **#panic(\<string\>)**
+
 Panic runs at compile-time. It is functionally equivalent to an `#assert` with a `false` condition, but `#panic` has an error message string parameter.
 ```odin
 #panic(message)
@@ -3196,6 +3198,7 @@ Checks if an identifier is defined through the command line, or gives a default 
 Values can be set with the `-define:NAME=VALUE` command line flag.
 
 * **#defined**
+
 Checks if an identifier is defined. This may only be used within a procedure's body.
 
 ```odin

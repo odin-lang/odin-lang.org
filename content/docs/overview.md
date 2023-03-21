@@ -3294,3 +3294,30 @@ Some of this information includes:
 - [Built in Procedures](https://github.com/odin-lang/Odin/wiki/Built-in-Procedures)
 - [Keywords and Operators](https://github.com/odin-lang/Odin/wiki/Keywords-and-Operators)
 - ...and more
+
+## What to do if you get stuck
+
+If you are unable to find the information you need on this overview page, the [FAQ](https://odin-lang.org/docs/faq/), the [wiki](https://github.com/odin-lang/Odin/wiki), or the [package documentation](https://pkg.odin-lang.org/), then you will likely find it very helpful to explore your Odin source code directory, especially the files contained in the following five subdirectories: `examples\demo`, `tests`, `core`, `vendor`, and `misc\old_demos`.  
+
+The following list describes why each of these may be useful:
+
+- The `examples\demo\demo.odin` file contains ~2500 lines of Odin code that demonstrate many of Odin's language features and provide commentary on some of them. This file contains many examples that cannot be found anywhere in the Overview nor in the other documentation.
+- The `tests` folder provides unit tests for many of Odin's features and libraries, whereby reading these files you can gain a more nuanced view of exactly how things are intended or expected to behave. Tests are essentially automatically verified documentation. Tests often cover details that normal documentation doesn't even mention. Tests are also guaranteed to be up-to-date (if regularly run), unlike more informal documenation.
+- The `core` and `vendor` folders contain the bindings and implementation code for Odin's standard library and various multimedia libraries respectively. **Even if you don't understand the implementation of something, reading the code can still greatly improve your chances of guessing what exactly it really does.** Odin is a straightforward and legible language with relatively little magic compared to other modern languages. Reading source code can enable you to work around missing documentation much more effectively. This is a very useful thing to keep in mind for working with any under-development language or library effectively.
+- `misc\old_demos` may contain examples that are different from the main up-to-date `demo.odin` file contained in `examples\demo`. This may provide additional context for Odin's design and features. The other resources are probably better though.
+
+Try doing a text search in one or more of these subdirectories for what you are looking for. Make sure the search is a proper full text search too, such as what `grep` (a popular 3rd party file search program) provides. Be careful that you specify your search correctly, especially if you use *regex*. Some default searches on some operating systems may miss content that exists in some files by not searching the actual file contents completely or at all, which can be misleading.
+
+Odin's documentation may be sparse at times, but this sparsity can be worked around effectively by using the above listed resources. *Don't forget they exist.*
+
+When working with any system that is still under-development these kinds of techniques are essential for maximizing your effectiveness. Many (perhaps most) real world companies, especially in intense industries such as game development and multimedia often don't have complete documentation and changes can happen rapidly. 
+
+Self-sufficiency in such a context requires a willlingness to explore these kinds of resources proactively, rather than waiting for documentation that may be slow to come or may not fully cover what things actually do precisely enough.
+
+Don't be afraid to simply experiment and try to deduce what something is really doing or what features may exist. You may be surprised how much you can still accomplish with just a little bit of patience and thoughtfulness!
+
+You can also make your experience navigating Odin code easier by installing a syntax highlighter and a language server, which do exist for some editors (e.g. VS Code and Vim) and work well enough to make using Odin comfortable.
+
+Finally, you can ask for information from [the Odin community on Discord](https://discord.com/invite/sVBPHEv) or elsewhere.
+
+Good luck and have fun!

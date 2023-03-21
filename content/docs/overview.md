@@ -3297,7 +3297,7 @@ Some of this information includes:
 
 ## What to do if you get stuck
 
-If you are unable to find the information you need on this overview page, the [FAQ](https://odin-lang.org/docs/faq/), the [wiki](https://github.com/odin-lang/Odin/wiki), or the [package documentation](https://pkg.odin-lang.org/), then you will likely find it very helpful to explore your Odin source code directory, especially the files contained in the following five subdirectories: `examples\demo`, `tests`, `core`, `vendor`, and `misc\old_demos`.  
+If you are unable to find the information you need on this overview page, the [FAQ](https://odin-lang.org/docs/faq/), the [wiki](https://github.com/odin-lang/Odin/wiki), the [example repository](https://github.com/odin-lang/examples) (which contains demos for using the vendor libs, e.g. [Tetris in raylib](https://github.com/odin-lang/examples/blob/master/raylib/tetroid/raylib_tetroid.odin)), or the [package documentation](https://pkg.odin-lang.org/), then you will likely find it very helpful to explore your Odin source code directory, especially the files contained in the following five subdirectories: `examples\demo`, `tests`, `core`, `vendor`, and `misc\old_demos`.  
 
 The following list describes why each of these may be useful:
 
@@ -3316,8 +3316,14 @@ Self-sufficiency in such a context requires a willlingness to explore these kind
 
 Don't be afraid to simply experiment and try to deduce what something is really doing or what features may exist. You may be surprised how much you can still accomplish with just a little bit of patience and thoughtfulness!
 
-You can also make your experience navigating Odin code easier by installing a syntax highlighter and a language server, which do exist for some editors (e.g. VS Code and Vim) and work well enough to make using Odin comfortable.
+Furthermore, even if Odin doesn't yet have a feature or library that you need, the fact that Odin has bindings to C's standard library (which are available in [the libc package](https://pkg.odin-lang.org/core/c/libc/) via `import "core:c/libc"`) means that any algorithms, example code, documentation, or books originally written for C can also be used to accomplish what you need in Odin. You can then optionally write Odin wrappers around that code to bridge the idiomatic gap better or else just use the C-like code directly. You can also bind to code from any libraries or languages that `foreign` can bind to (see [the foreign section](https://odin-lang.org/docs/overview/#foreign-system) for more info).
 
-Finally, you can ask for information from [the Odin community on Discord](https://discord.com/invite/sVBPHEv) or elsewhere.
+Thus, when necessity calls for it, **the entire literature and community of C is still (in effect) available to you in Odin as well**. So, any time you are tempted to think "I can't implement this in Odin yet because there's not enough documentation" remind yourself that all (or almost all) of C is still available to you, but through a cleaner namespaced interface. Odin is also similar to C anyway, so direct translations of C to Odin (without even using the `libc` bindings) may still be relatively easy. In effect, any tutorial or book on C can also be thought of as an Odin resource too in that sense!
+
+You can also make your experience navigating Odin code easier by installing a [syntax highlighter](https://en.wikipedia.org/wiki/Syntax_highlighting) and/or a [language server](https://en.wikipedia.org/wiki/Language_Server_Protocol), which do exist for some editors (e.g. VS Code, Vim, Sublime Text, and Emacs) and work well enough to make using Odin comfortable. See [the list of text editors that have support for Odin code](https://github.com/odin-lang/Odin/wiki/Odin-Libs#editor-support) for known examples.
+
+Finally, you can ask for information from [the Odin community on Discord](https://discord.com/invite/sVBPHEv) or elsewhere. There is also [an old Handmade Network forum](https://odin.handmade.network/forums) that is no longer in use and doesn't have many threads, but may still have a small amount of useful info on it.
+
+There's a collection of other [libraries created by the Odin community](https://github.com/odin-lang/Odin/wiki/Odin-Libs) that may also be helpful.
 
 Good luck and have fun!

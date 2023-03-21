@@ -2490,6 +2490,23 @@ Some of this information includes:</p>
 <li><a href=https://github.com/odin-lang/Odin/wiki/Keywords-and-Operators>Keywords and Operators</a></li>
 <li>&mldr;and more</li>
 </ul>
+<h2 id=what-to-do-if-you-get-stuck>What to do if you get stuck <a class=text-decoration-none href=#what-to-do-if-you-get-stuck>#</a></h2>
+<p>If you are unable to find the information you need on this overview page, the <a href=https://odin-lang.org/docs/faq/>FAQ</a>, the <a href=https://github.com/odin-lang/Odin/wiki>wiki</a>, or the <a href=https://pkg.odin-lang.org/>package documentation</a>, then you will likely find it very helpful to explore your Odin source code directory, especially the files contained in the following five subdirectories: <code>examples\demo</code>, <code>tests</code>, <code>core</code>, <code>vendor</code>, and <code>misc\old_demos</code>.</p>
+<p>The following list describes why each of these may be useful:</p>
+<ul>
+<li>The <code>examples\demo\demo.odin</code> file contains ~2500 lines of Odin code that demonstrate many of Odin&rsquo;s language features and provide commentary on some of them. This file contains many examples that cannot be found anywhere in the Overview nor in the other documentation.</li>
+<li>The <code>tests</code> folder provides unit tests for many of Odin&rsquo;s features and libraries, whereby reading these files you can gain a more nuanced view of exactly how things are intended or expected to behave. Tests are essentially automatically verified documentation. Tests often cover details that normal documentation doesn&rsquo;t even mention. Tests are also guaranteed to be up-to-date (if regularly run), unlike more informal documenation.</li>
+<li>The <code>core</code> and <code>vendor</code> folders contain the bindings and implementation code for Odin&rsquo;s standard library and various multimedia libraries respectively. <strong>Even if you don&rsquo;t understand the implementation of something, reading the code can still greatly improve your chances of guessing what exactly it really does.</strong> Odin is a straightforward and legible language with relatively little magic compared to other modern languages. Reading source code can enable you to work around missing documentation much more effectively. This is a very useful thing to keep in mind for working with any under-development language or library effectively.</li>
+<li><code>misc\old_demos</code> may contain examples that are different from the main up-to-date <code>demo.odin</code> file contained in <code>examples\demo</code>. This may provide additional context for Odin&rsquo;s design and features. The other resources are probably better though.</li>
+</ul>
+<p>Try doing a text search in one or more of these subdirectories for what you are looking for. Make sure the search is a proper full text search too, such as what <code>grep</code> (a popular 3rd party file search program) provides. Be careful that you specify your search correctly, especially if you use <em>regex</em>. Some default searches on some operating systems may miss content that exists in some files by not searching the actual file contents completely or at all, which can be misleading.</p>
+<p>Odin&rsquo;s documentation may be sparse at times, but this sparsity can be worked around effectively by using the above listed resources. <em>Don&rsquo;t forget they exist.</em></p>
+<p>When working with any system that is still under-development these kinds of techniques are essential for maximizing your effectiveness. Many (perhaps most) real world companies, especially in intense industries such as game development and multimedia often don&rsquo;t have complete documentation and changes can happen rapidly.</p>
+<p>Self-sufficiency in such a context requires a willlingness to explore these kinds of resources proactively, rather than waiting for documentation that may be slow to come or may not fully cover what things actually do precisely enough.</p>
+<p>Don&rsquo;t be afraid to simply experiment and try to deduce what something is really doing or what features may exist. You may be surprised how much you can still accomplish with just a little bit of patience and thoughtfulness!</p>
+<p>You can also make your experience navigating Odin code easier by installing a syntax highlighter and a language server, which do exist for some editors (e.g. VS Code and Vim) and work well enough to make using Odin comfortable.</p>
+<p>Finally, you can ask for information from <a href=https://discord.com/invite/sVBPHEv>the Odin community on Discord</a> or elsewhere.</p>
+<p>Good luck and have fun!</p>
 </div>
 </article>
 <div class="col-lg-2 odin-toc-border navbar-light">
@@ -2611,6 +2628,7 @@ Some of this information includes:</p>
 </ul>
 </li>
 <li><a href=#extra-information>Extra information</a></li>
+<li><a href=#what-to-do-if-you-get-stuck>What to do if you get stuck</a></li>
 </ul>
 </nav>
 </div>

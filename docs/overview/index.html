@@ -2481,7 +2481,30 @@ switch e in entity.variant {
 case ^Frog:
 	fmt.println(&quot;Ribbit:&quot;, e.volume)
 }
-</code></pre><h2 id=extra-information>Extra information <a class=text-decoration-none href=#extra-information>#</a></h2>
+</code></pre><h2 id=implicit-type-conversions>Implicit Type Conversions <a class=text-decoration-none href=#implicit-type-conversions>#</a></h2>
+<p>Odin is a strongly and <code>distinct</code>ly typed language by default. It has very few implicit type conversions compared to many other languages.</p>
+<ul>
+<li><code>^T</code> -> <code>rawptr</code></li>
+<li><code>[^]T</code> -> <code>rawptr</code></li>
+<li><code>[^]T</code> &lt;-> <code>^T</code></li>
+<li>All types to <code>any</code> (must be specialized/non-polymorphic)</li>
+<li>Any of its variants to the <code>union</code></li>
+<li><code>fN</code> -> <code>complex2N</code> (e.g. <code>f32</code> -> <code>complex64</code>)</li>
+<li><code>fN</code> -> <code>quaternion4N</code> (e.g. <code>f32</code> -> <code>quaternion128</code>)</li>
+<li><code>complex2N</code> -> <code>quaternion4N</code> (e.g. <code>complex64</code> -> <code>quaternion128</code>)</li>
+<li><code>T</code> -> <code>[N]T</code></li>
+<li><code>T</code> -> <code>matrix[R, C]T</code></li>
+<li><code>T</code> -> <code>#simd[N]T</code></li>
+<li><code>distinct proc</code> &lt;-> <code>proc</code> (same base types)</li>
+<li><code>distinct matrix</code> &lt;-> <code>matrix</code> (same base types)</li>
+<li>Subtypes through <code>using</code></li>
+<li>Untyped integers -> all numeric related types that can represent them without truncation</li>
+<li>Untyped floats -> all numeric related types that can represent them without truncation</li>
+<li>Untyped booleans -> all boolean related types</li>
+<li>Untyped rune -> all rune types</li>
+<li>Untyped strings -> all string types</li>
+</ul>
+<h2 id=extra-information>Extra Information <a class=text-decoration-none href=#extra-information>#</a></h2>
 <p>More details can be found on the <a href=https://github.com/odin-lang/Odin/wiki>Github wiki for Odin</a>.
 Some of this information includes:</p>
 <ul>
@@ -2630,7 +2653,8 @@ Some of this information includes:</p>
 <li><a href=#advanced-idioms>Advanced idioms</a></li>
 </ul>
 </li>
-<li><a href=#extra-information>Extra information</a></li>
+<li><a href=#implicit-type-conversions>Implicit Type Conversions</a></li>
+<li><a href=#extra-information>Extra Information</a></li>
 <li><a href=#what-to-do-if-you-get-stuck>What to do if you get stuck</a></li>
 </ul>
 </nav>

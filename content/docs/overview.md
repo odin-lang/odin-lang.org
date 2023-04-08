@@ -2706,6 +2706,496 @@ x.y(x, 123)
 As the `->` operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through `using` will still work as expected to allow for the emulation of type hierarchies.
 
 
+## Attributes
+
+Attributes modify the compilation details or behaviour of declarations.
+
+### General attributes
+
+#### `@(private)`
+
+Prevents a top level element from being exported with the package.
+```odin
+@(private)
+my_variable: int; // cannot be accessed outside this package.
+```
+
+You may also make an entity private to _the file_ instead of the package.
+```odin
+@(private="file")
+my_variable: int; // cannot be accessed outside this file.
+```
+`@(private)` is equivalent to `@(private="package")`.
+
+Using `//+private` in a file at the package declaration will automatically add `@(private)` to everything in the file
+```odin
+//+private
+package foo
+```
+
+And `//+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
+
+#### `@(require)`
+
+Requires that the declaration is added to the final compilation and not optimized out.
+
+### Linking and foreign attributes
+
+#### `@(link_name=<string>)`
+
+This attribute can be attached to variable and procedure declarations inside a `foreign` block. This specifies what the variable/proc is called in the library.
+Example:
+```odin
+foreign foo {
+    @(link_name = "bar")
+    testbar :: proc(baz: int) ---
+}
+```
+
+#### `@(link_prefix=<string>)`
+
+This attribute can be attached to a `foreign` block to specify a prefix to all names. So if functions are prefixed with `ltb_` in the library is you can attach this and not specify that on the procedure on the Odin side. Example:
+```odin
+@(link_prefix = "ltb_")
+foreign foo {
+    testbar :: proc(baz: int) --- // This now refers to ltb_testbar
+}
+```
+
+#### `@export` or `@(export=true/false)`
+
+Exports a variable or procedure symbol, useful for producing DLLs.
+
+#### `@(linkage=<string>)`
+
+Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: `"internal"`, `"strong"`, `"weak"`, and `"link_once"`.
+
+#### `@(default_calling_convention=<string>)`
+
+This attribute can be attached to a `foreign` block to specify the default calling convention for all procedures in the block. Example:
+```odin
+@(default_calling_convention = "std")
+foreign kernel32 {
+    @(link_name="LoadLibraryA") load_library_a  :: proc(c_str: ^u8) -> Hmodule ---
+}
+```
+
+#### `@(link_section=<string>)`
+
+Specify the link section for a global variable.
+
+```odin
+@(link_section=".foo")
+my_global: i32
+```
+
+#### `@(extra_linker_flags=<string>)`
+
+Provide additional linker flags to a `foreign import` declaration.
+
+```odin
+@(extra_linker_flags="/NODEFAULTLIB:libcmt")
+foreign import lib {
+    "windows/raylib.lib",
+    "system:Winmm.lib",
+    "system:Gdi32.lib",
+    "system:User32.lib",
+    "system:Shell32.lib",
+}
+```
+
+
+### Procedure attributes
+
+#### `(deferred_*=<proc>)`
+
+* `(deferred_in=<proc>)`
+* `(deferred_out=<proc>)`
+* `(deferred_in_out=<proc>)`
+* `(deferred_none=<proc>)`
+
+These attributes can be attached to a procedure `X` which will be called at the end of the calling scope for `X`s caller.
+`deferred_in` will receive the same parameters as the called proc. `deferred_out` will receive the result of the called proc. `deferred_in_out` will receive both. `deferred_none` will receive no parameters.
+```odin
+baz :: proc() {
+    fmt.println("In baz")
+}
+
+@(deferred_none=baz)
+bar :: proc() {
+    fmt.println("In bar")
+}
+
+foo :: proc() {
+    fmt.println("Entered foo")
+    bar()
+    fmt.println("Leaving foo")
+}
+// Prints:
+// Entered foo
+// In bar
+// Leaving foo
+// In baz
+```
+
+#### `@(deprecated=<string>)`
+
+Mark a procedure as deprecated. Running `odin build/run/check` will print out the message for each usage of the deprecated proc.
+```odin
+@(deprecated="'foo' deprecated, use 'bar' instead")
+foo :: proc() {
+    ...
+}
+```
+
+#### `@(require_results)`
+
+Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called, the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
+```odin
+@(require_results)
+foo :: proc() -> bool {
+    return true
+}
+
+main :: proc() {
+    foo() // won't compile
+    _ = foo() // Ok
+}
+```
+
+#### `@(warning=<string>)`
+
+Produces a warning when a procedure is called.
+
+#### `@(disabled=<boolean>)`
+
+If the provided boolean is set, the procedure will not be used when called.
+
+#### `@(init)`
+
+This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by `@(init)` will then be called at the start of the program before `main` is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
+
+#### `@(cold)`
+
+A hint to the compiler that this procedure is rarely called, and thus "cold".
+
+#### `@(optimization_mode=<string>)`
+
+Set the optimization mode of a procedure. Valid modes are `"none"`, `"minimal"`, `"size"`, and `"speed"`.
+
+```odin
+@(optimization_mode="speed")
+skip_whitespace :: proc(t: ^Tokenizer) {
+    for {
+        switch t.ch {
+        case ' ', '\t', '\r', '\n':
+            advance_rune(t)
+        case:
+            return
+        }
+    }
+}
+```
+
+### Variable attributes
+
+#### `@(static)`
+
+This attribute can be applied to a variable to have it keep its state even when going out of scope.
+This is the same behavior as a `static` local variable in C.
+```odin
+test :: proc() -> int {
+    @(static) foo := 0
+    foo += 1
+    return foo
+}
+
+main :: proc() {
+    fmt.println(test()) // prints 1
+    fmt.println(test()) // prints 2
+    fmt.println(test()) // prints 3
+}
+```
+
+#### `@(thread_local)`
+
+Can be applied to a variable at file scope
+```odin
+@(thread_local) foo: int
+```
+
+### Specialized attributes
+
+* **@(builtin)**
+Marks builtin procs in Odin's "core:runtime" package. Cannot be used in user code.
+
+* **@(objc_name=\<string\>)**
+* **@(objc_type=\<type\>)**
+* **@(objc_is_class_method=\<boolean\>)**
+
+* **@(require_target_feature=\<string\>)**
+* **@(enable_target_feature=\<string\>)**
+
+
+## Directives
+
+Directives are a way of extending the core behaviour of the Odin programming language. They have the form `#directive_name`.
+
+### Record memory layout
+
+#### `#packed`
+
+This tag can be applied to a struct. Removes padding between fields that's normally inserted to ensure all fields meet their type's alignment requirements. Fields remain in source order.
+
+This is useful where the structure is unlikely to be correctly aligned (the insertion rules for padding assume it **_is_**), or if the space-savings are more important or useful than the access speed of the fields.
+
+Accessing a field in a packed struct may require copying the field out of the struct into a temporary location, or using a machine instruction that doesn't assume the pointer address is correctly aligned, in order to be performant or avoid crashing on some systems. (See `intrinsics.unaligned_load`.)
+```odin
+struct #packed {x: u8, y: i32, z: u16, w: u8}
+```
+
+#### `#raw_union`
+
+This tag can be applied to a struct. Struct's fields will share the same memory space which serves the same functionality as `union`s in C language. Useful when writing bindings especially.
+```odin
+struct #raw_union {u: u32, i: i32, f: f32}
+```
+
+#### `#align`
+This tag can be applied to a `struct` or `union`. When `#align` is passed an integer `N` (as in `#align N`), it specifies that the `struct` will be aligned to `N` bytes. The `struct`'s fields will remain in source-order.
+```odin
+Foo :: struct #align 4 {
+    b: bool,
+}
+Bar :: union #align 4 {
+    i32,
+    u8,
+}
+```
+
+#### `#no_nil`
+This tag can be applied to a union to not allow nil values.
+```odin
+A :: union {int, bool}
+B :: union #no_nil {int, bool}
+```
+```
+Possible states of A:
+{} // nil
+{int}
+{bool}
+
+Possible states of B:
+{int} // default state
+{bool}
+```
+
+
+### Control statements
+
+#### `#partial`
+
+By default all `case`s of an `enum` or union have to be covered in a `switch` statement. The reason for this requirement is because it makes accidental bugs less likely. However, the `#partial` tag allows you to not have to write out `case`s that you don't need to handle:
+```odin
+Foo :: enum {
+    A,
+    B,
+    C,
+}
+
+test :: proc() {
+    bar := Foo.A
+
+    // All cases required, removing any would result in an error
+    switch bar {
+    case .A:
+    case .B:
+    case .C:
+    }
+
+    // Partially state wanted cases
+    #partial switch bar {
+    case .A:
+    case .B:
+    }
+}
+```
+
+
+### Procedure parameters
+
+#### `#no_alias`
+
+This tag can be applied to a procedure parameter that is a pointer. This is a hint to the compiler that this parameter will not alias other parameters. This is equivalent to C's `__restrict`.
+
+```odin
+foo :: proc(#no_alias a, b: ^int) {}
+```
+
+#### `#any_int`
+
+This tag can be applied to a procedure parameter that is an integer. This allows implicit casts to the procedures integer type at
+the call site.
+
+```odin
+foo :: proc(#any_int a: int) {}
+x : i32
+foo(x) // This is now allowed without an explicit cast
+```
+
+#### `#caller_location`
+
+This tag is used as a function's parameter value. In the following function signature,
+```odin
+alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_location) -> rawptr
+```
+
+`loc` is a variable of type `Source_Code_Location` (see `core/runtime/core.odin`) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling `alloc`).
+
+#### `#c_vararg`
+Used to interface with vararg functions in foreign procedures.
+```odin
+foreign foo {
+    bar :: proc(n: int, #c_vararg args: ..any) ---
+}
+```
+
+#### `#by_ptr`
+Used to interface with const reference parameters in foreign procedures.
+The parameter is passed by pointer internally.
+```odin
+foreign foo {
+    bar :: proc(#by_ptr p: T) ---
+}
+```
+to represent
+```c
+void bar(const T*)
+```
+
+#### `#optional_ok`
+
+Allows skipping the last return parameter, which needs to be a `bool`
+```odin
+import "core:fmt"
+
+foo :: proc(x: int) -> (value: int, ok: bool) #optional_ok {
+    return x + 1, true
+}
+
+main :: proc() {
+    for x := 0; x < 11; x = foo(x) {
+        fmt.printf("v: %v\n", x)
+    }
+}
+```
+
+### Expressions
+
+#### `#type`
+
+This tag doesn't serve a functional purpose in the compiler, this is for telling someone reading the code that the expression is a type. The main case is for showing that a procedure signature without a body is a type and not just missing its body, for example:
+```odin
+foo :: #type proc(foo: string)
+
+bar :: struct {
+    gin: foo,
+}
+```
+
+### Statements
+
+#### `#bounds_check` and `#no_bounds_check`
+
+The `#bounds_check` and `#no_bounds_check` flags control Odin's built-in bounds checking of arrays and slices. Any statement, block, or function with one of these flags will have their bounds checking turned on or off, depending on the flag provided. Valid uses of these flags include:
+```odin
+proc_without_bounds_check :: proc() #no_bounds_check {
+    #bounds_check {
+        #no_bounds_check fmt.println(os.args[1])
+    }
+}
+```
+
+### Built-in directives
+
+#### `#assert(<boolean>)`
+
+Unlike `assert`, `#assert` runs at compile-time. `#assert` breaks compilation if the given bool expression is false, and thus `#assert` is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.
+```odin
+#assert(SOME_CONST_CONDITION)
+```
+
+#### `#panic(<string>)``
+
+Panic runs at compile-time. It is functionally equivalent to an `#assert` with a `false` condition, but `#panic` has an error message string parameter.
+```odin
+#panic(message)
+```
+
+#### `#config(<identifer>, default)``
+
+Checks if an identifier is defined through the command line, or gives a default value instead.
+
+Values can be set with the `-define:NAME=VALUE` command line flag.
+
+#### `#defined`
+
+Checks if an identifier is defined. This may only be used within a procedure's body.
+
+```odin
+n: int
+when #defined(n) { fmt.println("true") }
+if #defined(int) { fmt.println("true") }
+when #defined(nonexistent_proc) == false { fmt.println("proc was not defined") }
+```
+
+#### `#file`, `#line`, `#procedure`
+
+Return the current file path, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
+
+#### `#location()` or `#location(<entity>)`
+
+Returns a `runtime.Source_Code_Location` (see `core/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
+```odin
+foo :: proc() {}
+
+main :: proc() {
+    n: int
+    fmt.println(#location())
+    fmt.println(#location(foo))
+    fmt.println(#location(n))
+}
+```
+
+#### `#load(<string-path>)` or `#load(<string-path>, <type>)`
+
+Returns a `[]u8` of file contents at compile time, or optionally as another type.
+```odin
+foo := #load("path/to/file")
+bar := #load("path/to/file", string)
+fmt.println(bar)
+
+If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
+baz := #load("path/to/file", []f32)
+```
+
+#### `#load_or(<string-path>, default)`
+
+Returns a `[]u8` of file contents at compile time, otherwise default content when the file wasn't found.
+```odin
+foo := #load_or("path/to/file", []u8 { 104, 105 })
+fmt.println(string(foo))
+```
+
+#### `#load_hash(<string-path>, <string-hash>)`
+
+Returns a constant integer of the hash of a file's contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
+
+```odin
+hash :: #load_hash("path/to/file", "crc32")
+```
+
+
 ## Useful idioms
 
 The following are useful idioms which are emergent from the semantics of the language.
@@ -2792,466 +3282,6 @@ if !ok do fmt.println("3/2 isn't an int")
 
 n := halve(4).? or_else 0
 fmt.println(n)                   // 2
-```
-
-### Attributes
-
-Attributes can be applied to different kinds of declarations to modify the compilation details or behaviour of that declaration.
-
-#### General Attributes
-
-* **@(private)**
-
-Prevents a top level element from being exported with the package.
-```odin
-@(private)
-my_variable: int; // cannot be accessed outside this package.
-```
-
-You may also make an entity private to _the file_ instead of the package.
-```odin
-@(private="file")
-my_variable: int; // cannot be accessed outside this file.
-```
-`@(private)` is equivalent to `@(private="package")`.
-
-Using `//+private` in a file at the package declaration will automatically add `@(private)` to everything in the file
-```odin
-//+private
-package foo
-```
-
-And `//+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
-
-* **@(require)**
-
-Requires that the declaration is added to the final compilation and not optimized out.
-
-#### Linking and Foreign Attributes
-
-* **@(link_name=\<string\>)**
-
-This attribute can be attached to variable and procedure declarations inside a `foreign` block. This specifies what the variable/proc is called in the library.
-Example:
-```odin
-foreign foo {
-    @(link_name = "bar")
-    testbar :: proc(baz: int) ---
-}
-```
-
-* **@(link_prefix=\<string\>)**
-
-This attribute can be attached to a `foreign` block to specify a prefix to all names. So if functions are prefixed with `ltb_` in the library is you can attach this and not specify that on the procedure on the Odin side. Example:
-```odin
-@(link_prefix = "ltb_")
-foreign foo {
-    testbar :: proc(baz: int) --- // This now refers to ltb_testbar
-}
-```
-
-* **@export** or **@(export=true/false)**
-
-Exports a variable or procedure symbol, useful for producing DLLs.
-
-* **@(linkage=\<string\>)**
-
-Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: `"internal"`, `"strong"`, `"weak"`, and `"link_once"`.
-
-
-* **@(default_calling_convention=\<string\>)**
-
-This attribute can be attached to a `foreign` block to specify the default calling convention for all procedures in the block. Example:
-```odin
-@(default_calling_convention = "std")
-foreign kernel32 {
-    @(link_name="LoadLibraryA") load_library_a  :: proc(c_str: ^u8) -> Hmodule ---
-}
-```
-
-* **@(link_section=\<string\>)**
-
-Specify the link section for a global variable.
-
-```
-@(link_section=".foo")
-my_global: i32
-```
-
-#### Procedure Attributes
-
-* **@(deferred_in=\<proc\>)**
-* **@(deferred_out=\<proc\>)**
-* **@(deferred_in_out=\<proc\>)**
-* **@(deferred_none=\<proc\>)**
-
-These attributes can be attached to a procedure `X` which will be called at the end of the calling scope for `X`s caller.
-`deferred_in` will receive the same parameters as the called proc. `deferred_out` will receive the result of the called proc. `deferred_in_out` will receive both. `deferred_none` will receive no parameters.
-```odin
-baz :: proc() {
-    fmt.println("In baz")
-}
-
-@(deferred_none=baz)
-bar :: proc() {
-    fmt.println("In bar")
-}
-
-foo :: proc() {
-    fmt.println("Entered foo")
-    bar()
-    fmt.println("Leaving foo")
-}
-// Prints:
-// Entered foo
-// In bar
-// Leaving foo
-// In baz
-```
-
-* **@(deprecated=\<string\>)**
-
-Mark a procedure as deprecated. Running `odin build/run/check` will print out the message for each usage of the deprecated proc.
-```odin
-@(deprecated="'foo' deprecated, use 'bar' instead")
-foo :: proc() {
-    ...
-}
-```
-
-* **@(require_results)**
-
-Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called, the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
-```odin
-@(require_results)
-foo :: proc() -> bool {
-    return true
-}
-
-main :: proc() {
-    foo() // won't compile
-    _ = foo() // Ok
-}
-```
-
-* **@(warning=\<string\>)**
-
-Produces a warning when a procedure is called.
-
-* **@(disabled=\<boolean\>)**
-
-If the provided boolean is set, the procedure will not be used when called.
-
-* **@(init)**
-
-This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by `@(init)` will then be called at the start of the program before `main` is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
-
-
-* **@(cold)**
-
-A hint to the compiler that this procedure is rarely called, and thus "cold".
-
-
-#### Variable Attributes
-
-* **@(static)**
-
-This attribute can be applied to a variable to have it keep its state even when going out of scope.
-This is the same behavior as a `static` local variable in C.
-```odin
-test :: proc() -> int {
-    @(static) foo := 0
-    foo += 1
-    return foo
-}
-
-main :: proc() {
-    fmt.println(test()) // prints 1
-    fmt.println(test()) // prints 2
-    fmt.println(test()) // prints 3
-}
-```
-
-* **@(thread_local)**
-
-Can be applied to a variable at file scope
-```odin
-@(thread_local) foo: int
-```
-
-
-#### Specialized Attributes
-
-* **@(builtin)**
-Marks builtin procs in Odin's "core:runtime" package. Cannot be used in user code.
-
-* **@(objc_name=\<string\>)**
-* **@(objc_type=\<type\>)**
-* **@(objc_is_class_method=\<boolean\>)**
-
-* **@(require_target_feature=\<string\>)**
-* **@(enable_target_feature=\<string\>)**
-
-
-
-### Directives
-
-Directives are a way of extending the core behaviour of the Odin programming language. They have the form `#directive_name`.
-
-
-#### Record Memory Layout
-
-* **#packed**
-
-This tag can be applied to a struct. Removes padding between fields that's normally inserted to ensure all fields meet their type's alignment requirements. Fields remain in source order.
-
-This is useful where the structure is unlikely to be correctly aligned (the insertion rules for padding assume it **_is_**), or if the space-savings are more important or useful than the access speed of the fields.
-
-Accessing a field in a packed struct may require copying the field out of the struct into a temporary location, or using a machine instruction that doesn't assume the pointer address is correctly aligned, in order to be performant or avoid crashing on some systems. (See `intrinsics.unaligned_load`.)
-```odin
-struct #packed {x: u8, y: i32, z: u16, w: u8}
-```
-
-* **#raw_union**
-
-This tag can be applied to a struct. Struct's fields will share the same memory space which serves the same functionality as `union`s in C language. Useful when writing bindings especially.
-```odin
-struct #raw_union {u: u32, i: i32, f: f32}
-```
-
-* **#align**
-This tag can be applied to a `struct` or `union`. When `#align` is passed an integer `N` (as in `#align N`), it specifies that the `struct` will be aligned to `N` bytes. The `struct`'s fields will remain in source-order.
-```odin
-Foo :: struct #align 4 {
-    b: bool,
-}
-Bar :: union #align 4 {
-    i32,
-    u8,
-}
-```
-
-* **#no_nil**
-This tag can be applied to a union to not allow nil values.
-```odin
-A :: union {int, bool}
-B :: union #no_nil {int, bool}
-```
-```
-Possible states of A:
-{} // nil
-{int}
-{bool}
-
-Possible states of B:
-{int} // default state
-{bool}
-```
-
-
-#### Control Statements
-
-* **#partial**
-
-By default all `case`s of an `enum` or union have to be covered in a `switch` statement. The reason for this requirement is because it makes accidental bugs less likely. However, the `#partial` tag allows you to not have to write out `case`s that you don't need to handle:
-```odin
-Foo :: enum {
-    A,
-    B,
-    C,
-}
-
-test :: proc() {
-    bar := Foo.A
-
-    // All cases required, removing any would result in an error
-    switch bar {
-    case .A:
-    case .B:
-    case .C:
-    }
-
-    // Partially state wanted cases
-    #partial switch bar {
-    case .A:
-    case .B:
-    }
-}
-```
-
-
-#### Procedure Parameters
-
-* **#no_alias**
-
-This tag can be applied to a procedure parameter that is a pointer. This is a hint to the compiler that this parameter will not alias other parameters. This is equivalent to C's `__restrict`.
-
-```odin
-foo :: proc(#no_alias a, b: ^int) {}
-```
-
-* **#any_int**
-
-This tag can be applied to a procedure parameter that is an integer. This allows implicit casts to the procedures integer type at
-the call site.
-
-```odin
-foo :: proc(#any_int a: int) {}
-x : i32
-foo(x) // This is now allowed without an explicit cast
-```
-
-* **#caller_location**
-
-This tag is used as a function's parameter value. In the following function signature,
-```odin
-alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_location) -> rawptr
-```
-
-`loc` is a variable of type `Source_Code_Location` (see `core/runtime/core.odin`) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling `alloc`).
-
-* **#c_vararg**
-Used to interface with vararg functions in foreign procedures.
-```odin
-foreign foo {
-    bar :: proc(n: int, #c_vararg args: ..any) ---
-}
-```
-
-* **#by_ptr**
-Used to interface with const reference parameters in foreign procedures.
-The parameter is passed by pointer internally.
-```odin
-foreign foo {
-    bar :: proc(#by_ptr p: T) ---
-}
-```
-to represent
-```c
-void bar(const T*)
-```
-
-* **#optional_ok**
-
-Allows skipping the last return parameter, which needs to be a `bool`
-```odin
-import "core:fmt"
-
-foo :: proc(x: int) -> (value: int, ok: bool) #optional_ok {
-    return x + 1, true
-}
-
-main :: proc() {
-    for x := 0; x < 11; x = foo(x) {
-        fmt.printf("v: %v\n", x)
-    }
-}
-```
-
-#### Expressions
-
-* **#type**
-
-This tag doesn't serve a functional purpose in the compiler, this is for telling someone reading the code that the expression is a type. The main case is for showing that a procedure signature without a body is a type and not just missing its body, for example:
-```odin
-foo :: #type proc(foo: string)
-
-bar :: struct {
-    gin: foo,
-}
-```
-
-#### Statements
-
-* **#bounds_check**
-* **#no_bounds_check**
-
-`#bounds_check` and `#no_bounds_check` are flags that control Odin's built-in bounds checking of arrays and slices. Any statement, block, or function with one of these flags will have their bounds checking turned on or off, depending on the flag provided. Valid uses of these flags include:
-```odin
-proc_without_bounds_check :: proc() #no_bounds_check {
-    #bounds_check {
-        #no_bounds_check fmt.println(os.args[1])
-    }
-}
-```
-
-#### Built-in Procedures
-
-* **#assert(\<boolean\>)**
-
-Unlike `assert`, `#assert` runs at compile-time. `#assert` breaks compilation if the given bool expression is false, and thus `#assert` is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.
-```odin
-#assert(SOME_CONST_CONDITION)
-```
-
-* **#panic(\<string\>)**
-
-Panic runs at compile-time. It is functionally equivalent to an `#assert` with a `false` condition, but `#panic` has an error message string parameter.
-```odin
-#panic(message)
-```
-
-* **#config(\<identifer\>, default)**
-
-Checks if an identifier is defined through the command line, or gives a default value instead.
-
-Values can be set with the `-define:NAME=VALUE` command line flag.
-
-* **#defined**
-
-Checks if an identifier is defined. This may only be used within a procedure's body.
-
-```odin
-n: int
-when #defined(n) { fmt.println("true") }
-if #defined(int) { fmt.println("true") }
-when #defined(nonexistent_proc) == false { fmt.println("proc was not defined") }
-```
-
-* **#file**, **#line**, **#procedure**
-
-Return the current file path, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
-
-* **#location()** or **#location(<\entity\>)**
-
-Returns a `runtime.Source_Code_Location` (see `core/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
-```odin
-foo :: proc() {}
-
-main :: proc() {
-    n: int
-    fmt.println(#location())
-    fmt.println(#location(foo))
-    fmt.println(#location(n))
-}
-```
-
-* **#load(\<string-path\>)** or **#load(\<string-path\>, \<type\>)**
-
-Returns a `[]u8` of file contents at compile time, or optionally as another type.
-```odin
-foo := #load("path/to/file")
-bar := #load("path/to/file", string)
-fmt.println(bar)
-
-If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
-baz := #load("path/to/file", []f32)
-```
-
-* **#load_or(\<string-path\>, default)**
-
-Returns a `[]u8` of file contents at compile time, otherwise default content when the file wasn't found.
-```odin
-foo := #load_or("path/to/file", []u8 { 104, 105 })
-fmt.println(string(foo))
-```
-
-* **#load_hash(\<string-path\>, \<string-hash\>)**
-
-Returns a constant integer of the hash of a file's contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
-
-```odin
-hash :: #load_hash("path/to/file", "crc32")
 ```
 
 

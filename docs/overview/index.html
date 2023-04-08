@@ -2020,7 +2020,325 @@ f: Foo(T, N)
 // is equivalent to
 x.y(x, 123)
 </code></pre><p>As the <code>-></code> operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through <code>using</code> will still work as expected to allow for the emulation of type hierarchies.</p>
-<h2 id=useful-idioms>Useful idioms <a class=text-decoration-none href=#useful-idioms>#</a></h2>
+<h2 id=attributes>Attributes <a class=text-decoration-none href=#attributes>#</a></h2>
+<p>Attributes modify the compilation details or behaviour of declarations.</p>
+<h3 id=general-attributes>General attributes <a class=text-decoration-none href=#general-attributes>#</a></h3>
+<h4 id=private><code>@(private)</code> <a class=text-decoration-none href=#private>#</a></h4>
+<p>Prevents a top level element from being exported with the package.</p>
+<pre><code class=language-odin data-lang=odin>@(private)
+my_variable: int; // cannot be accessed outside this package.
+</code></pre><p>You may also make an entity private to <em>the file</em> instead of the package.</p>
+<pre><code class=language-odin data-lang=odin>@(private=&quot;file&quot;)
+my_variable: int; // cannot be accessed outside this file.
+</code></pre><p><code>@(private)</code> is equivalent to <code>@(private="package")</code>.</p>
+<p>Using <code>//+private</code> in a file at the package declaration will automatically add <code>@(private)</code> to everything in the file</p>
+<pre><code class=language-odin data-lang=odin>//+private
+package foo
+</code></pre><p>And <code>//+private file</code> will be equivalent to automatically adding <code>@(private="file")</code> to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute <code>@(private)</code> to the declaration.</p>
+<h4 id=require><code>@(require)</code> <a class=text-decoration-none href=#require>#</a></h4>
+<p>Requires that the declaration is added to the final compilation and not optimized out.</p>
+<h3 id=linking-and-foreign-attributes>Linking and foreign attributes <a class=text-decoration-none href=#linking-and-foreign-attributes>#</a></h3>
+<h4 id=link_namestring><code>@(link_name=&lt;string>)</code> <a class=text-decoration-none href=#link_namestring>#</a></h4>
+<p>This attribute can be attached to variable and procedure declarations inside a <code>foreign</code> block. This specifies what the variable/proc is called in the library.
+Example:</p>
+<pre><code class=language-odin data-lang=odin>foreign foo {
+    @(link_name = &quot;bar&quot;)
+    testbar :: proc(baz: int) ---
+}
+</code></pre><h4 id=link_prefixstring><code>@(link_prefix=&lt;string>)</code> <a class=text-decoration-none href=#link_prefixstring>#</a></h4>
+<p>This attribute can be attached to a <code>foreign</code> block to specify a prefix to all names. So if functions are prefixed with <code>ltb_</code> in the library is you can attach this and not specify that on the procedure on the Odin side. Example:</p>
+<pre><code class=language-odin data-lang=odin>@(link_prefix = &quot;ltb_&quot;)
+foreign foo {
+    testbar :: proc(baz: int) --- // This now refers to ltb_testbar
+}
+</code></pre><h4 id=export-or-exporttruefalse><code>@export</code> or <code>@(export=true/false)</code> <a class=text-decoration-none href=#export-or-exporttruefalse>#</a></h4>
+<p>Exports a variable or procedure symbol, useful for producing DLLs.</p>
+<h4 id=linkagestring><code>@(linkage=&lt;string>)</code> <a class=text-decoration-none href=#linkagestring>#</a></h4>
+<p>Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: <code>"internal"</code>, <code>"strong"</code>, <code>"weak"</code>, and <code>"link_once"</code>.</p>
+<h4 id=default_calling_conventionstring><code>@(default_calling_convention=&lt;string>)</code> <a class=text-decoration-none href=#default_calling_conventionstring>#</a></h4>
+<p>This attribute can be attached to a <code>foreign</code> block to specify the default calling convention for all procedures in the block. Example:</p>
+<pre><code class=language-odin data-lang=odin>@(default_calling_convention = &quot;std&quot;)
+foreign kernel32 {
+    @(link_name=&quot;LoadLibraryA&quot;) load_library_a  :: proc(c_str: ^u8) -&gt; Hmodule ---
+}
+</code></pre><h4 id=link_sectionstring><code>@(link_section=&lt;string>)</code> <a class=text-decoration-none href=#link_sectionstring>#</a></h4>
+<p>Specify the link section for a global variable.</p>
+<pre><code class=language-odin data-lang=odin>@(link_section=&quot;.foo&quot;)
+my_global: i32
+</code></pre><h4 id=extra_linker_flagsstring><code>@(extra_linker_flags=&lt;string>)</code> <a class=text-decoration-none href=#extra_linker_flagsstring>#</a></h4>
+<p>Provide additional linker flags to a <code>foreign import</code> declaration.</p>
+<pre><code class=language-odin data-lang=odin>@(extra_linker_flags=&quot;/NODEFAULTLIB:libcmt&quot;)
+foreign import lib {
+    &quot;windows/raylib.lib&quot;,
+    &quot;system:Winmm.lib&quot;,
+    &quot;system:Gdi32.lib&quot;,
+    &quot;system:User32.lib&quot;,
+    &quot;system:Shell32.lib&quot;,
+}
+</code></pre><h3 id=procedure-attributes>Procedure attributes <a class=text-decoration-none href=#procedure-attributes>#</a></h3>
+<h4 id=deferred_proc><code>(deferred_*=&lt;proc>)</code> <a class=text-decoration-none href=#deferred_proc>#</a></h4>
+<ul>
+<li><code>(deferred_in=&lt;proc>)</code></li>
+<li><code>(deferred_out=&lt;proc>)</code></li>
+<li><code>(deferred_in_out=&lt;proc>)</code></li>
+<li><code>(deferred_none=&lt;proc>)</code></li>
+</ul>
+<p>These attributes can be attached to a procedure <code>X</code> which will be called at the end of the calling scope for <code>X</code>s caller.
+<code>deferred_in</code> will receive the same parameters as the called proc. <code>deferred_out</code> will receive the result of the called proc. <code>deferred_in_out</code> will receive both. <code>deferred_none</code> will receive no parameters.</p>
+<pre><code class=language-odin data-lang=odin>baz :: proc() {
+    fmt.println(&quot;In baz&quot;)
+}
+
+@(deferred_none=baz)
+bar :: proc() {
+    fmt.println(&quot;In bar&quot;)
+}
+
+foo :: proc() {
+    fmt.println(&quot;Entered foo&quot;)
+    bar()
+    fmt.println(&quot;Leaving foo&quot;)
+}
+// Prints:
+// Entered foo
+// In bar
+// Leaving foo
+// In baz
+</code></pre><h4 id=deprecatedstring><code>@(deprecated=&lt;string>)</code> <a class=text-decoration-none href=#deprecatedstring>#</a></h4>
+<p>Mark a procedure as deprecated. Running <code>odin build/run/check</code> will print out the message for each usage of the deprecated proc.</p>
+<pre><code class=language-odin data-lang=odin>@(deprecated=&quot;'foo' deprecated, use 'bar' instead&quot;)
+foo :: proc() {
+    ...
+}
+</code></pre><h4 id=require_results><code>@(require_results)</code> <a class=text-decoration-none href=#require_results>#</a></h4>
+<p>Ensures procedure return values are acknowledged, meaning that in any scope where a procedure <code>p</code> having procedure attribute <code>@(require_results)</code> is called, the scope must explicitly handle the return values of procedure <code>p</code> in some way, such as by storing the return values of <code>p</code> in variables or explicitly dropping the values by setting <code>_</code> equal them.</p>
+<pre><code class=language-odin data-lang=odin>@(require_results)
+foo :: proc() -&gt; bool {
+    return true
+}
+
+main :: proc() {
+    foo() // won't compile
+    _ = foo() // Ok
+}
+</code></pre><h4 id=warningstring><code>@(warning=&lt;string>)</code> <a class=text-decoration-none href=#warningstring>#</a></h4>
+<p>Produces a warning when a procedure is called.</p>
+<h4 id=disabledboolean><code>@(disabled=&lt;boolean>)</code> <a class=text-decoration-none href=#disabledboolean>#</a></h4>
+<p>If the provided boolean is set, the procedure will not be used when called.</p>
+<h4 id=init><code>@(init)</code> <a class=text-decoration-none href=#init>#</a></h4>
+<p>This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by <code>@(init)</code> will then be called at the start of the program before <code>main</code> is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.</p>
+<h4 id=cold><code>@(cold)</code> <a class=text-decoration-none href=#cold>#</a></h4>
+<p>A hint to the compiler that this procedure is rarely called, and thus &ldquo;cold&rdquo;.</p>
+<h4 id=optimization_modestring><code>@(optimization_mode=&lt;string>)</code> <a class=text-decoration-none href=#optimization_modestring>#</a></h4>
+<p>Set the optimization mode of a procedure. Valid modes are <code>"none"</code>, <code>"minimal"</code>, <code>"size"</code>, and <code>"speed"</code>.</p>
+<pre><code class=language-odin data-lang=odin>@(optimization_mode=&quot;speed&quot;)
+skip_whitespace :: proc(t: ^Tokenizer) {
+    for {
+        switch t.ch {
+        case ' ', '\t', '\r', '\n':
+            advance_rune(t)
+        case:
+            return
+        }
+    }
+}
+</code></pre><h3 id=variable-attributes>Variable attributes <a class=text-decoration-none href=#variable-attributes>#</a></h3>
+<h4 id=static><code>@(static)</code> <a class=text-decoration-none href=#static>#</a></h4>
+<p>This attribute can be applied to a variable to have it keep its state even when going out of scope.
+This is the same behavior as a <code>static</code> local variable in C.</p>
+<pre><code class=language-odin data-lang=odin>test :: proc() -&gt; int {
+    @(static) foo := 0
+    foo += 1
+    return foo
+}
+
+main :: proc() {
+    fmt.println(test()) // prints 1
+    fmt.println(test()) // prints 2
+    fmt.println(test()) // prints 3
+}
+</code></pre><h4 id=thread_local><code>@(thread_local)</code> <a class=text-decoration-none href=#thread_local>#</a></h4>
+<p>Can be applied to a variable at file scope</p>
+<pre><code class=language-odin data-lang=odin>@(thread_local) foo: int
+</code></pre><h3 id=specialized-attributes>Specialized attributes <a class=text-decoration-none href=#specialized-attributes>#</a></h3>
+<ul>
+<li>
+<p><strong>@(builtin)</strong>
+Marks builtin procs in Odin&rsquo;s &ldquo;core:runtime&rdquo; package. Cannot be used in user code.</p>
+</li>
+<li>
+<p><strong>@(objc_name=&lt;string>)</strong></p>
+</li>
+<li>
+<p><strong>@(objc_type=&lt;type>)</strong></p>
+</li>
+<li>
+<p><strong>@(objc_is_class_method=&lt;boolean>)</strong></p>
+</li>
+<li>
+<p><strong>@(require_target_feature=&lt;string>)</strong></p>
+</li>
+<li>
+<p><strong>@(enable_target_feature=&lt;string>)</strong></p>
+</li>
+</ul>
+<h2 id=directives>Directives <a class=text-decoration-none href=#directives>#</a></h2>
+<p>Directives are a way of extending the core behaviour of the Odin programming language. They have the form <code>#directive_name</code>.</p>
+<h3 id=record-memory-layout>Record memory layout <a class=text-decoration-none href=#record-memory-layout>#</a></h3>
+<h4 id=packed><code>#packed</code> <a class=text-decoration-none href=#packed>#</a></h4>
+<p>This tag can be applied to a struct. Removes padding between fields that&rsquo;s normally inserted to ensure all fields meet their type&rsquo;s alignment requirements. Fields remain in source order.</p>
+<p>This is useful where the structure is unlikely to be correctly aligned (the insertion rules for padding assume it <strong><em>is</em></strong>), or if the space-savings are more important or useful than the access speed of the fields.</p>
+<p>Accessing a field in a packed struct may require copying the field out of the struct into a temporary location, or using a machine instruction that doesn&rsquo;t assume the pointer address is correctly aligned, in order to be performant or avoid crashing on some systems. (See <code>intrinsics.unaligned_load</code>.)</p>
+<pre><code class=language-odin data-lang=odin>struct #packed {x: u8, y: i32, z: u16, w: u8}
+</code></pre><h4 id=raw_union><code>#raw_union</code> <a class=text-decoration-none href=#raw_union>#</a></h4>
+<p>This tag can be applied to a struct. Struct&rsquo;s fields will share the same memory space which serves the same functionality as <code>union</code>s in C language. Useful when writing bindings especially.</p>
+<pre><code class=language-odin data-lang=odin>struct #raw_union {u: u32, i: i32, f: f32}
+</code></pre><h4 id=align><code>#align</code> <a class=text-decoration-none href=#align>#</a></h4>
+<p>This tag can be applied to a <code>struct</code> or <code>union</code>. When <code>#align</code> is passed an integer <code>N</code> (as in <code>#align N</code>), it specifies that the <code>struct</code> will be aligned to <code>N</code> bytes. The <code>struct</code>&rsquo;s fields will remain in source-order.</p>
+<pre><code class=language-odin data-lang=odin>Foo :: struct #align 4 {
+    b: bool,
+}
+Bar :: union #align 4 {
+    i32,
+    u8,
+}
+</code></pre><h4 id=no_nil><code>#no_nil</code> <a class=text-decoration-none href=#no_nil>#</a></h4>
+<p>This tag can be applied to a union to not allow nil values.</p>
+<pre><code class=language-odin data-lang=odin>A :: union {int, bool}
+B :: union #no_nil {int, bool}
+</code></pre><pre><code>Possible states of A:
+{} // nil
+{int}
+{bool}
+
+Possible states of B:
+{int} // default state
+{bool}
+</code></pre><h3 id=control-statements>Control statements <a class=text-decoration-none href=#control-statements>#</a></h3>
+<h4 id=partial><code>#partial</code> <a class=text-decoration-none href=#partial>#</a></h4>
+<p>By default all <code>case</code>s of an <code>enum</code> or union have to be covered in a <code>switch</code> statement. The reason for this requirement is because it makes accidental bugs less likely. However, the <code>#partial</code> tag allows you to not have to write out <code>case</code>s that you don&rsquo;t need to handle:</p>
+<pre><code class=language-odin data-lang=odin>Foo :: enum {
+    A,
+    B,
+    C,
+}
+
+test :: proc() {
+    bar := Foo.A
+
+    // All cases required, removing any would result in an error
+    switch bar {
+    case .A:
+    case .B:
+    case .C:
+    }
+
+    // Partially state wanted cases
+    #partial switch bar {
+    case .A:
+    case .B:
+    }
+}
+</code></pre><h3 id=procedure-parameters>Procedure parameters <a class=text-decoration-none href=#procedure-parameters>#</a></h3>
+<h4 id=no_alias><code>#no_alias</code> <a class=text-decoration-none href=#no_alias>#</a></h4>
+<p>This tag can be applied to a procedure parameter that is a pointer. This is a hint to the compiler that this parameter will not alias other parameters. This is equivalent to C&rsquo;s <code>__restrict</code>.</p>
+<pre><code class=language-odin data-lang=odin>foo :: proc(#no_alias a, b: ^int) {}
+</code></pre><h4 id=any_int><code>#any_int</code> <a class=text-decoration-none href=#any_int>#</a></h4>
+<p>This tag can be applied to a procedure parameter that is an integer. This allows implicit casts to the procedures integer type at
+the call site.</p>
+<pre><code class=language-odin data-lang=odin>foo :: proc(#any_int a: int) {}
+x : i32
+foo(x) // This is now allowed without an explicit cast
+</code></pre><h4 id=caller_location><code>#caller_location</code> <a class=text-decoration-none href=#caller_location>#</a></h4>
+<p>This tag is used as a function&rsquo;s parameter value. In the following function signature,</p>
+<pre><code class=language-odin data-lang=odin>alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_location) -&gt; rawptr
+</code></pre><p><code>loc</code> is a variable of type <code>Source_Code_Location</code> (see <code>core/runtime/core.odin</code>) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling <code>alloc</code>).</p>
+<h4 id=c_vararg><code>#c_vararg</code> <a class=text-decoration-none href=#c_vararg>#</a></h4>
+<p>Used to interface with vararg functions in foreign procedures.</p>
+<pre><code class=language-odin data-lang=odin>foreign foo {
+    bar :: proc(n: int, #c_vararg args: ..any) ---
+}
+</code></pre><h4 id=by_ptr><code>#by_ptr</code> <a class=text-decoration-none href=#by_ptr>#</a></h4>
+<p>Used to interface with const reference parameters in foreign procedures.
+The parameter is passed by pointer internally.</p>
+<pre><code class=language-odin data-lang=odin>foreign foo {
+    bar :: proc(#by_ptr p: T) ---
+}
+</code></pre><p>to represent</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>void</span> bar(<span style=color:#66d9ef>const</span> T<span style=color:#f92672>*</span>)
+</code></pre></div><h4 id=optional_ok><code>#optional_ok</code> <a class=text-decoration-none href=#optional_ok>#</a></h4>
+<p>Allows skipping the last return parameter, which needs to be a <code>bool</code></p>
+<pre><code class=language-odin data-lang=odin>import &quot;core:fmt&quot;
+
+foo :: proc(x: int) -&gt; (value: int, ok: bool) #optional_ok {
+    return x + 1, true
+}
+
+main :: proc() {
+    for x := 0; x &lt; 11; x = foo(x) {
+        fmt.printf(&quot;v: %v\n&quot;, x)
+    }
+}
+</code></pre><h3 id=expressions>Expressions <a class=text-decoration-none href=#expressions>#</a></h3>
+<h4 id=type><code>#type</code> <a class=text-decoration-none href=#type>#</a></h4>
+<p>This tag doesn&rsquo;t serve a functional purpose in the compiler, this is for telling someone reading the code that the expression is a type. The main case is for showing that a procedure signature without a body is a type and not just missing its body, for example:</p>
+<pre><code class=language-odin data-lang=odin>foo :: #type proc(foo: string)
+
+bar :: struct {
+    gin: foo,
+}
+</code></pre><h3 id=statements>Statements <a class=text-decoration-none href=#statements>#</a></h3>
+<h4 id=bounds_check-and-no_bounds_check><code>#bounds_check</code> and <code>#no_bounds_check</code> <a class=text-decoration-none href=#bounds_check-and-no_bounds_check>#</a></h4>
+<p>The <code>#bounds_check</code> and <code>#no_bounds_check</code> flags control Odin&rsquo;s built-in bounds checking of arrays and slices. Any statement, block, or function with one of these flags will have their bounds checking turned on or off, depending on the flag provided. Valid uses of these flags include:</p>
+<pre><code class=language-odin data-lang=odin>proc_without_bounds_check :: proc() #no_bounds_check {
+    #bounds_check {
+        #no_bounds_check fmt.println(os.args[1])
+    }
+}
+</code></pre><h3 id=built-in-procedures>Built-in procedures <a class=text-decoration-none href=#built-in-procedures>#</a></h3>
+<h4 id=assertboolean><code>#assert(&lt;boolean>)</code> <a class=text-decoration-none href=#assertboolean>#</a></h4>
+<p>Unlike <code>assert</code>, <code>#assert</code> runs at compile-time. <code>#assert</code> breaks compilation if the given bool expression is false, and thus <code>#assert</code> is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.</p>
+<pre><code class=language-odin data-lang=odin>#assert(SOME_CONST_CONDITION)
+</code></pre><h4 id=panicstring>`#panic(<string>)`` <a class=text-decoration-none href=#panicstring>#</a></h4>
+<p>Panic runs at compile-time. It is functionally equivalent to an <code>#assert</code> with a <code>false</code> condition, but <code>#panic</code> has an error message string parameter.</p>
+<pre><code class=language-odin data-lang=odin>#panic(message)
+</code></pre><h4 id=configidentifer-default>`#config(<identifer>, default)`` <a class=text-decoration-none href=#configidentifer-default>#</a></h4>
+<p>Checks if an identifier is defined through the command line, or gives a default value instead.</p>
+<p>Values can be set with the <code>-define:NAME=VALUE</code> command line flag.</p>
+<h4 id=defined><code>#defined</code> <a class=text-decoration-none href=#defined>#</a></h4>
+<p>Checks if an identifier is defined. This may only be used within a procedure&rsquo;s body.</p>
+<pre><code class=language-odin data-lang=odin>n: int
+when #defined(n) { fmt.println(&quot;true&quot;) }
+if #defined(int) { fmt.println(&quot;true&quot;) }
+when #defined(nonexistent_proc) == false { fmt.println(&quot;proc was not defined&quot;) }
+</code></pre><h4 id=file-line-procedure><code>#file</code>, <code>#line</code>, <code>#procedure</code> <a class=text-decoration-none href=#file-line-procedure>#</a></h4>
+<p>Return the current file path, line number, or procedure name, respectively. Used like a constant value. <code>file_name :: #file</code></p>
+<h4 id=location-or-locationentity><code>#location()</code> or <code>#location(&lt;entity>)</code> <a class=text-decoration-none href=#location-or-locationentity>#</a></h4>
+<p>Returns a <code>runtime.Source_Code_Location</code> (see <code>core/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.</p>
+<pre><code class=language-odin data-lang=odin>foo :: proc() {}
+
+main :: proc() {
+    n: int
+    fmt.println(#location())
+    fmt.println(#location(foo))
+    fmt.println(#location(n))
+}
+</code></pre><h4 id=loadstring-path-or-loadstring-path-type><code>#load(&lt;string-path>)</code> or <code>#load(&lt;string-path>, &lt;type>)</code> <a class=text-decoration-none href=#loadstring-path-or-loadstring-path-type>#</a></h4>
+<p>Returns a <code>[]u8</code> of file contents at compile time, or optionally as another type.</p>
+<pre><code class=language-odin data-lang=odin>foo := #load(&quot;path/to/file&quot;)
+bar := #load(&quot;path/to/file&quot;, string)
+fmt.println(bar)
+
+If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
+baz := #load(&quot;path/to/file&quot;, []f32)
+</code></pre><h4 id=load_orstring-path-default><code>#load_or(&lt;string-path>, default)</code> <a class=text-decoration-none href=#load_orstring-path-default>#</a></h4>
+<p>Returns a <code>[]u8</code> of file contents at compile time, otherwise default content when the file wasn&rsquo;t found.</p>
+<pre><code class=language-odin data-lang=odin>foo := #load_or(&quot;path/to/file&quot;, []u8 { 104, 105 })
+fmt.println(string(foo))
+</code></pre><h4 id=load_hashstring-path-string-hash><code>#load_hash(&lt;string-path>, &lt;string-hash>)</code> <a class=text-decoration-none href=#load_hashstring-path-string-hash>#</a></h4>
+<p>Returns a constant integer of the hash of a file&rsquo;s contents at compile time. Available hashes: <code>"adler32"</code>, <code>"crc32"</code>, <code>"crc64"</code>, <code>"fnv32"</code>, <code>"fnv64"</code>, <code>"fnv32a"</code>, <code>"fnv64a"</code>, <code>"murmur32"</code>, or <code>"murmur64"</code>.</p>
+<pre><code class=language-odin data-lang=odin>hash :: #load_hash(&quot;path/to/file&quot;, &quot;crc32&quot;)
+</code></pre><h2 id=useful-idioms>Useful idioms <a class=text-decoration-none href=#useful-idioms>#</a></h2>
 <p>The following are useful idioms which are emergent from the semantics of the language.</p>
 <h3 id=basic-idioms>Basic idioms <a class=text-decoration-none href=#basic-idioms>#</a></h3>
 <h4 id=ternary-operator>Ternary operator <a class=text-decoration-none href=#ternary-operator>#</a></h4>
@@ -2083,377 +2401,6 @@ if !ok do fmt.println(&quot;3/2 isn't an int&quot;)
 
 n := halve(4).? or_else 0
 fmt.println(n)                   // 2
-</code></pre><h3 id=attributes>Attributes <a class=text-decoration-none href=#attributes>#</a></h3>
-<p>Attributes can be applied to different kinds of declarations to modify the compilation details or behaviour of that declaration.</p>
-<h4 id=general-attributes>General Attributes <a class=text-decoration-none href=#general-attributes>#</a></h4>
-<ul>
-<li><strong>@(private)</strong></li>
-</ul>
-<p>Prevents a top level element from being exported with the package.</p>
-<pre><code class=language-odin data-lang=odin>@(private)
-my_variable: int; // cannot be accessed outside this package.
-</code></pre><p>You may also make an entity private to <em>the file</em> instead of the package.</p>
-<pre><code class=language-odin data-lang=odin>@(private=&quot;file&quot;)
-my_variable: int; // cannot be accessed outside this file.
-</code></pre><p><code>@(private)</code> is equivalent to <code>@(private="package")</code>.</p>
-<p>Using <code>//+private</code> in a file at the package declaration will automatically add <code>@(private)</code> to everything in the file</p>
-<pre><code class=language-odin data-lang=odin>//+private
-package foo
-</code></pre><p>And <code>//+private file</code> will be equivalent to automatically adding <code>@(private="file")</code> to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute <code>@(private)</code> to the declaration.</p>
-<ul>
-<li><strong>@(require)</strong></li>
-</ul>
-<p>Requires that the declaration is added to the final compilation and not optimized out.</p>
-<h4 id=linking-and-foreign-attributes>Linking and Foreign Attributes <a class=text-decoration-none href=#linking-and-foreign-attributes>#</a></h4>
-<ul>
-<li><strong>@(link_name=&lt;string>)</strong></li>
-</ul>
-<p>This attribute can be attached to variable and procedure declarations inside a <code>foreign</code> block. This specifies what the variable/proc is called in the library.
-Example:</p>
-<pre><code class=language-odin data-lang=odin>foreign foo {
-    @(link_name = &quot;bar&quot;)
-    testbar :: proc(baz: int) ---
-}
-</code></pre><ul>
-<li><strong>@(link_prefix=&lt;string>)</strong></li>
-</ul>
-<p>This attribute can be attached to a <code>foreign</code> block to specify a prefix to all names. So if functions are prefixed with <code>ltb_</code> in the library is you can attach this and not specify that on the procedure on the Odin side. Example:</p>
-<pre><code class=language-odin data-lang=odin>@(link_prefix = &quot;ltb_&quot;)
-foreign foo {
-    testbar :: proc(baz: int) --- // This now refers to ltb_testbar
-}
-</code></pre><ul>
-<li><strong>@export</strong> or <strong>@(export=true/false)</strong></li>
-</ul>
-<p>Exports a variable or procedure symbol, useful for producing DLLs.</p>
-<ul>
-<li><strong>@(linkage=&lt;string>)</strong></li>
-</ul>
-<p>Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: <code>"internal"</code>, <code>"strong"</code>, <code>"weak"</code>, and <code>"link_once"</code>.</p>
-<ul>
-<li><strong>@(default_calling_convention=&lt;string>)</strong></li>
-</ul>
-<p>This attribute can be attached to a <code>foreign</code> block to specify the default calling convention for all procedures in the block. Example:</p>
-<pre><code class=language-odin data-lang=odin>@(default_calling_convention = &quot;std&quot;)
-foreign kernel32 {
-    @(link_name=&quot;LoadLibraryA&quot;) load_library_a  :: proc(c_str: ^u8) -&gt; Hmodule ---
-}
-</code></pre><ul>
-<li><strong>@(link_section=&lt;string>)</strong></li>
-</ul>
-<p>Specify the link section for a global variable.</p>
-<pre><code>@(link_section=&quot;.foo&quot;)
-my_global: i32
-</code></pre><h4 id=procedure-attributes>Procedure Attributes <a class=text-decoration-none href=#procedure-attributes>#</a></h4>
-<ul>
-<li><strong>@(deferred_in=&lt;proc>)</strong></li>
-<li><strong>@(deferred_out=&lt;proc>)</strong></li>
-<li><strong>@(deferred_in_out=&lt;proc>)</strong></li>
-<li><strong>@(deferred_none=&lt;proc>)</strong></li>
-</ul>
-<p>These attributes can be attached to a procedure <code>X</code> which will be called at the end of the calling scope for <code>X</code>s caller.
-<code>deferred_in</code> will receive the same parameters as the called proc. <code>deferred_out</code> will receive the result of the called proc. <code>deferred_in_out</code> will receive both. <code>deferred_none</code> will receive no parameters.</p>
-<pre><code class=language-odin data-lang=odin>baz :: proc() {
-    fmt.println(&quot;In baz&quot;)
-}
-
-@(deferred_none=baz)
-bar :: proc() {
-    fmt.println(&quot;In bar&quot;)
-}
-
-foo :: proc() {
-    fmt.println(&quot;Entered foo&quot;)
-    bar()
-    fmt.println(&quot;Leaving foo&quot;)
-}
-// Prints:
-// Entered foo
-// In bar
-// Leaving foo
-// In baz
-</code></pre><ul>
-<li><strong>@(deprecated=&lt;string>)</strong></li>
-</ul>
-<p>Mark a procedure as deprecated. Running <code>odin build/run/check</code> will print out the message for each usage of the deprecated proc.</p>
-<pre><code class=language-odin data-lang=odin>@(deprecated=&quot;'foo' deprecated, use 'bar' instead&quot;)
-foo :: proc() {
-    ...
-}
-</code></pre><ul>
-<li><strong>@(require_results)</strong></li>
-</ul>
-<p>Ensures procedure return values are acknowledged, meaning that in any scope where a procedure <code>p</code> having procedure attribute <code>@(require_results)</code> is called, the scope must explicitly handle the return values of procedure <code>p</code> in some way, such as by storing the return values of <code>p</code> in variables or explicitly dropping the values by setting <code>_</code> equal them.</p>
-<pre><code class=language-odin data-lang=odin>@(require_results)
-foo :: proc() -&gt; bool {
-    return true
-}
-
-main :: proc() {
-    foo() // won't compile
-    _ = foo() // Ok
-}
-</code></pre><ul>
-<li><strong>@(warning=&lt;string>)</strong></li>
-</ul>
-<p>Produces a warning when a procedure is called.</p>
-<ul>
-<li><strong>@(disabled=&lt;boolean>)</strong></li>
-</ul>
-<p>If the provided boolean is set, the procedure will not be used when called.</p>
-<ul>
-<li><strong>@(init)</strong></li>
-</ul>
-<p>This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by <code>@(init)</code> will then be called at the start of the program before <code>main</code> is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.</p>
-<ul>
-<li><strong>@(cold)</strong></li>
-</ul>
-<p>A hint to the compiler that this procedure is rarely called, and thus &ldquo;cold&rdquo;.</p>
-<h4 id=variable-attributes>Variable Attributes <a class=text-decoration-none href=#variable-attributes>#</a></h4>
-<ul>
-<li><strong>@(static)</strong></li>
-</ul>
-<p>This attribute can be applied to a variable to have it keep its state even when going out of scope.
-This is the same behavior as a <code>static</code> local variable in C.</p>
-<pre><code class=language-odin data-lang=odin>test :: proc() -&gt; int {
-    @(static) foo := 0
-    foo += 1
-    return foo
-}
-
-main :: proc() {
-    fmt.println(test()) // prints 1
-    fmt.println(test()) // prints 2
-    fmt.println(test()) // prints 3
-}
-</code></pre><ul>
-<li><strong>@(thread_local)</strong></li>
-</ul>
-<p>Can be applied to a variable at file scope</p>
-<pre><code class=language-odin data-lang=odin>@(thread_local) foo: int
-</code></pre><h4 id=specialized-attributes>Specialized Attributes <a class=text-decoration-none href=#specialized-attributes>#</a></h4>
-<ul>
-<li>
-<p><strong>@(builtin)</strong>
-Marks builtin procs in Odin&rsquo;s &ldquo;core:runtime&rdquo; package. Cannot be used in user code.</p>
-</li>
-<li>
-<p><strong>@(objc_name=&lt;string>)</strong></p>
-</li>
-<li>
-<p><strong>@(objc_type=&lt;type>)</strong></p>
-</li>
-<li>
-<p><strong>@(objc_is_class_method=&lt;boolean>)</strong></p>
-</li>
-<li>
-<p><strong>@(require_target_feature=&lt;string>)</strong></p>
-</li>
-<li>
-<p><strong>@(enable_target_feature=&lt;string>)</strong></p>
-</li>
-</ul>
-<h3 id=directives>Directives <a class=text-decoration-none href=#directives>#</a></h3>
-<p>Directives are a way of extending the core behaviour of the Odin programming language. They have the form <code>#directive_name</code>.</p>
-<h4 id=record-memory-layout>Record Memory Layout <a class=text-decoration-none href=#record-memory-layout>#</a></h4>
-<ul>
-<li><strong>#packed</strong></li>
-</ul>
-<p>This tag can be applied to a struct. Removes padding between fields that&rsquo;s normally inserted to ensure all fields meet their type&rsquo;s alignment requirements. Fields remain in source order.</p>
-<p>This is useful where the structure is unlikely to be correctly aligned (the insertion rules for padding assume it <strong><em>is</em></strong>), or if the space-savings are more important or useful than the access speed of the fields.</p>
-<p>Accessing a field in a packed struct may require copying the field out of the struct into a temporary location, or using a machine instruction that doesn&rsquo;t assume the pointer address is correctly aligned, in order to be performant or avoid crashing on some systems. (See <code>intrinsics.unaligned_load</code>.)</p>
-<pre><code class=language-odin data-lang=odin>struct #packed {x: u8, y: i32, z: u16, w: u8}
-</code></pre><ul>
-<li><strong>#raw_union</strong></li>
-</ul>
-<p>This tag can be applied to a struct. Struct&rsquo;s fields will share the same memory space which serves the same functionality as <code>union</code>s in C language. Useful when writing bindings especially.</p>
-<pre><code class=language-odin data-lang=odin>struct #raw_union {u: u32, i: i32, f: f32}
-</code></pre><ul>
-<li><strong>#align</strong>
-This tag can be applied to a <code>struct</code> or <code>union</code>. When <code>#align</code> is passed an integer <code>N</code> (as in <code>#align N</code>), it specifies that the <code>struct</code> will be aligned to <code>N</code> bytes. The <code>struct</code>&rsquo;s fields will remain in source-order.</li>
-</ul>
-<pre><code class=language-odin data-lang=odin>Foo :: struct #align 4 {
-    b: bool,
-}
-Bar :: union #align 4 {
-    i32,
-    u8,
-}
-</code></pre><ul>
-<li><strong>#no_nil</strong>
-This tag can be applied to a union to not allow nil values.</li>
-</ul>
-<pre><code class=language-odin data-lang=odin>A :: union {int, bool}
-B :: union #no_nil {int, bool}
-</code></pre><pre><code>Possible states of A:
-{} // nil
-{int}
-{bool}
-
-Possible states of B:
-{int} // default state
-{bool}
-</code></pre><h4 id=control-statements>Control Statements <a class=text-decoration-none href=#control-statements>#</a></h4>
-<ul>
-<li><strong>#partial</strong></li>
-</ul>
-<p>By default all <code>case</code>s of an <code>enum</code> or union have to be covered in a <code>switch</code> statement. The reason for this requirement is because it makes accidental bugs less likely. However, the <code>#partial</code> tag allows you to not have to write out <code>case</code>s that you don&rsquo;t need to handle:</p>
-<pre><code class=language-odin data-lang=odin>Foo :: enum {
-    A,
-    B,
-    C,
-}
-
-test :: proc() {
-    bar := Foo.A
-
-    // All cases required, removing any would result in an error
-    switch bar {
-    case .A:
-    case .B:
-    case .C:
-    }
-
-    // Partially state wanted cases
-    #partial switch bar {
-    case .A:
-    case .B:
-    }
-}
-</code></pre><h4 id=procedure-parameters>Procedure Parameters <a class=text-decoration-none href=#procedure-parameters>#</a></h4>
-<ul>
-<li><strong>#no_alias</strong></li>
-</ul>
-<p>This tag can be applied to a procedure parameter that is a pointer. This is a hint to the compiler that this parameter will not alias other parameters. This is equivalent to C&rsquo;s <code>__restrict</code>.</p>
-<pre><code class=language-odin data-lang=odin>foo :: proc(#no_alias a, b: ^int) {}
-</code></pre><ul>
-<li><strong>#any_int</strong></li>
-</ul>
-<p>This tag can be applied to a procedure parameter that is an integer. This allows implicit casts to the procedures integer type at
-the call site.</p>
-<pre><code class=language-odin data-lang=odin>foo :: proc(#any_int a: int) {}
-x : i32
-foo(x) // This is now allowed without an explicit cast
-</code></pre><ul>
-<li><strong>#caller_location</strong></li>
-</ul>
-<p>This tag is used as a function&rsquo;s parameter value. In the following function signature,</p>
-<pre><code class=language-odin data-lang=odin>alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_location) -&gt; rawptr
-</code></pre><p><code>loc</code> is a variable of type <code>Source_Code_Location</code> (see <code>core/runtime/core.odin</code>) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling <code>alloc</code>).</p>
-<ul>
-<li><strong>#c_vararg</strong>
-Used to interface with vararg functions in foreign procedures.</li>
-</ul>
-<pre><code class=language-odin data-lang=odin>foreign foo {
-    bar :: proc(n: int, #c_vararg args: ..any) ---
-}
-</code></pre><ul>
-<li><strong>#by_ptr</strong>
-Used to interface with const reference parameters in foreign procedures.
-The parameter is passed by pointer internally.</li>
-</ul>
-<pre><code class=language-odin data-lang=odin>foreign foo {
-    bar :: proc(#by_ptr p: T) ---
-}
-</code></pre><p>to represent</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>void</span> bar(<span style=color:#66d9ef>const</span> T<span style=color:#f92672>*</span>)
-</code></pre></div><ul>
-<li><strong>#optional_ok</strong></li>
-</ul>
-<p>Allows skipping the last return parameter, which needs to be a <code>bool</code></p>
-<pre><code class=language-odin data-lang=odin>import &quot;core:fmt&quot;
-
-foo :: proc(x: int) -&gt; (value: int, ok: bool) #optional_ok {
-    return x + 1, true
-}
-
-main :: proc() {
-    for x := 0; x &lt; 11; x = foo(x) {
-        fmt.printf(&quot;v: %v\n&quot;, x)
-    }
-}
-</code></pre><h4 id=expressions>Expressions <a class=text-decoration-none href=#expressions>#</a></h4>
-<ul>
-<li><strong>#type</strong></li>
-</ul>
-<p>This tag doesn&rsquo;t serve a functional purpose in the compiler, this is for telling someone reading the code that the expression is a type. The main case is for showing that a procedure signature without a body is a type and not just missing its body, for example:</p>
-<pre><code class=language-odin data-lang=odin>foo :: #type proc(foo: string)
-
-bar :: struct {
-    gin: foo,
-}
-</code></pre><h4 id=statements>Statements <a class=text-decoration-none href=#statements>#</a></h4>
-<ul>
-<li><strong>#bounds_check</strong></li>
-<li><strong>#no_bounds_check</strong></li>
-</ul>
-<p><code>#bounds_check</code> and <code>#no_bounds_check</code> are flags that control Odin&rsquo;s built-in bounds checking of arrays and slices. Any statement, block, or function with one of these flags will have their bounds checking turned on or off, depending on the flag provided. Valid uses of these flags include:</p>
-<pre><code class=language-odin data-lang=odin>proc_without_bounds_check :: proc() #no_bounds_check {
-    #bounds_check {
-        #no_bounds_check fmt.println(os.args[1])
-    }
-}
-</code></pre><h4 id=built-in-procedures>Built-in Procedures <a class=text-decoration-none href=#built-in-procedures>#</a></h4>
-<ul>
-<li><strong>#assert(&lt;boolean>)</strong></li>
-</ul>
-<p>Unlike <code>assert</code>, <code>#assert</code> runs at compile-time. <code>#assert</code> breaks compilation if the given bool expression is false, and thus <code>#assert</code> is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.</p>
-<pre><code class=language-odin data-lang=odin>#assert(SOME_CONST_CONDITION)
-</code></pre><ul>
-<li><strong>#panic(&lt;string>)</strong></li>
-</ul>
-<p>Panic runs at compile-time. It is functionally equivalent to an <code>#assert</code> with a <code>false</code> condition, but <code>#panic</code> has an error message string parameter.</p>
-<pre><code class=language-odin data-lang=odin>#panic(message)
-</code></pre><ul>
-<li><strong>#config(&lt;identifer>, default)</strong></li>
-</ul>
-<p>Checks if an identifier is defined through the command line, or gives a default value instead.</p>
-<p>Values can be set with the <code>-define:NAME=VALUE</code> command line flag.</p>
-<ul>
-<li><strong>#defined</strong></li>
-</ul>
-<p>Checks if an identifier is defined. This may only be used within a procedure&rsquo;s body.</p>
-<pre><code class=language-odin data-lang=odin>n: int
-when #defined(n) { fmt.println(&quot;true&quot;) }
-if #defined(int) { fmt.println(&quot;true&quot;) }
-when #defined(nonexistent_proc) == false { fmt.println(&quot;proc was not defined&quot;) }
-</code></pre><ul>
-<li><strong>#file</strong>, <strong>#line</strong>, <strong>#procedure</strong></li>
-</ul>
-<p>Return the current file path, line number, or procedure name, respectively. Used like a constant value. <code>file_name :: #file</code></p>
-<ul>
-<li><strong>#location()</strong> or <strong>#location(&lt;\entity>)</strong></li>
-</ul>
-<p>Returns a <code>runtime.Source_Code_Location</code> (see <code>core/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.</p>
-<pre><code class=language-odin data-lang=odin>foo :: proc() {}
-
-main :: proc() {
-    n: int
-    fmt.println(#location())
-    fmt.println(#location(foo))
-    fmt.println(#location(n))
-}
-</code></pre><ul>
-<li><strong>#load(&lt;string-path>)</strong> or <strong>#load(&lt;string-path>, &lt;type>)</strong></li>
-</ul>
-<p>Returns a <code>[]u8</code> of file contents at compile time, or optionally as another type.</p>
-<pre><code class=language-odin data-lang=odin>foo := #load(&quot;path/to/file&quot;)
-bar := #load(&quot;path/to/file&quot;, string)
-fmt.println(bar)
-
-If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
-baz := #load(&quot;path/to/file&quot;, []f32)
-</code></pre><ul>
-<li><strong>#load_or(&lt;string-path>, default)</strong></li>
-</ul>
-<p>Returns a <code>[]u8</code> of file contents at compile time, otherwise default content when the file wasn&rsquo;t found.</p>
-<pre><code class=language-odin data-lang=odin>foo := #load_or(&quot;path/to/file&quot;, []u8 { 104, 105 })
-fmt.println(string(foo))
-</code></pre><ul>
-<li><strong>#load_hash(&lt;string-path>, &lt;string-hash>)</strong></li>
-</ul>
-<p>Returns a constant integer of the hash of a file&rsquo;s contents at compile time. Available hashes: <code>"adler32"</code>, <code>"crc32"</code>, <code>"crc64"</code>, <code>"fnv32"</code>, <code>"fnv64"</code>, <code>"fnv32a"</code>, <code>"fnv64a"</code>, <code>"murmur32"</code>, or <code>"murmur64"</code>.</p>
-<pre><code class=language-odin data-lang=odin>hash :: #load_hash(&quot;path/to/file&quot;, &quot;crc32&quot;)
 </code></pre><h3 id=advanced-idioms>Advanced idioms <a class=text-decoration-none href=#advanced-idioms>#</a></h3>
 <p>Subtype polymorphism with run-time type-safe down-casting:</p>
 <pre><code class=language-odin data-lang=odin>Entity :: struct {
@@ -2645,11 +2592,28 @@ Some of this information includes:</p>
 </ul>
 </li>
 <li><a href=#--operator-selector-call-expressions><code>-></code> operator (selector call expressions)</a></li>
+<li><a href=#attributes>Attributes</a>
+<ul>
+<li><a href=#general-attributes>General attributes</a></li>
+<li><a href=#linking-and-foreign-attributes>Linking and foreign attributes</a></li>
+<li><a href=#procedure-attributes>Procedure attributes</a></li>
+<li><a href=#variable-attributes>Variable attributes</a></li>
+<li><a href=#specialized-attributes>Specialized attributes</a></li>
+</ul>
+</li>
+<li><a href=#directives>Directives</a>
+<ul>
+<li><a href=#record-memory-layout>Record memory layout</a></li>
+<li><a href=#control-statements>Control statements</a></li>
+<li><a href=#procedure-parameters>Procedure parameters</a></li>
+<li><a href=#expressions>Expressions</a></li>
+<li><a href=#statements>Statements</a></li>
+<li><a href=#built-in-procedures>Built-in procedures</a></li>
+</ul>
+</li>
 <li><a href=#useful-idioms>Useful idioms</a>
 <ul>
 <li><a href=#basic-idioms>Basic idioms</a></li>
-<li><a href=#attributes>Attributes</a></li>
-<li><a href=#directives>Directives</a></li>
 <li><a href=#advanced-idioms>Advanced idioms</a></li>
 </ul>
 </li>

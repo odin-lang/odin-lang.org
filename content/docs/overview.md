@@ -3116,7 +3116,7 @@ proc_without_bounds_check :: proc() #no_bounds_check {
 }
 ```
 
-### Built-in directives
+### Built-in procedures
 
 #### `#assert(<boolean>)`
 

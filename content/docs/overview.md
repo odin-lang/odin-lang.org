@@ -4,8 +4,6 @@ summary: An overview of the Odin programming language and its features.
 weight: 2
 ---
 
-## Introduction
-
 This article is a basic tutorial for the programming language _Odin_. This tutorial assumes a basic knowledge of programming concepts such as variables, statements, and types. It is recommended to read the [Getting started with Odin](https://github.com/odin-lang/Odin/wiki#getting-started-with-odin) guide.
 
 ## Hellope!
@@ -81,7 +79,7 @@ len(some_string)
 
 If the string passed to `len` is a compile-time constant, the value from `len` will be a compile-time constant.
 
-#### Escape Characters
+#### Escape characters
 * `\a` - bell (BEL)
 * `\b` - backspace (BS)
 * `\e` - escape (ESC)
@@ -162,7 +160,7 @@ For more information regarding value declarations in general, please see the [Od
 ## Packages
 Every Odin program is made up of packages. Programs begin running in the package `main`.
 
-### `import` statement
+### import statement
 
 The following program imports the the `fmt` and `os` packages from the `core` library collection.
 
@@ -207,7 +205,8 @@ my_variable: int // cannot be accessed outside this file.
 
 ## Control flow statements
 
-### `for` statement
+### for
+
 Odin has only one loop statement, the `for` loop.
 
 #### Basic for loop
@@ -318,7 +317,7 @@ for _, i in some_slice {
 
 **Note:** When iterating across a string, the characters will be `rune`s and not bytes. `for in` assumes the string is encoded as UTF-8.
 
-### `if` statement
+### if
 
 Odin's `if` statements do not need to be surrounded by parentheses `( )` but braces `{ }` or `do` are required.
 
@@ -346,7 +345,7 @@ if x := foo(); x < 0 {
 }
 ```
 
-### `switch` statement
+### switch
 A switch statement is another way to write a sequence of if-else statements. In Odin, the default case is denoted as a case without any expression.
 
 ```odin
@@ -413,7 +412,7 @@ case 20..<30:
 ```
 
 
-#### `#partial switch`
+#### \#partial switch
 
 With `enum` values:
 ```odin
@@ -456,7 +455,7 @@ case bool: fmt.println("bool")
 
 
 
-### `defer` statement
+### defer
 A defer statement defers the execution of a statement until the end of the scope it is in.
 
 The following will print `4` then `234`:
@@ -512,7 +511,8 @@ In this case, it acts akin to an explicit C++ destructor however, the error hand
 
 **Note:** The `defer` construct in Odin differs from Go's `defer`, which is function-exit and relies on a closure stack system.
 
-### `when` statement
+### when
+
 The `when` statement is almost identical to the `if` statement but with some differences:
 
 * Each condition must be a constant expression as a `when` statement is evaluated at compile time.
@@ -535,8 +535,11 @@ when ODIN_ARCH == .i386 {
 The `when` statement is very useful for writing platform specific code. This is akin to the `#if` construct in C's preprocessor. However, in Odin, it is type checked.
 
 ### Branch statements
-#### `break` statement
+
+#### break
+
 A for loop or a switch statement can be left prematurely with a `break` statement. It leaves the innermost construct, unless a label of a construct is given:
+
 ```odin
 for cond {
 	switch {
@@ -556,7 +559,8 @@ loop: for cond1 {
 }
 ```
 
-#### `continue` statement
+#### continue
+
 As in many programming languages, a `continue` statement starts the next iteration of a loop prematurely:
 ```odin
 for cond {
@@ -567,7 +571,8 @@ for cond {
 }
 ```
 
-#### `fallthrough` statement
+#### fallthrough
+
 Odin's `switch` is like the one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
 
 `fallthrough` can be used to explicitly fall through into the next case block:
@@ -858,7 +863,7 @@ y: int = --- // uses uninitialized memory
 This is the default behaviour in C.
 
 
-### `cstring` type
+### cstring type
 The `cstring` type is a c-style string value, which is zero-terminated. It is equivalent to `char const *` in C. Its primary purpose is for easy interfacing with C. Please see the [foreign system](#foreign-system) for more information.
 
 A `cstring` is easily convertible to an Odin `string`. However, to convert a `string` to a `cstring`, it requires allocations if the value is not constant.
@@ -975,7 +980,7 @@ x: ^int = nil
 x^      // causes a runtime panic
 ```
 
-### Ternary Operators
+### Ternary operators
 
 ```txt
 x if cond else y    ternary runtime conditional expression
@@ -983,12 +988,143 @@ x when cond else y  ternary compile-time conditional expression
 cond ? x : y        ternary runtime conditional expression, equivalent to "x if cond else y"
 ```
 
+### or_else
+
+`or_else` is an infix binary operator that allows the user to define default values for certain expressions with optional-ok semantics.
+
+```odin
+m: map[string]int
+i: int
+ok: bool
+
+if i, ok = m["hellope"]; !ok {
+    i = 123
+}
+// The above can be mapped to 'or_else'
+i = m["hellope"] or_else 123
+
+assert(i == 123)
+```
+
+`or_else` can be used with type assertions too, as they have optional-ok semantics.
+
+```odin
+v: union{int, f64}
+i: int
+i = v.(int) or_else 123
+i = v.? or_else 123 // Type inference magic
+assert(i == 123)
+
+m: Maybe(int)
+i = m.? or_else 456
+assert(i == 456)
+```
+
+### or_return
+
+The concept of `or_return` will work by popping off the end value in a multiple valued expression and checking whether it was not `nil` or `false`, and if so, set the end return value to value if possible. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, `or_return` will require that all parameters be named so that the end value could be assigned to by name and then an empty return could be called. 
+
+```odin
+Error :: enum {
+    None,
+    Something_Bad,
+    Something_Worse,
+    The_Worst,
+    Your_Mum,
+};
+
+caller_1 :: proc() -> Error {
+    return .None
+}
+
+caller_2 :: proc() -> (int, Error) {
+    return 123, .None
+}
+caller_3 :: proc() -> (int, int, Error) {
+    return 123, 345, .None
+}
+
+foo_1 :: proc() -> Error {
+    // This can be a common idiom in many code bases
+    n0, err := caller_2()
+    if err != nil {
+        return err
+    }
+
+    // The above idiom can be transformed into the following
+    n1 := caller_2() or_return
+
+
+    // And if the expression is 1-valued, it can be used like this
+    caller_1() or_return
+    // which is functionally equivalent to
+    if err1 := caller_1(); err1 != nil {
+        return err1
+    }
+
+    // Multiple return values still work with 'or_return' as it only
+    // pops off the end value in the multi-valued expression
+    n0, n1 = caller_3() or_return
+
+    return .None
+}
+foo_2 :: proc() -> (n: int, err: Error) {
+    // It is more common that your procedure returns multiple values
+    // If 'or_return' is used within a procedure that returns multiple 
+    // values (2+), then all the returned values must be named 
+    // so that a bare 'return' statement can be used
+
+    // This can be a common idiom in many code bases
+    x: int
+    x, err = caller_2()
+    if err != nil {
+        return
+    }
+
+    // The above idiom can be transformed into the following
+    y := caller_2() or_return
+    _ = y
+
+    // And if the expression is 1-valued, it can be used like this
+    caller_1() or_return
+
+    // which is functionally equivalent to
+    if err1 := caller_1(); err1 != nil {
+        err = err1
+        return
+    }
+
+    // If using a non-bare 'return' statement is required, setting the return values
+    // using the normal idiom is a better choice and clearer to read.
+    if z, zerr := caller_2(); zerr != nil {
+        return -345 * z, zerr
+    }
+
+    // If the other return values need to be set depending on what the end value is,
+    // the 'defer if' idiom is can be used
+    defer if err != nil {
+        n = -1
+    }
+
+    n = 123
+    return
+}
+```
+
+### Selector call operator
+
+The `->` operator is called the selector call expression operator and is extremely useful for call procedures stored in vtables. [Component Objective Model (COM)](https://docs.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal) APIs is a great example of where this kind of thing is extremely useful (such as the [Direct3D11 package](https://pkg.odin-lang.org/vendor/directx/d3d11/)).
+
+```odin
+x->y(123)
+// is equivalent to
+x.y(x, 123)
+```
+
+As the `->` operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through `using` will still work as expected to allow for the emulation of type hierarchies.
+
 ### Other operators
 
-* `or_else`
-	* see section on [`or_else`](/docs/overview/#or_else-expression)
-* `or_return`
-	* see section on [`or_return`](/docs/overview/#or_return-operator)
 * `in` - set membership (`e in A`, `A` contains element `e`)
 	* Used for `bit_set` types and `map` types
 * `not_in` - not set membership (`e not_in A`, `A` does not contain `e`)
@@ -1152,7 +1288,7 @@ e := c != d // true
 
 **n.b.** Odin also supports [`matrix` types](/docs/overview/#matrix-type).
 
-##### Swizzle Operations
+##### Swizzle operations
 
 ```odin
 a := [3]f32{10, 20, 30}
@@ -1660,7 +1796,7 @@ proc "contextless" (s: []int)
 Procedure types are only compatible with the procedures that have the same calling convention and parameter types.
 
 
-### 'typeid' type
+### typeid type
 A `typeid` is a unique identifier for an Odin type. This construct is used by the `any` type to denote what the underlying data's type is.
 ```odin
 a := typeid_of(bool)
@@ -1681,14 +1817,14 @@ main :: proc() {
 ```
 
 
-### 'any' Type
+### any type
 An `any` type can reference any data type. Internally it contains a pointer to the underlying data and its relevant `typeid`. This is a very useful construct in order to have a runtime type safe printing procedure.
 
 **Note:** The `any` value is only valid for as long as the underlying data is still valid. Passing a literal to an `any` will allocate the literal in the current stack frame.
 
 **Note:** It is highly recommended that you **do not** use this unless you know what you are doing. Its primary use is for printing procedures.
 
-### Multi Pointers
+### Multi-Pointers
 
 Multi-Pointers in Odin are a way to describe [`foreign`](#foreign-system) (C-like) pointers which act like arrays (pointers that map to multiple items). The type `[^]T` is a multi-pointer to T value(s). Its zero value is `nil`.
 
@@ -1723,11 +1859,11 @@ x[i:n] -> []T
 **Note:** The name of mutli-pointers may be subject to change.
 
 
-### SOA Data Types
+### SOA data types
 
 _Array of Structures (AoS)_, _Structure of Arrays (SoA)_, and _Array of Structures of Arrays (AoSoA)_ refer to differing ways to arrange a sequence of data records in memory, with regard to interleaving. These are of interest in SIMD and SIMT programming.
 
-#### SOA Struct Arrays
+#### SOA struct arrays
 
 ```odin
 Vector3 :: struct {x, y, z: f32}
@@ -1797,7 +1933,7 @@ v_soa[0].y = 4
 v_soa[0].z = 9
 ```
 
-#### SOA Struct Slices and Dynamic Arrays
+#### SOA struct slices and dynamic arrays
 
 Fixed-length SOA types can be sliced to produce SOA slices.
 
@@ -1833,7 +1969,7 @@ fmt.println(cap(d))
 fmt.println(d[:])
 ```
 
-#### `soa_zip` and `soa_unzip`
+#### soa_zip and soa_unzip
 
 SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. `soa_zip` is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
 
@@ -1864,7 +2000,7 @@ a, b, c := soa_unzip(s)
 fmt.println(a, b, c)
 ```
 
-### `matrix` type
+### matrix type
 
 A `matrix` is a [mathematical type](https://wikipedia.org/wiki/Matrix_(mathematics)) built into Odin. It is a regular array of numbers, arranged in rows and columns.
 
@@ -1981,7 +2117,7 @@ fmt.println("a &~ b", c5)
 fmt.println("hadamard_product(a, b)", c6)
 ```
 
-#### Submatrix Casting
+#### Submatrix casting
 ##### Submatrix casting square matrices
 Casting a square matrix to another square matrix with same element type is supported. 
 
@@ -2031,7 +2167,7 @@ fmt.println("x", x)
 fmt.println("y", y)
 ```
 
-#### Technical Information of `matrix` Types
+#### Technical information of matrix types
 
 The internal representation of a matrix in Odin is stored in column-major format
 e.g. `matrix[2, 3]f32` is internally `[3][2]f32` (with a different alignment requirement).
@@ -2070,7 +2206,7 @@ Built-in Procedures (Runtime Level) (all square matrix procedures):
 
 
 
-## `using` statement
+## using statement
 `using` can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.
 
 ```odin
@@ -2150,129 +2286,6 @@ foo(frog)
 **Note:** `using` can be applied to arbitrarily many things, which allows the ability to have multiple subtype polymorphism (but also its issues).
 
 **Note:** `using`'d fields can still be referred by name.
-
-## `or_else` expression
-
-`or_else` is an infix binary operator that allows the user to define default values for certain expressions with optional-ok semantics.
-
-```odin
-m: map[string]int
-i: int
-ok: bool
-
-if i, ok = m["hellope"]; !ok {
-	i = 123
-}
-// The above can be mapped to 'or_else'
-i = m["hellope"] or_else 123
-
-assert(i == 123)
-```
-
-`or_else` can be used with type assertions too, as they have optional-ok semantics.
-
-```odin
-v: union{int, f64}
-i: int
-i = v.(int) or_else 123
-i = v.? or_else 123 // Type inference magic
-assert(i == 123)
-
-m: Maybe(int)
-i = m.? or_else 456
-assert(i == 456)
-```
-
-## `or_return` operator
-
-The concept of `or_return` will work by popping off the end value in a multiple valued expression and checking whether it was not `nil` or `false`, and if so, set the end return value to value if possible. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, `or_return` will require that all parameters be named so that the end value could be assigned to by name and then an empty return could be called. 
-
-```odin
-Error :: enum {
-	None,
-	Something_Bad,
-	Something_Worse,
-	The_Worst,
-	Your_Mum,
-};
-
-caller_1 :: proc() -> Error {
-	return .None
-}
-
-caller_2 :: proc() -> (int, Error) {
-	return 123, .None
-}
-caller_3 :: proc() -> (int, int, Error) {
-	return 123, 345, .None
-}
-
-foo_1 :: proc() -> Error {
-	// This can be a common idiom in many code bases
-	n0, err := caller_2()
-	if err != nil {
-		return err
-	}
-
-	// The above idiom can be transformed into the following
-	n1 := caller_2() or_return
-
-
-	// And if the expression is 1-valued, it can be used like this
-	caller_1() or_return
-	// which is functionally equivalent to
-	if err1 := caller_1(); err1 != nil {
-		return err1
-	}
-
-	// Multiple return values still work with 'or_return' as it only
-	// pops off the end value in the multi-valued expression
-	n0, n1 = caller_3() or_return
-
-	return .None
-}
-foo_2 :: proc() -> (n: int, err: Error) {
-	// It is more common that your procedure returns multiple values
-	// If 'or_return' is used within a procedure that returns multiple 
-	// values (2+), then all the returned values must be named 
-	// so that a bare 'return' statement can be used
-
-	// This can be a common idiom in many code bases
-	x: int
-	x, err = caller_2()
-	if err != nil {
-		return
-	}
-
-	// The above idiom can be transformed into the following
-	y := caller_2() or_return
-	_ = y
-
-	// And if the expression is 1-valued, it can be used like this
-	caller_1() or_return
-
-	// which is functionally equivalent to
-	if err1 := caller_1(); err1 != nil {
-		err = err1
-		return
-	}
-
-	// If using a non-bare 'return' statement is required, setting the return values
-	// using the normal idiom is a better choice and clearer to read.
-	if z, zerr := caller_2(); zerr != nil {
-		return -345 * z, zerr
-	}
-
-	// If the other return values need to be set depending on what the end value is,
-	// the 'defer if' idiom is can be used
-	defer if err != nil {
-		n = -1
-	}
-
-	n = 123
-	return
-}
-```
 
 ## Implicit context system
 In each scope, there is an implicit value named `context`. This `context` variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).
@@ -2415,7 +2428,7 @@ To see more uses of allocators, please see [`package mem`](https://github.com/od
 
 For more information regarding memory allocation strategies in general, please see [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
 
-#### Explicit `context` Definition
+#### Explicit context definition
 Procedures which do not use the `"odin"` calling convention must explicitly assign the `context` if something within its body requires it.
 
 ```odin
@@ -2432,9 +2445,7 @@ dummy_procedure :: proc() {
 }
 ```
 
-
-
-### Logging System
+### Logging system
 
 As part of the implicit `context` system, there is a built-in logging system.
 
@@ -2607,7 +2618,7 @@ find :: proc(table: ^Table($Key, $Value), key: Key) -> (Value, bool) {
 }
 ```
 
-### `where` clauses
+### where clauses
 A bound on polymorphic parameters to a procedure or record can be expressed using a `where` clause immediately before opening `{`, rather than at the type's or constant's first mention. Additionally, `where` clauses can apply bounds to arbitrary types, rather than just polymorphic type parameters.
 
 Some cases that a `where` clause may be useful:
@@ -2693,18 +2704,6 @@ f: Foo(T, N)
 #assert(size_of(f) == (N+N-2)*size_of(T))
 ```
 
-## `->` operator (selector call expressions)
-
-The `->` operator is called the selector call expression operator and is extremely useful for call procedures stored in vtables. [Component Objective Model (COM)](https://docs.microsoft.com/en-us/windows/win32/com/component-object-model--com--portal) APIs is a great example of where this kind of thing is extremely useful (such as the [Direct3D11 package](https://pkg.odin-lang.org/vendor/directx/d3d11/)).
-
-```odin
-x->y(123)
-// is equivalent to
-x.y(x, 123)
-```
-
-As the `->` operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through `using` will still work as expected to allow for the emulation of type hierarchies.
-
 
 ## Attributes
 
@@ -2712,7 +2711,7 @@ Attributes modify the compilation details or behaviour of declarations.
 
 ### General attributes
 
-#### `@(private)`
+#### \@(private)
 
 Prevents a top level element from being exported with the package.
 ```odin
@@ -2735,13 +2734,13 @@ package foo
 
 And `//+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
 
-#### `@(require)`
+#### \@(require)
 
 Requires that the declaration is added to the final compilation and not optimized out.
 
 ### Linking and foreign attributes
 
-#### `@(link_name=<string>)`
+#### \@(link_name=\<string\>)
 
 This attribute can be attached to variable and procedure declarations inside a `foreign` block. This specifies what the variable/proc is called in the library.
 Example:
@@ -2752,7 +2751,7 @@ foreign foo {
 }
 ```
 
-#### `@(link_prefix=<string>)`
+#### \@(link_prefix=\<string\>)
 
 This attribute can be attached to a `foreign` block to specify a prefix to all names. So if functions are prefixed with `ltb_` in the library is you can attach this and not specify that on the procedure on the Odin side. Example:
 ```odin
@@ -2762,15 +2761,15 @@ foreign foo {
 }
 ```
 
-#### `@export` or `@(export=true/false)`
+#### \@export or \@(export=true\/false)
 
 Exports a variable or procedure symbol, useful for producing DLLs.
 
-#### `@(linkage=<string>)`
+#### \@(linkage=\<string\>)
 
 Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: `"internal"`, `"strong"`, `"weak"`, and `"link_once"`.
 
-#### `@(default_calling_convention=<string>)`
+#### \@(default_calling_convention=\<string\>)
 
 This attribute can be attached to a `foreign` block to specify the default calling convention for all procedures in the block. Example:
 ```odin
@@ -2780,7 +2779,7 @@ foreign kernel32 {
 }
 ```
 
-#### `@(link_section=<string>)`
+#### \@(link_section=\<string\>)
 
 Specify the link section for a global variable.
 
@@ -2789,7 +2788,7 @@ Specify the link section for a global variable.
 my_global: i32
 ```
 
-#### `@(extra_linker_flags=<string>)`
+#### \@(extra_linker_flags=\<string\>)
 
 Provide additional linker flags to a `foreign import` declaration.
 
@@ -2807,7 +2806,7 @@ foreign import lib {
 
 ### Procedure attributes
 
-#### `(deferred_*=<proc>)`
+#### \@(deferred_\*=\<proc\>)
 
 * `(deferred_in=<proc>)`
 * `(deferred_out=<proc>)`
@@ -2838,7 +2837,7 @@ foo :: proc() {
 // In baz
 ```
 
-#### `@(deprecated=<string>)`
+#### \@(deprecated=\<string\>)
 
 Mark a procedure as deprecated. Running `odin build/run/check` will print out the message for each usage of the deprecated proc.
 ```odin
@@ -2848,7 +2847,7 @@ foo :: proc() {
 }
 ```
 
-#### `@(require_results)`
+#### \@(require_results)
 
 Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called, the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
 ```odin
@@ -2863,23 +2862,23 @@ main :: proc() {
 }
 ```
 
-#### `@(warning=<string>)`
+#### \@(warning=\<string\>)
 
 Produces a warning when a procedure is called.
 
-#### `@(disabled=<boolean>)`
+#### \@(disabled=\<boolean\>)
 
 If the provided boolean is set, the procedure will not be used when called.
 
-#### `@(init)`
+#### \@(init)
 
 This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by `@(init)` will then be called at the start of the program before `main` is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
 
-#### `@(cold)`
+#### \@(cold)
 
 A hint to the compiler that this procedure is rarely called, and thus "cold".
 
-#### `@(optimization_mode=<string>)`
+#### \@(optimization_mode=\<string\>)
 
 Set the optimization mode of a procedure. Valid modes are `"none"`, `"minimal"`, `"size"`, and `"speed"`.
 
@@ -2899,7 +2898,7 @@ skip_whitespace :: proc(t: ^Tokenizer) {
 
 ### Variable attributes
 
-#### `@(static)`
+#### \@(static)
 
 This attribute can be applied to a variable to have it keep its state even when going out of scope.
 This is the same behavior as a `static` local variable in C.
@@ -2917,7 +2916,7 @@ main :: proc() {
 }
 ```
 
-#### `@(thread_local)`
+#### \@(thread_local)
 
 Can be applied to a variable at file scope
 ```odin
@@ -2943,7 +2942,7 @@ Directives are a way of extending the core behaviour of the Odin programming lan
 
 ### Record memory layout
 
-#### `#packed`
+#### \#packed
 
 This tag can be applied to a struct. Removes padding between fields that's normally inserted to ensure all fields meet their type's alignment requirements. Fields remain in source order.
 
@@ -2954,14 +2953,14 @@ Accessing a field in a packed struct may require copying the field out of the st
 struct #packed {x: u8, y: i32, z: u16, w: u8}
 ```
 
-#### `#raw_union`
+#### \#raw_union
 
 This tag can be applied to a struct. Struct's fields will share the same memory space which serves the same functionality as `union`s in C language. Useful when writing bindings especially.
 ```odin
 struct #raw_union {u: u32, i: i32, f: f32}
 ```
 
-#### `#align`
+#### \#align
 This tag can be applied to a `struct` or `union`. When `#align` is passed an integer `N` (as in `#align N`), it specifies that the `struct` will be aligned to `N` bytes. The `struct`'s fields will remain in source-order.
 ```odin
 Foo :: struct #align 4 {
@@ -2973,7 +2972,7 @@ Bar :: union #align 4 {
 }
 ```
 
-#### `#no_nil`
+#### \#no_nil
 This tag can be applied to a union to not allow nil values.
 ```odin
 A :: union {int, bool}
@@ -2993,7 +2992,7 @@ Possible states of B:
 
 ### Control statements
 
-#### `#partial`
+#### \#partial
 
 By default all `case`s of an `enum` or union have to be covered in a `switch` statement. The reason for this requirement is because it makes accidental bugs less likely. However, the `#partial` tag allows you to not have to write out `case`s that you don't need to handle:
 ```odin
@@ -3024,7 +3023,7 @@ test :: proc() {
 
 ### Procedure parameters
 
-#### `#no_alias`
+#### \#no_alias
 
 This tag can be applied to a procedure parameter that is a pointer. This is a hint to the compiler that this parameter will not alias other parameters. This is equivalent to C's `__restrict`.
 
@@ -3032,7 +3031,7 @@ This tag can be applied to a procedure parameter that is a pointer. This is a hi
 foo :: proc(#no_alias a, b: ^int) {}
 ```
 
-#### `#any_int`
+#### \#any_int
 
 This tag can be applied to a procedure parameter that is an integer. This allows implicit casts to the procedures integer type at
 the call site.
@@ -3043,7 +3042,7 @@ x : i32
 foo(x) // This is now allowed without an explicit cast
 ```
 
-#### `#caller_location`
+#### \#caller_location
 
 This tag is used as a function's parameter value. In the following function signature,
 ```odin
@@ -3052,7 +3051,7 @@ alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_loca
 
 `loc` is a variable of type `Source_Code_Location` (see `core/runtime/core.odin`) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling `alloc`).
 
-#### `#c_vararg`
+#### \#c_vararg
 Used to interface with vararg functions in foreign procedures.
 ```odin
 foreign foo {
@@ -3060,7 +3059,7 @@ foreign foo {
 }
 ```
 
-#### `#by_ptr`
+#### \#by_ptr
 Used to interface with const reference parameters in foreign procedures.
 The parameter is passed by pointer internally.
 ```odin
@@ -3073,7 +3072,7 @@ to represent
 void bar(const T*)
 ```
 
-#### `#optional_ok`
+#### \#optional_ok
 
 Allows skipping the last return parameter, which needs to be a `bool`
 ```odin
@@ -3092,7 +3091,7 @@ main :: proc() {
 
 ### Expressions
 
-#### `#type`
+#### \#type
 
 This tag doesn't serve a functional purpose in the compiler, this is for telling someone reading the code that the expression is a type. The main case is for showing that a procedure signature without a body is a type and not just missing its body, for example:
 ```odin
@@ -3105,7 +3104,7 @@ bar :: struct {
 
 ### Statements
 
-#### `#bounds_check` and `#no_bounds_check`
+#### \#bounds_check and \#no_bounds_check
 
 The `#bounds_check` and `#no_bounds_check` flags control Odin's built-in bounds checking of arrays and slices. Any statement, block, or function with one of these flags will have their bounds checking turned on or off, depending on the flag provided. Valid uses of these flags include:
 ```odin
@@ -3118,27 +3117,27 @@ proc_without_bounds_check :: proc() #no_bounds_check {
 
 ### Built-in procedures
 
-#### `#assert(<boolean>)`
+#### \#assert(\<boolean\>)
 
 Unlike `assert`, `#assert` runs at compile-time. `#assert` breaks compilation if the given bool expression is false, and thus `#assert` is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.
 ```odin
 #assert(SOME_CONST_CONDITION)
 ```
 
-#### `#panic(<string>)``
+#### \#panic(\<string\>)
 
 Panic runs at compile-time. It is functionally equivalent to an `#assert` with a `false` condition, but `#panic` has an error message string parameter.
 ```odin
 #panic(message)
 ```
 
-#### `#config(<identifer>, default)``
+#### \#config(\<identifer\>, default)
 
 Checks if an identifier is defined through the command line, or gives a default value instead.
 
 Values can be set with the `-define:NAME=VALUE` command line flag.
 
-#### `#defined`
+#### \#defined
 
 Checks if an identifier is defined. This may only be used within a procedure's body.
 
@@ -3149,11 +3148,11 @@ if #defined(int) { fmt.println("true") }
 when #defined(nonexistent_proc) == false { fmt.println("proc was not defined") }
 ```
 
-#### `#file`, `#line`, `#procedure`
+#### \#file, \#line, \#procedure
 
 Return the current file path, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
 
-#### `#location()` or `#location(<entity>)`
+#### \#location() or \#location(\<entity\>)
 
 Returns a `runtime.Source_Code_Location` (see `core/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
 ```odin
@@ -3167,7 +3166,7 @@ main :: proc() {
 }
 ```
 
-#### `#load(<string-path>)` or `#load(<string-path>, <type>)`
+#### \#load(\<string-path\>) or \#load(\<string-path\>, \<type\>)
 
 Returns a `[]u8` of file contents at compile time, or optionally as another type.
 ```odin
@@ -3179,7 +3178,7 @@ If a file's size is not a multiple of the `size_of(type)`, then any remainder is
 baz := #load("path/to/file", []f32)
 ```
 
-#### `#load_or(<string-path>, default)`
+#### \#load_or(\<string-path\>, default)
 
 Returns a `[]u8` of file contents at compile time, otherwise default content when the file wasn't found.
 ```odin
@@ -3187,7 +3186,7 @@ foo := #load_or("path/to/file", []u8 { 104, 105 })
 fmt.println(string(foo))
 ```
 
-#### `#load_hash(<string-path>, <string-hash>)`
+#### \#load_hash(\<string-path\>, \<string-hash\>)
 
 Returns a constant integer of the hash of a file's contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
 
@@ -3217,7 +3216,7 @@ You can also use ternary expressions with constants at compile-time:
 DEBUG_LOG_SIZE :: 1024 when ODIN_DEBUG else 0
 ```
 
-#### If-statements with initialization
+#### If statements with initialization
 
 ```odin
 if str, ok := value.(string); ok {
@@ -3262,13 +3261,13 @@ for v, j in &foos {
 }
 ```
 
-#### 'defer if'
+#### defer if
 ```odin
 defer if cond {
 }
 ```
 
-#### 'Maybe(T)'
+#### Maybe(T)
 ```odin
 halve :: proc(n: int) -> Maybe(int) {
 	if n % 2 != 0 do return nil
@@ -3316,7 +3315,7 @@ case ^Frog:
 }
 ```
 
-## Implicit Type Conversions
+## Implicit type conversions
 
 Odin is a strongly and `distinct`ly typed language by default. It has very few implicit type conversions compared to many other languages.
 
@@ -3340,7 +3339,7 @@ Odin is a strongly and `distinct`ly typed language by default. It has very few i
 * Untyped rune     -> all rune types
 * Untyped strings  -> all string types
 
-## Extra Information
+## Extra information
 More details can be found on the [Github wiki for Odin](https://github.com/odin-lang/Odin/wiki).
 Some of this information includes:
 

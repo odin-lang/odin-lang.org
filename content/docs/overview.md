@@ -534,6 +534,8 @@ when ODIN_ARCH == .i386 {
 
 The `when` statement is very useful for writing platform specific code. This is akin to the `#if` construct in C's preprocessor. However, in Odin, it is type checked.
 
+For a list a pre-defined constants (such as `ODIN_ARCH`), see the [Pre-defined constants](#pre-defined-constants) section.
+
 ### Branch statements
 #### `break` statement
 A for loop or a switch statement can be left prematurely with a `break` statement. It leaves the innermost construct, unless a label of a construct is given:
@@ -2704,6 +2706,70 @@ x.y(x, 123)
 ```
 
 As the `->` operator is effectively syntactic sugar, all of the same semantics still apply, meaning subtyping through `using` will still work as expected to allow for the emulation of type hierarchies.
+
+
+## Pre-defined constants
+
+Odin defines the following global constants.
+
+```odin
+ODIN_OS :: enum int {
+    Unknown,
+    Windows,
+    Darwin,
+    Linux,
+    Essence,
+    FreeBSD,
+    OpenBSD,
+    WASI,
+    JS,
+    Freestanding,
+}
+
+ODIN_ARCH :: enum int {
+    Unknown,
+    amd64,
+    i386,
+    arm32,
+    arm64,
+    wasm32,
+    wasm64,
+}
+
+ODIN_BUILD_MODE :: enum int {
+    Executable,
+    Dynamic,
+    Object,
+    Assembly,
+    LLVM_IR,
+}
+
+ODIN_ENDIAN :: enum int {
+    Unknown,
+    Little,
+    Big,
+}
+
+// strings
+ODIN_VENDOR                   // compiler vendor
+ODIN_VERSION                  // compiler version
+ODIN_ROOT                     // Odin root directory, example "C:\Odin\"
+ODIN_BUILD_PROJECT_NAME       // Odin main/initial package's directory name
+ODIN_ENDIAN_STRING            // "little", "big", or "unknown"
+
+// bools
+ODIN_DEBUG                    // Odin in debug mode
+ODIN_DISABLE_ASSERT           // If the default 'assert' is disabled
+ODIN_DEFAULT_TO_NIL_ALLOCATOR // If the default allocator is a "nil" allocator
+ODIN_NO_DYNAMIC_LITERALS
+ODIN_NO_CRT
+ODIN_USE_SEPARATE_MODULES
+ODIN_TEST
+ODIN_NO_ENTRY_POINT
+ODIN_FOREIGN_ERROR_PROCEDURES
+ODIN_DISALLOW_RTTI
+ODIN_VALGRIND_SUPPORT
+```
 
 
 ## Attributes

@@ -130,8 +130,8 @@ lib -nologo foo.obj -out:foo.lib
 <pre><code class=language-odin data-lang=odin>import &quot;core:fmt&quot;
 import &quot;core:c&quot;
 
-when ODIN_OS == &quot;windows&quot; do foreign import foo &quot;foo.lib&quot;
-when ODIN_OS == &quot;linux&quot;   do foreign import foo &quot;foo.a&quot;
+when ODIN_OS == .Windows do foreign import foo &quot;foo.lib&quot;
+when ODIN_OS == .Linux   do foreign import foo &quot;foo.a&quot;
 
 foreign foo {
     foo_add_int    :: proc(a, b: c.int)    -&gt; c.int ---

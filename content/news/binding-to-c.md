@@ -47,8 +47,8 @@ And finally, to use it in Odin, you could do:
 import "core:fmt"
 import "core:c"
 
-when ODIN_OS == "windows" do foreign import foo "foo.lib"
-when ODIN_OS == "linux"   do foreign import foo "foo.a"
+when ODIN_OS == .Windows do foreign import foo "foo.lib"
+when ODIN_OS == .Linux   do foreign import foo "foo.a"
 
 foreign foo {
     foo_add_int    :: proc(a, b: c.int)    -> c.int ---

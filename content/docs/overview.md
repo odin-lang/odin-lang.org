@@ -2287,6 +2287,117 @@ foo(frog)
 
 **Note:** `using`'d fields can still be referred by name.
 
+
+## Conditional compilation
+
+A couple of ways are provided for doing this, and each of them have their uses.
+
+### File suffixes
+
+Often, you want to separate multiple implementations of a package based on the OS or the architecture.
+
+Your .odin files can have a magic suffix that will cause the compiler to either include or exclude them based on the target platform or architecture, or both.
+
+For example, `foobar_windows.odin` would only be compiled on Windows, `foobar_linux.odin` only on Linux, and `foobar_windows_amd64.odin` only on Windows AMD64.
+
+### `when` statements
+
+Sometimes you only want to include a small number of statements or declarations for compilation, if a certain compile-time expression evaluates
+to `true`.
+This expression can be any compile-time-known expression which results in a value of type `bool`.
+
+The compiler provides a set of builtin constants which are available in all files in a compilation, and which can be used in a `when` condition.
+Here is a comprehensive list of them:
+
+| Name                                | Description                                                                                                                                                                             |
+|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `ODIN_VERSION`                      | A string that represents the Odin compiler version being used. (e.g: `dev-2023-04`)                                                                                                     |
+| `ODIN_OS`,     `ODIN_OS_STRING`     | An enum value, or string, respectively, indicating what the target operating system is.                                                                                                 |
+| `ODIN_ENDIAN`, `ODIN_ENDIAN_STRING` | An enum value, or string, respectively, indicating what the endianness of the target is.                                                                                                |
+| `ODIN_ARCH`,   `ODIN_ARCH_STRING`   | An enum value, or string, respectively, indicating what the CPU architecture of the target is.                                                                                          |
+| `ODIN_DEBUG`                        | `true` if `-debug` command line switch is passed, which enables debug info generation.                                                                                                  |
+| `ODIN_DISABLE_ASSERT`               | `true` if `-disable-assert` command line switch is passed, which removes all calls to `assert` from the compilation.                                                                    |
+| `ODIN_BUILD_MODE`                   | An enum value indicating what type of compiled output the user desires. (`.Executable`, `.Dynamic`, `.Object`, `.Assembly`, or `.LLVM_IR`.)                                             |
+| `ODIN_ERROR_POS_STYLE`              | An enum value indicating what style is being used to print the source location of compile errors and warnings. (`Default`, `Unix`.)                                                     |
+| `ODIN_DEFAULT_TO_NIL_ALLOCATOR`     | `true` if `-default-to-nil-allocator` command lines switch is passed, which sets the initial allocator to an allocator that does nothing.                                               |
+| `ODIN_NO_DYNAMIC_LITERALS`          | `true` if `-no-dynamic-literals` command line switch is passed, which prohibit dynamic array or map literals.                                                                           |
+| `ODIN_NO_CRT`                       | `true` if `-no-crt` command line switch is passed, which inhibits linking with the C Runtime Library, a.k.a. LibC.                                                                      |
+| `ODIN_USE_SEPARATE_MODULES`         | `true` if `-use-separate-modules` command line switch is passed, which builds each package into its own object file, and then links them together, instead of performing a unity build. |
+| `ODIN_TEST`                         | `true` if the code is being compiled via an invocation of `odin test`.                                                                                                                  |
+| `ODIN_NO_ENTRY_POINT`               | `true` if `-no-entry-point` command line switch is passed, which makes the declaration of a `main` procedure optional.                                                                  |
+| `ODIN_FOREIGN_ERROR_PROCEDURES`     | `true` if `-foreign-error-procedures` command line switch is passed, which inhibits generation of runtime error procedures, so that they can be in a separate compilation unit.         |
+| `ODIN_DISALLOW_RTTI`                | `true` if `-disallow-rtti` command line switch is passed, which inhibits generation of full Runtime Type Information.                                                                   |
+| `ODIN_ROOT`                         | Path to the folder containing the Odin compiler executable.                                                                                                                             |
+| `ODIN_BUILD_PROJECT_NAME`           | Name of the folder that contains the entry point.                                                                                                                                       |
+| `ODIN_VENDOR`                       | String which identifies the compiler being used. The official compiler sets this to `"odin"`.                                                                                           |
+| `ODIN_VALGRIND_SUPPORT`             | `true` if Valgrind integration is supported on the target.                                                                                                                              |
+
+What follows is an example of when you might use this approach.
+It sets the initial allocator to one that tracks memory leaks and incorrect frees when the user has asked for debug information to be emitted.
+```odin
+package main
+
+import "core:fmt"
+import "core:mem"
+
+main :: proc() {
+	when ODIN_DEBUG {
+		track: mem.Tracking_Allocator
+		mem.tracking_allocator_init(&track, context.allocator)
+		context.allocator = mem.tracking_allocator(&track)
+
+		defer {
+			if len(track.allocation_map) > 0 {
+				fmt.eprintf("=== %v allocations not freed: ===\n", len(track.allocation_map))
+				for _, entry in track.allocation_map {
+					fmt.eprintf("- %v bytes @ %v\n", entry.size, entry.location)
+				}
+			}
+			if len(track.bad_free_array) > 0 {
+				fmt.eprintf("=== %v incorrect frees: ===\n", len(track.bad_free_array))
+				for entry in track.bad_free_array {
+					fmt.eprintf("- %p @ %v\n", entry.memory, entry.location)
+				}
+			}
+		}
+	}
+	
+	
+	do_stuff()
+}
+```
+
+### Command-line defines
+
+Sometimes you want to do something conditionally based on some compile-time parameters of some sort, but globally, across the entire project.
+This is how you define those.
+
+You may define a constant using the `-define` command line switch. e.g: `-define:FOO=true`.
+You can then fetch its value as a constant in your code like this:
+```odin
+when #config(FOO, false) {
+	// only evaluated if you `-define:FOO=true`
+}
+```
+The value for a command line define may be an integer, boolean, or string. Currently, no other types are supported.
+
+
+### Build tags
+
+This feature allows you to cover more edge-case situations where you want some code to be compiled on several platforms.
+
+However, overly-liberal use of this feature can make it hard to reason about what code is included or not, based on the target platform or architecture.
+[File Suffixes](#File-Suffixes) are typically a nicer approach if they cover what you need.
+
+For the sake of demonstration, let's take POSIX: You could use `foobar_unix.odin`, which has no special meaning to the compiler at all, and use a tag in the file itself.
+
+Here's an example of a file that will only be included on Linux or Darwin:
+```odin
+//+build linux, darwin
+package foobar
+```
+
+
 ## Implicit context system
 In each scope, there is an implicit value named `context`. This `context` variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).
 

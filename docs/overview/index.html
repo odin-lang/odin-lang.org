@@ -1703,6 +1703,157 @@ foo_2 :: proc() -&gt; (n: int, err: Error) {
 	n = 123
 	return
 }
+</code></pre><h2 id=conditional-compilation>Conditional compilation <a class=text-decoration-none href=#conditional-compilation>#</a></h2>
+<p>A couple of ways are provided for doing this, and each of them have their uses.</p>
+<h3 id=file-suffixes>File suffixes <a class=text-decoration-none href=#file-suffixes>#</a></h3>
+<p>Often, you want to separate multiple implementations of a package based on the OS or the architecture.</p>
+<p>Your .odin files can have a magic suffix that will cause the compiler to either include or exclude them based on the target platform or architecture, or both.</p>
+<p>For example, <code>foobar_windows.odin</code> would only be compiled on Windows, <code>foobar_linux.odin</code> only on Linux, and <code>foobar_windows_amd64.odin</code> only on Windows AMD64.</p>
+<h3 id=when-statements><code>when</code> statements <a class=text-decoration-none href=#when-statements>#</a></h3>
+<p>Sometimes you only want to include a small number of statements or declarations for compilation, if a certain compile-time expression evaluates
+to <code>true</code>.
+This expression can be any compile-time-known expression which results in a value of type <code>bool</code>.</p>
+<p>The compiler provides a set of builtin constants which are available in all files in a compilation, and which can be used in a <code>when</code> condition.
+Here is a comprehensive list of them:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ODIN_VERSION</code></td>
+<td>A string that represents the Odin compiler version being used. (e.g: <code>dev-2023-04</code>)</td>
+</tr>
+<tr>
+<td><code>ODIN_OS</code>, <code>ODIN_OS_STRING</code></td>
+<td>An enum value, or string, respectively, indicating what the target operating system is.</td>
+</tr>
+<tr>
+<td><code>ODIN_ENDIAN</code>, <code>ODIN_ENDIAN_STRING</code></td>
+<td>An enum value, or string, respectively, indicating what the endianness of the target is.</td>
+</tr>
+<tr>
+<td><code>ODIN_ARCH</code>, <code>ODIN_ARCH_STRING</code></td>
+<td>An enum value, or string, respectively, indicating what the CPU architecture of the target is.</td>
+</tr>
+<tr>
+<td><code>ODIN_DEBUG</code></td>
+<td><code>true</code> if <code>-debug</code> command line switch is passed, which enables debug info generation.</td>
+</tr>
+<tr>
+<td><code>ODIN_DISABLE_ASSERT</code></td>
+<td><code>true</code> if <code>-disable-assert</code> command line switch is passed, which removes all calls to <code>assert</code> from the compilation.</td>
+</tr>
+<tr>
+<td><code>ODIN_BUILD_MODE</code></td>
+<td>An enum value indicating what type of compiled output the user desires. (<code>.Executable</code>, <code>.Dynamic</code>, <code>.Object</code>, <code>.Assembly</code>, or <code>.LLVM_IR</code>.)</td>
+</tr>
+<tr>
+<td><code>ODIN_ERROR_POS_STYLE</code></td>
+<td>An enum value indicating what style is being used to print the source location of compile errors and warnings. (<code>Default</code>, <code>Unix</code>.)</td>
+</tr>
+<tr>
+<td><code>ODIN_DEFAULT_TO_NIL_ALLOCATOR</code></td>
+<td><code>true</code> if <code>-default-to-nil-allocator</code> command lines switch is passed, which sets the initial allocator to an allocator that does nothing.</td>
+</tr>
+<tr>
+<td><code>ODIN_NO_DYNAMIC_LITERALS</code></td>
+<td><code>true</code> if <code>-no-dynamic-literals</code> command line switch is passed, which prohibit dynamic array or map literals.</td>
+</tr>
+<tr>
+<td><code>ODIN_NO_CRT</code></td>
+<td><code>true</code> if <code>-no-crt</code> command line switch is passed, which inhibits linking with the C Runtime Library, a.k.a. LibC.</td>
+</tr>
+<tr>
+<td><code>ODIN_USE_SEPARATE_MODULES</code></td>
+<td><code>true</code> if <code>-use-separate-modules</code> command line switch is passed, which builds each package into its own object file, and then links them together, instead of performing a unity build.</td>
+</tr>
+<tr>
+<td><code>ODIN_TEST</code></td>
+<td><code>true</code> if the code is being compiled via an invocation of <code>odin test</code>.</td>
+</tr>
+<tr>
+<td><code>ODIN_NO_ENTRY_POINT</code></td>
+<td><code>true</code> if <code>-no-entry-point</code> command line switch is passed, which makes the declaration of a <code>main</code> procedure optional.</td>
+</tr>
+<tr>
+<td><code>ODIN_FOREIGN_ERROR_PROCEDURES</code></td>
+<td><code>true</code> if <code>-foreign-error-procedures</code> command line switch is passed, which inhibits generation of runtime error procedures, so that they can be in a separate compilation unit.</td>
+</tr>
+<tr>
+<td><code>ODIN_DISALLOW_RTTI</code></td>
+<td><code>true</code> if <code>-disallow-rtti</code> command line switch is passed, which inhibits generation of full Runtime Type Information.</td>
+</tr>
+<tr>
+<td><code>ODIN_ROOT</code></td>
+<td>Path to the folder containing the Odin compiler executable.</td>
+</tr>
+<tr>
+<td><code>ODIN_BUILD_PROJECT_NAME</code></td>
+<td>Name of the folder that contains the entry point.</td>
+</tr>
+<tr>
+<td><code>ODIN_VENDOR</code></td>
+<td>String which identifies the compiler being used. The official compiler sets this to <code>"odin"</code>.</td>
+</tr>
+<tr>
+<td><code>ODIN_VALGRIND_SUPPORT</code></td>
+<td><code>true</code> if Valgrind integration is supported on the target.</td>
+</tr>
+</tbody>
+</table>
+<p>What follows is an example of when you might use this approach.
+It sets the initial allocator to one that tracks memory leaks and incorrect frees when the user has asked for debug information to be emitted.</p>
+<pre><code class=language-odin data-lang=odin>package main
+
+import &quot;core:fmt&quot;
+import &quot;core:mem&quot;
+
+main :: proc() {
+	when ODIN_DEBUG {
+		track: mem.Tracking_Allocator
+		mem.tracking_allocator_init(&amp;track, context.allocator)
+		context.allocator = mem.tracking_allocator(&amp;track)
+
+		defer {
+			if len(track.allocation_map) &gt; 0 {
+				fmt.eprintf(&quot;=== %v allocations not freed: ===\n&quot;, len(track.allocation_map))
+				for _, entry in track.allocation_map {
+					fmt.eprintf(&quot;- %v bytes @ %v\n&quot;, entry.size, entry.location)
+				}
+			}
+			if len(track.bad_free_array) &gt; 0 {
+				fmt.eprintf(&quot;=== %v incorrect frees: ===\n&quot;, len(track.bad_free_array))
+				for entry in track.bad_free_array {
+					fmt.eprintf(&quot;- %p @ %v\n&quot;, entry.memory, entry.location)
+				}
+			}
+		}
+	}
+	
+	
+	do_stuff()
+}
+</code></pre><h3 id=command-line-defines>Command-line defines <a class=text-decoration-none href=#command-line-defines>#</a></h3>
+<p>Sometimes you want to do something conditionally based on some compile-time parameters of some sort, but globally, across the entire project.
+This is how you define those.</p>
+<p>You may define a constant using the <code>-define</code> command line switch. e.g: <code>-define:FOO=true</code>.
+You can then fetch its value as a constant in your code like this:</p>
+<pre><code class=language-odin data-lang=odin>when #config(FOO, false) {
+	// only evaluated if you `-define:FOO=true`
+}
+</code></pre><p>The value for a command line define may be an integer, boolean, or string. Currently, no other types are supported.</p>
+<h3 id=build-tags>Build tags <a class=text-decoration-none href=#build-tags>#</a></h3>
+<p>This feature allows you to cover more edge-case situations where you want some code to be compiled on several platforms.</p>
+<p>However, overly-liberal use of this feature can make it hard to reason about what code is included or not, based on the target platform or architecture.
+<a href=#File-Suffixes>File Suffixes</a> are typically a nicer approach if they cover what you need.</p>
+<p>For the sake of demonstration, let&rsquo;s take POSIX: You could use <code>foobar_unix.odin</code>, which has no special meaning to the compiler at all, and use a tag in the file itself.</p>
+<p>Here&rsquo;s an example of a file that will only be included on Linux or Darwin:</p>
+<pre><code class=language-odin data-lang=odin>//+build linux, darwin
+package foobar
 </code></pre><h2 id=implicit-context-system>Implicit context system <a class=text-decoration-none href=#implicit-context-system>#</a></h2>
 <p>In each scope, there is an implicit value named <code>context</code>. This <code>context</code> variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).</p>
 <p>The main purpose of the implicit <code>context</code> system is for the ability to intercept third-party code and libraries and modify their functionality. One such case is modifying how a library allocates something or logs something. In C, this was usually achieved with the library defining macros which could be overridden so that the user could define what he wanted. However, not many libraries supported this in many languages by default which meant intercepting third-party code to see what it does and to change how it does it was not possible.</p>
@@ -2577,6 +2728,14 @@ Some of this information includes:</p>
 </li>
 <li><a href=#or_else-expression><code>or_else</code> expression</a></li>
 <li><a href=#or_return-operator><code>or_return</code> operator</a></li>
+<li><a href=#conditional-compilation>Conditional compilation</a>
+<ul>
+<li><a href=#file-suffixes>File suffixes</a></li>
+<li><a href=#when-statements><code>when</code> statements</a></li>
+<li><a href=#command-line-defines>Command-line defines</a></li>
+<li><a href=#build-tags>Build tags</a></li>
+</ul>
+</li>
 <li><a href=#implicit-context-system>Implicit context system</a>
 <ul>
 <li><a href=#allocators>Allocators</a></li>

@@ -18,11 +18,9 @@ Through EmberGen, Odin runs in production among the giants of the games and film
 EmberGen is commercial software with a [trial version](https://jangafx.com/software/embergen/download/) available.
 <div class="clearfix"></div>
 
+## 1.0 Release Trailer
 
-## 0.7.5 Release Trailer
-
-{{< youtube id="8GeRdRsa-6w" >}}
-
+{{< youtube id="EJgA0LLq5TM" >}}
 
 ## EmberGen for Games
 

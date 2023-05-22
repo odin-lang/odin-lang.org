@@ -2,12 +2,13 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <link rel=icon href=/favicon.svg>
-<meta property="og:title" content="showcase">
-<meta property="og:description" content>
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://odin-lang.org/categories/showcase/">
+<meta property="og:title" content="Spall">
+<meta property="og:description" content="Spall is a fast, easy-to-use profiler, on the web, and natively on your computer ">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://odin-lang.org/showcase/spall/">
 <meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
-<meta property="og:updated_time" content="2023-05-22T00:00:00+00:00">
+<meta property="article:published_time" content="2023-05-22T00:00:00+00:00">
+<meta property="article:modified_time" content="2023-05-22T00:00:00+00:00">
 <link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
 <link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
 <script src=/lib/highlight/highlight.min.js></script>
@@ -16,7 +17,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
 <link href=/css/style.css rel=stylesheet>
-<title>showcase | Odin Programming Language </title>
+<title>Spall | Odin Programming Language </title>
 <body><header class=sticky-top>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
 <div class=container>
@@ -59,30 +60,74 @@
 <nav class="col-lg-2 odin-sidebar-border navbar-light">
 <div class="sticky-top odin-below-navbar py-3">
 <ul class="nav nav-pills d-flex flex-column">
+<li class=nav-item>
+<a class=nav-link href=/showcase/embergen/>EmberGen</a>
+</li>
+<li class=nav-item>
+<a class="nav-link active" href=/showcase/spall/ aria-current=page>Spall</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/showcase/todool/>Todool</a>
+</li>
 </ul>
 </div>
 </nav>
 <article class="col-lg-8 p-4">
-<article>
 <header>
-<h1>showcase</h1>
+<nav aria-label=breadcrumb>
+<ol class=breadcrumb>
+<li class=breadcrumb-item><a href=/showcase>Showcase</a></li>
+<li class=breadcrumb-item><a href=/spall>Spall</a></li>
+</ol>
+</nav>
+<h1>Spall</h1>
 </header>
+<div class=odin-article>
+<p>Spall is a fast, easy-to-use profiler, on the web, and natively on your computer</p>
+<div class="d-flex justify-content-center mt-2 p-2">
+<img src=https://gravitymoth.com/media/odin-landscape.png width=100%>
+</div>
+<h4 id=want-to-try-it>Want to try it? <a class=text-decoration-none href=#want-to-try-it>#</a></h4>
+<p>Check out <a href=https://gravitymoth.com/spall/spall-web.html>Spall Web</a></p>
+<h3 id=what-is-spall>What is Spall? <a class=text-decoration-none href=#what-is-spall>#</a></h3>
+<p>Spall is a tool for viewing traces that runs in your browser, and a small header-only C library for tracing your projects.</p>
+<video autoplay loop muted playsinline>
+<source src=https://gravitymoth.com/media/recent_spall.mp4 type=video/mp4>
+</video>
+<h3 id=the-short-notes>The Short Notes <a class=text-decoration-none href=#the-short-notes>#</a></h3>
+<ul>
+<li>Supports chrome, dtrace and C/C++ backends</li>
+<li>Runs as fast as your monitor does</li>
+<li>Can handle up to 2 GB JSON traces</li>
+<li>Supports chrome devtools sampling data</li>
+<li>Gives you handy runtime stats</li>
+</ul>
+<p>Spall demoed live at the Handmade Seattle conference, going head-to-head against perfetto, and handily won, with buttery smooth frames and tiny load-times for huge files!</p>
+<h4 id=want-more>Want more? <a class=text-decoration-none href=#want-more>#</a></h4>
+<p>Need bigger traces, or more data about your data? We&rsquo;ve got a native version on <a href=https://gravitymoth.itch.io/spall>itch.io</a></p>
+<iframe class=spall-itch-link frameborder=0 src="https://itch.io/embed/2068412?bg_color=181A1B&fg_color=ffffff&link_color=0083B7&border_color=454748" width=100% maxwidth=552 height=auto><a href=https://gravitymoth.itch.io/spall>Spall-Native</a></iframe>
+<h4 id=newletter-interview>Newletter Interview <a class=text-decoration-none href=#newletter-interview>#</a></h4>
+<ul>
+<li><a href=https://odin-lang.org/news/newsletter-2022-12/>December 2022 Newsletter</a></li>
+<li><a href=https://odin-lang.org/news/newsletter-2022-12/#interview-with-cloin-author-of-spall>Interview with Cloin, author of Spall</a></li>
+</ul>
+</div>
 </article>
-<div>
-<div class=mt-5>
-<a href=https://odin-lang.org/showcase/embergen/ class="link-primary text-decoration-none"><h3>EmberGen</h3></a>
-<p>JangaFX are the creators of the 3D animation software EmberGen written fully in Odin. <video width=100% autoplay loop muted class=showcase-preview><source src=https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Film/film-composite.mp4></video></p>
+<div class="col-lg-2 odin-toc-border navbar-light">
+<div class="sticky-top odin-below-navbar py-3">
+<nav id=TableOfContents>
+<ul>
+<li>
+<ul>
+<li></li>
+<li><a href=#what-is-spall>What is Spall?</a></li>
+<li><a href=#the-short-notes>The Short Notes</a></li>
+</ul>
+</li>
+</ul>
+</nav>
 </div>
-<div class=mt-5>
-<a href=https://odin-lang.org/showcase/spall/ class="link-primary text-decoration-none"><h3>Spall</h3></a>
-<p>Spall is a fast, easy-to-use profiler, on the web, and natively on your computer <img src=https://gravitymoth.com/media/odin-landscape.png width=100% class=showcase-preview></p>
 </div>
-<div class=mt-5>
-<a href=https://odin-lang.org/showcase/todool/ class="link-primary text-decoration-none"><h3>Todool</h3></a>
-<p>To-Do Editor with different modes, advanced movement & powerful commands <img src="https://img.itch.zone/aW1nLzEwNTQ2NDQxLnBuZw==/original/dgSdqI.png" width=100% class=showcase-preview></p>
-</div>
-</div>
-</article>
 </div>
 </div>
 </main>

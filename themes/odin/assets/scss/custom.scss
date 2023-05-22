@@ -22,10 +22,16 @@ $secondary: $orange;
 
 #jangafx-companies {
     img {
-        max-width: 96px;
-        max-height: 128px;
         -webkit-filter: grayscale(100%);
         filter: grayscale(100%);
+        mix-blend-mode: multiply;
+    }
+}
+
+#jangafx-companies {
+    img {
+        width: 100%;
+        max-width: 1000px;
     }
 }
 

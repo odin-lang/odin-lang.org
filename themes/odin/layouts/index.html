@@ -1,6 +1,6 @@
 {{ define "main" }}
 <main>
-    <section class="section-style-1">
+    <section class="section-style-1" id="home-hero-header">
         <div class=" container d-flex flex-column justify-content-center align-items-center text-center p-5 ">
             <img class="img-fluid mb-5 hero-logo" src="/logo.svg" height="120" alt="Odin" />
             <h1 class="fw-normal"><b>Odin</b> Programming Language</h1>
@@ -330,4 +330,7 @@
         document.getElementById(event.target.value).classList.add("active", "show");
     });
 </script>
+{{ if .IsHome }}
+<script src="/js/fade-in-logo-after-header.js"></script>
+{{ end }}
 {{ end }}

@@ -21,7 +21,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
 <div class=container>
 <a class=navbar-brand href=/>
-<img src=/logo.svg height=30 alt=Odin></a>
+<img src=/logo.svg height=30 alt=Odin id=navbar-logo class=d-none>
+</a>
 <button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
 <span class=navbar-toggler-icon></span>
 </button>
@@ -54,7 +55,7 @@
 </nav>
 </header>
 <main>
-<section class=section-style-1>
+<section class=section-style-1 id=home-hero-header>
 <div class="container d-flex flex-column justify-content-center align-items-center text-center p-5">
 <img class="img-fluid mb-5 hero-logo" src=/logo.svg height=120 alt=Odin>
 <h1 class=fw-normal><b>Odin</b> Programming Language</h1>
@@ -582,6 +583,7 @@ Sponsor Odin
 </section>
 </main>
 <script>document.getElementById("example-code-select").addEventListener("change",function(a){document.querySelectorAll(".example-code").forEach(a=>a.classList.remove("active","show")),document.getElementById(a.target.value).classList.add("active","show")})</script>
+<script src=/js/fade-in-logo-after-header.js></script>
 <footer class=odin-footer>
 <div class="container pb-5 pt-5">
 <div class="row g-4">

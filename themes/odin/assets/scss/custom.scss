@@ -50,3 +50,13 @@ $secondary: $orange;
     height: 100%;
     border: 0;
 }
+
+@keyframes fade-in-navbar-logo {
+    from {opacity: 0.1;}
+    to {opacity: 1;}
+}
+
+.fade-in-navbar-logo {
+    animation-name: fade-in-navbar-logo;
+    animation-duration: 1.5s;
+}

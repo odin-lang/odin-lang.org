@@ -40,7 +40,7 @@ The following platform-specific steps are necessary:
     * Install XCode command-line tools `xcode-select --install`
     * Install [Homebrew](https://brew.sh/) 
     * Install LLVM through Homebrew with: `brew install llvm@11`
-    * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable (see `brew info llvm@11`)
+    * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable (see `brew info llvm@14`)
 
 - GNU/Linux and other \*Nix
     * For Linux: clang and llvm (version 11.1, 12 or 13; using your distro's package manager)

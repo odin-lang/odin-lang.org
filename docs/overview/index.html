@@ -748,7 +748,7 @@ ncstr := len(cstr) // O(n)
 <h3 id=logical-operators>Logical operators <a class=text-decoration-none href=#logical-operators>#</a></h3>
 <p>Logical operators apply to boolean values. The right operand is evaluated conditionally</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>&amp;&amp;      conditional AND    a &amp;&amp; b  is &#34;b if a else false&#34;
-||      conditional or     a &amp;&amp; b  is &#34;true if a else b&#34;
+||      conditional OR     a || b  is &#34;true if a else b&#34;
 !       NOT                !a      is &#34;not a&#34;
 </code></pre></div><h3 id=address-operator>Address operator <a class=text-decoration-none href=#address-operator>#</a></h3>
 <p>For an operand <code>x</code> of type <code>T</code>, the address operation <code>&x</code> generates a pointer of <code>^T</code> to <code>x</code>. The operand must be <em>addressable</em>, meaning that either a variable, pointer indirection, or slice/dynamic array indexing operator; or a field selector of an addressable struct operand; or an array index operation of an addressable array; or a type assertion of an addressable union or <code>any</code>; or a compound literal value.</p>
@@ -888,7 +888,8 @@ assert(b == [3]f32{30, 20, 10})
 c := swizzle(a, 0, 0)
 assert(c == [2]f32{10, 10})
 assert(c == 10) // assert all elements == 10
-</code></pre><pre><code class=language-odin data-lang=odin>Vector3 :: distinct [3]f32
+</code></pre><p>Builtin implicit swizzle fields are available on any array with length &lt;= 4 as <code>xyzw</code> and <code>rgba</code>.</p>
+<pre><code class=language-odin data-lang=odin>Vector3 :: distinct [3]f32
 a := Vector3{1, 2, 3}
 b := Vector3{5, 6, 7}
 c := (a * b)/2 + 1
@@ -1990,11 +1991,9 @@ foreign kernel32 {
 	@(link_name=&quot;GetLastError&quot;) get_last_error :: proc() -&gt; i32 ---
 }
 </code></pre><p>Available attributes for foreign blocks:</p>
-<pre><code>default_calling_convention=&lt;string&gt;
-	default calling convention for procedures declared within this foreign block
-link_prefix=&lt;string&gt;
-	prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden
-</code></pre><h2 id=parametric-polymorphism>Parametric polymorphism <a class=text-decoration-none href=#parametric-polymorphism>#</a></h2>
+<p><code>default_calling_convention=&lt;string></code> default calling convention for procedures declared within this foreign block<br>
+<code>link_prefix=&lt;string></code> prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden</p>
+<h2 id=parametric-polymorphism>Parametric polymorphism <a class=text-decoration-none href=#parametric-polymorphism>#</a></h2>
 <p>Parametric polymorphism, commonly referred to as &ldquo;generics&rdquo;, allow the user to create a procedure or data that can be written <em>generically</em> so it can handle values in the same manner.</p>
 <p><strong>Note:</strong> Within the Odin code base and documentation, the nickname &ldquo;parapoly&rdquo; is usually used.</p>
 <h3 id=explicit-parametric-polymorphism>Explicit parametric polymorphism <a class=text-decoration-none href=#explicit-parametric-polymorphism>#</a></h3>
@@ -2617,7 +2616,7 @@ Some of this information includes:</p>
 <p>The following list describes why each of these may be useful:</p>
 <ul>
 <li>The <code>examples\demo\demo.odin</code> file contains ~2500 lines of Odin code that demonstrate many of Odin&rsquo;s language features and provide commentary on some of them. This file contains many examples that cannot be found anywhere in the Overview nor in the other documentation.</li>
-<li>The <code>tests</code> folder provides unit tests for many of Odin&rsquo;s features and libraries, whereby reading these files you can gain a more nuanced view of exactly how things are intended or expected to behave. Tests are essentially automatically verified documentation. Tests often cover details that normal documentation doesn&rsquo;t even mention. Tests are also guaranteed to be up-to-date (if regularly run), unlike more informal documenation.</li>
+<li>The <code>tests</code> folder provides unit tests for many of Odin&rsquo;s features and libraries, whereby reading these files you can gain a more nuanced view of exactly how things are intended or expected to behave. Tests are essentially automatically verified documentation. Tests often cover details that normal documentation doesn&rsquo;t even mention. Tests are also guaranteed to be up-to-date (if regularly run), unlike more informal documentation.</li>
 <li>The <code>core</code> and <code>vendor</code> folders contain the bindings and implementation code for Odin&rsquo;s standard library and various multimedia libraries respectively. <strong>Even if you don&rsquo;t understand the implementation of something, reading the code can still greatly improve your chances of guessing what exactly it really does.</strong> Odin is a straightforward and legible language with relatively little magic compared to other modern languages. Reading source code can enable you to work around missing documentation much more effectively. This is a very useful thing to keep in mind for working with any under-development language or library effectively.</li>
 <li><code>misc\old_demos</code> may contain examples that are different from the main up-to-date <code>demo.odin</code> file contained in <code>examples\demo</code>. This may provide additional context for Odin&rsquo;s design and features. The other resources are probably better though.</li>
 </ul>

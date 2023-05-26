@@ -968,6 +968,9 @@ slice.reverse_sort(r)
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
 append(&amp;x, 123)
 append(&amp;x, 4, 1, 74, 3) // append multiple values at once
+
+y: [dynamic]int
+append(&amp;y, ..x[:]) // append a slice
 </code></pre><h4 id=sorting-a-dynamic-array>Sorting a dynamic array <a class=text-decoration-none href=#sorting-a-dynamic-array>#</a></h4>
 <p>Although dynamic arrays and slices are different concepts, dynamic arrays can be &lsquo;sliced&rsquo;
 and sorted as follows:</p>

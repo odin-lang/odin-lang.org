@@ -954,7 +954,7 @@ Logical operators apply to boolean values. The right operand is evaluated condit
 
 ```txt
 &&      conditional AND    a && b  is "b if a else false"
-||      conditional or     a && b  is "true if a else b"
+||      conditional OR     a || b  is "true if a else b"
 !       NOT                !a      is "not a"
 ```
 
@@ -1163,7 +1163,7 @@ c := swizzle(a, 0, 0)
 assert(c == [2]f32{10, 10})
 assert(c == 10) // assert all elements == 10
 ```
-
+Builtin implicit swizzle fields are available on any array with length <= 4 as `xyzw` and `rgba`.
 ```odin
 Vector3 :: distinct [3]f32
 a := Vector3{1, 2, 3}
@@ -2583,13 +2583,9 @@ foreign kernel32 {
 ```
 
 Available attributes for foreign blocks:
-```
-default_calling_convention=<string>
-	default calling convention for procedures declared within this foreign block
-link_prefix=<string>
-	prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden
-```
 
+`default_calling_convention=<string>` default calling convention for procedures declared within this foreign block  
+`link_prefix=<string>` prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden  
 
 ## Parametric polymorphism
 Parametric polymorphism, commonly referred to as "generics", allow the user to create a procedure or data that can be written _generically_ so it can handle values in the same manner.
@@ -3466,7 +3462,7 @@ If you are unable to find the information you need on this overview page, the [F
 The following list describes why each of these may be useful:
 
 - The `examples\demo\demo.odin` file contains ~2500 lines of Odin code that demonstrate many of Odin's language features and provide commentary on some of them. This file contains many examples that cannot be found anywhere in the Overview nor in the other documentation.
-- The `tests` folder provides unit tests for many of Odin's features and libraries, whereby reading these files you can gain a more nuanced view of exactly how things are intended or expected to behave. Tests are essentially automatically verified documentation. Tests often cover details that normal documentation doesn't even mention. Tests are also guaranteed to be up-to-date (if regularly run), unlike more informal documenation.
+- The `tests` folder provides unit tests for many of Odin's features and libraries, whereby reading these files you can gain a more nuanced view of exactly how things are intended or expected to behave. Tests are essentially automatically verified documentation. Tests often cover details that normal documentation doesn't even mention. Tests are also guaranteed to be up-to-date (if regularly run), unlike more informal documentation.
 - The `core` and `vendor` folders contain the bindings and implementation code for Odin's standard library and various multimedia libraries respectively. **Even if you don't understand the implementation of something, reading the code can still greatly improve your chances of guessing what exactly it really does.** Odin is a straightforward and legible language with relatively little magic compared to other modern languages. Reading source code can enable you to work around missing documentation much more effectively. This is a very useful thing to keep in mind for working with any under-development language or library effectively.
 - `misc\old_demos` may contain examples that are different from the main up-to-date `demo.odin` file contained in `examples\demo`. This may provide additional context for Odin's design and features. The other resources are probably better though.
 

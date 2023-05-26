@@ -1291,6 +1291,9 @@ It is common to append new elements to a dynamic array; this can be done using t
 x: [dynamic]int
 append(&x, 123)
 append(&x, 4, 1, 74, 3) // append multiple values at once
+
+y: [dynamic]int
+append(&y, ..x[:]) // append a slice
 ```
 
 #### Sorting a dynamic array

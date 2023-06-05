@@ -1058,9 +1058,13 @@ If the divisor is a constant, it must not be zero. If the divisor is zero at run
 
 The shift operators shift the left operand by the shift count specified by the right operand, which must be non-negative. The shift operators implement arithmetic shifts if the left operand is a signed integer and logical shifts if the left operand is an unsigned integer. There is not an upper limit on the shift count. Shifts behave as if the left operand is shifted `n` times by `1` for a shift count of `n`. Therefore, `x<<1` is the same as `x*2` and `x>>1` is the same as `x/2` but truncated towards negative infinity.
 
-```
-x << y         is "x << y if y < 8*size_of(x) else 0"
-x >> y         is "x >> y if y < 8*size_of(x) else 0"
+```odin
+// These are equivalent:
+x << y
+x << y if y < 8*size_of(x) else 0
+
+x >> y
+x >> y if y < 8*size_of(x) else 0
 ```
 
 
@@ -3088,13 +3092,13 @@ This tag can be applied to a union to not allow nil values.
 A :: union {int, bool}
 B :: union #no_nil {int, bool}
 ```
-```
-Possible states of A:
+```odin
+// Possible states of A:
 {} // nil
 {int}
 {bool}
 
-Possible states of B:
+// Possible states of B:
 {int} // default state
 {bool}
 ```

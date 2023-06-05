@@ -22,16 +22,16 @@ main :: proc() {
 }
 ```
 Save this code to a `.odin` file, then compile and run it using `odin run <dir>`. For the current directory:
-```
+```txt
 odin run .
 ```
 The `run` command compiles the `.odin` file to an executable and then runs that executable after compilation. If you do not wish to run the executable after compilation, the `build` command can be used.
-```
+```txt
 odin build <dir>
 ```
 
 Odin thinks in terms of directory-based packages. To tell it to treat a single file as a standalone package, add `-file`, like so:
-```
+```txt
 odin run hellope.odin -file
 ```
 

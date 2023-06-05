@@ -182,7 +182,7 @@ The `core:` prefix is used to state where the import is meant to look; this is c
 **Note**: By convention, the package name is the same as the last element in the import path. `"core:fmt"` package comprises of files that begin with the statement `package fmt`. However, this is not enforced by the compiler, which means the default name for the import name will be determined by the last element in the import path if possible.
 
 A different import name can be used over the default package name:
-```
+```odin
 import "core:fmt"
 import foo "core:fmt" // reference a package by a different name
 ```
@@ -1713,7 +1713,7 @@ What multi-pointers DO NOT SUPPORT:
 The main purpose of this type is to aid with `foreign` code and act as a way to auto-document functionality and allow for easier transition to Odin code, especially converting pointers into slices.
 
 The following are the rules for indexing and slicing for multi-pointers, and what type they produce depending on the operands given:
-```
+```odin
 x: [^]T = ...
 
 x[i]   -> T
@@ -2436,7 +2436,7 @@ ptr := new(int)
 
 is equivalent to this:
 
-```
+```odin
 ptr := new(int, context.allocator)
 ```
 

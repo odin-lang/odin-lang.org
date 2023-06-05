@@ -963,7 +963,7 @@ For an operand `x` of type `T`, the address operation `&x` generates a pointer o
 
 For an operand `x` of pointer type `^T`, the pointer indirection `x^` denotes the variable of type `T` pointed to by `x`. If `x` is an invalid address, such as `nil`, an attempt to evaluate `x^` will cause a runtime panic.
 
-```txt
+```odin
 &x
 &a[foo(123)]
 &Foo{1, 2}
@@ -977,10 +977,10 @@ x^      // causes a runtime panic
 
 ### Ternary Operators
 
-```txt
-x if cond else y    ternary runtime conditional expression
-x when cond else y  ternary compile-time conditional expression
-cond ? x : y        ternary runtime conditional expression, equivalent to "x if cond else y"
+```odin
+x if cond else y    // ternary runtime conditional expression
+x when cond else y  // ternary compile-time conditional expression
+cond ? x : y        // ternary runtime conditional expression, equivalent to "x if cond else y"
 ```
 
 ### Other operators
@@ -998,7 +998,7 @@ cond ? x : y        ternary runtime conditional expression, equivalent to "x if 
 
 The range operations `..=` and `..<` are only possible within certain contexts:
 
-```txt
+```odin
 for x in a..<b {}
 for x in a..=b {}
 
@@ -1012,7 +1012,7 @@ bit_set[a..=b]
 ```
 
 `in` and `not_in` are not allowed in within a for loop condition without ambiguity:
-```txt
+```odin
 for x in y {}    // range loop
 for (x in y) {}  // condition-only for-loop (while-loop in some other languages)
 ```

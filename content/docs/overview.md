@@ -1072,7 +1072,7 @@ x >> y if y < 8*size_of(x) else 0
 
 For unsigned integers, the operations `+`, `-`, `*`, and `<<` are computed modulo 2<sup>n</sup>, where _n_ is the bit width of the unsigned integer's type. In a sense, these unsigned integer operations discard the high bits upon overflow, and programs may rely on "wrap around".
 
-For signed integers, the operations `+`, `-`, `*`, `/`, and `<<` may legally overflow and the resulting value exists and is deterministically defined by the signed integer representation. Overflow __does not__ cause a runtime panic. A compile may not optimize code under the assumption that overflow does not occur. For instance, `x < x+1` may not be assumed to be always true.
+For signed integers, the operations `+`, `-`, `*`, `/`, and `<<` may legally overflow and the resulting value exists and is deterministically defined by the signed integer representation. Overflow __does not__ cause a runtime panic. A compiler may not optimize code under the assumption that overflow does not occur. For instance, `x < x+1` may not be assumed to be always true.
 
 ### Floating-point operators
 

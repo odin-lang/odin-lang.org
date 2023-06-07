@@ -103,12 +103,12 @@ main :: proc() {
 	fmt.println(&quot;Hellope!&quot;)
 }
 </code></pre><p>Save this code to a <code>.odin</code> file, then compile and run it using <code>odin run &lt;dir></code>. For the current directory:</p>
-<pre><code>odin run .
-</code></pre><p>The <code>run</code> command compiles the <code>.odin</code> file to an executable and then runs that executable after compilation. If you do not wish to run the executable after compilation, the <code>build</code> command can be used.</p>
-<pre><code>odin build &lt;dir&gt;
-</code></pre><p>Odin thinks in terms of directory-based packages. To tell it to treat a single file as a standalone package, add <code>-file</code>, like so:</p>
-<pre><code>odin run hellope.odin -file
-</code></pre><h2 id=lexical-elements-and-literals>Lexical elements and literals <a class=text-decoration-none href=#lexical-elements-and-literals>#</a></h2>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>odin run .
+</code></pre></div><p>The <code>run</code> command compiles the <code>.odin</code> file to an executable and then runs that executable after compilation. If you do not wish to run the executable after compilation, the <code>build</code> command can be used.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>odin build &lt;dir&gt;
+</code></pre></div><p>Odin thinks in terms of directory-based packages. To tell it to treat a single file as a standalone package, add <code>-file</code>, like so:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>odin run hellope.odin -file
+</code></pre></div><h2 id=lexical-elements-and-literals>Lexical elements and literals <a class=text-decoration-none href=#lexical-elements-and-literals>#</a></h2>
 <h3 id=comments>Comments <a class=text-decoration-none href=#comments>#</a></h3>
 <p>Comments can be anywhere outside of a string or character literal. Single line comments begin with <code>//</code>:</p>
 <pre><code class=language-odin data-lang=odin>// A comment
@@ -199,7 +199,7 @@ main :: proc() {
 </code></pre><p>The <code>core:</code> prefix is used to state where the import is meant to look; this is called a library collection. If no prefix is present, the import will look relative to the current file.</p>
 <p><strong>Note</strong>: By convention, the package name is the same as the last element in the import path. <code>"core:fmt"</code> package comprises of files that begin with the statement <code>package fmt</code>. However, this is not enforced by the compiler, which means the default name for the import name will be determined by the last element in the import path if possible.</p>
 <p>A different import name can be used over the default package name:</p>
-<pre><code>import &quot;core:fmt&quot;
+<pre><code class=language-odin data-lang=odin>import &quot;core:fmt&quot;
 import foo &quot;core:fmt&quot; // reference a package by a different name
 </code></pre><h3 id=exported-names>Exported names <a class=text-decoration-none href=#exported-names>#</a></h3>
 <p>All declarations in a package are exported by default.</p>
@@ -753,7 +753,7 @@ ncstr := len(cstr) // O(n)
 </code></pre></div><h3 id=address-operator>Address operator <a class=text-decoration-none href=#address-operator>#</a></h3>
 <p>For an operand <code>x</code> of type <code>T</code>, the address operation <code>&x</code> generates a pointer of <code>^T</code> to <code>x</code>. The operand must be <em>addressable</em>, meaning that either a variable, pointer indirection, or slice/dynamic array indexing operator; or a field selector of an addressable struct operand; or an array index operation of an addressable array; or a type assertion of an addressable union or <code>any</code>; or a compound literal value.</p>
 <p>For an operand <code>x</code> of pointer type <code>^T</code>, the pointer indirection <code>x^</code> denotes the variable of type <code>T</code> pointed to by <code>x</code>. If <code>x</code> is an invalid address, such as <code>nil</code>, an attempt to evaluate <code>x^</code> will cause a runtime panic.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>&amp;x
+<pre><code class=language-odin data-lang=odin>&amp;x
 &amp;a[foo(123)]
 &amp;Foo{1, 2}
 
@@ -762,11 +762,11 @@ pproc(a)^
 
 x: ^int = nil
 x^      // causes a runtime panic
-</code></pre></div><h3 id=ternary-operators>Ternary Operators <a class=text-decoration-none href=#ternary-operators>#</a></h3>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>x if cond else y    ternary runtime conditional expression
-x when cond else y  ternary compile-time conditional expression
-cond ? x : y        ternary runtime conditional expression, equivalent to &#34;x if cond else y&#34;
-</code></pre></div><h3 id=other-operators>Other operators <a class=text-decoration-none href=#other-operators>#</a></h3>
+</code></pre><h3 id=ternary-operators>Ternary Operators <a class=text-decoration-none href=#ternary-operators>#</a></h3>
+<pre><code class=language-odin data-lang=odin>x if cond else y    // ternary runtime conditional expression
+x when cond else y  // ternary compile-time conditional expression
+cond ? x : y        // ternary runtime conditional expression, equivalent to &quot;x if cond else y&quot;
+</code></pre><h3 id=other-operators>Other operators <a class=text-decoration-none href=#other-operators>#</a></h3>
 <ul>
 <li><code>or_else</code>
 <ul>
@@ -792,7 +792,7 @@ cond ? x : y        ternary runtime conditional expression, equivalent to &#34;x
 <li><code>..&lt;</code> - half open range</li>
 </ul>
 <p>The range operations <code>..=</code> and <code>..&lt;</code> are only possible within certain contexts:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>for x in a..&lt;b {}
+<pre><code class=language-odin data-lang=odin>for x in a..&lt;b {}
 for x in a..=b {}
 
 switch x {
@@ -802,10 +802,10 @@ case c..=d:
 
 bit_set[a..&lt;b]
 bit_set[a..=b]
-</code></pre></div><p><code>in</code> and <code>not_in</code> are not allowed in within a for loop condition without ambiguity:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>for x in y {}    // range loop
+</code></pre><p><code>in</code> and <code>not_in</code> are not allowed in within a for loop condition without ambiguity:</p>
+<pre><code class=language-odin data-lang=odin>for x in y {}    // range loop
 for (x in y) {}  // condition-only for-loop (while-loop in some other languages)
-</code></pre></div><h3 id=operator-precedence>Operator precedence <a class=text-decoration-none href=#operator-precedence>#</a></h3>
+</code></pre><h3 id=operator-precedence>Operator precedence <a class=text-decoration-none href=#operator-precedence>#</a></h3>
 <p>Unary operators have the highest precedence.</p>
 <p>There are seven precedence levels for binary (and ternary) operators.</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>Precedence    Operator
@@ -827,11 +827,15 @@ for (x in y) {}  // condition-only for-loop (while-loop in some other languages)
 </code></pre></div><p>The exception to these rules are when the dividend <code>x</code> is the most non-negative value for the integer type of <code>x</code>, and the quotient <code>q = x/-1</code> is equal to <code>x</code> (and <code>r or m = 0</code>) due to two&rsquo;s complement integer overflow.</p>
 <p>If the divisor is a constant, it must not be zero. If the divisor is zero at runtime, a runtime panic occurs.</p>
 <p>The shift operators shift the left operand by the shift count specified by the right operand, which must be non-negative. The shift operators implement arithmetic shifts if the left operand is a signed integer and logical shifts if the left operand is an unsigned integer. There is not an upper limit on the shift count. Shifts behave as if the left operand is shifted <code>n</code> times by <code>1</code> for a shift count of <code>n</code>. Therefore, <code>x&lt;&lt;1</code> is the same as <code>x*2</code> and <code>x>>1</code> is the same as <code>x/2</code> but truncated towards negative infinity.</p>
-<pre><code>x &lt;&lt; y         is &quot;x &lt;&lt; y if y &lt; 8*size_of(x) else 0&quot;
-x &gt;&gt; y         is &quot;x &gt;&gt; y if y &lt; 8*size_of(x) else 0&quot;
+<pre><code class=language-odin data-lang=odin>// These are equivalent:
+x &lt;&lt; y
+x &lt;&lt; y if y &lt; 8*size_of(x) else 0
+
+x &gt;&gt; y
+x &gt;&gt; y if y &lt; 8*size_of(x) else 0
 </code></pre><h3 id=integer-overflow>Integer overflow <a class=text-decoration-none href=#integer-overflow>#</a></h3>
 <p>For unsigned integers, the operations <code>+</code>, <code>-</code>, <code>*</code>, and <code>&lt;&lt;</code> are computed modulo 2<sup>n</sup>, where <em>n</em> is the bit width of the unsigned integer&rsquo;s type. In a sense, these unsigned integer operations discard the high bits upon overflow, and programs may rely on &ldquo;wrap around&rdquo;.</p>
-<p>For signed integers, the operations <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, and <code>&lt;&lt;</code> may legally overflow and the resulting value exists and is deterministically defined by the signed integer representation. Overflow <strong>does not</strong> cause a runtime panic. A compile may not optimize code under the assumption that overflow does not occur. For instance, <code>x &lt; x+1</code> may not be assumed to be always true.</p>
+<p>For signed integers, the operations <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, and <code>&lt;&lt;</code> may legally overflow and the resulting value exists and is deterministically defined by the signed integer representation. Overflow <strong>does not</strong> cause a runtime panic. A compiler may not optimize code under the assumption that overflow does not occur. For instance, <code>x &lt; x+1</code> may not be assumed to be always true.</p>
 <h3 id=floating-point-operators>Floating-point operators <a class=text-decoration-none href=#floating-point-operators>#</a></h3>
 <p>For floating-point, complex numbers, quaternions, and other floating-point embedded types:</p>
 <ul>
@@ -1247,7 +1251,7 @@ main :: proc() {
 </ul>
 <p>The main purpose of this type is to aid with <code>foreign</code> code and act as a way to auto-document functionality and allow for easier transition to Odin code, especially converting pointers into slices.</p>
 <p>The following are the rules for indexing and slicing for multi-pointers, and what type they produce depending on the operands given:</p>
-<pre><code>x: [^]T = ...
+<pre><code class=language-odin data-lang=odin>x: [^]T = ...
 
 x[i]   -&gt; T
 x[:]   -&gt; [^]T
@@ -1893,7 +1897,7 @@ supertramp :: proc() {
 <p>All allocations in Odin are preferably done through allocators. The core library of Odin takes advantage of allocators through the implicit <code>context</code> system. The following call:</p>
 <pre><code class=language-odin data-lang=odin>ptr := new(int)
 </code></pre><p>is equivalent to this:</p>
-<pre><code>ptr := new(int, context.allocator)
+<pre><code class=language-odin data-lang=odin>ptr := new(int, context.allocator)
 </code></pre><p>The allocator from the <code>context</code> is implicitly assigned as a default parameter to the built-in procedure <code>new</code>.</p>
 <p>The implicit <code>context</code> stores two different forms of allocators: <code>context.allocator</code> and <code>context.temp_allocator</code>. Both can be reassigned to any kind of allocator. However, these allocators are to be treated slightly differently.</p>
 <ul>
@@ -2360,12 +2364,12 @@ Bar :: union #align 4 {
 <p>This tag can be applied to a union to not allow nil values.</p>
 <pre><code class=language-odin data-lang=odin>A :: union {int, bool}
 B :: union #no_nil {int, bool}
-</code></pre><pre><code>Possible states of A:
+</code></pre><pre><code class=language-odin data-lang=odin>// Possible states of A:
 {} // nil
 {int}
 {bool}
 
-Possible states of B:
+// Possible states of B:
 {int} // default state
 {bool}
 </code></pre><h3 id=control-statements>Control statements <a class=text-decoration-none href=#control-statements>#</a></h3>

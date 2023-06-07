@@ -22,16 +22,16 @@ main :: proc() {
 }
 ```
 Save this code to a `.odin` file, then compile and run it using `odin run <dir>`. For the current directory:
-```
+```txt
 odin run .
 ```
 The `run` command compiles the `.odin` file to an executable and then runs that executable after compilation. If you do not wish to run the executable after compilation, the `build` command can be used.
-```
+```txt
 odin build <dir>
 ```
 
 Odin thinks in terms of directory-based packages. To tell it to treat a single file as a standalone package, add `-file`, like so:
-```
+```txt
 odin run hellope.odin -file
 ```
 
@@ -182,7 +182,7 @@ The `core:` prefix is used to state where the import is meant to look; this is c
 **Note**: By convention, the package name is the same as the last element in the import path. `"core:fmt"` package comprises of files that begin with the statement `package fmt`. However, this is not enforced by the compiler, which means the default name for the import name will be determined by the last element in the import path if possible.
 
 A different import name can be used over the default package name:
-```
+```odin
 import "core:fmt"
 import foo "core:fmt" // reference a package by a different name
 ```
@@ -963,7 +963,7 @@ For an operand `x` of type `T`, the address operation `&x` generates a pointer o
 
 For an operand `x` of pointer type `^T`, the pointer indirection `x^` denotes the variable of type `T` pointed to by `x`. If `x` is an invalid address, such as `nil`, an attempt to evaluate `x^` will cause a runtime panic.
 
-```txt
+```odin
 &x
 &a[foo(123)]
 &Foo{1, 2}
@@ -977,10 +977,10 @@ x^      // causes a runtime panic
 
 ### Ternary Operators
 
-```txt
-x if cond else y    ternary runtime conditional expression
-x when cond else y  ternary compile-time conditional expression
-cond ? x : y        ternary runtime conditional expression, equivalent to "x if cond else y"
+```odin
+x if cond else y    // ternary runtime conditional expression
+x when cond else y  // ternary compile-time conditional expression
+cond ? x : y        // ternary runtime conditional expression, equivalent to "x if cond else y"
 ```
 
 ### Other operators
@@ -998,7 +998,7 @@ cond ? x : y        ternary runtime conditional expression, equivalent to "x if 
 
 The range operations `..=` and `..<` are only possible within certain contexts:
 
-```txt
+```odin
 for x in a..<b {}
 for x in a..=b {}
 
@@ -1012,7 +1012,7 @@ bit_set[a..=b]
 ```
 
 `in` and `not_in` are not allowed in within a for loop condition without ambiguity:
-```txt
+```odin
 for x in y {}    // range loop
 for (x in y) {}  // condition-only for-loop (while-loop in some other languages)
 ```
@@ -1058,9 +1058,13 @@ If the divisor is a constant, it must not be zero. If the divisor is zero at run
 
 The shift operators shift the left operand by the shift count specified by the right operand, which must be non-negative. The shift operators implement arithmetic shifts if the left operand is a signed integer and logical shifts if the left operand is an unsigned integer. There is not an upper limit on the shift count. Shifts behave as if the left operand is shifted `n` times by `1` for a shift count of `n`. Therefore, `x<<1` is the same as `x*2` and `x>>1` is the same as `x/2` but truncated towards negative infinity.
 
-```
-x << y         is "x << y if y < 8*size_of(x) else 0"
-x >> y         is "x >> y if y < 8*size_of(x) else 0"
+```odin
+// These are equivalent:
+x << y
+x << y if y < 8*size_of(x) else 0
+
+x >> y
+x >> y if y < 8*size_of(x) else 0
 ```
 
 
@@ -1713,7 +1717,7 @@ What multi-pointers DO NOT SUPPORT:
 The main purpose of this type is to aid with `foreign` code and act as a way to auto-document functionality and allow for easier transition to Odin code, especially converting pointers into slices.
 
 The following are the rules for indexing and slicing for multi-pointers, and what type they produce depending on the operands given:
-```
+```odin
 x: [^]T = ...
 
 x[i]   -> T
@@ -2436,7 +2440,7 @@ ptr := new(int)
 
 is equivalent to this:
 
-```
+```odin
 ptr := new(int, context.allocator)
 ```
 
@@ -3088,13 +3092,13 @@ This tag can be applied to a union to not allow nil values.
 A :: union {int, bool}
 B :: union #no_nil {int, bool}
 ```
-```
-Possible states of A:
+```odin
+// Possible states of A:
 {} // nil
 {int}
 {bool}
 
-Possible states of B:
+// Possible states of B:
 {int} // default state
 {bool}
 ```

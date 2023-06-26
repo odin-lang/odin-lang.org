@@ -671,7 +671,7 @@ B :: true      // untyped boolean, will implicitly convert to bool, b8, b16, etc
 <pre><code class=language-odin data-lang=odin>x: f32 = 123
 y: int = auto_cast x
 </code></pre><p><strong>Note:</strong> This operation is only recommended to be used for prototyping and quick tests. Please do not abuse it.</p>
-<h3 id=built-in-constants-and-values>Built-in constants and values <a class=text-decoration-none href=#built-in-constants-and-values>#</a></h3>
+<h3 id=built-in-constants-values-and-procedures>Built-in constants, values, and procedures <a class=text-decoration-none href=#built-in-constants-values-and-procedures>#</a></h3>
 <p>There are a few built-in constants and values in Odin which have different uses:</p>
 <pre><code class=language-odin data-lang=odin>false // untyped boolean constant equivalent to the expression 0!=0
 true  // untyped boolean constant equivalent to the expression 0==0
@@ -680,7 +680,14 @@ nil   // untyped nil value used for certain values
 </code></pre><p><code>---</code> is useful if you want to explicitly not initialize a variable with any default value:</p>
 <pre><code class=language-odin data-lang=odin>x: int // initialized with its zero value
 y: int = --- // uses uninitialized memory
-</code></pre><p>This is the default behaviour in C.</p>
+</code></pre><p>This is the default behaviour in C, whilst the default behaviour in Odin is to zero the memory.</p>
+<h4 id=built-in-procedures>Built-in procedures <a class=text-decoration-none href=#built-in-procedures>#</a></h4>
+<p>For the full list of builtin-procedures, see the documentation for <a href=https://pkg.odin-lang.org/core/builtin/>package builtin</a>.</p>
+<p>There are two kinds of built-in procedures in Odin:</p>
+<ul>
+<li>Compiler defined</li>
+<li>Core library defined</li>
+</ul>
 <h3 id=cstring-type><code>cstring</code> type <a class=text-decoration-none href=#cstring-type>#</a></h3>
 <p>The <code>cstring</code> type is a c-style string value, which is zero-terminated. It is equivalent to <code>char const *</code> in C. Its primary purpose is for easy interfacing with C. Please see the <a href=#foreign-system>foreign system</a> for more information.</p>
 <p>A <code>cstring</code> is easily convertible to an Odin <code>string</code>. However, to convert a <code>string</code> to a <code>cstring</code>, it requires allocations if the value is not constant.</p>
@@ -2453,7 +2460,7 @@ bar :: struct {
         #no_bounds_check fmt.println(os.args[1])
     }
 }
-</code></pre><h3 id=built-in-procedures>Built-in procedures <a class=text-decoration-none href=#built-in-procedures>#</a></h3>
+</code></pre><h3 id=built-in-procedures-1>Built-in procedures <a class=text-decoration-none href=#built-in-procedures-1>#</a></h3>
 <h4 id=assertboolean><code>#assert(&lt;boolean>)</code> <a class=text-decoration-none href=#assertboolean>#</a></h4>
 <p>Unlike <code>assert</code>, <code>#assert</code> runs at compile-time. <code>#assert</code> breaks compilation if the given bool expression is false, and thus <code>#assert</code> is useful for catching bugs before they ever even reach run-time. It also has no run-time cost.</p>
 <pre><code class=language-odin data-lang=odin>#assert(SOME_CONST_CONDITION)
@@ -2688,7 +2695,7 @@ Some of this information includes:</p>
 <li><a href=#type-conversion>Type conversion</a></li>
 <li><a href=#untyped-types>Untyped types</a></li>
 <li><a href=#auto-cast-operation>Auto cast operation</a></li>
-<li><a href=#built-in-constants-and-values>Built-in constants and values</a></li>
+<li><a href=#built-in-constants-values-and-procedures>Built-in constants, values, and procedures</a></li>
 <li><a href=#cstring-type><code>cstring</code> type</a></li>
 </ul>
 </li>
@@ -2774,7 +2781,7 @@ Some of this information includes:</p>
 <li><a href=#procedure-parameters>Procedure parameters</a></li>
 <li><a href=#expressions>Expressions</a></li>
 <li><a href=#statements>Statements</a></li>
-<li><a href=#built-in-procedures>Built-in procedures</a></li>
+<li><a href=#built-in-procedures-1>Built-in procedures</a></li>
 </ul>
 </li>
 <li><a href=#useful-idioms>Useful idioms</a>

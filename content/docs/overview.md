@@ -839,7 +839,7 @@ y: int = auto_cast x
 ```
 **Note:** This operation is only recommended to be used for prototyping and quick tests. Please do not abuse it.
 
-### Built-in constants and values
+### Built-in constants, values, and procedures
 
 There are a few built-in constants and values in Odin which have different uses:
 
@@ -855,7 +855,16 @@ nil   // untyped nil value used for certain values
 x: int // initialized with its zero value
 y: int = --- // uses uninitialized memory
 ```
-This is the default behaviour in C.
+This is the default behaviour in C, whilst the default behaviour in Odin is to zero the memory.
+
+#### Built-in procedures
+
+For the full list of builtin-procedures, see the documentation for [package builtin](https://pkg.odin-lang.org/core/builtin/).
+
+There are two kinds of built-in procedures in Odin:
+
+* Compiler defined
+* Core library defined
 
 
 ### `cstring` type

@@ -1,0 +1,19 @@
+<!-- <video autoplay loop muted class="newsletter-video">
+	<source src={{ index .Params 0 }}></source>
+</video> -->
+
+<div class="newsletter-polaroid">
+	{{ if isset .Params 2 }}
+		<a href={{ index .Params 2 }}>
+			<video autoplay loop muted class="newsletter-video">
+				<source src={{ index .Params 1 }}></source>
+			</video>
+		</a>
+	{{ else }}
+		<video autoplay loop muted class="newsletter-video">
+			<source src={{ index .Params 1 }}></source>
+		</video>
+	{{ end }}
+
+	<div class="newsletter-text">{{ index .Params 0 }}</div>
+</div>

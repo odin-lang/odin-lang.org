@@ -73,13 +73,13 @@ Raw string literals are enclosed in single back ticks.
 `C:\Windows\notepad.exe`
 ```
 
-The length of a string can be found using the built-in `len` proc:
+The length of a string can be found using the built-in [`len`](https://pkg.odin-lang.org/core/builtin/#len) proc:
 ```odin
 len("Foo")
 len(some_string)
 ```
 
-If the string passed to `len` is a compile-time constant, the value from `len` will be a compile-time constant.
+If the string passed to [`len`](https://pkg.odin-lang.org/core/builtin/#len) is a compile-time constant, the value from [`len`](https://pkg.odin-lang.org/core/builtin/#len) will be a compile-time constant.
 
 #### Escape Characters
 * `\a` - bell (BEL)
@@ -1134,7 +1134,7 @@ The above array can also be constructed with a question mark (`?`) to automatica
 x := [?]int{1, 2, 3, 4, 5}
 ```
 
-The built-in `len` proc returns the array's length.
+The built-in [`len`](https://pkg.odin-lang.org/core/builtin/#len) proc returns the array's length.
 ```odin
 x: [5]int
 #assert(len(x) == 5)
@@ -1228,7 +1228,7 @@ Slices are like references to arrays; they do not store any data, rather they de
 
 Internally, a slice stores a pointer to the data and an integer to store the length of the slice.
 
-The built-in `len` proc returns the array's length.
+The built-in [`len`](https://pkg.odin-lang.org/core/builtin/#len) proc returns the array's length.
 ```odin
 x: []int = ...
 length_of_x := len(x)
@@ -1295,11 +1295,11 @@ Dynamic arrays are similar to slices, but their lengths may change during runtim
 x: [dynamic]int
 ```
 
-Along with the built-in proc `len`, dynamic arrays also have `cap` which can used to determine the dynamic array's current underlying capacity.
+Along with the built-in proc [`len`](https://pkg.odin-lang.org/core/builtin/#len), dynamic arrays also have [`cap`](https://pkg.odin-lang.org/core/builtin/#cap) which can used to determine the dynamic array's current underlying capacity.
 
 #### Appending to a dynamic array
 
-It is common to append new elements to a dynamic array; this can be done using the built-in `append` proc.
+It is common to append new elements to a dynamic array; this can be done using the built-in [`append`](http://pkg.odin-lang.org/core/builtin/#append) proc.
 ```odin
 x: [dynamic]int
 append(&x, 123)
@@ -1319,7 +1319,7 @@ slice.sort(s[:])
 ```
 
 #### Making and deleting slices and dynamic arrays
-Slices and dynamic arrays can be explicitly allocated with the built-in `make` proc.
+Slices and dynamic arrays can be explicitly allocated with the built-in [`make`](http://pkg.odin-lang.org/core/builtin/#make) proc.
 
 ```odin
 a := make([]int, 6)           // len(a) == 6
@@ -1332,7 +1332,7 @@ e := make([]int, 6, context.allocator)
 f := make([dynamic]int, 0, 6, context.allocator)
 ```
 
-Slices and dynamic arrays can be deleted with the built-in `delete` proc.
+Slices and dynamic arrays can be deleted with the built-in [`delete`](http://pkg.odin-lang.org/core/builtin/#delete) proc.
 
 ```odin
 delete(a)
@@ -1602,7 +1602,7 @@ union #align 4 {...} // align to 4 bytes
 ```
 
 ### Maps
-A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in `make` proc returns an initialized map using the current [context](#implicit-context-system), and `delete` can be used to delete a map.
+A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in [`make`](http://pkg.odin-lang.org/core/builtin/#make) proc returns an initialized map using the current [context](#implicit-context-system), and [`delete`](http://pkg.odin-lang.org/core/builtin/#delete) can be used to delete a map.
 
 ```odin
 m := make(map[string]int)
@@ -1851,7 +1851,7 @@ fmt.println(d[:])
 
 #### `soa_zip` and `soa_unzip`
 
-SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. `soa_zip` is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
+SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. [`soa_zip`](http://pkg.odin-lang.org/core/builtin/#soa_zip) is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
 
 ```odin
 x := []i32{1, 3, 9}
@@ -1872,7 +1872,7 @@ for v, i in s {
 }
 ```
 
-`soa_unzip` is a built-in procedure which allows the user to recover the slices from an `#soa` slice.
+[`soa_unzip`](http://pkg.odin-lang.org/core/builtin/#soa_unzip) is a built-in procedure which allows the user to recover the slices from an `#soa` slice.
 
 ```odin
 // Recover the slices from the #soa slice
@@ -2453,7 +2453,7 @@ is equivalent to this:
 ptr := new(int, context.allocator)
 ```
 
-The allocator from the `context` is implicitly assigned as a default parameter to the built-in procedure `new`.
+The allocator from the `context` is implicitly assigned as a default parameter to the built-in procedure [`new`](http://pkg.odin-lang.org/core/builtin/#new).
 
 The implicit `context` stores two different forms of allocators: `context.allocator` and `context.temp_allocator`. Both can be reassigned to any kind of allocator. However, these allocators are to be treated slightly differently.
 
@@ -2464,18 +2464,9 @@ The implicit `context` stores two different forms of allocators: `context.alloca
 By default, the `context.allocator` is a OS heap allocator and the `context.temp_allocator` is assigned to a scratch allocator (a ring-buffer based allocator).
 
 
-The following procedures are built-in (and also available in `package mem`) and are encouraged for managing memory:
+The following procedures are built-in (and also available in `package mem` with enforced allocator errors) and are encouraged for managing memory:
 
-* `alloc` - allocates memory of a given size (and alignment) in bytes. The result value is a rawptr.
-
-```odin
-ptr: rawptr = alloc(64) // allocate 64 bytes aligned to the default alignment
-x := alloc(128, 16) // allocate 128 bytes aligned to 16 bytes
-
-i := cast(^int)alloc(size_of(int), align_of(int)) // the equivalent of the `new` procedure explained next
-```
-
-* `new` - allocates a value of the type given. The result value is a pointer to the type given.
+* [`new`](http://pkg.odin-lang.org/core/builtin/#new) - allocates a value of the type given. The result value is a pointer to the type given.
 
 ```odin
 ptr := new(int)
@@ -2483,7 +2474,7 @@ ptr^ = 123
 x: int = ptr^
 ```
 
-* `new_clone` - allocates a clone of the value passed to it. The resulting value of the type will be a pointer to the type of the value passed.
+* [`new_clone`](http://pkg.odin-lang.org/core/builtin/#new) - allocates a clone of the value passed to it. The resulting value of the type will be a pointer to the type of the value passed.
 
 ```odin
 x: int = 123
@@ -2492,7 +2483,7 @@ ptr = new_clone(x)
 assert(ptr^ == 123)
 ```
 
-* `make` - allocates memory for a backing data structure of either a [slice](#slices), [dynamic array](#dynamic-arrays), or [map](#maps).
+* [`make`](http://pkg.odin-lang.org/core/builtin/#make) - allocates memory for a backing data structure of either a [slice](#slices), [dynamic array](#dynamic-arrays), or [map](#maps).
 
 ```odin
 slice := make([]int, 65)
@@ -2505,14 +2496,14 @@ made_map := make(map[string]int)
 made_map_with_reservation := make(map[string]int, 64)
 ```
 
-* `free` - frees the memory at the pointer given. **Note:** only free memory with the allocator it was allocated with.
+* [`free`](http://pkg.odin-lang.org/core/builtin/#free) - frees the memory at the pointer given. **Note:** only free memory with the allocator it was allocated with.
 
 ```odin
 ptr := new(int)
 free(ptr)
 ```
 
-* `free_all` - frees all the memory of the context's allocator (or given allocator). **Note:** not all allocators support this procedure.
+* [`free_all`](http://pkg.odin-lang.org/core/builtin/#free_all) - frees all the memory of the context's allocator (or given allocator). **Note:** not all allocators support this procedure.
 
 ```odin
 free_all()
@@ -2520,7 +2511,7 @@ free_all(context.temp_allocator)
 free_all(my_allocator)
 ```
 
-* `delete` - deletes the backing memory of a value allocated with make or a string that was allocated through an allocator.
+* [`delete`](http://pkg.odin-lang.org/core/builtin/#delete) - deletes the backing memory of a value allocated with make or a string that was allocated through an allocator.
 
 ```odin
 delete(my_slice)
@@ -2530,14 +2521,7 @@ delete(my_string)
 delete(my_cstring)
 ```
 
-* `realloc` - reallocates a block of memory with a different size. **Note:** only realloc memory with the same allocator the original pointer was allocated with; not all allocators may support `realloc` in-place.
-
-```odin
-ptr := alloc(16)
-ptr = realloc(ptr, 32)
-```
-
-To see more uses of allocators, please see [`package mem`](https://github.com/odin-lang/Odin/tree/master/core/mem) in the core library.
+To see more uses of allocators and allocation-related procedures, please see [`package mem`](https://github.com/odin-lang/Odin/tree/master/core/mem) in the core library.
 
 For more information regarding memory allocation strategies in general, please see [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
 
@@ -3247,14 +3231,14 @@ Unlike `assert`, `#assert` runs at compile-time. `#assert` breaks compilation if
 #assert(SOME_CONST_CONDITION)
 ```
 
-#### `#panic(<string>)``
+#### `#panic(<string>)`
 
 Panic runs at compile-time. It is functionally equivalent to an `#assert` with a `false` condition, but `#panic` has an error message string parameter.
 ```odin
 #panic(message)
 ```
 
-#### `#config(<identifer>, default)``
+#### `#config(<identifer>, default)`
 
 Checks if an identifier is defined through the command line, or gives a default value instead.
 

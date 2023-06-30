@@ -1,11 +1,13 @@
-<div class="newsletter-polaroid">
+<div class="card my-2 shadow text-center">
 	{{ if isset .Params 2 }}
-	<a href={{ index .Params 2 }}>
-		<img class="newsletter-img" src={{ index .Params 1 }}>
-	</a>
+	<a target="_blank" rel="noreferrer noopener" href={{ index .Params 2 }}>{{ index .Params 3 }}
+  	<img src={{ index .Params 1 }} class="figure-img img-fluid rounded" alt="...">
+  </a>
 	{{ else }}
-		<img class="newsletter-img" src={{ index .Params 1 }}>
+  <img src={{ index .Params 1 }} class="figure-img img-fluid rounded" alt="...">
 	{{ end }}
-
-	<div class="newsletter-text">{{ index .Params 0 }}</div>
+	
+	<div class="card-body">
+		<p class="card-text">{{ index .Params 0 }}</p>
+	</div>
 </div>

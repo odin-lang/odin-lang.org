@@ -104,7 +104,6 @@ are on the sides, and hiding them when they're collapsed into a column.*/
     }
 }
 
-
 .showcase-left, .showcase-right {
     width: 100%;
 }
@@ -130,27 +129,4 @@ are on the sides, and hiding them when they're collapsed into a column.*/
     .odin-main > nav {
         display: none;
     }
-}
-
-.newsletter-video {
-    display: block;
-    width: 100%;
-/*    height: 100%;*/
-}
-
-.newsletter-img {
-    display: block;
-    width: 100%;
-/*    height: 100%;*/
-}
-
-div.newsletter-polaroid {
-    width: 100%;
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    margin: 10px 0px;
-}
-
-div.newsletter-text {
-    text-align: center;
 }

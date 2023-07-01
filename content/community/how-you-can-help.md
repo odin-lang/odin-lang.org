@@ -20,7 +20,9 @@ Check the [issue tracker](https://github.com/odin-lang/odin/issues) for open iss
 
 ## Finacial Support
 
-Support Odin's Development on [Patreon](https://www.patreon.com/gingerbill).
+You can also donate directly to help development and paying developers through:
+* [Github Sponsors](https://github.com/sponsors/odin-lang)
+* [Patreon](https://www.patreon.com/gingerbill)
 
 <a href="https://www.patreon.com/gingerbill">
 <div style="background-color: #FF424D; height: 100px!important; width: 250px">

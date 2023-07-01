@@ -9,16 +9,15 @@
             <article class="col-lg-8 p-4">
                 <header>
                     <nav aria-label="breadcrumb">
-                        {{ $url := replace .Permalink ( printf "%s" .Site.BaseURL) "" }}
-                        {{ $.Scratch.Add "path" .Site.BaseURL }}
+                        {{ $rellink := "" }}
                         <ol class="breadcrumb">
                             {{ range (split .RelPermalink "/") }}
-                                {{ if gt (len . ) 0 }}
-                            <li class="breadcrumb-item"><a href="/{{ . }}">{{ humanize (replace . "posts" "blog") }}</a></li>
+                                {{ if gt (len . ) 0 -}}
+                                    {{ $rellink = printf "%s/%s" $rellink . }}
+                                    <li class="breadcrumb-item"><a href="{{ $rellink }}">{{ humanize . }}</a></li>
                                 {{ end }}
                             {{ end }}
                         </ol>
-                    </nav>
                     <h1>{{ .Title }}</h1>
                 </header>
                 <div class="odin-article">

@@ -56,11 +56,27 @@ a:hover {
     text-decoration: none;
 }
 
+#TableOfContents a:hover {
+    text-decoration: underline;
+}
+
+#TableOfContents a:active {
+    text-decoration: underline;
+}
+
+#TableOfContents a.active {
+    color: var(--bs-primary);
+    font-weight: bold;
+    transition: 100ms;
+}
+
 .odin-below-navbar {
     top: 59px; /* menu bar height */
     z-index: 0;
     max-height: calc(100vh - 59px); /* menu bar height */
     overflow: auto;
+/*    color: hotpink;*/
+/*    background-color: hotpink;*/
 }
 
 /* The glorious scroll-to element with sticky header offset hack. */
@@ -125,8 +141,13 @@ are on the sides, and hiding them when they're collapsed into a column.*/
     }
 }
 
+/* remove navbar and table of contents when smaller than lg */
 @media only screen and (max-width: 991px) {
     .odin-main > nav {
         display: none;
+    }
+
+    #TableOfContents {
+        display: none
     }
 }

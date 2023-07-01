@@ -31,11 +31,32 @@
             <!-- Right menu -->
             {{ if ne .TableOfContents "<nav id=\"TableOfContents\"></nav>" }}
             <div class="col-lg-2 odin-toc-border navbar-light">
-                <div class="sticky-top odin-below-navbar py-3">
+                <div class="sticky-top odin-below-navbar py-3" data-bs-spy="scroll" data-bs-target="#navID">
                     {{ .TableOfContents }}
                 </div>
             </div>
             {{ end }}
+
+            <!-- Right menu set clicked link to active -->
+            <script type="text/javascript">
+                var nav = document.getElementById("TableOfContents")
+                var links = nav.getElementsByTagName("a")
+
+                for (var i = 0; i < links.length; i++) {
+                    links[i].addEventListener("click", function() {
+                        for (var j = 0; j < links.length; j++) {
+                            links[j].classList.remove("active")
+                        }
+
+                        this.classList.add("active")
+                    })
+                    
+                    // Check the URL fragment and add the active class to the corresponding link
+                    if (links[i].hash === window.location.hash) {
+                        links[i].classList.add("active");
+                    }
+                }
+            </script>
         </div>
     </div>
 </main>

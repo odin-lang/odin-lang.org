@@ -91,10 +91,24 @@
 <img src=https://raw.githubusercontent.com/DanielGavin/ols/master/images/completion.png width=100%>
 </div>
 <h2 id=why-would-you-want-to-use-ols>Why would you want to use ols? <a class=text-decoration-none href=#why-would-you-want-to-use-ols>#</a></h2>
-<p>You might be thinking, &ldquo;Odin is already such a simple language that any tooling might be unnecessary&rdquo;, but the ability to lookup procedures in a package or goto procedure definitions will radically speed up your coding and understanding of a codebase.</p>
+<p>You might be thinking, &ldquo;Odin is already such a simple language that any tooling is unnecessary&rdquo;, but the ability to lookup procedures in a package or goto procedure definitions will radically speed up your coding and understanding of a codebase.</p>
 <div class=clearfix></div>
+<h2 id=implementation>Implementation <a class=text-decoration-none href=#implementation>#</a></h2>
+<p>I implemented <code>ols</code> on the idea that the most important thing is fast completion and gotos - everything else is just extra goodness. This means all the extra features cannot affect the performance of completion and goto negatively, or if they do affect it, you have the ability to turn of those features, such as semantic tokens, which have to resolve all the symbols of the current document.</p>
+<p><code>ols</code> consists of the indexer part, which goes through all the packages and stores all relevant ast nodes in a standard map. Every package has its own map index. This is one of the beauties of Odin, that the package system is so well defined and well contained. You rarely have to guess which package the struct, enums, and constants come from, since they have to be explicitly specified. The only exception is <code>using</code> in procedures, where I can&rsquo;t be certain, and I have to go through all the <code>usings</code> and the current package indexes.</p>
+<p>When you are looking at the current document, the indexer is not used, but the actual document ast.</p>
+<p>The normal use case is you need to resolve some variable symbol in your document. You start looking at the symbol, jump back to where it&rsquo;s defined, you then look at the type it has, is it defined in the current package or is it from another package? If it&rsquo;s in another package, you look at the package index and retrieve the ast node of that. If it&rsquo;s in the current package of the document, you look in the document ast first, and afterwards in the package index. This basically keeps happening until it finds the final concrete type. This means on completion, the only symbols that gets resolved is the ones relevant to the completion.</p>
+<h2 id=communication>Communication <a class=text-decoration-none href=#communication>#</a></h2>
+<p>All request between the client and the server is done through <code>stdout</code> and <code>stdin</code> with the <code>JSON-RPC</code> protocol.</p>
+<h2 id=memory-handling>Memory handling <a class=text-decoration-none href=#memory-handling>#</a></h2>
+<p>Every opened document has its own allocator with a fixed size, and relies on the heap allocator if the arena gets full. The temporary allocator is used in handling request from the client, and the allocator gets cleared per request. The indexer uses the heap allocator.</p>
+<p>There are still things to consider for the future:</p>
+<ul>
+<li>Should all the packages used be kept in memory at all times?</li>
+<li>Should there be different sized arena for the documents?</li>
+</ul>
 <h2 id=features>Features <a class=text-decoration-none href=#features>#</a></h2>
-<p>Here you can see some of the main features of Ols:</p>
+<p>Here you can see some of the main features of <code>ols</code>:</p>
 <h3 id=completion>Completion <a class=text-decoration-none href=#completion>#</a></h3>
 <img src=https://raw.githubusercontent.com/DanielGavin/ols/master/images/showcase/completion.gif width=100%>
 <div class=clearfix></div>
@@ -114,6 +128,9 @@
 <nav id=TableOfContents>
 <ul>
 <li><a href=#why-would-you-want-to-use-ols>Why would you want to use ols?</a></li>
+<li><a href=#implementation>Implementation</a></li>
+<li><a href=#communication>Communication</a></li>
+<li><a href=#memory-handling>Memory handling</a></li>
 <li><a href=#features>Features</a>
 <ul>
 <li><a href=#completion>Completion</a></li>

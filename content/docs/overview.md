@@ -617,7 +617,7 @@ multiply :: proc(x, y: int) -> int {
 fmt.println(multiply(137, 432))
 ```
 
-Continuing the C family tradition, everything in Odin is passed by value (rather than by reference, e.g. FORTRAN, Java, etc). However, Odin differs from the C/C++ tradition in that all procedure parameters in Odin are immutable values. This allows for numerous optimizations with the Odin calling conventions (`"odin"` and `"contextless"` explained [here](#calling-conventions)) which would not be possible with the original C tradition of always passing a copy of the thing that has been passed.
+Continuing the C family tradition, everything in Odin is passed by value (rather than by reference, e.g. FORTRAN, Java, etc). However, Odin differs from the C/C++ tradition in that all procedure parameters in Odin are immutable values. This allows for numerous optimizations with the Odin [calling conventions](#calling-conventions) (`"odin"` and `"contextless"`) which would not be possible with the original C tradition of always passing a copy of the thing that has been passed.
 
 Passing a pointer value makes a copy of the pointer, not the data it points to. Slices, dynamic arrays, and maps behave like pointers in this case (Internally they are structures that contain values, which include pointers, and the "structure" is passed by value).
 

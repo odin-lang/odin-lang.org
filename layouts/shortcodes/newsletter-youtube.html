@@ -1,4 +1,3 @@
-<div class="embed video-player">
-	<iframe class="youtube-player" type="text/html" width="100%" height="450" src="https://www.youtube.com/embed/{{ index .Params 0 }}" allowfullscreen frameborder="0">
-	</iframe>
+<div class="ratio ratio-16x9 my-2">
+	<iframe src="https://www.youtube.com/embed/{{ index .Params 0 }}?rel=0" allowfullscreen crossorigin="anonymous"></iframe>
 </div>

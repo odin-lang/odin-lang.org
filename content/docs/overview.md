@@ -270,7 +270,7 @@ for i in 0..=9 {
 	fmt.println(i)
 }
 ```
-where `a..=b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
+where `a..=b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b]`, i.e. the upper limit is *exclusive*.
 
 Certain built-in types can be iterated over:
 ```odin
@@ -595,7 +595,7 @@ fibonacci :: proc(n: int) -> int {
 	return fibonacci(n-1) + fibonacci(n-2)
 }
 
-fmt.println(fibonacci(3))
+fmt.println(fibonacci(3)) // 2
 ```
 
 For more information regarding value declarations in general, please see the [Odin FAQ](/docs/faq).
@@ -617,7 +617,7 @@ multiply :: proc(x, y: int) -> int {
 fmt.println(multiply(137, 432))
 ```
 
-Continuing the C family tradition, everything in Odin is passed by value (rather than by reference, e.g. FORTRAN, Java, etc). However, Odin differs from the C/C++ tradition in that all procedure parameters in Odin are immutable values. This allows for numerous optimizations with the Odin calling conventions (`"odin"` and `"contextless"`) which would not be possible with the original C tradition of always passing a copy of the thing that has been passed.
+Continuing the C family tradition, everything in Odin is passed by value (rather than by reference, e.g. FORTRAN, Java, etc). However, Odin differs from the C/C++ tradition in that all procedure parameters in Odin are immutable values. This allows for numerous optimizations with the Odin [calling conventions](#calling-conventions) (`"odin"` and `"contextless"`) which would not be possible with the original C tradition of always passing a copy of the thing that has been passed.
 
 Passing a pointer value makes a copy of the pointer, not the data it points to. Slices, dynamic arrays, and maps behave like pointers in this case (Internally they are structures that contain values, which include pointers, and the "structure" is passed by value).
 
@@ -1309,13 +1309,31 @@ y: [dynamic]int
 append(&y, ..x[:]) // append a slice
 ```
 
-#### Sorting a dynamic array
+#### Removing from a dynamic array
+
+Removing from a dynamic array can be done in several ways using the built-in procedures:
+
+* [`pop`](https://pkg.odin-lang.org/core/builtin/#pop) pops the last element of the array
+* [`unordered_remove`](https://pkg.odin-lang.org/core/builtin/#unordered_remove) removes an element at a specific index. *Unordered* means it is `O(1)`, since it swaps the last element to the removed location - making the array be *sorted* differently.
+* [`ordered_remove`](https://pkg.odin-lang.org/core/builtin/#ordered_remove) removes an element at a specific index. *Ordered* means it will move all elements after the index downwards with a `copy` - ensuring elements remain in the same order.
+
+```odin
+x: [dynamic]int
+append(&x, 1, 2, 3, 4, 5) // [1, 2, 3, 4, 5]
+pop(&x) // [1, 2, 3, 4]
+ordered_remove(&x, 0) // [2, 3, 4]
+unordered_remove(&x, 0) // [4, 3]
+```
+
+Other variants can be found in the [built-in procedures](https://pkg.odin-lang.org/core/builtin) documentation.
+
+#### Slice & Sort a dynamic array
 Although dynamic arrays and slices are different concepts, dynamic arrays can be 'sliced'
 and sorted as follows:
 ```odin
 s: [dynamic]int
-append(&s, 1, 6, 3, 5 ,7, 3, 0)
-slice.sort(s[:])
+append(&s, 1, 6, 3, 5, 7, 3, 0) // [1, 6, 3, 5, 7, 3, 0]
+slice.sort(s[:]) // [0, 1, 3, 3, 5, 6, 7]
 ```
 
 #### Making and deleting slices and dynamic arrays
@@ -1344,6 +1362,55 @@ delete(f)                     // dynamic arrays remember their allocator
 ```
 
 **Note:** There is no automatic memory management in Odin.
+
+#### Clearing a dynamic array
+
+Instead of deleting the array you often want to simply [clear](https://pkg.odin-lang.org/core/builtin/#clear) the dynamic array. This will set the length `len()` to be `0`, while the capacity `cap` remains the same.
+
+```odin
+x: [dynamic]int
+append(&x, 1, 2, 3, 4, 5) // [1, 2, 3, 4, 5]
+fmt.println(len(x)) // 5
+clear(&x) // []
+fmt.println(len(x)) // 0
+```
+
+#### Resize / Reserve with a dynamic array
+
+Often enough we also want to resize or reserve a specific amount for a dynamic array. It's important to understand the difference between the two operations.
+
+* [resize](https://pkg.odin-lang.org/core/builtin/#resize) will try to resize memory of a passed dynamic array to the requested element count (setting the `len`, and possibly `cap`).
+* [reserve](https://pkg.odin-lang.org/core/builtin/#reserve) will try to reserve memory of a passed dynamic array to the requested element count (setting the `cap`).
+* [shrink](https://pkg.odin-lang.org/core/builtin/#shrink) will shrink the capacity of a dynamic array down to the current length, or the given capacity.
+
+```odin
+x: [dynamic]int
+fmt.println(len(x), cap(x)) // 0, 0
+append(&x, 1, 2, 3) // [1, 2, 3]
+fmt.println(len(x), cap(x)) // 3, 8
+resize(&x, 5) 
+fmt.println(x[:]) // [1, 2, 3, 0, 0] other values are zero'd memory
+fmt.println(len(x), cap(x)) // 5, 8
+reserve(&x, 32)
+fmt.println(len(x), cap(x)) // 5, 32
+shrink(&x)
+fmt.println(len(x), cap(x)) // 5, 5
+```
+
+#### `Small_Array(N, T)` container dynamic array
+
+The `core` library also contains a container dynamic array [Small_Array(N, T)](https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin). It implements most dynamic array procedures while being able to remain on the stack.
+
+Short Example:
+```odin
+import sa "core:container/small_array"
+
+x: sa.Small_Array(8, int)
+fmt.println(sa.len(x), sa.cap(x)) // 0, 8
+sa.append(&x, 1, 2, 3) 
+fmt.println(sa.len(x), sa.cap(x)) // 3, 8
+fmt.println(sa.slice(&x)) // [1, 2, 3]
+```
 
 ### Enumerations
 Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:
@@ -1653,6 +1720,17 @@ proc(x: int) -> bool
 proc(c: proc(x: int) -> bool) -> (i32, f32)
 ```
 
+Or you can assign them to a variable:
+```odin
+Callback :: proc() -> int 
+a: Callback // nil 
+assert(a == nil)
+a = proc() -> int { return 0 }
+fmt.println(a()) // 0
+a = proc() -> int { return 100 }
+fmt.println(a()) // 100
+```
+
 #### Calling conventions
 Odin supports the following calling conventions:
 
@@ -1675,6 +1753,7 @@ proc "contextless" (s: []int)
 
 Procedure types are only compatible with the procedures that have the same calling convention and parameter types.
 
+When binding to C libraries you'll often end up using `proc "c"` and also set the current context. For this you'll need to [explicity set the context](#explicit-context-definition).
 
 ### 'typeid' type
 A `typeid` is a unique identifier for an Odin type. This construct is used by the `any` type to denote what the underlying data's type is.
@@ -1736,8 +1815,16 @@ x[:n]  -> []T
 x[i:n] -> []T
 ```
 
-**Note:** The name of mutli-pointers may be subject to change.
+Interacting with Multi-Pointers is easiest using the builtin `raw_data()` call which can return a Multi-Pointer.
+```odin
+a: [^]int
+fmt.println(a) // <nil>
+b := [?]int { 10, 20, 30 }
+a = raw_data(b[:]) 
+fmt.println(a, a[1], b) // 0x7FFCBE9FE688 20 [10, 20, 30]
+``` 
 
+**Note:** The name of mutli-pointers may be subject to change.
 
 ### SOA Data Types
 
@@ -2084,7 +2171,17 @@ Built-in Procedures (Runtime Level) (all square matrix procedures):
 * `matrix_trace(m)`
 * `matrix_minor(m)`
 
+## `raw_data` procedure
 
+[raw_data](https://pkg.odin-lang.org/core/builtin/#raw_data) is a built-in procedure which returns the underlying data of a built-in data type as a [Multi-Pointer](#multi-pointers).
+
+```odin
+raw_data([]$E)         -> [^]E    // slices
+raw_data([dynamic]$E)  -> [^]E    // dynamic arrays
+raw_data(^[$N]$E)      -> [^]E    // fixed array and enumerated arrays 
+raw_data(^#simd[$N]$E) -> [^]E    // simd vectors 
+raw_data(string)       -> [^]byte // string
+```
 
 ## `using` statement
 `using` can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.
@@ -2377,12 +2474,18 @@ This is how you define those.
 You may define a constant using the `-define` command line switch. e.g: `-define:FOO=true`.
 You can then fetch its value as a constant in your code like this:
 ```odin
-when #config(FOO, false) {
-	// only evaluated if you `-define:FOO=true`
+FOO :: #config(FOO, false) // defines FOO as a constant with the default value of false
+BAR :: #config(BAR_DEBUG, true) // name can be different compared to the constant 
+
+when FOO {
+	// only evaluated when FOO is true
+} else {
+	// only evaluate when FOO is false
 }
 ```
 The value for a command line define may be an integer, boolean, or string. Currently, no other types are supported.
 
+You can read up further on [Built-in procedures](#configidentifer-default) here.
 
 ### Build tags
 
@@ -2542,7 +2645,14 @@ dummy_procedure :: proc() {
 }
 ```
 
-
+Here is another example of setting an error callback for `vendor:glfw`:
+```odin
+error_callback :: proc "c" (code: i32, desc: cstring) {
+	context = runtime.default_context() // set the current context
+	fmt.println(desc, code) // fmt.* calls use the odin calling convention
+}
+glfw.SetErrorCallback(error_callback)
+```
 
 ### Logging System
 
@@ -2586,6 +2696,67 @@ Available attributes for foreign blocks:
 
 `default_calling_convention=<string>` default calling convention for procedures declared within this foreign block  
 `link_prefix=<string>` prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden  
+
+## Using a `vendor` library
+
+As described in the [Foreign System](#foreign-system) we often want to use existing `C` libraries. Odin has a wide collection of maintained [bindings and ports](https://github.com/odin-lang/Odin/tree/master/vendor).
+
+**Note:** Case notation should remain the same as the original authors intended - to make porting code easier.
+
+Let's run through how we could use the `vendor:glfw` library. The code will be based on their [Quick Guide](https://www.glfw.org/docs/latest/quick_guide.html) but we will simplify it to only show using `glfw` though.
+
+```odin
+package main
+
+import "core:fmt"
+import "core:runtime"
+import "vendor:glfw"
+
+error_callback :: proc "c" (code: i32, desc: cstring) {
+	context = runtime.default_context()
+	fmt.println(desc, code)
+}
+
+key_callback :: proc "c" (window: glfw.WindowHandle, key, scancode, action, mods: i32) {
+	if key == glfw.KEY_ESCAPE && action == glfw.PRESS {
+		glfw.SetWindowShouldClose(window, glfw.TRUE)
+	}
+}
+
+main :: proc() {
+	glfw.SetErrorCallback(error_callback)
+
+	if glfw.Init() == 0 {
+		panic("EXIT_FAILURE")
+	}
+	defer glfw.Terminate()
+
+	glfw.WindowHint(glfw.CONTEXT_VERSION_MAJOR, 2)
+	glfw.WindowHint(glfw.CONTEXT_VERSION_MINOR, 0)
+
+	window := glfw.CreateWindow(640, 480, "Simple example", nil, nil)
+	if window == nil {
+		panic("EXIT_FAILURE")
+	}	
+	defer glfw.DestroyWindow(window)
+
+	glfw.SetKeyCallback(window, key_callback)
+
+	glfw.MakeContextCurrent(window)
+	// ...
+	glfw.SwapInterval(1)
+	// ...
+
+	for !glfw.WindowShouldClose(window) {
+		// ...
+
+		glfw.SwapBuffers(window)
+		glfw.PollEvents()
+	}
+}
+```
+
+As we can see there is little difference to how someone would use `vendor:glfw` in this case. It's not always perfect but often good enough to port existing code quickly.
 
 ## Parametric polymorphism
 Parametric polymorphism, commonly referred to as "generics", allow the user to create a procedure or data that can be written _generically_ so it can handle values in the same manner.
@@ -2824,6 +2995,8 @@ Prevents a top level element from being exported with the package.
 ```odin
 @(private)
 my_variable: int; // cannot be accessed outside this package.
+@private // parenthesis can be dropped on no arguments  
+my_other_variable: int
 ```
 
 You may also make an entity private to _the file_ instead of the package.
@@ -2844,6 +3017,7 @@ And `//+private file` will be equivalent to automatically adding `@(private="fil
 #### `@(require)`
 
 Requires that the declaration is added to the final compilation and not optimized out.
+
 
 ### Linking and foreign attributes
 
@@ -3362,7 +3536,7 @@ for _, j in foos {
 
 
 // By-reference range-based through pointer
-for v, j in &foos {
+for &v, j in foos {
 	using v // v is now a variable reference as `foos` was passed by pointer
 	fmt.println(j, foo, f, i)
 }
@@ -3370,11 +3544,20 @@ for v, j in &foos {
 
 #### 'defer if'
 ```odin
+cond := true
+
 defer if cond {
+	fmt.println("Hello World") // "Hello world" last
 }
+
+fmt.println("Hellope") // "Hellope" first
 ```
 
 #### 'Maybe(T)'
+`Maybe(T)` is a union which *either* returns a type `T` or `nil`. In other languages this is often seen as `Option(T)`, `Result(T)`, etc. 
+
+Odin has multiple return values, so `Maybe(T)` is used less frequently or rarely in the `core` library. Instead of doing `-> Maybe(int)` you could transform it to `-> (int, bool)`.
+
 ```odin
 halve :: proc(n: int) -> Maybe(int) {
 	if n % 2 != 0 do return nil
@@ -3389,7 +3572,6 @@ if !ok do fmt.println("3/2 isn't an int")
 n := halve(4).? or_else 0
 fmt.println(n)                   // 2
 ```
-
 
 ### Advanced idioms
 

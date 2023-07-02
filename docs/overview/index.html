@@ -252,7 +252,7 @@ for i &lt; 10 {
 for i in 0..=9 {
 	fmt.println(i)
 }
-</code></pre><p>where <code>a..=b</code> denotes a closed interval <code>[a,b]</code>, i.e. the upper limit is <em>inclusive</em>, and <code>a..&lt;b</code> denotes a half-open interval <code>[a,b)</code>, i.e. the upper limit is <em>exclusive</em>.</p>
+</code></pre><p>where <code>a..=b</code> denotes a closed interval <code>[a,b]</code>, i.e. the upper limit is <em>inclusive</em>, and <code>a..&lt;b</code> denotes a half-open interval <code>[a,b]</code>, i.e. the upper limit is <em>exclusive</em>.</p>
 <p>Certain built-in types can be iterated over:</p>
 <pre><code class=language-odin data-lang=odin>for character in some_string {
 	fmt.println(character)
@@ -500,7 +500,7 @@ case 1:
 	return fibonacci(n-1) + fibonacci(n-2)
 }
 
-fmt.println(fibonacci(3))
+fmt.println(fibonacci(3)) // 2
 </code></pre><p>For more information regarding value declarations in general, please see the <a href=/docs/faq>Odin FAQ</a>.</p>
 <h3 id=parameters>Parameters <a class=text-decoration-none href=#parameters>#</a></h3>
 <p>Procedures can take zero or many parameters. The following example is a basic procedure that multiplies two integers together:</p>
@@ -513,7 +513,7 @@ fmt.println(multiply(137, 432))
 	return x * y
 }
 fmt.println(multiply(137, 432))
-</code></pre><p>Continuing the C family tradition, everything in Odin is passed by value (rather than by reference, e.g. FORTRAN, Java, etc). However, Odin differs from the C/C++ tradition in that all procedure parameters in Odin are immutable values. This allows for numerous optimizations with the Odin calling conventions (<code>"odin"</code> and <code>"contextless"</code>) which would not be possible with the original C tradition of always passing a copy of the thing that has been passed.</p>
+</code></pre><p>Continuing the C family tradition, everything in Odin is passed by value (rather than by reference, e.g. FORTRAN, Java, etc). However, Odin differs from the C/C++ tradition in that all procedure parameters in Odin are immutable values. This allows for numerous optimizations with the Odin <a href=#calling-conventions>calling conventions</a> (<code>"odin"</code> and <code>"contextless"</code>) which would not be possible with the original C tradition of always passing a copy of the thing that has been passed.</p>
 <p>Passing a pointer value makes a copy of the pointer, not the data it points to. Slices, dynamic arrays, and maps behave like pointers in this case (Internally they are structures that contain values, which include pointers, and the &ldquo;structure&rdquo; is passed by value).</p>
 <p>To mutate the procedure parameter (like in C), an explicit copy is required. This can be done through shadowing the variable declaration:</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc(x: int) {
@@ -981,12 +981,25 @@ append(&amp;x, 4, 1, 74, 3) // append multiple values at once
 
 y: [dynamic]int
 append(&amp;y, ..x[:]) // append a slice
-</code></pre><h4 id=sorting-a-dynamic-array>Sorting a dynamic array <a class=text-decoration-none href=#sorting-a-dynamic-array>#</a></h4>
+</code></pre><h4 id=removing-from-a-dynamic-array>Removing from a dynamic array <a class=text-decoration-none href=#removing-from-a-dynamic-array>#</a></h4>
+<p>Removing from a dynamic array can be done in several ways using the built-in procedures:</p>
+<ul>
+<li><a href=https://pkg.odin-lang.org/core/builtin/#pop><code>pop</code></a> pops the last element of the array</li>
+<li><a href=https://pkg.odin-lang.org/core/builtin/#unordered_remove><code>unordered_remove</code></a> removes an element at a specific index. <em>Unordered</em> means it is <code>O(1)</code>, since it swaps the last element to the removed location - making the array be <em>sorted</em> differently.</li>
+<li><a href=https://pkg.odin-lang.org/core/builtin/#ordered_remove><code>ordered_remove</code></a> removes an element at a specific index. <em>Ordered</em> means it will move all elements after the index downwards with a <code>copy</code> - ensuring elements remain in the same order.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>x: [dynamic]int
+append(&amp;x, 1, 2, 3, 4, 5) // [1, 2, 3, 4, 5]
+pop(&amp;x) // [1, 2, 3, 4]
+ordered_remove(&amp;x, 0) // [2, 3, 4]
+unordered_remove(&amp;x, 0) // [4, 3]
+</code></pre><p>Other variants can be found in the <a href=https://pkg.odin-lang.org/core/builtin>built-in procedures</a> documentation.</p>
+<h4 id=slice--sort-a-dynamic-array>Slice & Sort a dynamic array <a class=text-decoration-none href=#slice--sort-a-dynamic-array>#</a></h4>
 <p>Although dynamic arrays and slices are different concepts, dynamic arrays can be &lsquo;sliced&rsquo;
 and sorted as follows:</p>
 <pre><code class=language-odin data-lang=odin>s: [dynamic]int
-append(&amp;s, 1, 6, 3, 5 ,7, 3, 0)
-slice.sort(s[:])
+append(&amp;s, 1, 6, 3, 5, 7, 3, 0) // [1, 6, 3, 5, 7, 3, 0]
+slice.sort(s[:]) // [0, 1, 3, 3, 5, 6, 7]
 </code></pre><h4 id=making-and-deleting-slices-and-dynamic-arrays>Making and deleting slices and dynamic arrays <a class=text-decoration-none href=#making-and-deleting-slices-and-dynamic-arrays>#</a></h4>
 <p>Slices and dynamic arrays can be explicitly allocated with the built-in <a href=http://pkg.odin-lang.org/core/builtin/#make><code>make</code></a> proc.</p>
 <pre><code class=language-odin data-lang=odin>a := make([]int, 6)           // len(a) == 6
@@ -1005,7 +1018,42 @@ delete(c)
 delete(e)                     // slices are always deleted from context.allocator
 delete(f)                     // dynamic arrays remember their allocator
 </code></pre><p><strong>Note:</strong> There is no automatic memory management in Odin.</p>
-<h3 id=enumerations>Enumerations <a class=text-decoration-none href=#enumerations>#</a></h3>
+<h4 id=clearing-a-dynamic-array>Clearing a dynamic array <a class=text-decoration-none href=#clearing-a-dynamic-array>#</a></h4>
+<p>Instead of deleting the array you often want to simply <a href=https://pkg.odin-lang.org/core/builtin/#clear>clear</a> the dynamic array. This will set the length <code>len()</code> to be <code>0</code>, while the capacity <code>cap</code> remains the same.</p>
+<pre><code class=language-odin data-lang=odin>x: [dynamic]int
+append(&amp;x, 1, 2, 3, 4, 5) // [1, 2, 3, 4, 5]
+fmt.println(len(x)) // 5
+clear(&amp;x) // []
+fmt.println(len(x)) // 0
+</code></pre><h4 id=resize--reserve-with-a-dynamic-array>Resize / Reserve with a dynamic array <a class=text-decoration-none href=#resize--reserve-with-a-dynamic-array>#</a></h4>
+<p>Often enough we also want to resize or reserve a specific amount for a dynamic array. It&rsquo;s important to understand the difference between the two operations.</p>
+<ul>
+<li><a href=https://pkg.odin-lang.org/core/builtin/#resize>resize</a> will try to resize memory of a passed dynamic array to the requested element count (setting the <code>len</code>, and possibly <code>cap</code>).</li>
+<li><a href=https://pkg.odin-lang.org/core/builtin/#reserve>reserve</a> will try to reserve memory of a passed dynamic array to the requested element count (setting the <code>cap</code>).</li>
+<li><a href=https://pkg.odin-lang.org/core/builtin/#shrink>shrink</a> will shrink the capacity of a dynamic array down to the current length, or the given capacity.</li>
+</ul>
+<pre><code class=language-odin data-lang=odin>x: [dynamic]int
+fmt.println(len(x), cap(x)) // 0, 0
+append(&amp;x, 1, 2, 3) // [1, 2, 3]
+fmt.println(len(x), cap(x)) // 3, 8
+resize(&amp;x, 5) 
+fmt.println(x[:]) // [1, 2, 3, 0, 0] other values are zero'd memory
+fmt.println(len(x), cap(x)) // 5, 8
+reserve(&amp;x, 32)
+fmt.println(len(x), cap(x)) // 5, 32
+shrink(&amp;x)
+fmt.println(len(x), cap(x)) // 5, 5
+</code></pre><h4 id=small_arrayn-t-container-dynamic-array><code>Small_Array(N, T)</code> container dynamic array <a class=text-decoration-none href=#small_arrayn-t-container-dynamic-array>#</a></h4>
+<p>The <code>core</code> library also contains a container dynamic array <a href=https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin>Small_Array(N, T)</a>. It implements most dynamic array procedures while being able to remain on the stack.</p>
+<p>Short Example:</p>
+<pre><code class=language-odin data-lang=odin>import sa &quot;core:container/small_array&quot;
+
+x: sa.Small_Array(8, int)
+fmt.println(sa.len(x), sa.cap(x)) // 0, 8
+sa.append(&amp;x, 1, 2, 3) 
+fmt.println(sa.len(x), sa.cap(x)) // 3, 8
+fmt.println(sa.slice(&amp;x)) // [1, 2, 3]
+</code></pre><h3 id=enumerations>Enumerations <a class=text-decoration-none href=#enumerations>#</a></h3>
 <p>Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:</p>
 <pre><code class=language-odin data-lang=odin>Direction :: enum{North, East, South, West}
 </code></pre><p>The following holds:</p>
@@ -1207,6 +1255,14 @@ fmt.println(m[&quot;Bob&quot;])
 <p>Examples:</p>
 <pre><code class=language-odin data-lang=odin>proc(x: int) -&gt; bool
 proc(c: proc(x: int) -&gt; bool) -&gt; (i32, f32)
+</code></pre><p>Or you can assign them to a variable:</p>
+<pre><code class=language-odin data-lang=odin>Callback :: proc() -&gt; int 
+a: Callback // nil 
+assert(a == nil)
+a = proc() -&gt; int { return 0 }
+fmt.println(a()) // 0
+a = proc() -&gt; int { return 100 }
+fmt.println(a()) // 100
 </code></pre><h4 id=calling-conventions>Calling conventions <a class=text-decoration-none href=#calling-conventions>#</a></h4>
 <p>Odin supports the following calling conventions:</p>
 <ul>
@@ -1223,6 +1279,7 @@ proc(c: proc(x: int) -&gt; bool) -&gt; (i32, f32)
 <pre><code class=language-odin data-lang=odin>proc &quot;c&quot; (n: i32, data: rawptr)
 proc &quot;contextless&quot; (s: []int)
 </code></pre><p>Procedure types are only compatible with the procedures that have the same calling convention and parameter types.</p>
+<p>When binding to C libraries you&rsquo;ll often end up using <code>proc "c"</code> and also set the current context. For this you&rsquo;ll need to <a href=#explicit-context-definition>explicity set the context</a>.</p>
 <h3 id=typeid-type>&lsquo;typeid&rsquo; type <a class=text-decoration-none href=#typeid-type>#</a></h3>
 <p>A <code>typeid</code> is a unique identifier for an Odin type. This construct is used by the <code>any</code> type to denote what the underlying data&rsquo;s type is.</p>
 <pre><code class=language-odin data-lang=odin>a := typeid_of(bool)
@@ -1264,6 +1321,12 @@ x[:]   -&gt; [^]T
 x[i:]  -&gt; [^]T
 x[:n]  -&gt; []T
 x[i:n] -&gt; []T
+</code></pre><p>Interacting with Multi-Pointers is easiest using the builtin <code>raw_data()</code> call which can return a Multi-Pointer.</p>
+<pre><code class=language-odin data-lang=odin>a: [^]int
+fmt.println(a) // &lt;nil&gt;
+b := [?]int { 10, 20, 30 }
+a = raw_data(b[:]) 
+fmt.println(a, a[1], b) // 0x7FFCBE9FE688 20 [10, 20, 30]
 </code></pre><p><strong>Note:</strong> The name of mutli-pointers may be subject to change.</p>
 <h3 id=soa-data-types>SOA Data Types <a class=text-decoration-none href=#soa-data-types>#</a></h3>
 <p><em>Array of Structures (AoS)</em>, <em>Structure of Arrays (SoA)</em>, and <em>Array of Structures of Arrays (AoSoA)</em> refer to differing ways to arrange a sequence of data records in memory, with regard to interleaving. These are of interest in SIMD and SIMT programming.</p>
@@ -1552,7 +1615,14 @@ component-wise multiplication of two matrices of the same type</li>
 <li><code>matrix_trace(m)</code></li>
 <li><code>matrix_minor(m)</code></li>
 </ul>
-<h2 id=using-statement><code>using</code> statement <a class=text-decoration-none href=#using-statement>#</a></h2>
+<h2 id=raw_data-procedure><code>raw_data</code> procedure <a class=text-decoration-none href=#raw_data-procedure>#</a></h2>
+<p><a href=https://pkg.odin-lang.org/core/builtin/#raw_data>raw_data</a> is a built-in procedure which returns the underlying data of a built-in data type as a <a href=#multi-pointers>Multi-Pointer</a>.</p>
+<pre><code class=language-odin data-lang=odin>raw_data([]$E)         -&gt; [^]E    // slices
+raw_data([dynamic]$E)  -&gt; [^]E    // dynamic arrays
+raw_data(^[$N]$E)      -&gt; [^]E    // fixed array and enumerated arrays 
+raw_data(^#simd[$N]$E) -&gt; [^]E    // simd vectors 
+raw_data(string)       -&gt; [^]byte // string
+</code></pre><h2 id=using-statement><code>using</code> statement <a class=text-decoration-none href=#using-statement>#</a></h2>
 <p><code>using</code> can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.</p>
 <pre><code class=language-odin data-lang=odin>import &quot;foo&quot;
 bar :: proc() {
@@ -1857,10 +1927,16 @@ main :: proc() {
 This is how you define those.</p>
 <p>You may define a constant using the <code>-define</code> command line switch. e.g: <code>-define:FOO=true</code>.
 You can then fetch its value as a constant in your code like this:</p>
-<pre><code class=language-odin data-lang=odin>when #config(FOO, false) {
-	// only evaluated if you `-define:FOO=true`
+<pre><code class=language-odin data-lang=odin>FOO :: #config(FOO, false) // defines FOO as a constant with the default value of false
+BAR :: #config(BAR_DEBUG, true) // name can be different compared to the constant 
+
+when FOO {
+	// only evaluated when FOO is true
+} else {
+	// only evaluate when FOO is false
 }
 </code></pre><p>The value for a command line define may be an integer, boolean, or string. Currently, no other types are supported.</p>
+<p>You can read up further on <a href=#configidentifer-default>Built-in procedures</a> here.</p>
 <h3 id=build-tags>Build tags <a class=text-decoration-none href=#build-tags>#</a></h3>
 <p>This feature allows you to cover more edge-case situations where you want some code to be compiled on several platforms.</p>
 <p>However, overly-liberal use of this feature can make it hard to reason about what code is included or not, based on the target platform or architecture.
@@ -1970,6 +2046,12 @@ delete(my_cstring)
 dummy_procedure :: proc() {
 	fmt.println(&quot;dummy_procedure&quot;)
 }
+</code></pre><p>Here is another example of setting an error callback for <code>vendor:glfw</code>:</p>
+<pre><code class=language-odin data-lang=odin>error_callback :: proc &quot;c&quot; (code: i32, desc: cstring) {
+	context = runtime.default_context() // set the current context
+	fmt.println(desc, code) // fmt.* calls use the odin calling convention
+}
+glfw.SetErrorCallback(error_callback)
 </code></pre><h3 id=logging-system>Logging System <a class=text-decoration-none href=#logging-system>#</a></h3>
 <p>As part of the implicit <code>context</code> system, there is a built-in logging system.</p>
 <p>To see more uses of loggers, please see <a href=https://github.com/odin-lang/Odin/tree/master/core/log><code>package log</code></a> in the core library.</p>
@@ -1994,6 +2076,59 @@ foreign kernel32 {
 </code></pre><p>Available attributes for foreign blocks:</p>
 <p><code>default_calling_convention=&lt;string></code> default calling convention for procedures declared within this foreign block<br>
 <code>link_prefix=&lt;string></code> prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden</p>
+<h2 id=using-a-vendor-library>Using a <code>vendor</code> library <a class=text-decoration-none href=#using-a-vendor-library>#</a></h2>
+<p>As described in the <a href=#foreign-system>Foreign System</a> we often want to use existing <code>C</code> libraries. Odin has a wide collection of maintained <a href=https://github.com/odin-lang/Odin/tree/master/vendor>bindings and ports</a>.</p>
+<p><strong>Note:</strong> Case notation should remain the same as the original authors intended - to make porting code easier.</p>
+<p>Let&rsquo;s run through how we could use the <code>vendor:glfw</code> library. The code will be based on their <a href=https://www.glfw.org/docs/latest/quick_guide.html>Quick Guide</a> but we will simplify it to only show using <code>glfw</code> though.</p>
+<pre><code class=language-odin data-lang=odin>package main
+
+import &quot;core:fmt&quot;
+import &quot;core:runtime&quot;
+import &quot;vendor:glfw&quot;
+
+error_callback :: proc &quot;c&quot; (code: i32, desc: cstring) {
+	context = runtime.default_context()
+	fmt.println(desc, code)
+}
+
+key_callback :: proc &quot;c&quot; (window: glfw.WindowHandle, key, scancode, action, mods: i32) {
+	if key == glfw.KEY_ESCAPE &amp;&amp; action == glfw.PRESS {
+		glfw.SetWindowShouldClose(window, glfw.TRUE)
+	}
+}
+
+main :: proc() {
+	glfw.SetErrorCallback(error_callback)
+
+	if glfw.Init() == 0 {
+		panic(&quot;EXIT_FAILURE&quot;)
+	}
+	defer glfw.Terminate()
+
+	glfw.WindowHint(glfw.CONTEXT_VERSION_MAJOR, 2)
+	glfw.WindowHint(glfw.CONTEXT_VERSION_MINOR, 0)
+
+	window := glfw.CreateWindow(640, 480, &quot;Simple example&quot;, nil, nil)
+	if window == nil {
+		panic(&quot;EXIT_FAILURE&quot;)
+	}	
+	defer glfw.DestroyWindow(window)
+
+	glfw.SetKeyCallback(window, key_callback)
+
+	glfw.MakeContextCurrent(window)
+	// ...
+	glfw.SwapInterval(1)
+	// ...
+
+	for !glfw.WindowShouldClose(window) {
+		// ...
+
+		glfw.SwapBuffers(window)
+		glfw.PollEvents()
+	}
+}
+</code></pre><p>As we can see there is little difference to how someone would use <code>vendor:glfw</code> in this case. It&rsquo;s not always perfect but often good enough to port existing code quickly.</p>
 <h2 id=parametric-polymorphism>Parametric polymorphism <a class=text-decoration-none href=#parametric-polymorphism>#</a></h2>
 <p>Parametric polymorphism, commonly referred to as &ldquo;generics&rdquo;, allow the user to create a procedure or data that can be written <em>generically</em> so it can handle values in the same manner.</p>
 <p><strong>Note:</strong> Within the Odin code base and documentation, the nickname &ldquo;parapoly&rdquo; is usually used.</p>
@@ -2179,6 +2314,8 @@ x.y(x, 123)
 <p>Prevents a top level element from being exported with the package.</p>
 <pre><code class=language-odin data-lang=odin>@(private)
 my_variable: int; // cannot be accessed outside this package.
+@private // parenthesis can be dropped on no arguments  
+my_other_variable: int
 </code></pre><p>You may also make an entity private to <em>the file</em> instead of the package.</p>
 <pre><code class=language-odin data-lang=odin>@(private=&quot;file&quot;)
 my_variable: int; // cannot be accessed outside this file.
@@ -2533,14 +2670,21 @@ for _, j in foos {
 
 
 // By-reference range-based through pointer
-for v, j in &amp;foos {
+for &amp;v, j in foos {
 	using v // v is now a variable reference as `foos` was passed by pointer
 	fmt.println(j, foo, f, i)
 }
 </code></pre><h4 id=defer-if>&lsquo;defer if&rsquo; <a class=text-decoration-none href=#defer-if>#</a></h4>
-<pre><code class=language-odin data-lang=odin>defer if cond {
+<pre><code class=language-odin data-lang=odin>cond := true
+
+defer if cond {
+	fmt.println(&quot;Hello World&quot;) // &quot;Hello world&quot; last
 }
+
+fmt.println(&quot;Hellope&quot;) // &quot;Hellope&quot; first
 </code></pre><h4 id=maybet>&lsquo;Maybe(T)&rsquo; <a class=text-decoration-none href=#maybet>#</a></h4>
+<p><code>Maybe(T)</code> is a union which <em>either</em> returns a type <code>T</code> or <code>nil</code>. In other languages this is often seen as <code>Option(T)</code>, <code>Result(T)</code>, etc.</p>
+<p>Odin has multiple return values, so <code>Maybe(T)</code> is used less frequently or rarely in the <code>core</code> library. Instead of doing <code>-> Maybe(int)</code> you could transform it to <code>-> (int, bool)</code>.</p>
 <pre><code class=language-odin data-lang=odin>halve :: proc(n: int) -&gt; Maybe(int) {
 	if n % 2 != 0 do return nil
 	return n / 2
@@ -2635,7 +2779,7 @@ Some of this information includes:</p>
 </div>
 </article>
 <div class="col-lg-2 odin-toc-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3">
+<div class="sticky-top odin-below-navbar py-3" data-bs-spy=scroll data-bs-target=#navID>
 <nav id=TableOfContents>
 <ul>
 <li><a href=#introduction>Introduction</a></li>
@@ -2721,6 +2865,7 @@ Some of this information includes:</p>
 <li><a href=#matrix-type><code>matrix</code> type</a></li>
 </ul>
 </li>
+<li><a href=#raw_data-procedure><code>raw_data</code> procedure</a></li>
 <li><a href=#using-statement><code>using</code> statement</a>
 <ul>
 <li><a href=#using-statement-with-structs>Using statement with structs</a></li>
@@ -2744,6 +2889,7 @@ Some of this information includes:</p>
 </ul>
 </li>
 <li><a href=#foreign-system>Foreign system</a></li>
+<li><a href=#using-a-vendor-library>Using a <code>vendor</code> library</a></li>
 <li><a href=#parametric-polymorphism>Parametric polymorphism</a>
 <ul>
 <li><a href=#explicit-parametric-polymorphism>Explicit parametric polymorphism</a></li>
@@ -2784,6 +2930,7 @@ Some of this information includes:</p>
 </nav>
 </div>
 </div>
+<script type=text/javascript>for(var nav=document.getElementById("TableOfContents"),links=nav.getElementsByTagName("a"),i=0;i<links.length;i++)links[i].addEventListener("click",function(){for(var a=0;a<links.length;a++)links[a].classList.remove("active");this.classList.add("active")}),links[i].hash===window.location.hash&&links[i].classList.add("active")</script>
 </div>
 </div>
 </main>

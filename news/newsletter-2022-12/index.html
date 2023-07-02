@@ -3,7 +3,7 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <link rel=icon href=/favicon.svg>
 <meta property="og:title" content="December 2022 Newsletter">
-<meta property="og:description" content="Release note highlights  New map implementation is that high performance, cache-friendly, and uses a open-addressed Robin Hood hash map data structure with various optimizations for Odin  Uses a smaller data structure than previously (4 pointers, down from 7) SOA-based memory layout Up to 4x-6x faster insertion and lookup on average Entries are store in non-contiguous cell-layout which means no element straddles across a cache line Only one allocation per map instead of two (previously hashes and entries) Allows for calling delete_key whilst iterating across the map   And much more!">
+<meta property="og:description" content="Release Note Highlights & Interview with Cloin, author of Spall">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://odin-lang.org/news/newsletter-2022-12/">
 <meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
@@ -153,7 +153,7 @@
 </div>
 </article>
 <div class="col-lg-2 odin-toc-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3">
+<div class="sticky-top odin-below-navbar py-3" data-bs-spy=scroll data-bs-target=#navID>
 <nav id=TableOfContents>
 <ul>
 <li><a href=#release-note-highlights>Release note highlights</a></li>
@@ -162,6 +162,7 @@
 </nav>
 </div>
 </div>
+<script type=text/javascript>for(var nav=document.getElementById("TableOfContents"),links=nav.getElementsByTagName("a"),i=0;i<links.length;i++)links[i].addEventListener("click",function(){for(var a=0;a<links.length;a++)links[a].classList.remove("active");this.classList.add("active")}),links[i].hash===window.location.hash&&links[i].classList.add("active")</script>
 </div>
 </div>
 </main>

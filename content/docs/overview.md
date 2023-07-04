@@ -1747,6 +1747,30 @@ m := map[string]int{
 }
 ```
 
+Modifying existing map slots needs to be done in two steps. Hovewer assigning to a struct field is prohibited.
+
+```odin
+Test :: struct {
+	x: int,
+	y: int,
+}
+
+m := map[string]Test{
+	"Bob" = { 0, 0 },
+	"Chloe" = { 1, 1 },
+}
+
+value, ok := &m["Bob"]
+if ok {
+	value^ = { 2, 2 }
+}
+
+fmt.println(m["Bob"]) // { 2, 2 }
+m["Bob"] = { 3, 3 }
+fmt.println(m["Bob"]) // { 3, 3 }
+m["Chloe"].x = 0 // PROHIBITED
+```
+
 ### Procedure type
 A procedure type is internally a pointer to a procedure in memory. `nil` is the zero value a procedure type.
 

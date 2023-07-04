@@ -1477,6 +1477,42 @@ main :: proc() {
 
 **Note:** Implicit selector expression is preferred to [`using`](#using-statement) an enumeration as `using` does pollute the current scope.
 
+#### Iterating an Enumeration
+
+Enums can be trivially `for` looped in odin. This way we can loop through the entire `enum` and do things like printing or inserting into an *Enumeration Array*.
+
+```odin
+Direction :: enum{North, East, South, West}
+
+for direction, index in Direction {
+	fmt.println(index, direction) 
+	// 0 North
+	// 1 East
+	// 2 South
+	// 3 West
+}
+```
+
+### Enumeration Array
+
+`Enum Arrays` allow the use of an `Enum` to be used as indices to a fixed `array`. 
+
+We'll extend the `Direction` enum used previously to add direction vectors.
+
+```odin
+Direction :: enum{North, East, South, West}
+
+Direction_Vectors :: [Direction][2]int {
+	.North = {  0, -1 },
+	.East = { +1,  0 },
+	.South = {  0, +1 },
+	.West = { -1,  0 },
+}
+
+assert(Direction_Vectors[.North] == { 0, -1 })
+assert(Direction_Vectors[.East] == { 1, 0 })
+assert(Direction_Vectors[cast(Direction) 2] == { 0, 1 })
+```
 
 ### Bit sets
 The `bit_set` type models the mathematical notion of a set. A bit_set's element type can be either an enumeration or a range:

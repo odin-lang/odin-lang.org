@@ -1309,6 +1309,26 @@ y: [dynamic]int
 append(&y, ..x[:]) // append a slice
 ```
 
+#### Inject / Assign to a dynamic array
+
+Injecting into a specific index can be done with `inject`. It will move other elements upwards when inserted below other elements.
+
+Assign a type at a specific index can be done with `assign`. It's the same as doing `x[index] = 10`. 
+
+Both of these procedures will resize the dynamic array `len` to the wanted index. This can be seen in the example below.
+
+```odin
+x := make([dynamic]int, 0, 16)
+inject_at(&x, 0, 10)
+inject_at(&x, 3, 10) // resizes till length
+fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 10] 4 16
+assign_at(&x, 3, 20)
+assign_at(&x, 4, 30)
+fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 20, 30] 5, 16
+assign_at(&x, 5, 40, 50, 60)
+fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 20, 30, 40, 50, 60] 8 16
+```
+
 #### Removing from a dynamic array
 
 Removing from a dynamic array can be done in several ways using the built-in procedures:
@@ -1770,6 +1790,17 @@ m["Bob"] = { 3, 3 }
 fmt.println(m["Bob"]) // { 3, 3 }
 m["Chloe"].x = 0 // PROHIBITED
 ```
+
+#### Map Container Calls
+
+The built-in map also supports all the standard container calls that can be found with the [dynamic array](#dynamic-arrays). 
+
+Short:
+* `len(some_map)` returns the amount of slots used up
+* `cap(some_map)` returns the capacity of the map - the map will reallocate when exceeded
+* `clear(&some_map)` clears the entire map - dynamically allocated content needs to be freed manually
+* `reserve(&some_map, capacity)` reserves the requested element count
+* `shrink(&some_map)` shrink the capacity down to the current length
 
 ### Procedure type
 A procedure type is internally a pointer to a procedure in memory. `nil` is the zero value a procedure type.

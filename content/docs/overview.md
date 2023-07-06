@@ -885,6 +885,44 @@ The `core:strings` library was created to help dealing with string cloning, conv
 
 All procedures are [documented](https://pkg.odin-lang.org/core/strings/) and can be easily understood with code examples.
 
+#### `string` iteration
+
+Iterating a `string` can be done in two ways - by runes or by bytes.
+
+```odin
+// by runes
+x := "ABC"
+for codepoint, index in x {
+	fmt.println(index, codepoint)
+	// 0 A
+	// 1 B
+	// 2 C
+}
+
+// by bytes - string length is in bytes
+for index in 0..<len(x) {
+	fmt.println(index, x[index])
+	// 0 A
+	// 1 B
+	// 2 C
+}
+```
+
+Iteration through runes is preferred since odin strings are ***UTF8***. Most core library procedures will be adressed by `*_byte` if they do input/output an index in *byte*.
+
+#### `string` format printing
+
+The `core:fmt` library supports printing strings from byte arrays in structs, when additional tag information is supplied. 
+
+```odin
+Foo :: struct {
+	a: [L]u8 `fmt:"s"`, // whole buffer is a string
+	b: [N]u8 `fmt:"s,0"`, // 0 terminated string
+	c: [M]u8 `fmt:"q,n", // string with length determined by n, and use %q rather than %s
+	n: int `fmt:"-"`, // ignore this from formatting
+}
+```
+
 ### `cstring` type
 The `cstring` type is a c-style string value, which is zero-terminated. It is equivalent to `char const *` in C. Its primary purpose is for easy interfacing with C. Please see the [foreign system](#foreign-system) for more information.
 
@@ -1592,6 +1630,16 @@ Direction_Vectors :: [Direction][2]int {
 assert(Direction_Vectors[.North] == { 0, -1 })
 assert(Direction_Vectors[.East] == { 1, 0 })
 assert(Direction_Vectors[cast(Direction) 2] == { 0, 1 })
+```
+
+The `#partial` directive can be used to initialize an enum array *partially*.
+
+```odin
+arr: [enum {A, B, C}]int
+arr = #partial { // without partial the compiler would complain
+	.A = 42,
+}
+fmt.println(arr) // [.A = 42, .B = 0, .C = 0]
 ```
 
 ### Bit sets
@@ -3452,6 +3500,7 @@ test :: proc() {
 }
 ```
 
+The `#partial` directive can also be used to initialize an [enumerated array](#enumeration-array).
 
 ### Procedure parameters
 

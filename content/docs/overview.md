@@ -318,6 +318,18 @@ for _, i in some_slice {
 
 **Note:** When iterating across a string, the characters will be `rune`s and not bytes. `for in` assumes the string is encoded as UTF-8.
 
+#### `for` reverse iteration
+
+Recently a special directive was added which allows to `#reverse` the above mentioned range based iteration. 
+
+```odin
+array := [?]int { 10, 20, 30, 40, 50 }
+
+#reverse for x in array {
+	fmt.println(x) // 50 40 30 20 10
+}
+```
+
 ### `if` statement
 
 Odin's `if` statements do not need to be surrounded by parentheses `( )` but braces `{ }` or `do` are required.
@@ -866,6 +878,12 @@ There are two kinds of built-in procedures in Odin:
 * Compiler defined
 * Core library defined
 
+### `string` type
+As previously mentioned the odin `string` type is just a `rawptr` + `len`.
+
+The `core:strings` library was created to help dealing with string cloning, conversion of `string`<->`cstring` and other calls you find in standard libraries.
+
+All procedures are [documented](https://pkg.odin-lang.org/core/strings/) and can be easily understood with code examples.
 
 ### `cstring` type
 The `cstring` type is a c-style string value, which is zero-terminated. It is equivalent to `char const *` in C. Its primary purpose is for easy interfacing with C. Please see the [foreign system](#foreign-system) for more information.
@@ -879,6 +897,48 @@ cstr2 := string(cstr)     // O(n) conversion as it requires search from the zero
 nstr  := len(str)  // O(1)
 ncstr := len(cstr) // O(n)
 ```
+
+#### `string` type conversions
+
+Here is a short list of possible type conversions - including wether they *copy* or *alias*. This is important to understand since ***Odin*** gives you the possibility to keep *allocations* to a low degree.
+
+**Legend:**
+* copy - get a freshly allocated copy of the 'from' data
+* alias - reuse the 'from' data, without allocation
+* stream - get individual values from the string, without allocation
+* st - the input string 
+
+**From string:**
+* string -> []u8: alias with transmute([]u8)st
+* string -> string: copy with strings.clone(st)
+* string -> cstring: copy with strings.clone_to_cstring(st)
+* string -> cstring: alias with strings.unsafe_string_to_cstring(st)
+* string -> []rune: stream with for rune in st { ... }
+* string -> []rune: copy with utf8.string_to_runes(st)
+* string -> [^]u8: alias with raw_data(st) 
+
+**From cstring:**
+* cstring -> string: alias with string(st)
+* cstring -> [^]u8: alias with transmute([^]u8)st 
+
+**From "string literal":**	
+* "string literal" -> string: alias with string(st) or newstr : string = st
+* "string literal" -> cstring: alias with cstring(st) or newstr : cstring = st 
+
+**From []u8:**
+* []u8 -> string: alias with transmute(string)st
+* []u8 -> string: alias with string(st) unless a slice literal
+* []u8 -> [^]u8: alias with raw_data(st) 
+
+**From []rune:**
+* []rune -> string: copy with utf8.runes_to_string(st) 
+
+**From [^]u8:**
+* [^]u8 -> cstring: alias with cstring(st) 
+
+**From [^]u8, int:**
+* [^]u8, int -> string: alias with strings.string_from_ptr(ptr, length) 
+
 
 ## Operators
 
@@ -2271,7 +2331,7 @@ raw_data([]$E)         -> [^]E    // slices
 raw_data([dynamic]$E)  -> [^]E    // dynamic arrays
 raw_data(^[$N]$E)      -> [^]E    // fixed array and enumerated arrays 
 raw_data(^#simd[$N]$E) -> [^]E    // simd vectors 
-raw_data(string)       -> [^]byte // string
+raw_data(string)       -> [^]byte // 	
 ```
 
 ## `using` statement

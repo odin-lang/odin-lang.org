@@ -20,7 +20,7 @@
                         </ol>
                     <h1>{{ .Title }}</h1>
                 </header>
-                <div class="odin-article" data-spy="scroll" data-target=".navbar">
+                <div class="odin-article">
                     <!-- {{ .Content }} -->
 
                     <!-- Add anchors to links -->
@@ -30,7 +30,7 @@
 
             <!-- Right menu -->
             {{ if ne .TableOfContents "<nav id=\"TableOfContents\"></nav>" }}
-            <div class="col-lg-2 odin-toc-border navbar-light">
+            <div id="TOC" class="col-lg-2 odin-toc-border">
                 <div class="sticky-top odin-below-navbar py-3">
                     {{ .TableOfContents }}
                 </div>
@@ -39,35 +39,33 @@
 
             <!-- Right menu set clicked link to active -->
             <script type="text/javascript">
-                // var nav = document.getElementById("TableOfContents")
-                // var links = nav.getElementsByTagName("a")
-
-                // for (var i = 0; i < links.length; i++) {
-                //     links[i].addEventListener("click", function() {
-                //         for (var j = 0; j < links.length; j++) {
-                //             links[j].classList.remove("active")
-                //         }
-
-                //         this.classList.add("active")
-                //     })
-                    
-                //     // Check the URL fragment and add the active class to the corresponding link
-                //     if (links[i].hash === window.location.hash) {
-                //         links[i].classList.add("active");
-                //     }
-                // }
-
                 var nav = document.getElementById("TableOfContents")
+                var links = nav.getElementsByTagName("a")
+                var lists = nav.getElementsByTagName("li")
 
-                nav.classList.add("navbar")
-                nav.classList.add("navbar-inverse")
-                nav.classList.add("navbar-fixed-top")
+                for (var i = 0; i < links.length; i++) {
+                    // links[i].addEventListener("click", function() {
+                    //     for (var j = 0; j < links.length; j++) {
+                    //         links[j].classList.remove("active")
+                    //     }
 
-                if (nav.firstElementChild) {
-                    nav.firstElementChild.classList.add("nav")
-                    nav.firstElementChild.classList.add("navbar-nav")
+                    //     this.classList.add("active")
+                    // })
+                    
+                    // Check the URL fragment and add the active class to the corresponding link
+                    // if (links[i].hash === window.location.hash) {
+                    //     links[i].classList.add("active");
+                    // }
+                    links[i].classList.add("nav-link")
                 }
 
+
+                nav.classList.add("nav")
+                nav.classList.add("nav-pills")
+
+                for (var i = 0; i < lists.length; i++) {
+                    lists[i].classList.add("nav-item")
+                }
             </script>
         </div>
     </div>

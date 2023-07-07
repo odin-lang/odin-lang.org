@@ -65,7 +65,7 @@ a:hover {
 }
 
 #TableOfContents a.active {
-    color: var(--bs-primary);
+    color: var(--bs-light);
     font-weight: bold;
     transition: 100ms;
 }

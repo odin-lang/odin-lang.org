@@ -20,7 +20,7 @@
                         </ol>
                     <h1>{{ .Title }}</h1>
                 </header>
-                <div class="odin-article">
+                <div class="odin-article" data-spy="scroll" data-target=".navbar">
                     <!-- {{ .Content }} -->
 
                     <!-- Add anchors to links -->
@@ -39,23 +39,51 @@
 
             <!-- Right menu set clicked link to active -->
             <script type="text/javascript">
-                var nav = document.getElementById("TableOfContents")
-                var links = nav.getElementsByTagName("a")
+                // var nav = document.getElementById("TableOfContents")
+                // var links = nav.getElementsByTagName("a")
 
-                for (var i = 0; i < links.length; i++) {
-                    links[i].addEventListener("click", function() {
-                        for (var j = 0; j < links.length; j++) {
-                            links[j].classList.remove("active")
-                        }
+                // for (var i = 0; i < links.length; i++) {
+                //     links[i].addEventListener("click", function() {
+                //         for (var j = 0; j < links.length; j++) {
+                //             links[j].classList.remove("active")
+                //         }
 
-                        this.classList.add("active")
-                    })
+                //         this.classList.add("active")
+                //     })
                     
-                    // Check the URL fragment and add the active class to the corresponding link
-                    if (links[i].hash === window.location.hash) {
-                        links[i].classList.add("active");
-                    }
+                //     // Check the URL fragment and add the active class to the corresponding link
+                //     if (links[i].hash === window.location.hash) {
+                //         links[i].classList.add("active");
+                //     }
+                // }
+
+                var nav = document.getElementById("TableOfContents")
+
+                if (nav.firstElementChild) {
+                    nav.firstElementChild.classList.add("navbar-nav")
                 }
+
+                var lists = nav.getElementsByTagName("li")
+                for (var i = 0; i < lists.length; i++) {
+                    lists[i].classList.add("nav-item")
+                }
+
+                var links = nav.getElementsByTagName("a")
+                for (var i = 0; i < links.length; i++) {
+                    links[i].classList.add("nav-link")
+                    // links[i].addEventListener("click", function() {
+                    //     for (var j = 0; j < links.length; j++) {
+                    //         links[j].classList.remove("active")
+                    //     }
+
+                    //     this.classList.add("active")
+                    // })
+                    
+                    // // Check the URL fragment and add the active class to the corresponding link
+                    // if (links[i].hash === window.location.hash) {
+                    //     links[i].classList.add("active");
+                    // }
+                }                
             </script>
         </div>
     </div>

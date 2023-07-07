@@ -31,7 +31,7 @@
             <!-- Right menu -->
             {{ if ne .TableOfContents "<nav id=\"TableOfContents\"></nav>" }}
             <div class="col-lg-2 odin-toc-border navbar-light">
-                <div class="sticky-top odin-below-navbar py-3" data-bs-spy="scroll" data-bs-target="#navID">
+                <div class="sticky-top odin-below-navbar py-3">
                     {{ .TableOfContents }}
                 </div>
             </div>
@@ -59,31 +59,15 @@
 
                 var nav = document.getElementById("TableOfContents")
 
+                nav.classList.add("navbar")
+                nav.classList.add("navbar-inverse")
+                nav.classList.add("navbar-fixed-top")
+
                 if (nav.firstElementChild) {
+                    nav.firstElementChild.classList.add("nav")
                     nav.firstElementChild.classList.add("navbar-nav")
                 }
 
-                var lists = nav.getElementsByTagName("li")
-                for (var i = 0; i < lists.length; i++) {
-                    lists[i].classList.add("nav-item")
-                }
-
-                var links = nav.getElementsByTagName("a")
-                for (var i = 0; i < links.length; i++) {
-                    links[i].classList.add("nav-link")
-                    // links[i].addEventListener("click", function() {
-                    //     for (var j = 0; j < links.length; j++) {
-                    //         links[j].classList.remove("active")
-                    //     }
-
-                    //     this.classList.add("active")
-                    // })
-                    
-                    // // Check the URL fragment and add the active class to the corresponding link
-                    // if (links[i].hash === window.location.hash) {
-                    //     links[i].classList.add("active");
-                    // }
-                }                
             </script>
         </div>
     </div>

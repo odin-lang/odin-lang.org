@@ -286,8 +286,8 @@ for value in some_slice {
 for value in some_dynamic_array {
 	fmt.println(value)
 }
-for value in some_map {
-	fmt.println(value)
+for key in some_map {
+	fmt.println(key)
 }
 ```
 

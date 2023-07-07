@@ -908,7 +908,7 @@ for index in 0..<len(x) {
 }
 ```
 
-Iteration through runes is preferred since odin strings are ***UTF8***. Most core library procedures will be adressed by `*_byte` if they do input/output an index in *byte*.
+Iteration through runes is preferred since odin strings are ***UTF8***. Most core library procedures will be addressed by `*_byte` if they do input/output an index in *byte*.
 
 #### `string` format printing
 
@@ -1597,7 +1597,7 @@ main :: proc() {
 
 #### Iterating an Enumeration
 
-Enums can be trivially `for` looped in odin. This way we can loop through the entire `enum` and do things like printing or inserting into an *Enumeration Array*.
+Enums can be trivially `for` looped in odin. This way we can loop through the entire `enum` and do things like printing or inserting into an *Enumerated Array*.
 
 ```odin
 Direction :: enum{North, East, South, West}
@@ -1611,9 +1611,9 @@ for direction, index in Direction {
 }
 ```
 
-### Enumeration Array
+### Enumerated Array
 
-`Enum Arrays` allow the use of an `Enum` to be used as indices to a fixed `array`. 
+`Enumerated Arrays` allow the use of an `Enum` to be used as indices to a fixed `array`. 
 
 We'll extend the `Direction` enum used previously to add direction vectors.
 
@@ -1632,7 +1632,7 @@ assert(Direction_Vectors[.East] == { 1, 0 })
 assert(Direction_Vectors[cast(Direction) 2] == { 0, 1 })
 ```
 
-The `#partial` directive can be used to initialize an enum array *partially*.
+The `#partial` directive can be used to initialize an enumerated array *partially*.
 
 ```odin
 arr: [enum {A, B, C}]int

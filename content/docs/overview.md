@@ -938,7 +938,7 @@ ncstr := len(cstr) // O(n)
 
 #### `string` type conversions
 
-Here is a short list of possible type conversions - including wether they *copy* or *alias*. This is important to understand since ***Odin*** gives you the possibility to keep *allocations* to a low degree.
+Here is a short list of possible type conversions - including whether they *copy* or *alias*. This is important to understand since ***Odin*** gives you the possibility to keep *allocations* to a low degree.
 
 **Legend:**
 * copy - get a freshly allocated copy of the 'from' data

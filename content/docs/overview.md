@@ -286,8 +286,8 @@ for value in some_slice {
 for value in some_dynamic_array {
 	fmt.println(value)
 }
-for value in some_map {
-	fmt.println(value)
+for key in some_map {
+	fmt.println(key)
 }
 ```
 
@@ -317,6 +317,18 @@ for _, i in some_slice {
 ```
 
 **Note:** When iterating across a string, the characters will be `rune`s and not bytes. `for in` assumes the string is encoded as UTF-8.
+
+#### `for` reverse iteration
+
+Recently a special directive was added which allows to `#reverse` the above mentioned range based iteration. 
+
+```odin
+array := [?]int { 10, 20, 30, 40, 50 }
+
+#reverse for x in array {
+	fmt.println(x) // 50 40 30 20 10
+}
+```
 
 ### `if` statement
 
@@ -866,6 +878,50 @@ There are two kinds of built-in procedures in Odin:
 * Compiler defined
 * Core library defined
 
+### `string` type
+As previously mentioned the odin `string` type is just a `rawptr` + `len`.
+
+The `core:strings` library was created to help dealing with string cloning, conversion of `string`<->`cstring` and other calls you find in standard libraries.
+
+All procedures are [documented](https://pkg.odin-lang.org/core/strings/) and can be easily understood with code examples.
+
+#### `string` iteration
+
+Iterating a `string` can be done in two ways - by runes or by bytes.
+
+```odin
+// by runes
+x := "ABC"
+for codepoint, index in x {
+	fmt.println(index, codepoint)
+	// 0 A
+	// 1 B
+	// 2 C
+}
+
+// by bytes - string length is in bytes
+for index in 0..<len(x) {
+	fmt.println(index, x[index])
+	// 0 A
+	// 1 B
+	// 2 C
+}
+```
+
+Iteration through runes is preferred since odin strings are ***UTF8***. Most core library procedures will be addressed by `*_byte` if they do input/output an index in *byte*.
+
+#### `string` format printing
+
+The `core:fmt` library supports printing strings from byte arrays in structs, when additional tag information is supplied. 
+
+```odin
+Foo :: struct {
+	a: [L]u8 `fmt:"s"`, // whole buffer is a string
+	b: [N]u8 `fmt:"s,0"`, // 0 terminated string
+	c: [M]u8 `fmt:"q,n", // string with length determined by n, and use %q rather than %s
+	n: int `fmt:"-"`, // ignore this from formatting
+}
+```
 
 ### `cstring` type
 The `cstring` type is a c-style string value, which is zero-terminated. It is equivalent to `char const *` in C. Its primary purpose is for easy interfacing with C. Please see the [foreign system](#foreign-system) for more information.
@@ -879,6 +935,48 @@ cstr2 := string(cstr)     // O(n) conversion as it requires search from the zero
 nstr  := len(str)  // O(1)
 ncstr := len(cstr) // O(n)
 ```
+
+#### `string` type conversions
+
+Here is a short list of possible type conversions - including whether they *copy* or *alias*. This is important to understand since ***Odin*** gives you the possibility to keep *allocations* to a low degree.
+
+**Legend:**
+* copy - get a freshly allocated copy of the 'from' data
+* alias - reuse the 'from' data, without allocation
+* stream - get individual values from the string, without allocation
+* st - the input string 
+
+**From string:**
+* string -> []u8: alias with transmute([]u8)st
+* string -> string: copy with strings.clone(st)
+* string -> cstring: copy with strings.clone_to_cstring(st)
+* string -> cstring: alias with strings.unsafe_string_to_cstring(st)
+* string -> []rune: stream with for rune in st { ... }
+* string -> []rune: copy with utf8.string_to_runes(st)
+* string -> [^]u8: alias with raw_data(st) 
+
+**From cstring:**
+* cstring -> string: alias with string(st)
+* cstring -> [^]u8: alias with transmute([^]u8)st 
+
+**From "string literal":**	
+* "string literal" -> string: alias with string(st) or newstr : string = st
+* "string literal" -> cstring: alias with cstring(st) or newstr : cstring = st 
+
+**From []u8:**
+* []u8 -> string: alias with transmute(string)st
+* []u8 -> string: alias with string(st) unless a slice literal
+* []u8 -> [^]u8: alias with raw_data(st) 
+
+**From []rune:**
+* []rune -> string: copy with utf8.runes_to_string(st) 
+
+**From [^]u8:**
+* [^]u8 -> cstring: alias with cstring(st) 
+
+**From [^]u8, int:**
+* [^]u8, int -> string: alias with strings.string_from_ptr(ptr, length) 
+
 
 ## Operators
 
@@ -1309,6 +1407,26 @@ y: [dynamic]int
 append(&y, ..x[:]) // append a slice
 ```
 
+#### Inject / Assign to a dynamic array
+
+Injecting into a specific index can be done with `inject`. It will move other elements upwards when inserted below other elements.
+
+Assign a type at a specific index can be done with `assign`. It's the same as doing `x[index] = 10`. 
+
+Both of these procedures will resize the dynamic array `len` to the wanted index. This can be seen in the example below.
+
+```odin
+x := make([dynamic]int, 0, 16)
+inject_at(&x, 0, 10)
+inject_at(&x, 3, 10) // resizes till length
+fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 10] 4 16
+assign_at(&x, 3, 20)
+assign_at(&x, 4, 30)
+fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 20, 30] 5, 16
+assign_at(&x, 5, 40, 50, 60)
+fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 20, 30, 40, 50, 60] 8 16
+```
+
 #### Removing from a dynamic array
 
 Removing from a dynamic array can be done in several ways using the built-in procedures:
@@ -1477,6 +1595,52 @@ main :: proc() {
 
 **Note:** Implicit selector expression is preferred to [`using`](#using-statement) an enumeration as `using` does pollute the current scope.
 
+#### Iterating an Enumeration
+
+Enums can be trivially `for` looped in odin. This way we can loop through the entire `enum` and do things like printing or inserting into an *Enumerated Array*.
+
+```odin
+Direction :: enum{North, East, South, West}
+
+for direction, index in Direction {
+	fmt.println(index, direction) 
+	// 0 North
+	// 1 East
+	// 2 South
+	// 3 West
+}
+```
+
+### Enumerated Array
+
+`Enumerated Arrays` allow the use of an `Enum` to be used as indices to a fixed `array`. 
+
+We'll extend the `Direction` enum used previously to add direction vectors.
+
+```odin
+Direction :: enum{North, East, South, West}
+
+Direction_Vectors :: [Direction][2]int {
+	.North = {  0, -1 },
+	.East = { +1,  0 },
+	.South = {  0, +1 },
+	.West = { -1,  0 },
+}
+
+assert(Direction_Vectors[.North] == { 0, -1 })
+assert(Direction_Vectors[.East] == { 1, 0 })
+assert(Direction_Vectors[cast(Direction) 2] == { 0, 1 })
+```
+
+The `#partial` directive can be used to initialize an enumerated array *partially*.
+
+```odin
+arr: [enum {A, B, C}]int
+arr = #partial { // without partial the compiler would complain
+	.A = 42,
+}
+fmt.println(arr) // [.A = 42, .B = 0, .C = 0]
+```
 
 ### Bit sets
 The `bit_set` type models the mathematical notion of a set. A bit_set's element type can be either an enumeration or a range:
@@ -1710,6 +1874,41 @@ m := map[string]int{
 	"Chloe" = 5,
 }
 ```
+
+Modifying existing map slots needs to be done in two steps. Hovewer assigning to a struct field is prohibited.
+
+```odin
+Test :: struct {
+	x: int,
+	y: int,
+}
+
+m := map[string]Test{
+	"Bob" = { 0, 0 },
+	"Chloe" = { 1, 1 },
+}
+
+value, ok := &m["Bob"]
+if ok {
+	value^ = { 2, 2 }
+}
+
+fmt.println(m["Bob"]) // { 2, 2 }
+m["Bob"] = { 3, 3 }
+fmt.println(m["Bob"]) // { 3, 3 }
+m["Chloe"].x = 0 // PROHIBITED
+```
+
+#### Map Container Calls
+
+The built-in map also supports all the standard container calls that can be found with the [dynamic array](#dynamic-arrays). 
+
+Short:
+* `len(some_map)` returns the amount of slots used up
+* `cap(some_map)` returns the capacity of the map - the map will reallocate when exceeded
+* `clear(&some_map)` clears the entire map - dynamically allocated content needs to be freed manually
+* `reserve(&some_map, capacity)` reserves the requested element count
+* `shrink(&some_map)` shrink the capacity down to the current length
 
 ### Procedure type
 A procedure type is internally a pointer to a procedure in memory. `nil` is the zero value a procedure type.
@@ -2180,7 +2379,7 @@ raw_data([]$E)         -> [^]E    // slices
 raw_data([dynamic]$E)  -> [^]E    // dynamic arrays
 raw_data(^[$N]$E)      -> [^]E    // fixed array and enumerated arrays 
 raw_data(^#simd[$N]$E) -> [^]E    // simd vectors 
-raw_data(string)       -> [^]byte // string
+raw_data(string)       -> [^]byte // 	
 ```
 
 ## `using` statement
@@ -3301,6 +3500,7 @@ test :: proc() {
 }
 ```
 
+The `#partial` directive can also be used to initialize an [enumerated array](#enumeration-array).
 
 ### Procedure parameters
 

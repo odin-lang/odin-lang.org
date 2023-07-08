@@ -38,9 +38,8 @@ a:hover {
     min-height: 292px;
 }
 
-#TableOfContents ul {
+#TableOfContents nav {
     list-style: none;
-    padding: 0;
 }
 
 #TableOfContents li:not(:last-child) {
@@ -49,15 +48,17 @@ a:hover {
 
 #TableOfContents li > ul {
     padding-left: 1.25rem;
+    padding-top: 0.25rem;
+/*    padding-bottom: 0.25rem;*/
 }
 
 #TableOfContents a {
     font-family: var(--bs-font-sans-serif);
     font-size: 0.75rem;
     font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    text-decoration: none;
+/*    line-height: 1.5;*/
+/*    color: #212529;*/
+/*    text-decoration: none;*/
 }
 
 #TableOfContents a:hover {
@@ -79,8 +80,6 @@ a:hover {
     z-index: 0;
     max-height: calc(100vh - 59px); /* menu bar height */
     overflow: auto;
-/*    color: hotpink;*/
-/*    background-color: hotpink;*/
 }
 
 /* The glorious scroll-to element with sticky header offset hack. */

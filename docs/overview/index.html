@@ -266,8 +266,8 @@ for value in some_slice {
 for value in some_dynamic_array {
 	fmt.println(value)
 }
-for value in some_map {
-	fmt.println(value)
+for key in some_map {
+	fmt.println(key)
 }
 </code></pre><p>Alternatively a second index value can be added:</p>
 <pre><code class=language-odin data-lang=odin>for character, index in some_string {
@@ -290,7 +290,14 @@ for key, value in some_map {
 	some_slice[i] = something
 }
 </code></pre><p><strong>Note:</strong> When iterating across a string, the characters will be <code>rune</code>s and not bytes. <code>for in</code> assumes the string is encoded as UTF-8.</p>
-<h3 id=if-statement><code>if</code> statement <a class=text-decoration-none href=#if-statement>#</a></h3>
+<h4 id=for-reverse-iteration><code>for</code> reverse iteration <a class=text-decoration-none href=#for-reverse-iteration>#</a></h4>
+<p>Recently a special directive was added which allows to <code>#reverse</code> the above mentioned range based iteration.</p>
+<pre><code class=language-odin data-lang=odin>array := [?]int { 10, 20, 30, 40, 50 }
+
+#reverse for x in array {
+	fmt.println(x) // 50 40 30 20 10
+}
+</code></pre><h3 id=if-statement><code>if</code> statement <a class=text-decoration-none href=#if-statement>#</a></h3>
 <p>Odin&rsquo;s <code>if</code> statements do not need to be surrounded by parentheses <code>( )</code> but braces <code>{ }</code> or <code>do</code> are required.</p>
 <pre><code class=language-odin data-lang=odin>if x &gt;= 0 {
 	fmt.println(&quot;x is positive&quot;)
@@ -687,7 +694,38 @@ y: int = --- // uses uninitialized memory
 <li>Compiler defined</li>
 <li>Core library defined</li>
 </ul>
-<h3 id=cstring-type><code>cstring</code> type <a class=text-decoration-none href=#cstring-type>#</a></h3>
+<h3 id=string-type><code>string</code> type <a class=text-decoration-none href=#string-type>#</a></h3>
+<p>As previously mentioned the odin <code>string</code> type is just a <code>rawptr</code> + <code>len</code>.</p>
+<p>The <code>core:strings</code> library was created to help dealing with string cloning, conversion of <code>string</code>&lt;-><code>cstring</code> and other calls you find in standard libraries.</p>
+<p>All procedures are <a href=https://pkg.odin-lang.org/core/strings/>documented</a> and can be easily understood with code examples.</p>
+<h4 id=string-iteration><code>string</code> iteration <a class=text-decoration-none href=#string-iteration>#</a></h4>
+<p>Iterating a <code>string</code> can be done in two ways - by runes or by bytes.</p>
+<pre><code class=language-odin data-lang=odin>// by runes
+x := &quot;ABC&quot;
+for codepoint, index in x {
+	fmt.println(index, codepoint)
+	// 0 A
+	// 1 B
+	// 2 C
+}
+
+// by bytes - string length is in bytes
+for index in 0..&lt;len(x) {
+	fmt.println(index, x[index])
+	// 0 A
+	// 1 B
+	// 2 C
+}
+</code></pre><p>Iteration through runes is preferred since odin strings are <em><strong>UTF8</strong></em>. Most core library procedures will be addressed by <code>*_byte</code> if they do input/output an index in <em>byte</em>.</p>
+<h4 id=string-format-printing><code>string</code> format printing <a class=text-decoration-none href=#string-format-printing>#</a></h4>
+<p>The <code>core:fmt</code> library supports printing strings from byte arrays in structs, when additional tag information is supplied.</p>
+<pre><code class=language-odin data-lang=odin>Foo :: struct {
+	a: [L]u8 `fmt:&quot;s&quot;`, // whole buffer is a string
+	b: [N]u8 `fmt:&quot;s,0&quot;`, // 0 terminated string
+	c: [M]u8 `fmt:&quot;q,n&quot;, // string with length determined by n, and use %q rather than %s
+	n: int `fmt:&quot;-&quot;`, // ignore this from formatting
+}
+</code></pre><h3 id=cstring-type><code>cstring</code> type <a class=text-decoration-none href=#cstring-type>#</a></h3>
 <p>The <code>cstring</code> type is a c-style string value, which is zero-terminated. It is equivalent to <code>char const *</code> in C. Its primary purpose is for easy interfacing with C. Please see the <a href=#foreign-system>foreign system</a> for more information.</p>
 <p>A <code>cstring</code> is easily convertible to an Odin <code>string</code>. However, to convert a <code>string</code> to a <code>cstring</code>, it requires allocations if the value is not constant.</p>
 <pre><code class=language-odin data-lang=odin>str:  string  = &quot;Hellope&quot;
@@ -695,7 +733,54 @@ cstr: cstring = &quot;Hellope&quot; // constant literal
 cstr2 := string(cstr)     // O(n) conversion as it requires search from the zero-terminator
 nstr  := len(str)  // O(1)
 ncstr := len(cstr) // O(n)
-</code></pre><h2 id=operators>Operators <a class=text-decoration-none href=#operators>#</a></h2>
+</code></pre><h4 id=string-type-conversions><code>string</code> type conversions <a class=text-decoration-none href=#string-type-conversions>#</a></h4>
+<p>Here is a short list of possible type conversions - including whether they <em>copy</em> or <em>alias</em>. This is important to understand since <em><strong>Odin</strong></em> gives you the possibility to keep <em>allocations</em> to a low degree.</p>
+<p><strong>Legend:</strong></p>
+<ul>
+<li>copy - get a freshly allocated copy of the &lsquo;from&rsquo; data</li>
+<li>alias - reuse the &lsquo;from&rsquo; data, without allocation</li>
+<li>stream - get individual values from the string, without allocation</li>
+<li>st - the input string</li>
+</ul>
+<p><strong>From string:</strong></p>
+<ul>
+<li>string -> []u8: alias with transmute([]u8)st</li>
+<li>string -> string: copy with strings.clone(st)</li>
+<li>string -> cstring: copy with strings.clone_to_cstring(st)</li>
+<li>string -> cstring: alias with strings.unsafe_string_to_cstring(st)</li>
+<li>string -> []rune: stream with for rune in st { &mldr; }</li>
+<li>string -> []rune: copy with utf8.string_to_runes(st)</li>
+<li>string -> [^]u8: alias with raw_data(st)</li>
+</ul>
+<p><strong>From cstring:</strong></p>
+<ul>
+<li>cstring -> string: alias with string(st)</li>
+<li>cstring -> [^]u8: alias with transmute([^]u8)st</li>
+</ul>
+<p><strong>From &ldquo;string literal&rdquo;:</strong></p>
+<ul>
+<li>&ldquo;string literal&rdquo; -> string: alias with string(st) or newstr : string = st</li>
+<li>&ldquo;string literal&rdquo; -> cstring: alias with cstring(st) or newstr : cstring = st</li>
+</ul>
+<p><strong>From []u8:</strong></p>
+<ul>
+<li>[]u8 -> string: alias with transmute(string)st</li>
+<li>[]u8 -> string: alias with string(st) unless a slice literal</li>
+<li>[]u8 -> [^]u8: alias with raw_data(st)</li>
+</ul>
+<p><strong>From []rune:</strong></p>
+<ul>
+<li>[]rune -> string: copy with utf8.runes_to_string(st)</li>
+</ul>
+<p><strong>From [^]u8:</strong></p>
+<ul>
+<li>[^]u8 -> cstring: alias with cstring(st)</li>
+</ul>
+<p><strong>From [^]u8, int:</strong></p>
+<ul>
+<li>[^]u8, int -> string: alias with strings.string_from_ptr(ptr, length)</li>
+</ul>
+<h2 id=operators>Operators <a class=text-decoration-none href=#operators>#</a></h2>
 <p>Operators combine operands into expressions. For binary operations, operand types must be identical or implicitly convertible unless the operation involves shifts or untyped constants.</p>
 <h3 id=arithmetic-operators>Arithmetic operators <a class=text-decoration-none href=#arithmetic-operators>#</a></h3>
 <p>Unary:</p>
@@ -981,6 +1066,19 @@ append(&amp;x, 4, 1, 74, 3) // append multiple values at once
 
 y: [dynamic]int
 append(&amp;y, ..x[:]) // append a slice
+</code></pre><h4 id=inject--assign-to-a-dynamic-array>Inject / Assign to a dynamic array <a class=text-decoration-none href=#inject--assign-to-a-dynamic-array>#</a></h4>
+<p>Injecting into a specific index can be done with <code>inject</code>. It will move other elements upwards when inserted below other elements.</p>
+<p>Assign a type at a specific index can be done with <code>assign</code>. It&rsquo;s the same as doing <code>x[index] = 10</code>.</p>
+<p>Both of these procedures will resize the dynamic array <code>len</code> to the wanted index. This can be seen in the example below.</p>
+<pre><code class=language-odin data-lang=odin>x := make([dynamic]int, 0, 16)
+inject_at(&amp;x, 0, 10)
+inject_at(&amp;x, 3, 10) // resizes till length
+fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 10] 4 16
+assign_at(&amp;x, 3, 20)
+assign_at(&amp;x, 4, 30)
+fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 20, 30] 5, 16
+assign_at(&amp;x, 5, 40, 50, 60)
+fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 20, 30, 40, 50, 60] 8 16
 </code></pre><h4 id=removing-from-a-dynamic-array>Removing from a dynamic array <a class=text-decoration-none href=#removing-from-a-dynamic-array>#</a></h4>
 <p>Removing from a dynamic array can be done in several ways using the built-in procedures:</p>
 <ul>
@@ -1097,7 +1195,39 @@ case .C:
 	x := X
 }
 </code></pre><p><strong>Note:</strong> Implicit selector expression is preferred to <a href=#using-statement><code>using</code></a> an enumeration as <code>using</code> does pollute the current scope.</p>
-<h3 id=bit-sets>Bit sets <a class=text-decoration-none href=#bit-sets>#</a></h3>
+<h4 id=iterating-an-enumeration>Iterating an Enumeration <a class=text-decoration-none href=#iterating-an-enumeration>#</a></h4>
+<p>Enums can be trivially <code>for</code> looped in odin. This way we can loop through the entire <code>enum</code> and do things like printing or inserting into an <em>Enumerated Array</em>.</p>
+<pre><code class=language-odin data-lang=odin>Direction :: enum{North, East, South, West}
+
+for direction, index in Direction {
+	fmt.println(index, direction) 
+	// 0 North
+	// 1 East
+	// 2 South
+	// 3 West
+}
+</code></pre><h3 id=enumerated-array>Enumerated Array <a class=text-decoration-none href=#enumerated-array>#</a></h3>
+<p><code>Enumerated Arrays</code> allow the use of an <code>Enum</code> to be used as indices to a fixed <code>array</code>.</p>
+<p>We&rsquo;ll extend the <code>Direction</code> enum used previously to add direction vectors.</p>
+<pre><code class=language-odin data-lang=odin>Direction :: enum{North, East, South, West}
+
+Direction_Vectors :: [Direction][2]int {
+	.North = {  0, -1 },
+	.East = { +1,  0 },
+	.South = {  0, +1 },
+	.West = { -1,  0 },
+}
+
+assert(Direction_Vectors[.North] == { 0, -1 })
+assert(Direction_Vectors[.East] == { 1, 0 })
+assert(Direction_Vectors[cast(Direction) 2] == { 0, 1 })
+</code></pre><p>The <code>#partial</code> directive can be used to initialize an enumerated array <em>partially</em>.</p>
+<pre><code class=language-odin data-lang=odin>arr: [enum {A, B, C}]int
+arr = #partial { // without partial the compiler would complain
+	.A = 42,
+}
+fmt.println(arr) // [.A = 42, .B = 0, .C = 0]
+</code></pre><h3 id=bit-sets>Bit sets <a class=text-decoration-none href=#bit-sets>#</a></h3>
 <p>The <code>bit_set</code> type models the mathematical notion of a set. A bit_set&rsquo;s element type can be either an enumeration or a range:</p>
 <pre><code class=language-odin data-lang=odin>Direction :: enum{North, East, South, West}
 
@@ -1250,7 +1380,37 @@ fmt.println(m[&quot;Bob&quot;])
 	&quot;Bob&quot; = 2,
 	&quot;Chloe&quot; = 5,
 }
-</code></pre><h3 id=procedure-type>Procedure type <a class=text-decoration-none href=#procedure-type>#</a></h3>
+</code></pre><p>Modifying existing map slots needs to be done in two steps. Hovewer assigning to a struct field is prohibited.</p>
+<pre><code class=language-odin data-lang=odin>Test :: struct {
+	x: int,
+	y: int,
+}
+
+m := map[string]Test{
+	&quot;Bob&quot; = { 0, 0 },
+	&quot;Chloe&quot; = { 1, 1 },
+}
+
+value, ok := &amp;m[&quot;Bob&quot;]
+if ok {
+	value^ = { 2, 2 }
+}
+
+fmt.println(m[&quot;Bob&quot;]) // { 2, 2 }
+m[&quot;Bob&quot;] = { 3, 3 }
+fmt.println(m[&quot;Bob&quot;]) // { 3, 3 }
+m[&quot;Chloe&quot;].x = 0 // PROHIBITED
+</code></pre><h4 id=map-container-calls>Map Container Calls <a class=text-decoration-none href=#map-container-calls>#</a></h4>
+<p>The built-in map also supports all the standard container calls that can be found with the <a href=#dynamic-arrays>dynamic array</a>.</p>
+<p>Short:</p>
+<ul>
+<li><code>len(some_map)</code> returns the amount of slots used up</li>
+<li><code>cap(some_map)</code> returns the capacity of the map - the map will reallocate when exceeded</li>
+<li><code>clear(&some_map)</code> clears the entire map - dynamically allocated content needs to be freed manually</li>
+<li><code>reserve(&some_map, capacity)</code> reserves the requested element count</li>
+<li><code>shrink(&some_map)</code> shrink the capacity down to the current length</li>
+</ul>
+<h3 id=procedure-type>Procedure type <a class=text-decoration-none href=#procedure-type>#</a></h3>
 <p>A procedure type is internally a pointer to a procedure in memory. <code>nil</code> is the zero value a procedure type.</p>
 <p>Examples:</p>
 <pre><code class=language-odin data-lang=odin>proc(x: int) -&gt; bool
@@ -1621,7 +1781,7 @@ component-wise multiplication of two matrices of the same type</li>
 raw_data([dynamic]$E)  -&gt; [^]E    // dynamic arrays
 raw_data(^[$N]$E)      -&gt; [^]E    // fixed array and enumerated arrays 
 raw_data(^#simd[$N]$E) -&gt; [^]E    // simd vectors 
-raw_data(string)       -&gt; [^]byte // string
+raw_data(string)       -&gt; [^]byte // 	
 </code></pre><h2 id=using-statement><code>using</code> statement <a class=text-decoration-none href=#using-statement>#</a></h2>
 <p><code>using</code> can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.</p>
 <pre><code class=language-odin data-lang=odin>import &quot;foo&quot;
@@ -2528,7 +2688,8 @@ test :: proc() {
     case .B:
     }
 }
-</code></pre><h3 id=procedure-parameters>Procedure parameters <a class=text-decoration-none href=#procedure-parameters>#</a></h3>
+</code></pre><p>The <code>#partial</code> directive can also be used to initialize an <a href=#enumeration-array>enumerated array</a>.</p>
+<h3 id=procedure-parameters>Procedure parameters <a class=text-decoration-none href=#procedure-parameters>#</a></h3>
 <h4 id=no_alias><code>#no_alias</code> <a class=text-decoration-none href=#no_alias>#</a></h4>
 <p>This tag can be applied to a procedure parameter that is a pointer. This is a hint to the compiler that this parameter will not alias other parameters. This is equivalent to C&rsquo;s <code>__restrict</code>.</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc(#no_alias a, b: ^int) {}
@@ -2827,6 +2988,7 @@ Some of this information includes:</p>
 <li><a href=#untyped-types>Untyped types</a></li>
 <li><a href=#auto-cast-operation>Auto cast operation</a></li>
 <li><a href=#built-in-constants-values-and-procedures>Built-in constants, values, and procedures</a></li>
+<li><a href=#string-type><code>string</code> type</a></li>
 <li><a href=#cstring-type><code>cstring</code> type</a></li>
 </ul>
 </li>
@@ -2852,6 +3014,7 @@ Some of this information includes:</p>
 <li><a href=#slices>Slices</a></li>
 <li><a href=#dynamic-arrays>Dynamic arrays</a></li>
 <li><a href=#enumerations>Enumerations</a></li>
+<li><a href=#enumerated-array>Enumerated Array</a></li>
 <li><a href=#bit-sets>Bit sets</a></li>
 <li><a href=#pointers>Pointers</a></li>
 <li><a href=#structs>Structs</a></li>

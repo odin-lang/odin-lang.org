@@ -38,8 +38,9 @@ a:hover {
     min-height: 292px;
 }
 
-#TableOfContents nav {
+#TableOfContents ul {
     list-style: none;
+    padding: 0;
 }
 
 #TableOfContents li:not(:last-child) {
@@ -49,30 +50,37 @@ a:hover {
 #TableOfContents li > ul {
     padding-left: 1.25rem;
     padding-top: 0.25rem;
-/*    padding-bottom: 0.25rem;*/
+    padding-right: 0.25rem;
+/*    border: 10px;*/
+
 }
 
 #TableOfContents a {
     font-family: var(--bs-font-sans-serif);
     font-size: 0.75rem;
     font-weight: 400;
+    color: inherit;    
+/*    overflow: auto;*/
 /*    line-height: 1.5;*/
-/*    color: #212529;*/
-/*    text-decoration: none;*/
+}
+    
+#TableOfContents {
+    color: var(--bs-primary);
 }
 
-#TableOfContents a:hover {
-    text-decoration: underline;
-}
-
-#TableOfContents a:active {
-    text-decoration: underline;
-}
-
-#TableOfContents a.active {
+#TableOfContents li.active {
     color: var(--bs-light);
     font-weight: bold;
-    transition: 100ms;
+    transition: 100ms ease-in-out;
+
+    background-color: var(--bs-primary);
+    padding: 5px;
+    border-radius: 5px;
+    border-spacing: 10px;
+}
+
+#TableOfContents li.active:not(:empty) {
+/*    background-color: red;*/
 }
 
 .odin-below-navbar {

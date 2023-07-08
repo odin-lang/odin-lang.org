@@ -1,6 +1,6 @@
 {{ define "main" }}
 <main>
-    <div class="container">
+    <div class="container-xxl">
         <div class="row odin-main">
             <!-- Left menu -->
             {{ partial "sidebar" . }}
@@ -36,50 +36,6 @@
                 </div>
             </div>
             {{ end }}
-
-            <!-- Right menu set clicked link to active -->
-            <script type="text/javascript">
-                var nav = document.getElementById("TableOfContents")
-                var links = nav.getElementsByTagName("a")
-                var lists = nav.getElementsByTagName("li")
-                var ulists = nav.getElementsByTagName("ul")
-
-                for (var i = 0; i < links.length; i++) {
-                    // links[i].addEventListener("click", function() {
-                    //     for (var j = 0; j < links.length; j++) {
-                    //         links[j].classList.remove("active")
-                    //     }
-
-                    //     this.classList.add("active")
-                    // })
-                    
-                    // Check the URL fragment and add the active class to the corresponding link
-                    // if (links[i].hash === window.location.hash) {
-                    //     links[i].classList.add("active");
-                    // }
-
-                    links[i].classList.add("nav-link")
-                }
-
-                nav.classList.add("nav")
-                nav.classList.add("nav-pills")
-
-                for (var i = 0; i < lists.length; i++) {
-                    lists[i].classList.add("nav-item")
-                    // lists[i].classList.add("p-n4")
-                }
-
-                // for (var i = 0; i < lists.length; i++) {
-                //     // var current = ulists[i]
-                //     ulists[i].classList.add("nav")
-                //     ulists[i].classList.add("nav-pills")
-                //     // ulists[i].classList.add("flex-column")
-
-                //     var temp = document.createElement("nav")
-                //     temp.innerHTML = ulists[i].innerHTML
-                //     ulists[i].parentNode.replaceChild(temp, ulists[i])
-                // }
-            </script>
         </div>
     </div>
 </main>

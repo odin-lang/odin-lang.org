@@ -8,6 +8,9 @@ slogan = "The Data-Oriented Language for Sane Software Development."
 [markup.goldmark.renderer]
 unsafe = true
 
+[markup.tableOfContents]
+endLevel = 4
+
 [[menu.main]]
 identifier = "home"
 name = "Home"

@@ -51,14 +51,14 @@ The following platform-specific steps are necessary:
 ## Building Odin
 Now, it's time to build Odin and get started!
 
-#### For Windows
+### For Windows
 There's a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires `link.exe` from VS anyway. The necessary LLVM components for Windows are included in the Odin repository.
 
 Now, it's time to build Odin and get started! Open the X64 Visual Studio command prompt ([if you don't typically use it, here's how to find it](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs)) and navigate to the directory where you downloaded Odin. Run the `build.bat` file, and you should have a successfully built Odin compiler!
 
 To use Odin `link.exe` is required to be in the PATH of the callee as mentioned, this can either be achieved but calling Odin from the X64 Visual Studio command prompt or by calling the vcvarsall.bat (with x64 as an argument) script either in your shell or in your build script.
 
-#### For MacOS
+### For MacOS
 Make sure all requirements for MacOS are installed, after installing LLVM through Homebrew make sure to add it to the PATH:
 - run `echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.zshrc_profile` to add LLVM to your PATH.
 
@@ -70,7 +70,7 @@ Now navigate to the Odin directory in your terminal, use `make`, and you should 
 
 Now you can export the odin folder to the PATH
 
-#### For Linux and other \*Nix
+### For Linux and other \*Nix
 For Linux, make sure you have `llvm` and `clang` installed through your package managers.
 
 For FreeBSD make sure you have `bash`, `git` and the latest version of LLVM (the base `llvm` package is most of the times outdated).

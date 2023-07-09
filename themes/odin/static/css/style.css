@@ -48,11 +48,9 @@ a:hover {
 }
 
 #TableOfContents li > ul {
-    padding-left: 1.25rem;
-    padding-top: 0.25rem;
-    padding-right: 0.25rem;
-/*    border: 10px;*/
-
+    padding-left: 1.0rem;
+    padding-top: 0.1rem;
+    padding-right: 0.1rem;
 }
 
 #TableOfContents a {
@@ -60,8 +58,6 @@ a:hover {
     font-size: 0.75rem;
     font-weight: 400;
     color: inherit;    
-/*    overflow: auto;*/
-/*    line-height: 1.5;*/
 }
     
 #TableOfContents {
@@ -69,18 +65,11 @@ a:hover {
 }
 
 #TableOfContents li.active {
-    color: var(--bs-light);
+    color: var(--bs-secondary);
     font-weight: bold;
     transition: 100ms ease-in-out;
-
-    background-color: var(--bs-primary);
-    padding: 5px;
-    border-radius: 5px;
-    border-spacing: 10px;
-}
-
-#TableOfContents li.active:not(:empty) {
-/*    background-color: red;*/
+    border-left: solid;
+    padding: 2px;
 }
 
 .odin-below-navbar {

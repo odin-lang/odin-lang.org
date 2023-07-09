@@ -2657,6 +2657,7 @@ main :: proc() {
 					fmt.eprintf("- %p @ %v\n", entry.memory, entry.location)
 				}
 			}
+			mem.tracking_allocator_destroy(&track)
 		}
 	}
 	

@@ -64,12 +64,16 @@ a:hover {
     color: var(--bs-primary);
 }
 
+#TableOfContents li {
+    transition: color 50ms, border-left 50ms;
+    transition-timing-function: linear;
+}
+
 #TableOfContents li.active {
     color: var(--bs-secondary);
     font-weight: bold;
-    transition: 100ms ease-in-out;
-    border-left: solid;
-    padding: 2px;
+    border-left: 2px solid;
+    padding: 0px 0px 0px 3px;
 }
 
 .odin-below-navbar {

@@ -1,3 +1,7 @@
+body {
+    position: relative;
+}
+
 a {
 	text-decoration: none;
 }
@@ -44,30 +48,32 @@ a:hover {
 }
 
 #TableOfContents li > ul {
-    padding-left: 1.25rem;
+    padding-left: 1.0rem;
+    padding-top: 0.1rem;
+    padding-right: 0.1rem;
 }
 
 #TableOfContents a {
     font-family: var(--bs-font-sans-serif);
     font-size: 0.75rem;
     font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    text-decoration: none;
+    color: inherit;    
 }
-
-#TableOfContents a:hover {
-    text-decoration: underline;
-}
-
-#TableOfContents a:active {
-    text-decoration: underline;
-}
-
-#TableOfContents a.active {
+    
+#TableOfContents {
     color: var(--bs-primary);
+}
+
+#TableOfContents li {
+    transition: color 50ms, border-left 50ms;
+    transition-timing-function: linear;
+}
+
+#TableOfContents li.active {
+    color: var(--bs-secondary);
     font-weight: bold;
-    transition: 100ms;
+    border-left: 2px solid;
+    padding: 0px 0px 0px 3px;
 }
 
 .odin-below-navbar {
@@ -75,8 +81,6 @@ a:hover {
     z-index: 0;
     max-height: calc(100vh - 59px); /* menu bar height */
     overflow: auto;
-/*    color: hotpink;*/
-/*    background-color: hotpink;*/
 }
 
 /* The glorious scroll-to element with sticky header offset hack. */

@@ -16,9 +16,9 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
 <link href=/css/style.css rel=stylesheet>
 <title>Frequently Asked Questions | Odin Programming Language </title>
-<body><header class=sticky-top>
+<body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><header class=sticky-top>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
-<div class=container>
+<div class=container-xxl>
 <a class=navbar-brand href=/>
 <img src=/logo.svg height=30 alt=Odin id=navbar-logo>
 </a>
@@ -54,7 +54,7 @@
 </nav>
 </header>
 <main>
-<div class=container>
+<div class=container-xxl>
 <div class="row odin-main">
 <nav class="col-lg-2 odin-sidebar-border navbar-light">
 <div class="sticky-top odin-below-navbar py-3">
@@ -554,8 +554,8 @@ if menu(&quot;Hello&quot;) {
 </ul>
 </div>
 </article>
-<div class="col-lg-2 odin-toc-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3" data-bs-spy=scroll data-bs-target=#navID>
+<div id=TOC class="col-lg-2 odin-toc-border">
+<div class="sticky-top odin-below-navbar py-3">
 <nav id=TableOfContents>
 <ul>
 <li><a href=#general>General</a>
@@ -644,7 +644,11 @@ if menu(&quot;Hello&quot;) {
 <li><a href=#does-odin-have-c-style-constructors>Does Odin have C++-style constructors?</a></li>
 <li><a href=#does-odin-have-c-style-copy-constructors>Does Odin have C++-style copy constructors?</a></li>
 <li><a href=#does-odin-have-c-style-move-constructors>Does Odin have C++-style move constructors?</a></li>
-<li><a href=#does-odin-have-c-style-destructors>Does Odin have C++-style destructors?</a></li>
+<li><a href=#does-odin-have-c-style-destructors>Does Odin have C++-style destructors?</a>
+<ul>
+<li><a href=#deferred-attributes>Deferred Attributes</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href=#compiler>Compiler</a>
@@ -658,7 +662,6 @@ if menu(&quot;Hello&quot;) {
 </nav>
 </div>
 </div>
-<script type=text/javascript>for(var nav=document.getElementById("TableOfContents"),links=nav.getElementsByTagName("a"),i=0;i<links.length;i++)links[i].addEventListener("click",function(){for(var a=0;a<links.length;a++)links[a].classList.remove("active");this.classList.add("active")}),links[i].hash===window.location.hash&&links[i].classList.add("active")</script>
 </div>
 </div>
 </main>

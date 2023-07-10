@@ -16,9 +16,9 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
 <link href=/css/style.css rel=stylesheet>
 <title>Nightly Builds | Odin Programming Language </title>
-<body><header class=sticky-top>
+<body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><header class=sticky-top>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
-<div class=container>
+<div class=container-xxl>
 <a class=navbar-brand href=/>
 <img src=/logo.svg height=30 alt=Odin id=navbar-logo>
 </a>
@@ -54,7 +54,7 @@
 </nav>
 </header>
 <main>
-<div class=container>
+<div class=container-xxl>
 <div class="row odin-main">
 <nav class="col-lg-2 odin-sidebar-border navbar-light">
 <div class="sticky-top odin-below-navbar py-3">
@@ -99,8 +99,8 @@ Retrieving nightly builds...
 <script type=text/javascript>const json_url='https://odinbinaries.thisdrunkdane.io/file/odin-binaries/nightly.json',res=fetch(json_url).then(a=>a.json()).then(i=>{var c,e,b,f,a,d,g,h;const j=Object.keys(i.files).sort().reverse();c=document.getElementById("nightly-build-list"),c.innerHTML="";for(const k of j){const l=i.files[k];e=document.createElement('h4'),e.appendChild(document.createTextNode(k)),c.appendChild(e),b=document.createElement('table'),b.classList.add('nightly-table'),c.appendChild(b),b.innerHTML='<thead><tr><th>Filename</th><th>Size</th><th>SHA1</th></tr></thead>',f=document.createElement('tbody'),b.appendChild(f);for(const b of l)a=document.createElement('tr'),f.appendChild(a),d=document.createElement('td'),d.innerHTML='<a href="'+b.url+'">'+b.name+'</a>',a.appendChild(d),g=document.createElement('td'),g.innerHTML=(b.sizeInBytes/1024/1024).toFixed(1)+"MB",a.appendChild(g),h=document.createElement('td'),h.innerHTML=b.sha1,a.appendChild(h)}})</script>
 </div>
 </article>
-<div class="col-lg-2 odin-toc-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3" data-bs-spy=scroll data-bs-target=#navID>
+<div id=TOC class="col-lg-2 odin-toc-border">
+<div class="sticky-top odin-below-navbar py-3">
 <nav id=TableOfContents>
 <ul>
 <li><a href=#tagged-releases>Tagged Releases</a></li>
@@ -109,7 +109,6 @@ Retrieving nightly builds...
 </nav>
 </div>
 </div>
-<script type=text/javascript>for(var nav=document.getElementById("TableOfContents"),links=nav.getElementsByTagName("a"),i=0;i<links.length;i++)links[i].addEventListener("click",function(){for(var a=0;a<links.length;a++)links[a].classList.remove("active");this.classList.add("active")}),links[i].hash===window.location.hash&&links[i].classList.add("active")</script>
 </div>
 </div>
 </main>

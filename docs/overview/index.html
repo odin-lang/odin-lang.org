@@ -16,9 +16,9 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
 <link href=/css/style.css rel=stylesheet>
 <title>Overview | Odin Programming Language </title>
-<body><header class=sticky-top>
+<body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><header class=sticky-top>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
-<div class=container>
+<div class=container-xxl>
 <a class=navbar-brand href=/>
 <img src=/logo.svg height=30 alt=Odin id=navbar-logo>
 </a>
@@ -54,7 +54,7 @@
 </nav>
 </header>
 <main>
-<div class=container>
+<div class=container-xxl>
 <div class="row odin-main">
 <nav class="col-lg-2 odin-sidebar-border navbar-light">
 <div class="sticky-top odin-below-navbar py-3">
@@ -2940,8 +2940,8 @@ Some of this information includes:</p>
 <p>Good luck and have fun!</p>
 </div>
 </article>
-<div class="col-lg-2 odin-toc-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3" data-bs-spy=scroll data-bs-target=#navID>
+<div id=TOC class="col-lg-2 odin-toc-border">
+<div class="sticky-top odin-below-navbar py-3">
 <nav id=TableOfContents>
 <ul>
 <li><a href=#introduction>Introduction</a></li>
@@ -2949,7 +2949,11 @@ Some of this information includes:</p>
 <li><a href=#lexical-elements-and-literals>Lexical elements and literals</a>
 <ul>
 <li><a href=#comments>Comments</a></li>
-<li><a href=#string-and-character-literals>String and character literals</a></li>
+<li><a href=#string-and-character-literals>String and character literals</a>
+<ul>
+<li><a href=#escape-characters>Escape Characters</a></li>
+</ul>
+</li>
 <li><a href=#numbers>Numbers</a></li>
 </ul>
 </li>
@@ -2964,12 +2968,28 @@ Some of this information includes:</p>
 </li>
 <li><a href=#control-flow-statements>Control flow statements</a>
 <ul>
-<li><a href=#for-statement><code>for</code> statement</a></li>
+<li><a href=#for-statement><code>for</code> statement</a>
+<ul>
+<li><a href=#basic-for-loop>Basic for loop</a></li>
+<li><a href=#range-based-for-loop>Range-based for loop</a></li>
+<li><a href=#for-reverse-iteration><code>for</code> reverse iteration</a></li>
+</ul>
+</li>
 <li><a href=#if-statement><code>if</code> statement</a></li>
-<li><a href=#switch-statement><code>switch</code> statement</a></li>
+<li><a href=#switch-statement><code>switch</code> statement</a>
+<ul>
+<li><a href=#partial-switch><code>#partial switch</code></a></li>
+</ul>
+</li>
 <li><a href=#defer-statement><code>defer</code> statement</a></li>
 <li><a href=#when-statement><code>when</code> statement</a></li>
-<li><a href=#branch-statements>Branch statements</a></li>
+<li><a href=#branch-statements>Branch statements</a>
+<ul>
+<li><a href=#break-statement><code>break</code> statement</a></li>
+<li><a href=#continue-statement><code>continue</code> statement</a></li>
+<li><a href=#fallthrough-statement><code>fallthrough</code> statement</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href=#procedures>Procedures</a>
@@ -2979,18 +2999,40 @@ Some of this information includes:</p>
 <li><a href=#named-results>Named results</a></li>
 <li><a href=#named-arguments>Named arguments</a></li>
 <li><a href=#default-values>Default values</a></li>
-<li><a href=#explicit-procedure-overloading>Explicit procedure overloading</a></li>
+<li><a href=#explicit-procedure-overloading>Explicit procedure overloading</a>
+<ul>
+<li><a href=#rationale-behind-explicit-overloading>Rationale behind explicit overloading</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href=#basic-types>Basic types</a>
 <ul>
 <li><a href=#zero-values>Zero values</a></li>
-<li><a href=#type-conversion>Type conversion</a></li>
+<li><a href=#type-conversion>Type conversion</a>
+<ul>
+<li><a href=#cast-operator>Cast operator</a></li>
+<li><a href=#transmute-operator>Transmute operator</a></li>
+</ul>
+</li>
 <li><a href=#untyped-types>Untyped types</a></li>
 <li><a href=#auto-cast-operation>Auto cast operation</a></li>
-<li><a href=#built-in-constants-values-and-procedures>Built-in constants, values, and procedures</a></li>
-<li><a href=#string-type><code>string</code> type</a></li>
-<li><a href=#cstring-type><code>cstring</code> type</a></li>
+<li><a href=#built-in-constants-values-and-procedures>Built-in constants, values, and procedures</a>
+<ul>
+<li><a href=#built-in-procedures>Built-in procedures</a></li>
+</ul>
+</li>
+<li><a href=#string-type><code>string</code> type</a>
+<ul>
+<li><a href=#string-iteration><code>string</code> iteration</a></li>
+<li><a href=#string-format-printing><code>string</code> format printing</a></li>
+</ul>
+</li>
+<li><a href=#cstring-type><code>cstring</code> type</a>
+<ul>
+<li><a href=#string-type-conversions><code>string</code> type conversions</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href=#operators>Operators</a>
@@ -3011,22 +3053,78 @@ Some of this information includes:</p>
 <ul>
 <li><a href=#type-alias>Type alias</a></li>
 <li><a href=#distinct-types>Distinct types</a></li>
-<li><a href=#fixed-arrays>Fixed arrays</a></li>
-<li><a href=#slices>Slices</a></li>
-<li><a href=#dynamic-arrays>Dynamic arrays</a></li>
-<li><a href=#enumerations>Enumerations</a></li>
+<li><a href=#fixed-arrays>Fixed arrays</a>
+<ul>
+<li><a href=#array-programming>Array programming</a></li>
+</ul>
+</li>
+<li><a href=#slices>Slices</a>
+<ul>
+<li><a href=#slice-literals>Slice literals</a></li>
+<li><a href=#slice-shorthand>Slice shorthand</a></li>
+<li><a href=#nil-slices>Nil slices</a></li>
+<li><a href=#sort-slices>Sort slices</a></li>
+</ul>
+</li>
+<li><a href=#dynamic-arrays>Dynamic arrays</a>
+<ul>
+<li><a href=#appending-to-a-dynamic-array>Appending to a dynamic array</a></li>
+<li><a href=#inject--assign-to-a-dynamic-array>Inject / Assign to a dynamic array</a></li>
+<li><a href=#removing-from-a-dynamic-array>Removing from a dynamic array</a></li>
+<li><a href=#slice--sort-a-dynamic-array>Slice & Sort a dynamic array</a></li>
+<li><a href=#making-and-deleting-slices-and-dynamic-arrays>Making and deleting slices and dynamic arrays</a></li>
+<li><a href=#clearing-a-dynamic-array>Clearing a dynamic array</a></li>
+<li><a href=#resize--reserve-with-a-dynamic-array>Resize / Reserve with a dynamic array</a></li>
+<li><a href=#small_arrayn-t-container-dynamic-array><code>Small_Array(N, T)</code> container dynamic array</a></li>
+</ul>
+</li>
+<li><a href=#enumerations>Enumerations</a>
+<ul>
+<li><a href=#implicit-selector-expression>Implicit Selector Expression</a></li>
+<li><a href=#iterating-an-enumeration>Iterating an Enumeration</a></li>
+</ul>
+</li>
 <li><a href=#enumerated-array>Enumerated Array</a></li>
 <li><a href=#bit-sets>Bit sets</a></li>
 <li><a href=#pointers>Pointers</a></li>
-<li><a href=#structs>Structs</a></li>
-<li><a href=#unions>Unions</a></li>
-<li><a href=#maps>Maps</a></li>
-<li><a href=#procedure-type>Procedure type</a></li>
+<li><a href=#structs>Structs</a>
+<ul>
+<li><a href=#struct-literals>Struct literals</a></li>
+<li><a href=#struct-tags>Struct tags</a></li>
+</ul>
+</li>
+<li><a href=#unions>Unions</a>
+<ul>
+<li><a href=#type-switch-statement>Type switch statement</a></li>
+<li><a href=#union-tags>Union tags</a></li>
+</ul>
+</li>
+<li><a href=#maps>Maps</a>
+<ul>
+<li><a href=#map-container-calls>Map Container Calls</a></li>
+</ul>
+</li>
+<li><a href=#procedure-type>Procedure type</a>
+<ul>
+<li><a href=#calling-conventions>Calling conventions</a></li>
+</ul>
+</li>
 <li><a href=#typeid-type>&lsquo;typeid&rsquo; type</a></li>
 <li><a href=#any-type>&lsquo;any&rsquo; Type</a></li>
 <li><a href=#multi-pointers>Multi Pointers</a></li>
-<li><a href=#soa-data-types>SOA Data Types</a></li>
-<li><a href=#matrix-type><code>matrix</code> type</a></li>
+<li><a href=#soa-data-types>SOA Data Types</a>
+<ul>
+<li><a href=#soa-struct-arrays>SOA Struct Arrays</a></li>
+<li><a href=#soa-struct-slices-and-dynamic-arrays>SOA Struct Slices and Dynamic Arrays</a></li>
+<li><a href=#soa_zip-and-soa_unzip><code>soa_zip</code> and <code>soa_unzip</code></a></li>
+</ul>
+</li>
+<li><a href=#matrix-type><code>matrix</code> type</a>
+<ul>
+<li><a href=#submatrix-casting>Submatrix Casting</a></li>
+<li><a href=#technical-information-of-matrix-types>Technical Information of <code>matrix</code> Types</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href=#raw_data-procedure><code>raw_data</code> procedure</a></li>
@@ -3048,7 +3146,11 @@ Some of this information includes:</p>
 </li>
 <li><a href=#implicit-context-system>Implicit context system</a>
 <ul>
-<li><a href=#allocators>Allocators</a></li>
+<li><a href=#allocators>Allocators</a>
+<ul>
+<li><a href=#explicit-context-definition>Explicit <code>context</code> Definition</a></li>
+</ul>
+</li>
 <li><a href=#logging-system>Logging System</a></li>
 </ul>
 </li>
@@ -3056,34 +3158,123 @@ Some of this information includes:</p>
 <li><a href=#using-a-vendor-library>Using a <code>vendor</code> library</a></li>
 <li><a href=#parametric-polymorphism>Parametric polymorphism</a>
 <ul>
-<li><a href=#explicit-parametric-polymorphism>Explicit parametric polymorphism</a></li>
-<li><a href=#implicit-parametric-polymorphism>Implicit parametric polymorphism</a></li>
+<li><a href=#explicit-parametric-polymorphism>Explicit parametric polymorphism</a>
+<ul>
+<li><a href=#procedures-using-explicit-parametric-polymorphism-parapoly>Procedures using explicit parametric polymorphism (parapoly)</a></li>
+<li><a href=#data-types-using-explicit-parametric-polymorphism-parapoly>Data types using explicit parametric polymorphism (parapoly)</a></li>
+</ul>
+</li>
+<li><a href=#implicit-parametric-polymorphism>Implicit parametric polymorphism</a>
+<ul>
+<li><a href=#procedures-using-implicit-parametric-polymorphism-parapoly>Procedures using implicit parametric polymorphism (parapoly)</a></li>
+<li><a href=#specialization>Specialization</a></li>
+</ul>
+</li>
 <li><a href=#where-clauses><code>where</code> clauses</a></li>
 </ul>
 </li>
 <li><a href=#--operator-selector-call-expressions><code>-></code> operator (selector call expressions)</a></li>
 <li><a href=#attributes>Attributes</a>
 <ul>
-<li><a href=#general-attributes>General attributes</a></li>
-<li><a href=#linking-and-foreign-attributes>Linking and foreign attributes</a></li>
-<li><a href=#procedure-attributes>Procedure attributes</a></li>
-<li><a href=#variable-attributes>Variable attributes</a></li>
+<li><a href=#general-attributes>General attributes</a>
+<ul>
+<li><a href=#private><code>@(private)</code></a></li>
+<li><a href=#require><code>@(require)</code></a></li>
+</ul>
+</li>
+<li><a href=#linking-and-foreign-attributes>Linking and foreign attributes</a>
+<ul>
+<li><a href=#link_namestring><code>@(link_name=&lt;string>)</code></a></li>
+<li><a href=#link_prefixstring><code>@(link_prefix=&lt;string>)</code></a></li>
+<li><a href=#export-or-exporttruefalse><code>@export</code> or <code>@(export=true/false)</code></a></li>
+<li><a href=#linkagestring><code>@(linkage=&lt;string>)</code></a></li>
+<li><a href=#default_calling_conventionstring><code>@(default_calling_convention=&lt;string>)</code></a></li>
+<li><a href=#link_sectionstring><code>@(link_section=&lt;string>)</code></a></li>
+<li><a href=#extra_linker_flagsstring><code>@(extra_linker_flags=&lt;string>)</code></a></li>
+</ul>
+</li>
+<li><a href=#procedure-attributes>Procedure attributes</a>
+<ul>
+<li><a href=#deferred_proc><code>(deferred_*=&lt;proc>)</code></a></li>
+<li><a href=#deprecatedstring><code>@(deprecated=&lt;string>)</code></a></li>
+<li><a href=#require_results><code>@(require_results)</code></a></li>
+<li><a href=#warningstring><code>@(warning=&lt;string>)</code></a></li>
+<li><a href=#disabledboolean><code>@(disabled=&lt;boolean>)</code></a></li>
+<li><a href=#init><code>@(init)</code></a></li>
+<li><a href=#cold><code>@(cold)</code></a></li>
+<li><a href=#optimization_modestring><code>@(optimization_mode=&lt;string>)</code></a></li>
+</ul>
+</li>
+<li><a href=#variable-attributes>Variable attributes</a>
+<ul>
+<li><a href=#static><code>@(static)</code></a></li>
+<li><a href=#thread_local><code>@(thread_local)</code></a></li>
+</ul>
+</li>
 <li><a href=#specialized-attributes>Specialized attributes</a></li>
 </ul>
 </li>
 <li><a href=#directives>Directives</a>
 <ul>
-<li><a href=#record-memory-layout>Record memory layout</a></li>
-<li><a href=#control-statements>Control statements</a></li>
-<li><a href=#procedure-parameters>Procedure parameters</a></li>
-<li><a href=#expressions>Expressions</a></li>
-<li><a href=#statements>Statements</a></li>
-<li><a href=#built-in-procedures-1>Built-in procedures</a></li>
+<li><a href=#record-memory-layout>Record memory layout</a>
+<ul>
+<li><a href=#packed><code>#packed</code></a></li>
+<li><a href=#raw_union><code>#raw_union</code></a></li>
+<li><a href=#align><code>#align</code></a></li>
+<li><a href=#no_nil><code>#no_nil</code></a></li>
+</ul>
+</li>
+<li><a href=#control-statements>Control statements</a>
+<ul>
+<li><a href=#partial><code>#partial</code></a></li>
+</ul>
+</li>
+<li><a href=#procedure-parameters>Procedure parameters</a>
+<ul>
+<li><a href=#no_alias><code>#no_alias</code></a></li>
+<li><a href=#any_int><code>#any_int</code></a></li>
+<li><a href=#caller_location><code>#caller_location</code></a></li>
+<li><a href=#c_vararg><code>#c_vararg</code></a></li>
+<li><a href=#by_ptr><code>#by_ptr</code></a></li>
+<li><a href=#optional_ok><code>#optional_ok</code></a></li>
+</ul>
+</li>
+<li><a href=#expressions>Expressions</a>
+<ul>
+<li><a href=#type><code>#type</code></a></li>
+</ul>
+</li>
+<li><a href=#statements>Statements</a>
+<ul>
+<li><a href=#bounds_check-and-no_bounds_check><code>#bounds_check</code> and <code>#no_bounds_check</code></a></li>
+</ul>
+</li>
+<li><a href=#built-in-procedures-1>Built-in procedures</a>
+<ul>
+<li><a href=#assertboolean><code>#assert(&lt;boolean>)</code></a></li>
+<li><a href=#panicstring><code>#panic(&lt;string>)</code></a></li>
+<li><a href=#configidentifer-default><code>#config(&lt;identifer>, default)</code></a></li>
+<li><a href=#defined><code>#defined</code></a></li>
+<li><a href=#file-line-procedure><code>#file</code>, <code>#line</code>, <code>#procedure</code></a></li>
+<li><a href=#location-or-locationentity><code>#location()</code> or <code>#location(&lt;entity>)</code></a></li>
+<li><a href=#loadstring-path-or-loadstring-path-type><code>#load(&lt;string-path>)</code> or <code>#load(&lt;string-path>, &lt;type>)</code></a></li>
+<li><a href=#load_orstring-path-default><code>#load_or(&lt;string-path>, default)</code></a></li>
+<li><a href=#load_hashstring-path-string-hash><code>#load_hash(&lt;string-path>, &lt;string-hash>)</code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href=#useful-idioms>Useful idioms</a>
 <ul>
-<li><a href=#basic-idioms>Basic idioms</a></li>
+<li><a href=#basic-idioms>Basic idioms</a>
+<ul>
+<li><a href=#ternary-operator>Ternary operator</a></li>
+<li><a href=#if-statements-with-initialization>If-statements with initialization</a></li>
+<li><a href=#iterating-through-slices-of-structs-by-value-or-by-reference>Iterating through slices of structs by value or by reference</a></li>
+<li><a href=#defer-if>&lsquo;defer if&rsquo;</a></li>
+<li><a href=#maybet>&lsquo;Maybe(T)&rsquo;</a></li>
+</ul>
+</li>
 <li><a href=#advanced-idioms>Advanced idioms</a></li>
 </ul>
 </li>
@@ -3094,7 +3285,6 @@ Some of this information includes:</p>
 </nav>
 </div>
 </div>
-<script type=text/javascript>for(var nav=document.getElementById("TableOfContents"),links=nav.getElementsByTagName("a"),i=0;i<links.length;i++)links[i].addEventListener("click",function(){for(var a=0;a<links.length;a++)links[a].classList.remove("active");this.classList.add("active")}),links[i].hash===window.location.hash&&links[i].classList.add("active")</script>
 </div>
 </div>
 </main>

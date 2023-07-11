@@ -160,7 +160,8 @@ For more information regarding value declarations in general, please see the [Od
 
 
 ## Packages
-Every Odin program is made up of packages. A package is a directory of Odin code files, with each file in that directory having the same package declaration at the top. Programs begin running in the package `main`.
+
+Odin programs consist of packages. A package is a directory of Odin code files, all of which have the same package declaration at the top. Execution starts in the package's `main` procedure.
 
 ### `import` statement
 
@@ -206,20 +207,12 @@ my_variable: int // cannot be accessed outside this file.
 
 ### Authoring a package
 
-A package is a directory of Odin code files which are marked with the same package header: `package main`
-Each file in a directory _must_ have the same package declaration. A directory cannot contain multiple packages. 
+A package is a directory of Odin code files, all of which have the same package declaration at the top, e.g. `package main`. Each .odin file _must_ have the same package name. A directory cannot contain more than 1 package.
 
-### Subpackages
+### Organizing packages
 
-Packages may contain sub-directories of packages. When a package is imported, it's subpackages are _not_ imported. They must be imported separately.
-
-```odin
-import "core:math"
-import "core:math/linalg"
-
-pi := math.PI
-rotation := matrix_rotate(pi / 2, linalg.Vector3f32{ 0, 1, 0 })
-```
+Packages may be thematically organized by placing them in subdirectories of another package. For example: `core:image/png` and `core:image/tga`, as subdirectories of `core:image`. 
+Nesting these packages is a helpful taxonomy. It does not imply a dependency: `core:foo/bar` does not need to import `core:foo` and reference anything from it.
 
 ## Control flow statements
 

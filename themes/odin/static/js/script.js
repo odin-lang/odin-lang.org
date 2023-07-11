@@ -1,3 +1,4 @@
+// scrollspy find any new heading intersection and set the active property
 window.addEventListener('DOMContentLoaded', () => {
 	const observerForTableOfContentActiveState = new IntersectionObserver(entries => {
 		for (let i = 0; i < entries.length; i += 1) {
@@ -19,8 +20,16 @@ window.addEventListener('DOMContentLoaded', () => {
 	})
 })
 
+// removes all active states
 function clearActiveStatesInTableOfContents() {
 	document.querySelectorAll('nav li').forEach((section) => {
 		section.classList.remove('active')
 	})
 }
+
+// add the bootstrap table class property for styling - could maybe just style tables custom
+window.addEventListener('DOMContentLoaded', () => {
+	document.querySelectorAll('table').forEach((table) => {
+		table.classList.add("table", "table-striped")
+	})
+})

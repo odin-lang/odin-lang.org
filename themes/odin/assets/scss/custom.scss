@@ -4,6 +4,12 @@ $orange: #ef7a30;
 $primary: $blue;
 $secondary: $orange;
 
+// custom table cell sizes
+$table-cell-padding-y:        .2rem;
+$table-cell-padding-x:        .5rem;
+$table-cell-padding-y-sm:     .2rem;
+$table-cell-padding-x-sm:     .2rem;
+
 @import "../node_modules/bootstrap/scss/bootstrap";
 
 // Fix text buttons with blue background being black instead of white

@@ -924,7 +924,7 @@ The `core:fmt` library supports printing strings from byte arrays in structs, wh
 Foo :: struct {
 	a: [L]u8 `fmt:"s"`, // whole buffer is a string
 	b: [N]u8 `fmt:"s,0"`, // 0 terminated string
-	c: [M]u8 `fmt:"q,n", // string with length determined by n, and use %q rather than %s
+	c: [M]u8 `fmt:"q,n"`, // string with length determined by n, and use %q rather than %s
 	n: int `fmt:"-"`, // ignore this from formatting
 }
 ```
@@ -942,46 +942,62 @@ nstr  := len(str)  // O(1)
 ncstr := len(cstr) // O(n)
 ```
 
-#### `string` type conversions
+### `string` type conversions
 
 Here is a short list of possible type conversions - including whether they *copy* or *alias*. This is important to understand since ***Odin*** gives you the possibility to keep *allocations* to a low degree.
 
-**Legend:**
-* copy - get a freshly allocated copy of the 'from' data
-* alias - reuse the 'from' data, without allocation
-* stream - get individual values from the string, without allocation
-* st - the input string 
+If some cases are missing please let us know.
 
-**From string:**
-* string -> []u8: alias with transmute([]u8)st
-* string -> string: copy with strings.clone(st)
-* string -> cstring: copy with strings.clone_to_cstring(st)
-* string -> cstring: alias with strings.unsafe_string_to_cstring(st)
-* string -> []rune: stream with for rune in st { ... }
-* string -> []rune: copy with utf8.string_to_runes(st)
-* string -> [^]u8: alias with raw_data(st) 
+Legend:
+* ***copy*** = get a freshly allocated copy of the 'from' data
+* ***alias*** = reuse the 'from' data, without allocation
+* ***stream*** = get individual values from the string, without allocation
+* ***st*** = the input string 
 
-**From cstring:**
-* cstring -> string: alias with string(st)
-* cstring -> [^]u8: alias with transmute([^]u8)st 
+#### From `string` to X
+| To | Action | Code |
+| --- | --- | --- | 
+| `[]u8` | alias | `transmute([]u8)st` |
+| `string` | copy | `strings.clone(st)` |
+| `cstring` | copy | `strings.clone_to_cstring(st)` |
+| `cstring` | alias | `strings.unsafe_string_to_cstring(st)` |
+| `[]rune` | stream | `for rune in st { ... }` |
+| `[]rune` | copy | `utf8.string_to_runes(st)` |
+| `[^]u8` | alias | `raw_data(st)`  |
 
-**From "string literal":**	
-* "string literal" -> string: alias with string(st) or newstr : string = st
-* "string literal" -> cstring: alias with cstring(st) or newstr : cstring = st 
+#### From `cstring` to X
+| To | Action | Code |
+| --- | --- | --- | 
+| `string` | alias | `string(st)` |
+| `[^]u8` | alias | `transmute([^]u8)st` |
 
-**From []u8:**
-* []u8 -> string: alias with transmute(string)st
-* []u8 -> string: alias with string(st) unless a slice literal
-* []u8 -> [^]u8: alias with raw_data(st) 
+#### From a ***string literal*** to X
+| To | Action | Code |
+| --- | --- | --- | 
+| `string` | alias | `string(st)` or `newstr: string = st` |
+| `cstring` | alias | `cstring(st)` or `newstr: cstring = st` |
 
-**From []rune:**
-* []rune -> string: copy with utf8.runes_to_string(st) 
+#### From `[]u8` to X
+| To | Action | Code |
+| --- | --- | --- | 
+| `string` | alias | `transmute(string)st` |
+| `string` | alias | `string(st)` unless a slice literal |
+| `[^]u8` | alias | `raw_data(st)` |
 
-**From [^]u8:**
-* [^]u8 -> cstring: alias with cstring(st) 
+#### From `[]rune` to `string`
+| Action | Code |
+| --- | --- | 
+| copy | `utf8.runes_to_string(st)` |
 
-**From [^]u8, int:**
-* [^]u8, int -> string: alias with strings.string_from_ptr(ptr, length) 
+#### From `[^]u8` to `cstring`
+| Action | Code |
+| --- | --- | 
+| alias | `cstring(st)` |
+
+#### From `[^]u8` and length `int` to `string`
+| Action | Code |
+| --- | --- | 
+| alias | `strings.string_from_ptr(ptr, length)` | 
 
 
 ## Operators

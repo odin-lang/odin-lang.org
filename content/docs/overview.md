@@ -696,7 +696,7 @@ create_window :: proc(title: string, x, y: int, width, height: int, monitor: ^Mo
 window, err := create_window(title="Hellope Title", monitor=nil, width=854, height=480, x=0, y=0)
 ```
 
-Since the release of `dev-2023-07` mixing named and non named arguments is allowed. This is often useful when a procedure has a lot of arguments *or* you want to customize [default values](#default-values). 
+As of the `dev-2023-07` release, mixing named and positional arguments is allowed. This is often useful when a procedure has a lot of arguments *or* you want to customize [default values](#default-values). 
 
 ***Positional*** arguments are not allowed after ***named*** arguments.
 

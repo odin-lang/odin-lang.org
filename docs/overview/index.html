@@ -567,8 +567,11 @@ do_math_with_naked_return :: proc(input: int) -&gt; (x, y: int) {
 <pre><code class=language-odin data-lang=odin>create_window :: proc(title: string, x, y: int, width, height: int, monitor: ^Monitor) -&gt; (^Window, Window_Error) {...}
 
 window, err := create_window(title=&quot;Hellope Title&quot;, monitor=nil, width=854, height=480, x=0, y=0)
-</code></pre><p><strong>Note:</strong> Currently, mixing named and non-named arguments is not allowed. This is subject to change if it is deemed necessary.</p>
-<h3 id=default-values>Default values <a class=text-decoration-none href=#default-values>#</a></h3>
+</code></pre><p>As of the <code>dev-2023-07</code> release, mixing named and positional arguments is allowed. This is often useful when a procedure has a lot of arguments <em>or</em> you want to customize <a href=#default-values>default values</a>.</p>
+<p><em><strong>Positional</strong></em> arguments are not allowed after <em><strong>named</strong></em> arguments.</p>
+<pre><code class=language-odin data-lang=odin>foo :: proc(value: int, name: string, x: bool, y: f32, z := 0) { }
+foo(134, &quot;hellope&quot;, x=true, y=4.5)
+</code></pre><h3 id=default-values>Default values <a class=text-decoration-none href=#default-values>#</a></h3>
 <p>The <code>create_window</code> procedure may be easier to use if default values are provided, which will be used if they are not specified:</p>
 <pre><code class=language-odin data-lang=odin>create_window :: proc(title: string, x := 0, y := 0, width := 854, height := 480, monitor: ^Monitor = nil) -&gt; (^Window, Window_Error) {...}
 

@@ -725,7 +725,7 @@ for index in 0..&lt;len(x) {
 <pre><code class=language-odin data-lang=odin>Foo :: struct {
 	a: [L]u8 `fmt:&quot;s&quot;`, // whole buffer is a string
 	b: [N]u8 `fmt:&quot;s,0&quot;`, // 0 terminated string
-	c: [M]u8 `fmt:&quot;q,n&quot;, // string with length determined by n, and use %q rather than %s
+	c: [M]u8 `fmt:&quot;q,n&quot;`, // string with length determined by n, and use %q rather than %s
 	n: int `fmt:&quot;-&quot;`, // ignore this from formatting
 }
 </code></pre><h3 id=cstring-type><code>cstring</code> type <a class=text-decoration-none href=#cstring-type>#</a></h3>
@@ -736,53 +736,179 @@ cstr: cstring = &quot;Hellope&quot; // constant literal
 cstr2 := string(cstr)     // O(n) conversion as it requires search from the zero-terminator
 nstr  := len(str)  // O(1)
 ncstr := len(cstr) // O(n)
-</code></pre><h4 id=string-type-conversions><code>string</code> type conversions <a class=text-decoration-none href=#string-type-conversions>#</a></h4>
+</code></pre><h3 id=string-type-conversions><code>string</code> type conversions <a class=text-decoration-none href=#string-type-conversions>#</a></h3>
 <p>Here is a short list of possible type conversions - including whether they <em>copy</em> or <em>alias</em>. This is important to understand since <em><strong>Odin</strong></em> gives you the possibility to keep <em>allocations</em> to a low degree.</p>
-<p><strong>Legend:</strong></p>
+<p>If some cases are missing please let us know.</p>
+<p>Legend:</p>
 <ul>
-<li>copy - get a freshly allocated copy of the &lsquo;from&rsquo; data</li>
-<li>alias - reuse the &lsquo;from&rsquo; data, without allocation</li>
-<li>stream - get individual values from the string, without allocation</li>
-<li>st - the input string</li>
+<li><em><strong>copy</strong></em> = get a freshly allocated copy of the &lsquo;from&rsquo; data</li>
+<li><em><strong>alias</strong></em> = reuse the &lsquo;from&rsquo; data, without allocation</li>
+<li><em><strong>stream</strong></em> = get individual values from the string, without allocation</li>
+<li><em><strong>st</strong></em> = the input string</li>
 </ul>
-<p><strong>From string:</strong></p>
-<ul>
-<li>string -> []u8: alias with transmute([]u8)st</li>
-<li>string -> string: copy with strings.clone(st)</li>
-<li>string -> cstring: copy with strings.clone_to_cstring(st)</li>
-<li>string -> cstring: alias with strings.unsafe_string_to_cstring(st)</li>
-<li>string -> []rune: stream with for rune in st { &mldr; }</li>
-<li>string -> []rune: copy with utf8.string_to_runes(st)</li>
-<li>string -> [^]u8: alias with raw_data(st)</li>
-</ul>
-<p><strong>From cstring:</strong></p>
-<ul>
-<li>cstring -> string: alias with string(st)</li>
-<li>cstring -> [^]u8: alias with transmute([^]u8)st</li>
-</ul>
-<p><strong>From &ldquo;string literal&rdquo;:</strong></p>
-<ul>
-<li>&ldquo;string literal&rdquo; -> string: alias with string(st) or newstr : string = st</li>
-<li>&ldquo;string literal&rdquo; -> cstring: alias with cstring(st) or newstr : cstring = st</li>
-</ul>
-<p><strong>From []u8:</strong></p>
-<ul>
-<li>[]u8 -> string: alias with transmute(string)st</li>
-<li>[]u8 -> string: alias with string(st) unless a slice literal</li>
-<li>[]u8 -> [^]u8: alias with raw_data(st)</li>
-</ul>
-<p><strong>From []rune:</strong></p>
-<ul>
-<li>[]rune -> string: copy with utf8.runes_to_string(st)</li>
-</ul>
-<p><strong>From [^]u8:</strong></p>
-<ul>
-<li>[^]u8 -> cstring: alias with cstring(st)</li>
-</ul>
-<p><strong>From [^]u8, int:</strong></p>
-<ul>
-<li>[^]u8, int -> string: alias with strings.string_from_ptr(ptr, length)</li>
-</ul>
+<h4 id=from-string-to-x>From <code>string</code> to X <a class=text-decoration-none href=#from-string-to-x>#</a></h4>
+<table>
+<thead>
+<tr>
+<th>To</th>
+<th>Action</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[]u8</code></td>
+<td>alias</td>
+<td><code>transmute([]u8)st</code></td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td>copy</td>
+<td><code>strings.clone(st)</code></td>
+</tr>
+<tr>
+<td><code>cstring</code></td>
+<td>copy</td>
+<td><code>strings.clone_to_cstring(st)</code></td>
+</tr>
+<tr>
+<td><code>cstring</code></td>
+<td>alias</td>
+<td><code>strings.unsafe_string_to_cstring(st)</code></td>
+</tr>
+<tr>
+<td><code>[]rune</code></td>
+<td>stream</td>
+<td><code>for rune in st { ... }</code></td>
+</tr>
+<tr>
+<td><code>[]rune</code></td>
+<td>copy</td>
+<td><code>utf8.string_to_runes(st)</code></td>
+</tr>
+<tr>
+<td><code>[^]u8</code></td>
+<td>alias</td>
+<td><code>raw_data(st)</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id=from-cstring-to-x>From <code>cstring</code> to X <a class=text-decoration-none href=#from-cstring-to-x>#</a></h4>
+<table>
+<thead>
+<tr>
+<th>To</th>
+<th>Action</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>string</code></td>
+<td>alias</td>
+<td><code>string(st)</code></td>
+</tr>
+<tr>
+<td><code>[^]u8</code></td>
+<td>alias</td>
+<td><code>transmute([^]u8)st</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id=from-a-string-literal-to-x>From a <em><strong>string literal</strong></em> to X <a class=text-decoration-none href=#from-a-string-literal-to-x>#</a></h4>
+<table>
+<thead>
+<tr>
+<th>To</th>
+<th>Action</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>string</code></td>
+<td>alias</td>
+<td><code>string(st)</code> or <code>newstr: string = st</code></td>
+</tr>
+<tr>
+<td><code>cstring</code></td>
+<td>alias</td>
+<td><code>cstring(st)</code> or <code>newstr: cstring = st</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id=from-u8-to-x>From <code>[]u8</code> to X <a class=text-decoration-none href=#from-u8-to-x>#</a></h4>
+<table>
+<thead>
+<tr>
+<th>To</th>
+<th>Action</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>string</code></td>
+<td>alias</td>
+<td><code>transmute(string)st</code></td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td>alias</td>
+<td><code>string(st)</code> unless a slice literal</td>
+</tr>
+<tr>
+<td><code>[^]u8</code></td>
+<td>alias</td>
+<td><code>raw_data(st)</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id=from-rune-to-string>From <code>[]rune</code> to <code>string</code> <a class=text-decoration-none href=#from-rune-to-string>#</a></h4>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>copy</td>
+<td><code>utf8.runes_to_string(st)</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id=from-u8-to-cstring>From <code>[^]u8</code> to <code>cstring</code> <a class=text-decoration-none href=#from-u8-to-cstring>#</a></h4>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>alias</td>
+<td><code>cstring(st)</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id=from-u8-and-length-int-to-string>From <code>[^]u8</code> and length <code>int</code> to <code>string</code> <a class=text-decoration-none href=#from-u8-and-length-int-to-string>#</a></h4>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>alias</td>
+<td><code>strings.string_from_ptr(ptr, length)</code></td>
+</tr>
+</tbody>
+</table>
 <h2 id=operators>Operators <a class=text-decoration-none href=#operators>#</a></h2>
 <p>Operators combine operands into expressions. For binary operations, operand types must be identical or implicitly convertible unless the operation involves shifts or untyped constants.</p>
 <h3 id=arithmetic-operators>Arithmetic operators <a class=text-decoration-none href=#arithmetic-operators>#</a></h3>
@@ -3031,9 +3157,16 @@ Some of this information includes:</p>
 <li><a href=#string-format-printing><code>string</code> format printing</a></li>
 </ul>
 </li>
-<li><a href=#cstring-type><code>cstring</code> type</a>
+<li><a href=#cstring-type><code>cstring</code> type</a></li>
+<li><a href=#string-type-conversions><code>string</code> type conversions</a>
 <ul>
-<li><a href=#string-type-conversions><code>string</code> type conversions</a></li>
+<li><a href=#from-string-to-x>From <code>string</code> to X</a></li>
+<li><a href=#from-cstring-to-x>From <code>cstring</code> to X</a></li>
+<li><a href=#from-a-string-literal-to-x>From a <em><strong>string literal</strong></em> to X</a></li>
+<li><a href=#from-u8-to-x>From <code>[]u8</code> to X</a></li>
+<li><a href=#from-rune-to-string>From <code>[]rune</code> to <code>string</code></a></li>
+<li><a href=#from-u8-to-cstring>From <code>[^]u8</code> to <code>cstring</code></a></li>
+<li><a href=#from-u8-and-length-int-to-string>From <code>[^]u8</code> and length <code>int</code> to <code>string</code></a></li>
 </ul>
 </li>
 </ul>

@@ -160,7 +160,7 @@ For more information regarding value declarations in general, please see the [Od
 
 
 ## Packages
-Every Odin program is made up of packages. Programs begin running in the package `main`.
+Every Odin program is made up of packages. A package is a directory of Odin code files, with each file in that directory having the same package declaration at the top. Programs begin running in the package `main`.
 
 ### `import` statement
 
@@ -204,6 +204,22 @@ my_variable: int // cannot be accessed outside this file.
 ```
 `@(private)` is equivalent to `@(private="package")`.
 
+### Authoring a package
+
+A package is a directory of Odin code files which are marked with the same package header: `package main`
+Each file in a directory _must_ have the same package declaration. A directory cannot contain multiple packages. 
+
+### Subpackages
+
+Packages may contain sub-directories of packages. When a package is imported, it's subpackages are _not_ imported. They must be imported separately.
+
+```odin
+import "core:math"
+import "core:math/linalg"
+
+pi := math.PI
+rotation := matrix_rotate(pi / 2, linalg.Vector3f32{ 0, 1, 0 })
+```
 
 ## Control flow statements
 

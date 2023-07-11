@@ -696,8 +696,14 @@ create_window :: proc(title: string, x, y: int, width, height: int, monitor: ^Mo
 window, err := create_window(title="Hellope Title", monitor=nil, width=854, height=480, x=0, y=0)
 ```
 
-**Note:** Currently, mixing named and non-named arguments is not allowed. This is subject to change if it is deemed necessary.
+As of the `dev-2023-07` release, mixing named and positional arguments is allowed. This is often useful when a procedure has a lot of arguments *or* you want to customize [default values](#default-values). 
 
+***Positional*** arguments are not allowed after ***named*** arguments.
+
+```odin
+foo :: proc(value: int, name: string, x: bool, y: f32, z := 0) { }
+foo(134, "hellope", x=true, y=4.5)
+```
 
 ### Default values
 The `create_window` procedure may be easier to use if default values are provided, which will be used if they are not specified:

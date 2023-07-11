@@ -185,7 +185,7 @@ x := 123
 z :: y + 7 // constant computations are possible
 </code></pre><p>For more information regarding value declarations in general, please see the <a href=/docs/faq>Odin FAQ</a> and Ginger Bill&rsquo;s article <a href=https://www.gingerbill.org/article/2018/03/12/on-the-aesthetics-of-the-syntax-of-declarations/>On the Aesthetics of the Syntax of Declarations</a>.</p>
 <h2 id=packages>Packages <a class=text-decoration-none href=#packages>#</a></h2>
-<p>Every Odin program is made up of packages. Programs begin running in the package <code>main</code>.</p>
+<p>Odin programs consist of packages. A package is a directory of Odin code files, all of which have the same package declaration at the top. Execution starts in the package&rsquo;s <code>main</code> procedure.</p>
 <h3 id=import-statement><code>import</code> statement <a class=text-decoration-none href=#import-statement>#</a></h3>
 <p>The following program imports the the <code>fmt</code> and <code>os</code> packages from the <code>core</code> library collection.</p>
 <pre><code class=language-odin data-lang=odin>package main
@@ -209,6 +209,11 @@ my_variable: int // cannot be accessed outside this package.
 <pre><code class=language-odin data-lang=odin>@(private=&quot;file&quot;)
 my_variable: int // cannot be accessed outside this file.
 </code></pre><p><code>@(private)</code> is equivalent to <code>@(private="package")</code>.</p>
+<h3 id=authoring-a-package>Authoring a package <a class=text-decoration-none href=#authoring-a-package>#</a></h3>
+<p>A package is a directory of Odin code files, all of which have the same package declaration at the top, e.g. <code>package main</code>. Each .odin file <em>must</em> have the same package name. A directory cannot contain more than 1 package.</p>
+<h3 id=organizing-packages>Organizing packages <a class=text-decoration-none href=#organizing-packages>#</a></h3>
+<p>Packages may be thematically organized by placing them in subdirectories of another package. For example: <code>core:image/png</code> and <code>core:image/tga</code>, as subdirectories of <code>core:image</code>.
+Nesting these packages is a helpful taxonomy. It does not imply a dependency: <code>core:foo/bar</code> does not need to import <code>core:foo</code> and reference anything from it.</p>
 <h2 id=control-flow-statements>Control flow statements <a class=text-decoration-none href=#control-flow-statements>#</a></h2>
 <h3 id=for-statement><code>for</code> statement <a class=text-decoration-none href=#for-statement>#</a></h3>
 <p>Odin has only one loop statement, the <code>for</code> loop.</p>
@@ -3093,6 +3098,8 @@ Some of this information includes:</p>
 <ul>
 <li><a href=#import-statement><code>import</code> statement</a></li>
 <li><a href=#exported-names>Exported names</a></li>
+<li><a href=#authoring-a-package>Authoring a package</a></li>
+<li><a href=#organizing-packages>Organizing packages</a></li>
 </ul>
 </li>
 <li><a href=#control-flow-statements>Control flow statements</a>

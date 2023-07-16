@@ -2281,7 +2281,7 @@ supertramp :: proc() {
 <li><code>context.allocator</code> is for &ldquo;general&rdquo; allocations, for the subsystem it is used within.</li>
 <li><code>context.temp_allocator</code> is for temporary and short lived allocations, which are to be freed once per cycle/frame/etc.</li>
 </ul>
-<p>By default, the <code>context.allocator</code> is a OS heap allocator and the <code>context.temp_allocator</code> is assigned to a scratch allocator (a ring-buffer based allocator).</p>
+<p>By default, the <code>context.allocator</code> is an OS heap allocator and the <code>context.temp_allocator</code> is assigned to a scratch allocator (a growing arena based allocator). <code>free_all(context.temp_allocator)</code> must be called to clear the contents of the temporary allocator&rsquo;s internal arena.</p>
 <p>The following procedures are built-in (and also available in <code>package mem</code> with enforced allocator errors) and are encouraged for managing memory:</p>
 <ul>
 <li><a href=http://pkg.odin-lang.org/core/builtin/#new><code>new</code></a> - allocates a value of the type given. The result value is a pointer to the type given.</li>

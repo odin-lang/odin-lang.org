@@ -2795,7 +2795,7 @@ The implicit `context` stores two different forms of allocators: `context.alloca
 * `context.temp_allocator` is for temporary and short lived allocations, which are to be freed once per cycle/frame/etc.
 
 
-By default, the `context.allocator` is a OS heap allocator and the `context.temp_allocator` is assigned to a scratch allocator (a ring-buffer based allocator).
+By default, the `context.allocator` is an OS heap allocator and the `context.temp_allocator` is assigned to a scratch allocator (a growing arena based allocator). `free_all(context.temp_allocator)` must be called to clear the contents of the temporary allocator's internal arena. 
 
 
 The following procedures are built-in (and also available in `package mem` with enforced allocator errors) and are encouraged for managing memory:

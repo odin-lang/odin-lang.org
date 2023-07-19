@@ -30,6 +30,9 @@ function clearActiveStatesInTableOfContents() {
 // add the bootstrap table class property for styling - could maybe just style tables custom
 window.addEventListener('DOMContentLoaded', () => {
 	document.querySelectorAll('table').forEach((table) => {
-		table.classList.add("table", "table-striped")
+		// only non styled tables
+		if (table.className === "") {
+			table.classList.add("table", "table-striped")
+		}
 	})
 })

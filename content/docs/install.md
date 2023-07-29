@@ -1,86 +1,98 @@
 ---
 title: Getting Started
-summary: Getting Started with Odin. Downloading, installing, and getting your first program to compile and run.
+summary: Getting Odin and running your first program.
 weight: 1
 ---
 
-Odin is dead-simple to get started with!
+## Getting Odin
+There are two options for getting Odin:
+- A) Download a pre-built Odin binary.
+- B) Clone the Odin repository and build it yourself (**recommended** to make [updating Odin](#update-odin) easier).
 
-<a href="https://github.com/odin-lang/Odin/releases" class="btn btn-outline-primary">Latest Release</a>
-<a href="/docs/nightly" class="btn btn-outline-primary">Latest Nightly Builds</a>
+## Download Odin
+<a href="https://github.com/odin-lang/Odin/releases/latest" class="btn btn-outline-primary">Latest Release Build</a>
+<a href="/docs/nightly/#nightly-builds" class="btn btn-outline-primary">Latest Nightly Build</a>
 
+- Choose either a release build or a nightly build.
+- Download the build that is specific to your platform.
+- Unzip it and move the directory to your desired location.
+- [Add the Odin directory to your `$PATH`,](#add-odin-to-your-path).
+- Use `odin --help` to learn how to run your first Odin program.
 
-## Clone or download Odin binaries
-You can either:
+## Clone and build Odin
+- Clone Odin with: `git clone https://github.com/odin-lang/Odin`.
+- Build Odin by following the platform-specific steps below.
 
-Clone the repository `git clone https://github.com/odin-lang/Odin` (recommended).
+### Windows
+- Install Visual Studio (VS2019-2022 is recommended, VS2017 works).
+- Open a valid command prompt by either:
+    - A) Running the `x64 Native Tools Command Prompt for VS2017` shortcut bundled with Visual Studio.
+    - B) Running `vcvarsall.bat x64` from a blank `cmd` session.
+- Navigate to the Odin directory inside the command prompt.
+- Run `build.bat` to build Odin. This will create an Odin binary.
+- Use `odin --help` to learn how to run your first Odin program.
 
-Or download the latest binaries and add them to your path:
+**Note:** The necessary LLVM components for Windows are included with the Odin repository.
 
-Download [the latest release](https://github.com/odin-lang/Odin/releases/latest).
+**Note:** Odin requires `link.exe` from Visual Studio, and it must be in the PATH to work.
 
-Download [the latest nightly build](/docs/nightly/).
+### MacOS
+- Install XCode (from the App Store or their [website](https://developer.apple.com/xcode/)).
+- Install XCode command-line tools: `xcode-select --install`.
+- Install [Homebrew](https://brew.sh/).
+- Install LLVM through Homebrew: `brew install llvm@14`.
+- [Add the LLVM binaries to your `$PATH`.](#add-llvm-to-your-path)
+- Navigate to the Odin directory inside your terminal.
+- Run `make` to build Odin. This will create an Odin binary.
+- [Add the Odin directory to your `$PATH`.](#add-odin-to-your-path)
+- Use `odin --help` to learn how to run your first Odin program.
 
-**Note**: Cloning the repository is recommended in order to make [updating](#updating-the-compiler) easier.
+**Note:** On newer versions of MacOS, some headers are not installed by default. Open `macOS_SDK_headers_for_macOS_*.pkg` in `/Library/Developer/CommandLineTools/Packages/` to install the ones you need.
 
-### Support 
-Odin supports x86-64/AMD64 on Windows, Linux and macOS, and ARM64 on macOS. Odin also relies on LLVM (for code generation) and an external linker.
+### Linux
+- Install `llvm14`, `clang14`, and `make` through your package manager.
+- [Add the LLVM binaries to your `$PATH`.](#add-llvm-to-your-path)
+- Navigate to the Odin directory inside your terminal.
+- Run `make` to build Odin. This will create an Odin binary.
+- [Add the Odin directory to your `$PATH`.](#add-odin-to-your-path)
+- Use `odin --help` to learn how to run your first Odin program.
 
-### Requirements
-The following platform-specific steps are necessary:
+**Note:** The compiler currently relies on the `core` and `shared` library collection being relative to the compiler executable. Installing the compiler in the usual sense (to `/usr/local/bin` or similar) is therefore not as straightforward as you need to make sure the mentioned libraries are available. As a result, it is recommended to simply explicitly invoke the compiler with `/path/to/Odin` in your preferred build system, or add `/path/to/Odin` to `$PATH`.
 
-- Windows
-    * Have Visual Studio installed (VS2019-2022 is recommend, VS2017 will likely work, for the linker)
-    * Open a valid command prompt:
-        * **Basic:** run the `x64 Native Tools Command Prompt for VS2017` shortcut bundled with VS 2017, or
-        * **Advanced:** run `vcvarsall.bat x64` from a blank `cmd` session
+**Note:**: If you get the error: `'atomic.h' file not found`, also install `libx32stdc++-12-dev`.
 
-- MacOS
-    * Install the latest XCode (from the App Store or the [Xcode website](https://developer.apple.com/xcode/))
-    * Install XCode command-line tools `xcode-select --install`
-    * Install [Homebrew](https://brew.sh/) 
-    * Install LLVM through Homebrew with: `brew install llvm@14`
-    * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable (see `brew info llvm@14`)
+**Note:**: If you get the error: `'sys/wait.h' file not found` and `'stdio.h' file not found`, also install `g++`.
 
-- GNU/Linux and other \*Nix
-    * For Linux: clang and llvm (version 11.1, 12, 13, or 14; using your distro's package manager)
-    * Note: If an atomic.h error occurs, also add `libx32stdc++-12-dev`
-    * For FreeBSD: `pkg install bash git llvm14`
-    * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable
+**Note:**: If you get the error: `'linux/futex.h' file not found`, also install `linux-headers`.
 
-## Building Odin
-Now, it's time to build Odin and get started!
+**Note:**: On some distributions, you need to add the "-dev" suffix to the llvm and clang packages like so: `llvm14-dev`, `clang14-dev` to get the development files.
 
-### For Windows
-There's a couple prerequisites here. First, make sure you have Visual Studio installed; you have to compile Odin from source, and Odin also requires `link.exe` from VS anyway. The necessary LLVM components for Windows are included in the Odin repository.
+**Note:**: The package names may be slightly different depending on your distribution.
 
-Now, it's time to build Odin and get started! Open the X64 Visual Studio command prompt ([if you don't typically use it, here's how to find it](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs)) and navigate to the directory where you downloaded Odin. Run the `build.bat` file, and you should have a successfully built Odin compiler!
+### BSD
+- On FreeBSD, run: `pkg install bash git llvm14`
+- [Add the LLVM binaries to your `$PATH`.](#add-llvm-to-your-path)
+- Navigate to the Odin directory inside your terminal.
+- Run `make` to build Odin. This will create an Odin binary.
+- [Add the Odin directory to your `$PATH`.](#add-odin-to-your-path)
+- Use `odin --help` to learn how to run your first Odin program.
 
-To use Odin `link.exe` is required to be in the PATH of the callee as mentioned, this can either be achieved but calling Odin from the X64 Visual Studio command prompt or by calling the vcvarsall.bat (with x64 as an argument) script either in your shell or in your build script.
+## Add LLVM to your PATH
+To temporarily add LLVM to the `$PATH` environment variable, run: `export PATH=$PATH:/path/to/llvm/bin`.
 
-### For MacOS
-Make sure all requirements for MacOS are installed, after installing LLVM through Homebrew make sure to add it to the PATH:
-- run `echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.zshrc_profile` to add LLVM to your PATH.
+To permanently add LLVM to the `$PATH` environment variable, add the line: `export PATH=$PATH:/path/to/llvm/bin` to your shell configuration file. This file may be called `~/.bashrc` or `~/.zshrc` or `/etc/profile` depending on your shell and platform. Then apply the change to the session, by running: `source ~/.name_of_shell_config_file`. Alternatively, just restart the terminal.
 
-Then run `source ~/.bash_profile` or `source ~/.zshrc` to update your PATH variable in the current terminal session depending on your shell.
+**Note:**: The installed location of LLVM depends on your platform. Two possible locations are: `/usr/local/opt/llvm/bin` and `/usr/lib/llvm14/bin`.
 
-On newer versions of macOS, some headers are not installed by default. Open `macOS_SDK_headers_for_macOS_*.pkg` in `/Library/Developer/CommandLineTools/Packages/`.
+## Add Odin to your PATH
+To temporarily add Odin to the `$PATH` environment variable, run: `export PATH=$PATH:/path/to/Odin`.
 
-Now navigate to the Odin directory in your terminal, use `make`, and you should have a newly-built, fresh Odin compiler!
+To permanently add Odin to the `$PATH` environment variable, add the line: `export PATH=$PATH:/path/to/Odin` to your shell configuration file. This file may be called `~/.bashrc` or `~/.zshrc` or `/etc/profile` depending on your shell and platform. Then apply the change to the session, by running: `source ~/.name_of_shell_config_file`. Alternatively, just restart the terminal.
 
-Now you can export the odin folder to the PATH
+## Update Odin
+If you chose to clone and build Odin, you can update the compiler by running `git pull` and then `make`.
 
-### For Linux and other \*Nix
-For Linux, make sure you have `llvm` and `clang` installed through your package managers.
+If you chose to download Odin, you can update the compiler by downloading and extracting a new version.
 
-For FreeBSD make sure you have `bash`, `git` and the latest version of LLVM (the base `llvm` package is most of the times outdated).
-
-Now navigate to the Odin directory in your terminal, use `make`, and you should have a newly-built, fresh Odin compiler!
-
-**Notes for Linux:** The compiler currently relies on the `core` and `shared` library collection being relative to the compiler executable. Installing the compiler in the usual sense (to `/usr/local/bin` or similar) is therefore not as straight forward as you need to make sure the mentioned libraries are available. As a result, it is recommended to simply explicitly invoke the compiler with `/path/to/odin` in your preferred build system, or add `/path/to/odin` to `$PATH`.
-
-### Updating the compiler
-For a compiler that's in-development like Odin, things move fast. Make sure you keep your compiler up-to-date by running `git pull` and then rebuilding every now and then. (or, if you use releases, redownload and rebuild)
-
-## What Next?
-Why not check out the [Odin Overview](/docs/overview/) for more information on the Odin Programming Language!
+## What's next?
+Check out the [Odin Overview](/docs/overview/) for more information on the Odin Programming Language.

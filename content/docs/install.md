@@ -16,7 +16,7 @@ There are two options for getting Odin:
 - Choose either a release build or a nightly build.
 - Download the build that is specific to your platform.
 - Unzip it and move the directory to your desired location.
-- [Add the LLVM binaries to your `$PATH`.](#add-llvm-to-your-path)
+- [Add the Odin directory to your `$PATH`.](#add-odin-to-your-path)
 - Use `odin --help` to learn how to run your first Odin program.
 
 ## Clone and build Odin

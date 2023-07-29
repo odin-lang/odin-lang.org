@@ -11,12 +11,12 @@ There are two options for getting Odin:
 
 ## Download Odin
 <a href="https://github.com/odin-lang/Odin/releases/latest" class="btn btn-outline-primary">Latest Release Build</a>
-<a href="/docs/nightly/#nightly-builds" class="btn btn-outline-primary">Latest Nightly Build</a>
+<a href="https://odin-lang.org/docs/nightly/#nightly-builds" class="btn btn-outline-primary">Latest Nightly Build</a>
 
 - Choose either a release build or a nightly build.
 - Download the build that is specific to your platform.
 - Unzip it and move the directory to your desired location.
-- [Add the Odin directory to your `$PATH`,](#add-odin-to-your-path).
+- [Add the LLVM binaries to your `$PATH`.](#add-llvm-to-your-path)
 - Use `odin --help` to learn how to run your first Odin program.
 
 ## Clone and build Odin

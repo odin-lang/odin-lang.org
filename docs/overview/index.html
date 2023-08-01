@@ -1401,7 +1401,7 @@ y = {.North, .West}
 </ul>
 <p>Bit sets are often used to denote flags. This is much cleaner than defining integer constants that need to be bitwise or-ed together.</p>
 <p>If a bit set requires a specific size, the underlying integer type can be specified:</p>
-<pre><code class=language-odin data-lang=odin>Char_Set :: bit_set['A'..'Z'; u64];
+<pre><code class=language-odin data-lang=odin>Char_Set :: bit_set['A'..'Z'; u64]
 #assert(size_of(Char_Set) == size_of(u64))
 </code></pre><p>To get the number of elements set, its cardinality, of a bit_set, use the built-in card procedure:</p>
 <pre><code class=language-odin data-lang=odin>x: Direction_Set

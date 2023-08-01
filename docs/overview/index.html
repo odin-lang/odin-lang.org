@@ -165,7 +165,12 @@ x = 1 // `1` is an untyped integer literal which can implicitly convert to `int`
 <pre><code class=language-odin data-lang=odin>x: int // declares x to have type `int`
 y, z: int // declares y and z to have type `int`
 </code></pre><p>Variables are initialized to zero by default unless specified otherwise.</p>
-<h2 id=assignment-statements>Assignment statements <a class=text-decoration-none href=#assignment-statements>#</a></h2>
+<p><strong>Note:</strong> Declarations have to be <em>unique</em> within a scope.</p>
+<pre><code class=language-odin data-lang=odin>x := 10
+x := 20 // Redeclaration of 'x' in this scope
+y, z := 20, 30
+test, z := 20, 30 // not allowed since &quot;z&quot; exists already
+</code></pre><h2 id=assignment-statements>Assignment statements <a class=text-decoration-none href=#assignment-statements>#</a></h2>
 <p>The assignment statement assigns a new value to a variable/location:</p>
 <pre><code class=language-odin data-lang=odin>x: int = 123 // declares a new variable `x` with type `int` and assigns a value to it
 x = 637 // assigns a new value to `x`
@@ -187,7 +192,7 @@ z :: y + 7 // constant computations are possible
 <h2 id=packages>Packages <a class=text-decoration-none href=#packages>#</a></h2>
 <p>Odin programs consist of packages. A package is a directory of Odin code files, all of which have the same package declaration at the top. Execution starts in the package&rsquo;s <code>main</code> procedure.</p>
 <h3 id=import-statement><code>import</code> statement <a class=text-decoration-none href=#import-statement>#</a></h3>
-<p>The following program imports the the <code>fmt</code> and <code>os</code> packages from the <code>core</code> library collection.</p>
+<p>The following program imports the <code>fmt</code> and <code>os</code> packages from the <code>core</code> library collection.</p>
 <pre><code class=language-odin data-lang=odin>package main
 
 import &quot;core:fmt&quot;

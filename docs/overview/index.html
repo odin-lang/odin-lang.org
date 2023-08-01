@@ -479,7 +479,7 @@ defer os.close(f)
 		}
 	}
 
-	break; // break out of the `for` statement
+	break // break out of the `for` statement
 }
 
 loop: for cond1 {
@@ -1412,14 +1412,14 @@ assert(count == 2)
 <p>Odin has pointers. A pointer is a memory address of a value. The type <code>^T</code> is a pointer to a <code>T</code> value. Its zero value is <code>nil</code>.</p>
 <pre><code class=language-odin data-lang=odin>p: ^int
 </code></pre><p>The <code>&</code> operator takes the address of its operand (if possible):</p>
-<pre><code class=language-odin data-lang=odin>i := 123;
-p := &amp;i;
+<pre><code class=language-odin data-lang=odin>i := 123
+p := &amp;i
 </code></pre><p>The <code>^</code> operator dereferences the pointer&rsquo;s underlying value:</p>
 <pre><code class=language-odin data-lang=odin>fmt.println(p^) // read  i through the pointer p
-p^ = 1337;       // write i through the pointer p
+p^ = 1337       // write i through the pointer p
 </code></pre><p><strong>Note:</strong> C programmers may be used to using <code>*</code> to denote pointers. In Odin, the <code>^</code> syntax is borrowed from Pascal. This is to keep the convention of the type on the left and its usage on the right:</p>
 <pre><code class=language-odin data-lang=odin>p: ^int // ^ on the left
-x := p^; // ^ on the right
+x := p^ // ^ on the right
 </code></pre><p><strong>Note:</strong> Unlike C, Odin has no pointer arithmetic. If you need a form of pointer arithmetic, please use the <code>ptr_offset</code> and <code>ptr_sub</code> procedures in the <code>"core:mem"</code> package.</p>
 <h3 id=structs>Structs <a class=text-decoration-none href=#structs>#</a></h3>
 <p>A <code>struct</code> is a record type in Odin. It is a collection of fields. Struct fields are accessed by using a dot:</p>
@@ -1693,7 +1693,7 @@ v_soa[0].y = 4
 v_soa[0].z = 9
 </code></pre><h4 id=soa-struct-slices-and-dynamic-arrays>SOA Struct Slices and Dynamic Arrays <a class=text-decoration-none href=#soa-struct-slices-and-dynamic-arrays>#</a></h4>
 <p>Fixed-length SOA types can be sliced to produce SOA slices.</p>
-<pre><code class=language-odin data-lang=odin>Vector3 :: struct {x: i8, y: i16, z: f32};
+<pre><code class=language-odin data-lang=odin>Vector3 :: struct {x: i8, y: i16, z: f32}
 
 N :: 3
 v: #soa[N]Vector3
@@ -1711,7 +1711,7 @@ a := s[1:2]
 assert(len(a) == 1)
 fmt.println(a)
 </code></pre><p>To be complete with SOA slices, Odin also supports SOA dynamic arrays.</p>
-<pre><code class=language-odin data-lang=odin>d: #soa[dynamic]Vector3;
+<pre><code class=language-odin data-lang=odin>d: #soa[dynamic]Vector3
 
 append_soa(&amp;d, Vector3{1, 2, 3}, Vector3{4, 5, 9}, Vector3{-4, -4, 3})
 fmt.println(d)
@@ -2009,7 +2009,7 @@ assert(i == 456)
 	Something_Worse,
 	The_Worst,
 	Your_Mum,
-};
+}
 
 caller_1 :: proc() -&gt; Error {
 	return .None
@@ -2613,12 +2613,12 @@ x.y(x, 123)
 <h4 id=private><code>@(private)</code> <a class=text-decoration-none href=#private>#</a></h4>
 <p>Prevents a top level element from being exported with the package.</p>
 <pre><code class=language-odin data-lang=odin>@(private)
-my_variable: int; // cannot be accessed outside this package.
+my_variable: int // cannot be accessed outside this package.
 @private // parenthesis can be dropped on no arguments  
 my_other_variable: int
 </code></pre><p>You may also make an entity private to <em>the file</em> instead of the package.</p>
 <pre><code class=language-odin data-lang=odin>@(private=&quot;file&quot;)
-my_variable: int; // cannot be accessed outside this file.
+my_variable: int // cannot be accessed outside this file.
 </code></pre><p><code>@(private)</code> is equivalent to <code>@(private="package")</code>.</p>
 <p>Using <code>//+private</code> in a file at the package declaration will automatically add <code>@(private)</code> to everything in the file</p>
 <pre><code class=language-odin data-lang=odin>//+private

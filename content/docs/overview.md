@@ -123,6 +123,15 @@ y, z: int // declares y and z to have type `int`
 
 Variables are initialized to zero by default unless specified otherwise.
 
+**Note:** Declarations have to be *unique* within a scope.
+
+```odin
+x := 10
+x := 20 // Redeclaration of 'x' in this scope
+y, z := 20, 30
+test, z := 20, 30 // not allowed since "z" exists already
+```
+
 ## Assignment statements
 
 The assignment statement assigns a new value to a variable/location:
@@ -165,7 +174,7 @@ Odin programs consist of packages. A package is a directory of Odin code files, 
 
 ### `import` statement
 
-The following program imports the the `fmt` and `os` packages from the `core` library collection.
+The following program imports the `fmt` and `os` packages from the `core` library collection.
 
 ```odin
 package main

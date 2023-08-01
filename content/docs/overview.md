@@ -567,7 +567,7 @@ for cond {
 		}
 	}
 
-	break; // break out of the `for` statement
+	break // break out of the `for` statement
 }
 
 loop: for cond1 {
@@ -1738,20 +1738,20 @@ p: ^int
 ```
 The `&` operator takes the address of its operand (if possible):
 ```odin
-i := 123;
-p := &i;
+i := 123
+p := &i
 ```
 
 The `^` operator dereferences the pointer's underlying value:
 ```odin
 fmt.println(p^) // read  i through the pointer p
-p^ = 1337;       // write i through the pointer p
+p^ = 1337       // write i through the pointer p
 ```
 
 **Note:** C programmers may be used to using `*` to denote pointers. In Odin, the `^` syntax is borrowed from Pascal. This is to keep the convention of the type on the left and its usage on the right:
 ```odin
 p: ^int // ^ on the left
-x := p^; // ^ on the right
+x := p^ // ^ on the right
 ```
 
 **Note:** Unlike C, Odin has no pointer arithmetic. If you need a form of pointer arithmetic, please use the `ptr_offset` and `ptr_sub` procedures in the `"core:mem"` package.
@@ -2135,7 +2135,7 @@ v_soa[0].z = 9
 Fixed-length SOA types can be sliced to produce SOA slices.
 
 ```odin
-Vector3 :: struct {x: i8, y: i16, z: f32};
+Vector3 :: struct {x: i8, y: i16, z: f32}
 
 N :: 3
 v: #soa[N]Vector3
@@ -2157,7 +2157,7 @@ fmt.println(a)
 To be complete with SOA slices, Odin also supports SOA dynamic arrays.
 
 ```odin
-d: #soa[dynamic]Vector3;
+d: #soa[dynamic]Vector3
 
 append_soa(&d, Vector3{1, 2, 3}, Vector3{4, 5, 9}, Vector3{-4, -4, 3})
 fmt.println(d)
@@ -2537,7 +2537,7 @@ Error :: enum {
 	Something_Worse,
 	The_Worst,
 	Your_Mum,
-};
+}
 
 caller_1 :: proc() -> Error {
 	return .None
@@ -3225,7 +3225,7 @@ Attributes modify the compilation details or behaviour of declarations.
 Prevents a top level element from being exported with the package.
 ```odin
 @(private)
-my_variable: int; // cannot be accessed outside this package.
+my_variable: int // cannot be accessed outside this package.
 @private // parenthesis can be dropped on no arguments  
 my_other_variable: int
 ```
@@ -3233,7 +3233,7 @@ my_other_variable: int
 You may also make an entity private to _the file_ instead of the package.
 ```odin
 @(private="file")
-my_variable: int; // cannot be accessed outside this file.
+my_variable: int // cannot be accessed outside this file.
 ```
 `@(private)` is equivalent to `@(private="package")`.
 

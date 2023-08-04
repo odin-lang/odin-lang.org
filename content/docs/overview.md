@@ -2063,7 +2063,7 @@ a = raw_data(b[:])
 fmt.println(a, a[1], b) // 0x7FFCBE9FE688 20 [10, 20, 30]
 ``` 
 
-**Note:** The name of mutli-pointers may be subject to change.
+**Note:** The name of multi-pointers may be subject to change.
 
 ### SOA Data Types
 

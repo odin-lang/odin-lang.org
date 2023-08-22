@@ -383,17 +383,14 @@ A switch statement is another way to write a sequence of if-else statements. In 
 package main
 
 import "core:fmt"
-import "core:os"
 
-main :: proc() {
-	switch arch := ODIN_ARCH; arch {
-	case .i386, .wasm32:
-		fmt.println("32 bit")
-	case .amd64, .wasm64, .arm64:
-		fmt.println("64 bit")
-	case .Unknown:
-		fmt.println("Unknown architecture")
-	}
+switch arch := ODIN_ARCH; arch {
+case .i386, .wasm32, .arm32:
+	fmt.println("32 bit")
+case .amd64, .wasm64p32, .arm64:
+	fmt.println("64 bit")
+case .Unknown:
+	fmt.println("Unknown architecture")
 }
 ```
 Odin's `switch` is like the one in C or C++, except that Odin only runs the selected case. This means that a `break` statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.
@@ -426,7 +423,7 @@ case:
 A `switch` statement can also use ranges like a range-based loop:
 ```odin
 switch c {
-case 'A'..'Z', 'a'..'z', '0'..'9':
+case 'A'..='Z', 'a'..='z', '0'..='9':
 	fmt.println("c is alphanumeric")
 }
 

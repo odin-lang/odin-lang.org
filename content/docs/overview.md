@@ -380,10 +380,6 @@ if x := foo(); x < 0 {
 A switch statement is another way to write a sequence of if-else statements. In Odin, the default case is denoted as a case without any expression.
 
 ```odin
-package main
-
-import "core:fmt"
-
 switch arch := ODIN_ARCH; arch {
 case .i386, .wasm32, .arm32:
 	fmt.println("32 bit")

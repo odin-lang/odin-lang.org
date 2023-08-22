@@ -326,11 +326,7 @@ for key, value in some_map {
 }
 </code></pre><h3 id=switch-statement><code>switch</code> statement <a class=text-decoration-none href=#switch-statement>#</a></h3>
 <p>A switch statement is another way to write a sequence of if-else statements. In Odin, the default case is denoted as a case without any expression.</p>
-<pre><code class=language-odin data-lang=odin>package main
-
-import &quot;core:fmt&quot;
-
-switch arch := ODIN_ARCH; arch {
+<pre><code class=language-odin data-lang=odin>switch arch := ODIN_ARCH; arch {
 case .i386, .wasm32, .arm32:
 	fmt.println(&quot;32 bit&quot;)
 case .amd64, .wasm64p32, .arm64:

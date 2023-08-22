@@ -329,17 +329,14 @@ for key, value in some_map {
 <pre><code class=language-odin data-lang=odin>package main
 
 import &quot;core:fmt&quot;
-import &quot;core:os&quot;
 
-main :: proc() {
-	switch arch := ODIN_ARCH; arch {
-	case .i386, .wasm32:
-		fmt.println(&quot;32 bit&quot;)
-	case .amd64, .wasm64, .arm64:
-		fmt.println(&quot;64 bit&quot;)
-	case .Unknown:
-		fmt.println(&quot;Unknown architecture&quot;)
-	}
+switch arch := ODIN_ARCH; arch {
+case .i386, .wasm32, .arm32:
+	fmt.println(&quot;32 bit&quot;)
+case .amd64, .wasm64p32, .arm64:
+	fmt.println(&quot;64 bit&quot;)
+case .Unknown:
+	fmt.println(&quot;Unknown architecture&quot;)
 }
 </code></pre><p>Odin&rsquo;s <code>switch</code> is like the one in C or C++, except that Odin only runs the selected case. This means that a <code>break</code> statement is not needed at the end of each case. Another important difference is that the case values need not be integers nor constants.</p>
 <p>To achieve a C-like fall through into the next case block, the keyword <a href=#fallthrough-statement><code>fallthrough</code></a> can be used.</p>
@@ -360,7 +357,7 @@ case:
 }
 </code></pre><p>A <code>switch</code> statement can also use ranges like a range-based loop:</p>
 <pre><code class=language-odin data-lang=odin>switch c {
-case 'A'..'Z', 'a'..'z', '0'..'9':
+case 'A'..='Z', 'a'..='z', '0'..='9':
 	fmt.println(&quot;c is alphanumeric&quot;)
 }
 

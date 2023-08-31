@@ -919,9 +919,9 @@ for codepoint, index in x {
 // by bytes - string length is in bytes
 for index in 0..<len(x) {
 	fmt.println(index, x[index])
-	// 0 A
-	// 1 B
-	// 2 C
+	// 0 65
+	// 1 66
+	// 2 67
 }
 ```
 

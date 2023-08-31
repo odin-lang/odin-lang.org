@@ -392,13 +392,13 @@ case .D: fmt.println(&quot;D&quot;)
 </code></pre><p>With <code>union</code> types (see <a href=#type-switch-statement>Type switch statement</a>)</p>
 <pre><code class=language-odin data-lang=odin>Foo :: union {int, bool}
 f: Foo = 123
-switch in f {
+switch _ in f {
 case int:  fmt.println(&quot;int&quot;)
 case bool: fmt.println(&quot;bool&quot;)
 case:
 }
 
-#partial switch in f {
+#partial switch _ in f {
 case bool: fmt.println(&quot;bool&quot;)
 }
 </code></pre><h3 id=defer-statement><code>defer</code> statement <a class=text-decoration-none href=#defer-statement>#</a></h3>

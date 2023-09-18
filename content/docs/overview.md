@@ -110,15 +110,15 @@ x: int = 1.0 // A float literal but it can be represented by an integer without 
 
 Constant literals are "untyped" which means that they can implicitly convert to a type.
 ```odin
-x: int // `x` is typed of type `int`
+x: int // `x` is typed as being of type `int`
 x = 1 // `1` is an untyped integer literal which can implicitly convert to `int`
 ```
 
 ## Variable declarations
 A variable declaration declares a new variable for the current scope.
 ```odin
-x: int // declares x to have type `int`
-y, z: int // declares y and z to have type `int`
+x: int // declares `x` to have type `int`
+y, z: int // declares `y` and `z` to have type `int`
 ```
 
 Variables are initialized to zero by default unless specified otherwise.
@@ -127,9 +127,9 @@ Variables are initialized to zero by default unless specified otherwise.
 
 ```odin
 x := 10
-x := 20 // Redeclaration of 'x' in this scope
+x := 20 // Redeclaration of `x` in this scope
 y, z := 20, 30
-test, z := 20, 30 // not allowed since "z" exists already
+test, z := 20, 30 // not allowed since `z` exists already
 ```
 
 ## Assignment statements
@@ -204,13 +204,13 @@ All declarations in a package are exported by default.
 The `private` attribute can be applied to an entity to prevent it from being exported from a package.
 ```odin
 @(private)
-my_variable: int // cannot be accessed outside this package.
+my_variable: int // cannot be accessed outside this package
 ```
 
 You may also make an entity private to _the file_ instead of the package.
 ```odin
 @(private="file")
-my_variable: int // cannot be accessed outside this file.
+my_variable: int // cannot be accessed outside this file
 ```
 `@(private)` is equivalent to `@(private="package")`.
 
@@ -1746,8 +1746,8 @@ p := &i
 
 The `^` operator dereferences the pointer's underlying value:
 ```odin
-fmt.println(p^) // read  i through the pointer p
-p^ = 1337       // write i through the pointer p
+fmt.println(p^) // read `i` through the pointer `p`
+p^ = 1337       // write `i` through the pointer `p`
 ```
 
 **Note:** C programmers may be used to using `*` to denote pointers. In Odin, the `^` syntax is borrowed from Pascal. This is to keep the convention of the type on the left and its usage on the right:
@@ -1838,7 +1838,7 @@ case bool:
 
 case i32, f32:
 	// This case allows for multiple types, therefore we cannot know which type to use
-	// `v` remains the original union value.
+	// `v` remains the original union value
 	#assert(type_of(v) == Value)
 case:
 	// Default case
@@ -2183,7 +2183,7 @@ s := soa_zip(a=x, b=y, c=z)
 // iterate over the #soa slice
 for v, i in s {
 	fmt.println(v, i) // exactly the same as s[i]
-	// NOTE: 'v' is NOT a temporary value but has a specialized addressing mode
+	// NOTE: `v` is NOT a temporary value but has a specialized addressing mode
 	// which means that when accessing v.a etc, it does the correct transformation
 	// internally:
 	//         s[i].a === s.a[i]
@@ -2264,10 +2264,10 @@ m := matrix[4, 4]f32{
 
 v := [4]f32{1, 5, 4, 3}
 
-// treating 'v' as a column vector
+// treating `v` as a column vector
 fmt.println("m * v", m * v)
 
-// treating 'v' as a row vector
+// treating `v` as a row vector
 fmt.println("v * m", v * m)
 
 // Support with non-square matrices
@@ -2508,7 +2508,7 @@ ok: bool
 if i, ok = m["hellope"]; !ok {
 	i = 123
 }
-// The above can be mapped to 'or_else'
+// The above can be mapped to `or_else`
 i = m["hellope"] or_else 123
 
 assert(i == 123)
@@ -2570,7 +2570,7 @@ foo_1 :: proc() -> Error {
 		return err1
 	}
 
-	// Multiple return values still work with 'or_return' as it only
+	// Multiple return values still work with `or_return` as it only
 	// pops off the end value in the multi-valued expression
 	n0, n1 = caller_3() or_return
 
@@ -2578,9 +2578,9 @@ foo_1 :: proc() -> Error {
 }
 foo_2 :: proc() -> (n: int, err: Error) {
 	// It is more common that your procedure returns multiple values
-	// If 'or_return' is used within a procedure that returns multiple 
+	// If `or_return` is used within a procedure that returns multiple 
 	// values (2+), then all the returned values must be named 
-	// so that a bare 'return' statement can be used
+	// so that a bare `return` statement can be used
 
 	// This can be a common idiom in many code bases
 	x: int
@@ -2602,14 +2602,14 @@ foo_2 :: proc() -> (n: int, err: Error) {
 		return
 	}
 
-	// If using a non-bare 'return' statement is required, setting the return values
-	// using the normal idiom is a better choice and clearer to read.
+	// If using a non-bare `return` statement is required, setting the return values
+	// using the normal idiom is a better choice and clearer to read
 	if z, zerr := caller_2(); zerr != nil {
 		return -345 * z, zerr
 	}
 
 	// If the other return values need to be set depending on what the end value is,
-	// the 'defer if' idiom is can be used
+	// the `defer if` idiom can be used
 	defer if err != nil {
 		n = -1
 	}
@@ -2707,13 +2707,13 @@ This is how you define those.
 You may define a constant using the `-define` command line switch. e.g: `-define:FOO=true`.
 You can then fetch its value as a constant in your code like this:
 ```odin
-FOO :: #config(FOO, false) // defines FOO as a constant with the default value of false
+FOO :: #config(FOO, false) // defines `FOO` as a constant with the default value of false
 BAR :: #config(BAR_DEBUG, true) // name can be different compared to the constant 
 
 when FOO {
-	// only evaluated when FOO is true
+	// only evaluated when `FOO` is true
 } else {
-	// only evaluate when FOO is false
+	// only evaluate when `FOO` is false
 }
 ```
 The value for a command line define may be an integer, boolean, or string. Currently, no other types are supported.
@@ -3066,7 +3066,7 @@ Implicit implies that the type of a parameter is inferred from its input. In thi
 ```odin
 foo :: proc($N: $I, $T: typeid) -> (res: [N]T) {
 	// `N` is the constant value passed
-	// `I` is the type of N
+	// `I` is the type of `N`
 	// `T` is the type passed
 	fmt.printf("Generating an array of type %v from the value %v of type %v\n",
 			   typeid_of(type_of(res)), N, typeid_of(I))
@@ -3227,7 +3227,7 @@ Attributes modify the compilation details or behaviour of declarations.
 Prevents a top level element from being exported with the package.
 ```odin
 @(private)
-my_variable: int // cannot be accessed outside this package.
+my_variable: int // cannot be accessed outside this package
 @private // parenthesis can be dropped on no arguments  
 my_other_variable: int
 ```
@@ -3235,7 +3235,7 @@ my_other_variable: int
 You may also make an entity private to _the file_ instead of the package.
 ```odin
 @(private="file")
-my_variable: int // cannot be accessed outside this file.
+my_variable: int // cannot be accessed outside this file
 ```
 `@(private)` is equivalent to `@(private="package")`.
 
@@ -3771,7 +3771,7 @@ for _, j in foos {
 
 // By-reference range-based through pointer
 for &v, j in foos {
-	using v // v is now a variable reference as `foos` was passed by pointer
+	using v // `v` is now a variable reference as `foos` was passed by pointer
 	fmt.println(j, foo, f, i)
 }
 ```

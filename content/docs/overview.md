@@ -35,6 +35,42 @@ Odin thinks in terms of directory-based packages. To tell it to treat a single f
 odin run hellope.odin -file
 ```
 
+### Command Line Help
+
+For most `odin` subcommands, you can use the `--help` flag after the subcommand for more details:
+
+```
+> odin test --help
+
+odin is a tool for managing Odin source code
+Usage:
+    odin test [arguments]
+
+    test      Build and runs procedures with the attribute @(test) in the initial package
+
+    Flags
+
+	# ...
+```
+
+Or:
+```
+> odin check --help
+odin is a tool for managing Odin source code
+Usage:
+    odin check [arguments]
+
+    check   Parse and type check directory of .odin files
+        Examples:
+            odin check .                    # Type check package in current directory
+            odin check <dir>                # Type check package in <dir>
+            odin check filename.odin -file  # Type check single-file package, must contain entry point.
+
+    Flags
+
+	# ...
+```
+
 ## Lexical elements and literals
 ### Comments
 Comments can be anywhere outside of a string or character literal. Single line comments begin with `//`:
@@ -3806,6 +3842,36 @@ if !ok do fmt.println("3/2 isn't an int")
 n := halve(4).? or_else 0
 fmt.println(n)                   // 2
 ```
+
+#### Testing
+
+Odin includes [a "core:testing" package](https://pkg.odin-lang.org/core/testing/) for unit testing purposes.
+
+A minimalist example test:
+
+```odin
+// tests/test_code.odin
+
+package test_code
+
+import "core:testing"
+
+@test
+test_that_hello_world_equals :: proc(t: ^testing.T) {
+	expected := "Hello, World!"
+
+	// More likely this is a call to a function you want to test
+	result := "Goodbye, Mars!"
+
+	testing.expect_value(t, result, expected)
+}
+```
+
+You can run this test using `odin test tests/`. Any tests in the given directory that are annotated with `@test` will be run. You can also run a single test file using `odin test tests/test_code.odin -file`.
+
+**Note:** Odin files ending in `_test.odin` are only compiled when building/running tests with `odin test`. Your test files are not required to have this filename suffix to run with `odin test`, but you can use it to prevent code from building included during normal `odin build` or `odin run` commands. This filename suffix is similar to `_windows.odin` files, which will only be compiled if the target OS is Windows.
+
+If you'd like to refer to good example tests, see [Odin/tests](https://github.com/odin-lang/Odin/tree/master/tests) and [ols/tests](https://github.com/DanielGavin/ols/tree/master/tests).
 
 ### Advanced idioms
 

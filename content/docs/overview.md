@@ -2663,9 +2663,9 @@ A couple of ways are provided for doing this, and each of them have their uses.
 
 Often, you want to separate multiple implementations of a package based on the OS or the architecture.
 
-Your .odin files can have a magic suffix that will cause the compiler to either include or exclude them based on the target platform or architecture, or both.
+Your `.odin` files can have a magic suffix that will cause the compiler to either include or exclude them based on the target platform or architecture, or both.
 
-For example, `foobar_windows.odin` would only be compiled on Windows, `foobar_linux.odin` only on Linux, and `foobar_windows_amd64.odin` only on Windows AMD64.
+For example, `foobar_windows.odin` would only be compiled on Windows, `foobar_linux.odin` only on Linux, `foobar_windows_amd64.odin` only on Windows AMD64, and `foobar_test.odin` only runs during testing.
 
 ### `when` statements
 
@@ -2761,7 +2761,8 @@ You can read up further on [Built-in procedures](#configidentifer-default) here.
 This feature allows you to cover more edge-case situations where you want some code to be compiled on several platforms.
 
 However, overly-liberal use of this feature can make it hard to reason about what code is included or not, based on the target platform or architecture.
-[File Suffixes](#File-Suffixes) are typically a nicer approach if they cover what you need.
+
+[File suffixes](#file-suffixes) are typically a nicer approach if they cover what you need.
 
 For the sake of demonstration, let's take POSIX: You could use `foobar_unix.odin`, which has no special meaning to the compiler at all, and use a tag in the file itself.
 
@@ -3869,7 +3870,7 @@ test_that_hello_world_equals :: proc(t: ^testing.T) {
 
 You can run this test using `odin test tests/`. Any tests in the given directory that are annotated with `@test` will be run. You can also run a single test file using `odin test tests/test_code.odin -file`.
 
-**Note:** Odin files ending in `_test.odin` are only compiled when building/running tests with `odin test`. Your test files are not required to have this filename suffix to run with `odin test`, but you can use it to prevent code from building included during normal `odin build` or `odin run` commands. This filename suffix is similar to `_windows.odin` files, which will only be compiled if the target OS is Windows.
+You may also use the [`_test` file suffix](#file-suffixes) to only include a file in the build when testing. e.g: `foo_test.odin`. Just like other file suffixes, this means that the file will only be analyzed when you are running `odin test`.
 
 If you'd like to refer to good example tests, see [Odin/tests](https://github.com/odin-lang/Odin/tree/master/tests) and [ols/tests](https://github.com/DanielGavin/ols/tree/master/tests).
 

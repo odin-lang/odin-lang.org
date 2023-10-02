@@ -9,5 +9,9 @@
 	
 	<div class="card-body">
 		<p class="card-text">{{ index .Params 0 }}</p>
+
+		{{ if isset .Params 2 }}
+			<a class="mx-2 btn btn-outline-primary" target="_blank" rel="noreferrer noopener" href={{ index .Params 2 }}>{{ index .Params 3 }}</a>
+		{{ end }}
 	</div>
 </div>

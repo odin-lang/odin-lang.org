@@ -6,7 +6,7 @@ weight: 2
 
 ## Introduction
 
-This article is a basic tutorial for the programming language _Odin_. This tutorial assumes a basic knowledge of programming concepts such as variables, statements, and types. It is recommended to read the [Getting started with Odin](https://github.com/odin-lang/Odin/wiki#getting-started-with-odin) guide.
+This article is a basic tutorial for the programming language _Odin_. This tutorial assumes a basic knowledge of programming concepts such as variables, statements, and types. It is recommended to read the [Getting started with Odin](/docs/install/) guide.
 
 ## Hellope!
 

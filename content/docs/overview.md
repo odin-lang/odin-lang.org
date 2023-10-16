@@ -3868,11 +3868,11 @@ test_that_hello_world_equals :: proc(t: ^testing.T) {
 }
 ```
 
-You can run this test using `odin test tests/`. Any tests in the given directory that are annotated with `@test` will be run. You can also run a single test file using `odin test tests/test_code.odin -file`.
+You can run this test using `odin test tests/`. Any procedures in the given directory that are annotated with `@test` will be run. You can also run a single test file using `odin test tests/test_code.odin -file`.
 
 You may also use the [`_test` file suffix](#file-suffixes) to only include a file in the build when testing. e.g: `foo_test.odin`. Just like other file suffixes, this means that the file will only be analyzed when you are running `odin test`.
 
-If you'd like to refer to good example tests, see [Odin/tests](https://github.com/odin-lang/Odin/tree/master/tests) and [ols/tests](https://github.com/DanielGavin/ols/tree/master/tests).
+If you'd like to refer to good example tests, see [Odin/tests](https://github.com/odin-lang/Odin/tree/master/tests). The [unofficial language server](https://github.com/DanielGavin/ols/tree/master/tests) also has tests which could be could be worth a look.
 
 ### Advanced idioms
 

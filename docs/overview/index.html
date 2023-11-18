@@ -158,18 +158,18 @@ len(some_string)
 <p>In Odin, if a number constant can be represented by a type without precision loss, it will automatically convert to that type.</p>
 <pre><code class=language-odin data-lang=odin>x: int = 1.0 // A float literal but it can be represented by an integer without precision loss
 </code></pre><p>Constant literals are &ldquo;untyped&rdquo; which means that they can implicitly convert to a type.</p>
-<pre><code class=language-odin data-lang=odin>x: int // `x` is typed of type `int`
+<pre><code class=language-odin data-lang=odin>x: int // `x` is typed as being of type `int`
 x = 1 // `1` is an untyped integer literal which can implicitly convert to `int`
 </code></pre><h2 id=variable-declarations>Variable declarations <a class=text-decoration-none href=#variable-declarations>#</a></h2>
 <p>A variable declaration declares a new variable for the current scope.</p>
-<pre><code class=language-odin data-lang=odin>x: int // declares x to have type `int`
-y, z: int // declares y and z to have type `int`
+<pre><code class=language-odin data-lang=odin>x: int // declares `x` to have type `int`
+y, z: int // declares `y` and `z` to have type `int`
 </code></pre><p>Variables are initialized to zero by default unless specified otherwise.</p>
 <p><strong>Note:</strong> Declarations have to be <em>unique</em> within a scope.</p>
 <pre><code class=language-odin data-lang=odin>x := 10
-x := 20 // Redeclaration of 'x' in this scope
+x := 20 // Redeclaration of `x` in this scope
 y, z := 20, 30
-test, z := 20, 30 // not allowed since &quot;z&quot; exists already
+test, z := 20, 30 // not allowed since `z` exists already
 </code></pre><h2 id=assignment-statements>Assignment statements <a class=text-decoration-none href=#assignment-statements>#</a></h2>
 <p>The assignment statement assigns a new value to a variable/location:</p>
 <pre><code class=language-odin data-lang=odin>x: int = 123 // declares a new variable `x` with type `int` and assigns a value to it
@@ -209,10 +209,10 @@ import foo &quot;core:fmt&quot; // reference a package by a different name
 <p>All declarations in a package are exported by default.</p>
 <p>The <code>private</code> attribute can be applied to an entity to prevent it from being exported from a package.</p>
 <pre><code class=language-odin data-lang=odin>@(private)
-my_variable: int // cannot be accessed outside this package.
+my_variable: int // cannot be accessed outside this package
 </code></pre><p>You may also make an entity private to <em>the file</em> instead of the package.</p>
 <pre><code class=language-odin data-lang=odin>@(private=&quot;file&quot;)
-my_variable: int // cannot be accessed outside this file.
+my_variable: int // cannot be accessed outside this file
 </code></pre><p><code>@(private)</code> is equivalent to <code>@(private="package")</code>.</p>
 <h3 id=authoring-a-package>Authoring a package <a class=text-decoration-none href=#authoring-a-package>#</a></h3>
 <p>A package is a directory of Odin code files, all of which have the same package declaration at the top, e.g. <code>package main</code>. Each .odin file <em>must</em> have the same package name. A directory cannot contain more than 1 package.</p>
@@ -1408,8 +1408,8 @@ assert(count == 2)
 <pre><code class=language-odin data-lang=odin>i := 123
 p := &amp;i
 </code></pre><p>The <code>^</code> operator dereferences the pointer&rsquo;s underlying value:</p>
-<pre><code class=language-odin data-lang=odin>fmt.println(p^) // read  i through the pointer p
-p^ = 1337       // write i through the pointer p
+<pre><code class=language-odin data-lang=odin>fmt.println(p^) // read `i` through the pointer `p`
+p^ = 1337       // write `i` through the pointer `p`
 </code></pre><p><strong>Note:</strong> C programmers may be used to using <code>*</code> to denote pointers. In Odin, the <code>^</code> syntax is borrowed from Pascal. This is to keep the convention of the type on the left and its usage on the right:</p>
 <pre><code class=language-odin data-lang=odin>p: ^int // ^ on the left
 x := p^ // ^ on the right
@@ -1475,7 +1475,7 @@ case bool:
 
 case i32, f32:
 	// This case allows for multiple types, therefore we cannot know which type to use
-	// `v` remains the original union value.
+	// `v` remains the original union value
 	#assert(type_of(v) == Value)
 case:
 	// Default case
@@ -1723,7 +1723,7 @@ s := soa_zip(a=x, b=y, c=z)
 // iterate over the #soa slice
 for v, i in s {
 	fmt.println(v, i) // exactly the same as s[i]
-	// NOTE: 'v' is NOT a temporary value but has a specialized addressing mode
+	// NOTE: `v` is NOT a temporary value but has a specialized addressing mode
 	// which means that when accessing v.a etc, it does the correct transformation
 	// internally:
 	//         s[i].a === s.a[i]
@@ -1780,10 +1780,10 @@ fmt.tprintln(&quot;c = a * b&quot;, c)
 
 v := [4]f32{1, 5, 4, 3}
 
-// treating 'v' as a column vector
+// treating `v` as a column vector
 fmt.println(&quot;m * v&quot;, m * v)
 
-// treating 'v' as a row vector
+// treating `v` as a row vector
 fmt.println(&quot;v * m&quot;, v * m)
 
 // Support with non-square matrices
@@ -1980,7 +1980,7 @@ ok: bool
 if i, ok = m[&quot;hellope&quot;]; !ok {
 	i = 123
 }
-// The above can be mapped to 'or_else'
+// The above can be mapped to `or_else`
 i = m[&quot;hellope&quot;] or_else 123
 
 assert(i == 123)
@@ -2033,7 +2033,7 @@ foo_1 :: proc() -&gt; Error {
 		return err1
 	}
 
-	// Multiple return values still work with 'or_return' as it only
+	// Multiple return values still work with `or_return` as it only
 	// pops off the end value in the multi-valued expression
 	n0, n1 = caller_3() or_return
 
@@ -2041,9 +2041,9 @@ foo_1 :: proc() -&gt; Error {
 }
 foo_2 :: proc() -&gt; (n: int, err: Error) {
 	// It is more common that your procedure returns multiple values
-	// If 'or_return' is used within a procedure that returns multiple 
+	// If `or_return` is used within a procedure that returns multiple 
 	// values (2+), then all the returned values must be named 
-	// so that a bare 'return' statement can be used
+	// so that a bare `return` statement can be used
 
 	// This can be a common idiom in many code bases
 	x: int
@@ -2065,14 +2065,14 @@ foo_2 :: proc() -&gt; (n: int, err: Error) {
 		return
 	}
 
-	// If using a non-bare 'return' statement is required, setting the return values
-	// using the normal idiom is a better choice and clearer to read.
+	// If using a non-bare `return` statement is required, setting the return values
+	// using the normal idiom is a better choice and clearer to read
 	if z, zerr := caller_2(); zerr != nil {
 		return -345 * z, zerr
 	}
 
 	// If the other return values need to be set depending on what the end value is,
-	// the 'defer if' idiom is can be used
+	// the `defer if` idiom can be used
 	defer if err != nil {
 		n = -1
 	}
@@ -2220,13 +2220,13 @@ main :: proc() {
 This is how you define those.</p>
 <p>You may define a constant using the <code>-define</code> command line switch. e.g: <code>-define:FOO=true</code>.
 You can then fetch its value as a constant in your code like this:</p>
-<pre><code class=language-odin data-lang=odin>FOO :: #config(FOO, false) // defines FOO as a constant with the default value of false
+<pre><code class=language-odin data-lang=odin>FOO :: #config(FOO, false) // defines `FOO` as a constant with the default value of false
 BAR :: #config(BAR_DEBUG, true) // name can be different compared to the constant 
 
 when FOO {
-	// only evaluated when FOO is true
+	// only evaluated when `FOO` is true
 } else {
-	// only evaluate when FOO is false
+	// only evaluate when `FOO` is false
 }
 </code></pre><p>The value for a command line define may be an integer, boolean, or string. Currently, no other types are supported.</p>
 <p>You can read up further on <a href=#configidentifer-default>Built-in procedures</a> here.</p>
@@ -2476,7 +2476,7 @@ r = Error.Foo0
 <h4 id=procedures-using-implicit-parametric-polymorphism-parapoly>Procedures using implicit parametric polymorphism (parapoly) <a class=text-decoration-none href=#procedures-using-implicit-parametric-polymorphism-parapoly>#</a></h4>
 <pre><code class=language-odin data-lang=odin>foo :: proc($N: $I, $T: typeid) -&gt; (res: [N]T) {
 	// `N` is the constant value passed
-	// `I` is the type of N
+	// `I` is the type of `N`
 	// `T` is the type passed
 	fmt.printf(&quot;Generating an array of type %v from the value %v of type %v\n&quot;,
 			   typeid_of(type_of(res)), N, typeid_of(I))
@@ -2606,12 +2606,12 @@ x.y(x, 123)
 <h4 id=private><code>@(private)</code> <a class=text-decoration-none href=#private>#</a></h4>
 <p>Prevents a top level element from being exported with the package.</p>
 <pre><code class=language-odin data-lang=odin>@(private)
-my_variable: int // cannot be accessed outside this package.
+my_variable: int // cannot be accessed outside this package
 @private // parenthesis can be dropped on no arguments  
 my_other_variable: int
 </code></pre><p>You may also make an entity private to <em>the file</em> instead of the package.</p>
 <pre><code class=language-odin data-lang=odin>@(private=&quot;file&quot;)
-my_variable: int // cannot be accessed outside this file.
+my_variable: int // cannot be accessed outside this file
 </code></pre><p><code>@(private)</code> is equivalent to <code>@(private="package")</code>.</p>
 <p>Using <code>//+private</code> in a file at the package declaration will automatically add <code>@(private)</code> to everything in the file</p>
 <pre><code class=language-odin data-lang=odin>//+private
@@ -2965,7 +2965,7 @@ for _, j in foos {
 
 // By-reference range-based through pointer
 for &amp;v, j in foos {
-	using v // v is now a variable reference as `foos` was passed by pointer
+	using v // `v` is now a variable reference as `foos` was passed by pointer
 	fmt.println(j, foo, f, i)
 }
 </code></pre><h4 id=defer-if>&lsquo;defer if&rsquo; <a class=text-decoration-none href=#defer-if>#</a></h4>

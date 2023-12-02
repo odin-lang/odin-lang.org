@@ -1557,9 +1557,9 @@ Short Example:
 import sa "core:container/small_array"
 
 x: sa.Small_Array(8, int)
-fmt.println(sa.len(x), sa.cap(x)) // 0, 8
+fmt.println(sa.len(x), sa.cap(x)) // 0 8
 sa.append(&x, 1, 2, 3) 
-fmt.println(sa.len(x), sa.cap(x)) // 3, 8
+fmt.println(sa.len(x), sa.cap(x)) // 3 8
 fmt.println(sa.slice(&x)) // [1, 2, 3]
 ```
 

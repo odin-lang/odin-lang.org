@@ -1263,16 +1263,16 @@ fmt.println(len(x)) // 0
 <li><a href=https://pkg.odin-lang.org/core/builtin/#shrink>shrink</a> will shrink the capacity of a dynamic array down to the current length, or the given capacity.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
-fmt.println(len(x), cap(x)) // 0, 0
+fmt.println(len(x), cap(x)) // 0 0
 append(&amp;x, 1, 2, 3) // [1, 2, 3]
-fmt.println(len(x), cap(x)) // 3, 8
+fmt.println(len(x), cap(x)) // 3 8
 resize(&amp;x, 5) 
 fmt.println(x[:]) // [1, 2, 3, 0, 0] other values are zero'd memory
-fmt.println(len(x), cap(x)) // 5, 8
+fmt.println(len(x), cap(x)) // 5 8
 reserve(&amp;x, 32)
-fmt.println(len(x), cap(x)) // 5, 32
+fmt.println(len(x), cap(x)) // 5 32
 shrink(&amp;x)
-fmt.println(len(x), cap(x)) // 5, 5
+fmt.println(len(x), cap(x)) // 5 5
 </code></pre><h4 id=small_arrayn-t-container-dynamic-array><code>Small_Array(N, T)</code> container dynamic array <a class=text-decoration-none href=#small_arrayn-t-container-dynamic-array>#</a></h4>
 <p>The <code>core</code> library also contains a container dynamic array <a href=https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin>Small_Array(N, T)</a>. It implements most dynamic array procedures while being able to remain on the stack.</p>
 <p>Short Example:</p>

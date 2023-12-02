@@ -1279,9 +1279,9 @@ fmt.println(len(x), cap(x)) // 5, 5
 <pre><code class=language-odin data-lang=odin>import sa &quot;core:container/small_array&quot;
 
 x: sa.Small_Array(8, int)
-fmt.println(sa.len(x), sa.cap(x)) // 0, 8
+fmt.println(sa.len(x), sa.cap(x)) // 0 8
 sa.append(&amp;x, 1, 2, 3) 
-fmt.println(sa.len(x), sa.cap(x)) // 3, 8
+fmt.println(sa.len(x), sa.cap(x)) // 3 8
 fmt.println(sa.slice(&amp;x)) // [1, 2, 3]
 </code></pre><h3 id=enumerations>Enumerations <a class=text-decoration-none href=#enumerations>#</a></h3>
 <p>Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:</p>

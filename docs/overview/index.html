@@ -1092,7 +1092,7 @@ for i in 0..=4 {
 </code></pre><p>The built-in <a href=https://pkg.odin-lang.org/core/builtin/#len><code>len</code></a> proc returns the array&rsquo;s length.</p>
 <pre><code class=language-odin data-lang=odin>x: [5]int
 #assert(len(x) == 5)
-</code></pre><p>Array access is always bounds checked (at compile-time and at runtime). This can be disabled and enabled at a per block level with the <code>#no_bounds_check</code> and <code>#bounds_check</code> directives, respectively:</p>
+</code></pre><p>Array access is bounds checked by default, both at compile-time (with constant indices) and at runtime. This can be disabled and enabled at a per block level with the <code>#no_bounds_check</code> and <code>#bounds_check</code> directives, respectively:</p>
 <pre><code class=language-odin data-lang=odin>#no_bounds_check {
 	x[n] = 123 // n could be in or out of range of valid indices
 }

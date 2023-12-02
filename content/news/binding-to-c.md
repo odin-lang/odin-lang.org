@@ -94,11 +94,11 @@ foreign foo {
 
 ### Static vs shared libraries
 
-Static libraries work the same in on every platform: you specify the relative paths of the library file in the .odin file you are importing it to.
+Static libraries work the same on every platform: you specify the relative paths of the library file in the .odin file you are importing it to.
 
 Dynamic/shared libraries are slightly different depending on which operating system you are using:
 
- - In Windows you link to an import lib (.lib) relative to the file you're importing from, and the user have to make sure the corresponding .dll is visible to the exectutable.
+ - In Windows you link to an import lib (.lib) relative to the file you're importing from, and the user has to make sure the corresponding .dll is visible to the exectutable.
  - In Linux you link directly to the shared object (.so) that is visible to the executable.
 
 Note that for local libraries and for system libraries in Windows you need to specify the full filename, including file extension. For system libraries in Linux you can omit the extension, and it will link to the appropriate library file available in the system library search paths.

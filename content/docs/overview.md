@@ -1271,7 +1271,7 @@ x: [5]int
 #assert(len(x) == 5)
 ```
 
-Array access is always bounds checked (at compile-time and at runtime). This can be disabled and enabled at a per block level with the `#no_bounds_check` and `#bounds_check` directives, respectively:
+Array access is bounds checked by default, both at compile-time (with constant indices) and at runtime. This can be disabled and enabled at a per block level with the `#no_bounds_check` and `#bounds_check` directives, respectively:
 
 ```odin
 #no_bounds_check {

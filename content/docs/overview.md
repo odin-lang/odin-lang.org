@@ -1536,16 +1536,16 @@ Often enough we also want to resize or reserve a specific amount for a dynamic a
 
 ```odin
 x: [dynamic]int
-fmt.println(len(x), cap(x)) // 0, 0
+fmt.println(len(x), cap(x)) // 0 0
 append(&x, 1, 2, 3) // [1, 2, 3]
-fmt.println(len(x), cap(x)) // 3, 8
+fmt.println(len(x), cap(x)) // 3 8
 resize(&x, 5) 
 fmt.println(x[:]) // [1, 2, 3, 0, 0] other values are zero'd memory
-fmt.println(len(x), cap(x)) // 5, 8
+fmt.println(len(x), cap(x)) // 5 8
 reserve(&x, 32)
-fmt.println(len(x), cap(x)) // 5, 32
+fmt.println(len(x), cap(x)) // 5 32
 shrink(&x)
-fmt.println(len(x), cap(x)) // 5, 5
+fmt.println(len(x), cap(x)) // 5 5
 ```
 
 #### `Small_Array(N, T)` container dynamic array

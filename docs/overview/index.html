@@ -262,7 +262,7 @@ for i &lt; 10 {
 for i in 0..=9 {
 	fmt.println(i)
 }
-</code></pre><p>where <code>a..=b</code> denotes a closed interval <code>[a,b]</code>, i.e. the upper limit is <em>inclusive</em>, and <code>a..&lt;b</code> denotes a half-open interval <code>[a,b]</code>, i.e. the upper limit is <em>exclusive</em>.</p>
+</code></pre><p>where <code>a..=b</code> denotes a closed interval <code>[a,b]</code>, i.e. the upper limit is <em>inclusive</em>, and <code>a..&lt;b</code> denotes a half-open interval <code>[a,b)</code>, i.e. the upper limit is <em>exclusive</em>.</p>
 <p>Certain built-in types can be iterated over:</p>
 <pre><code class=language-odin data-lang=odin>for character in some_string {
 	fmt.println(character)

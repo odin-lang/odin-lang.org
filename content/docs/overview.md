@@ -288,7 +288,7 @@ for i in 0..=9 {
 	fmt.println(i)
 }
 ```
-where `a..=b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b]`, i.e. the upper limit is *exclusive*.
+where `a..=b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclusive*, and `a..<b` denotes a half-open interval `[a,b)`, i.e. the upper limit is *exclusive*.
 
 Certain built-in types can be iterated over:
 ```odin

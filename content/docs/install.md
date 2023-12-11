@@ -56,7 +56,7 @@ There's a couple prerequisites here. First, make sure you have Visual Studio ins
 
 Now, it's time to build Odin and get started! Open the X64 Visual Studio command prompt ([if you don't typically use it, here's how to find it](https://docs.microsoft.com/en-us/dotnet/framework/tools/developer-command-prompt-for-vs)) and navigate to the directory where you downloaded Odin. Run the `build.bat` file, and you should have a successfully built Odin compiler!
 
-To use Odin `link.exe` is required to be in the PATH of the callee as mentioned, this can either be achieved but calling Odin from the X64 Visual Studio command prompt or by calling the vcvarsall.bat (with x64 as an argument) script either in your shell or in your build script.
+To use Odin `link.exe` is required to be in the PATH of the callee as mentioned, this can either be achieved by calling Odin from the X64 Visual Studio command prompt or by calling the vcvarsall.bat (with x64 as an argument) script either in your shell or in your build script.
 
 ### For MacOS
 Make sure all requirements for MacOS are installed, after installing LLVM through Homebrew make sure to add it to the PATH:

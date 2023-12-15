@@ -1621,8 +1621,7 @@ main :: proc() {
 	using Foo
 	a := A
 
-	using Bar :: enum {X, Y, Z}
-	x := X
+	
 }
 ```
 

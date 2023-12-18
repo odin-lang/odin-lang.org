@@ -295,7 +295,7 @@ ptr: ^int = new(int)
 free(ptr)
 ```
 
-`delete` deinitializes the the slice, dynamic array, map, and string types.
+`delete` deinitializes the slice, dynamic array, map, and string types.
 ```odin
 slice := make([]int, 10)
 delete(slice)

@@ -13,7 +13,7 @@ Odin is dead-simple to get started with!
 ## Clone or download Odin binaries
 You can either:
 
-Clone the repository `git clone https://github.com/odin-lang/Odin` (recommended).
+Clone the repository `git clone https://github.com/odin-lang/Odin.git` (recommended).
 
 Or download the latest binaries and add them to your path:
 

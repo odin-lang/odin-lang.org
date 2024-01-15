@@ -1808,11 +1808,11 @@ Foo :: struct {
 
 	bar_2: struct {
 		x, y, z: int,
-	}
+	},
 
 	_: struct {
 		x, y, z: int,
-	}
+	},
 }
 ```
 

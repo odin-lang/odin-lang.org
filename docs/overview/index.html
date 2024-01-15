@@ -1427,7 +1427,7 @@ fmt.println(v.x)
 p := &amp;v
 p.x = 1335
 fmt.println(v)
-</code></pre><p>We could write <code>p^.x</code>, however, it is to nice abstract the ability to not explicitly dereference the pointer. This is very useful when refactoring code to use a pointer rather than a value, and vice versa.</p>
+</code></pre><p>We could write <code>p^.x</code>, however, it is nice to not have to explicitly dereference the pointer. This is very useful when refactoring code to use a pointer rather than a value, and vice versa.</p>
 <h4 id=struct-literals>Struct literals <a class=text-decoration-none href=#struct-literals>#</a></h4>
 <p>A struct literal can be denoted by providing the struct&rsquo;s type followed by <code>{}</code>. A struct literal must either provide all the arguments or none:</p>
 <pre><code class=language-odin data-lang=odin>Vector3 :: struct {

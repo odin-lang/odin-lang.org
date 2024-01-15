@@ -1777,7 +1777,7 @@ p.x = 1335
 fmt.println(v)
 ```
 
-We could write `p^.x`, however, it is to nice abstract the ability to not explicitly dereference the pointer. This is very useful when refactoring code to use a pointer rather than a value, and vice versa.
+We could write `p^.x`, however, it is nice to not have to explicitly dereference the pointer. This is very useful when refactoring code to use a pointer rather than a value, and vice versa.
 
 #### Struct literals
 A struct literal can be denoted by providing the struct's type followed by `{}`. A struct literal must either provide all the arguments or none:

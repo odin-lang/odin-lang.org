@@ -1796,11 +1796,22 @@ assert(v.x == 0)
 assert(v.y == 2)
 assert(v.z == 1)
 ```
+
 Structs can be nested by defining a field as a struct.
 ```odin
 Foo :: struct {
-	bar: struct {
-		x, y, z: f32,
+	a, b, c: int,
+	
+	bar_1: struct {
+		x, y, z: int,
+	},
+
+	bar_2: struct {
+		x, y, z: int,
+	}
+
+	_: struct {
+		x, y, z: int,
 	}
 }
 ```

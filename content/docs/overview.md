@@ -1796,6 +1796,14 @@ assert(v.x == 0)
 assert(v.y == 2)
 assert(v.z == 1)
 ```
+Structs can be nested by defining a field as a struct.
+```odin
+Foo :: struct {
+	bar: struct {
+		x, y, z: f32,
+	}
+}
+```
 
 #### Struct tags
 Structs can be tagged with different memory layout and alignment requirements:

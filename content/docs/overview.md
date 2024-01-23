@@ -1907,7 +1907,7 @@ m := map[string]int{
 }
 ```
 
-Modifying existing map slots needs to be done in two steps. Hovewer assigning to a struct field is prohibited.
+Modifying existing map slots needs to be done in two steps. However assigning to a struct field is prohibited.
 
 ```odin
 Test :: struct {

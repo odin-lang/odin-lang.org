@@ -1,7 +1,7 @@
 ---
 title: Ols
 slug: ols
-summary: Ols is a language server for Odin, and works on all the popular text editors. <img src="https://raw.githubusercontent.com/DanielGavin/ols/master/images/completion.png" width="100%" class="showcase-preview">
+summary: Ols is a language server for Odin, and works on all the popular text editors. <img src="https://raw.githubusercontent.com/DanielGavin/ols/master/images/completion.png" class="showcase-preview">
 author: Daniel Gavin
 date: '2023-07-02'
 categories:

@@ -1,7 +1,7 @@
 ---
 title: Spall
 slug: spall
-summary: Spall is a fast, easy-to-use profiler, on the web, and natively on your computer <img src="https://gravitymoth.com/media/odin-landscape.png" width="100%" class="showcase-preview">
+summary: Spall is a fast, easy-to-use profiler, on the web, and natively on your computer <img src="https://gravitymoth.com/media/odin-landscape.png" class="showcase-preview">
 author: Ginger Bill
 date: '2023-05-22'
 categories:

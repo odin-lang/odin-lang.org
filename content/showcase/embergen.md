@@ -1,7 +1,7 @@
 ---
 title: EmberGen
 slug: embergen
-summary: JangaFX are the creators of the 3D animation software EmberGen written fully in Odin. <video width="100%" autoplay loop muted class="showcase-preview"><source src="https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Film/film-composite.mp4"></video>
+summary: JangaFX are the creators of the 3D animation software EmberGen written fully in Odin. <video autoplay loop muted class="showcase-preview"><source src="https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Film/film-composite.mp4"></video>
 author: Ginger Bill and Nick Seavert
 date: '2022-01-24'
 categories:

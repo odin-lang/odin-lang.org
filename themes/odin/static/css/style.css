@@ -112,15 +112,15 @@ are on the sides, and hiding them when they're collapsed into a column.*/
 
 .showcase-preview {
     display: block;
-    width: 80%;
+    max-width: 100%;
     max-height: 300px!important;
-    margin: 1em auto 0;
+    margin: 1em 0;
     text-align: center;
 }
 
 @media only screen and (max-width: 991px) {
     .showcase-preview {
-        width: 100%;
+        max-width: 100%;
     }
 }
 

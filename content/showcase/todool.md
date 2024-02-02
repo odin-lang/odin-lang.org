@@ -1,7 +1,7 @@
 ---
 title: Todool
 slug: todool
-summary: To-Do Editor with different modes, advanced movement & powerful commands <img src="https://img.itch.zone/aW1nLzEwNTQ2NDQxLnBuZw==/original/dgSdqI.png" width="100%" class="showcase-preview">
+summary: To-Do Editor with different modes, advanced movement & powerful commands <img src="https://img.itch.zone/aW1nLzEwNTQ2NDQxLnBuZw==/original/dgSdqI.png" class="showcase-preview">
 author: Ginger Bill
 date: '2022-01-24'
 categories:

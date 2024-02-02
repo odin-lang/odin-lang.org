@@ -22,13 +22,13 @@ Odin was chosen because it was "low level with a high level feeling", meaning th
 
 ## Development Videos
 
-On the [Zylinski Games YouTube channel](https://www.youtube.com/@karl_zylinski) you'll find many videos on gamedev with Odin as well as many past live streams. There are both videos specific to the game and also some more general Odin videos.
+On the [Zylinski Games YouTube channel](https://www.youtube.com/@karl_zylinski) you'll find many videos with details on how the game was made. There are also many past live streams. Some videos are specific to the game while others are more general Odin videos.
 
 ## Want to play?
 
 You can buy the game on itch.io: [https://zylinski.itch.io/cat-and-onion](https://zylinski.itch.io/cat-and-onion).
 
-When you do so you also get a drop of the full Odin source code and all source assets, so you can see how it was made. Source code features that might be interesting is things such as hot reloading of gameplay code and homemade editor tools using a homemade IMGUI.
+When you buy it on itch you also get a drop of the full Odin source code and all source assets, so you can see how it was made. Source code features that might be interesting are things such as hot reloading of gameplay code and homemade editor tools using a homemade IMGUI.
 
 The game is also coming out on Steam in Q1 2024: [https://store.steampowered.com/app/2781210/CAT__ONION/](https://store.steampowered.com/app/2781210/CAT__ONION/)
 

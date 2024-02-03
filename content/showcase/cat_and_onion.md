@@ -8,7 +8,7 @@ categories:
   - showcase
 ---
 
-<video autoplay loop muted><source src="/images/showcase/cat_and_onion_square_loop.mp4"></video>
+<video style="max-width: 100%" width="450px" autoplay loop muted playsinline><source src="/images/showcase/cat_and_onion_square_loop.mp4"></video>
 
 A cozy and whimsical short cat adventure game! It is fully written in Odin with raylib.
 

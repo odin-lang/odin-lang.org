@@ -73,13 +73,13 @@ Raw string literals are enclosed in single back ticks.
 `C:\Windows\notepad.exe`
 ```
 
-The length of a string can be found using the built-in [`len`](https://pkg.odin-lang.org/core/builtin/#len) proc:
+The length of a string can be found using the built-in [`len`](https://pkg.odin-lang.org/base/builtin/#len) proc:
 ```odin
 len("Foo")
 len(some_string)
 ```
 
-If the string passed to [`len`](https://pkg.odin-lang.org/core/builtin/#len) is a compile-time constant, the value from [`len`](https://pkg.odin-lang.org/core/builtin/#len) will be a compile-time constant.
+If the string passed to [`len`](https://pkg.odin-lang.org/base/builtin/#len) is a compile-time constant, the value from [`len`](https://pkg.odin-lang.org/base/builtin/#len) will be a compile-time constant.
 
 #### Escape Characters
 * `\a` - bell (BEL)
@@ -888,7 +888,7 @@ This is the default behaviour in C, whilst the default behaviour in Odin is to z
 
 #### Built-in procedures
 
-For the full list of builtin-procedures, see the documentation for [package builtin](https://pkg.odin-lang.org/core/builtin/).
+For the full list of builtin-procedures, see the documentation for [package builtin](https://pkg.odin-lang.org/base/builtin/).
 
 There are two kinds of built-in procedures in Odin:
 
@@ -1265,7 +1265,7 @@ The above array can also be constructed with a question mark (`?`) to automatica
 x := [?]int{1, 2, 3, 4, 5}
 ```
 
-The built-in [`len`](https://pkg.odin-lang.org/core/builtin/#len) proc returns the array's length.
+The built-in [`len`](https://pkg.odin-lang.org/base/builtin/#len) proc returns the array's length.
 ```odin
 x: [5]int
 #assert(len(x) == 5)
@@ -1359,7 +1359,7 @@ Slices are like references to arrays; they do not store any data, rather they de
 
 Internally, a slice stores a pointer to the data and an integer to store the length of the slice.
 
-The built-in [`len`](https://pkg.odin-lang.org/core/builtin/#len) proc returns the array's length.
+The built-in [`len`](https://pkg.odin-lang.org/base/builtin/#len) proc returns the array's length.
 ```odin
 x: []int = ...
 length_of_x := len(x)
@@ -1426,11 +1426,11 @@ Dynamic arrays are similar to slices, but their lengths may change during runtim
 x: [dynamic]int
 ```
 
-Along with the built-in proc [`len`](https://pkg.odin-lang.org/core/builtin/#len), dynamic arrays also have [`cap`](https://pkg.odin-lang.org/core/builtin/#cap) which can used to determine the dynamic array's current underlying capacity.
+Along with the built-in proc [`len`](https://pkg.odin-lang.org/base/builtin/#len), dynamic arrays also have [`cap`](https://pkg.odin-lang.org/base/builtin/#cap) which can used to determine the dynamic array's current underlying capacity.
 
 #### Appending to a dynamic array
 
-It is common to append new elements to a dynamic array; this can be done using the built-in [`append`](http://pkg.odin-lang.org/core/builtin/#append) proc.
+It is common to append new elements to a dynamic array; this can be done using the built-in [`append`](http://pkg.odin-lang.org/base/builtin/#append) proc.
 ```odin
 x: [dynamic]int
 append(&x, 123)
@@ -1464,9 +1464,9 @@ fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 20, 30, 40, 50, 60] 8 16
 
 Removing from a dynamic array can be done in several ways using the built-in procedures:
 
-* [`pop`](https://pkg.odin-lang.org/core/builtin/#pop) pops the last element of the array
-* [`unordered_remove`](https://pkg.odin-lang.org/core/builtin/#unordered_remove) removes an element at a specific index. *Unordered* means it is `O(1)`, since it swaps the last element to the removed location - making the array be *sorted* differently.
-* [`ordered_remove`](https://pkg.odin-lang.org/core/builtin/#ordered_remove) removes an element at a specific index. *Ordered* means it will move all elements after the index downwards with a `copy` - ensuring elements remain in the same order.
+* [`pop`](https://pkg.odin-lang.org/base/builtin/#pop) pops the last element of the array
+* [`unordered_remove`](https://pkg.odin-lang.org/base/builtin/#unordered_remove) removes an element at a specific index. *Unordered* means it is `O(1)`, since it swaps the last element to the removed location - making the array be *sorted* differently.
+* [`ordered_remove`](https://pkg.odin-lang.org/base/builtin/#ordered_remove) removes an element at a specific index. *Ordered* means it will move all elements after the index downwards with a `copy` - ensuring elements remain in the same order.
 
 ```odin
 x: [dynamic]int
@@ -1476,7 +1476,7 @@ ordered_remove(&x, 0) // [2, 3, 4]
 unordered_remove(&x, 0) // [4, 3]
 ```
 
-Other variants can be found in the [built-in procedures](https://pkg.odin-lang.org/core/builtin) documentation.
+Other variants can be found in the [built-in procedures](https://pkg.odin-lang.org/base/builtin) documentation.
 
 #### Slice & Sort a dynamic array
 Although dynamic arrays and slices are different concepts, dynamic arrays can be 'sliced'
@@ -1488,7 +1488,7 @@ slice.sort(s[:]) // [0, 1, 3, 3, 5, 6, 7]
 ```
 
 #### Making and deleting slices and dynamic arrays
-Slices and dynamic arrays can be explicitly allocated with the built-in [`make`](http://pkg.odin-lang.org/core/builtin/#make) proc.
+Slices and dynamic arrays can be explicitly allocated with the built-in [`make`](http://pkg.odin-lang.org/base/builtin/#make) proc.
 
 ```odin
 a := make([]int, 6)           // len(a) == 6
@@ -1501,7 +1501,7 @@ e := make([]int, 6, context.allocator)
 f := make([dynamic]int, 0, 6, context.allocator)
 ```
 
-Slices and dynamic arrays can be deleted with the built-in [`delete`](http://pkg.odin-lang.org/core/builtin/#delete) proc.
+Slices and dynamic arrays can be deleted with the built-in [`delete`](http://pkg.odin-lang.org/base/builtin/#delete) proc.
 
 ```odin
 delete(a)
@@ -1516,7 +1516,7 @@ delete(f)                     // dynamic arrays remember their allocator
 
 #### Clearing a dynamic array
 
-Instead of deleting the array you often want to simply [clear](https://pkg.odin-lang.org/core/builtin/#clear) the dynamic array. This will set the length `len()` to be `0`, while the capacity `cap` remains the same.
+Instead of deleting the array you often want to simply [clear](https://pkg.odin-lang.org/base/builtin/#clear) the dynamic array. This will set the length `len()` to be `0`, while the capacity `cap` remains the same.
 
 ```odin
 x: [dynamic]int
@@ -1530,9 +1530,9 @@ fmt.println(len(x)) // 0
 
 Often enough we also want to resize or reserve a specific amount for a dynamic array. It's important to understand the difference between the two operations.
 
-* [resize](https://pkg.odin-lang.org/core/builtin/#resize) will try to resize memory of a passed dynamic array to the requested element count (setting the `len`, and possibly `cap`).
-* [reserve](https://pkg.odin-lang.org/core/builtin/#reserve) will try to reserve memory of a passed dynamic array to the requested element count (setting the `cap`).
-* [shrink](https://pkg.odin-lang.org/core/builtin/#shrink) will shrink the capacity of a dynamic array down to the current length, or the given capacity.
+* [resize](https://pkg.odin-lang.org/base/builtin/#resize) will try to resize memory of a passed dynamic array to the requested element count (setting the `len`, and possibly `cap`).
+* [reserve](https://pkg.odin-lang.org/base/builtin/#reserve) will try to reserve memory of a passed dynamic array to the requested element count (setting the `cap`).
+* [shrink](https://pkg.odin-lang.org/base/builtin/#shrink) will shrink the capacity of a dynamic array down to the current length, or the given capacity.
 
 ```odin
 x: [dynamic]int
@@ -1865,7 +1865,7 @@ union #align 4 {...} // align to 4 bytes
 ```
 
 ### Maps
-A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in [`make`](http://pkg.odin-lang.org/core/builtin/#make) proc returns an initialized map using the current [context](#implicit-context-system), and [`delete`](http://pkg.odin-lang.org/core/builtin/#delete) can be used to delete a map.
+A `map` maps keys to values. The zero value of a map is `nil`. A `nil` map has no keys. The built-in [`make`](http://pkg.odin-lang.org/base/builtin/#make) proc returns an initialized map using the current [context](#implicit-context-system), and [`delete`](http://pkg.odin-lang.org/base/builtin/#delete) can be used to delete a map.
 
 ```odin
 m := make(map[string]int)
@@ -1996,7 +1996,7 @@ b := typeid_of(type_of(i))
 
 A `typeid` can be mapped to relevant type information which can be used in applications such as printing types and editing data:
 ```odin
-import "core:runtime"
+import "base:runtime"
 
 main :: proc() {
 	u := u8(123)
@@ -2169,7 +2169,7 @@ fmt.println(d[:])
 
 #### `soa_zip` and `soa_unzip`
 
-SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. [`soa_zip`](http://pkg.odin-lang.org/core/builtin/#soa_zip) is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
+SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. [`soa_zip`](http://pkg.odin-lang.org/base/builtin/#soa_zip) is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
 
 ```odin
 x := []i32{1, 3, 9}
@@ -2190,7 +2190,7 @@ for v, i in s {
 }
 ```
 
-[`soa_unzip`](http://pkg.odin-lang.org/core/builtin/#soa_unzip) is a built-in procedure which allows the user to recover the slices from an `#soa` slice.
+[`soa_unzip`](http://pkg.odin-lang.org/base/builtin/#soa_unzip) is a built-in procedure which allows the user to recover the slices from an `#soa` slice.
 
 ```odin
 // Recover the slices from the #soa slice
@@ -2404,7 +2404,7 @@ Built-in Procedures (Runtime Level) (all square matrix procedures):
 
 ## `raw_data` procedure
 
-[raw_data](https://pkg.odin-lang.org/core/builtin/#raw_data) is a built-in procedure which returns the underlying data of a built-in data type as a [Multi-Pointer](#multi-pointers).
+[raw_data](https://pkg.odin-lang.org/base/builtin/#raw_data) is a built-in procedure which returns the underlying data of a built-in data type as a [Multi-Pointer](#multi-pointers).
 
 ```odin
 raw_data([]$E)         -> [^]E    // slices
@@ -2769,7 +2769,7 @@ supertramp :: proc() {
 
 By default, the `context` value has default values for its parameters which is decided in the package runtime. These defaults are compiler specific.
 
-To see what the implicit `context` value contains, please see the definition of the `Context` struct in [package runtime](https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin).
+To see what the implicit `context` value contains, please see the definition of the `Context` struct in [package runtime](https://github.com/odin-lang/Odin/blob/master/base/runtime/core.odin).
 
 ### Allocators
 Odin is a manual memory management based language. This means that Odin programmers must manage their own memory, allocations, and tracking. To aid with memory management, Odin has huge support for custom allocators, especially through the implicit `context` system.
@@ -2788,7 +2788,7 @@ is equivalent to this:
 ptr := new(int, context.allocator)
 ```
 
-The allocator from the `context` is implicitly assigned as a default parameter to the built-in procedure [`new`](http://pkg.odin-lang.org/core/builtin/#new).
+The allocator from the `context` is implicitly assigned as a default parameter to the built-in procedure [`new`](http://pkg.odin-lang.org/base/builtin/#new).
 
 The implicit `context` stores two different forms of allocators: `context.allocator` and `context.temp_allocator`. Both can be reassigned to any kind of allocator. However, these allocators are to be treated slightly differently.
 
@@ -2801,7 +2801,7 @@ By default, the `context.allocator` is an OS heap allocator and the `context.tem
 
 The following procedures are built-in (and also available in `package mem` with enforced allocator errors) and are encouraged for managing memory:
 
-* [`new`](http://pkg.odin-lang.org/core/builtin/#new) - allocates a value of the type given. The result value is a pointer to the type given.
+* [`new`](http://pkg.odin-lang.org/base/builtin/#new) - allocates a value of the type given. The result value is a pointer to the type given.
 
 ```odin
 ptr := new(int)
@@ -2809,7 +2809,7 @@ ptr^ = 123
 x: int = ptr^
 ```
 
-* [`new_clone`](http://pkg.odin-lang.org/core/builtin/#new) - allocates a clone of the value passed to it. The resulting value of the type will be a pointer to the type of the value passed.
+* [`new_clone`](http://pkg.odin-lang.org/base/builtin/#new) - allocates a clone of the value passed to it. The resulting value of the type will be a pointer to the type of the value passed.
 
 ```odin
 x: int = 123
@@ -2818,7 +2818,7 @@ ptr = new_clone(x)
 assert(ptr^ == 123)
 ```
 
-* [`make`](http://pkg.odin-lang.org/core/builtin/#make) - allocates memory for a backing data structure of either a [slice](#slices), [dynamic array](#dynamic-arrays), or [map](#maps).
+* [`make`](http://pkg.odin-lang.org/base/builtin/#make) - allocates memory for a backing data structure of either a [slice](#slices), [dynamic array](#dynamic-arrays), or [map](#maps).
 
 ```odin
 slice := make([]int, 65)
@@ -2831,14 +2831,14 @@ made_map := make(map[string]int)
 made_map_with_reservation := make(map[string]int, 64)
 ```
 
-* [`free`](http://pkg.odin-lang.org/core/builtin/#free) - frees the memory at the pointer given. **Note:** only free memory with the allocator it was allocated with.
+* [`free`](http://pkg.odin-lang.org/base/builtin/#free) - frees the memory at the pointer given. **Note:** only free memory with the allocator it was allocated with.
 
 ```odin
 ptr := new(int)
 free(ptr)
 ```
 
-* [`free_all`](http://pkg.odin-lang.org/core/builtin/#free_all) - frees all the memory of the context's allocator (or given allocator). **Note:** not all allocators support this procedure.
+* [`free_all`](http://pkg.odin-lang.org/base/builtin/#free_all) - frees all the memory of the context's allocator (or given allocator). **Note:** not all allocators support this procedure.
 
 ```odin
 free_all()
@@ -2846,7 +2846,7 @@ free_all(context.temp_allocator)
 free_all(my_allocator)
 ```
 
-* [`delete`](http://pkg.odin-lang.org/core/builtin/#delete) - deletes the backing memory of a value allocated with make or a string that was allocated through an allocator.
+* [`delete`](http://pkg.odin-lang.org/base/builtin/#delete) - deletes the backing memory of a value allocated with make or a string that was allocated through an allocator.
 
 ```odin
 delete(my_slice)
@@ -2940,8 +2940,8 @@ Let's run through how we could use the `vendor:glfw` library. The code will be b
 ```odin
 package main
 
+import "base:runtime"
 import "core:fmt"
-import "core:runtime"
 import "vendor:glfw"
 
 error_callback :: proc "c" (code: i32, desc: cstring) {
@@ -3439,7 +3439,7 @@ Can be applied to a variable at file scope
 ### Specialized attributes
 
 * **@(builtin)**
-Marks builtin procs in Odin's "core:runtime" package. Cannot be used in user code.
+Marks builtin procs in Odin's "base:runtime" package. Cannot be used in user code.
 
 * **@(objc_name=\<string\>)**
 * **@(objc_type=\<type\>)**
@@ -3563,7 +3563,7 @@ This tag is used as a function's parameter value. In the following function sign
 alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_location) -> rawptr
 ```
 
-`loc` is a variable of type `Source_Code_Location` (see `core/runtime/core.odin`) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling `alloc`).
+`loc` is a variable of type `Source_Code_Location` (see `base/runtime/core.odin`) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling `alloc`).
 
 #### `#c_vararg`
 Used to interface with vararg functions in foreign procedures.
@@ -3668,7 +3668,7 @@ Return the current file path, line number, or procedure name, respectively. Used
 
 #### `#location()` or `#location(<entity>)`
 
-Returns a `runtime.Source_Code_Location` (see `core/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
+Returns a `runtime.Source_Code_Location` (see `base/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
 ```odin
 foo :: proc() {}
 

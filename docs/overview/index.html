@@ -130,10 +130,10 @@ my_integer_variable: int // A comment for documentation
 &quot;C:\\Windows\\notepad.exe&quot;
 </code></pre><p>Raw string literals are enclosed in single back ticks.</p>
 <pre><code class=language-odin data-lang=odin>`C:\Windows\notepad.exe`
-</code></pre><p>The length of a string can be found using the built-in <a href=https://pkg.odin-lang.org/core/builtin/#len><code>len</code></a> proc:</p>
+</code></pre><p>The length of a string can be found using the built-in <a href=https://pkg.odin-lang.org/base/builtin/#len><code>len</code></a> proc:</p>
 <pre><code class=language-odin data-lang=odin>len(&quot;Foo&quot;)
 len(some_string)
-</code></pre><p>If the string passed to <a href=https://pkg.odin-lang.org/core/builtin/#len><code>len</code></a> is a compile-time constant, the value from <a href=https://pkg.odin-lang.org/core/builtin/#len><code>len</code></a> will be a compile-time constant.</p>
+</code></pre><p>If the string passed to <a href=https://pkg.odin-lang.org/base/builtin/#len><code>len</code></a> is a compile-time constant, the value from <a href=https://pkg.odin-lang.org/base/builtin/#len><code>len</code></a> will be a compile-time constant.</p>
 <h4 id=escape-characters>Escape Characters <a class=text-decoration-none href=#escape-characters>#</a></h4>
 <ul>
 <li><code>\a</code> - bell (BEL)</li>
@@ -694,7 +694,7 @@ nil   // untyped nil value used for certain values
 y: int = --- // uses uninitialized memory
 </code></pre><p>This is the default behaviour in C, whilst the default behaviour in Odin is to zero the memory.</p>
 <h4 id=built-in-procedures>Built-in procedures <a class=text-decoration-none href=#built-in-procedures>#</a></h4>
-<p>For the full list of builtin-procedures, see the documentation for <a href=https://pkg.odin-lang.org/core/builtin/>package builtin</a>.</p>
+<p>For the full list of builtin-procedures, see the documentation for <a href=https://pkg.odin-lang.org/base/builtin/>package builtin</a>.</p>
 <p>There are two kinds of built-in procedures in Odin:</p>
 <ul>
 <li>Compiler defined</li>
@@ -1089,7 +1089,7 @@ for i in 0..=4 {
 </code></pre><p>The notation <code>x[i]</code> is used to access the i-th element of <code>x</code>; and 0-index based (like C).</p>
 <p>The above array can also be constructed with a question mark (<code>?</code>) to automatically infer its length:</p>
 <pre><code class=language-odin data-lang=odin>x := [?]int{1, 2, 3, 4, 5}
-</code></pre><p>The built-in <a href=https://pkg.odin-lang.org/core/builtin/#len><code>len</code></a> proc returns the array&rsquo;s length.</p>
+</code></pre><p>The built-in <a href=https://pkg.odin-lang.org/base/builtin/#len><code>len</code></a> proc returns the array&rsquo;s length.</p>
 <pre><code class=language-odin data-lang=odin>x: [5]int
 #assert(len(x) == 5)
 </code></pre><p>Array access is bounds checked by default, both at compile-time (with constant indices) and at runtime. This can be disabled and enabled at a per block level with the <code>#no_bounds_check</code> and <code>#bounds_check</code> directives, respectively:</p>
@@ -1152,7 +1152,7 @@ s: []int = fibonaccis[1:4] // creates a slice which includes elements 1 through 
 fmt.println(s) // 1, 1, 2
 </code></pre><p>Slices are like references to arrays; they do not store any data, rather they describe a section, or slice, of underlying data.</p>
 <p>Internally, a slice stores a pointer to the data and an integer to store the length of the slice.</p>
-<p>The built-in <a href=https://pkg.odin-lang.org/core/builtin/#len><code>len</code></a> proc returns the array&rsquo;s length.</p>
+<p>The built-in <a href=https://pkg.odin-lang.org/base/builtin/#len><code>len</code></a> proc returns the array&rsquo;s length.</p>
 <pre><code class=language-odin data-lang=odin>x: []int = ...
 length_of_x := len(x)
 </code></pre><h4 id=slice-literals>Slice literals <a class=text-decoration-none href=#slice-literals>#</a></h4>
@@ -1189,9 +1189,9 @@ slice.reverse_sort(r)
 </code></pre><h3 id=dynamic-arrays>Dynamic arrays <a class=text-decoration-none href=#dynamic-arrays>#</a></h3>
 <p>Dynamic arrays are similar to slices, but their lengths may change during runtime. Dynamic arrays are resizeable and they are allocated using the current <a href=#implicit-context-system>context</a>&rsquo;s allocator.</p>
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
-</code></pre><p>Along with the built-in proc <a href=https://pkg.odin-lang.org/core/builtin/#len><code>len</code></a>, dynamic arrays also have <a href=https://pkg.odin-lang.org/core/builtin/#cap><code>cap</code></a> which can used to determine the dynamic array&rsquo;s current underlying capacity.</p>
+</code></pre><p>Along with the built-in proc <a href=https://pkg.odin-lang.org/base/builtin/#len><code>len</code></a>, dynamic arrays also have <a href=https://pkg.odin-lang.org/base/builtin/#cap><code>cap</code></a> which can used to determine the dynamic array&rsquo;s current underlying capacity.</p>
 <h4 id=appending-to-a-dynamic-array>Appending to a dynamic array <a class=text-decoration-none href=#appending-to-a-dynamic-array>#</a></h4>
-<p>It is common to append new elements to a dynamic array; this can be done using the built-in <a href=http://pkg.odin-lang.org/core/builtin/#append><code>append</code></a> proc.</p>
+<p>It is common to append new elements to a dynamic array; this can be done using the built-in <a href=http://pkg.odin-lang.org/base/builtin/#append><code>append</code></a> proc.</p>
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
 append(&amp;x, 123)
 append(&amp;x, 4, 1, 74, 3) // append multiple values at once
@@ -1214,16 +1214,16 @@ fmt.eprintln(x[:], len(x), cap(x)) // [10, 0, 0, 20, 30, 40, 50, 60] 8 16
 </code></pre><h4 id=removing-from-a-dynamic-array>Removing from a dynamic array <a class=text-decoration-none href=#removing-from-a-dynamic-array>#</a></h4>
 <p>Removing from a dynamic array can be done in several ways using the built-in procedures:</p>
 <ul>
-<li><a href=https://pkg.odin-lang.org/core/builtin/#pop><code>pop</code></a> pops the last element of the array</li>
-<li><a href=https://pkg.odin-lang.org/core/builtin/#unordered_remove><code>unordered_remove</code></a> removes an element at a specific index. <em>Unordered</em> means it is <code>O(1)</code>, since it swaps the last element to the removed location - making the array be <em>sorted</em> differently.</li>
-<li><a href=https://pkg.odin-lang.org/core/builtin/#ordered_remove><code>ordered_remove</code></a> removes an element at a specific index. <em>Ordered</em> means it will move all elements after the index downwards with a <code>copy</code> - ensuring elements remain in the same order.</li>
+<li><a href=https://pkg.odin-lang.org/base/builtin/#pop><code>pop</code></a> pops the last element of the array</li>
+<li><a href=https://pkg.odin-lang.org/base/builtin/#unordered_remove><code>unordered_remove</code></a> removes an element at a specific index. <em>Unordered</em> means it is <code>O(1)</code>, since it swaps the last element to the removed location - making the array be <em>sorted</em> differently.</li>
+<li><a href=https://pkg.odin-lang.org/base/builtin/#ordered_remove><code>ordered_remove</code></a> removes an element at a specific index. <em>Ordered</em> means it will move all elements after the index downwards with a <code>copy</code> - ensuring elements remain in the same order.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
 append(&amp;x, 1, 2, 3, 4, 5) // [1, 2, 3, 4, 5]
 pop(&amp;x) // [1, 2, 3, 4]
 ordered_remove(&amp;x, 0) // [2, 3, 4]
 unordered_remove(&amp;x, 0) // [4, 3]
-</code></pre><p>Other variants can be found in the <a href=https://pkg.odin-lang.org/core/builtin>built-in procedures</a> documentation.</p>
+</code></pre><p>Other variants can be found in the <a href=https://pkg.odin-lang.org/base/builtin>built-in procedures</a> documentation.</p>
 <h4 id=slice--sort-a-dynamic-array>Slice & Sort a dynamic array <a class=text-decoration-none href=#slice--sort-a-dynamic-array>#</a></h4>
 <p>Although dynamic arrays and slices are different concepts, dynamic arrays can be &lsquo;sliced&rsquo;
 and sorted as follows:</p>
@@ -1231,7 +1231,7 @@ and sorted as follows:</p>
 append(&amp;s, 1, 6, 3, 5, 7, 3, 0) // [1, 6, 3, 5, 7, 3, 0]
 slice.sort(s[:]) // [0, 1, 3, 3, 5, 6, 7]
 </code></pre><h4 id=making-and-deleting-slices-and-dynamic-arrays>Making and deleting slices and dynamic arrays <a class=text-decoration-none href=#making-and-deleting-slices-and-dynamic-arrays>#</a></h4>
-<p>Slices and dynamic arrays can be explicitly allocated with the built-in <a href=http://pkg.odin-lang.org/core/builtin/#make><code>make</code></a> proc.</p>
+<p>Slices and dynamic arrays can be explicitly allocated with the built-in <a href=http://pkg.odin-lang.org/base/builtin/#make><code>make</code></a> proc.</p>
 <pre><code class=language-odin data-lang=odin>a := make([]int, 6)           // len(a) == 6
 b := make([dynamic]int, 6)    // len(b) == 6, cap(b) == 6
 c := make([dynamic]int, 0, 6) // len(c) == 0, cap(c) == 6
@@ -1240,7 +1240,7 @@ d := []int{1, 2, 3}           // a slice literal, for comparison
 // with an explicit allocator:
 e := make([]int, 6, context.allocator)
 f := make([dynamic]int, 0, 6, context.allocator)
-</code></pre><p>Slices and dynamic arrays can be deleted with the built-in <a href=http://pkg.odin-lang.org/core/builtin/#delete><code>delete</code></a> proc.</p>
+</code></pre><p>Slices and dynamic arrays can be deleted with the built-in <a href=http://pkg.odin-lang.org/base/builtin/#delete><code>delete</code></a> proc.</p>
 <pre><code class=language-odin data-lang=odin>delete(a)
 delete(b)
 delete(c)
@@ -1249,7 +1249,7 @@ delete(e)                     // slices are always deleted from context.allocato
 delete(f)                     // dynamic arrays remember their allocator
 </code></pre><p><strong>Note:</strong> There is no automatic memory management in Odin.</p>
 <h4 id=clearing-a-dynamic-array>Clearing a dynamic array <a class=text-decoration-none href=#clearing-a-dynamic-array>#</a></h4>
-<p>Instead of deleting the array you often want to simply <a href=https://pkg.odin-lang.org/core/builtin/#clear>clear</a> the dynamic array. This will set the length <code>len()</code> to be <code>0</code>, while the capacity <code>cap</code> remains the same.</p>
+<p>Instead of deleting the array you often want to simply <a href=https://pkg.odin-lang.org/base/builtin/#clear>clear</a> the dynamic array. This will set the length <code>len()</code> to be <code>0</code>, while the capacity <code>cap</code> remains the same.</p>
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
 append(&amp;x, 1, 2, 3, 4, 5) // [1, 2, 3, 4, 5]
 fmt.println(len(x)) // 5
@@ -1258,9 +1258,9 @@ fmt.println(len(x)) // 0
 </code></pre><h4 id=resize--reserve-with-a-dynamic-array>Resize / Reserve with a dynamic array <a class=text-decoration-none href=#resize--reserve-with-a-dynamic-array>#</a></h4>
 <p>Often enough we also want to resize or reserve a specific amount for a dynamic array. It&rsquo;s important to understand the difference between the two operations.</p>
 <ul>
-<li><a href=https://pkg.odin-lang.org/core/builtin/#resize>resize</a> will try to resize memory of a passed dynamic array to the requested element count (setting the <code>len</code>, and possibly <code>cap</code>).</li>
-<li><a href=https://pkg.odin-lang.org/core/builtin/#reserve>reserve</a> will try to reserve memory of a passed dynamic array to the requested element count (setting the <code>cap</code>).</li>
-<li><a href=https://pkg.odin-lang.org/core/builtin/#shrink>shrink</a> will shrink the capacity of a dynamic array down to the current length, or the given capacity.</li>
+<li><a href=https://pkg.odin-lang.org/base/builtin/#resize>resize</a> will try to resize memory of a passed dynamic array to the requested element count (setting the <code>len</code>, and possibly <code>cap</code>).</li>
+<li><a href=https://pkg.odin-lang.org/base/builtin/#reserve>reserve</a> will try to reserve memory of a passed dynamic array to the requested element count (setting the <code>cap</code>).</li>
+<li><a href=https://pkg.odin-lang.org/base/builtin/#shrink>shrink</a> will shrink the capacity of a dynamic array down to the current length, or the given capacity.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>x: [dynamic]int
 fmt.println(len(x), cap(x)) // 0 0
@@ -1490,7 +1490,7 @@ assert(ok)
 <p>Unions also have the <code>#align</code> tag, like structures:</p>
 <pre><code class=language-odin data-lang=odin>union #align 4 {...} // align to 4 bytes
 </code></pre><h3 id=maps>Maps <a class=text-decoration-none href=#maps>#</a></h3>
-<p>A <code>map</code> maps keys to values. The zero value of a map is <code>nil</code>. A <code>nil</code> map has no keys. The built-in <a href=http://pkg.odin-lang.org/core/builtin/#make><code>make</code></a> proc returns an initialized map using the current <a href=#implicit-context-system>context</a>, and <a href=http://pkg.odin-lang.org/core/builtin/#delete><code>delete</code></a> can be used to delete a map.</p>
+<p>A <code>map</code> maps keys to values. The zero value of a map is <code>nil</code>. A <code>nil</code> map has no keys. The built-in <a href=http://pkg.odin-lang.org/base/builtin/#make><code>make</code></a> proc returns an initialized map using the current <a href=#implicit-context-system>context</a>, and <a href=http://pkg.odin-lang.org/base/builtin/#delete><code>delete</code></a> can be used to delete a map.</p>
 <pre><code class=language-odin data-lang=odin>m := make(map[string]int)
 defer delete(m)
 m[&quot;Bob&quot;] = 2
@@ -1577,7 +1577,7 @@ proc &quot;contextless&quot; (s: []int)
 i: int = 123
 b := typeid_of(type_of(i))
 </code></pre><p>A <code>typeid</code> can be mapped to relevant type information which can be used in applications such as printing types and editing data:</p>
-<pre><code class=language-odin data-lang=odin>import &quot;core:runtime&quot;
+<pre><code class=language-odin data-lang=odin>import &quot;base:runtime&quot;
 
 main :: proc() {
 	u := u8(123)
@@ -1711,7 +1711,7 @@ fmt.println(len(d))
 fmt.println(cap(d))
 fmt.println(d[:])
 </code></pre><h4 id=soa_zip-and-soa_unzip><code>soa_zip</code> and <code>soa_unzip</code> <a class=text-decoration-none href=#soa_zip-and-soa_unzip>#</a></h4>
-<p>SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. <a href=http://pkg.odin-lang.org/core/builtin/#soa_zip><code>soa_zip</code></a> is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.</p>
+<p>SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. <a href=http://pkg.odin-lang.org/base/builtin/#soa_zip><code>soa_zip</code></a> is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.</p>
 <pre><code class=language-odin data-lang=odin>x := []i32{1, 3, 9}
 y := []f32{2, 4, 16}
 z := []b32{true, false, true}
@@ -1728,7 +1728,7 @@ for v, i in s {
 	//         s[i].a === s.a[i]
 	fmt.println(v.a, v.b, v.c)
 }
-</code></pre><p><a href=http://pkg.odin-lang.org/core/builtin/#soa_unzip><code>soa_unzip</code></a> is a built-in procedure which allows the user to recover the slices from an <code>#soa</code> slice.</p>
+</code></pre><p><a href=http://pkg.odin-lang.org/base/builtin/#soa_unzip><code>soa_unzip</code></a> is a built-in procedure which allows the user to recover the slices from an <code>#soa</code> slice.</p>
 <pre><code class=language-odin data-lang=odin>// Recover the slices from the #soa slice
 a, b, c := soa_unzip(s)
 fmt.println(a, b, c)
@@ -1907,7 +1907,7 @@ component-wise multiplication of two matrices of the same type</li>
 <li><code>matrix_minor(m)</code></li>
 </ul>
 <h2 id=raw_data-procedure><code>raw_data</code> procedure <a class=text-decoration-none href=#raw_data-procedure>#</a></h2>
-<p><a href=https://pkg.odin-lang.org/core/builtin/#raw_data>raw_data</a> is a built-in procedure which returns the underlying data of a built-in data type as a <a href=#multi-pointers>Multi-Pointer</a>.</p>
+<p><a href=https://pkg.odin-lang.org/base/builtin/#raw_data>raw_data</a> is a built-in procedure which returns the underlying data of a built-in data type as a <a href=#multi-pointers>Multi-Pointer</a>.</p>
 <pre><code class=language-odin data-lang=odin>raw_data([]$E)         -&gt; [^]E    // slices
 raw_data([dynamic]$E)  -&gt; [^]E    // dynamic arrays
 raw_data(^[$N]$E)      -&gt; [^]E    // fixed array and enumerated arrays 
@@ -2264,7 +2264,7 @@ supertramp :: proc() {
 	free(ptr)
 }
 </code></pre><p>By default, the <code>context</code> value has default values for its parameters which is decided in the package runtime. These defaults are compiler specific.</p>
-<p>To see what the implicit <code>context</code> value contains, please see the definition of the <code>Context</code> struct in <a href=https://github.com/odin-lang/Odin/blob/master/core/runtime/core.odin>package runtime</a>.</p>
+<p>To see what the implicit <code>context</code> value contains, please see the definition of the <code>Context</code> struct in <a href=https://github.com/odin-lang/Odin/blob/master/base/runtime/core.odin>package runtime</a>.</p>
 <h3 id=allocators>Allocators <a class=text-decoration-none href=#allocators>#</a></h3>
 <p>Odin is a manual memory management based language. This means that Odin programmers must manage their own memory, allocations, and tracking. To aid with memory management, Odin has huge support for custom allocators, especially through the implicit <code>context</code> system.</p>
 <p>The built-in types of dynamic arrays and <code>map</code> both contain a custom allocator. This allocator can be either manually set or the allocator from the current <code>context</code> will be assigned to the data type.</p>
@@ -2272,7 +2272,7 @@ supertramp :: proc() {
 <pre><code class=language-odin data-lang=odin>ptr := new(int)
 </code></pre><p>is equivalent to this:</p>
 <pre><code class=language-odin data-lang=odin>ptr := new(int, context.allocator)
-</code></pre><p>The allocator from the <code>context</code> is implicitly assigned as a default parameter to the built-in procedure <a href=http://pkg.odin-lang.org/core/builtin/#new><code>new</code></a>.</p>
+</code></pre><p>The allocator from the <code>context</code> is implicitly assigned as a default parameter to the built-in procedure <a href=http://pkg.odin-lang.org/base/builtin/#new><code>new</code></a>.</p>
 <p>The implicit <code>context</code> stores two different forms of allocators: <code>context.allocator</code> and <code>context.temp_allocator</code>. Both can be reassigned to any kind of allocator. However, these allocators are to be treated slightly differently.</p>
 <ul>
 <li><code>context.allocator</code> is for &ldquo;general&rdquo; allocations, for the subsystem it is used within.</li>
@@ -2281,20 +2281,20 @@ supertramp :: proc() {
 <p>By default, the <code>context.allocator</code> is an OS heap allocator and the <code>context.temp_allocator</code> is assigned to a scratch allocator (a growing arena based allocator). <code>free_all(context.temp_allocator)</code> must be called to clear the contents of the temporary allocator&rsquo;s internal arena.</p>
 <p>The following procedures are built-in (and also available in <code>package mem</code> with enforced allocator errors) and are encouraged for managing memory:</p>
 <ul>
-<li><a href=http://pkg.odin-lang.org/core/builtin/#new><code>new</code></a> - allocates a value of the type given. The result value is a pointer to the type given.</li>
+<li><a href=http://pkg.odin-lang.org/base/builtin/#new><code>new</code></a> - allocates a value of the type given. The result value is a pointer to the type given.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>ptr := new(int)
 ptr^ = 123
 x: int = ptr^
 </code></pre><ul>
-<li><a href=http://pkg.odin-lang.org/core/builtin/#new><code>new_clone</code></a> - allocates a clone of the value passed to it. The resulting value of the type will be a pointer to the type of the value passed.</li>
+<li><a href=http://pkg.odin-lang.org/base/builtin/#new><code>new_clone</code></a> - allocates a clone of the value passed to it. The resulting value of the type will be a pointer to the type of the value passed.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>x: int = 123
 ptr: ^int
 ptr = new_clone(x)
 assert(ptr^ == 123)
 </code></pre><ul>
-<li><a href=http://pkg.odin-lang.org/core/builtin/#make><code>make</code></a> - allocates memory for a backing data structure of either a <a href=#slices>slice</a>, <a href=#dynamic-arrays>dynamic array</a>, or <a href=#maps>map</a>.</li>
+<li><a href=http://pkg.odin-lang.org/base/builtin/#make><code>make</code></a> - allocates memory for a backing data structure of either a <a href=#slices>slice</a>, <a href=#dynamic-arrays>dynamic array</a>, or <a href=#maps>map</a>.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>slice := make([]int, 65)
 
@@ -2305,18 +2305,18 @@ dynamic_array_with_length_and_capacity := make([dynamic]int, 16, 64)
 made_map := make(map[string]int)
 made_map_with_reservation := make(map[string]int, 64)
 </code></pre><ul>
-<li><a href=http://pkg.odin-lang.org/core/builtin/#free><code>free</code></a> - frees the memory at the pointer given. <strong>Note:</strong> only free memory with the allocator it was allocated with.</li>
+<li><a href=http://pkg.odin-lang.org/base/builtin/#free><code>free</code></a> - frees the memory at the pointer given. <strong>Note:</strong> only free memory with the allocator it was allocated with.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>ptr := new(int)
 free(ptr)
 </code></pre><ul>
-<li><a href=http://pkg.odin-lang.org/core/builtin/#free_all><code>free_all</code></a> - frees all the memory of the context&rsquo;s allocator (or given allocator). <strong>Note:</strong> not all allocators support this procedure.</li>
+<li><a href=http://pkg.odin-lang.org/base/builtin/#free_all><code>free_all</code></a> - frees all the memory of the context&rsquo;s allocator (or given allocator). <strong>Note:</strong> not all allocators support this procedure.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>free_all()
 free_all(context.temp_allocator)
 free_all(my_allocator)
 </code></pre><ul>
-<li><a href=http://pkg.odin-lang.org/core/builtin/#delete><code>delete</code></a> - deletes the backing memory of a value allocated with make or a string that was allocated through an allocator.</li>
+<li><a href=http://pkg.odin-lang.org/base/builtin/#delete><code>delete</code></a> - deletes the backing memory of a value allocated with make or a string that was allocated through an allocator.</li>
 </ul>
 <pre><code class=language-odin data-lang=odin>delete(my_slice)
 delete(my_dynamic_array)
@@ -2374,8 +2374,8 @@ foreign kernel32 {
 <p>Let&rsquo;s run through how we could use the <code>vendor:glfw</code> library. The code will be based on their <a href=https://www.glfw.org/docs/latest/quick_guide.html>Quick Guide</a> but we will simplify it to only show using <code>glfw</code> though.</p>
 <pre><code class=language-odin data-lang=odin>package main
 
+import &quot;base:runtime&quot;
 import &quot;core:fmt&quot;
-import &quot;core:runtime&quot;
 import &quot;vendor:glfw&quot;
 
 error_callback :: proc &quot;c&quot; (code: i32, desc: cstring) {
@@ -2745,7 +2745,7 @@ main :: proc() {
 <ul>
 <li>
 <p><strong>@(builtin)</strong>
-Marks builtin procs in Odin&rsquo;s &ldquo;core:runtime&rdquo; package. Cannot be used in user code.</p>
+Marks builtin procs in Odin&rsquo;s &ldquo;base:runtime&rdquo; package. Cannot be used in user code.</p>
 </li>
 <li>
 <p><strong>@(objc_name=&lt;string>)</strong></p>
@@ -2834,7 +2834,7 @@ foo(x) // This is now allowed without an explicit cast
 </code></pre><h4 id=caller_location><code>#caller_location</code> <a class=text-decoration-none href=#caller_location>#</a></h4>
 <p>This tag is used as a function&rsquo;s parameter value. In the following function signature,</p>
 <pre><code class=language-odin data-lang=odin>alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_location) -&gt; rawptr
-</code></pre><p><code>loc</code> is a variable of type <code>Source_Code_Location</code> (see <code>core/runtime/core.odin</code>) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling <code>alloc</code>).</p>
+</code></pre><p><code>loc</code> is a variable of type <code>Source_Code_Location</code> (see <code>base/runtime/core.odin</code>) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling <code>alloc</code>).</p>
 <h4 id=c_vararg><code>#c_vararg</code> <a class=text-decoration-none href=#c_vararg>#</a></h4>
 <p>Used to interface with vararg functions in foreign procedures.</p>
 <pre><code class=language-odin data-lang=odin>foreign foo {
@@ -2896,7 +2896,7 @@ when #defined(nonexistent_proc) == false { fmt.println(&quot;proc was not define
 </code></pre><h4 id=file-line-procedure><code>#file</code>, <code>#line</code>, <code>#procedure</code> <a class=text-decoration-none href=#file-line-procedure>#</a></h4>
 <p>Return the current file path, line number, or procedure name, respectively. Used like a constant value. <code>file_name :: #file</code></p>
 <h4 id=location-or-locationentity><code>#location()</code> or <code>#location(&lt;entity>)</code> <a class=text-decoration-none href=#location-or-locationentity>#</a></h4>
-<p>Returns a <code>runtime.Source_Code_Location</code> (see <code>core/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.</p>
+<p>Returns a <code>runtime.Source_Code_Location</code> (see <code>base/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc() {}
 
 main :: proc() {

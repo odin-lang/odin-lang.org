@@ -1441,6 +1441,22 @@ v = Vector3{1, 4, 9}
 assert(v.x == 0)
 assert(v.y == 2)
 assert(v.z == 1)
+</code></pre><p>Structs can be nested by defining a field as a struct.</p>
+<pre><code class=language-odin data-lang=odin>Foo :: struct {
+	a, b, c: int,
+	
+	bar_1: struct {
+		x, y, z: int,
+	},
+
+	bar_2: struct {
+		x, y, z: int,
+	},
+
+	_: struct {
+		x, y, z: int,
+	},
+}
 </code></pre><h4 id=struct-tags>Struct tags <a class=text-decoration-none href=#struct-tags>#</a></h4>
 <p>Structs can be tagged with different memory layout and alignment requirements:</p>
 <pre><code class=language-odin data-lang=odin>struct #align 4 {...} // align to 4 bytes

@@ -637,7 +637,7 @@ rawptr
 // runtime type information specific type
 typeid
 any
-</code></pre><p>The <code>uintptr</code> type is pointer sized, and the <code>int</code>, <code>uint</code> types are the &ldquo;natural&rdquo; register size, which is guaranteed to greater than or equal to the size of a pointer (i.e. <code>size_of(uint) >= size_of</code>). When you need an integer value, you should default to using <code>int</code> unless you have a specific reason to use a sized or unsigned integer type</p>
+</code></pre><p>The <code>uintptr</code> type is pointer sized, and the <code>int</code>, <code>uint</code> types are the &ldquo;natural&rdquo; register size, which is guaranteed to greater than or equal to the size of a pointer (i.e. <code>size_of(uint) >= size_of(uintptr)</code>). When you need an integer value, you should default to using <code>int</code> unless you have a specific reason to use a sized or unsigned integer type</p>
 <p><strong>Note:</strong> The Odin <code>string</code> type stores the pointer to the data and the length of the string. <code>cstring</code> is used to interface with foreign libraries written in/for C that use zero-terminated strings.</p>
 <h3 id=zero-values>Zero values <a class=text-decoration-none href=#zero-values>#</a></h3>
 <p>Variables declared without an explicit initial value are given their <em>zero</em> value.</p>

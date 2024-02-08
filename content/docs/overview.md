@@ -1719,7 +1719,7 @@ Bit sets are often used to denote flags. This is much cleaner than defining inte
 
 If a bit set requires a specific size, the underlying integer type can be specified:
 ```odin
-Char_Set :: bit_set['A'..'Z'; u64]
+Char_Set :: bit_set['A'..='Z'; u64]
 #assert(size_of(Char_Set) == size_of(u64))
 ```
 

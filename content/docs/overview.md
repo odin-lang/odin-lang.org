@@ -327,14 +327,37 @@ for key, value in some_map {
 	fmt.println(key, value)
 }
 ```
-The iterated values are *copies* and cannot be written to. The following idiom is useful for iterating over a container in a by-reference manner:
+The iterated values are *copies* and cannot be written to.
+
+**Note:** When iterating across a string, the characters will be `rune`s and not bytes. `for in` assumes the string is encoded as UTF-8.
+
+It is also possible to iterate over arrays and slices in a by-reference manner by prepending a `&` to the value:
 ```odin
-for _, i in some_slice {
-	some_slice[i] = something
+for &value in some_array {
+	value = something
+}
+for &value in some_slice {
+	value = something
+}
+for &value in some_dynamic_array {
+	value = something
+}
+// does not impact the second index value
+for &value, index in some_dynamic_array {
+	value = something
 }
 ```
 
-**Note:** When iterating across a string, the characters will be `rune`s and not bytes. `for in` assumes the string is encoded as UTF-8.
+Maps can have their *values* iterated in a by-reference manner but not their keys which are immutable:
+
+```odin
+for key, &value in some_map {
+	value = something
+}
+```
+
+
+**Note:** It is not possible to iterate a string in a by-reference manner as strings are immutable.
 
 #### `for` reverse iteration
 

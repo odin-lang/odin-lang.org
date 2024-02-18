@@ -3707,16 +3707,14 @@ foo := #load("path/to/file")
 bar := #load("path/to/file", string)
 fmt.println(bar)
 
-If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
+// If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
 baz := #load("path/to/file", []f32)
 ```
 
-#### `#load_or(<string-path>, default)`
-
-Returns a `[]u8` of file contents at compile time, otherwise default content when the file wasn't found.
+`#load` also works with `or_else` to provide default content when the file wasn't found
 ```odin
-foo := #load_or("path/to/file", []u8 { 104, 105 })
-fmt.println(string(foo))
+foo := #load("path/to/file", string) or_else "Hellope"
+fmt.println(foo)
 ```
 
 #### `#load_hash(<string-path>, <string-hash>)`

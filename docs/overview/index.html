@@ -2927,12 +2927,11 @@ main :: proc() {
 bar := #load(&quot;path/to/file&quot;, string)
 fmt.println(bar)
 
-If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
+// If a file's size is not a multiple of the `size_of(type)`, then any remainder is ignored.
 baz := #load(&quot;path/to/file&quot;, []f32)
-</code></pre><h4 id=load_orstring-path-default><code>#load_or(&lt;string-path>, default)</code> <a class=text-decoration-none href=#load_orstring-path-default>#</a></h4>
-<p>Returns a <code>[]u8</code> of file contents at compile time, otherwise default content when the file wasn&rsquo;t found.</p>
-<pre><code class=language-odin data-lang=odin>foo := #load_or(&quot;path/to/file&quot;, []u8 { 104, 105 })
-fmt.println(string(foo))
+</code></pre><p><code>#load</code> also works with <code>or_else</code> to provide default content when the file wasn&rsquo;t found</p>
+<pre><code class=language-odin data-lang=odin>foo := #load(&quot;path/to/file&quot;, string) or_else &quot;Hellope&quot;
+fmt.println(foo)
 </code></pre><h4 id=load_hashstring-path-string-hash><code>#load_hash(&lt;string-path>, &lt;string-hash>)</code> <a class=text-decoration-none href=#load_hashstring-path-string-hash>#</a></h4>
 <p>Returns a constant integer of the hash of a file&rsquo;s contents at compile time. Available hashes: <code>"adler32"</code>, <code>"crc32"</code>, <code>"crc64"</code>, <code>"fnv32"</code>, <code>"fnv64"</code>, <code>"fnv32a"</code>, <code>"fnv64a"</code>, <code>"murmur32"</code>, or <code>"murmur64"</code>.</p>
 <pre><code class=language-odin data-lang=odin>hash :: #load_hash(&quot;path/to/file&quot;, &quot;crc32&quot;)
@@ -3414,7 +3413,6 @@ Some of this information includes:</p>
 <li><a href=#file-line-procedure><code>#file</code>, <code>#line</code>, <code>#procedure</code></a></li>
 <li><a href=#location-or-locationentity><code>#location()</code> or <code>#location(&lt;entity>)</code></a></li>
 <li><a href=#loadstring-path-or-loadstring-path-type><code>#load(&lt;string-path>)</code> or <code>#load(&lt;string-path>, &lt;type>)</code></a></li>
-<li><a href=#load_orstring-path-default><code>#load_or(&lt;string-path>, default)</code></a></li>
 <li><a href=#load_hashstring-path-string-hash><code>#load_hash(&lt;string-path>, &lt;string-hash>)</code></a></li>
 </ul>
 </li>

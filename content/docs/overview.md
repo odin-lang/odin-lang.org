@@ -1098,6 +1098,29 @@ Logical operators apply to boolean values. The right operand is evaluated condit
 !       NOT                !a      is "not a"
 ```
 
+### Compound binary operator and assign
+
+Like many other languages, there is a shorthand for performing a binary operation and assigning the result to the first operand e.g. `x = x + 5`. All arithmetic and logical binary operators have this shorthand
+
+```txt
++=       sum and assign                   a += b is a = a + b
+-=       subtraction and assign           a -= b is a = a - b
+*=       multiplication and assign        a *= b is a = a * b
+/=       division and assign              a /= b is a = a / b
+%=       modulo (truncated) and assign    a %= b is a = a % b
+%%=      remainder (floored) and assign   a %%= b is a = a %% b
+
+|=       bitwise or and assign            a |= b is a = a | b
+~=       bitwise xor and assign           a ~= b is a = a ~ b
+&=       bitwise and and assign           a &= b is a = a & b
+&~=      bitwise and-not and assign       a &~= b is a = a &~ b
+<<=      left shift and assign            a <<= b is a = a << b
+>>=      right shift and assign           a >>= b is a = a >> b
+
+&&=      conditional AND and assign       a &&= b is a = a && b
+||=      conditional OR and assign        a ||= b is a = a || b
+```
+
 ### Address operator
 For an operand `x` of type `T`, the address operation `&x` generates a pointer of `^T` to `x`. The operand must be _addressable_, meaning that either a variable, pointer indirection, or slice/dynamic array indexing operator; or a field selector of an addressable struct operand; or an array index operation of an addressable array; or a type assertion of an addressable union or `any`; or a compound literal value.
 

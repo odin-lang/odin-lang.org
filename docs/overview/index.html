@@ -973,6 +973,24 @@ ncstr := len(cstr) // O(n)
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>&amp;&amp;      conditional AND    a &amp;&amp; b  is &#34;b if a else false&#34;
 ||      conditional OR     a || b  is &#34;true if a else b&#34;
 !       NOT                !a      is &#34;not a&#34;
+</code></pre></div><h3 id=compound-binary-operator-and-assign>Compound binary operator and assign <a class=text-decoration-none href=#compound-binary-operator-and-assign>#</a></h3>
+<p>Like many other languages, there is a shorthand for performing a binary operation and assigning the result to the first operand e.g. <code>x = x + 5</code>. All arithmetic and logical binary operators have this shorthand</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>+=       sum and assign                   a += b is a = a + b
+-=       subtraction and assign           a -= b is a = a - b
+*=       multiplication and assign        a *= b is a = a * b
+/=       division and assign              a /= b is a = a / b
+%=       modulo (truncated) and assign    a %= b is a = a % b
+%%=      remainder (floored) and assign   a %%= b is a = a %% b
+
+|=       bitwise or and assign            a |= b is a = a | b
+~=       bitwise xor and assign           a ~= b is a = a ~ b
+&amp;=       bitwise and and assign           a &amp;= b is a = a &amp; b
+&amp;~=      bitwise and-not and assign       a &amp;~= b is a = a &amp;~ b
+&lt;&lt;=      left shift and assign            a &lt;&lt;= b is a = a &lt;&lt; b
+&gt;&gt;=      right shift and assign           a &gt;&gt;= b is a = a &gt;&gt; b
+
+&amp;&amp;=      conditional AND and assign       a &amp;&amp;= b is a = a &amp;&amp; b
+||=      conditional OR and assign        a ||= b is a = a || b
 </code></pre></div><h3 id=address-operator>Address operator <a class=text-decoration-none href=#address-operator>#</a></h3>
 <p>For an operand <code>x</code> of type <code>T</code>, the address operation <code>&x</code> generates a pointer of <code>^T</code> to <code>x</code>. The operand must be <em>addressable</em>, meaning that either a variable, pointer indirection, or slice/dynamic array indexing operator; or a field selector of an addressable struct operand; or an array index operation of an addressable array; or a type assertion of an addressable union or <code>any</code>; or a compound literal value.</p>
 <p>For an operand <code>x</code> of pointer type <code>^T</code>, the pointer indirection <code>x^</code> denotes the variable of type <code>T</code> pointed to by <code>x</code>. If <code>x</code> is an invalid address, such as <code>nil</code>, an attempt to evaluate <code>x^</code> will cause a runtime panic.</p>
@@ -3195,6 +3213,7 @@ Some of this information includes:</p>
 <li><a href=#arithmetic-operators>Arithmetic operators</a></li>
 <li><a href=#comparison-operators>Comparison operators</a></li>
 <li><a href=#logical-operators>Logical operators</a></li>
+<li><a href=#compound-binary-operator-and-assign>Compound binary operator and assign</a></li>
 <li><a href=#address-operator>Address operator</a></li>
 <li><a href=#ternary-operators>Ternary Operators</a></li>
 <li><a href=#other-operators>Other operators</a></li>

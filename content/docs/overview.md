@@ -2672,6 +2672,10 @@ Your .odin files can have a magic suffix that will cause the compiler to either 
 
 For example, `foobar_windows.odin` would only be compiled on Windows, `foobar_linux.odin` only on Linux, and `foobar_windows_amd64.odin` only on Windows AMD64.
 
+Another reserved suffix is `_test`. Assume a package with `foobar.odin` and `foobar_test.odin`. Anything in `foobar_test.odin` will be hidden from `foobar.odin`, and only be built and run using the `odin test` command. Note that the entry point procedure `main` must not be located in a file with the `_test` suffix.
+
+Please see the procedure attribute [`@(test)`](https://odin-lang.org/docs/overview/#test) for more information.
+
 ### `when` statements
 
 Sometimes you only want to include a small number of statements or declarations for compilation, if a certain compile-time expression evaluates
@@ -3449,6 +3453,18 @@ skip_whitespace :: proc(t: ^Tokenizer) {
         }
     }
 }
+```
+
+#### `@(test)`
+
+Allows procedures with the attribute `@(test)` to be run with the command `odin test` directly.
+
+```odin
+    import "core:testing"
+
+    @(test)
+    foo :: proc(_: ^testing.T) {
+    }
 ```
 
 ### Variable attributes

@@ -2672,7 +2672,8 @@ Your .odin files can have a magic suffix that will cause the compiler to either 
 
 For example, `foobar_windows.odin` would only be compiled on Windows, `foobar_linux.odin` only on Linux, and `foobar_windows_amd64.odin` only on Windows AMD64.
 
-Another reserved suffix is `_test`. Assume a package with `foobar.odin` and `foobar_test.odin`. Anything in `foobar_test.odin` will be hidden from `foobar.odin`, and only be built and run using the `odin test` command. Note that the entry point procedure `main` must not be located in a file with the `_test` suffix.
+Another reserved suffix is `_test`, which includes a file only when testing. Assume a package with `foobar.odin` and `foobar_test.odin`. Anything in `foobar_test.odin` will be hidden from `foobar.odin`, unless the `odin test` command is used.\
+Note that the entry point procedure `main` must not be located in a file with the `_test` suffix.
 
 Please see the procedure attribute [`@(test)`](https://odin-lang.org/docs/overview/#test) for more information.
 

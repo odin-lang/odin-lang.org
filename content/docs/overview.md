@@ -3645,6 +3645,25 @@ main :: proc() {
 }
 ```
 
+#### `#optional_allocator_error`
+
+Allows skipping the last return parameter, which needs to be a `runtime.Allocator_Error`
+```odin
+import "base:runtime"
+import "core:strings"
+import "core:fmt"
+
+add_greetings :: proc(name: string) -> (string, runtime.Allocator_Error) #optional_allocator_error {
+	result, err := strings.join({"Hello", name}, ", ")
+	return result, err
+}
+
+main :: proc() {
+	msg := add_greetings("Bill")
+	fmt.println(msg)
+}
+```
+
 ### Expressions
 
 #### `#type`

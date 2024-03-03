@@ -2921,6 +2921,21 @@ main :: proc() {
         fmt.printf(&quot;v: %v\n&quot;, x)
     }
 }
+</code></pre><h4 id=optional_allocator_error><code>#optional_allocator_error</code> <a class=text-decoration-none href=#optional_allocator_error>#</a></h4>
+<p>Allows skipping the last return parameter, which needs to be a <code>runtime.Allocator_Error</code></p>
+<pre><code class=language-odin data-lang=odin>import &quot;base:runtime&quot;
+import &quot;core:strings&quot;
+import &quot;core:fmt&quot;
+
+add_greetings :: proc(name: string) -&gt; (string, runtime.Allocator_Error) #optional_allocator_error {
+	result, err := strings.join({&quot;Hello&quot;, name}, &quot;, &quot;)
+	return result, err
+}
+
+main :: proc() {
+	msg := add_greetings(&quot;Bill&quot;)
+	fmt.println(msg)
+}
 </code></pre><h3 id=expressions>Expressions <a class=text-decoration-none href=#expressions>#</a></h3>
 <h4 id=type><code>#type</code> <a class=text-decoration-none href=#type>#</a></h4>
 <p>This tag doesn&rsquo;t serve a functional purpose in the compiler, this is for telling someone reading the code that the expression is a type. The main case is for showing that a procedure signature without a body is a type and not just missing its body, for example:</p>
@@ -3438,6 +3453,7 @@ Some of this information includes:</p>
 <li><a href=#c_vararg><code>#c_vararg</code></a></li>
 <li><a href=#by_ptr><code>#by_ptr</code></a></li>
 <li><a href=#optional_ok><code>#optional_ok</code></a></li>
+<li><a href=#optional_allocator_error><code>#optional_allocator_error</code></a></li>
 </ul>
 </li>
 <li><a href=#expressions>Expressions</a>

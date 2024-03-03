@@ -29,7 +29,7 @@ main :: proc() {
 	fmt.println("}")
 
 	for tag, i in tags {
-		if val, ok := reflect.struct_tag_lookup(tag, "json") ok {
+		if val, ok := reflect.struct_tag_lookup(tag, "json"); ok {
 			fmt.printf("json: %s -> %s\n", names[i], val)
 		}
 	}

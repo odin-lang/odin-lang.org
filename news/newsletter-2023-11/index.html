@@ -2,8 +2,8 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <link rel=icon href=/favicon.svg>
-<meta property="og:title" content="December 2023 Newsletter">
-<meta property="og:description" content="Highlights for December - Community Showcase Categorized">
+<meta property="og:title" content="November 2023 Newsletter">
+<meta property="og:description" content="Highlights for November - Community Showcase Categorized">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://odin-lang.org/news/newsletter-2023-11/">
 <meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
@@ -17,7 +17,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
 <link href=/css/style.css rel=stylesheet>
-<title>December 2023 Newsletter | Odin Programming Language </title>
+<title>November 2023 Newsletter | Odin Programming Language </title>
 <link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><header class=sticky-top>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
 <div class=container-xxl>
@@ -62,16 +62,16 @@
 <div class="sticky-top odin-below-navbar py-3">
 <ul class="nav nav-pills d-flex flex-column">
 <li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-01/>February 2024 Newsletter</a>
+<a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a>
 </li>
 <li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-12/>January 2024 Newsletter</a>
+<a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a>
 </li>
 <li class=nav-item>
-<a class="nav-link active" href=/news/newsletter-2023-11/ aria-current=page>December 2023 Newsletter</a>
+<a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a>
 </li>
 <li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-10/>November 2023 Newsletter</a>
+<a class="nav-link active" href=/news/newsletter-2023-11/ aria-current=page>November 2023 Newsletter</a>
 </li>
 <li class=nav-item>
 <a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a>
@@ -128,272 +128,354 @@
 <li class=breadcrumb-item><a href=/news>News</a></li>
 <li class=breadcrumb-item><a href=/news/newsletter-2023-11>Newsletter 2023 11</a></li>
 </ol>
-<h1>December 2023 Newsletter</h1>
+<h1>November 2023 Newsletter</h1>
 </header>
 <div class=odin-article>
 <h2 id=compiler-updates>Compiler Updates <a class=text-decoration-none href=#compiler-updates>#</a></h2>
-<p>Only minor fixes and additions to the core library.
-<a href=https://github.com/odin-lang/Odin/releases/tag/dev-2023-12>Monthly Release</a></p>
-<hr>
-<h2 id=youtube>YouTube <a class=text-decoration-none href=#youtube>#</a></h2>
-<p>As always <a href=https://www.youtube.com/@karl_zylinski>Karl Zylinski</a> and <a href="https://www.youtube.com/watch?v=VLcTrUhSdlg&list=PLEQTpgQ9eFCGlQa2z0j_TQTGggHOIF8Z1">Rickard Andersson</a> are continuously uploading content on Odin. Great to see people using & sharing it!</p>
+<p><a href=https://github.com/odin-lang/Odin/releases/tag/dev-2023-11>Monthly Release</a> includes LLVM 17.0.1 support for linux and darwin.</p>
 <hr>
 <h2 id=events>Events <a class=text-decoration-none href=#events>#</a></h2>
-<p><a href=https://handmadecities.com/media/>Handmade Seattle</a> happened two weeks ago! Bill had a chat with Abner Coimbre, the organizer of Handmade Seattle.</p>
-<div class="ratio ratio-16x9 my-2">
-<iframe title=vimeo-player src="https://player.vimeo.com/video/887533603?h=9222544305" width=640 height=360 frameborder=0 allowfullscreen></iframe>
-</div>
-<h2 id=orca>Orca <a class=text-decoration-none href=#orca>#</a></h2>
-<p>Handmade Seattle hosted multiple amazing demos. There was one which I needed to mention is <a href=https://orca-app.dev/>Orca</a> by <em>Martin Fouilleul</em>.</p>
-<p class=text-center>WebAssembly apps without the web.<br>A brand-new stack for cross-platform apps.<p>
-<div class="ratio ratio-16x9 my-2">
-<iframe title=vimeo-player src="https://player.vimeo.com/video/887510391?h=d9b6819c0a" width=640 height=360 frameborder=0 allowfullscreen></iframe>
-</div>
-<p>There was also Q&A session afterwards <a href=https://vimeo.com/889290402/33706f0dbf>here</a></p>
-<h3 id=orca--odin>Orca & Odin <a class=text-decoration-none href=#orca--odin>#</a></h3>
-<p>As Orca only requires developers to export a <code>.wasm</code> module, writing Orca applications is a straightforward process! Naturally, Odin supports this feature, as demonstrated with <a href=https://wasm4.org/>wasm4</a>.</p>
-<p>Here are the first few sample demos converted from C to Odin, utilizing the C bindings. While it&rsquo;s functional, there are still a few details we need to iron out for smoother out-of-the-box performance. We hope to have everyone try it out this December.</p>
-<p>I&rsquo;m genuinely excited about Orca and eager to see its development path!</p>
-<div class="card my-2 shadow text-center">
-<a target=_blank rel="noreferrer noopener" href=https://orca-app.dev/>
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1178446655083782146/image.png class="figure-img img-fluid rounded" alt=...>
-</a>
-<div class=card-body>
-<p class=card-text>got the first full example to work 🎉 - Skytrias</p>
-<a class="mx-2 btn btn-outline-primary" target=_blank rel="noreferrer noopener" href=https://orca-app.dev/>orca</a>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1178451392969588838/new23.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>orca breakout example also works now 🎉 - Skytrias
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1178481735252594789/new24.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>orca fluid sim example working 🎉 - Skytrias
-</p>
-</div>
+<p>Handmade Seattle is happening in November! Make sure to check out the event <a href=https://handmadecities.com/seattle/>https://handmadecities.com/seattle/</a>.</p>
+<div style=display:flex;justify-content:center;width:100%>
+<iframe title=vimeo-player src="https://player.vimeo.com/video/879655373?h=14e5a203ce" width=640 height=360 frameborder=0 allowfullscreen></iframe>
 </div>
 <hr>
+<h2 id=youtube>YouTube <a class=text-decoration-none href=#youtube>#</a></h2>
+<p><a href="https://www.youtube.com/watch?v=VLcTrUhSdlg&list=PLEQTpgQ9eFCGlQa2z0j_TQTGggHOIF8Z1">Rickard Andersson</a> (<code>gonz</code> on Discord) continues on his odin videos</p>
+<p>Here&rsquo;s a list of what he went over this month:</p>
+<ul>
+<li><a href="https://youtu.be/wQJnJ1NNfQU?si=rItSKMMLAhsOM645">&ldquo;Debugging Odin code&rdquo; addendum - SeerGDB</a></li>
+<li><a href="https://youtu.be/0GGJBm0r3nA?si=b8YpxMfdyv9EghlO">Command line arguments and dependencies in Odin</a></li>
+<li><a href="https://youtu.be/oNZzosryjV8?si=muOhMxABnmQyZGGM">Using functions from other languages (FFI) in Odin</a></li>
+<li><a href="https://youtu.be/Gyt0kzLhtgs?si=UCKvgY1itV7ymDtl">FFI example in Odin: Using Odin code in Erlang/Elixir</a></li>
+<li><a href="https://youtu.be/6FQy8bhs3HI?si=p8MwO5PCsfX_H4QE">Types and data in Odin</a></li>
+<li><a href="https://youtu.be/S1DlBm8iXZU?si=36Ue2JvWaNfgaHNk">Stream, Reader and data pointers</a></li>
+<li><a href="https://youtu.be/x0rBroR3aog?si=qWMtPYxoc5lsVk2a">Bytes, binary and hexadecimal</a></li>
+<li><a href="https://youtu.be/VVwbuij_c-Q?si=E3Jiv4rRUeae_sTP">Byte order / Endianness</a></li>
+<li><a href="https://youtu.be/JaOKqXJT4d4?si=CDwcXfRjwL-h6VLv">Bitwise operations - Extracting from and setting values in bytes</a></li>
+</ul>
+<p>Gotta catch up on these!</p>
+<hr>
+<h2 id=games>Games <a class=text-decoration-none href=#games>#</a></h2>
+<p><strong>SabeMakesGames</strong> released his first small game done with odin! Check it out here <a href=https://sabe09.itch.io/attack-of-the-goobers>https://sabe09.itch.io/attack-of-the-goobers</a></p>
+<p>He also made a short video on it:</p>
+<div class="ratio ratio-16x9 my-2">
+<iframe src="https://www.youtube.com/embed/UcQpfkHqsZk?rel=0" allowfullscreen crossorigin=anonymous></iframe>
+</div>
+<hr>
+<h2 id=editors>Editors <a class=text-decoration-none href=#editors>#</a></h2>
+<p><strong>obiwan87</strong> has added support of <a href=https://plugins.jetbrains.com/plugin/22933-odin-lang-support>JetBrains editors</a>! It&rsquo;s still early and doesnt support everything but its a nice start.</p>
+<img src=https://plugins.jetbrains.com/files/22933/screenshot_1fb7a251-94b8-4b1b-b5ad-26b9c08c3163 class="figure-img img-fluid rounded">
+<hr>
+<h2 id=new--updated-projects>New / Updated Projects <a class=text-decoration-none href=#new--updated-projects>#</a></h2>
+<p>I&rsquo;ll try posting the comments or descriptions the authors posted for their packages.</p>
+<h3 id=journey-ecs---raigon>Journey ECS - Raigon <a class=text-decoration-none href=#journey-ecs---raigon>#</a></h3>
+<p>Read more on: <a href=https://github.com/KDahir247/Journey_ECS>https://github.com/KDahir247/Journey_ECS</a></p>
+<p>Fast Minimal Sparse set for Odin Language Which is being used in Odin-Journey.</p>
+<p>Features:</p>
+<ul>
+<li>Fast single component iteration & entity iteration (Dense array iteration)</li>
+<li>Unlimitied amount of component can be added</li>
+<li>Very minimal Only does what it needs and nothing more.</li>
+<li>SOA component dense array</li>
+<li>Extremely fast grouping and sub grouping query (eg. Entity with position and scale)</li>
+<li>Reduced memory consumption on sparse array</li>
+<li>Allow upto or more then 1 Million entity</li>
+</ul>
+<div style=font-size:.875em>Example of code:</div>
+<pre><code class=language-odin data-lang=odin>package main
+
+import ecs &quot;foldername that has this single script&quot;
+
+main :: proc() {
+  world := init_world()
+  defer deinit_world(world)
+
+  Position :: struct{
+      val : #simd[4]f32,
+  }
+
+  Rotation :: struct{
+      val : #simd[4]f32,
+  }
+
+  Scale :: struct{
+      val : #simd[4]f32,
+  }
+
+  Velocity :: struct{
+      val : #simd[4]f32,
+  }
+
+  register(world, Position)
+  register(world, Rotation)
+  register(world, Scale)
+  register(world, Velocity)
+  
+  entity := create_entity(world)
+  entity1 := create_entity(world) 
+  entity2 := create_entity(world) 
+  entity3 := create_entity(world) 
+  entity4 := create_entity(world)
+
+  velocityx := Velocity{
+      val = {1.0, 0.0, 0.0, 0.0},
+  }
+
+  postion_x := Position{
+      val = {2.0, 0.0, 0.0, 0.0},
+  }
+
+  postion_y := Position{
+      val = {0.0,3.14,0.0,0.0},
+  }
+
+  position_xy := Position{
+      val = {24.0,7.11,0.0,0.0},
+  }
+ 
+
+  Quaternion_IDENTITY := Rotation{
+      val = {0.0,0.0,0.0,1.0},
+  }
+
+  add_soa_component(world, entity2, velocityx)
+  add_soa_component(world, entity1, postion_x)
+  add_soa_component(world, entity2, postion_y)
+  add_soa_component(world, entity2, Quaternion_IDENTITY)
+
+  add_soa_component(world, entity, position_xy)
+  add_soa_component(world, entity, Quaternion_IDENTITY)
+
+  postion_scale_query := query(world, Velocity, Scale) //register and sort using group
+  position_rotation_query := query(world, Position, Rotation) //register and sort using group
+
+  position_rotation_query1 := query(world, Position, Rotation) //doesn't register or sort using group uses the cache result
+  postion_scale_query1 := query(world, Velocity, Scale) //doesn't register or sort using group uses the cache result
+ 
+  for component_storage, index in run(&amp;position_rotation_query){
+    mut_component_storage := component_storage
+
+    if component_storage.entities[index] == 2{
+        fmt.println(&quot;Moving the player entity&quot;, component_storage.entities[index] , &quot;Right by 100&quot; )
+        mut_component_storage.component_a[index].val += {100.0, 0.0, 0.0, 0.0}
+    }
+
+    fmt.print(component_storage.entities[index], &quot; :\t&quot;)
+    fmt.print(component_storage.component_a[index], &quot;\t&quot;)
+    fmt.print(component_storage.component_b[index])
+    fmt.println()
+  }
+  fmt.println(&quot;\n&quot;)
+}
+</code></pre><h3 id=job-scheduler---jakubtomsu-jacob>Job Scheduler - <code>jakubtomsu (Jacob)</code> <a class=text-decoration-none href=#job-scheduler---jakubtomsu-jacob>#</a></h3>
+<p>Read more on: <a href=https://github.com/jakubtomsu/jobs>https://github.com/jakubtomsu/jobs</a></p>
+<p>I made a small job system for Odin. This is a port of my old fiber-based C++ job scheduler, but it&rsquo;s much simpler and has less overhead. I also added a few examples, including boids simulation with Raylib.
+Features include:</p>
+<ul>
+<li>dispatching jobs</li>
+<li>waiting for jobs (while processing other queued jobs at the same time)</li>
+<li>nested jobs</li>
+<li>utilities for batch processing arrays/slices</li>
+<li>optional immediate-mode-style thread processing loop</li>
+</ul>
+<div style=font-size:.875em>A simple hello world program:</div>
+<pre><code class=language-odin data-lang=odin>main :: proc() {
+    jobs.initialize()
+
+    g: jobs.Group
+    jobs.dispatch(.Medium, jobs.make_job(&amp;g, hello_job))
+    jobs.wait(&amp;g)
+
+    jobs.shutdown()
+}
+
+hello_job :: proc(_: rawptr) {
+    fmt.println(&quot;Hello from thread&quot;, jobs.current_thread_index())
+}
+</code></pre><h3 id=cody-a-simple-code-counter---jetdove>Cody: A simple code counter - <code>JetDove</code> <a class=text-decoration-none href=#cody-a-simple-code-counter---jetdove>#</a></h3>
+<p>Read more on: <a href=https://github.com/CoolDove/cody>https://github.com/CoolDove/cody</a></p>
+<img src=https://raw.githubusercontent.com/CoolDove/cody/master/example/example_0.png class="figure-img img-fluid rounded" alt=...>
+<h3 id=box2d-v3-odin-bindings---cristhofer>Box2D v3 odin bindings - <code>Cristhofer</code> <a class=text-decoration-none href=#box2d-v3-odin-bindings---cristhofer>#</a></h3>
+<p>Read more on: <a href=https://github.com/cristhofermarques/odin-box2d/>https://github.com/cristhofermarques/odin-box2d/</a></p>
+<div style=font-size:.875em>Example:</div>
+<pre><code class=language-odin data-lang=odin>package box2d_example
+
+import b2 &quot;box2d&quot;
+import &quot;core:fmt&quot;
+
+main :: proc()
+{
+    world_def := b2.DEFAULT_WORLD_DEF
+    world_def.gravity = b2.Vec2{0, -10}
+    world_id := b2.create_world(&amp;world_def)
+    defer b2.destroy_world(world_id)
+    
+    ground_body_def := b2.DEFAULT_BODY_DEF
+    ground_body_def.position = b2.Vec2{0, -10}
+    ground_body_id := b2.world_create_body(world_id, &amp;ground_body_def)
+
+    ground_box := b2.make_box(50, 10)
+    ground_shape_def := b2.DEFAULT_SHAPE_DEF
+    b2.body_create_polygon(ground_body_id, &amp;ground_shape_def, &amp;ground_box)
+
+    body_def := b2.DEFAULT_BODY_DEF
+    body_def.type = .Dynamic
+    body_def.position = b2.Vec2{0, 4}
+    body_id := b2.world_create_body(world_id, &amp;body_def)
+
+    shape_def := b2.DEFAULT_SHAPE_DEF
+    shape_def.density = 1
+    shape_def.friction = 0.3
+
+    circle: b2.Circle
+    circle.radius = 1
+    b2.body_create_circle(body_id, &amp;shape_def, &amp;circle)
+
+    time_step: f32 = 1.0 / 60.0
+    velocity_iterations: i32 = 6
+    position_iterations: i32 = 2
+    
+    for i in 0..&lt;60
+    {
+        b2.world_step(world_id, time_step, velocity_iterations, position_iterations)
+        position := b2.body_get_position(body_id)
+        angle := b2.body_get_angle(body_id)
+        fmt.println(position, angle)
+    }
+}
+</code></pre><h3 id=magicavoxel-vox-model-loader---jakubtomsu-jacob>MagicaVoxel .vox model Loader - <code>jakubtomsu (Jacob)</code> <a class=text-decoration-none href=#magicavoxel-vox-model-loader---jakubtomsu-jacob>#</a></h3>
+<p>Read more on: <a href=https://github.com/jakubtomsu/odin-vox>https://github.com/jakubtomsu/odin-vox</a></p>
+<p>A simple loader for .vox models from MagicaVoxel.
+The base format is fully implemented, but no extensions are supported yet.</p>
+<div style=font-size:.875em>Usage:</div>
+<pre><code class=language-odin data-lang=odin>// Load and parse data from file.
+// Alternatively use `vox.load_from_data`.
+if data, ok := vox.load_from_file(&quot;my_model.vox&quot;, context.temp_allocator); ok {
+  for model, i in data.models {
+    fmt.printf(&quot;Model %i:\n&quot;, i)
+    fmt.printf(&quot;\tsize: %v\n&quot;, model.size)
+    fmt.printf(&quot;\tvoxels:\n&quot;)
+    for voxel, j in model.voxels {
+      fmt.printf(&quot;\t[%i] %v: %i\n&quot;, j, voxel.pos, voxel.color_index)
+    }
+  }
+}
+</code></pre><hr>
 <h2 id=community-showcase>Community Showcase <a class=text-decoration-none href=#community-showcase>#</a></h2>
-<p>Happy holidays, coders! May your code be bug-free, your functions optimized, and your New Year full of tech triumphs. Cheers to a season of joyful coding! 🎄✨</p>
-<p>Here are the <a href=https://discord.com/invite/sVBPHEv>Discord</a> <code>#showcase</code> posts from this month.</p>
-<h3 id=miscellaneous>Miscellaneous <a class=text-decoration-none href=#miscellaneous>#</a></h3>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1169964418860326982/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>Nothing special, just odin and raylib running on android - Cristhofer</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<a target=_blank rel="noreferrer noopener" href=https://docs.wasmtime.dev/examples-c-hello-world.html>
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1171038514788446208/image.png class="figure-img img-fluid rounded" alt=...>
-</a>
-<div class=card-body>
-<p class=card-text>Calling Odin from WASM from Odin. - Jeroen</p>
-<a class="mx-2 btn btn-outline-primary" target=_blank rel="noreferrer noopener" href=https://docs.wasmtime.dev/examples-c-hello-world.html>WIP wasmtime bindings and translation of their Hello World example</a>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1171565695222423582/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>Next Feature for the JetBrains Plugin: Code Completion. Getting this right, will be a challenge, but planning on doing small, incremental releases, if it is possible - obiwan87</p>
-</div>
-</div>
+<p>Another month has passed - this time around there was less going on but we&rsquo;re nearing the end of the year.</p>
 <h3 id=game-development>Game Development <a class=text-decoration-none href=#game-development>#</a></h3>
 <div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1172097435896651907/2023-11-09_13-35-57.mp4></video>
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1161680998472364212/My_Movie_4.mov></video>
 <div class="card-body text-center">
-<p class=card-text>little tool to help practise getting a specific input on a game controller at a specific timing window - Krzysztoφορος
-</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://media.discordapp.net/attachments/568871319425515531/1172698105439846400/OdinOrbits.gif class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>Just got started playing with Odin a few days ago and made a simple planetarium sim thing - Spyingwind</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1172924511197339798/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>been working on a "voxel" engine called Wolfoid - JerryVoxalot</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1173082376939773962/arc_boFARCKF2K.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>Enjoying debug visualizations - davidcergizan
+<p class=card-text>We are building a 2D engine and this is our progress so far. Right now we have a custom ECS, and we have a animation system, plus we have 2D point lights implemented - ScottCastle
 </p>
 </div>
 </div>
 <div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1173387631653040220/20231113_090750_2.webm></video>
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1162028187128184882/astroberg.mp4></video>
 <div class="card-body text-center">
-<p class=card-text>Working on a short spooky cave escape game with Raylib! - robert
+<p class=card-text>building a small editor for the game I'm currently toying with. Normally I just do everything in code but its nice to be able to edit colliders and such while seeing the effect. - rhoeberg
 </p>
 </div>
 </div>
 <div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1174177734323351602/mc-clone1_online-video-cutter.com.mp4></video>
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1162143170138742784/dialogue_system.mp4></video>
 <div class="card-body text-center">
-<p class=card-text>yet another minecraft clone - kavalee
+<p class=card-text>Realized my game needed branching dialogue, so I made this editor + new gameplay code for handling dialogue choices! 😺 - karl_zylinski
 </p>
 </div>
 </div>
 <div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1174993245181313054/2023-11-17_19-41-49.mp4></video>
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1162501743997890761/collisions.mp4></video>
 <div class="card-body text-center">
-<p class=card-text>shoving in placeholder sound and of course the placeholder music - Krzysztoφορος
+<p class=card-text>Trying to make my little FPS engine based on Raylib - Nefrace
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1163591126595411988/arc_rVf9MWXQsX.mp4></video>
+<div class="card-body text-center">
+<p class=card-text>Starting to put together an in-game editor, added some window management features to make it comfy. - davidcergizan
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1165591489888399481/2023-10-22_11-59-30.mp4></video>
+<div class="card-body text-center">
+<p class=card-text>started to implement window docking because I got jealous of how slick @davidcergizans editor is looking. Still a lot of work to get it nice but I think its doable - rhoeberg
 </p>
 </div>
 </div>
 <div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/eoSoZKS-djM?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1176171917909168158/My_Movie.mov></video>
-<div class="card-body text-center">
-<p class=card-text>Hello everyone, heres the latest update on our 2D game engine called Gemini. Right now we are working to add in a built in code editor - ScottCastle
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1176410263533129728/Grid_Traversal_2023-11-21_07-26-32.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>I wanted to take advantage of mipmaps when doing voxel ray tracing in my lighting system to traverse empty spaces faster, but had trouble figuring it out on paper - Moritz Falk
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1176431528188842077/lighting.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>seeing @Moritz Falk's cool lighting demo reminded me of this demo I did for my minecraft clone cave lighting using my own raylibish thing - kavalee
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1177864231018844250/My_Movie_1.mov></video>
-<div class="card-body text-center">
-<p class=card-text>Been hard at work with our 2D engine Gemini. Had some issues with animations not working but finally got it down pretty well... - ScottCastle
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1178534703070982175/8mb.video-ozG-Z3hCDLBy.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>Completely rewrote my game - JerryVoxalot
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1179246088465678356/2023-11-29_13-20-38.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>got frame advance, training mode options, and some frame data display working - Krzysztoφορος
-</p>
-</div>
+<iframe src="https://www.youtube.com/embed/adpJ7Xk28n0?rel=0" allowfullscreen crossorigin=anonymous></iframe>
 </div>
 <h3 id=graphics>Graphics <a class=text-decoration-none href=#graphics>#</a></h3>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1169446898780872794/Screenshot_20231101-222143.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>Nothing special, just odin and raylib running on android - Cristhofer</p>
-</div>
-</div>
 <div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1172573496233181234/arc_hx66FxQd2M.mp4></video>
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1158811588107706408/itj_wm-03-10-2023.mp4></video>
 <div class="card-body text-center">
-<p class=card-text>Finished a basic audio system for my game project. The little death sequence is my first stab at implementing a way to chain events together - davidcergizan
+<p class=card-text>Got the basics working. This is a window manager for linux, written in Odin - Smilex
 </p>
 </div>
 </div>
 <div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/585072899250192404/1179866432872386580/octsphere.mp4></video>
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1165664678316355634/rayman_gpu.mp4></video>
 <div class="card-body text-center">
-<p class=card-text>Octahedral mapping visualization, this took like 20 minutes to write thanks to Odin and Raylib - Jakub
-</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1172436778561589328/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>Feeling a bit silly so I Use The Windows API For Window Creation and OpenGL. Took me 2 days to find out that you need to find out that when creating the OpenGL Context in Win32 API, you start at the oldest version of OpenGL... - tekkuniku</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://media.discordapp.net/attachments/568871319425515531/1172634343638843412/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>Found an interesting WASM-based fantasy console for myself to explore with ODIN - Microw8 320x240 screen, 256kb RAM and 256kb maximum binary size - Nefrace</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://media.discordapp.net/attachments/568871319425515531/1174365908286849044/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>Added a little in game editor, blood, some bloom and speedlines, not that much bc of school :/ - Francis_the_cat</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1175298647819288638/anim_test.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>Got animations finally working after over half a month of trying to get it to work. tbh I feel really stupid but I am just happy it works - Sabe
-</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1175939046174892103/unknown_2023.11.19-18.21.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>stb truetype + software rendering with jo - pJotoro</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1176355071932510248/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>nothing particularly notable, but happy to be back to programming after a summer off. Bowyer-Watson Delunuay implementation - mjolnir</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1179848655570747482/ffmpeg_bindings_test1.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>first successful test of ~completed ffmpeg bindings! - Robert314
+<p class=card-text>working on a raymarching renderer! - sandwichman
 </p>
 </div>
 </div>
 <div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1179849639705452544/spacecat.mp4></video>
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1165794582999605278/2023-10-22_19-29-11.mp4></video>
 <div class="card-body text-center">
-<p class=card-text>cat is literally in space - karl_zylinski
+<p class=card-text>new demo! sorry for the jumpy motion, it doesn't like sharing the GPU with my recording software quite yet 😭 - sandwichman
 </p>
 </div>
 </div>
 <h3 id=tools--ui>Tools & UI <a class=text-decoration-none href=#tools--ui>#</a></h3>
 <div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1175988834513735833/looper_1.mp4></video>
+<video class="object-fit-cover rounded" muted loop controls src=https://media.discordapp.net/attachments/404399251276169217/1158167253636894830/simplescreenrecorder-2023-10-02_00.17.35.mp4></video>
 <div class="card-body text-center">
-<p class=card-text>Been working on a node-based digital synthesizer/looper for the past few weeks (or months?). I 've always loved node-based software, and I had wondered if it would make sense for audio performance/production. - markersniffen
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1176450477240614982/vokoscreenNG-2023-11-21_20-12-54.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>Custom GUI framework made with Odin - flysand
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1176676442583597106/Code_Eyo8UAgRZr.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>I had this idea for a command-line engine for a while and decided to put it in practice. Once the root of the engine is put into your path, you can use it from anywhere to initialize new projects quickly via oxse init *-quick* - The Lua Whisperer
+<p class=card-text>my image splicer doing the most basic image splicing, just for the end of the jam - Stvff
 </p>
 </div>
 </div>
 <div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1176981132022120538/image.png class="figure-img img-fluid rounded" alt=...>
+<img src=https://media.discordapp.net/attachments/568871319425515531/1158732067887120455/image.png class="figure-img img-fluid rounded" alt=...>
 <div class=card-body>
-<p class=card-text>Added MenuBar to Winforms. Here is the code and output. 🙂 - kcvinker</p>
+<p class=card-text>After so many hours of headbanging against manpages and 3 odin internal compiler errors found, I've managed to start writing a debugger... - flysand</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src=https://cdn.discordapp.com/attachments/568871319425515531/1169005175084699748/new20.mp4 class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>got custom win32 window borders working for my platform layer 🎉 - Skytrias</p>
+</div>
+</div>
+<h3 id=miscellaneous>Miscellaneous <a class=text-decoration-none href=#miscellaneous>#</a></h3>
+<div class="card my-2 shadow text-center">
+<img src=https://media.discordapp.net/attachments/568871319425515531/1163536181267546253/image.png class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>Working on a MIPS assembler for a personal project. I'm really bad at parsing but here is my first progress update in which I am successfully validating token sequences that correspond to the instructions. - Heinrich</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1167142997712965804/odinfuck.mp4></video>
+<div class="card-body text-center">
+<p class=card-text>Made my go-to thing to make in a new language - a Brainfuck compiler - Only generates naïve code for linux-x64 but I might add more backends and some optimizations - Danie
+</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src=https://cdn.discordapp.com/attachments/568871319425515531/1167454763940581527/image.png class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>My first test run of my MIPS assembler producing a binary usable by my emulator. - Heinrich</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src=https://cdn.discordapp.com/attachments/568871319425515531/1167503428004618241/image.png class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>The true purpose of the emulator. I am associating part of the memory with a text display beginning at 0x400. - Heinrich</p>
 </div>
 </div>
 </div>
@@ -403,19 +485,25 @@
 <nav id=TableOfContents>
 <ul>
 <li><a href=#compiler-updates>Compiler Updates</a></li>
-<li><a href=#youtube>YouTube</a></li>
 <li><a href=#events>Events</a></li>
-<li><a href=#orca>Orca</a>
+<li><a href=#youtube>YouTube</a></li>
+<li><a href=#games>Games</a></li>
+<li><a href=#editors>Editors</a></li>
+<li><a href=#new--updated-projects>New / Updated Projects</a>
 <ul>
-<li><a href=#orca--odin>Orca & Odin</a></li>
+<li><a href=#journey-ecs---raigon>Journey ECS - Raigon</a></li>
+<li><a href=#job-scheduler---jakubtomsu-jacob>Job Scheduler - <code>jakubtomsu (Jacob)</code></a></li>
+<li><a href=#cody-a-simple-code-counter---jetdove>Cody: A simple code counter - <code>JetDove</code></a></li>
+<li><a href=#box2d-v3-odin-bindings---cristhofer>Box2D v3 odin bindings - <code>Cristhofer</code></a></li>
+<li><a href=#magicavoxel-vox-model-loader---jakubtomsu-jacob>MagicaVoxel .vox model Loader - <code>jakubtomsu (Jacob)</code></a></li>
 </ul>
 </li>
 <li><a href=#community-showcase>Community Showcase</a>
 <ul>
-<li><a href=#miscellaneous>Miscellaneous</a></li>
 <li><a href=#game-development>Game Development</a></li>
 <li><a href=#graphics>Graphics</a></li>
 <li><a href=#tools--ui>Tools & UI</a></li>
+<li><a href=#miscellaneous>Miscellaneous</a></li>
 </ul>
 </li>
 </ul>

@@ -1,0 +1,558 @@
+<!doctype html><html>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=icon href=/favicon.svg>
+<meta property="og:title" content="February 2024 Newsletter">
+<meta property="og:description" content="Highlights for February - Community Showcase Categorized">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://odin-lang.org/news/newsletter-2024-02/">
+<meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
+<meta property="article:published_time" content="2024-02-01T00:00:00+00:00">
+<meta property="article:modified_time" content="2024-02-01T00:00:00+00:00">
+<link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
+<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
+<script src=/lib/highlight/highlight.min.js></script>
+<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[ijk]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
+<script>hljs.highlightAll()</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
+<link href=/css/style.css rel=stylesheet>
+<title>February 2024 Newsletter | Odin Programming Language </title>
+<link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><header class=sticky-top>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
+<div class=container-xxl>
+<a class=navbar-brand href=/>
+<img src=/logo.svg height=30 alt=Odin id=navbar-logo>
+</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+<div class="collapse navbar-collapse" id=odin-navbar-content>
+<ul class="navbar-nav ms-md-auto">
+<li class=nav-item>
+<a class=nav-link href=/>Home</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/docs>Docs</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://pkg.odin-lang.org/>Packages</a>
+</li>
+<li class=nav-item>
+<a class="nav-link active" href=/news aria-current=page>News</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/showcase>Showcase</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/community>Community</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+</header>
+<main>
+<div class=container-xxl>
+<div class="row odin-main">
+<nav class="col-lg-2 odin-sidebar-border navbar-light">
+<div class="sticky-top odin-below-navbar py-3">
+<ul class="nav nav-pills d-flex flex-column">
+<li class=nav-item>
+<a class="nav-link active" href=/news/newsletter-2024-02/ aria-current=page>February 2024 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/binding-to-c/>Binding to C</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a>
+</li>
+</ul>
+</div>
+</nav>
+<article class="col-lg-8 p-4">
+<header>
+<nav aria-label=breadcrumb>
+<ol class=breadcrumb>
+<li class=breadcrumb-item><a href=/news>News</a></li>
+<li class=breadcrumb-item><a href=/news/newsletter-2024-02>Newsletter 2024 02</a></li>
+</ol>
+<h1>February 2024 Newsletter</h1>
+</header>
+<div class=odin-article>
+<p>Odin is on the journey to 1.0! You can read up on all changes in the <a href=(https://github.com/odin-lang/Odin/releases/tag/dev-2024-02)>monthly release</a> notes.</p>
+<h2 id=reddit>Reddit <a class=text-decoration-none href=#reddit>#</a></h2>
+<p>Karl Zylinski opened up a reddit again! Check it out here <a href=https://www.reddit.com/r/odinlang/>Reddit</a>.
+Personally I&rsquo;ve left reddit but building up communities other than discord is good. The same applies to searching for odin help online.</p>
+<h2 id=games>Games <a class=text-decoration-none href=#games>#</a></h2>
+<p>We&rsquo;ve got a whopping <em><strong>3 Games</strong></em> this month! I&rsquo;m very excited to show them off here, so please check them out.</p>
+<h3 id=solar-storm-from-jakub><em><strong>Solar Storm</strong></em> from <code>Jakub</code> <a class=text-decoration-none href=#solar-storm-from-jakub>#</a></h3>
+<p>&ldquo;Solar Storm steam page is live!
+It&rsquo;s still fairly work-in-progress, the screenshots are outdated and there is no trailer, but I&rsquo;m working on it!
+Wishlists are greatly appereciated!!&rdquo;</p>
+<p>Also I&rsquo;m also doing a first public playtest this weekend, if anyone is interested, join solar storm discord server to participate: <a href=https://discord.com/invite/wn5jMMMYe4>https://discord.com/invite/wn5jMMMYe4</a></p>
+<p>Steam: <a href=https://store.steampowered.com/app/2754920/Solar_Storm/>https://store.steampowered.com/app/2754920/Solar_Storm/</a></p>
+<div id=contenedor>
+<iframe src=https://store.steampowered.com/widget/2754920/ frameborder=0 width=100% height=190></iframe>
+</div>
+<h3 id=the-legend-of-ján-ïtor-from-colin-bellino><em><strong>The Legend of Ján Ïtor</strong></em> from <code>Colin Bellino</code> <a class=text-decoration-none href=#the-legend-of-ján-ïtor-from-colin-bellino>#</a></h3>
+<p>&ldquo;Adventurers are spreading a lot of slime and other mess in the dungeon and you are the one tasked to clean it up before it becomes out of hand.</p>
+<p>This game was created over a period of 2 weeks by a team of 3 people, this is a submission for the Pirate Game Jam 14.</p>
+<p>Engine: This game was developed as an experiment and way of dog-fooding a custom, handmade game engine i am working on (written in the Odin language).&rdquo;</p>
+<iframe height=167 frameborder=0 src=https://itch.io/embed/2464247 width=100%><a href=https://colinbellino.itch.io/the-legend-of-jan-itor>The Legend of Ján Ïtor 💀 by Colin Bellino, Flip, TillerQueen</a></iframe>
+<h3 id=cat--onion-from-karl_zylinski><em><strong>CAT & ONION</strong></em> from <code>karl_zylinski</code> <a class=text-decoration-none href=#cat--onion-from-karl_zylinski>#</a></h3>
+<p>&ldquo;My game CAT & ONION is now released on itch! <a href=https://zylinski.itch.io/cat-and-onion>https://zylinski.itch.io/cat-and-onion</a></p>
+<p>It&rsquo;s a warm adventure game where you play as a cat who goes on a surreal lil journey 🐱</p>
+<p>It has taken me months to make and I&rsquo;m very proud to have finished a game all by myself. It is written in Odin + Raylib.</p>
+<p>When you buy on itch you also get a drop of the source code. It&rsquo;s quite a chaotic code base, full of both good and bad things. The good parts is in my opinion the editor tools and the hot reloading etc. The bad parts is the entity system and the physics.&rdquo;</p>
+<iframe frameborder=0 src=https://itch.io/embed/2433536 width=100% height=167><a href=https://zylinski.itch.io/cat-and-onion>CAT & ONION by Zylinski Games</a></iframe>
+<h2 id=community-contributions>Community Contributions <a class=text-decoration-none href=#community-contributions>#</a></h2>
+<h3 id=dynlib-helpers-by-jeroen>Dynlib Helpers by Jeroen <a class=text-decoration-none href=#dynlib-helpers-by-jeroen>#</a></h3>
+<p>Useful new helper added to <code>core:dynlib</code> to automagically populate a struct with procedure and global pointers from a DLL (or other shared lib depending on platform).</p>
+<pre><code class=language-odin data-lang=odin>package example
+
+import &quot;core:dynlib&quot;
+import &quot;core:fmt&quot;
+
+Symbols :: struct {
+    // `foo_` is prefixed, so we look for the symbol `foo_add`.
+    add: proc &quot;c&quot; (int, int) -&gt; int,
+    // We use the tag here to override the symbol to look for, namely `bar_sub`.
+    sub: proc &quot;c&quot; (int, int) -&gt; int `dynlib:&quot;bar_sub&quot;`,
+
+    // Exported global (if exporting an i32, the type must be ^i32 because the symbol is a pointer to the export.)
+    // If it's not a pointer or procedure type, we'll skip the struct field.
+    hellope: ^i32,
+
+    // Handle to free library.
+    // We can have more than one of these so we can match symbols for more than one DLL with one struct.
+    _my_lib_handle: dynlib.Library,
+}
+
+main :: proc() {
+    sym: Symbols
+
+    // Load symbols from `lib.dll` into Symbols struct.
+    // Each struct field is prefixed with `foo_` before lookup in the DLL's symbol table.
+    // The library's Handle (to unload) will be stored in `sym._my_lib_handle`. This way you can load multiple DLLs in one struct.
+    count, ok := dynlib.initialize_symbols(&amp;sym, &quot;lib.dll&quot;, &quot;foo_&quot;, &quot;_my_lib_handle&quot;)
+    defer dynlib.unload_library(sym._my_lib_handle)
+    fmt.printf(&quot;ok: %v. %v symbols loaded from lib.dll (%p).\n&quot;, ok, count, sym._my_lib_handle)
+
+    if count &gt; 0 {
+        fmt.println(&quot;42 + 42 =&quot;, sym.add(42, 42))
+        fmt.println(&quot;84 - 13 =&quot;, sym.sub(84, 13))
+        fmt.println(&quot;hellope =&quot;, sym.hellope^)
+    }
+}
+</code></pre><p>Output</p>
+<pre><code>Creating library W:\Odin\core\dynlib\example\lib.lib and object W:\Odin\core\dynlib\example\lib.exp
+ok: true. 3 symbols loaded from lib.dll (7FFDCF510000).
+42 + 42 = 84
+84 - 13 = 71
+hellope = 42
+</code></pre><h3 id=odin--wasm--webgl-by-thetarnav>Odin / WASM / Webgl by thetarnav <a class=text-decoration-none href=#odin--wasm--webgl-by-thetarnav>#</a></h3>
+<p>&ldquo;I&rsquo;ve been slowly getting into learning Odin, WASM and WebGL
+So I made a example project where I experiment with the three (and some js tooling for development/bundling)
+Maybe it could be useful for somebody for reference or as a template
+Also the wasm/js bindings there are rewritten into modules with types so it&rsquo;s a bit easier to understand and extend them (no more random typos)&rdquo;</p>
+<p>Check it out here: <a href=https://thetarnav.github.io/odin-wasm>https://thetarnav.github.io/odin-wasm</a></p>
+<h2 id=community-showcase>Community Showcase <a class=text-decoration-none href=#community-showcase>#</a></h2>
+<p>Repositories:</p>
+<ul>
+<li><a href=https://github.com/wilig/red_black_tree>red_black_tree</a> - simple red black tree implementation</li>
+<li><a href=https://github.com/Pix-xiP/odin-libpcap>odin-libpcap</a> - libpcap bindings</li>
+<li><a href=https://github.com/DanielGavin/odin-libktx>odin-libktx</a> - libktx bindings</li>
+<li><a href=https://github.com/cristhofermarques/odin-box2d>odin-box2d</a> - Box2D 3.0 bindings</li>
+<li><a href=https://github.com/dch-GH/efsw-odin>efsw-odin</a> - ESFW bindings</li>
+<li><a href=https://gist.github.com/Tekkunsan/4f41b1cf41acd6a69f30acacc43f5176>ogmo-loader</a> - Ogmo Project and - Level Loader</li>
+<li><a href=https://github.com/greenm01/wcwidth>wcwidth</a> - A simple implementation of wcwidth(3) and wcswidth(3)</li>
+<li><a href=https://gitlab.com/L-4/odin-box2c>odin-box2c</a> - Quick Box2c bindings</li>
+<li><a href=https://github.com/leidegre/odin-pkg/tree/master/flag>odin-pkg</a> - command line handling package</li>
+</ul>
+<p>Gists:</p>
+<ul>
+<li><a href=https://github.com/jon-lipstate/blas_bindings>blas_bindings</a> - BLAS Bindings for Odin</li>
+<li><a href=https://gist.github.com/dotbmp/1d80d679ac93a5785b716aee163d7056>sign_extension</a> - Little sign-extension and zero-extension helpers</li>
+</ul>
+<h3 id=miscellaneous>Miscellaneous <a class=text-decoration-none href=#miscellaneous>#</a></h3>
+<div class="card my-2 shadow text-center">
+<img src="https://media.discordapp.net/attachments/568871319425515531/1191676152125857824/image.png?ex=65f021e6&is=65ddace6&hm=e236417fc7be5899cbf6ad269b1aaa9de3028c8e4de742014ee0abf54d93c7fa&=&format=webp&quality=lossless" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>My x86 disassembler disassembling itself. Sheesh now im realizing how long the SSE instructions really are - flysand</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1192902982946279524/Screen_Recording_2024-01-05_at_19.48.27.mov?ex=65f4987a&is=65e2237a&hm=4162822c817088b38d8f52ff79b4b43f20fdf6ab4b6cfce747863ab64bc2debd&"></video>
+<div class="card-body text-center">
+<p class=card-text>Experimenting with a coroutine API for odin-http - laytan
+</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1195208287654780958/image.png?ex=65f3c0f5&is=65e14bf5&hm=80ede67d0c3740970b6efc67393644217370e3422ac8a826c45760a41a4eaa16&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>Finally, got raylib running on the web - Christhofer</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1195555658746048582/image.png?ex=65f50479&is=65e28f79&hm=95e9cfaec3738432effab8bd7b8a224ed42d8d32ea230a8fb35b1048140ca882&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>got a simple http server reading requests - fridge777</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1196925328862498847/layout_demo.mp4?ex=65f0c594&is=65de5094&hm=b1ec3dfd16615c9edc6ea20bb3ac400f3523334f414da9541caa68ffcc25a7e4&"></video>
+<div class="card-body text-center">
+<p class=card-text>minor update: odin-mustache now supports an explicit layout to render a given template inside of - b3lm0nt
+<a class="mx-2 btn btn-outline-primary" target=_blank rel="noreferrer noopener" href=https://github.com/benjamindblock/odin-mustache#layouts>mustache</a>
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1197695624733266020/rpi4_blink.mp4?ex=65f392f9&is=65e11df9&hm=2a8de47376572c9001c0bb7efdefafbfcef49e79831d79a924c5927781e192ad&"></video>
+<div class="card-body text-center">
+<p class=card-text>Got an LED to blink on my RP4 - thanks to @irvin for adding the freestanding_arm64 target and sharing his example code! - markersniffen
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1199027405109604412/video.mp4?ex=65ef30ca&is=65dcbbca&hm=e1c8f6a16e24ff65a6463150a870118f358fd26cb85187ce1cc9cbb7e7a643a9&"></video>
+<div class="card-body text-center">
+<p class=card-text>Video visualization of linear vs binary search, made by generating ppms and then running x264 encoder - NicknEma
+<a class="mx-2 btn btn-outline-primary" target=_blank rel="noreferrer noopener" href=https://nullprogram.com/blog/2017/11/03/>Based on this article</a>
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1200548746623205376/20240126_221055.mp4?ex=65f4b9a6&is=65e244a6&hm=590b82ba4cc07c520f3890bc1f4798b2f8c56d2f743e4af1e85dc3cd8e430830&"></video>
+<div class="card-body text-center">
+<p class=card-text>brainf* interpreter 😄 - NicknEma
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1200864945882013746/20240127_190744.mp4?ex=65f5e022&is=65e36b22&hm=ff5ef56ca2fb9dc17849886cf633573ff91ae341609484d6f9cff031c6b7ab9a&"></video>
+<div class="card-body text-center">
+<p class=card-text>optimized brainf* interpreter 😄 - NicknEma
+</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1201543641496297513/image.png?ex=65ef1db7&is=65dca8b7&hm=c211cde27b324d96399c1c296e17f64afbd65de59bf015c11e8cb8996bbde31f&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>Its a mess but Hello world Jolt running in Odin. Bindings still have a looong way to go though. - Sumofat</p>
+</div>
+</div>
+<h3 id=game-development>Game Development <a class=text-decoration-none href=#game-development>#</a></h3>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1192302662528536576/2024-01-04_13-41-18.mp4?ex=65f26962&is=65dff462&hm=6a9b82a66dcc0e1978b50de94ec41fe997f215bb4a5fea4d8a2dee558d3773f0&"></video>
+<div class="card-body text-center">
+<p class=card-text>juiced up analog detection for translating them into cardinal inputs. bonus points for use of quadrance instead of using square roots - Krzysztoφορος
+</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://media.discordapp.net/attachments/568871319425515531/1192799605675536434/Code_KbjZ7AwcMF.gif?ex=65f43833&is=65e1c333&hm=86d68a4373e0faba7311c370054fe62c4e93895c9ebd905ec301e8d6cc048e5a&=" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>Initial POC of Odin in Unity 😉 (DOTS is really making this easy :P) - Dani</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1192977245933932584/MainVideo1.mp4?ex=65f4dda3&is=65e268a3&hm=10302a138a777b0556894d60d44f4ba03c1dfd9298f270df56b47a42d20406ab&"></video>
+<div class="card-body text-center">
+<p class=card-text>Heres our latest update on our 2D game engine @Marko - ScottCastle
+</p>
+</div>
+</div>
+<div class="ratio ratio-16x9 my-2">
+<iframe src="https://www.youtube.com/embed/Ao9lrsKos1Y?rel=0" allowfullscreen crossorigin=anonymous></iframe>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1194794688398512188/Tilengine.gif?ex=65f23fc3&is=65dfcac3&hm=406fddb463b47b580f73f8430acff2207ba58369465d898b75cb511ccf4649b6&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>My Tilengine journey is continuing with great success. I've been writing a little "engine" to handle level loading, game logic, sprites etc. to use with the bindings... - Akuspel</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<a target=_blank rel="noreferrer noopener" href=https://github.com/Daxode/odecs/>
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1197321983294181556/Code_o73MgoeB1L.gif?ex=65f236fd&is=65dfc1fd&hm=33ae2e77b400776063b4c69b2701725a461cb6c462951262813d42987fbb3fbb&" class="figure-img img-fluid rounded" alt=...>
+</a>
+<div class=card-body>
+<p class=card-text>Still a spinning Unity Cube, but more stuff has been moved to odin (SystemState, EntityQueries & ComponentHandle usage.. also, dynamic dll loading) - Dani</p>
+<a class="mx-2 btn btn-outline-primary" target=_blank rel="noreferrer noopener" href=https://github.com/Daxode/odecs/>Source</a>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1198093174078447646/2024-01-19_15-41-08.mp4?ex=65f50538&is=65e29038&hm=16d5978488338153915b2c8257484fefc432d0469bdaa9413366d515d770801d&"></video>
+<div class="card-body text-center">
+<p class=card-text>Day 1 - ҽʅʅσɾα
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1198729685320859739/2024-01-21_17-18-49.mp4?ex=65ee1b84&is=65dba684&hm=d2b40da0129fe197e8f1c8d536eb6866ee05cdcff5019b45c186850997a7029e&"></video>
+<div class="card-body text-center">
+<p class=card-text>Day 2 - ҽʅʅσɾα
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1199137715116052511/gamer_time.mp4?ex=65ef9786&is=65dd2286&hm=c1ca609e3a10e4cfbb8a59b68400450a4d992ef8bd6f908c4ddeedbe793728c6&"></video>
+<div class="card-body text-center">
+<p class=card-text>Just a small prototype I have whipped up for a top down hack and slash game. Everything is very crude and basic but there is something emerging. So much to work on... - Perlind
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1199143900934328410/2024-01-22_13-22-56.mp4?ex=65ef9d48&is=65dd2848&hm=bdc6713ddfe0e5636fc445edcaec743105f682c7a2580e4e58feeff2ec9c0788&"></video>
+<div class="card-body text-center">
+<p class=card-text>Day 3 - ҽʅʅσɾα
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1199269741429280819/bitflight_OorRR4BKmJ.mp4?ex=65f0127b&is=65dd9d7b&hm=7417c097604f0aeffaa091ecfc9afc3010e16df306556f81b1e4fdc25395b0f4&"></video>
+<div class="card-body text-center">
+<p class=card-text>doing some funky collision-pair debug visualization using immediate mode rendering. This actually showed me that i forgot to delete the enemies once they go out of screen on the bottom side - The Lua Whisperer
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1199994551989977088/AmffcF50W4.mp4?ex=65f2b584&is=65e04084&hm=83dc0c7609189d1add3def65696db6ce46260eea4389ebdf886747e07335ce58&"></video>
+<div class="card-body text-center">
+<p class=card-text>randomly sized big explosions - The Lua Whisperer
+</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1200060053324058727/hex.mp4?ex=65f2f284&is=65e07d84&hm=d4ddb2d2d9fa20cf76a14bf14a8ef3b7c19eb6b61d4a53b18af6022ac3390d31&"></video>
+<div class="card-body text-center">
+<p class=card-text>i've made hex-chess with odin/sdl2, i've also managed to "link" sdl2 to wasm target so there is a web build if u want to check out - шоськудись
+<a class="mx-2 btn btn-outline-primary" target=_blank rel="noreferrer noopener" href=https://es-lo-que-es.github.io/hex-chess-web-build/>Source</a>
+</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1200475202413416549/NorseGridsOfGnipahellir_neDftTCDyC.gif?ex=65f47528&is=65e20028&hm=d5c43bd23f8545965b3ea245f7f22b08133a422ee38a8a0f9ea48df1f8a2cf91&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>Odin+SDL+GOL - Glennwiz</p>
+</div>
+</div>
+<h3 id=graphics>Graphics <a class=text-decoration-none href=#graphics>#</a></h3>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1191467199475503154/anim.gif?ex=65ef5f4c&is=65dcea4c&hm=a5cc1d0728e018754a25e2cfb2e3131d543bed65bcbe15c3183517508d87bb75&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>Got my GPU driven animations to work. Basically doing all the computation and blending on the compute shader. The cpu just finds the animations frames indices and calculates the weight and are then sent to the gpu - Draoz</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1191512838787833976/20240101_233453.mp4?ex=65ef89ce&is=65dd14ce&hm=932d6eec42257ce950aa6ba4f2ca72e27d8d7f30e58eb1908cf3b3538e66cbb8&"></video>
+<div class="card-body text-center">
+<p class=card-text>i had recently implemented rxi's cached renderer in compute which overcomplicated things - so this version does tiles per draw call + instances calls within each tile - Skytrias
+</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1193302368897470474/first-working-build.gif?ex=65f60c6f&is=65e3976f&hm=cd8214fe5e9d4b03c0f3f3ad6f2b6fbb70603290f208a8ab9740ab58f0c26415&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>Got my first working build of odin bindings for the Spine-c runtime (with raylib)! - Zealous</p>
+</div>
+</div>
+<div class="ratio ratio-16x9 my-2">
+<iframe src="https://www.youtube.com/embed/toQelBElnW8?rel=0" allowfullscreen crossorigin=anonymous></iframe>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1194278601101676604/image.png?ex=65f05f1f&is=65ddea1f&hm=b52b16e8af41ba3a7916fee44284f1687a8a80c9fc06dc546e7045ccbccb79f3&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>After some struggles, I got working Tilengine bindings in Odin! 🥳 - Akuspel</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1194393958047023134/image.png?ex=65f0ca8e&is=65de558e&hm=472346c0d5769fee0622206c0e7f39a5cda8dc57f83b7647f2966fb3ef4f8215&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>Back at it again fighting with my voxel engine, first pass at getting light sources to work done - Chris</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1195067121923805284/Screenshot_2024-01-11_at_18.38.35.png?ex=65f33d7d&is=65e0c87d&hm=0b9d26db72fc347879c31a5939c89fda721d28715d5acc3840ba2a69f9d465d9&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>I know I'm not the first, but here it is a basic Webgpu "Hello Triangle" application using a recent version of wgpu-native and some hand-made bindings - Vicix</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1197361323730817145/image.png?ex=65f25ba1&is=65dfe6a1&hm=57d1542ef85e7f668d32adeb569719a033806b6e8b7e6904cc5ef6092a1e65d4&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>not super fancy, but I drew a fish with the gpu, loaded from a .obj file. This is my first gpu project that isn't secretly a software renderer - Stvff</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1200221698662862868/2024-01-26_00-30-12.mp4?ex=65f38910&is=65e11410&hm=99af6f800882c5428af94df9e0f9f2702ca858d17ff30750a0c51be3d2864d16&"></video>
+<div class="card-body text-center">
+<p class=card-text>Achieved using Odin + SDL2 + OpenGL + @Jesse Blender importer-exporter - Smilex
+</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1201569623045320704/Peek_2024-01-29_17-17.gif?ex=65ef35ea&is=65dcc0ea&hm=d9ce96dd598e2e57b67a63503413a7433f925ce70646b99ab7ed31c11c8366e1&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>crudely animating my fish programmatically - Stvff</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1202077568547954708/2024-01-31_13-15-27.mp4?ex=65f10ef9&is=65de99f9&hm=8b145a229e04a26ede3f9b6067246f656602dadd0154d5e51d1bce7effee2bcd&"></video>
+<div class="card-body text-center">
+<p class=card-text>CPU rendering transparency unlocked - Krzysztoφορος
+</p>
+</div>
+</div>
+<h3 id=tools--ui>Tools & UI <a class=text-decoration-none href=#tools--ui>#</a></h3>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1194057737949163631/eduNhnna7r.mp4?ex=65ef916d&is=65dd1c6d&hm=0a4a63a1706ea565f2265143c98ddc4114af44d4a1f1aee03c83066ba6ac5785&"></video>
+<div class="card-body text-center">
+<p class=card-text>whats this? 👀 - Skytrias
+</p>
+</div>
+</div>
+<div class="card my-2 shadow text-center">
+<img src="https://cdn.discordapp.com/attachments/568871319425515531/1195046401466445994/image.png?ex=65f32a30&is=65e0b530&hm=1246b1fcd507ae397e28751c25f19059da52ee6aaa2e3b57b89a9a966072515a&" class="figure-img img-fluid rounded" alt=...>
+<div class=card-body>
+<p class=card-text>Been getting quite annoyed with the sluggish windows file explorer recently... - Francis_the_cat</p>
+</div>
+</div>
+<div class="card my-2 shadow">
+<video class="object-fit-cover rounded" muted loop controls src="https://cdn.discordapp.com/attachments/568871319425515531/1198723046081573005/2024-01-21_14-10-23.mp4?ex=65ee1555&is=65dba055&hm=f4c643473819dd8cee2ec3d6fe26dd5f97ef6a7eeebdb925600d177dd391ac4f&"></video>
+<div class="card-body text-center">
+<p class=card-text>The Focus text editor inspired me to try making my own editor with some things it doesn't have like identifier type coloring. Here's basic demo of it mostly working. Still have a long way to go, this just parses the file you're editing. Will look into parsing packages you declare through import statements now. - CasualKyle
+</p>
+</div>
+</div>
+</div>
+</article>
+<div id=TOC class="col-lg-2 odin-toc-border">
+<div class="sticky-top odin-below-navbar py-3">
+<nav id=TableOfContents>
+<ul>
+<li><a href=#reddit>Reddit</a></li>
+<li><a href=#games>Games</a>
+<ul>
+<li><a href=#solar-storm-from-jakub><em><strong>Solar Storm</strong></em> from <code>Jakub</code></a></li>
+<li><a href=#the-legend-of-ján-ïtor-from-colin-bellino><em><strong>The Legend of Ján Ïtor</strong></em> from <code>Colin Bellino</code></a></li>
+<li><a href=#cat--onion-from-karl_zylinski><em><strong>CAT & ONION</strong></em> from <code>karl_zylinski</code></a></li>
+</ul>
+</li>
+<li><a href=#community-contributions>Community Contributions</a>
+<ul>
+<li><a href=#dynlib-helpers-by-jeroen>Dynlib Helpers by Jeroen</a></li>
+<li><a href=#odin--wasm--webgl-by-thetarnav>Odin / WASM / Webgl by thetarnav</a></li>
+</ul>
+</li>
+<li><a href=#community-showcase>Community Showcase</a>
+<ul>
+<li><a href=#miscellaneous>Miscellaneous</a></li>
+<li><a href=#game-development>Game Development</a></li>
+<li><a href=#graphics>Graphics</a></li>
+<li><a href=#tools--ui>Tools & UI</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class=odin-footer>
+<div class="container pb-5 pt-5">
+<div class="row g-4">
+<div class=col>
+<a class=navbar-brand href=/>
+<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
+<p>
+The Data-Oriented Language for Sane Software Development.
+</p>
+</div>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Resources</h4>
+<ul class=list-unstyled>
+<li><a href=/docs class=link-light>Docs</a></li>
+<li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li>
+<li><a href=/news class=link-light>News</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Community</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
+<li><a href=https://discord.com/invite/sVBPHEv target=_blank class=link-light>Discord</a></li>
+<li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li>
+<li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li>
+<li><a href=/showcase target=_blank class=link-light>Showcase</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Contribute</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
+<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
+</ul>
+</nav>
+</div>
+<div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div>
+</div>
+</footer>
+<script src=/lib/bootstrap/js/bootstrap.min.js></script>
+<script src=/js/script.js></script>
+</body>
+</html>

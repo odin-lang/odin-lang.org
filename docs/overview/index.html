@@ -2135,6 +2135,9 @@ foo_2 :: proc() -&gt; (n: int, err: Error) {
 <p>Often, you want to separate multiple implementations of a package based on the OS or the architecture.</p>
 <p>Your .odin files can have a magic suffix that will cause the compiler to either include or exclude them based on the target platform or architecture, or both.</p>
 <p>For example, <code>foobar_windows.odin</code> would only be compiled on Windows, <code>foobar_linux.odin</code> only on Linux, and <code>foobar_windows_amd64.odin</code> only on Windows AMD64.</p>
+<p>Another reserved suffix is <code>_test</code>, which includes a file only when testing. Assume a package with <code>foobar.odin</code> and <code>foobar_test.odin</code>. Anything in <code>foobar_test.odin</code> will be hidden from <code>foobar.odin</code>, unless the <code>odin test</code> command is used.<br>
+Note that the entry point procedure <code>main</code> must not be located in a file with the <code>_test</code> suffix.</p>
+<p>Please see the procedure attribute <a href=https://odin-lang.org/docs/overview/#test><code>@(test)</code></a> for more information.</p>
 <h3 id=when-statements><code>when</code> statements <a class=text-decoration-none href=#when-statements>#</a></h3>
 <p>Sometimes you only want to include a small number of statements or declarations for compilation, if a certain compile-time expression evaluates
 to <code>true</code>.
@@ -2773,6 +2776,13 @@ skip_whitespace :: proc(t: ^Tokenizer) {
         }
     }
 }
+</code></pre><h4 id=test><code>@(test)</code> <a class=text-decoration-none href=#test>#</a></h4>
+<p>Allows procedures with the attribute <code>@(test)</code> to be run with the command <code>odin test</code> directly.</p>
+<pre><code class=language-odin data-lang=odin>    import &quot;core:testing&quot;
+
+    @(test)
+    foo :: proc(_: ^testing.T) {
+    }
 </code></pre><h3 id=variable-attributes>Variable attributes <a class=text-decoration-none href=#variable-attributes>#</a></h3>
 <h4 id=static><code>@(static)</code> <a class=text-decoration-none href=#static>#</a></h4>
 <p>This attribute can be applied to a variable to have it keep its state even when going out of scope.
@@ -3393,6 +3403,7 @@ Some of this information includes:</p>
 <li><a href=#init><code>@(init)</code></a></li>
 <li><a href=#cold><code>@(cold)</code></a></li>
 <li><a href=#optimization_modestring><code>@(optimization_mode=&lt;string>)</code></a></li>
+<li><a href=#test><code>@(test)</code></a></li>
 </ul>
 </li>
 <li><a href=#variable-attributes>Variable attributes</a>

@@ -1757,8 +1757,6 @@ Bit sets support the following operations:
 * `A > B` - strict superset relation (A is a proper superset of B)
 * `e in A` - set membership (A contains element e)
 * `e not_in A` - A does not contain element e
-* `incl(&A, elem)` - same as `A += {elem}`
-* `excl(&A, elem)` - same as `A -= {elem}`
 
 
 Bit sets are often used to denote flags. This is much cleaner than defining integer constants that need to be bitwise or-ed together.

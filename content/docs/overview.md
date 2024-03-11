@@ -1888,20 +1888,21 @@ s2, ok := v.(string)
 ```
 
 #### Type switch statement
-A type switch is a construct that allows several type assertions in series. A type switch is like a regular switch statement, but the cases are types (not values). For a union, the only case types allowed are that of the union.
+A type switch is a construct that allows several type assertions in series. A type switch is like a regular switch statement, but the cases are not values, but types of a value. For a union, the only case types allowed are that of the union.
 ```odin
-value: Value = ...
-switch v in value {
-case string:
-	#assert(type_of(v) == string)
+v: Value = ...
+switch val in v {
 
 case bool:
-	#assert(type_of(v) == bool)
+	#assert(type_of(val) == bool)
+
+case string:
+	fmt.println(val, "is a string!")
 
 case i32, f32:
 	// This case allows for multiple types, therefore we cannot know which type to use
-	// `v` remains the original union value
-	#assert(type_of(v) == Value)
+	// `val` remains the original union value
+	#assert(type_of(val) == Value)
 case:
 	// Default case
 	// In this case, it is `nil`

@@ -2421,8 +2421,8 @@ foreign kernel32 {
 <code>link_prefix=&lt;string></code> prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden</p>
 <h2 id=using-a-vendor-library>Using a <code>vendor</code> library <a class=text-decoration-none href=#using-a-vendor-library>#</a></h2>
 <p>As described in the <a href=#foreign-system>Foreign System</a> we often want to use existing <code>C</code> libraries. Odin has a wide collection of maintained <a href=https://github.com/odin-lang/Odin/tree/master/vendor>bindings and ports</a>.</p>
-<p><strong>Note:</strong> Case notation should remain the same as the original authors intended - to make porting code easier.</p>
-<p>Let&rsquo;s run through how we could use the <code>vendor:glfw</code> library. The code will be based on their <a href=https://www.glfw.org/docs/latest/quick_guide.html>Quick Guide</a> but we will simplify it to only show using <code>glfw</code> though.</p>
+<p><strong>Note:</strong> Case notation should remain the same as the original authors intended, to make porting code easier.</p>
+<p>Let&rsquo;s run through how we could use the <code>vendor:glfw</code> library. The code will be based on their <a href=https://www.glfw.org/docs/latest/quick_guide.html>Quick Guide</a> but we will simplify it to only show using <code>glfw</code>.</p>
 <pre><code class=language-odin data-lang=odin>package main
 
 import &quot;base:runtime&quot;
@@ -2443,7 +2443,7 @@ key_callback :: proc &quot;c&quot; (window: glfw.WindowHandle, key, scancode, ac
 main :: proc() {
 	glfw.SetErrorCallback(error_callback)
 
-	if glfw.Init() == 0 {
+	if !glfw.Init() {
 		panic(&quot;EXIT_FAILURE&quot;)
 	}
 	defer glfw.Terminate()

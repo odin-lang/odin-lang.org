@@ -3001,9 +3001,9 @@ Available attributes for foreign blocks:
 
 As described in the [Foreign System](#foreign-system) we often want to use existing `C` libraries. Odin has a wide collection of maintained [bindings and ports](https://github.com/odin-lang/Odin/tree/master/vendor).
 
-**Note:** Case notation should remain the same as the original authors intended - to make porting code easier.
+**Note:** Case notation should remain the same as the original authors intended, to make porting code easier.
 
-Let's run through how we could use the `vendor:glfw` library. The code will be based on their [Quick Guide](https://www.glfw.org/docs/latest/quick_guide.html) but we will simplify it to only show using `glfw` though.
+Let's run through how we could use the `vendor:glfw` library. The code will be based on their [Quick Guide](https://www.glfw.org/docs/latest/quick_guide.html) but we will simplify it to only show using `glfw`.
 
 ```odin
 package main
@@ -3026,7 +3026,7 @@ key_callback :: proc "c" (window: glfw.WindowHandle, key, scancode, action, mods
 main :: proc() {
 	glfw.SetErrorCallback(error_callback)
 
-	if glfw.Init() == 0 {
+	if !glfw.Init() {
 		panic("EXIT_FAILURE")
 	}
 	defer glfw.Terminate()

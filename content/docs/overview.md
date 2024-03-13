@@ -1147,7 +1147,7 @@ Like many other languages, there is a shorthand for performing a binary operatio
 ### Address operator
 For an operand `x` of type `T`, the address operation `&x` generates a pointer of `^T` to `x`. The operand must be _addressable_, meaning that either a variable, pointer indirection, or slice/dynamic array indexing operator; or a field selector of an addressable struct operand; or an array index operation of an addressable array; or a type assertion of an addressable union or `any`; or a compound literal value.
 
-For an operand `x` of pointer type `^T`, the pointer indirection `x^` denotes the variable of type `T` pointed to by `x`. If `x` is an invalid address, such as `nil`, an attempt to evaluate `x^` will cause a runtime panic.
+For an operand `x` of pointer type `^T`, the pointer indirection `x^` denotes the variable of type `T` pointed to by `x`. If `x` is an invalid address, such as `nil`, an attempt to evaluate `x^` will result in platform specific behaviour - on most platforms this will be a segmentation fault.
 
 ```odin
 &x

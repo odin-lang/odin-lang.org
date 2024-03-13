@@ -1009,7 +1009,7 @@ ncstr := len(cstr) // O(n)
 ||=      conditional OR and assign        a ||= b is a = a || b
 </code></pre></div><h3 id=address-operator>Address operator <a class=text-decoration-none href=#address-operator>#</a></h3>
 <p>For an operand <code>x</code> of type <code>T</code>, the address operation <code>&x</code> generates a pointer of <code>^T</code> to <code>x</code>. The operand must be <em>addressable</em>, meaning that either a variable, pointer indirection, or slice/dynamic array indexing operator; or a field selector of an addressable struct operand; or an array index operation of an addressable array; or a type assertion of an addressable union or <code>any</code>; or a compound literal value.</p>
-<p>For an operand <code>x</code> of pointer type <code>^T</code>, the pointer indirection <code>x^</code> denotes the variable of type <code>T</code> pointed to by <code>x</code>. If <code>x</code> is an invalid address, such as <code>nil</code>, an attempt to evaluate <code>x^</code> will cause a runtime panic.</p>
+<p>For an operand <code>x</code> of pointer type <code>^T</code>, the pointer indirection <code>x^</code> denotes the variable of type <code>T</code> pointed to by <code>x</code>. If <code>x</code> is an invalid address, such as <code>nil</code>, an attempt to evaluate <code>x^</code> will result in platform specific behaviour - on most platforms this will be a segmentation fault.</p>
 <pre><code class=language-odin data-lang=odin>&amp;x
 &amp;a[foo(123)]
 &amp;Foo{1, 2}

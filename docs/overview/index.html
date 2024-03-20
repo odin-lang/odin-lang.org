@@ -1834,7 +1834,7 @@ fmt.println(&quot;m * v&quot;, m * v)
 fmt.println(&quot;v * m&quot;, v * m)
 
 // Support with non-square matrices
-s := matrix[2, 4]f32{ // [4][2]f32
+s := matrix[2, 4]f32{ // [4][2]f32 default layout
 	2, 4, 3, 1, 
 	7, 8, 6, 5, 
 }
@@ -1918,13 +1918,15 @@ y := mat4x2(x)
 fmt.println(&quot;x&quot;, x)
 fmt.println(&quot;y&quot;, y)
 </code></pre><h4 id=technical-information-of-matrix-types>Technical Information of <code>matrix</code> Types <a class=text-decoration-none href=#technical-information-of-matrix-types>#</a></h4>
-<p>The internal representation of a matrix in Odin is stored in column-major format
+<p>The default internal representation of a matrix in Odin is stored in column-major format
 e.g. <code>matrix[2, 3]f32</code> is internally <code>[3][2]f32</code> (with a different alignment requirement).</p>
 <p>Column-major is used in order to utilize (SIMD) vector instructions effectively on modern hardware, if possible.</p>
-<p>Unlike normal arrays, matrices try to maximize alignment to allow for the (SIMD) vectorization properties whilst keeping zero padding (either between columns or at the end of the type).</p>
-<p>Zero padding is a compromise for use with third-party libraries, instead of optimizing for performance. Padding between columns was not taken even if that would have allowed each column to be loaded individually into a SIMD register with the correct alignment properties.</p>
+<p>If a row-major storage format is required, the <code>#row_major</code> directive can be used.
+e.g. <code>#row_major matrix[2, 3]f32</code> is internally <code>[2][3]f32</code> (with a different alignment requirement).</p>
+<p>Unlike normal arrays, matrices try to maximize alignment to allow for the (SIMD) vectorization properties whilst keeping zero padding (either between columns (assuming default layout) or at the end of the type).</p>
+<p>Zero padding is a compromise for use with third-party libraries, instead of optimizing for performance. Padding between columns (assuming default layout) was not taken even if that would have allowed each column to be loaded individually into a SIMD register with the correct alignment properties.</p>
 <p>Currently, matrices are limited to a maximum of 16 elements (rows*columns), and a minimum of 1 element. This is because matrices are stored as values (not a reference type), and thus operations on them will be stored on the stack. Restricting the maximum element count minimizes the possibility of stack overflows.</p>
-<p>Built-in Procedures (Compiler Level):</p>
+<p>Built-in Procedures (Compiler Level) in <code>base:intrinsics</code> and <code>core:math/linalg</code>:</p>
 <ul>
 <li><code>transpose(m)</code>
 transposes a matrix</li>
@@ -1944,7 +1946,7 @@ component-wise multiplication of two matrices of the same type</li>
 </ul>
 </li>
 </ul>
-<p>Built-in Procedures (Runtime Level) (all square matrix procedures):</p>
+<p>Procedures (Runtime Level) (all square matrix procedures) in <code>core:math/linalg</code>:</p>
 <ul>
 <li><code>determinant(m)</code></li>
 <li><code>adjugate(m)</code></li>

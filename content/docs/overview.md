@@ -2333,7 +2333,7 @@ fmt.println("m * v", m * v)
 fmt.println("v * m", v * m)
 
 // Support with non-square matrices
-s := matrix[2, 4]f32{ // [4][2]f32
+s := matrix[2, 4]f32{ // [4][2]f32 default layout
 	2, 4, 3, 1, 
 	7, 8, 6, 5, 
 }
@@ -2430,18 +2430,21 @@ fmt.println("y", y)
 
 #### Technical Information of `matrix` Types
 
-The internal representation of a matrix in Odin is stored in column-major format
+The default internal representation of a matrix in Odin is stored in column-major format
 e.g. `matrix[2, 3]f32` is internally `[3][2]f32` (with a different alignment requirement).
 
 Column-major is used in order to utilize (SIMD) vector instructions effectively on modern hardware, if possible.
 
-Unlike normal arrays, matrices try to maximize alignment to allow for the (SIMD) vectorization properties whilst keeping zero padding (either between columns or at the end of the type).
+If a row-major storage format is required, the `#row_major` directive can be used.
+e.g. `#row_major matrix[2, 3]f32` is internally `[2][3]f32` (with a different alignment requirement).
 
-Zero padding is a compromise for use with third-party libraries, instead of optimizing for performance. Padding between columns was not taken even if that would have allowed each column to be loaded individually into a SIMD register with the correct alignment properties. 
+Unlike normal arrays, matrices try to maximize alignment to allow for the (SIMD) vectorization properties whilst keeping zero padding (either between columns (assuming default layout) or at the end of the type).
+
+Zero padding is a compromise for use with third-party libraries, instead of optimizing for performance. Padding between columns (assuming default layout) was not taken even if that would have allowed each column to be loaded individually into a SIMD register with the correct alignment properties.
 
 Currently, matrices are limited to a maximum of 16 elements (rows\*columns), and a minimum of 1 element. This is because matrices are stored as values (not a reference type), and thus operations on them will be stored on the stack. Restricting the maximum element count minimizes the possibility of stack overflows.
 
-Built-in Procedures (Compiler Level):
+Built-in Procedures (Compiler Level) in `base:intrinsics` and `core:math/linalg`:
 
 * `transpose(m)`
 	transposes a matrix
@@ -2455,7 +2458,7 @@ Built-in Procedures (Compiler Level):
 * `conj(x)`
 	* conjugates the elements of a matrix for complex element types only
 
-Built-in Procedures (Runtime Level) (all square matrix procedures):
+Procedures (Runtime Level) (all square matrix procedures) in `core:math/linalg`:
 
 * `determinant(m)`
 * `adjugate(m)`

@@ -268,9 +268,8 @@ body.dark-mode {
     color: var(--bs-secondary);
 }
 
-.btn-dark-mode:active {
-    outline: none !important;
-    outline-style: none !important;
+.btn-dark-mode  {
+    cursor: pointer;
 }
 .btn-dark-mode svg {
     position: relative;

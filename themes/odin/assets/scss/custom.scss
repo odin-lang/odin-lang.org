@@ -28,9 +28,9 @@ $table-cell-padding-x-sm:     .2rem;
 
 #jangafx-companies {
     img {
-        -webkit-filter: grayscale(100%);
-        filter: grayscale(100%);
-        mix-blend-mode: multiply;
+        -webkit-filter: grayscale(100%) invert(100%);
+        filter: grayscale(100%) invert(100%);
+        mix-blend-mode: color-dodge;
     }
 }
 

@@ -109,7 +109,6 @@ are on the sides, and hiding them when they're collapsed into a column.*/
     }
 }
 
-
 .showcase-preview {
     display: block;
     max-width: 100%;
@@ -143,6 +142,10 @@ are on the sides, and hiding them when they're collapsed into a column.*/
         float: right;
         margin-left: 1em;
     }
+
+    .dark-mode-appearance {
+        display: none;
+    }
 }
 
 /* remove navbar and table of contents when smaller than lg */
@@ -154,4 +157,160 @@ are on the sides, and hiding them when they're collapsed into a column.*/
     #TableOfContents {
         display: none
     }
+
+
+    .dark-mode-appearance {
+        display: inline;
+    }
 }
+
+code.hljs {
+    border-radius: 0.5em;
+}
+
+:root {
+    --dark-border: #242f3f;
+    --dark-background: #0d1117;
+    --dark-blue: HSL(211, 63%, 32%);
+    --dark-third: #1c1c20;
+    --dark-orange: HSL(28, 86%, 42%);
+    --dark-orange-border: HSL(28, 30%, 70%);
+    --pale-orange: #fa4;
+    --dark-code: #182028;
+}
+
+:root .dark-mode {
+    --bs-light: #e0f0ff;
+    --bs-primary: #7aade5;
+    --bs-secondary: var(--pale-orange);
+}
+
+@media only screen and (min-width: 992px)  {
+    .dark-mode .odin-sidebar-border {
+        border-right-color: var(--dark-border);
+    }
+    .dark-mode .odin-toc-border {
+        border-left-color: var(--dark-border);
+    }
+}
+
+.dark-mode .nav-link:hover {
+  color: var(--pale-orange) !important;
+}
+
+body.dark-mode {
+    background-color: var(--dark-background);
+    color: var(--bs-light);
+}
+
+.dark-mode .section-style-1 {
+    background-color: var(--dark-blue)!important;
+    color: var(--bs-light);
+}
+
+.dark-mode .section-style-2 {
+    background-color: var(--dark-background);
+    color: var(--bs-light);
+}
+
+.dark-mode .section-style-3 {
+    background-color: var(--dark-third);
+    color: var(--bs-light);
+}
+
+.dark-mode .bg-primary {
+    background-color: var(--dark-blue)!important;
+}
+
+.dark-mode .bg-secondary {
+    background-color: var(--dark-orange) !important;
+}
+.dark-mode .btn-secondary {
+    background-color: var(--dark-orange) !important;
+    border-color: var(--dark-orange-border) !important;
+}
+
+.dark-mode .form-select {
+    background-color: var(--dark-code) !important;
+    color: var(--bs-light) !important;
+    border-color: var(--dark-border) !important;
+}
+
+.dark-mode .odin-footer {
+    background-color: var(--dark-border)!important;
+}
+
+.dark-mode .table {
+    color: var(--bs-light) !important;
+    border-color: var(--bs-light) !important;
+    background-color: var(--dark-background) !important;
+}
+
+.dark-mode .table td {
+    color: var(--bs-light) !important;
+}
+
+.dark-mode .nav-pills .nav-link.active,
+.dark-mode .nav-pills .show>.nav-link {
+    background-color: var(--dark-blue);
+}
+
+
+.dark-mode code:not(pre *) {
+    color: var(--pale-orange);
+}
+
+.dark-mode code.hljs {
+    background-color: var(--dark-code) !important;
+}
+
+.dark-mode  #TableOfContents li.active {
+    color: var(--bs-secondary);
+}
+
+.btn-dark-mode:active {
+    outline: none !important;
+    outline-style: none !important;
+}
+.btn-dark-mode svg {
+    position: relative;
+    top: -3px;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    padding: 0;
+    margin-top: 0;
+}
+
+@media only screen and (min-width: 992px) {
+    .btn-dark-mode {
+        left: -8px;
+    }
+}
+@media only screen and (max-width: 991px) {
+    .btn-dark-mode svg {
+        left: 0px;
+    }
+}
+
+
+.btn-dark-mode svg {
+    fill: var(--bs-light);
+    width:  1em;
+    padding: 0;
+    border: 0;
+}
+
+#dark-mode-icon {
+    display: inline-block;
+}
+.dark-mode #dark-mode-icon {
+    display: none;
+}
+
+#light-mode-icon {
+    display: none;
+}
+.dark-mode #light-mode-icon {
+    display: inline-block;
+}
+

@@ -4,6 +4,9 @@
 <link rel="icon" href="/favicon.svg">
 
 <!-- Meta Cards -->
+<meta name="color-scheme" content="only dark" />
+
+
 <meta property="og:title" content="{{ .Title }}" />
 <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
@@ -103,6 +106,16 @@ hljs.registerLanguage("odin", function(e) {
   gtag('js', new Date());
 
   gtag('config', 'UA-67516878-2');
+</script>
+
+<script>
+    function toggleDarkMode() {
+        if (document.body.classList.toggle("dark-mode")) {
+            window.localStorage.setItem("theme", "dark");
+        } else {
+            window.localStorage.setItem("theme", "light");
+        }
+    }
 </script>
 
 <!-- Custom CSS -->

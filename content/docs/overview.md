@@ -3485,11 +3485,11 @@ skip_whitespace :: proc(t: ^Tokenizer) {
 Allows procedures with the attribute `@(test)` to be run with the command `odin test` directly.
 
 ```odin
-    import "core:testing"
+import "core:testing"
 
-    @(test)
-    foo :: proc(_: ^testing.T) {
-    }
+@(test)
+foo :: proc(_: ^testing.T) {
+}
 ```
 
 ### Variable attributes

@@ -36,3 +36,8 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 	})
 })
+
+
+if (window.localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark-mode");
+}

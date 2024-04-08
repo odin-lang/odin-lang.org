@@ -1910,7 +1910,7 @@ case:
 
 #### Union tags
 
-The `#no_nil` tag can be applied to the union type to state that it does not have a `nil` value, and the first variant is its default type:
+Applying the `#no_nil` tag to a union type states it does not have a `nil` value. Unions with `#no_nil` must have at least two variants and the first variant is its default type:
 
 ```odin
 Value :: union #no_nil {bool, string}
@@ -1919,7 +1919,33 @@ _, ok := v.(bool)
 assert(ok)
 ```
 
-This is useful in very limited cases, and if it is added, there must be at least two variants.
+The `#shared_nil` tag normalizes each variant's `nil` value into `nil` on assigment. If you assign `nil` or [zero values](#zero-values) to a union with `#shared_nil` the union will be `nil`. Unions with `#shared_nil` require all variants to have a `nil` value.
+
+```odin
+Error :: union #shared_nil {
+	File_Error,
+	Memory_Error,
+}
+
+File_Error :: enum {
+	None = 0,
+	File_Not_Found,
+	Cannot_Open_File,
+}
+
+Memory_Error :: enum {
+	None = 0,
+	Allocation_Failed,
+	Resize_Failed,
+}
+
+shared_nil_example :: proc() {
+	an_error: Error
+	an_error = File_Error.None
+
+	assert(an_error == nil)
+}
+```
 
 Unions also have the `#align` tag, like structures:
 

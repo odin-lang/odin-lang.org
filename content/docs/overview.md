@@ -2075,7 +2075,7 @@ Procedure types are only compatible with the procedures that have the same calli
 
 When binding to C libraries you'll often end up using `proc "c"` and also set the current context. For this you'll need to [explicity set the context](#explicit-context-definition).
 
-### 'typeid' type
+### `typeid` type
 A `typeid` is a unique identifier for an Odin type. This construct is used by the `any` type to denote what the underlying data's type is.
 ```odin
 a := typeid_of(bool)
@@ -2096,7 +2096,7 @@ main :: proc() {
 ```
 
 
-### 'any' Type
+### `any` Type
 An `any` type can reference any data type. Internally it contains a pointer to the underlying data and its relevant `typeid`. This is a very useful construct in order to have a runtime type safe printing procedure.
 
 **Note:** The `any` value is only valid for as long as the underlying data is still valid. Passing a literal to an `any` will allocate the literal in the current stack frame.
@@ -3901,7 +3901,7 @@ for &v, j in foos {
 }
 ```
 
-#### 'defer if'
+#### `defer if`
 ```odin
 cond := true
 
@@ -3912,7 +3912,7 @@ defer if cond {
 fmt.println("Hellope") // "Hellope" first
 ```
 
-#### 'Maybe(T)'
+#### `Maybe(T)`
 `Maybe(T)` is a union which *either* returns a type `T` or `nil`. In other languages this is often seen as `Option(T)`, `Result(T)`, etc. 
 
 Odin has multiple return values, so `Maybe(T)` is used less frequently or rarely in the `core` library. Instead of doing `-> Maybe(int)` you could transform it to `-> (int, bool)`.

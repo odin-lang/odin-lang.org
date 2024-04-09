@@ -2621,7 +2621,7 @@ assert(i == 456)
 
 ## `or_return` operator
 
-The concept of `or_return` will work by popping off the end value in a multiple valued expression and checking whether it was not `nil` or `false`, and if so, set the end return value to value if possible. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, `or_return` will require that all parameters be named so that the end value could be assigned to by name and then an empty return could be called. 
+The concept of `or_return` will work by popping off the end value in a multiple valued expression and checking whether it was not `nil` or was `false`, and if so, set the end return value to value if possible. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, `or_return` will require that all parameters be named so that the end value could be assigned to by name and then an empty return could be called. 
 
 ```odin
 Error :: enum {
@@ -2707,6 +2707,22 @@ foo_2 :: proc() -> (n: int, err: Error) {
 
 	n = 123
 	return
+}
+
+caller_4 :: proc() -> (n: int, ok: bool) {
+    return 3, true
+}
+
+foo_3 :: proc() -> (ok: bool) {
+    // `or_return` also supports the ok semantics common in Odin code.
+    // Note an error is indicated by `ok` being `false`
+    x := caller_4 or_return
+
+    if (x < 5) {
+        ok = true
+    }
+
+    return
 }
 ```
 

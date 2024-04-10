@@ -1663,7 +1663,7 @@ Foo :: bit_field [4]u8 {...}
 </code></pre><p>Notes:</p>
 <ul>
 <li>If <em>all</em> of the fields in a <code>bit_field</code> are 1-bit in size and are a boolean, please considering using a <a href=#bit-sets><code>bit_set</code></a> instead.</li>
-<li>Odin&rsquo;s <code>bit_field</code> and C&rsquo;s bit-fields may not be compatible
+<li>Odin&rsquo;s <code>bit_field</code> and C&rsquo;s bit-fields might not be compatible
 <ul>
 <li>Odin&rsquo;s <code>bit_field</code>s have a well defined layout (Least-Significant-Bit)</li>
 <li>C&rsquo;s bit fields on <code>struct</code>s are undefined and are not portable across targets and compilers</li>

@@ -1861,13 +1861,33 @@ Foo :: struct {
 }
 ```
 
-#### Struct tags
-Structs can be tagged with different memory layout and alignment requirements:
+#### Struct directives
+Structs can be annotated with different memory layout and alignment requirements:
 ```odin
-struct #align 4 {...} // align to 4 bytes
+struct #align(4) {...} // align to 4 bytes
 struct #packed {...} // remove padding between fields
 struct #raw_union {...} // all fields share the same offset (0). This is the same as C's union
 ```
+
+#### Struct field tags
+Struct fields can be tagged with a string literal to attach meta-infomration which can be used with runtime-type information. Usually this is used to provide transactional information info on how a struct field is encoded to or decoded from another format, but you can store whatever you want within the string literal
+```odin
+User :: struct {
+	flag: bool, // untagged field
+	age:  int    "custom whatever information",
+	name: string `json:"username" xml:"user-name" fmt:"q"`, // `core:reflect` layout
+}
+```
+
+Within Odin's core library, the standard convention is to store a `key` that denotes the package and then a subsequence `"value"`. For example, `json` keys are processed and used by `core:encoding/json` package, `fmt` keys are processed by `core:fmt`.
+
+If multiple information is to be passed in the `"value"`, usually it is specified by separating it with a common (`,`), e.g.
+
+```odin
+name: string `json:"username,omitempty",
+```
+
+n.b. Field tags also exist for [`bit_field` record types](#bit-fields).
 
 ### Unions
 A `union` in Odin is a discriminated union, also known as a tagged union or sum type. The zero value of a union is `nil`.
@@ -1951,7 +1971,7 @@ shared_nil_example :: proc() {
 Unions also have the `#align` tag, like structures:
 
 ```odin
-union #align 4 {...} // align to 4 bytes
+union #align(4) {...} // align to 4 bytes
 ```
 
 ### Maps
@@ -2050,6 +2070,29 @@ a = proc() -> int { return 0 }
 fmt.println(a()) // 0
 a = proc() -> int { return 100 }
 fmt.println(a()) // 100
+```
+
+### Bit Fields
+
+A `bit_field` is a record type in Odin that is akin to a bit-packed struct. **Note:** `bit_field` is __not__ equivalent to `bit_set` as it has different semantics and use cases. A `bit_field`'s field can be access using a do:
+```odin
+Foo :: bit_field u16 { // backing type must be an integer or array of integers
+    x: i32     | 3, // signed integers will be signed extended on use
+    y: u16     | 2 + 3, // general expressions
+    z: My_Enum | foo.SOME_CONSTANT, // ability to define the bit-width elsewhere
+    w: bool    | foo.SOME_CONSTANT > 10 ? 2 : 1,
+}
+
+v := Foo{}
+v.x = 4 // truncates the value to fit into 3 bits
+fmt.println(v.x) // accessing will convert `v.x` to an `i32` and do an appropriate sign extension
+```
+
+A `bit_field` is different from a `struct` in that you must specify the backing type. This backing type must be an integer or a fixed-length array of integers. This is useful if there needs to be a specific alignment or access pattern for the record.
+
+```odin
+Foo :: bit_field u32 {...}
+Foo :: bit_field [4]u8 {...}
 ```
 
 #### Calling conventions
@@ -3586,10 +3629,10 @@ struct #raw_union {u: u32, i: i32, f: f32}
 #### `#align`
 This tag can be applied to a `struct` or `union`. When `#align` is passed an integer `N` (as in `#align N`), it specifies that the `struct` will be aligned to `N` bytes. The `struct`'s fields will remain in source-order.
 ```odin
-Foo :: struct #align 4 {
+Foo :: struct #align(4) {
     b: bool,
 }
-Bar :: union #align 4 {
+Bar :: union #align(4) {
     i32,
     u8,
 }

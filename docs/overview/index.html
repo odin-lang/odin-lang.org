@@ -1646,7 +1646,7 @@ fmt.println(a()) // 0
 a = proc() -&gt; int { return 100 }
 fmt.println(a()) // 100
 </code></pre><h3 id=bit-fields>Bit Fields <a class=text-decoration-none href=#bit-fields>#</a></h3>
-<p>A <code>bit_field</code> is a record type in Odin that is akin to a bit-packed struct. <strong>Note:</strong> <code>bit_field</code> is <strong>not</strong> equivalent to <code>bit_set</code> as it has different semantics and use cases. A <code>bit_field</code>&rsquo;s field can be access using a do:</p>
+<p>A <code>bit_field</code> is a record type in Odin that is akin to a bit-packed struct. <strong>Note:</strong> <code>bit_field</code> is <strong>not</strong> equivalent to <code>bit_set</code> as it has different semantics and use cases. <code>bit_field</code> fields are accessed by using a dot:</p>
 <pre><code class=language-odin data-lang=odin>Foo :: bit_field u16 { // backing type must be an integer or array of integers
     x: i32     | 3, // signed integers will be signed extended on use
     y: u16     | 2 + 3, // general expressions

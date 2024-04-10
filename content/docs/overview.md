@@ -1311,6 +1311,22 @@ The above array can also be constructed with a question mark (`?`) to automatica
 x := [?]int{1, 2, 3, 4, 5}
 ```
 
+Construct an array with designated initializers:
+
+```odin
+favorite_animals := [?]string{
+	0 = "Raven",
+	1 = "Zebra",
+	2 = "Spider",
+	3 = "Frog",
+	4 = "Badger"
+}
+
+for animal in favorite_animals {
+	fmt.println(animal)
+}
+```
+
 The built-in [`len`](https://pkg.odin-lang.org/base/builtin/#len) proc returns the array's length.
 ```odin
 x: [5]int

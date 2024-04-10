@@ -2095,6 +2095,13 @@ Foo :: bit_field u32 {...}
 Foo :: bit_field [4]u8 {...}
 ```
 
+Notes:
+* If _all_ of the fields in a `bit_field` are 1-bit in size and are a boolean, please considering using a [`bit_set`](#bit-sets) instead.
+* Odin's `bit_field` and C's bit-fields may not be compatible
+	* Odin's `bit_field`s have a well defined layout (Least-Significant-Bit)
+	* C's bit fields on `struct`s are undefined and are not portable across targets and compilers
+
+
 #### Calling conventions
 Odin supports the following calling conventions:
 

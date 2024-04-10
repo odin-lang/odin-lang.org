@@ -2074,7 +2074,7 @@ fmt.println(a()) // 100
 
 ### Bit Fields
 
-A `bit_field` is a record type in Odin that is akin to a bit-packed struct. **Note:** `bit_field` is __not__ equivalent to `bit_set` as it has different semantics and use cases. A `bit_field`'s field can be access using a do:
+A `bit_field` is a record type in Odin that is akin to a bit-packed struct. **Note:** `bit_field` is __not__ equivalent to `bit_set` as it has different semantics and use cases. `bit_field` fields are accessed by using a dot:
 ```odin
 Foo :: bit_field u16 { // backing type must be an integer or array of integers
     x: i32     | 3, // signed integers will be signed extended on use

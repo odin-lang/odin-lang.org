@@ -878,7 +878,8 @@ However, `transmute` does not require taking the address of the value in questio
 ### Untyped types
 In the Odin type system, certain expressions will have an "untyped" type. An untyped type can implicitly convert to a "typed" type.
 ```odin
-I :: 42        // untyped integer, will implicitly convert to int, uint and its sized variants
+I :: 42        // untyped integer, will implicitly convert to any numeric type (int, u32, f64, quaternion128 etc)
+F :: 1.37      // untyped float,  will implicitly convert to any numeric type that can support fractional parts (f64, quaternion128 etc)
 S :: "Hellope" // untyped string,  will implicitly convert to string and cstring
 B :: true      // untyped boolean, will implicitly convert to bool, b8, b16, etc.
 ```

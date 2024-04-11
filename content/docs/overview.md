@@ -2052,26 +2052,6 @@ Short:
 * `reserve(&some_map, capacity)` reserves the requested element count
 * `shrink(&some_map)` shrink the capacity down to the current length
 
-### Procedure type
-A procedure type is internally a pointer to a procedure in memory. `nil` is the zero value a procedure type.
-
-Examples:
-```odin
-proc(x: int) -> bool
-proc(c: proc(x: int) -> bool) -> (i32, f32)
-```
-
-Or you can assign them to a variable:
-```odin
-Callback :: proc() -> int 
-a: Callback // nil 
-assert(a == nil)
-a = proc() -> int { return 0 }
-fmt.println(a()) // 0
-a = proc() -> int { return 100 }
-fmt.println(a()) // 100
-```
-
 ### Bit Fields
 
 A `bit_field` is a record type in Odin that is akin to a bit-packed struct. **Note:** `bit_field` is __not__ equivalent to `bit_set` as it has different semantics and use cases. `bit_field` fields are accessed by using a dot:
@@ -2101,6 +2081,25 @@ Notes:
 	* Odin's `bit_field`s have a well defined layout (Least-Significant-Bit)
 	* C's bit fields on `struct`s are undefined and are not portable across targets and compilers
 
+### Procedure type
+A procedure type is internally a pointer to a procedure in memory. `nil` is the zero value a procedure type.
+
+Examples:
+```odin
+proc(x: int) -> bool
+proc(c: proc(x: int) -> bool) -> (i32, f32)
+```
+
+Or you can assign them to a variable:
+```odin
+Callback :: proc() -> int 
+a: Callback // nil 
+assert(a == nil)
+a = proc() -> int { return 0 }
+fmt.println(a()) // 0
+a = proc() -> int { return 100 }
+fmt.println(a()) // 100
+```
 
 #### Calling conventions
 Odin supports the following calling conventions:

@@ -1632,20 +1632,7 @@ m[&quot;Chloe&quot;].x = 0 // PROHIBITED
 <li><code>reserve(&some_map, capacity)</code> reserves the requested element count</li>
 <li><code>shrink(&some_map)</code> shrink the capacity down to the current length</li>
 </ul>
-<h3 id=procedure-type>Procedure type <a class=text-decoration-none href=#procedure-type>#</a></h3>
-<p>A procedure type is internally a pointer to a procedure in memory. <code>nil</code> is the zero value a procedure type.</p>
-<p>Examples:</p>
-<pre><code class=language-odin data-lang=odin>proc(x: int) -&gt; bool
-proc(c: proc(x: int) -&gt; bool) -&gt; (i32, f32)
-</code></pre><p>Or you can assign them to a variable:</p>
-<pre><code class=language-odin data-lang=odin>Callback :: proc() -&gt; int 
-a: Callback // nil 
-assert(a == nil)
-a = proc() -&gt; int { return 0 }
-fmt.println(a()) // 0
-a = proc() -&gt; int { return 100 }
-fmt.println(a()) // 100
-</code></pre><h3 id=bit-fields>Bit Fields <a class=text-decoration-none href=#bit-fields>#</a></h3>
+<h3 id=bit-fields>Bit Fields <a class=text-decoration-none href=#bit-fields>#</a></h3>
 <p>A <code>bit_field</code> is a record type in Odin that is akin to a bit-packed struct. <strong>Note:</strong> <code>bit_field</code> is <strong>not</strong> equivalent to <code>bit_set</code> as it has different semantics and use cases. <code>bit_field</code> fields are accessed by using a dot:</p>
 <pre><code class=language-odin data-lang=odin>Foo :: bit_field u16 { // backing type must be an integer or array of integers
     x: i32     | 3, // signed integers will be signed extended on use
@@ -1670,7 +1657,20 @@ Foo :: bit_field [4]u8 {...}
 </ul>
 </li>
 </ul>
-<h4 id=calling-conventions>Calling conventions <a class=text-decoration-none href=#calling-conventions>#</a></h4>
+<h3 id=procedure-type>Procedure type <a class=text-decoration-none href=#procedure-type>#</a></h3>
+<p>A procedure type is internally a pointer to a procedure in memory. <code>nil</code> is the zero value a procedure type.</p>
+<p>Examples:</p>
+<pre><code class=language-odin data-lang=odin>proc(x: int) -&gt; bool
+proc(c: proc(x: int) -&gt; bool) -&gt; (i32, f32)
+</code></pre><p>Or you can assign them to a variable:</p>
+<pre><code class=language-odin data-lang=odin>Callback :: proc() -&gt; int 
+a: Callback // nil 
+assert(a == nil)
+a = proc() -&gt; int { return 0 }
+fmt.println(a()) // 0
+a = proc() -&gt; int { return 100 }
+fmt.println(a()) // 100
+</code></pre><h4 id=calling-conventions>Calling conventions <a class=text-decoration-none href=#calling-conventions>#</a></h4>
 <p>Odin supports the following calling conventions:</p>
 <ul>
 <li><strong>odin</strong> - default convention used for an Odin <strong>proc</strong>. It is the same as <strong>cdecl</strong> but passes an implicit <code>context</code> pointer on each call. (<strong>Note:</strong> This is subject to change)</li>
@@ -3388,8 +3388,8 @@ Some of this information includes:</p>
 <li><a href=#map-container-calls>Map Container Calls</a></li>
 </ul>
 </li>
-<li><a href=#procedure-type>Procedure type</a></li>
-<li><a href=#bit-fields>Bit Fields</a>
+<li><a href=#bit-fields>Bit Fields</a></li>
+<li><a href=#procedure-type>Procedure type</a>
 <ul>
 <li><a href=#calling-conventions>Calling conventions</a></li>
 </ul>

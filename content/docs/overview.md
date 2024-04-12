@@ -1315,11 +1315,13 @@ Construct an array with designated initializers:
 
 ```odin
 favorite_animals := [?]string{
+	// Assign by index
 	0 = "Raven",
 	1 = "Zebra",
 	2 = "Spider",
-	3 = "Frog",
-	4 = "Badger"
+	// Assign by range of indices
+	3..=5 = "Frog",
+	6..<8 = "Cat"
 }
 
 for animal in favorite_animals {

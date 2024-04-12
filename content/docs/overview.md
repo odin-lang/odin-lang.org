@@ -1159,7 +1159,7 @@ p^
 pproc(a)^
 
 x: ^int = nil
-x^      // causes a runtime panic
+x^      // usually causes a segmentation fault
 ```
 
 ### Ternary Operators

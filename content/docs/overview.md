@@ -779,6 +779,29 @@ foo :: proc{
 }
 ```
 
+### Passing procedures as parameters
+
+Procedures are values, and can be passed into a callee as parameter like other values.
+```odin
+foo :: proc() -> int { return 2 }
+fmt.println(foo)
+```
+Unlike in C or C++, procs are values, and can be passed by value. Passing a proc as a value is equivalent to passing the address of a function as a function pointer in C.
+
+When writing a procedure that expects a procedure value as a parameter, use the procedure's signature as the parameter's type:
+```odin
+my_mapreduce :: proc(mapper: proc(int)->int, reduce: proc(int,int)->int, values: []int, init := 0) -> int {
+	out := init
+	for v in values {
+		out = reduce(out, mapper(v))
+	}
+	return out
+}
+
+values := []int{1, 2, 3}
+mag_sqrd := my_mapreduce(proc(x:int)->int{return x*x}, proc(a,b:int)->int{return a+b}, values)
+fmt.println(mag_sqrd)
+```
 
 ## Basic types
 Odin's basic types are:
@@ -1801,6 +1824,18 @@ x := p^ // ^ on the right
 ```
 
 **Note:** Unlike C, Odin has no pointer arithmetic. If you need a form of pointer arithmetic, please use the `ptr_offset` and `ptr_sub` procedures in the `"core:mem"` package.
+
+**Note:** Unlike function pointers in C, procedures are ordinary values, so you don't need a function pointer to have a mutable proc variable that can contain different procedures.
+Since a proc is an ordinary value, a pointer to a proc can be used to mutate a proc variable, and change what it is pointing to:
+```odin
+change_proc_ptr :: proc(p : ^proc(int)->int) {
+	p^ = proc(x:int) -> int { return x + 1 }
+}
+p : proc(int)->int = proc(x:int) -> int { return x }
+fmt.println(p(1))  // 1
+change_proc_ptr(&p)
+fmt.println(p(1))  // 2
+```
 
 ### Structs
 A `struct` is a record type in Odin. It is a collection of fields. Struct fields are accessed by using a dot:

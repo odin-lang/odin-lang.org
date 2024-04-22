@@ -2716,7 +2716,7 @@ caller_4 :: proc() -> (n: int, ok: bool) {
 foo_3 :: proc() -> (ok: bool) {
     // `or_return` also supports the ok semantics common in Odin code.
     // Note an error is indicated by `ok` being `false`
-    x := caller_4 or_return
+    x := caller_4() or_return
 
     if (x < 5) {
         ok = true

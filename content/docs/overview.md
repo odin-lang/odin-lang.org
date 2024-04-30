@@ -1323,10 +1323,6 @@ favorite_animals := [?]string{
 	3..=5 = "Frog",
 	6..<8 = "Cat"
 }
-
-for animal in favorite_animals {
-	fmt.println(animal)
-}
 ```
 
 The built-in [`len`](https://pkg.odin-lang.org/base/builtin/#len) proc returns the array's length.

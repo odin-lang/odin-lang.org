@@ -397,38 +397,6 @@ array := [?]int { 10, 20, 30, 40, 50 }
 }
 ```
 
-#### `for` loop unrolling
-
-The `#unroll` directive unrolls a ranged-based `for` loop.
-
-```odin
-// Ranges
-#unroll for x, i in 1..<4 {
-	fmt.println(x, i)
-}
-
-// Strings
-#unroll for r, i in "Hello, unroll" {
-	fmt.println(r, i)
-}
-
-// Arrays
-#unroll for elem, idx in ([4]int{1, 4, 9, 16}) {
-	fmt.println(elem, idx)
-}
-
-Foo_Enum :: enum {
-	A = 1,
-	B,
-	C = 6,
-	D,
-}
-// Enums
-#unroll for elem, idx in Foo_Enum {
-	fmt.println(elem, idx)
-}
-```
-
 ### `if` statement
 
 Odin's `if` statements do not need to be surrounded by parentheses `( )` but braces `{ }` or `do` are required.

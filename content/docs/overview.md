@@ -2871,7 +2871,7 @@ You can read up further on [Built-in procedures](#configidentifer-default) here.
 This feature allows you to cover more edge-case situations where you want some code to be compiled on several platforms.
 
 However, overly-liberal use of this feature can make it hard to reason about what code is included or not, based on the target platform or architecture.
-[File Suffixes](#File-Suffixes) are typically a nicer approach if they cover what you need.
+[File Suffixes](#file-suffixes) are typically a nicer approach if they cover what you need.
 
 For the sake of demonstration, let's take POSIX: You could use `foobar_unix.odin`, which has no special meaning to the compiler at all, and use a tag in the file itself.
 

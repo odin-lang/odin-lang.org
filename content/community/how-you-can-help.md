@@ -11,14 +11,13 @@ If you find a bug, mistake, or an inconsistency in the Odin code or documentatio
 
 ## Contributing Code
 
-Check out the Odin source code.
+Check out the Odin [source code](https://github.com/odin-lang/Odin).
 
-[Source Code](https://github.com/odin-lang/Odin)
 Odin is an open source project and we welcome contributions from the community.
 
 Check the [issue tracker](https://github.com/odin-lang/odin/issues) for open issues that may interest you. Those labelled [help wanted](https://github.com/odin-lang/Odin/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) are particularly in need of help from the outside.
 
-## Finacial Support
+## Financial Support
 
 You can also donate directly to help development and paying developers through:
 * [Github Sponsors](https://github.com/sponsors/odin-lang)

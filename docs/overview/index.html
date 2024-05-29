@@ -2353,7 +2353,7 @@ when FOO {
 <h3 id=build-tags>Build tags <a class=text-decoration-none href=#build-tags>#</a></h3>
 <p>This feature allows you to cover more edge-case situations where you want some code to be compiled on several platforms.</p>
 <p>However, overly-liberal use of this feature can make it hard to reason about what code is included or not, based on the target platform or architecture.
-<a href=#File-Suffixes>File Suffixes</a> are typically a nicer approach if they cover what you need.</p>
+<a href=#file-suffixes>File Suffixes</a> are typically a nicer approach if they cover what you need.</p>
 <p>For the sake of demonstration, let&rsquo;s take POSIX: You could use <code>foobar_unix.odin</code>, which has no special meaning to the compiler at all, and use a tag in the file itself.</p>
 <p>Here&rsquo;s an example of a file that will only be included on Linux or Darwin:</p>
 <pre><code class=language-odin data-lang=odin>//+build linux, darwin

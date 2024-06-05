@@ -1,0 +1,826 @@
+<!doctype html><html>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<link rel=icon href=/favicon.svg>
+<meta name=color-scheme content="only dark">
+<meta property="og:title" content="June 2024 Newsletter">
+<meta property="og:description" content="Highlights for June - Showcasing X Community Projects">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://odin-lang.org/news/newsletter-2024-06/">
+<meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
+<meta property="article:published_time" content="2024-05-30T00:00:00+00:00">
+<meta property="article:modified_time" content="2024-05-30T00:00:00+00:00">
+<link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
+<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
+<script src=/lib/highlight/highlight.min.js></script>
+<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[ijk]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
+<script>hljs.highlightAll()</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
+<script>function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script>
+<link href=/css/style.css rel=stylesheet>
+<title>June 2024 Newsletter | Odin Programming Language </title>
+<link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><header class=sticky-top>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
+<div class=container-xxl>
+<a class=navbar-brand href=/>
+<img src=/logo.svg height=30 alt=Odin id=navbar-logo>
+</a>
+<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span>
+</button>
+<div class="collapse navbar-collapse" id=odin-navbar-content>
+<ul class="navbar-nav ms-md-auto">
+<li class=nav-item>
+<a class=nav-link href=/>Home</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/docs>Docs</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://pkg.odin-lang.org/>Packages</a>
+</li>
+<li class=nav-item>
+<a class="nav-link active" href=/news aria-current=page>News</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/showcase>Showcase</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/community>Community</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
+</li>
+<li class=nav-item>
+<a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode">
+<span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg>
+</button>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</nav>
+</header>
+<main>
+<div class=container-xxl>
+<div class="row odin-main">
+<nav class="col-lg-2 odin-sidebar-border navbar-light">
+<div class="sticky-top odin-below-navbar py-3">
+<ul class="nav nav-pills d-flex flex-column">
+<li class=nav-item>
+<a class="nav-link active" href=/news/newsletter-2024-06/ aria-current=page>June 2024 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/binding-to-c/>Binding to C</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a>
+</li>
+<li class=nav-item>
+<a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a>
+</li>
+</ul>
+</div>
+</nav>
+<article class="col-lg-8 p-4">
+<header>
+<nav aria-label=breadcrumb>
+<ol class=breadcrumb>
+<li class=breadcrumb-item><a href=/news>News</a></li>
+<li class=breadcrumb-item><a href=/news/newsletter-2024-06>Newsletter 2024 06</a></li>
+</ol>
+<h1>June 2024 Newsletter</h1>
+</header>
+<div class=odin-article>
+<p>Read up on the compiler changes in the <a href=https://github.com/odin-lang/Odin/releases/tag/dev-2024-06>monthly release</a> notes.</p>
+<p>This month we&rsquo;ve got a new podcast from <em><strong>Allen</strong></em>, including <em><strong>Andrew Kelley</strong></em> and <em><strong>Ginger Bill</strong></em>. They talk about language design and a bit about textual programming. This fits nicely with the blog entries for this month.</p>
+<div class="ratio ratio-16x9 my-2">
+<iframe src="https://www.youtube.com/embed/3K8znjWN_Ig?rel=0" allowfullscreen crossorigin=anonymous></iframe>
+</div>
+<hr>
+<p><em><strong>Karl Zylinski</strong></em> can&rsquo;t stop with dishing out high quality odin videos. From tutorials to basic games everything get&rsquo;s covered.</p>
+<div class="ratio ratio-16x9 my-2">
+<iframe src="https://www.youtube.com/embed/lfiQNCNUifI?rel=0" allowfullscreen crossorigin=anonymous></iframe>
+</div>
+<p>Indiedevs Talk Shop is his podcast, featuring fellow gamedevs and talking about&mldr; well anything gamedev related.</p>
+<div class="ratio ratio-16x9 my-2">
+<iframe src="https://www.youtube.com/embed/YjoCOpiL2I8?rel=0" allowfullscreen crossorigin=anonymous></iframe>
+</div>
+<p>Here is one of my favorites so far with the game developer <em><strong>Dennis Gustafsson</strong></em>, one of the creators of <a href=https://www.teardowngame.com/>Teardown</a>. As a big fan of the game it was nice to hear how the game got started and what was most challenging about development.</p>
+<h2 id=projects-shared-this-month>Projects shared this month <a class=text-decoration-none href=#projects-shared-this-month>#</a></h2>
+<table>
+<thead>
+<tr>
+<th>Project Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href=https://github.com/blob1807/odin-aseprite>odin-aseprite</a></td>
+<td>Aseprite File Handler updated</td>
+</tr>
+<tr>
+<td><a href=https://github.com/yevhen-k/opencv-odin-demo/>opencv-odin-demo</a></td>
+<td>OpenCV bindings</td>
+</tr>
+<tr>
+<td><a href=https://codeberg.org/mgavioli/locale>locale</a></td>
+<td>Manage locales</td>
+</tr>
+<tr>
+<td><a href=https://github.com/thetarnav/odin-wasm/tree/main/wasm/ctx2d>odin-wasm</a></td>
+<td>Wasm Canvas Context</td>
+</tr>
+<tr>
+<td><a href=https://github.com/yevhen-k/onnx-odin-bindings>onnx-odin</a></td>
+<td>onnx Bindings</td>
+</tr>
+<tr>
+<td><a href=https://codeberg.org/mgavioli/podin>podin</a></td>
+<td>collect translatable messages in Odin source to be managed</td>
+</tr>
+<tr>
+<td><a href=https://github.com/cstrachan88/odin-gameinput>gameinput</a></td>
+<td>Microsoft GameInput Bindings</td>
+</tr>
+<tr>
+<td><a href=https://github.com/10aded/Odin-Vulkan-GLFW-Rainbow-Triangle>vulkan-triangle</a></td>
+<td>Vulkan GLFW Triangle</td>
+</tr>
+<tr>
+<td><a href=https://github.com/joaocarvalhoopen/Neat_Matrix_Library_in_Odin>NML Odin</a></td>
+<td>Neat Matrix Library Port to odin</td>
+</tr>
+<tr>
+<td><a href=https://github.com/JerMakesStuff/Dusk>Dusk</a></td>
+<td>Game Framework</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id=undoredo-implementation>Undo/Redo Implementation <a class=text-decoration-none href=#undoredo-implementation>#</a></h2>
+<p>Jakub has posted a blog on their blog about implementing Undo/Redo systems, give it a read.</p>
+<p><a href=https://jakubtomsu.github.io/posts/simple_undo_redo_in_odin/>https://jakubtomsu.github.io/posts/simple_undo_redo_in_odin/</a></p>
+<h2 id=text-editor-experimentation-2-skytrias>Text Editor Experimentation #2 (Skytrias) <a class=text-decoration-none href=#text-editor-experimentation-2-skytrias>#</a></h2>
+<p>Last month I showed off my text editor with a bit of a twist in terms of buffer management. This time around we&rsquo;ll look into what other approaches exist.</p>
+<h3 id=dion>Dion <a class=text-decoration-none href=#dion>#</a></h3>
+<p><em><strong>Dion</strong></em> was a demo project showed off at around the handmade circles about having an AST (Abstract Syntax Tree) level editor. Sadly the project has been discontinued and the website is now down, but luckily I have saved some of the showcase material. I&rsquo;ll show one of them as long as the creators are okay with it.</p>
+<figure class="figure w-100 text-center">
+<img src=/images/news/2024-06-skytrias1.gif class="figure-img img-fluid rounded">
+<figcaption class="figure-caption text-center">An AST can be presented in different syntax outputs. The tree still remains editable in any syntax.
+</figcaption>
+</figure>
+<figure class="figure w-100 text-center">
+<img src=/images/news/2024-06-skytrias2.gif class="figure-img img-fluid rounded">
+<figcaption class="figure-caption text-center">Lovely feature that mostly IDE's have - Renaming locals or globals.
+</figcaption>
+</figure>
+<p>I&rsquo;m not certain why the project has been dropped. I think it&rsquo;s sad that nobody is actively developing something like <em><strong>Dion</strong></em> anymore. If you know anybody who still does, let me know!</p>
+<h3 id=getting-started>Getting Started <a class=text-decoration-none href=#getting-started>#</a></h3>
+<p>I&rsquo;ve always wanted something like this for odin. We&rsquo;ll get into the difficulties that may arrise later.</p>
+<figure class="figure w-100 text-center">
+<img src=/images/news/2024-06-skytrias4.png class="figure-img img-fluid rounded">
+<figcaption class="figure-caption text-center">Looks simple enough right?
+</figcaption>
+</figure>
+<p>It&rsquo;s worth mentioning that I&rsquo;m not a programming language guy. AST&rsquo;s and everything surrounding it were quite new to me. It took a while to understand how odin&rsquo;s AST works.</p>
+<p>As we already have a nice <code>core:odin/ast</code> / <code>core:odin/parser</code> package, it was easy to get started analyzing the output, of what the raw text would equate to.</p>
+<h3 id=ast-structure--examples>AST Structure & Examples <a class=text-decoration-none href=#ast-structure--examples>#</a></h3>
+<p>I won&rsquo;t go into too much detail but basically odin&rsquo;s AST is split up into <em>Statements</em> and <em>Expressions</em>. There are also <em>Declarations</em> and <em>Types</em> but which can be thought of subtypes.</p>
+<p>So a generic node for odin would look something like this:</p>
+<pre><code>Node :: struct {
+  // linked list
+  prev: ^Node,
+  next: ^Node,
+  parent: ^Node,
+  node_type: Node_Type,
+
+  // sub lists
+  names: List,
+  values: List,
+  params: List,
+  // ...
+
+  // sub nodes
+  body: ^Node,
+  type: ^Node,
+
+  init: ^Node,
+  cond: ^Node,
+  body: ^Node,
+  extra: ^Node,
+  // ...
+
+  // properties
+}
+
+Node_Type :: enum {
+  // ...
+}
+</code></pre><p>Let&rsquo;s try out a simple example first</p>
+<pre><code>some_value: int
+</code></pre><p>Equals</p>
+<pre><code>Declaration_Value &quot;:&quot;
+- NAMES
+  - Expression_Identifier &quot;some_value&quot;
+- TYPE
+  - Expression_Identifier &quot;int&quot;
+- VALUES
+  - empty
+</code></pre><p>But it could also get more complex</p>
+<pre><code>value1, value2, value3: int = 1, 2, 3
+</code></pre><p>Equals</p>
+<pre><code>Declaration_Value &quot;:&quot;
+- NAMES
+  - Expression_Identifier &quot;value1&quot;
+  - Expression_Identifier &quot;value2&quot;
+  - Expression_Identifier &quot;value3&quot;
+- TYPE
+  - Expression_Identifier &quot;int&quot;
+- VALUES
+  - Expression_Basic_Literal (integer) &quot;1&quot;
+  - Expression_Basic_Literal (integer) &quot;2&quot;
+  - Expression_Basic_Literal (integer) &quot;3&quot;
+
+</code></pre><p>Let&rsquo;s try an odin procedure, can you guess how it&rsquo;s built up?</p>
+<pre><code>some_procedure :: proc() {
+
+}
+</code></pre><p>Would turn out to be</p>
+<pre><code>Declaration_Value &quot;::&quot;
+- NAMES
+  - Expression_Identifier &quot;some_procedure&quot;
+- VALUES 
+  - Expression_Procedure_Literal &quot;proc&quot;
+    - BODY
+      - Statement_Block &quot;{...}&quot;
+    - TYPE
+      - Type_Procedure &quot;(...)&quot;
+        - PARAMS (procedure arguments)
+          - ...
+          - ...
+          - ...
+</code></pre><p>Quite complex just for a procedure, don&rsquo;t you think?</p>
+<h3 id=ast-creation>AST Creation <a class=text-decoration-none href=#ast-creation>#</a></h3>
+<p>First we have to figure out our <code>Node</code> structure and how we&rsquo;ll layout things. As you can see above my approach was to go very untyped. Nodes would infer what would have to be used just by their <code>node_type</code>.</p>
+<p>Once we got that figured out we&rsquo;ll need ways to manually create the AST to test out all the odin features.</p>
+<p>My method was to look what the <code>core:odin/ast</code> would spit out and recreate that tree. I ended up with roughly ~10 test functions which would go through different scenarios.</p>
+<h3 id=ast-rendering>AST Rendering <a class=text-decoration-none href=#ast-rendering>#</a></h3>
+<p>Debug printing won&rsquo;t get us far and the goal is to render the AST anyway. It sounds complex, but once we figure out how nodes would recursively draw their sub sections it turns out to be simple.</p>
+<p>For now we just want to render the AST back to the original textual syntax.</p>
+<figure class="figure w-100 text-center">
+<img src=/images/news/2024-06-skytrias3.png class="figure-img img-fluid rounded">
+<figcaption class="figure-caption text-center">Basic Rendering: brown = identifiers, white = automatic syntax, rest = literals
+</figcaption>
+</figure>
+<p>To draw the entire odin AST I ended up with around with roughly 600 loc (excluding rendering logic)!</p>
+<p>Here&rsquo;s a basic example of a block statement <code>{ ... }</code> and an identifier node would render their content.</p>
+<pre><code>node_ui :: proc(using draw: ^Draw_State, node: ^tree.Node)
+  sub: Rect
+
+  switch (node.node_type) {
+    // ...
+
+    case .Stmt_Block:
+      draw_text_basic_inc(draw, &amp;sub, &quot;{&quot;)
+      column = 0
+      line += 1
+      indentation += 1
+
+      // draw children statements
+      for s := node.values.head; s != nil; s = s.next {
+        node_ui(draw, &amp;sub, s)
+        column = 0
+        line += 1
+      }
+
+      indentation -= 1    
+      draw_text_basic_inc(draw, &amp;sub, &quot;}&quot;)
+      column += 1
+
+    // ...
+
+    case .Expr_Ident:
+      draw_text_ident_inc(draw, &amp;sub, node.content, node) // node.content is strings.Builder
+
+    // ...
+  }
+}
+</code></pre><h3 id=wrapping-up>Wrapping Up <a class=text-decoration-none href=#wrapping-up>#</a></h3>
+<p>Since the short blog is getting quite long already we&rsquo;ll take a break here and dive into editor navigation, editing and the other painful things that the AST editing ends up becoming.</p>
+<p>If you&rsquo;re interested in AST editing let us know!</p>
+<hr>
+<h2 id=codin-markersniffen>codin (markersniffen) <a class=text-decoration-none href=#codin-markersniffen>#</a></h2>
+<p>A few years ago I decided that I was going to figure out how to write cross-platform apps. I was a motion graphics artist by trade, getting frustrated with the limitations and bloat of the software I had access to. My experience was limited to simple scripts in Python (for Blender), writing &ldquo;expressions&rdquo; in After Effects (think slower than normal javascript), and a bout in Java (I think?) trying to control robotic cameras. At the beginning I remember trying to write an Adobe Illustrator clone in the browser before my brother (who has an actual CS degree) pointed me to Handmade Hero, which through some series of events led me to Odin. Odin completely changed everything for me - everything seemed to click and I started the slow journey of learning how things a little lower down worked.</p>
+<h3 id=ui>UI <a class=text-decoration-none href=#ui>#</a></h3>
+<p>My apps were going to be graphical by nature - as a graphics artist most of what I wanted to do involved them in some capacity. I found Dear Imgui early on and used that during my first serious odin project. I quickly ran into some frustrating limitations, and decided I wanted to write my own UI. My design is based heavily on the <a href=https://www.rfleury.com/p/ui-series-table-of-contents>fantastic series of blog posts</a> by Ryan Fleury, so reading and digesting some of that is highly recommended.</p>
+<p>All of my UI development has been at the service of other projects, and I keep a few &ldquo;example&rdquo; projects in the repository to help test a variety of conditions that my library needs to be able to handle. One of these projects is a code editor. Dubbed <em>codin</em> (for obvious reasons), there are several parts of the project that were both fun and interesting for me to figure out. For this post I decided to focus on the way the UI builder code works. When it comes down to it, core of the editor is based on a single widget of my UI library, <code>edit_multiline</code>.</p>
+<p>As an <em>imgui</em>, the builder code in my library looks something like this:</p>
+<pre><code>{
+  panel_begin()
+  size(.PARENT, 1, .TEXT, 1)
+  if button(buffer.name).clicked do fmt.println(&quot;You clicked a button!&quot;)
+  panel_end()
+}
+</code></pre><p>Everything in the UI is composed of a hierarchy of <em>boxes</em> that compose everything displayed in the UI. A <em>widget</em> is a chunk of code the creates and manipulates the <em>boxes</em>. For example, the <code>button()</code> function in the above example looks like this:</p>
+<pre><code>button :: proc(name:..any) -&gt; Box_Ops {
+  set_hover_cursor(.HAND)
+  box := create_box({name, &quot;###Button&quot;}, { .CLICKABLE, .DRAW_TEXT, .HOT_EFFECTS, })
+  process_ops(box)
+  return box.ops
+}
+</code></pre><p>For codin, I created a widget for editing a single line of text:</p>
+<pre><code>edit_text :: proc(name: []any, text:^string) -&gt; Box_Ops {
+  set_hover_cursor(.IBEAM)
+  text_align(.LEFT)
+  box := create_box({name, &quot;EditTextBox&quot;}, { .CLICKABLE, .DRAW_TEXT }, text)
+  process_ops(box)
+  if box.ops.clicked do set_focused(box.key)
+
+  if is_focused(box) {
+    // handle keyboard input to edit text string
+  }
+  ...
+}
+</code></pre><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_edit_text.mp4></video></p>
+<p>But in codin we need to edit multiple lines of text, so why don&rsquo;t we just put that widget into another one:</p>
+<pre><code>edit_multiline :: proc(name: []any, lines:^[dynamic]string) -&gt; Box_Ops {
+  for line in lines {
+    edit_text(name, line)
+  }
+}
+</code></pre><p>That, as the name suggests, lets you edit a chunk of text that is composed of multiple lines. But what we have more lines than fill the screen? My library has a <code>scrollbox()</code> widget that scales to fit it&rsquo;s children and adds bars you can grab to slide it up and down:</p>
+<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_scrollbox.mp4></video></p>
+<p>The problem with this approach is that if you have a large text file, there are potentially hundreds or thousands of lines of text that are offscreen and do not need boxes created for them. That wastes a lot of cycles on invisible content. I adjusted the demo so that you could see the offscreen boxes outlined in blue:</p>
+<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_too-many-boxes.mp4></video></p>
+<p>My solution to this problem was to only create boxes for visible lines of text. However, this breaks the scrollbox - the scrollbox needs a full set of children to determine the proper height for it&rsquo;s own box. What I needed to do was create a spacer box before the visible boxes to account for the offscreen boxes that are no longer created, and <em>also</em> manually calculate the height of the scrollbox, since we don&rsquo;t have the children boxes that appear <em>after</em> the last visible line:</p>
+<ul>
+<li>First calculate the number of visible rows</li>
+<li>Then calculate what the height of the scrollbox would be if I created boxes for all the rows</li>
+<li>Then create the scrollbox widget, telling it exactly how tall to be in pixels</li>
+<li>Finally calculate which line of text is the first one to draw by looking at the vertical offset of the scrollbox</li>
+</ul>
+<pre><code>edit_multiline :: proc(...) {
+
+  visible_rows      := get_panel_height() / get_line_space()
+  row_count         := len(lines)
+  scrollbox_height  := f32(row_count) * get_line_space()
+  
+  size(.PARENT, 1, .PIXELS, scrollbox_height)
+  sbox := scrollbox({&quot;text buffer&quot;})
+
+    first_line_index := int(abs(sbox.offset.y) / get_line_space())
+    last_line_index  := first_line_index + visible_rows
+
+    // add spacer
+    spacer(0, get_line_space() * f32(first_line_index))
+
+    // for each line..
+    for li in first_line_index..=last_line_index
+      line := &amp;lines[li]
+      edit_text(name, line)
+    }
+  pop()
+}
+</code></pre><p>And now we only create and calculate the number of boxes that would be visible:</p>
+<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_good-boxes.mp4></video></p>
+<p>Now that we are drawing the lines, how do we know which line our cursor is on? We get the cursor position as an input, so let&rsquo;s compare that to the box indices, and when they are equal we can draw a border around it:</p>
+<pre><code>edit_multiline :: proc(..., cursor:^Txt_Pt, ...)
+{
+  ...
+
+  // for each line..
+  for li in first_line_index..=last_line_index
+    line := &amp;lines[li]
+    txt_box := edit_text(name, line)
+
+    if li == cursor.row {
+      txt_box.border = 2
+      txt_box.border_color == get_color(.FOCUSED)
+    }
+
+  }
+}
+</code></pre><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_line-highlighting.mp4></video></p>
+<p>Now that we highlight the line that cursor is on, let&rsquo;s look at moving it around. We can move the cursor up and down by checking keyboard input events:</p>
+<pre><code>edit_multiline :: proc(...cursor:^Txt_Pt, auto_scroll:^bool ...)
+{
+  ...
+
+  if os_key_event(.PRESS, .UP,   {}     ) do cursor.row -= 1
+  if os_key_event(.PRESS, .UP,   {.CTRL}) do cursor.row -= visible_rows
+  if os_key_event(.PRESS, .DOWN, {}     ) do cursor.row += 1
+  if os_key_event(.PRESS, .DOWN, {.CTRL}) do cursor.row += visible_rows
+
+  // clamp cursor so it stays in range...
+  cursor.row = clamp(cursor.row, 0, len(lines)-1)
+}
+</code></pre><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_keyboard-input.mp4></video></p>
+<p>How about auto scrolling when the cursor is not in the visible range?</p>
+<ul>
+<li>first check if the cursor is in the visible range of boxes</li>
+<li>then set the scrollbox vertical offset to a position that would show the cursor&rsquo;s row</li>
+</ul>
+<pre><code>edit_multiline :: proc(..., cursor:^Txt_Pt, ...)
+{
+  ...
+  cursor_in_range := (cursor.row &gt;= first_line_index) &amp;&amp; (cursor.row &lt; last_line_index)
+  if !cursor_in_range {
+    sbox.offset.y = cursor.row * get_line_space()
+  }
+}
+</code></pre><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_auto-scroll.mp4></video></p>
+<p>One thing I realized was that we don&rsquo;t always want to auto scroll&mldr;often I manually scroll around a file and let the cursor go off screen. So I added a <code>scroll_trigger:^bool</code> as an input to give us a way to limit the auto scroll:</p>
+<pre><code>edit_multiline :: proc(..., cursor:^Txt_Pt, auto_scroll:^bool ...)
+{
+  ...
+  if auto_scroll^ {
+    cursor_in_range := (cursor.row &gt;= first_line_index) &amp;&amp; (cursor.row &lt; last_line_index)
+    if !cursor_in_range {
+      sbox.offset.y = cursor.row * get_line_space()
+    }
+  }
+}
+</code></pre><p>The above code above is a simpler version of codin&rsquo;s <code>edit_multiline</code> widget that actually exists, but it accurately captures how I implemented the described features. For what it&rsquo;s worth, the actual <code>edit_multiline</code> fuction definition looks like:</p>
+<pre><code>edit_multiline :: proc(
+    name:            []any,
+    lines:           ^[dynamic]string,
+    active:          bool,
+    cursor, mark:    ^Text_Pt,
+    scroll_trigger:  ^bool,
+    bars:            f32=16
+  ) -&gt; (Box_Ops, []^Box, []int)
+{
+  // actual implementation goes here...
+}
+</code></pre><p>The inputs:</p>
+<ul>
+<li><code>name</code> is just a unique identifier for all the boxes in the widget.</li>
+<li><code>lines</code> is an array of strings that we can view and edit.</li>
+<li><code>cursor</code> is a <code>[2]int</code> that contain the cursor location.</li>
+<li><code>mark</code> is another <code>[2]int</code> that contains a cursor that marks the beginning or end of a text selection.</li>
+<li><code>scroll_trigger</code> is a <code>bool</code> that tells the widget whether or not to auto-scroll to the line that contains the cursor on the screen.</li>
+<li><code>bars</code> is a float that indicates the width of the scroll bar.</li>
+</ul>
+<p>The return values:</p>
+<ul>
+<li>Box_Ops is a struct that contains any state affected by input, e.g. clicking, hovering, releasing, etc.</li>
+<li>[]^Box and []int are temporary arrays of the visible boxes/line indices that I use to highlighting and jump to to build errors.</li>
+</ul>
+<h3 id=build-errors>Build Errors <a class=text-decoration-none href=#build-errors>#</a></h3>
+<p>As implied by the return vaues above, I added the ability to run a build from within codin, so here&rsquo;s a breakdown of how that system works and integrates with the UI. I created the concept of a terminal, defined loosely by this struct:</p>
+<pre><code>Terminal :: struct {
+  panel:          ^ui.Panel,                                // ui panel that the terminal is linked to
+  command:         string,                                  // a string to hold the build command (e.g. &quot;odin run ./code --debug&quot;)
+  vpool:           g.VPool,                                 // pool to hold memory for build error strings
+  build_errors:    [dynamic]Build_Error,                    // array of build error structs
+  error_list:      map[string]g.Simple_List(Build_Error),   // map of errors by string (file name)
+  active_error:   ^Build_Error,                             // currently highlighted error
+  build_status:    Build_Status,                            // enum {Nil, Failure, Success}
+  build_thread:   ^thread.Thread,                           // build thread
+}
+</code></pre><p>A <code>Build_Error</code> looks like this:</p>
+<pre><code>Build_Error :: struct {
+  prev,next:    ^Build_Error,  // pointers to create linked list
+  path:         string,        // path to file that error is in
+  file:         ^File,         // pointer to file object that error is in
+  message:      string,        // error message
+  point:        ui.Text_Pt,    // row &amp; column where error occurs
+}
+</code></pre><p>I create a new panel and add an <code>edit_text</code> widget to fill out the terminal.command string:</p>
+<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_command-string.mp4></video></p>
+<p>I make a call via the win32 api to start a process using the previously defined command:</p>
+<pre><code>execute_terminal_command :: proc(process_command: string) {
+  p := &amp;app.terminal.process
+  p.security_attributes.nLength = size_of(windows.SECURITY_ATTRIBUTES)
+  p.security_attributes.bInheritHandle = true
+  p.security_attributes.lpSecurityDescriptor = nil
+
+  // create pipe
+  if !windows.CreatePipe(&amp;p.child_out_read, &amp;p.child_out_write, &amp;p.security_attributes, 0) { ui.print(&quot;CreatePipe failed!&quot;, windows.GetLastError()) }
+  if !windows.CreatePipe(&amp;p.child_in_read, &amp;p.child_in_write, &amp;p.security_attributes, 0) { ui.print(&quot;CreatePipe failed!&quot;, windows.GetLastError()) }
+
+  if !windows.SetHandleInformation(p.child_out_read, windows.HANDLE_FLAG_INHERIT, 0) { ui.print(&quot;Stdout SetHandleInformation&quot;) }
+  if !windows.SetHandleInformation(p.child_in_write, windows.HANDLE_FLAG_INHERIT, 0) { ui.print(&quot;Stdout SetHandleInformation&quot;) }
+
+  si: windows.STARTUPINFOW
+  si.cb = size_of(si)
+  si.hStdError  = p.child_out_write
+  si.hStdOutput = p.child_out_write
+  si.hStdInput  = p.child_in_read
+  si.dwFlags += windows.STARTF_USESTDHANDLES
+
+   // Start the child process. 
+  pcommand := windows.utf8_to_utf16(process_command)
+  pdir     := windows.utf8_to_utf16(app.project.path)
+
+  if(!windows.CreateProcessW(nil, &amp;pcommand[0], nil, nil, true, windows.CREATE_SUSPENDED|windows.CREATE_NO_WINDOW, nil, &amp;pdir[0], &amp;si, &amp;p.process_info)) {
+    ui.print(&quot;CreateProcess failed!&quot;, windows.GetLastError())
+    return
+  }
+
+  windows.ResumeThread(p.process_info.hThread);
+  windows.CloseHandle( p.child_out_write )
+  windows.CloseHandle( p.child_in_read )
+
+  if app.terminal.build_thread != nil do  thread.terminate(app.terminal.build_thread, 0)
+  app.terminal.build_thread = thread.create_and_start_with_data(&amp;app, terminal_read)
+}
+
+</code></pre><p>&mldr;and then start a new thread to read from the pipe and fill out an array of Build Errors.</p>
+<pre><code>terminal_read :: proc(data:rawptr) {
+  a := (^App)(data)
+  t := &amp;a.terminal
+  p := &amp;a.terminal.process
+  
+  BUFSIZE :: 4096
+  read:    windows.DWORD
+  written: windows.DWORD
+  buf: [BUFSIZE]byte
+  success: bool
+
+  g.vp_clear(&amp;t.vpool)     // clear memory/array/list for each build
+  clear(&amp;t.build_errors)   
+  clear(&amp;t.error_list)     
+
+  // read from pipe
+  for {
+    success = bool(windows.ReadFile(p.child_out_read, &amp;buf, BUFSIZE, &amp;read, nil))
+    if !success || read == 0 do break
+    chunk_buffer := g.vp_alloc(&amp;t.vpool, int(read))
+    copy(chunk_buffer, buf[:])
+    chunk := string(chunk_buffer)
+    start: int
+    // split into lines
+    for letter, li in chunk {
+      if letter == '\n' {
+        // parse errors into Build_Errors
+        parse_build_error(t, chunk[start:li])
+        start = li + 1
+      }
+    }
+  }
+
+  if len(t.build_errors) == 0 {
+    t.build_status = .Success
+    t.active_error = nil
+    return
+  }
+
+  t.build_status = .Failure
+  set_active_error(&amp;t.build_errors[0])
+}
+</code></pre><p>Back on the UI side, there are two jobs to do - first is to draw a list of build errors. In the new terminal panel, I add a <code>scrollbox</code> widget and then draw each error inside of clickable buttons:</p>
+<pre><code>terminal_panel :: proc() {
+  panel_begin()
+
+  size(.PARENT, 1, .CHILDREN, 1)
+  scrollbox(&quot;errors&quot;)
+  {
+    pi: int
+    // iterate through map of file paths
+    for path in terminal.error_list {
+      ei: int
+      // advance through linked list of errors
+      for e := terminal.e_list[path].first; e != nil; e = e.next {
+
+        axis(.X)
+        size(.PARENT, 1, .TEXT, 1)
+        error_box := create_box({&quot;error button&quot;, pi, ei}, { .FOCUS, .CLICKABLE, .HOT_EFFECTS, .ACTIVE_EFFECTS })
+
+        // if error box clicked, set active error:
+        process_ops(error_box)
+        if error_box.ops.clicked do set_active_error(e)
+
+        // highlight button if active error
+        if e == terminal.active_error do error_box.flags += {.DRAW_BG, .DRAW_BORDER, .DRAW_GRADIENT }
+
+        push_parent(error_box)
+          // display an icon, row/col numbers, error filepath, and the error message itself:
+          size(.TEXT, 1, .TEXT, 1)
+          icon(ICON_CIRCLE, &quot;###&quot;, ei, pi)
+          set_font(.Mono)
+          size(.PARENT, .1, .PARENT, 1)
+          text(&quot;Row &quot;, e.point.row, &quot; Col &quot;, e.point.col, &quot;###&quot;, ei, pi)
+          size(.PARENT, .2, .PARENT, 1)
+          text(e.path, &quot;###&quot;, ei, pi)
+          size(.MIN_SIBLINGS, .1, .PARENT, 1)
+          text(e.message, &quot;###&quot;, ei, pi)
+        pop()
+        ei += 1
+      }
+      pi += 1
+    }
+  }
+  panel_end()
+}
+</code></pre><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_build-errors1.mp4></video></p>
+<p>The last step is to look back at the <code>edit_multiline</code> widget and highlight any visible rows that contain build errors. The full widget returns a list of visible boxes and row indices, so I used those like this:</p>
+<pre><code>buffer_panel :: proc() {
+  begin_panel()
+
+  text_buffer := get_buffer_by_panel(get_ctx_panel())
+
+  // draw text buffer via the edit_multiline widget
+  ops, visible_boxes, visible_rows := edit_multiline(...)
+
+  // get error list by the buffer's file's path:
+  error_list, lok := app.terminal.error_list[text_buffer.file.path]
+
+  // for each visible row:
+  for row, ri in visible_rows {
+    // for each build error in linked list
+    for e := error_list.first; e != nil; e = e.next {
+
+      // if this visible row matches an error's row...
+      if row == e.point.row {
+        // get the visible box
+        box := visible_boxes[ri]
+
+        if terminal.active_error == e {
+          // highlight visible box one color if it has the selected error
+          box.border_color = get_color(.ERROR)
+        } else {
+          // and a less harsh color if has a non selected error
+          box.border_color = get_color(.WARNING)
+        }
+      }
+    }
+  }
+  end_panel()
+}
+</code></pre><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-codin_build-errors2.mp4></video></p>
+<h3 id=conclusion>Conclusion <a class=text-decoration-none href=#conclusion>#</a></h3>
+<p>What I&rsquo;ve described is just a snippet of what goes on beneath the hood of codin. Hopefully that shed some light on my process and how a few aspects of both codin and my UI library work.</p>
+<hr>
+<h2 id=sectr-prototype>Sectr Prototype <a class=text-decoration-none href=#sectr-prototype>#</a></h2>
+<p>After my last contract in January, I wanted a break from C/C++ projects, so I decided to attempt another go at developing a pragmatic “projectional” editor for code using Odin. The goal is to offer support for multiple “workspaces” where users can compose “views” of code definitions in a flexible manner, irrespective of their composition in the filesystem.</p>
+<figure class="figure w-100 text-center">
+<img class="figure-img img-fluid rounded" src=/images/news/2024-06-sectr_prototype_godot_ver_last_state.png alt="img: previous godot prototype">
+<figcaption class="figure-caption text-center">My last attempt at figuring things out utilizing Godot 4.2
+</figcaption>
+</figure>
+<h3 id=why-odin>Why Odin <a class=text-decoration-none href=#why-odin>#</a></h3>
+<p>Tired of the C++ toolchain, I chose Odin over Zig. Jai seemed to be up my alley, but I didn&rsquo;t have the patience to wait for it. Odin’s design looked to impose less friction than Zig so it won out.</p>
+<p>That ended up being a great decision. Odin feels better than just being a “C alternative”. Language features, like the “using” keyword and “deferred_” attributes, have been particularly enjoyable to use. Both the provided packages and those sourced from third parties have been easy to learn and integrate.</p>
+<p>Exploring the compiler implementation has also been an unexpected bonus. Most toolchains’ source feel too daunting to learn how “a toolchain works”. Odin is the exact opposite. Each file is clear and understandable at a scrolling glance, which is an amazing achievement.</p>
+<h3 id=bootstrapping>Bootstrapping <a class=text-decoration-none href=#bootstrapping>#</a></h3>
+<p>The codebase setup was smooth. The first sign of things to come was how simple and quickly the compiler built after cloning. Making the build script for the project was also surprisingly painless. I was able to get all the info quickly from the build -help command along with reading the flag entries in the src/main.cpp.</p>
+<p>Raylib was chosen to handle input, rendering (Text and 2D), and windowing, which did the job initially. Hot-reload was up next. Karl Zylinski’s highly praised article was loosely referenced, along with related content from the Handmade Hero series. Unfortunately, that very series exposed me to Casey’s janky replay feature (abusing memory snapshots), and I wanted to port the feature over to this project.</p>
+<p>The first issue was the core library not exposing the starting address arg for VirtualAlloc in core:mem/virtual. However, a derivative of the virtual arena with the argument exposed was easy to implement. Another issue was allocator procedures not getting auto-remapped across reloads, leading to rolling my own dynamic array and hash table. Later, I realized the builtin containers could have been transmuted to their “Raw” struct counterparts (Raw_Map and Raw_Dynamic_Array in base:runtime/core.odin).</p>
+<p>The profiler was added last, and I went with Spall since it was directly available in the Vendor library, its simplest profiler I&rsquo;ve ever used! I’ve never pulled together this many libraries in such a short period of time (in C or C++), even while messing around.</p>
+<h3 id=why-an-imgui-from-scratch>Why an IMGUI from scratch? <a class=text-decoration-none href=#why-an-imgui-from-scratch>#</a></h3>
+<p>The aim was to have an uncompromised ability to compose a UI tailored to this editor. Inspired by Ryan Fleury’s UI Series on substack, I set out to implement a “core” UI that could support all that was required. I browsed through his implementation from the RAD Debugger, and some others (VUI, Nuklear, and MicroUI). This provided (probably misguided) confidence to tackle the endeavor. So far it’s at least been a great learning experience.</p>
+<p>The result was a core UI that’s surprisingly simple for its ability, along with full “flex-box” auto-layout using less than 1000 LOC. It reached a point where composing any “widgets” using just the composition of the core “box” entities felt achievable. Including all the UI code demonstrated (excluding rendering) amounts to approximately 2250 LOC.</p>
+<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06_sectr_prototype_UI_Demo.mp4></video></p>
+<h3 id=current-hurdle-learning-sokol-and-text-rendering>Current Hurdle: Learning Sokol and Text Rendering <a class=text-decoration-none href=#current-hurdle-learning-sokol-and-text-rendering>#</a></h3>
+<figure class="figure w-100 text-center">
+<img class="figure-img img-fluid rounded" src=/images/news/2024-06-sectr_prototype_raylib_text_profiling.png alt="img: previous godot prototype">
+<figcaption class="figure-caption text-center">The limits of Raylib’s text rendering capabilities were encountered when shoving a good amount of “Lorem Ipsum” onto the screen:
+</figcaption>
+</figure>
+<p>Just having ~250 lines of text boxes queued for rendering would increase the frame time by several milliseconds. Technically, this could be ignored for several months while focusing on other features. However, I wanted to just get the platform and rendering layers down pat. Among the options, Sokol’s app and gfx libraries seemed to be a great fit.There was an available 2D graphics library called Sokol GP as well. All that was left was to determine the best reference for text rendering, and the Discord community recommended fontstash as it had a setup defined for Sokol_gfx in the Sokol repo itself. Since then, I’ve been navigating my way through learning all these new libraries.</p>
+<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-06-sectr_prototype_Sokol_Hot_Reload_closing_vod.mp4 width=650></video></p>
+</div>
+</article>
+<div id=TOC class="col-lg-2 odin-toc-border">
+<div class="sticky-top odin-below-navbar py-3">
+<nav id=TableOfContents>
+<ul>
+<li><a href=#projects-shared-this-month>Projects shared this month</a></li>
+<li><a href=#undoredo-implementation>Undo/Redo Implementation</a></li>
+<li><a href=#text-editor-experimentation-2-skytrias>Text Editor Experimentation #2 (Skytrias)</a>
+<ul>
+<li><a href=#dion>Dion</a></li>
+<li><a href=#getting-started>Getting Started</a></li>
+<li><a href=#ast-structure--examples>AST Structure & Examples</a></li>
+<li><a href=#ast-creation>AST Creation</a></li>
+<li><a href=#ast-rendering>AST Rendering</a></li>
+<li><a href=#wrapping-up>Wrapping Up</a></li>
+</ul>
+</li>
+<li><a href=#codin-markersniffen>codin (markersniffen)</a>
+<ul>
+<li><a href=#ui>UI</a></li>
+<li><a href=#build-errors>Build Errors</a></li>
+<li><a href=#conclusion>Conclusion</a></li>
+</ul>
+</li>
+<li><a href=#sectr-prototype>Sectr Prototype</a>
+<ul>
+<li><a href=#why-odin>Why Odin</a></li>
+<li><a href=#bootstrapping>Bootstrapping</a></li>
+<li><a href=#why-an-imgui-from-scratch>Why an IMGUI from scratch?</a></li>
+<li><a href=#current-hurdle-learning-sokol-and-text-rendering>Current Hurdle: Learning Sokol and Text Rendering</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class=odin-footer>
+<div class="container pb-5 pt-5">
+<div class="row g-4">
+<div class=col>
+<a class=navbar-brand href=/>
+<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
+<p>
+The Data-Oriented Language for Sane Software Development.
+</p>
+</div>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Resources</h4>
+<ul class=list-unstyled>
+<li><a href=/docs class=link-light>Docs</a></li>
+<li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li>
+<li><a href=/news class=link-light>News</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Community</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
+<li><a href=https://discord.com/invite/sVBPHEv target=_blank class=link-light>Discord</a></li>
+<li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li>
+<li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li>
+<li><a href=/showcase target=_blank class=link-light>Showcase</a></li>
+</ul>
+</nav>
+<nav class=col-md-auto>
+<h4 class=fw-normal>Contribute</h4>
+<ul class=list-unstyled>
+<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
+<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
+</ul>
+</nav>
+</div>
+<div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div>
+</div>
+</footer>
+<script src=/lib/bootstrap/js/bootstrap.min.js></script>
+<script src=/js/script.js></script>
+</body>
+</html>

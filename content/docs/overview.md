@@ -1176,6 +1176,10 @@ cond ? x : y        // ternary runtime conditional expression, equivalent to "x 
 	* see section on [`or_else`](/docs/overview/#or_else-expression)
 * `or_return`
 	* see section on [`or_return`](/docs/overview/#or_return-operator)
+* `or_continue`
+	* see section on [`or_continue`](/docs/overview/#or_continue-operator)
+* `or_break`
+	* see section on [`or_break`](/docs/overview/#or_break-operator)
 * `in` - set membership (`e in A`, `A` contains element `e`)
 	* Used for `bit_set` types and `map` types
 * `not_in` - not set membership (`e not_in A`, `A` does not contain `e`)
@@ -2759,6 +2763,89 @@ foo_2 :: proc() -> (n: int, err: Error) {
 	return
 }
 ```
+
+## `or_continue` operator
+
+`or_continue` is an operator that allows for simplified control flow in a loop. It functions much like a combination of `or_return` and `continue` in that it checks if the last value in a multiple-valued expression is `false` or not `nil`, and if so, behaves like a `continue` statement.
+
+```odin
+import "core:fmt"
+
+Job :: struct {
+	id:         int,
+	tasks_left: int,
+	result:     int,
+	error_has_occurred: bool,
+}
+
+// Returns true if it completed its last task.
+do_work_until_done :: proc(job: ^Job) -> bool {
+	if job.tasks_left == 0 {
+		return false
+	}
+
+	job.result *= 3
+	job.tasks_left -= 1
+	return job.tasks_left == 0
+}
+
+// Returns a result and true if everything worked out.
+// Otherwise, returns zero and false.
+tally :: proc(job: ^Job) -> (int, bool) {
+	if job.error_has_occurred {
+		return 0, false
+	}
+
+	return job.result, true
+}
+
+main :: proc() {
+	jobs: [dynamic]Job
+	append(&jobs, Job{ id = 1, })
+	append(&jobs, Job{ id = 3, tasks_left = 2, result = 7 })
+	append(&jobs, Job{ id = 5, tasks_left = 1, result = 5 })
+	append(&jobs, Job{ id = 7, tasks_left = 1, result = 5, error_has_occurred = true })
+
+	job_loop: for &job in jobs {
+		do_work_until_done(&job) or_continue job_loop
+		result := tally(&job)    or_continue job_loop
+
+		fmt.printfln("Job #%i has completed its work. Result is: %i", job.id, result)
+	}
+}
+```
+
+The example above will print the following:
+```txt
+Job #5 has completed its work. Result is: 15
+```
+
+Only job #5 completes, because it has only 1 task left and its `error_has_occurred` is the default value, which is `false` in this case, as every variable in Odin is implicitly zeroed out unless made explicit.
+
+Without `or_continue`, the above loop would look more like this:
+
+```odin
+// [...]
+	job_loop: for &job in jobs {
+		if !do_work_until_done(&job) {
+			continue job_loop
+		}
+		result, ok := tally(&job)
+		if !ok {
+			continue job_loop
+		}
+
+		fmt.printfln("Job #%i has completed its work. Result is: %i", job.id, result)
+	}
+// [...]
+```
+
+The underlying operation is the same, but the code is more verbose where it doesn't need to be.
+As shown in the example, `or_continue` also works with labels, just like `continue`.
+
+## `or_break` operator
+
+`or_break` follows the same mechanics as `or_continue`, except that it performs a `break` operation on its containing loop instead of a `continue`.
 
 ## Conditional compilation
 

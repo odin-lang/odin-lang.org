@@ -1044,6 +1044,16 @@ cond ? x : y        // ternary runtime conditional expression, equivalent to &qu
 <li>see section on <a href=/docs/overview/#or_return-operator><code>or_return</code></a></li>
 </ul>
 </li>
+<li><code>or_continue</code>
+<ul>
+<li>see section on <a href=/docs/overview/#or_continue-operator><code>or_continue</code></a></li>
+</ul>
+</li>
+<li><code>or_break</code>
+<ul>
+<li>see section on <a href=/docs/overview/#or_break-operator><code>or_break</code></a></li>
+</ul>
+</li>
 <li><code>in</code> - set membership (<code>e in A</code>, <code>A</code> contains element <code>e</code>)
 <ul>
 <li>Used for <code>bit_set</code> types and <code>map</code> types</li>
@@ -2197,7 +2207,74 @@ foo_2 :: proc() -&gt; (n: int, err: Error) {
 	n = 123
 	return
 }
-</code></pre><h2 id=conditional-compilation>Conditional compilation <a class=text-decoration-none href=#conditional-compilation>#</a></h2>
+</code></pre><h2 id=or_continue-operator><code>or_continue</code> operator <a class=text-decoration-none href=#or_continue-operator>#</a></h2>
+<p><code>or_continue</code> is an operator that allows for simplified control flow in a loop. It functions much like a combination of <code>or_return</code> and <code>continue</code> in that it checks if the last value in a multiple-valued expression is <code>false</code> or not <code>nil</code>, and if so, behaves like a <code>continue</code> statement.</p>
+<pre><code class=language-odin data-lang=odin>import &quot;core:fmt&quot;
+
+Job :: struct {
+	id:         int,
+	tasks_left: int,
+	result:     int,
+	error_has_occurred: bool,
+}
+
+// Returns true if it completed its last task.
+do_work_until_done :: proc(job: ^Job) -&gt; bool {
+	if job.tasks_left == 0 {
+		return false
+	}
+
+	job.result *= 3
+	job.tasks_left -= 1
+	return job.tasks_left == 0
+}
+
+// Returns a result and true if everything worked out.
+// Otherwise, returns zero and false.
+tally :: proc(job: ^Job) -&gt; (int, bool) {
+	if job.error_has_occurred {
+		return 0, false
+	}
+
+	return job.result, true
+}
+
+main :: proc() {
+	jobs: [dynamic]Job
+	append(&amp;jobs, Job{ id = 1, })
+	append(&amp;jobs, Job{ id = 3, tasks_left = 2, result = 7 })
+	append(&amp;jobs, Job{ id = 5, tasks_left = 1, result = 5 })
+	append(&amp;jobs, Job{ id = 7, tasks_left = 1, result = 5, error_has_occurred = true })
+
+	job_loop: for &amp;job in jobs {
+		do_work_until_done(&amp;job) or_continue job_loop
+		result := tally(&amp;job)    or_continue job_loop
+
+		fmt.printfln(&quot;Job #%i has completed its work. Result is: %i&quot;, job.id, result)
+	}
+}
+</code></pre><p>The example above will print the following:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt>Job #5 has completed its work. Result is: 15
+</code></pre></div><p>Only job #5 completes, because it has only 1 task left and its <code>error_has_occurred</code> is the default value, which is <code>false</code> in this case, as every variable in Odin is implicitly zeroed out unless made explicit.</p>
+<p>Without <code>or_continue</code>, the above loop would look more like this:</p>
+<pre><code class=language-odin data-lang=odin>// [...]
+	job_loop: for &amp;job in jobs {
+		if !do_work_until_done(&amp;job) {
+			continue job_loop
+		}
+		result, ok := tally(&amp;job)
+		if !ok {
+			continue job_loop
+		}
+
+		fmt.printfln(&quot;Job #%i has completed its work. Result is: %i&quot;, job.id, result)
+	}
+// [...]
+</code></pre><p>The underlying operation is the same, but the code is more verbose where it doesn&rsquo;t need to be.
+As shown in the example, <code>or_continue</code> also works with labels, just like <code>continue</code>.</p>
+<h2 id=or_break-operator><code>or_break</code> operator <a class=text-decoration-none href=#or_break-operator>#</a></h2>
+<p><code>or_break</code> follows the same mechanics as <code>or_continue</code>, except that it performs a <code>break</code> operation on its containing loop instead of a <code>continue</code>.</p>
+<h2 id=conditional-compilation>Conditional compilation <a class=text-decoration-none href=#conditional-compilation>#</a></h2>
 <p>A couple of ways are provided for doing this, and each of them have their uses.</p>
 <h3 id=file-suffixes>File suffixes <a class=text-decoration-none href=#file-suffixes>#</a></h3>
 <p>Often, you want to separate multiple implementations of a package based on the OS or the architecture.</p>
@@ -3421,6 +3498,8 @@ Some of this information includes:</p>
 </li>
 <li><a href=#or_else-expression><code>or_else</code> expression</a></li>
 <li><a href=#or_return-operator><code>or_return</code> operator</a></li>
+<li><a href=#or_continue-operator><code>or_continue</code> operator</a></li>
+<li><a href=#or_break-operator><code>or_break</code> operator</a></li>
 <li><a href=#conditional-compilation>Conditional compilation</a>
 <ul>
 <li><a href=#file-suffixes>File suffixes</a></li>

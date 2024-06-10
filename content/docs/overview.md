@@ -600,6 +600,13 @@ loop: for cond1 {
 		break loop // leaves both loops
 	}
 }
+
+exit: {
+    if true {
+        break exit // works with labeled blocks too
+    }
+    fmt.println("This line will never print.")
+}
 ```
 
 #### `continue` statement

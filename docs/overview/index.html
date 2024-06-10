@@ -504,6 +504,13 @@ loop: for cond1 {
 		break loop // leaves both loops
 	}
 }
+
+exit: {
+    if true {
+        break exit // works with labeled blocks too
+    }
+    fmt.println(&quot;This line will never print.&quot;)
+}
 </code></pre><h4 id=continue-statement><code>continue</code> statement <a class=text-decoration-none href=#continue-statement>#</a></h4>
 <p>As in many programming languages, a <code>continue</code> statement starts the next iteration of a loop prematurely:</p>
 <pre><code class=language-odin data-lang=odin>for cond {

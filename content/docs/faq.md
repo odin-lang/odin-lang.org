@@ -486,7 +486,7 @@ if menu("Hello") {
 
 ### What architectures does Odin support?
 
-The official implementation of Odin currently supports: amd64, aarch64, arm64, and wasm32.
+The official implementation of Odin currently supports: amd64, arm64/aarch64, and wasm32/wasm64p32.
 
 ### Is the Odin compiler self hosted?
 

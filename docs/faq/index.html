@@ -466,9 +466,6 @@ z: int = --- // uninitialized memory
 <p>No. All copies are byte-for-byte copies.</p>
 <h3 id=does-odin-have-c-style-move-constructors>Does Odin have C++-style move constructors? <a class=text-decoration-none href=#does-odin-have-c-style-move-constructors>#</a></h3>
 <p>No. There are no ownership semantics in Odin.</p>
-<h3 id=why-is-partial-switch-needed-when-there-is-a-catch-all-case>Why is <code>#partial switch</code> needed when there is a catch-all <code>case:</code>? <a class=text-decoration-none href=#why-is-partial-switch-needed-when-there-is-a-catch-all-case>#</a></h3>
-<p>By default, <code>switch</code> statements which have an <code>enum</code> or <code>union</code> condition require the user to specify every case that the type defines. It is a very common mistake to forget to add a new case when a new variant is added in other languages, so Odin defaults to will tell the user of this mistake. If the user wants to explicitly opt-out of this behaviour, <code>#partial</code> can be applied to the <code>switch</code> statement directly to state that not all of the cases need to be specified.</p>
-<p><code>case:</code> is the catch-all case which allows for anything not specified, which includes <code>nil</code> or even invalid cases (e.g. custom-user-values or corrupted cases). <code>#partial</code> and <code>case:</code> are orthogonal concepts which are used to achieve different things entirely. Each variant might be handled, but there might still be an invalid case not handled thus <code>case:</code> might still be required depending on the problem.</p>
 <h3 id=does-odin-have-c-style-destructors>Does Odin have C++-style destructors? <a class=text-decoration-none href=#does-odin-have-c-style-destructors>#</a></h3>
 <p>No. <code>defer</code> can be used to defer a statement till end of a scope. <code>defer</code> is explicit and much more flexible than a C++-style destructor in that it can be used for anything.</p>
 <pre><code class=language-odin data-lang=odin>f, err := os.open(...)
@@ -478,7 +475,24 @@ if err != os.ERROR_NONE {
 defer os.close(f) // will be executed at the end of the scope
 
 ...
-</code></pre><h4 id=deferred-attributes>Deferred Attributes <a class=text-decoration-none href=#deferred-attributes>#</a></h4>
+</code></pre><h3 id=why-is-partial-switch-needed-when-there-is-a-catch-all-case>Why is <code>#partial switch</code> needed when there is a catch-all <code>case:</code>? <a class=text-decoration-none href=#why-is-partial-switch-needed-when-there-is-a-catch-all-case>#</a></h3>
+<p>By default, <code>switch</code> statements which have an <code>enum</code> or <code>union</code> condition require the user to specify every case that the type defines. It is a very common mistake to forget to add a new case when a new variant is added in other languages, so Odin defaults to will tell the user of this mistake. If the user wants to explicitly opt-out of this behaviour, <code>#partial</code> can be applied to the <code>switch</code> statement directly to state that not all of the cases need to be specified.</p>
+<p><code>case:</code> is the catch-all case which allows for anything not specified, which includes <code>nil</code> or even invalid cases (e.g. custom-user-values or corrupted cases). <code>#partial</code> and <code>case:</code> are orthogonal concepts which are used to achieve different things entirely. Each variant might be handled, but there might still be an invalid case not handled thus <code>case:</code> might still be required depending on the problem.</p>
+<h3 id=why-does-reverse-not-work-on-ranges-in-for-in-loops>Why does <code>#reverse</code> not work on ranges in <code>for in</code> loops? <a class=text-decoration-none href=#why-does-reverse-not-work-on-ranges-in-for-in-loops>#</a></h3>
+<ul>
+<li>It is a lot clearer to write a normal C-style <code>for</code> loop
+<ul>
+<li><code>for i := hi; i >= lo; i -= 1 {...}</code></li>
+</ul>
+</li>
+<li>It might nto execute the way the user expects, especially for floats
+<ul>
+<li><code>for i in 1.2 ..&lt; 3.4 {...}</code> is valid in Odin</li>
+</ul>
+</li>
+<li>It will cause off-by-one bugs in certain cases</li>
+</ul>
+<h4 id=deferred-attributes>Deferred Attributes <a class=text-decoration-none href=#deferred-attributes>#</a></h4>
 <p>There is also the <code>deferred_*</code> attributes which can be attached to procedures to have very useful functionality, such as <a href=https://en.wikipedia.org/wiki/Immediate_Mode_GUI>IMGUIs</a>.</p>
 <table>
 <tbody>
@@ -514,6 +528,9 @@ if menu(&quot;Hello&quot;) {
 <p>The official implementation of Odin currently supports: amd64, arm64/aarch64, and wasm32/wasm64p32.</p>
 <h3 id=is-the-odin-compiler-self-hosted>Is the Odin compiler self hosted? <a class=text-decoration-none href=#is-the-odin-compiler-self-hosted>#</a></h3>
 <p>Odin is not currently self hosted nor will be until <em>after</em> version 1.0 when the main implementation of the Odin compiler adheres to a specification and is heavily tested. In general, self hosting before a stable language and compiler exists is masturbatory pleasure.</p>
+<h3 id=where-is-the-odin-roadmap>Where is the Odin roadmap? <a class=text-decoration-none href=#where-is-the-odin-roadmap>#</a></h3>
+<p>There is no official roadmap. Public roadmaps are pretty much a form of marketing for the language rather than being anything useful for the development team. The development team does have internal goals, many of which are not viewable by the public, and problems are dealt with when and as necessary.</p>
+<p>Odin as a language is pretty much done, but Odin the compiler, toolchain, and core library are still in development and always improved. If you want to help out with any of this, try checking out the source code: <a href=https://github.com/odin-lang/Odin>https://github.com/odin-lang/Odin</a>.</p>
 <h2 id=quotes>Quotes <a class=text-decoration-none href=#quotes>#</a></h2>
 <blockquote>
 <p>Show me your flowcharts and conceal your tables, and I shall continue to be mystified. Show me your tables, and I won’t usually need your flowcharts; they’ll be obvious.</p>
@@ -655,8 +672,9 @@ if menu(&quot;Hello&quot;) {
 <li><a href=#does-odin-have-c-style-constructors>Does Odin have C++-style constructors?</a></li>
 <li><a href=#does-odin-have-c-style-copy-constructors>Does Odin have C++-style copy constructors?</a></li>
 <li><a href=#does-odin-have-c-style-move-constructors>Does Odin have C++-style move constructors?</a></li>
+<li><a href=#does-odin-have-c-style-destructors>Does Odin have C++-style destructors?</a></li>
 <li><a href=#why-is-partial-switch-needed-when-there-is-a-catch-all-case>Why is <code>#partial switch</code> needed when there is a catch-all <code>case:</code>?</a></li>
-<li><a href=#does-odin-have-c-style-destructors>Does Odin have C++-style destructors?</a>
+<li><a href=#why-does-reverse-not-work-on-ranges-in-for-in-loops>Why does <code>#reverse</code> not work on ranges in <code>for in</code> loops?</a>
 <ul>
 <li><a href=#deferred-attributes>Deferred Attributes</a></li>
 </ul>
@@ -667,6 +685,7 @@ if menu(&quot;Hello&quot;) {
 <ul>
 <li><a href=#what-architectures-does-odin-support>What architectures does Odin support?</a></li>
 <li><a href=#is-the-odin-compiler-self-hosted>Is the Odin compiler self hosted?</a></li>
+<li><a href=#where-is-the-odin-roadmap>Where is the Odin roadmap?</a></li>
 </ul>
 </li>
 <li><a href=#quotes>Quotes</a></li>

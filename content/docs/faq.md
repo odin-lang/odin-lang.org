@@ -424,6 +424,13 @@ No. All copies are byte-for-byte copies.
 ### Does Odin have C++-style move constructors?
 No. There are no ownership semantics in Odin.
 
+### Why is `#partial switch` needed when there is a catch-all `case:`?
+
+By default, `switch` statements which have an `enum` or `union` condition require the user to specify every case that the type defines. It is a very common mistake to forget to add a new case when a new variant is added in other languages, so Odin defaults to will tell the user of this mistake. If the user wants to explicitly opt-out of this behaviour, `#partial` can be applied to the `switch` statement directly to state that not all of the cases need to be specified.
+
+`case:` is the catch-all case which allows for anything not specified, which includes `nil` or even invalid cases (e.g. custom-user-values or corrupted cases). `#partial` and `case:` are orthogonal concepts which are used to achieve different things entirely. Each variant might be handled, but there might still be an invalid case not handled thus `case:` might still be required depending on the problem.
+
+
 ### Does Odin have C++-style destructors?
 No. `defer` can be used to defer a statement till end of a scope. `defer` is explicit and much more flexible than a C++-style destructor in that it can be used for anything.
 ```odin

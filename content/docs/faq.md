@@ -424,13 +424,6 @@ No. All copies are byte-for-byte copies.
 ### Does Odin have C++-style move constructors?
 No. There are no ownership semantics in Odin.
 
-### Why is `#partial switch` needed when there is a catch-all `case:`?
-
-By default, `switch` statements which have an `enum` or `union` condition require the user to specify every case that the type defines. It is a very common mistake to forget to add a new case when a new variant is added in other languages, so Odin defaults to will tell the user of this mistake. If the user wants to explicitly opt-out of this behaviour, `#partial` can be applied to the `switch` statement directly to state that not all of the cases need to be specified.
-
-`case:` is the catch-all case which allows for anything not specified, which includes `nil` or even invalid cases (e.g. custom-user-values or corrupted cases). `#partial` and `case:` are orthogonal concepts which are used to achieve different things entirely. Each variant might be handled, but there might still be an invalid case not handled thus `case:` might still be required depending on the problem.
-
-
 ### Does Odin have C++-style destructors?
 No. `defer` can be used to defer a statement till end of a scope. `defer` is explicit and much more flexible than a C++-style destructor in that it can be used for anything.
 ```odin
@@ -442,6 +435,22 @@ defer os.close(f) // will be executed at the end of the scope
 
 ...
 ```
+
+### Why is `#partial switch` needed when there is a catch-all `case:`?
+
+By default, `switch` statements which have an `enum` or `union` condition require the user to specify every case that the type defines. It is a very common mistake to forget to add a new case when a new variant is added in other languages, so Odin defaults to will tell the user of this mistake. If the user wants to explicitly opt-out of this behaviour, `#partial` can be applied to the `switch` statement directly to state that not all of the cases need to be specified.
+
+`case:` is the catch-all case which allows for anything not specified, which includes `nil` or even invalid cases (e.g. custom-user-values or corrupted cases). `#partial` and `case:` are orthogonal concepts which are used to achieve different things entirely. Each variant might be handled, but there might still be an invalid case not handled thus `case:` might still be required depending on the problem.
+
+### Why does `#reverse` not work on ranges in `for in` loops?
+
+* It is a lot clearer to write a normal C-style `for` loop
+    * `for i := hi; i >= lo; i -= 1 {...}`
+* It might nto execute the way the user expects, especially for floats
+    * `for i in 1.2 ..< 3.4 {...}` is valid in Odin
+* It will cause off-by-one bugs in certain cases
+
+
 
 #### Deferred Attributes
 
@@ -491,6 +500,13 @@ The official implementation of Odin currently supports: amd64, arm64/aarch64, an
 ### Is the Odin compiler self hosted?
 
 Odin is not currently self hosted nor will be until _after_ version 1.0 when the main implementation of the Odin compiler adheres to a specification and is heavily tested. In general, self hosting before a stable language and compiler exists is masturbatory pleasure.
+
+### Where is the Odin roadmap?
+
+There is no official roadmap. Public roadmaps are pretty much a form of marketing for the language rather than being anything useful for the development team. The development team does have internal goals, many of which are not viewable by the public, and problems are dealt with when and as necessary.
+
+Odin as a language is pretty much done, but Odin the compiler, toolchain, and core library are still in development and always improved. If you want to help out with any of this, try checking out the source code: <https://github.com/odin-lang/Odin>.
+
 
 ## Quotes
 

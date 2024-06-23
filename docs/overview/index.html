@@ -2132,7 +2132,7 @@ m: Maybe(int)
 i = m.? or_else 456
 assert(i == 456)
 </code></pre><h2 id=or_return-operator><code>or_return</code> operator <a class=text-decoration-none href=#or_return-operator>#</a></h2>
-<p>The concept of <code>or_return</code> will work by popping off the end value in a multiple valued expression and checking whether it was not <code>nil</code> or <code>false</code>, and if so, set the end return value to value if possible. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, <code>or_return</code> will require that all parameters be named so that the end value could be assigned to by name and then an empty return could be called.</p>
+<p>The concept of <code>or_return</code> will work by popping off the end value in a multiple valued expression and checking whether it was not <code>nil</code> or was <code>false</code>, and if so, set the end return value to value if possible. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, <code>or_return</code> will require that all parameters be named so that the end value could be assigned to by name and then an empty return could be called.</p>
 <pre><code class=language-odin data-lang=odin>Error :: enum {
 	None,
 	Something_Bad,
@@ -2216,6 +2216,22 @@ foo_2 :: proc() -&gt; (n: int, err: Error) {
 
 	n = 123
 	return
+}
+
+caller_4 :: proc() -&gt; (n: int, ok: bool) {
+    return 3, true
+}
+
+foo_3 :: proc() -&gt; (ok: bool) {
+    // `or_return` also supports the ok semantics common in Odin code.
+    // Note an error is indicated by `ok` being `false`
+    x := caller_4() or_return
+
+    if (x &lt; 5) {
+        ok = true
+    }
+
+    return
 }
 </code></pre><h2 id=or_continue-operator><code>or_continue</code> operator <a class=text-decoration-none href=#or_continue-operator>#</a></h2>
 <p><code>or_continue</code> is an operator that allows for simplified control flow in a loop. It functions much like a combination of <code>or_return</code> and <code>continue</code> in that it checks if the last value in a multiple-valued expression is <code>false</code> or not <code>nil</code>, and if so, behaves like a <code>continue</code> statement.</p>

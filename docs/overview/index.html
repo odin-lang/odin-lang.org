@@ -275,18 +275,29 @@ for i in 0..=9 {
 }
 </code></pre><p>where <code>a..=b</code> denotes a closed interval <code>[a,b]</code>, i.e. the upper limit is <em>inclusive</em>, and <code>a..&lt;b</code> denotes a half-open interval <code>[a,b)</code>, i.e. the upper limit is <em>exclusive</em>.</p>
 <p>Certain built-in types can be iterated over:</p>
-<pre><code class=language-odin data-lang=odin>for character in some_string {
+<pre><code class=language-odin data-lang=odin>some_string := &quot;Hello, 世界&quot;
+for character in some_string {
 	fmt.println(character)
 }
+
+some_array := [3]int{1, 4, 9}
 for value in some_array {
 	fmt.println(value)
 }
+
+some_slice := []int{1, 4, 9}
 for value in some_slice {
 	fmt.println(value)
 }
+
+some_dynamic_array := [dynamic]int{1, 4, 9}
+defer delete(some_dynamic_array)
 for value in some_dynamic_array {
 	fmt.println(value)
 }
+
+some_map := map[string]int{&quot;A&quot; = 1, &quot;C&quot; = 9, &quot;B&quot; = 4}
+defer delete(some_map)
 for key in some_map {
 	fmt.println(key)
 }
@@ -307,8 +318,13 @@ for key, value in some_map {
 	fmt.println(key, value)
 }
 </code></pre><p>The iterated values are <em>copies</em> and cannot be written to.</p>
-<p><strong>Note:</strong> When iterating across a string, the characters will be <code>rune</code>s and not bytes. <code>for in</code> assumes the string is encoded as UTF-8.</p>
-<p>It is also possible to iterate over arrays and slices in a by-reference manner by prepending a <code>&</code> to the value:</p>
+<p>When iterating a string, the characters will be <code>rune</code>s and not bytes. <code>for in</code> assumes the string is encoded as UTF-8.</p>
+<pre><code class=language-odin data-lang=odin>str: string = &quot;Some text&quot;
+for character in str {
+	assert(type_of(character) == rune)
+	fmt.println(character)
+}
+</code></pre><p>You can iterate arrays and slices by-reference with the <a href=#address-operator>address operator</a>:</p>
 <pre><code class=language-odin data-lang=odin>for &amp;value in some_array {
 	value = something
 }
@@ -322,13 +338,20 @@ for &amp;value in some_dynamic_array {
 for &amp;value, index in some_dynamic_array {
 	value = something
 }
-</code></pre><p>Maps can have their <em>values</em> iterated in a by-reference manner but not their keys which are immutable:</p>
-<pre><code class=language-odin data-lang=odin>for key, &amp;value in some_map {
-	value = something
+</code></pre><p>Map values can be iterated by-reference, but their keys cannot since map keys are immutable:</p>
+<pre><code class=language-odin data-lang=odin>some_map := map[string]int{&quot;A&quot; = 1, &quot;C&quot; = 9, &quot;B&quot; = 4}
+defer delete(some_map)
+
+for key, &amp;value in some_map {
+	value += 1
 }
+
+fmt.println(some_map[&quot;A&quot;]) // 2
+fmt.println(some_map[&quot;C&quot;]) // 10
+fmt.println(some_map[&quot;B&quot;]) // 5
 </code></pre><p><strong>Note:</strong> It is not possible to iterate a string in a by-reference manner as strings are immutable.</p>
 <h4 id=for-reverse-iteration><code>for</code> reverse iteration <a class=text-decoration-none href=#for-reverse-iteration>#</a></h4>
-<p>Recently a special directive was added which allows to <code>#reverse</code> the above mentioned range based iteration.</p>
+<p>The <code>#reverse</code> directive makes a range-based <code>for</code> loop iterate in reverse.</p>
 <pre><code class=language-odin data-lang=odin>array := [?]int { 10, 20, 30, 40, 50 }
 
 #reverse for x in array {

@@ -1707,7 +1707,7 @@ fmt.println(a()) // 100
 proc &quot;contextless&quot; (s: []int)
 </code></pre><p>Procedure types are only compatible with the procedures that have the same calling convention and parameter types.</p>
 <p>When binding to C libraries you&rsquo;ll often end up using <code>proc "c"</code> and also set the current context. For this you&rsquo;ll need to <a href=#explicit-context-definition>explicity set the context</a>.</p>
-<h3 id=typeid-type>&lsquo;typeid&rsquo; type <a class=text-decoration-none href=#typeid-type>#</a></h3>
+<h3 id=typeid-type><code>typeid</code> type <a class=text-decoration-none href=#typeid-type>#</a></h3>
 <p>A <code>typeid</code> is a unique identifier for an Odin type. This construct is used by the <code>any</code> type to denote what the underlying data&rsquo;s type is.</p>
 <pre><code class=language-odin data-lang=odin>a := typeid_of(bool)
 i: int = 123
@@ -1721,7 +1721,7 @@ main :: proc() {
 	info: ^runtime.Type_Info
 	info = type_info_of(id)
 }
-</code></pre><h3 id=any-type>&lsquo;any&rsquo; Type <a class=text-decoration-none href=#any-type>#</a></h3>
+</code></pre><h3 id=any-type><code>any</code> Type <a class=text-decoration-none href=#any-type>#</a></h3>
 <p>An <code>any</code> type can reference any data type. Internally it contains a pointer to the underlying data and its relevant <code>typeid</code>. This is a very useful construct in order to have a runtime type safe printing procedure.</p>
 <p><strong>Note:</strong> The <code>any</code> value is only valid for as long as the underlying data is still valid. Passing a literal to an <code>any</code> will allocate the literal in the current stack frame.</p>
 <p><strong>Note:</strong> It is highly recommended that you <strong>do not</strong> use this unless you know what you are doing. Its primary use is for printing procedures.</p>
@@ -3212,7 +3212,7 @@ for &amp;v, j in foos {
 	using v // `v` is now a variable reference as `foos` was passed by pointer
 	fmt.println(j, foo, f, i)
 }
-</code></pre><h4 id=defer-if>&lsquo;defer if&rsquo; <a class=text-decoration-none href=#defer-if>#</a></h4>
+</code></pre><h4 id=defer-if><code>defer if</code> <a class=text-decoration-none href=#defer-if>#</a></h4>
 <pre><code class=language-odin data-lang=odin>cond := true
 
 defer if cond {
@@ -3220,7 +3220,7 @@ defer if cond {
 }
 
 fmt.println(&quot;Hellope&quot;) // &quot;Hellope&quot; first
-</code></pre><h4 id=maybet>&lsquo;Maybe(T)&rsquo; <a class=text-decoration-none href=#maybet>#</a></h4>
+</code></pre><h4 id=maybet><code>Maybe(T)</code> <a class=text-decoration-none href=#maybet>#</a></h4>
 <p><code>Maybe(T)</code> is a union which <em>either</em> returns a type <code>T</code> or <code>nil</code>. In other languages this is often seen as <code>Option(T)</code>, <code>Result(T)</code>, etc.</p>
 <p>Odin has multiple return values, so <code>Maybe(T)</code> is used less frequently or rarely in the <code>core</code> library. Instead of doing <code>-> Maybe(int)</code> you could transform it to <code>-> (int, bool)</code>.</p>
 <pre><code class=language-odin data-lang=odin>halve :: proc(n: int) -&gt; Maybe(int) {
@@ -3497,8 +3497,8 @@ Some of this information includes:</p>
 <li><a href=#calling-conventions>Calling conventions</a></li>
 </ul>
 </li>
-<li><a href=#typeid-type>&lsquo;typeid&rsquo; type</a></li>
-<li><a href=#any-type>&lsquo;any&rsquo; Type</a></li>
+<li><a href=#typeid-type><code>typeid</code> type</a></li>
+<li><a href=#any-type><code>any</code> Type</a></li>
 <li><a href=#multi-pointers>Multi Pointers</a></li>
 <li><a href=#soa-data-types>SOA Data Types</a>
 <ul>
@@ -3662,8 +3662,8 @@ Some of this information includes:</p>
 <li><a href=#ternary-operator>Ternary operator</a></li>
 <li><a href=#if-statements-with-initialization>If-statements with initialization</a></li>
 <li><a href=#iterating-through-slices-of-structs-by-value-or-by-reference>Iterating through slices of structs by value or by reference</a></li>
-<li><a href=#defer-if>&lsquo;defer if&rsquo;</a></li>
-<li><a href=#maybet>&lsquo;Maybe(T)&rsquo;</a></li>
+<li><a href=#defer-if><code>defer if</code></a></li>
+<li><a href=#maybet><code>Maybe(T)</code></a></li>
 </ul>
 </li>
 <li><a href=#advanced-idioms>Advanced idioms</a></li>

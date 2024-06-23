@@ -292,18 +292,29 @@ where `a..=b` denotes a closed interval `[a,b]`, i.e. the upper limit is *inclus
 
 Certain built-in types can be iterated over:
 ```odin
+some_string := "Hello, 世界"
 for character in some_string {
 	fmt.println(character)
 }
+
+some_array := [3]int{1, 4, 9}
 for value in some_array {
 	fmt.println(value)
 }
+
+some_slice := []int{1, 4, 9}
 for value in some_slice {
 	fmt.println(value)
 }
+
+some_dynamic_array := [dynamic]int{1, 4, 9}
+defer delete(some_dynamic_array)
 for value in some_dynamic_array {
 	fmt.println(value)
 }
+
+some_map := map[string]int{"A" = 1, "C" = 9, "B" = 4}
+defer delete(some_map)
 for key in some_map {
 	fmt.println(key)
 }
@@ -329,9 +340,17 @@ for key, value in some_map {
 ```
 The iterated values are *copies* and cannot be written to.
 
-**Note:** When iterating across a string, the characters will be `rune`s and not bytes. `for in` assumes the string is encoded as UTF-8.
+When iterating a string, the characters will be `rune`s and not bytes. `for in` assumes the string is encoded as UTF-8.
 
-It is also possible to iterate over arrays and slices in a by-reference manner by prepending a `&` to the value:
+```odin
+str: string = "Some text"
+for character in str {
+	assert(type_of(character) == rune)
+	fmt.println(character)
+}
+```
+
+You can iterate arrays and slices by-reference with the [address operator](#address-operator):
 ```odin
 for &value in some_array {
 	value = something
@@ -348,12 +367,19 @@ for &value, index in some_dynamic_array {
 }
 ```
 
-Maps can have their *values* iterated in a by-reference manner but not their keys which are immutable:
+Map values can be iterated by-reference, but their keys cannot since map keys are immutable:
 
 ```odin
+some_map := map[string]int{"A" = 1, "C" = 9, "B" = 4}
+defer delete(some_map)
+
 for key, &value in some_map {
-	value = something
+	value += 1
 }
+
+fmt.println(some_map["A"]) // 2
+fmt.println(some_map["C"]) // 10
+fmt.println(some_map["B"]) // 5
 ```
 
 
@@ -361,7 +387,7 @@ for key, &value in some_map {
 
 #### `for` reverse iteration
 
-Recently a special directive was added which allows to `#reverse` the above mentioned range based iteration. 
+The `#reverse` directive makes a range-based `for` loop iterate in reverse.
 
 ```odin
 array := [?]int { 10, 20, 30, 40, 50 }

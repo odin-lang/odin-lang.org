@@ -209,7 +209,7 @@ Character literals such as `'g'`, `'芋'`, and `'\u0123'` are all untyped runes,
 
 Implicit conversions complicate things and would be difficult to make consistent across architectures. To increase portability and to simplify the language, Odin uses explicit conversion.
 
-In C, the confusion caused by implicit numeric type conversions is outweighed by the convenience it provides. There are many rules in C which are not at all obvious nor simple to the reader of the code (e.g. is this expression unsigned does this expression over/under-flow? etc).
+In C, the convenience provided by implicit numeric type conversion is outweighed by the confusion it causes. There are many rules in C which are not at all obvious nor simple to the reader of the code (e.g. is this expression unsigned? does this expression over/under-flow? etc).
 
 The exceptions to this are that: all pointer types can automatically coerce to a `rawptr`, and untyped constants can be converted to a type - if that conversion is valid. The constant system does reduce a lot of the issues regarding types as "numbers just work"; there is no need for literal suffixes like in C.
 

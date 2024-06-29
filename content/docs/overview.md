@@ -2097,11 +2097,11 @@ Foo :: bit_field u16 { // backing type must be an integer or array of integers
     x: i32     | 3, // signed integers will be signed extended on use
     y: u16     | 2 + 3, // general expressions
     z: My_Enum | foo.SOME_CONSTANT, // ability to define the bit-width elsewhere
-    w: bool    | foo.SOME_CONSTANT > 10 ? 2 : 1,
+    w: bool    | 2 when foo.SOME_CONSTANT > 10 else 1,
 }
 
 v := Foo{}
-v.x = 4 // truncates the value to fit into 3 bits
+v.x = 3 // truncates the value to fit into 3 bits
 fmt.println(v.x) // accessing will convert `v.x` to an `i32` and do an appropriate sign extension
 ```
 

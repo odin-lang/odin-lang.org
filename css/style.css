@@ -313,6 +313,9 @@ body.dark-mode {
     display: inline-block;
 }
 
+.dark-mode .dark-mode-fill-white {
+    fill: white;
+}
 
 .dark-mode .img-dark-mode-invert {
     filter: invert(100%);

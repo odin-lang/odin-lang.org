@@ -1175,6 +1175,16 @@ for i in 0..=4 {
 </code></pre><p>The notation <code>x[i]</code> is used to access the i-th element of <code>x</code>; and 0-index based (like C).</p>
 <p>The above array can also be constructed with a question mark (<code>?</code>) to automatically infer its length:</p>
 <pre><code class=language-odin data-lang=odin>x := [?]int{1, 2, 3, 4, 5}
+</code></pre><p>Construct an array with designated initializers:</p>
+<pre><code class=language-odin data-lang=odin>favorite_animals := [?]string{
+	// Assign by index
+	0 = &quot;Raven&quot;,
+	1 = &quot;Zebra&quot;,
+	2 = &quot;Spider&quot;,
+	// Assign by range of indices
+	3..=5 = &quot;Frog&quot;,
+	6..&lt;8 = &quot;Cat&quot;
+}
 </code></pre><p>The built-in <a href=https://pkg.odin-lang.org/base/builtin/#len><code>len</code></a> proc returns the array&rsquo;s length.</p>
 <pre><code class=language-odin data-lang=odin>x: [5]int
 #assert(len(x) == 5)

@@ -168,6 +168,22 @@ code.hljs {
     border-radius: 0.5em;
 }
 
+/*
+prevents tables to grow beyond it's parent width
+https://stackoverflow.com/a/25296722/15597880
+*/
+.table {
+    display: block;
+    overflow-x: auto;
+}
+.table td {
+    width: 1%;
+}
+
+a {
+    word-wrap: break-word;
+}
+
 :root {
     --dark-border: #242f3f;
     --dark-background: #0d1117;

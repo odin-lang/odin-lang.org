@@ -1,7 +1,30 @@
 <!DOCTYPE html>
 <html>
     {{- partial "head.html" . -}}
+
     <body data-bs-spy="scroll" data-bs-target="#TOC" data-bs-offset="0" tabindex="0">
+        <!-- Dark mode -->
+        <script>
+          if (!window.localStorage.getItem("theme")) {
+            if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+              window.localStorage.setItem("theme", "dark");
+              document.body.classList.add("dark-mode");
+            }
+          }
+
+          if (window.localStorage.getItem("theme") === "dark") {
+            document.body.classList.add("dark-mode");
+          }
+
+          function toggleDarkMode() {
+            if (document.body.classList.toggle("dark-mode")) {
+                window.localStorage.setItem("theme", "dark");
+            } else {
+                window.localStorage.setItem("theme", "light");
+            }
+          }
+        </script>
+
         {{- partial "header.html" . -}}
         {{- block "main" . }}{{- end }}
         {{- partial "footer.html" . -}}

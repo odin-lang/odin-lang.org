@@ -38,14 +38,3 @@ window.addEventListener('DOMContentLoaded', () => {
 })
 
 
-if (!window.localStorage.getItem("theme")) {
-	if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-		window.localStorage.setItem("theme", "dark");
-		document.body.classList.add("dark-mode");
-	}
-}
-
-if (window.localStorage.getItem("theme") === "dark") {
-	document.body.classList.add("dark-mode");
-}
-

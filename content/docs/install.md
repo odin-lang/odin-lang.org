@@ -43,7 +43,7 @@ The following platform-specific steps are necessary:
     * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable (see `brew info llvm@14`)
 
 - GNU/Linux and other \*Nix
-    * For Linux: clang and llvm (version 11.1, 12, 13, 14 or 17; using your distro's package manager)
+    * For Linux: clang and llvm (version 11.1, 12, 13, 14, 17, or 18; using your distro's package manager)
     * Note: If an atomic.h error occurs, also add `libx32stdc++-12-dev`
     * Note: If a `No llvm-config command found` error occurs, install `llvm-devel` with your distro's package manager
     * For FreeBSD: `pkg install bash git llvm14`

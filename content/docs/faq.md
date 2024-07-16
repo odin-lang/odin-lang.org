@@ -401,7 +401,7 @@ a := int(123)
 ```
 
 ### Why is there no pointer arithmetic?
-Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the `mem` package provides so utility functions: `mem.ptr_offset` and `mem.ptr_sub`. Odin will allow the programmer to do unsafe things if they so wish.
+Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the `mem` package provides some utility functions: `mem.ptr_offset` and `mem.ptr_sub`. Odin will allow the programmer to do unsafe things if they so wish.
 
 If pointer arithmetic operations are still required and common (maybe due to interfacing with foreign C-like code), [multi-pointers](https://odin-lang.org/docs/overview/#multi-pointers) may be a better option to use.
 

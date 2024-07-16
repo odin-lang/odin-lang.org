@@ -452,7 +452,7 @@ a :    = 123
 a := 123
 a := int(123)
 </code></pre><h3 id=why-is-there-no-pointer-arithmetic>Why is there no pointer arithmetic? <a class=text-decoration-none href=#why-is-there-no-pointer-arithmetic>#</a></h3>
-<p>Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the <code>mem</code> package provides so utility functions: <code>mem.ptr_offset</code> and <code>mem.ptr_sub</code>. Odin will allow the programmer to do unsafe things if they so wish.</p>
+<p>Type safety and simplicity. Due to slices being a first-class datatype, a lot of the need for pointer arithmetic is reduced. However, if you still require it, the <code>mem</code> package provides some utility functions: <code>mem.ptr_offset</code> and <code>mem.ptr_sub</code>. Odin will allow the programmer to do unsafe things if they so wish.</p>
 <p>If pointer arithmetic operations are still required and common (maybe due to interfacing with foreign C-like code), <a href=https://odin-lang.org/docs/overview/#multi-pointers>multi-pointers</a> may be a better option to use.</p>
 <h3 id=why-are-there-no--or----operators>Why are there no <code>++</code> or <code>--</code> operators? <a class=text-decoration-none href=#why-are-there-no--or----operators>#</a></h3>
 <p>Pre-increment and post-increment, and the decrement equivalents, look simple but are complex. They require knowledge of the evaluation order and lead to subtle bugs. <code>f(i++)</code> or <code>a[++i] = b[i]</code> are both confusing, even if the rules are well defined. Removing this is a significant simplification.</p>

@@ -2410,7 +2410,7 @@ Indexing a matrix can be used with the matrix indexing syntax. This mirrors othe
 elem := m[1, 2] // row 1, column 2
 ```
 
-Scalars act as if they are scaled identity matrices and can be assigned to matrices as them
+Scalars act as if they are scaled diagonal matrices and can be assigned to matrices as them
 
 ```odin
 b := matrix[2, 2]f32{}

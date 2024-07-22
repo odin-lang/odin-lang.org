@@ -336,3 +336,17 @@ body.dark-mode {
 .dark-mode .img-dark-mode-invert {
     filter: invert(100%);
 }
+
+
+.jangafx-color {
+    color: #1b46a4;
+}
+
+
+.dark-mode .dark-mode-fill-white {
+    fill: white;
+}
+
+.dark-mode .img-dark-mode-invert {
+    filter: invert(100%);
+}

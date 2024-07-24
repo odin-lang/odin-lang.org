@@ -368,6 +368,31 @@ The reason for the specific syntax was done for the following reasons:
 * Virtually all slicing cases only ever require the Python/Go like semantics because Odin is a 0-index language
 * Ranges in Odin are only allowed in two contexts: `case`s and `for in` loops
 
+## How do I ...?
+### Convert an integer to a string or vice versa?
+```odin
+package numbers_example
+
+import "core:strconv"
+
+main :: proc() {
+    // We'll shortly overwrite the part of this array that we need,
+    // so we use `---` to tell the compiler it doesn't have to be zero-initialized.
+    buf: [64]u8 = ---
+
+    // Format the integer to a string, using memory backed by `buf`.
+    a := 4815162342
+    s := strconv.itoa(buf[:], a)
+
+    // Parse it back into an integer. We assume it's a valid base-10 representation here.
+    // If you want to check it was parsed correctly or parse binary, octal or hexadecimal,
+    // look at the `parse_*` procedures.
+    b := strconv.atoi(s)
+
+    assert(a == b)
+}
+```
+
 ## Implementation
 ### What does the compiler use?
 The compiler is written in C++ but in a very C style.

@@ -431,7 +431,29 @@ type(value) or (type)(value)
 <li>Virtually all slicing cases only ever require the Python/Go like semantics because Odin is a 0-index language</li>
 <li>Ranges in Odin are only allowed in two contexts: <code>case</code>s and <code>for in</code> loops</li>
 </ul>
-<h2 id=implementation>Implementation <a class=text-decoration-none href=#implementation>#</a></h2>
+<h2 id=how-do-i->How do I &mldr;? <a class=text-decoration-none href=#how-do-i->#</a></h2>
+<h3 id=convert-an-integer-to-a-string-or-vice-versa>Convert an integer to a string or vice versa? <a class=text-decoration-none href=#convert-an-integer-to-a-string-or-vice-versa>#</a></h3>
+<pre><code class=language-odin data-lang=odin>package numbers_example
+
+import &quot;core:strconv&quot;
+
+main :: proc() {
+    // We'll shortly overwrite the part of this array that we need,
+    // so we use `---` to tell the compiler it doesn't have to be zero-initialized.
+    buf: [64]u8 = ---
+
+    // Format the integer to a string, using memory backed by `buf`.
+    a := 4815162342
+    s := strconv.itoa(buf[:], a)
+
+    // Parse it back into an integer. We assume it's a valid base-10 representation here.
+    // If you want to check it was parsed correctly or parse binary, octal or hexadecimal,
+    // look at the `parse_*` procedures.
+    b := strconv.atoi(s)
+
+    assert(a == b)
+}
+</code></pre><h2 id=implementation>Implementation <a class=text-decoration-none href=#implementation>#</a></h2>
 <h3 id=what-does-the-compiler-use>What does the compiler use? <a class=text-decoration-none href=#what-does-the-compiler-use>#</a></h3>
 <p>The compiler is written in C++ but in a very C style.
 For the current backend, LLVM is used to translate code to platform specific code.</p>
@@ -656,6 +678,11 @@ if menu(&quot;Hello&quot;) {
 <li><a href=#why-are-there-two-ways-to-do-type-conversions>Why are there two ways to do type conversions?</a></li>
 <li><a href=#why-curly-brackets>Why curly brackets?</a></li>
 <li><a href=#why-do-slice-expressions-use--and-not-the-range-syntax>Why do slice expressions use <code>:</code> and not the range syntax?</a></li>
+</ul>
+</li>
+<li><a href=#how-do-i->How do I &mldr;?</a>
+<ul>
+<li><a href=#convert-an-integer-to-a-string-or-vice-versa>Convert an integer to a string or vice versa?</a></li>
 </ul>
 </li>
 <li><a href=#implementation>Implementation</a>

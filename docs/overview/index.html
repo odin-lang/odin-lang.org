@@ -1554,7 +1554,7 @@ assert(v.z == 1)
 struct #packed {...} // remove padding between fields
 struct #raw_union {...} // all fields share the same offset (0). This is the same as C's union
 </code></pre><h4 id=struct-field-tags>Struct field tags <a class=text-decoration-none href=#struct-field-tags>#</a></h4>
-<p>Struct fields can be tagged with a string literal to attach meta-infomration which can be used with runtime-type information. Usually this is used to provide transactional information info on how a struct field is encoded to or decoded from another format, but you can store whatever you want within the string literal</p>
+<p>Struct fields can be tagged with a string literal to attach meta-information which can be used with runtime-type information. Usually this is used to provide transactional information info on how a struct field is encoded to or decoded from another format, but you can store whatever you want within the string literal</p>
 <pre><code class=language-odin data-lang=odin>User :: struct {
 	flag: bool, // untagged field
 	age:  int    &quot;custom whatever information&quot;,
@@ -1604,7 +1604,7 @@ case:
 v: Value
 _, ok := v.(bool)
 assert(ok)
-</code></pre><p>The <code>#shared_nil</code> tag normalizes each variant&rsquo;s <code>nil</code> value into <code>nil</code> on assigment. If you assign <code>nil</code> or <a href=#zero-values>zero values</a> to a union with <code>#shared_nil</code> the union will be <code>nil</code>. Unions with <code>#shared_nil</code> require all variants to have a <code>nil</code> value.</p>
+</code></pre><p>The <code>#shared_nil</code> tag normalizes each variant&rsquo;s <code>nil</code> value into <code>nil</code> on assignment. If you assign <code>nil</code> or <a href=#zero-values>zero values</a> to a union with <code>#shared_nil</code> the union will be <code>nil</code>. Unions with <code>#shared_nil</code> require all variants to have a <code>nil</code> value.</p>
 <pre><code class=language-odin data-lang=odin>Error :: union #shared_nil {
 	File_Error,
 	Memory_Error,
@@ -1736,7 +1736,7 @@ fmt.println(a()) // 100
 <pre><code class=language-odin data-lang=odin>proc &quot;c&quot; (n: i32, data: rawptr)
 proc &quot;contextless&quot; (s: []int)
 </code></pre><p>Procedure types are only compatible with the procedures that have the same calling convention and parameter types.</p>
-<p>When binding to C libraries you&rsquo;ll often end up using <code>proc "c"</code> and also set the current context. For this you&rsquo;ll need to <a href=#explicit-context-definition>explicity set the context</a>.</p>
+<p>When binding to C libraries you&rsquo;ll often end up using <code>proc "c"</code> and also set the current context. For this you&rsquo;ll need to <a href=#explicit-context-definition>explicitly set the context</a>.</p>
 <h3 id=typeid-type><code>typeid</code> type <a class=text-decoration-none href=#typeid-type>#</a></h3>
 <p>A <code>typeid</code> is a unique identifier for an Odin type. This construct is used by the <code>any</code> type to denote what the underlying data&rsquo;s type is.</p>
 <pre><code class=language-odin data-lang=odin>a := typeid_of(bool)
@@ -1877,7 +1877,7 @@ fmt.println(len(d))
 fmt.println(cap(d))
 fmt.println(d[:])
 </code></pre><h4 id=soa_zip-and-soa_unzip><code>soa_zip</code> and <code>soa_unzip</code> <a class=text-decoration-none href=#soa_zip-and-soa_unzip>#</a></h4>
-<p>SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. <a href=http://pkg.odin-lang.org/base/builtin/#soa_zip><code>soa_zip</code></a> is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.</p>
+<p>SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achievable in higher level languages. <a href=http://pkg.odin-lang.org/base/builtin/#soa_zip><code>soa_zip</code></a> is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.</p>
 <pre><code class=language-odin data-lang=odin>x := []i32{1, 3, 9}
 y := []f32{2, 4, 16}
 z := []b32{true, false, true}
@@ -2482,7 +2482,7 @@ when FOO {
 	// only evaluate when `FOO` is false
 }
 </code></pre><p>The value for a command line define may be an integer, boolean, or string. Currently, no other types are supported.</p>
-<p>You can read up further on <a href=#configidentifer-default>Built-in procedures</a> here.</p>
+<p>You can read up further on <a href=#configidentifier-default>Built-in procedures</a> here.</p>
 <h3 id=build-tags>Build tags <a class=text-decoration-none href=#build-tags>#</a></h3>
 <p>This feature allows you to cover more edge-case situations where you want some code to be compiled on several platforms.</p>
 <p>However, overly-liberal use of this feature can make it hard to reason about what code is included or not, based on the target platform or architecture.
@@ -3160,7 +3160,7 @@ bar :: struct {
 </code></pre><h4 id=panicstring><code>#panic(&lt;string>)</code> <a class=text-decoration-none href=#panicstring>#</a></h4>
 <p>Panic runs at compile-time. It is functionally equivalent to an <code>#assert</code> with a <code>false</code> condition, but <code>#panic</code> has an error message string parameter.</p>
 <pre><code class=language-odin data-lang=odin>#panic(message)
-</code></pre><h4 id=configidentifer-default><code>#config(&lt;identifer>, default)</code> <a class=text-decoration-none href=#configidentifer-default>#</a></h4>
+</code></pre><h4 id=configidentifier-default><code>#config(&lt;identifier>, default)</code> <a class=text-decoration-none href=#configidentifier-default>#</a></h4>
 <p>Checks if an identifier is defined through the command line, or gives a default value instead.</p>
 <p>Values can be set with the <code>-define:NAME=VALUE</code> command line flag.</p>
 <h4 id=defined><code>#defined</code> <a class=text-decoration-none href=#defined>#</a></h4>
@@ -3336,7 +3336,7 @@ Some of this information includes:</p>
 <p>Try doing a text search in one or more of these subdirectories for what you are looking for. Make sure the search is a proper full text search too, such as what <code>grep</code> (a popular 3rd party file search program) provides. Be careful that you specify your search correctly, especially if you use <em>regex</em>. Some default searches on some operating systems may miss content that exists in some files by not searching the actual file contents completely or at all, which can be misleading.</p>
 <p>Odin&rsquo;s documentation may be sparse at times, but this sparsity can be worked around effectively by using the above listed resources. <em>Don&rsquo;t forget they exist.</em></p>
 <p>When working with any system that is still under-development these kinds of techniques are essential for maximizing your effectiveness. Many (perhaps most) real world companies, especially in intense industries such as game development and multimedia often don&rsquo;t have complete documentation and changes can happen rapidly.</p>
-<p>Self-sufficiency in such a context requires a willlingness to explore these kinds of resources proactively, rather than waiting for documentation that may be slow to come or may not fully cover what things actually do precisely enough.</p>
+<p>Self-sufficiency in such a context requires a willingness to explore these kinds of resources proactively, rather than waiting for documentation that may be slow to come or may not fully cover what things actually do precisely enough.</p>
 <p>Don&rsquo;t be afraid to simply experiment and try to deduce what something is really doing or what features may exist. You may be surprised how much you can still accomplish with just a little bit of patience and thoughtfulness!</p>
 <p>Furthermore, even if Odin doesn&rsquo;t yet have a feature or library that you need, the fact that Odin has bindings to C&rsquo;s standard library (which are available in <a href=https://pkg.odin-lang.org/core/c/libc/>the libc package</a> via <code>import "core:c/libc"</code>) means that any algorithms, example code, documentation, or books originally written for C can also be used to accomplish what you need in Odin. You can then optionally write Odin wrappers around that code to bridge the idiomatic gap better or else just use the C-like code directly. You can also bind to code from any libraries or languages that <code>foreign</code> can bind to (see <a href=https://odin-lang.org/docs/overview/#foreign-system>the foreign section</a> for more info).</p>
 <p>Thus, when necessity calls for it, <strong>the entire literature and community of C is still (in effect) available to you in Odin as well</strong>. So, any time you are tempted to think &ldquo;I can&rsquo;t implement this in Odin yet because there&rsquo;s not enough documentation&rdquo; remind yourself that all (or almost all) of C is still available to you, but through a cleaner namespaced interface. Odin is also similar to C anyway, so direct translations of C to Odin (without even using the <code>libc</code> bindings) may still be relatively easy. In effect, any tutorial or book on C can also be thought of as an Odin resource too in that sense!</p>
@@ -3675,7 +3675,7 @@ Some of this information includes:</p>
 <ul>
 <li><a href=#assertboolean><code>#assert(&lt;boolean>)</code></a></li>
 <li><a href=#panicstring><code>#panic(&lt;string>)</code></a></li>
-<li><a href=#configidentifer-default><code>#config(&lt;identifer>, default)</code></a></li>
+<li><a href=#configidentifier-default><code>#config(&lt;identifier>, default)</code></a></li>
 <li><a href=#defined><code>#defined</code></a></li>
 <li><a href=#file-line-procedure><code>#file</code>, <code>#line</code>, <code>#procedure</code></a></li>
 <li><a href=#location-or-locationentity><code>#location()</code> or <code>#location(&lt;entity>)</code></a></li>

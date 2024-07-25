@@ -1921,7 +1921,7 @@ struct #raw_union {...} // all fields share the same offset (0). This is the sam
 ```
 
 #### Struct field tags
-Struct fields can be tagged with a string literal to attach meta-infomration which can be used with runtime-type information. Usually this is used to provide transactional information info on how a struct field is encoded to or decoded from another format, but you can store whatever you want within the string literal
+Struct fields can be tagged with a string literal to attach meta-information which can be used with runtime-type information. Usually this is used to provide transactional information info on how a struct field is encoded to or decoded from another format, but you can store whatever you want within the string literal
 ```odin
 User :: struct {
 	flag: bool, // untagged field
@@ -1991,7 +1991,7 @@ _, ok := v.(bool)
 assert(ok)
 ```
 
-The `#shared_nil` tag normalizes each variant's `nil` value into `nil` on assigment. If you assign `nil` or [zero values](#zero-values) to a union with `#shared_nil` the union will be `nil`. Unions with `#shared_nil` require all variants to have a `nil` value.
+The `#shared_nil` tag normalizes each variant's `nil` value into `nil` on assignment. If you assign `nil` or [zero values](#zero-values) to a union with `#shared_nil` the union will be `nil`. Unions with `#shared_nil` require all variants to have a `nil` value.
 
 ```odin
 Error :: union #shared_nil {
@@ -2174,7 +2174,7 @@ proc "contextless" (s: []int)
 
 Procedure types are only compatible with the procedures that have the same calling convention and parameter types.
 
-When binding to C libraries you'll often end up using `proc "c"` and also set the current context. For this you'll need to [explicity set the context](#explicit-context-definition).
+When binding to C libraries you'll often end up using `proc "c"` and also set the current context. For this you'll need to [explicitly set the context](#explicit-context-definition).
 
 ### `typeid` type
 A `typeid` is a unique identifier for an Odin type. This construct is used by the `any` type to denote what the underlying data's type is.
@@ -2359,7 +2359,7 @@ fmt.println(d[:])
 
 #### `soa_zip` and `soa_unzip`
 
-SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achieveable in higher level languages. [`soa_zip`](http://pkg.odin-lang.org/base/builtin/#soa_zip) is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
+SOA is not just useful for high performance scenarios but also for everyday tasks which are normally only achievable in higher level languages. [`soa_zip`](http://pkg.odin-lang.org/base/builtin/#soa_zip) is a built-in procedure which allows the user to treat multiple slices as if they are part of the same data structures, utilizing the power of SOA.
 
 ```odin
 x := []i32{1, 3, 9}
@@ -3014,7 +3014,7 @@ when FOO {
 ```
 The value for a command line define may be an integer, boolean, or string. Currently, no other types are supported.
 
-You can read up further on [Built-in procedures](#configidentifer-default) here.
+You can read up further on [Built-in procedures](#configidentifier-default) here.
 
 ### Build tags
 
@@ -3973,7 +3973,7 @@ Panic runs at compile-time. It is functionally equivalent to an `#assert` with a
 #panic(message)
 ```
 
-#### `#config(<identifer>, default)`
+#### `#config(<identifier>, default)`
 
 Checks if an identifier is defined through the command line, or gives a default value instead.
 
@@ -4213,7 +4213,7 @@ Odin's documentation may be sparse at times, but this sparsity can be worked aro
 
 When working with any system that is still under-development these kinds of techniques are essential for maximizing your effectiveness. Many (perhaps most) real world companies, especially in intense industries such as game development and multimedia often don't have complete documentation and changes can happen rapidly. 
 
-Self-sufficiency in such a context requires a willlingness to explore these kinds of resources proactively, rather than waiting for documentation that may be slow to come or may not fully cover what things actually do precisely enough.
+Self-sufficiency in such a context requires a willingness to explore these kinds of resources proactively, rather than waiting for documentation that may be slow to come or may not fully cover what things actually do precisely enough.
 
 Don't be afraid to simply experiment and try to deduce what something is really doing or what features may exist. You may be surprised how much you can still accomplish with just a little bit of patience and thoughtfulness!
 

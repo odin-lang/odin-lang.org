@@ -471,7 +471,7 @@ By default, `switch` statements which have an `enum` or `union` condition requir
 
 * It is a lot clearer to write a normal C-style `for` loop
     * `for i := hi; i >= lo; i -= 1 {...}`
-* It might nto execute the way the user expects, especially for floats
+* It might not execute the way the user expects, especially for floats
     * `for i in 1.2 ..< 3.4 {...}` is valid in Odin
 * It will cause off-by-one bugs in certain cases
 
@@ -484,9 +484,9 @@ There is also the `deferred_*` attributes which can be attached to procedures to
 
 <table>
 <tbody>
-    <tr><td>deferred_none</td><td>the deferred procedure takes _none_ of the parameters from the original procedure</td></tr>
-    <tr><td>deferred_in</td><td>the deferred procedure takes the _input_ parameters from the original procedure</td></tr>
-    <tr><td>deferred_out</td><td>the deferred procedure takes the _return_ values from the original procedure</td></tr>
+    <tr><td>deferred_none</td><td>the deferred procedure takes <em>none</em> of the parameters from the original procedure</td></tr>
+    <tr><td>deferred_in</td><td>the deferred procedure takes the <em>input</em> parameters from the original procedure</td></tr>
+    <tr><td>deferred_out</td><td>the deferred procedure takes the <em>return</em> values from the original procedure</td></tr>
 </tbody>
 </table>
 

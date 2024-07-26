@@ -471,7 +471,7 @@ By default, `switch` statements which have an `enum` or `union` condition requir
 
 * It is a lot clearer to write a normal C-style `for` loop
     * `for i := hi; i >= lo; i -= 1 {...}`
-* It might nto execute the way the user expects, especially for floats
+* It might not execute the way the user expects, especially for floats
     * `for i in 1.2 ..< 3.4 {...}` is valid in Odin
 * It will cause off-by-one bugs in certain cases
 

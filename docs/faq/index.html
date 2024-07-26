@@ -507,7 +507,7 @@ defer os.close(f) // will be executed at the end of the scope
 <li><code>for i := hi; i >= lo; i -= 1 {...}</code></li>
 </ul>
 </li>
-<li>It might nto execute the way the user expects, especially for floats
+<li>It might not execute the way the user expects, especially for floats
 <ul>
 <li><code>for i in 1.2 ..&lt; 3.4 {...}</code> is valid in Odin</li>
 </ul>
@@ -518,9 +518,9 @@ defer os.close(f) // will be executed at the end of the scope
 <p>There is also the <code>deferred_*</code> attributes which can be attached to procedures to have very useful functionality, such as <a href=https://en.wikipedia.org/wiki/Immediate_Mode_GUI>IMGUIs</a>.</p>
 <table>
 <tbody>
-<tr><td>deferred_none</td><td>the deferred procedure takes _none_ of the parameters from the original procedure</td></tr>
-<tr><td>deferred_in</td><td>the deferred procedure takes the _input_ parameters from the original procedure</td></tr>
-<tr><td>deferred_out</td><td>the deferred procedure takes the _return_ values from the original procedure</td></tr>
+<tr><td>deferred_none</td><td>the deferred procedure takes <em>none</em> of the parameters from the original procedure</td></tr>
+<tr><td>deferred_in</td><td>the deferred procedure takes the <em>input</em> parameters from the original procedure</td></tr>
+<tr><td>deferred_out</td><td>the deferred procedure takes the <em>return</em> values from the original procedure</td></tr>
 </tbody>
 </table>
 <p>Example:</p>

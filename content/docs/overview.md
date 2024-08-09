@@ -3568,7 +3568,7 @@ foo :: proc "c" () -> int {
 
 #### `@(link_prefix=<string>)`
 
-This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. So if functions are prefixed with `ltb_' in the library, you can attach this and not specify that on the procedure on the Odin side; conversely, non-Odin procedures must match the exported procedure's name with its link prefix. Example:
+This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. So if functions are prefixed with `ltb_` in the library, you can attach this and not specify that on the procedure on the Odin side; conversely, non-Odin procedures must match the exported procedure's name with its link prefix. Example:
 ```odin
 @(link_prefix = "ltb_")
 foreign foo {

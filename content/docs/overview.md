@@ -3552,12 +3552,17 @@ Requires that the declaration is added to the final compilation and not optimize
 
 #### `@(link_name=<string>)`
 
-This attribute can be attached to variable and procedure declarations inside a `foreign` block. This specifies what the variable/proc is called in the library.
+This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. This specifies what the variable/proc is called in the library.
 Example:
 ```odin
 foreign foo {
     @(link_name = "bar")
     testbar :: proc(baz: int) ---
+}
+
+@(export, link_name="lib_foo")
+foo :: proc "c" () -> int {
+	return 42
 }
 ```
 

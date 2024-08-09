@@ -2886,10 +2886,15 @@ foo :: proc &quot;c&quot; () -&gt; int {
 	return 42
 }
 </code></pre><h4 id=link_prefixstring><code>@(link_prefix=&lt;string>)</code> <a class=text-decoration-none href=#link_prefixstring>#</a></h4>
-<p>This attribute can be attached to a <code>foreign</code> block to specify a prefix to all names. So if functions are prefixed with <code>ltb_</code> in the library is you can attach this and not specify that on the procedure on the Odin side. Example:</p>
+<p>This attribute can be attached to variable and procedure declarations, either when exporting or inside a <code>foreign</code> block. So if functions are prefixed with <code>ltb_</code> in the library, you can attach this and not specify that on the procedure on the Odin side; conversely, non-Odin procedures must match the exported procedure&rsquo;s name with its link prefix. Example:</p>
 <pre><code class=language-odin data-lang=odin>@(link_prefix = &quot;ltb_&quot;)
 foreign foo {
     testbar :: proc(baz: int) --- // This now refers to ltb_testbar
+}
+
+@(export, link_prefix=&quot;ltb_&quot;)
+foo :: proc &quot;c&quot; () -&gt; int {
+	return 42
 }
 </code></pre><h4 id=export-or-exporttruefalse><code>@export</code> or <code>@(export=true/false)</code> <a class=text-decoration-none href=#export-or-exporttruefalse>#</a></h4>
 <p>Exports a variable or procedure symbol, useful for producing DLLs.</p>

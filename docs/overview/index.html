@@ -2874,11 +2874,16 @@ package foo
 <p>Requires that the declaration is added to the final compilation and not optimized out.</p>
 <h3 id=linking-and-foreign-attributes>Linking and foreign attributes <a class=text-decoration-none href=#linking-and-foreign-attributes>#</a></h3>
 <h4 id=link_namestring><code>@(link_name=&lt;string>)</code> <a class=text-decoration-none href=#link_namestring>#</a></h4>
-<p>This attribute can be attached to variable and procedure declarations inside a <code>foreign</code> block. This specifies what the variable/proc is called in the library.
+<p>This attribute can be attached to variable and procedure declarations, either when exporting or inside a <code>foreign</code> block. This specifies what the variable/proc is called in the library.
 Example:</p>
 <pre><code class=language-odin data-lang=odin>foreign foo {
     @(link_name = &quot;bar&quot;)
     testbar :: proc(baz: int) ---
+}
+
+@(export, link_name=&quot;lib_foo&quot;)
+foo :: proc &quot;c&quot; () -&gt; int {
+	return 42
 }
 </code></pre><h4 id=link_prefixstring><code>@(link_prefix=&lt;string>)</code> <a class=text-decoration-none href=#link_prefixstring>#</a></h4>
 <p>This attribute can be attached to a <code>foreign</code> block to specify a prefix to all names. So if functions are prefixed with <code>ltb_</code> in the library is you can attach this and not specify that on the procedure on the Odin side. Example:</p>

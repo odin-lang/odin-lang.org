@@ -1234,9 +1234,8 @@ case c..=d:
 bit_set[a..<b]
 bit_set[a..=b]
 
-
-foo := [?]int{0..=3 = 1} // inits array: [1, 1, 1, 1]
-bar := [?]int{0 = 0, 1..<3 = 1} // inits array: [0, 1, 1]
+foo := [?]int{0..=3 = 1} // initialises as: [1, 1, 1, 1]
+bar := [?]int{0 = 0, 1..<3 = 1} // initialises as: [0, 1, 1]
 ```
 
 `in` and `not_in` are not allowed in within a for loop condition without ambiguity:

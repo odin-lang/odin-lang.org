@@ -38,13 +38,13 @@ Odin relies on LLVM (for code generation) and an external linker. These are need
     * Install the latest XCode (from the App Store or the [Xcode website](https://developer.apple.com/xcode/))
     * Install XCode command-line tools `xcode-select --install`
     * Install [Homebrew](https://brew.sh/) 
-    * Install LLVM through Homebrew with: `brew install llvm@14`
-    * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable (see `brew info llvm@14`)
+    * Install LLVM through Homebrew with: `brew install llvm`
+    * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable (see `brew info llvm`)
 * GNU/Linux and other \*Nix
     * For Linux: clang and llvm (version 11.1, 12, 13, 14, 17, or 18; using your distro's package manager)
     * Note: If an atomic.h error occurs, also add `libx32stdc++-12-dev`
     * Note: If a `No llvm-config command found` error occurs, install `llvm-devel` with your distro's package manager
-    * For FreeBSD: `pkg install bash git llvm14`
+    * For FreeBSD: `pkg install bash git llvm`
     * Make sure the LLVM binaries and the linker are added to your `$PATH` environmental variable
 
 ## Building Odin

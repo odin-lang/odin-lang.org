@@ -99,85 +99,163 @@
 </header>
 <div class=odin-article>
 <p>Odin is dead-simple to get started with!</p>
+<p>Compiling from source is <strong>very</strong> easy and does not take long.
+Therefore (especially on Linux) we recommend doing that. This will also get you all the latest bug fixes and features faster.</p>
+<p>The compiler currently supports compiling on:</p>
+<ul>
+<li>Windows x86-64/AMD64 (MSVC)</li>
+<li>Linux x86-64/AMD64 and ARM64</li>
+<li>MacOS x86-64/AMD64 and ARM64</li>
+<li>FreeBSD x86-64/AMD64 and ARM64</li>
+<li>NetBSD x86-64/AMD64 and ARM64</li>
+<li>OpenBSD x86-64/AMD64</li>
+<li>Haiku x86-64/AMD64 (experimental)</li>
+</ul>
+<p>and supports compiling <strong>to</strong> many more targets.</p>
+<h2 id=releases>Releases <a class=text-decoration-none href=#releases>#</a></h2>
+<h3 id=official-releases>Official Releases <a class=text-decoration-none href=#official-releases>#</a></h3>
 <p><a href=https://github.com/odin-lang/Odin/releases class="btn btn-outline-primary">Latest Release</a>
 <a href=/docs/nightly class="btn btn-outline-primary">Latest Nightly Builds</a></p>
-<h2 id=clone-or-download-odin-binaries>Clone or download Odin binaries <a class=text-decoration-none href=#clone-or-download-odin-binaries>#</a></h2>
-<p>You can either:</p>
-<ul>
-<li>Clone the repository: <code>git clone https://github.com/odin-lang/Odin</code> (makes <a href=#updating-the-compiler>updating</a> the compiler easier)</li>
-</ul>
-<p>or download the latest binaries and add them to your path:</p>
-<ul>
-<li>Download <a href=https://github.com/odin-lang/Odin/releases/latest>the latest release</a></li>
-<li>Download <a href=/docs/nightly/>the latest nightly build</a></li>
-</ul>
-<p><strong>Note</strong>: If you use the binary version, then you can skip the &ldquo;Building Odin&rdquo; section below, but the stuff under <a href=#requirements>requirements</a> is still required!</p>
-<h3 id=platform-and-cpu-support>Platform and CPU support <a class=text-decoration-none href=#platform-and-cpu-support>#</a></h3>
-<p>Odin supports x86-64/AMD64 on Windows, Linux and macOS, and ARM64 on macOS.</p>
-<p>Additional supported platforms are FreeBSD, OpenBSD, NetBSD and Haiku. There are no binary releases for those platforms.</p>
-<h3 id=requirements>Requirements <a class=text-decoration-none href=#requirements>#</a></h3>
-<p>Odin relies on LLVM (for code generation) and an external linker. These are needed regardless of if you build from source or use the binary releases. When building from source you also need a C++ compiler. Here follows platform-specific steps on how to acquire these dependencies:</p>
+<p><strong>Requirements/Notes:</strong></p>
 <ul>
 <li>Windows
 <ul>
-<li>Install Visual Studio 2019-2022 (2017 may also work)</li>
-<li>Install Visual Studio workload &ldquo;Desktop development with C++&rdquo;, required components from that workload are the MSVC build tools and the Windows SDK</li>
-<li>No LLVM installation is needed, the LLVM DLL is bundled in the repository</li>
+<li>Odin needs the MSVC compiler and windows SDK from the &ldquo;Desktop development with C++&rdquo; component.
+If you don&rsquo;t have this already, you can <a href=https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022>download the installer here</a>.
+Make sure to at least click on &ldquo;Desktop development with C++&rdquo; and tick the boxes for MSVC and the Windows SDK.
+It should look something like:
+<img src=/images/microsoft-installer.png width=75% alt="Microsoft Installer with Desktop development with C++, MSVC, and Windows SDK checked">
+<ul>
+<li>If you want the smallest install possible, there is a <a href=https://gist.github.com/mmozeiko/7f3162ec2988e81e56d5c4e22cde9977>third-party script</a> that installs only the things that are needed</li>
+</ul>
+</li>
 </ul>
 </li>
 <li>MacOS
 <ul>
-<li>Install the latest XCode (from the App Store or the <a href=https://developer.apple.com/xcode/>Xcode website</a>)</li>
-<li>Install XCode command-line tools <code>xcode-select --install</code></li>
-<li>Install <a href=https://brew.sh/>Homebrew</a></li>
-<li>Install LLVM through Homebrew with: <code>brew install llvm</code></li>
-<li>Make sure the LLVM binaries and the linker are added to your <code>$PATH</code> environmental variable (see <code>brew info llvm</code>)</li>
+<li>Install XCode command-line tools <code>xcode-select --install</code>
+<ul>
+<li>If that command is not found you may need to install XCode from the App Store</li>
 </ul>
 </li>
-<li>GNU/Linux and other *Nix
+<li>Note that this release does not come with <code>wasm-ld</code> for compiling to WASM, for that you have to install LLVM (wasm-ld ships in that package) as described in the chapter about building from source</li>
+</ul>
+</li>
+<li>Others (Unix)
 <ul>
-<li>For Linux: clang and llvm (version 11.1, 12, 13, 14, 17, or 18; using your distro&rsquo;s package manager)</li>
-<li>Note: If an atomic.h error occurs, also add <code>libx32stdc++-12-dev</code></li>
-<li>Note: If a <code>No llvm-config command found</code> error occurs, install <code>llvm-devel</code> with your distro&rsquo;s package manager</li>
-<li>For FreeBSD: <code>pkg install bash git llvm</code></li>
-<li>Make sure the LLVM binaries and the linker are added to your <code>$PATH</code> environmental variable</li>
+<li>Install LLVM 18 (see your package manager&rsquo;s instructions)
+<ul>
+<li>For Debian/Ubuntu you can use <a href=https://apt.llvm.org/>https://apt.llvm.org/</a> for versions of LLVM your package manager doesn&rsquo;t have</li>
+</ul>
+</li>
+<li>Note that the releases are packaged from/for Ubuntu, other distributions may or may not work
+<ul>
+<li>If you are not on Debian/Ubuntu and get an error about libedit.so, you can usually fix it by running <code>patchelf --replace-needed libedit.so.2 libedit.so.0 libLLVM-18.so.18.1</code></li>
 </ul>
 </li>
 </ul>
-<h2 id=building-odin>Building Odin <a class=text-decoration-none href=#building-odin>#</a></h2>
-<h3 id=for-windows>For Windows <a class=text-decoration-none href=#for-windows>#</a></h3>
-<p>Make sure you have installed the <a href=#requirements>requirements</a>.</p>
-<p>You&rsquo;ll be compiling Odin using a command prompt. In order for the command prompt to find the Visual Studio C++ compiler you&rsquo;ll need to open the X64 Visual Studio command prompt. There are two ways:</p>
-<ul>
-<li><strong>Basic:</strong> run the <code>x64 Native Tools Command Prompt for VS20xx</code> shortcut bundled with Visual Studio (search in start menu), or</li>
-<li><strong>Advanced:</strong> run <code>vcvarsall.bat x64</code> from a blank <code>cmd</code> session</li>
+</li>
 </ul>
-<p>Using this command prompt, navigate to the directory where you downloaded Odin and run <code>build.bat release</code>. You should now have a working Odin compiler!</p>
-<p><strong>Note</strong>: Run <code>build.bat</code> or <code>build.bat debug</code> to get a debug compiler. The debug compiler is slower and only needed for troubleshooting the compiler itself.</p>
-<p>After this, <a href="https://duckduckgo.com/?q=add+to+path+windows">add the Odin compiler directory to the PATH environment variable</a> so <code>odin.exe</code> is accessible everywhere on your computer.</p>
-<h3 id=for-macos>For MacOS <a class=text-decoration-none href=#for-macos>#</a></h3>
-<p>Make sure all <a href=#requirements>requirements</a> for MacOS are installed, after installing LLVM through Homebrew make sure to add it to the PATH:</p>
+<h3 id=package-managers>Package Managers <a class=text-decoration-none href=#package-managers>#</a></h3>
+<p>Repology maintains a list of package managers and their status.</p>
+<p><strong>Note</strong> that the only supported (by our maintainers) package manager is Homebrew. Other distributions have historically been flawed in several ways.</p>
+<p><a href=https://repology.org/project/odin-lang/versions><img src=https://repology.org/badge/vertical-allrepos/odin-lang.svg alt="Packaging status"></a></p>
+<h2 id=from-source>From Source <a class=text-decoration-none href=#from-source>#</a></h2>
+<h3 id=windows>Windows <a class=text-decoration-none href=#windows>#</a></h3>
+<ol>
+<li>Odin needs the MSVC compiler and windows SDK from the &ldquo;Desktop development with C++&rdquo; component.
+If you don&rsquo;t have this already, you can <a href=https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022>download the installer here</a>.
+Make sure to at least click on &ldquo;Desktop development with C++&rdquo; and tick the boxes for MSVC and the Windows SDK.
+It should look something like:
+<img src=/images/microsoft-installer.png width=75% alt="Microsoft Installer with Desktop development with C++, MSVC, and Windows SDK checked">
 <ul>
-<li>run <code>echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> ~/.zshrc_profile</code> to add LLVM to your PATH.</li>
+<li>If you want the smallest install possible, there is a <a href=https://gist.github.com/mmozeiko/7f3162ec2988e81e56d5c4e22cde9977>third-party script</a> that installs only the things that are needed</li>
 </ul>
-<p>Then run <code>source ~/.bash_profile</code> or <code>source ~/.zshrc</code> to update your PATH variable in the current terminal session depending on your shell.</p>
-<p>On newer versions of macOS, some headers are not installed by default. Open <code>macOS_SDK_headers_for_macOS_*.pkg</code> in <code>/Library/Developer/CommandLineTools/Packages/</code>.</p>
-<p>Now navigate to the Odin directory in your terminal and run <code>make release</code>, and you should have a newly-built, fresh Odin compiler!</p>
-<p><strong>Note</strong>: Run <code>make</code> or <code>make debug</code> to get a debug compiler. The debug compiler is slower and only needed for troubleshooting the compiler itself.</p>
-<p>Finally, export the Odin directory to the PATH by running: <code>echo 'export PATH="/path/to/your/odin/compiler:$PATH"' >> ~/.zshrc_profile</code></p>
-<h3 id=for-linux-and-other-nix>For Linux and other *Nix <a class=text-decoration-none href=#for-linux-and-other-nix>#</a></h3>
-<p>For Linux, make sure you have <code>llvm</code> and <code>clang</code> installed through your package managers.</p>
-<p>For FreeBSD make sure you have <code>bash</code>, <code>git</code> and the latest version of LLVM (the base <code>llvm</code> package is most of the times outdated).</p>
-<p>Now navigate to the Odin directory in your terminal and run <code>make release</code>, and you should have a newly-built, fresh Odin compiler!</p>
-<p><strong>Note</strong>: Run <code>make</code> or <code>make debug</code> to get a debug compiler. The debug compiler is slower and only needed for troubleshooting the compiler itself.</p>
-<p><strong>Notes for Linux:</strong> The compiler currently relies on the <code>core</code> and <code>shared</code> library collection being relative to the compiler executable. Installing the compiler in the usual sense (to <code>/usr/local/bin</code> or similar) is therefore not as straight forward as you need to make sure the mentioned libraries are available. As a result, it is recommended to simply explicitly invoke the compiler with <code>/path/to/odin</code> in your preferred build system, or add <code>/path/to/odin</code> to <code>$PATH</code>.</p>
-<h2 id=updating-the-compiler>Updating the compiler <a class=text-decoration-none href=#updating-the-compiler>#</a></h2>
-<h3 id=if-you-build-odin-from-source>If you build Odin from source <a class=text-decoration-none href=#if-you-build-odin-from-source>#</a></h3>
-<p>Run <code>git pull</code> and the rebuild the compiler using <code>build.bat release</code> on Windows or <code>make release</code> on other platforms.</p>
-<p><strong>Note</strong>: Change <code>release</code> for <code>debug</code> (or just omit the word) to get a debug compiler.</p>
-<h3 id=if-you-use-a-binary-package>If you use a binary package <a class=text-decoration-none href=#if-you-use-a-binary-package>#</a></h3>
-<p>Delete all the files in your Odin compiler directory and extract the new compiler into this directory.</p>
-<p><strong>Note</strong>: <em>Do not</em> just copy the new compiler on top of the old one. This will merge the directories, and files that have been renamed or deleted in the new version will then still remain, which may cause issues.</p>
+</li>
+<li>Your command prompt will probably not have the Microsoft Build Tools set up by default, there are 2 ways to set it up if it isn&rsquo;t:
+<ul>
+<li>run the <code>x64 Native Tools Command Prompt for VS20xx</code> shortcut bundled with Visual Studio (search in start menu), or</li>
+<li>run <code>vcvarsall.bat x64</code> from a blank <code>cmd</code> session</li>
+</ul>
+</li>
+<li>Clone the repository somewhere: <code>git clone https://github.com/odin-lang/Odin</code></li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout one of the official releases</li>
+<li>Navigate to the Odin folder: <code>cd Odin</code></li>
+<li>Run <code>build.bat release</code></li>
+<li>Optionally <a href="https://duckduckgo.com/?q=add+to+path+windows">add the Odin compiler directory to the PATH environment variable</a> so <code>odin.exe</code> is accessible everywhere on your computer</li>
+</ol>
+<h4 id=updating>Updating <a class=text-decoration-none href=#updating>#</a></h4>
+<ol>
+<li>Through step 4 of installing, open up the developer command prompt</li>
+<li>Navigate to the Odin folder</li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
+<li><code>git pull</code></li>
+<li><code>build.bat release</code></li>
+</ol>
+<h3 id=macos>MacOS <a class=text-decoration-none href=#macos>#</a></h3>
+<ol>
+<li>Install XCode command-line tools <code>xcode-select --install</code>
+<ul>
+<li>If that command is not found you may need to install XCode from the App Store</li>
+</ul>
+</li>
+<li>Install <a href=https://brew.sh/>Homebrew</a> and install <code>brew install llvm@18</code>, the versions we support are 14, 17, and 18</li>
+<li>Clone the repository somewhere: <code>git clone https://github.com/odin-lang/Odin</code></li>
+<li>Navigate to the Odin folder: <code>cd Odin</code></li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
+<li>Run <code>make release-native</code></li>
+<li>Optionally add the Odin folder to your shell&rsquo;s path or symlink the <code>odin</code> binary to a folder that is in your shell&rsquo;s path
+<ul>
+<li>Example for ZSH (from the Odin folder): <code>echo 'export PATH="$(pwd):$PATH"' >> ~/.zshrc</code></li>
+</ul>
+</li>
+</ol>
+<h4 id=a-note-on-wasm-and-llvm-binaries>A note on WASM and LLVM binaries <a class=text-decoration-none href=#a-note-on-wasm-and-llvm-binaries>#</a></h4>
+<p>In order to compile for WASM, Odin calls out to <code>wasm-ld</code> for linking. This requires it to be available through your <code>$PATH</code>.
+By default, <code>brew</code> does not add any of LLVM&rsquo;s binaries to your <code>$PATH</code> and you will need to symlink it to a place where it is able to be found.
+You can symlink it to <code>/usr/local/bin</code> by doing <code>ln -s $(brew --prefix llvm)/bin/wasm-ld /usr/local/bin/wasm-ld</code>.</p>
+<p>Alternatively, you can wrap add the entire <code>$(brew --prefix llvm)/bin</code> to your <code>$PATH</code>, but brew does not recommend it.</p>
+<h4 id=updating-1>Updating <a class=text-decoration-none href=#updating-1>#</a></h4>
+<ol>
+<li>Navigate to the Odin folder</li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
+<li><code>git pull</code></li>
+<li><code>make release-native</code></li>
+</ol>
+<h3 id=others-unix>Others (Unix) <a class=text-decoration-none href=#others-unix>#</a></h3>
+<ol>
+<li>Install clang and LLVM (the versions we support are 14, 17 and 18) using your package manager
+<ul>
+<li>Note: If an atomic.h error occurs, see the following section about it</li>
+<li>Note: It could be that LLVM is split into multiple packages and you also need to install something like <code>llvm-devel</code></li>
+</ul>
+</li>
+<li>Make sure <code>llvm-config</code>, <code>llvm-config-(14|17|18)</code>, or <code>llvm-config(14|17|18)</code> and <code>clang</code> are able to be found through your <code>$PATH</code></li>
+<li>Clone the repository somewhere: <code>git clone https://github.com/odin-lang/Odin</code></li>
+<li>Navigate to the Odin folder: <code>cd Odin</code></li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
+<li>Run <code>make release-native</code></li>
+<li>Optionally add the Odin folder to your shell&rsquo;s path or symlink the <code>odin</code> binary to a folder that is in your shell&rsquo;s path
+<ul>
+<li>Example for bash (from the Odin folder): <code>echo 'export PATH="$(pwd):$PATH"' >> ~/.bashrc</code></li>
+</ul>
+</li>
+</ol>
+<h4 id=a-note-on-atomich>A note on atomic.h <a class=text-decoration-none href=#a-note-on-atomich>#</a></h4>
+<p>The Odin compiler relies on C++&rsquo;s atomic.h for atomic memory ordering, some operating systems need some more steps to install this.
+To find out which package you need to install, use <code>clang++ -v</code> and look for &ldquo;Selected GCC installation&rdquo; and note the version number (usually 12, or 14).
+Then, depending on OS, install the corresponding c++ standard package, usually called <code>libstdc++-VERSION-dev</code> but also found under different names,
+for help and more information see <a href=https://github.com/odin-lang/Odin/issues/3376>this GitHub issue</a>.</p>
+<h4 id=updating-2>Updating <a class=text-decoration-none href=#updating-2>#</a></h4>
+<ol>
+<li>Navigate to the Odin folder</li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
+<li><code>git pull</code></li>
+<li><code>make release-native</code></li>
+</ol>
+<h2 id=got-stuck>Got stuck? <a class=text-decoration-none href=#got-stuck>#</a></h2>
+<p>If something did not work as said on this page or you just need help, do not hesitate to reach out through our Discord or Github issues/discussions.</p>
+<p>Do note that we do not officially maintain or support the various package managers.</p>
 <h2 id=what-next>What Next? <a class=text-decoration-none href=#what-next>#</a></h2>
 <p>Why not check out the <a href=/docs/overview/>Odin Overview</a> for more information on the Odin Programming Language!</p>
 </div>
@@ -186,25 +264,34 @@
 <div class="sticky-top odin-below-navbar py-3">
 <nav id=TableOfContents>
 <ul>
-<li><a href=#clone-or-download-odin-binaries>Clone or download Odin binaries</a>
+<li><a href=#releases>Releases</a>
 <ul>
-<li><a href=#platform-and-cpu-support>Platform and CPU support</a></li>
-<li><a href=#requirements>Requirements</a></li>
+<li><a href=#official-releases>Official Releases</a></li>
+<li><a href=#package-managers>Package Managers</a></li>
 </ul>
 </li>
-<li><a href=#building-odin>Building Odin</a>
+<li><a href=#from-source>From Source</a>
 <ul>
-<li><a href=#for-windows>For Windows</a></li>
-<li><a href=#for-macos>For MacOS</a></li>
-<li><a href=#for-linux-and-other-nix>For Linux and other *Nix</a></li>
+<li><a href=#windows>Windows</a>
+<ul>
+<li><a href=#updating>Updating</a></li>
 </ul>
 </li>
-<li><a href=#updating-the-compiler>Updating the compiler</a>
+<li><a href=#macos>MacOS</a>
 <ul>
-<li><a href=#if-you-build-odin-from-source>If you build Odin from source</a></li>
-<li><a href=#if-you-use-a-binary-package>If you use a binary package</a></li>
+<li><a href=#a-note-on-wasm-and-llvm-binaries>A note on WASM and LLVM binaries</a></li>
+<li><a href=#updating-1>Updating</a></li>
 </ul>
 </li>
+<li><a href=#others-unix>Others (Unix)</a>
+<ul>
+<li><a href=#a-note-on-atomich>A note on atomic.h</a></li>
+<li><a href=#updating-2>Updating</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href=#got-stuck>Got stuck?</a></li>
 <li><a href=#what-next>What Next?</a></li>
 </ul>
 </nav>

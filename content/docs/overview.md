@@ -790,8 +790,8 @@ Unlike in C or C++, procs are values, and can be passed by value. Passing a proc
 
 When writing a procedure that expects a procedure value as a parameter, use the procedure's signature as the parameter's type:
 ```odin
-my_mapreduce :: proc(mapper: proc(int)->int, reduce: proc(int,int)->int, values: []int, init := 0) -> int {
-	out := init
+my_map_reduce :: proc(mapper: proc(int) -> int, reduce: proc(int, int) -> int, values: []int, init := 0) -> (out: int) {
+	out = init
 	for v in values {
 		out = reduce(out, mapper(v))
 	}
@@ -799,8 +799,8 @@ my_mapreduce :: proc(mapper: proc(int)->int, reduce: proc(int,int)->int, values:
 }
 
 values := []int{1, 2, 3}
-mag_sqrd := my_mapreduce(proc(x:int)->int{return x*x}, proc(a,b:int)->int{return a+b}, values)
-fmt.println(mag_sqrd)
+mag_squared := my_map_reduce(proc(x: int) -> int{ return x*x }, proc(a, b: int) -> int{ return a+b }, values)
+fmt.println(mag_squared)
 ```
 
 ## Basic types

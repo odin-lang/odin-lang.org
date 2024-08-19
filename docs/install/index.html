@@ -116,9 +116,8 @@ Therefore (especially on Linux) we recommend doing that. This will also get you 
 <h3 id=official-releases>Official Releases <a class=text-decoration-none href=#official-releases>#</a></h3>
 <p><a href=https://github.com/odin-lang/Odin/releases class="btn btn-outline-primary">Latest Release</a>
 <a href=/docs/nightly class="btn btn-outline-primary">Latest Nightly Builds</a></p>
-<p><strong>Requirements/Notes:</strong></p>
-<ul>
-<li>Windows
+<h4 id=release-requirements--notes>Release requirements / notes <a class=text-decoration-none href=#release-requirements--notes>#</a></h4>
+<p><strong>Windows:</strong></p>
 <ul>
 <li>Odin needs the MSVC compiler and windows SDK from the &ldquo;Desktop development with C++&rdquo; component.
 If you don&rsquo;t have this already, you can <a href=https://visualstudio.microsoft.com/downloads/#build-tools-for-visual-studio-2022>download the installer here</a>.
@@ -129,9 +128,9 @@ It should look something like:
 <li>If you want the smallest install possible, there is a <a href=https://gist.github.com/mmozeiko/7f3162ec2988e81e56d5c4e22cde9977>third-party script</a> that installs only the things that are needed</li>
 </ul>
 </li>
+<li>Optionally <a href="https://duckduckgo.com/?q=add+to+path+windows">add the Odin compiler directory to the PATH environment variable</a> so <code>odin.exe</code> is accessible everywhere on your computer</li>
 </ul>
-</li>
-<li>MacOS
+<p><strong>MacOS:</strong></p>
 <ul>
 <li>Install XCode command-line tools <code>xcode-select --install</code>
 <ul>
@@ -139,9 +138,14 @@ It should look something like:
 </ul>
 </li>
 <li>Note that this release does not come with <code>wasm-ld</code> for compiling to WASM, for that you have to install LLVM (wasm-ld ships in that package) as described in the chapter about building from source</li>
+<li>Optionally add the Odin folder to your shell&rsquo;s path or symlink the <code>odin</code> binary to a folder that is in your shell&rsquo;s path
+<ul>
+<li>Example for ZSH (from the Odin folder): <code>echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.zshrc</code></li>
+<li>Note that the compiler executable expects to be next to/in the same folder as the <code>base</code>, <code>core</code>, and <code>vendor</code> folders, you can however set the <code>ODIN_ROOT</code> environment variable to override the path to these folders</li>
 </ul>
 </li>
-<li>Others (Unix)
+</ul>
+<p><strong>Others (Unix):</strong></p>
 <ul>
 <li>Install LLVM 18 (see your package manager&rsquo;s instructions)
 <ul>
@@ -153,6 +157,10 @@ It should look something like:
 <li>If you are not on Debian/Ubuntu and get an error about libedit.so, you can usually fix it by running <code>patchelf --replace-needed libedit.so.2 libedit.so.0 libLLVM-18.so.18.1</code></li>
 </ul>
 </li>
+<li>Optionally add the Odin folder to your shell&rsquo;s path or symlink the <code>odin</code> binary to a folder that is in your shell&rsquo;s path
+<ul>
+<li>Example for bash (from the Odin folder): <code>echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.bashrc</code></li>
+<li>Note that the compiler executable expects to be next to/in the same folder as the <code>base</code>, <code>core</code>, and <code>vendor</code> folders, you can however set the <code>ODIN_ROOT</code> environment variable to override the path to these folders</li>
 </ul>
 </li>
 </ul>
@@ -186,9 +194,9 @@ It should look something like:
 </ol>
 <h4 id=updating>Updating <a class=text-decoration-none href=#updating>#</a></h4>
 <ol>
-<li>Through step 4 of installing, open up the developer command prompt</li>
+<li>Through step 2 of installing, open up the developer command prompt</li>
 <li>Navigate to the Odin folder</li>
-<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout an official release</li>
 <li><code>git pull</code></li>
 <li><code>build.bat release</code></li>
 </ol>
@@ -199,14 +207,19 @@ It should look something like:
 <li>If that command is not found you may need to install XCode from the App Store</li>
 </ul>
 </li>
-<li>Install <a href=https://brew.sh/>Homebrew</a> and install <code>brew install llvm@18</code>, the versions we support are 14, 17, and 18</li>
+<li>Install <a href=https://brew.sh/>Homebrew</a> and then LLVM: <code>brew install llvm@18</code>, the versions we support are 14, 17, and 18</li>
 <li>Clone the repository somewhere: <code>git clone https://github.com/odin-lang/Odin</code></li>
 <li>Navigate to the Odin folder: <code>cd Odin</code></li>
-<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
-<li>Run <code>make release-native</code></li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout an official release</li>
+<li>Run <code>make release-native</code>
+<ul>
+<li>If you want to specify an explicit LLVM version or path, you can set the <code>LLVM_CONFIG</code> environment variable: <code>LLVM_CONFIG=/path/to/llvm-config make release-native</code></li>
+</ul>
+</li>
 <li>Optionally add the Odin folder to your shell&rsquo;s path or symlink the <code>odin</code> binary to a folder that is in your shell&rsquo;s path
 <ul>
-<li>Example for ZSH (from the Odin folder): <code>echo 'export PATH="$(pwd):$PATH"' >> ~/.zshrc</code></li>
+<li>Example for ZSH (from the Odin folder): <code>echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.zshrc</code></li>
+<li>Note that the compiler executable expects to be next to/in the same folder as the <code>base</code>, <code>core</code>, and <code>vendor</code> folders, you can however set the <code>ODIN_ROOT</code> environment variable to override this</li>
 </ul>
 </li>
 </ol>
@@ -214,11 +227,11 @@ It should look something like:
 <p>In order to compile for WASM, Odin calls out to <code>wasm-ld</code> for linking. This requires it to be available through your <code>$PATH</code>.
 By default, <code>brew</code> does not add any of LLVM&rsquo;s binaries to your <code>$PATH</code> and you will need to symlink it to a place where it is able to be found.
 You can symlink it to <code>/usr/local/bin</code> by doing <code>ln -s $(brew --prefix llvm)/bin/wasm-ld /usr/local/bin/wasm-ld</code>.</p>
-<p>Alternatively, you can wrap add the entire <code>$(brew --prefix llvm)/bin</code> to your <code>$PATH</code>, but brew does not recommend it.</p>
+<p>Alternatively, you can add the entire <code>$(brew --prefix llvm)/bin</code> to your <code>$PATH</code>, but brew does not recommend it.</p>
 <h4 id=updating-1>Updating <a class=text-decoration-none href=#updating-1>#</a></h4>
 <ol>
 <li>Navigate to the Odin folder</li>
-<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout an official release</li>
 <li><code>git pull</code></li>
 <li><code>make release-native</code></li>
 </ol>
@@ -226,18 +239,26 @@ You can symlink it to <code>/usr/local/bin</code> by doing <code>ln -s $(brew --
 <ol>
 <li>Install clang and LLVM (the versions we support are 14, 17 and 18) using your package manager
 <ul>
-<li>Note: If an atomic.h error occurs, see the following section about it</li>
-<li>Note: It could be that LLVM is split into multiple packages and you also need to install something like <code>llvm-devel</code></li>
+<li>It could be that LLVM is split into multiple packages and you also need to install something like <code>llvm-devel</code></li>
 </ul>
 </li>
-<li>Make sure <code>llvm-config</code>, <code>llvm-config-(14|17|18)</code>, or <code>llvm-config(14|17|18)</code> and <code>clang</code> are able to be found through your <code>$PATH</code></li>
+<li>Make sure <code>llvm-config</code>, <code>llvm-config-(14|17|18)</code>, or <code>llvm-config(14|17|18)</code> and <code>clang</code> are able to be found through your <code>$PATH</code>
+<ul>
+<li>If you want to specify an explicit LLVM version or path, you can set the <code>LLVM_CONFIG</code> environment variable: <code>LLVM_CONFIG=/path/to/llvm-config make release-native</code></li>
+</ul>
+</li>
 <li>Clone the repository somewhere: <code>git clone https://github.com/odin-lang/Odin</code></li>
 <li>Navigate to the Odin folder: <code>cd Odin</code></li>
-<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
-<li>Run <code>make release-native</code></li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout an official release</li>
+<li>Run <code>make release-native</code>
+<ul>
+<li>If an atomic.h error occurs, see the following section about it</li>
+</ul>
+</li>
 <li>Optionally add the Odin folder to your shell&rsquo;s path or symlink the <code>odin</code> binary to a folder that is in your shell&rsquo;s path
 <ul>
-<li>Example for bash (from the Odin folder): <code>echo 'export PATH="$(pwd):$PATH"' >> ~/.bashrc</code></li>
+<li>Example for bash (from the Odin folder): <code>echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.bashrc</code></li>
+<li>Note that the compiler executable expects to be next to/in the same folder as the <code>base</code>, <code>core</code>, and <code>vendor</code> folders, you can however set the <code>ODIN_ROOT</code> environment variable to override this</li>
 </ul>
 </li>
 </ol>
@@ -249,7 +270,7 @@ for help and more information see <a href=https://github.com/odin-lang/Odin/issu
 <h4 id=updating-2>Updating <a class=text-decoration-none href=#updating-2>#</a></h4>
 <ol>
 <li>Navigate to the Odin folder</li>
-<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout the latest official release</li>
+<li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout an official release</li>
 <li><code>git pull</code></li>
 <li><code>make release-native</code></li>
 </ol>
@@ -266,7 +287,11 @@ for help and more information see <a href=https://github.com/odin-lang/Odin/issu
 <ul>
 <li><a href=#releases>Releases</a>
 <ul>
-<li><a href=#official-releases>Official Releases</a></li>
+<li><a href=#official-releases>Official Releases</a>
+<ul>
+<li><a href=#release-requirements--notes>Release requirements / notes</a></li>
+</ul>
+</li>
 <li><a href=#package-managers>Package Managers</a></li>
 </ul>
 </li>

@@ -5,7 +5,7 @@
             {{ partial "sidebar" . }}
 
             <!-- Content -->
-            <article class="col-lg-8 p-4">
+            <article class="col-lg-8 p-4" {{- if .Param "autonumbering" }} autonumbering {{- end }}>
                 <header>
                     <nav aria-label="breadcrumb">
                         {{ $rellink := "" }}

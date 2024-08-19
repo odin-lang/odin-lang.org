@@ -2,12 +2,15 @@
 title: Getting Started
 summary: How to download and install the Odin compiler. Both from source or from a binary release, along with a list of per-platform requirements.
 weight: 1
+autonumbering: true
 ---
 
 Odin is dead-simple to get started with!
 
-Compiling from source is **very** easy and does not take long.
-Therefore (especially on Linux) we recommend doing that. This will also get you all the latest bug fixes and features faster.
+There are 3 main ways of getting Odin:
+- [Official Releases](#official-releases) - for downloading the latest monthly or nightly release
+- [From Source](#from-source) - for building from source (very easy to do and **recommended on Linux**)
+- [Package Managers](#package-managers) - for an overview of package managers that package Odin
 
 The compiler currently supports compiling on:
 
@@ -21,14 +24,14 @@ The compiler currently supports compiling on:
 
 and supports compiling **to** many more targets.
 
-## Releases
+## Official Releases
 
-### Official Releases
+Download the latest monthly or nightly release and look over the release requirements below.
 
 <a href="https://github.com/odin-lang/Odin/releases" class="btn btn-outline-primary">Latest Release</a>
 <a href="/docs/nightly" class="btn btn-outline-primary">Latest Nightly Builds</a>
 
-#### Release requirements / notes
+### Release requirements / notes
 
 **Windows:**
 
@@ -59,11 +62,11 @@ It should look something like:
     * Example for bash (from the Odin folder): `echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.bashrc`
     * Note that the compiler executable expects to be next to/in the same folder as the `base`, `core`, and `vendor` folders, you can however set the `ODIN_ROOT` environment variable to override the path to these folders
 
-### Package Managers
+## Package Managers
 
 Repology maintains a list of package managers and their status.
 
-**Note** that the only supported (by our maintainers) package manager is Homebrew. Other distributions have historically been flawed in several ways.
+Note that these packages are configured by third-parties and may be flawed, please direct support to their maintainers.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/odin-lang.svg)](https://repology.org/project/odin-lang/versions)
 

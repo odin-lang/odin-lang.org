@@ -88,7 +88,7 @@
 </ul>
 </div>
 </nav>
-<article class="col-lg-8 p-4">
+<article class="col-lg-8 p-4" autonumbering>
 <header>
 <nav aria-label=breadcrumb>
 <ol class=breadcrumb>
@@ -99,8 +99,12 @@
 </header>
 <div class=odin-article>
 <p>Odin is dead-simple to get started with!</p>
-<p>Compiling from source is <strong>very</strong> easy and does not take long.
-Therefore (especially on Linux) we recommend doing that. This will also get you all the latest bug fixes and features faster.</p>
+<p>There are 3 main ways of getting Odin:</p>
+<ul>
+<li><a href=#official-releases>Official Releases</a> - for downloading the latest monthly or nightly release</li>
+<li><a href=#from-source>From Source</a> - for building from source (very easy to do and <strong>recommended on Linux</strong>)</li>
+<li><a href=#package-managers>Package Managers</a> - for an overview of package managers that package Odin</li>
+</ul>
 <p>The compiler currently supports compiling on:</p>
 <ul>
 <li>Windows x86-64/AMD64 (MSVC)</li>
@@ -112,11 +116,11 @@ Therefore (especially on Linux) we recommend doing that. This will also get you 
 <li>Haiku x86-64/AMD64 (experimental)</li>
 </ul>
 <p>and supports compiling <strong>to</strong> many more targets.</p>
-<h2 id=releases>Releases <a class=text-decoration-none href=#releases>#</a></h2>
-<h3 id=official-releases>Official Releases <a class=text-decoration-none href=#official-releases>#</a></h3>
+<h2 id=official-releases>Official Releases <a class=text-decoration-none href=#official-releases>#</a></h2>
+<p>Download the latest monthly or nightly release and look over the release requirements below.</p>
 <p><a href=https://github.com/odin-lang/Odin/releases class="btn btn-outline-primary">Latest Release</a>
 <a href=/docs/nightly class="btn btn-outline-primary">Latest Nightly Builds</a></p>
-<h4 id=release-requirements--notes>Release requirements / notes <a class=text-decoration-none href=#release-requirements--notes>#</a></h4>
+<h3 id=release-requirements--notes>Release requirements / notes <a class=text-decoration-none href=#release-requirements--notes>#</a></h3>
 <p><strong>Windows:</strong></p>
 <ul>
 <li>Odin needs the MSVC compiler and windows SDK from the &ldquo;Desktop development with C++&rdquo; component.
@@ -164,9 +168,9 @@ It should look something like:
 </ul>
 </li>
 </ul>
-<h3 id=package-managers>Package Managers <a class=text-decoration-none href=#package-managers>#</a></h3>
+<h2 id=package-managers>Package Managers <a class=text-decoration-none href=#package-managers>#</a></h2>
 <p>Repology maintains a list of package managers and their status.</p>
-<p><strong>Note</strong> that the only supported (by our maintainers) package manager is Homebrew. Other distributions have historically been flawed in several ways.</p>
+<p>Note that these packages are configured by third-parties and may be flawed, please direct support to their maintainers.</p>
 <p><a href=https://repology.org/project/odin-lang/versions><img src=https://repology.org/badge/vertical-allrepos/odin-lang.svg alt="Packaging status"></a></p>
 <h2 id=from-source>From Source <a class=text-decoration-none href=#from-source>#</a></h2>
 <h3 id=windows>Windows <a class=text-decoration-none href=#windows>#</a></h3>
@@ -285,16 +289,12 @@ for help and more information see <a href=https://github.com/odin-lang/Odin/issu
 <div class="sticky-top odin-below-navbar py-3">
 <nav id=TableOfContents>
 <ul>
-<li><a href=#releases>Releases</a>
-<ul>
 <li><a href=#official-releases>Official Releases</a>
 <ul>
 <li><a href=#release-requirements--notes>Release requirements / notes</a></li>
 </ul>
 </li>
 <li><a href=#package-managers>Package Managers</a></li>
-</ul>
-</li>
 <li><a href=#from-source>From Source</a>
 <ul>
 <li><a href=#windows>Windows</a>

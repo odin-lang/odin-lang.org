@@ -10,7 +10,7 @@ window.addEventListener('DOMContentLoaded', () => {
 				
 				var anchor = document.querySelector(`nav li a[href="#${id}"]`);
 				anchor.parentElement.classList.add('active');
-				anchor.parentElement.scrollIntoView({ block: "nearest" });
+				anchor.parentElement.scrollIntoView({ block: "nearest", behavior: "smooth" });
 			}
 		}
 	})		

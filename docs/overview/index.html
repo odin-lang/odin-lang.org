@@ -1108,6 +1108,9 @@ case c..=d:
 
 bit_set[a..&lt;b]
 bit_set[a..=b]
+
+foo := [?]int{0..=3 = 1} // initialises as: [1, 1, 1, 1]
+bar := [?]int{0 = 0, 1..&lt;3 = 1} // initialises as: [0, 1, 1]
 </code></pre><p><code>in</code> and <code>not_in</code> are not allowed in within a for loop condition without ambiguity:</p>
 <pre><code class=language-odin data-lang=odin>for x in y {}    // range loop
 for (x in y) {}  // condition-only for-loop (while-loop in some other languages)

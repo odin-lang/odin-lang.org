@@ -19,7 +19,7 @@ To build Odin for the web, build for the `has_wasm32` target. You would need to 
 
 Odin offers two targets useful to write WASM for plugins. `wasi_wasm32` implements the [WASI Preview 1 API](https://github.com/WebAssembly/WASI). `freestanding_wasm32` implements no API by default and needs to import and export everything needed. Also, like all freestanding targets, the default allocator is not set.
 
-For a WASM module that exports two functions, it is useful to set the llocator in a lazily initialized global variable.
+For a WASM module that exports two functions, it is useful to set the allocator in a lazily initialized global variable.
 
 ```odin
 import "base:runtime"

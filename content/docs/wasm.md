@@ -6,7 +6,7 @@ weight: 7
 
 ## Wasm on the Web
 
-To build Odin for the web, build for the `has_wasm32` target. You would need to include the runtime script at [`vendor:wasm/js/runtime.js`](https://github.com/odin-lang/Odin/blob/master/vendor/wasm/js/runtime.js) into your webserver.
+To build Odin for the web, build for the `js_wasm32` target. You would need to include the runtime script at [`vendor:wasm/js/runtime.js`](https://github.com/odin-lang/Odin/blob/master/vendor/wasm/js/runtime.js) into your webserver.
 
 ```js
 <script type="text/javascript" src="runtime.js"></script>

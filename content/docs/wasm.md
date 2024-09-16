@@ -1,14 +1,8 @@
 ---
-title: Info on Interoperability
-summary: Additional info about the usage of Odin with and from other languages.
+title: Compiling to WASM
+summary: How to compile Odin into WASM for the web and freestanding targets.
 weight: 7
 ---
-
-## Binding to C and Python
-
-To bind to C libraries and executables, check out the News article [Binding to C](../news/binding-to-c.md).
-
-Likewise, check out [Calling Odin from Python](../news/calling-odin-from-python.md) for an exanple on hos to build a dynamic library on Windows and call it from Python.
 
 ## Wasm on the Web
 

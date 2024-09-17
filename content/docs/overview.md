@@ -2934,7 +2934,7 @@ Please see the procedure attribute [`@(test)`](https://odin-lang.org/docs/overvi
 
 ### `when` statements
 
-[when statements](#when-statement) are used to include or exclude code at compile-time:
+Sometimes you only want compile a block of code if a certain compile-time expression evaluates to `true`. This can be done using the [when statements](#when-statement):
 
 ```
 when ODIN_OS == .Linux {

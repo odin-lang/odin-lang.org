@@ -2934,12 +2934,15 @@ Please see the procedure attribute [`@(test)`](https://odin-lang.org/docs/overvi
 
 ### `when` statements
 
-Sometimes you only want to include a small number of statements or declarations for compilation, if a certain compile-time expression evaluates
-to `true`.
-This expression can be any compile-time-known expression which results in a value of type `bool`.
+[when statements](#when-statement) are used to include or exclude code at compile-time:
 
-The compiler provides a set of builtin constants which are available in all files in a compilation, and which can be used in a `when` condition.
-Here is a comprehensive list of them:
+```
+when ODIN_OS == .Linux {
+	// Do Linux stuff
+}
+```
+
+The compiler provides a set of builtin constants which are available in all files in a compilation, and which can be used in a `when` condition. Here is a comprehensive list of them:
 
 | Name                                | Description                                                                                                                                                                             |
 |-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -2964,7 +2967,7 @@ Here is a comprehensive list of them:
 | `ODIN_VENDOR`                       | String which identifies the compiler being used. The official compiler sets this to `"odin"`.                                                                                           |
 | `ODIN_VALGRIND_SUPPORT`             | `true` if Valgrind integration is supported on the target.                                                                                                                              |
 
-See the [tracking allocator](#tracking-allocator) for an example of something that uses the `ODIN_DEBUG` constant in a `when` block.
+See the [tracking allocator](#tracking-allocator) for an example of something that uses the `ODIN_DEBUG` constant in a `when` statement.
 
 ### Command-line defines
 

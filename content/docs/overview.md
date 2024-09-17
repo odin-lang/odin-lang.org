@@ -606,6 +606,8 @@ when ODIN_ARCH == .i386 {
 
 The `when` statement is very useful for writing platform specific code. This is akin to the `#if` construct in C's preprocessor. However, in Odin, it is type checked.
 
+See the [Conditional compilation section](#when-statements) for examples of built-in constants you can use with `when` statements.
+
 ### Branch statements
 #### `break` statement
 A for loop or a switch statement can be left prematurely with a `break` statement. It leaves the innermost construct, unless a label of a construct is given:
@@ -2962,41 +2964,7 @@ Here is a comprehensive list of them:
 | `ODIN_VENDOR`                       | String which identifies the compiler being used. The official compiler sets this to `"odin"`.                                                                                           |
 | `ODIN_VALGRIND_SUPPORT`             | `true` if Valgrind integration is supported on the target.                                                                                                                              |
 
-What follows is an example of when you might use this approach.
-It sets the initial allocator to one that tracks memory leaks and incorrect frees when the user has asked for debug information to be emitted.
-```odin
-package main
-
-import "core:fmt"
-import "core:mem"
-
-main :: proc() {
-	when ODIN_DEBUG {
-		track: mem.Tracking_Allocator
-		mem.tracking_allocator_init(&track, context.allocator)
-		context.allocator = mem.tracking_allocator(&track)
-
-		defer {
-			if len(track.allocation_map) > 0 {
-				fmt.eprintf("=== %v allocations not freed: ===\n", len(track.allocation_map))
-				for _, entry in track.allocation_map {
-					fmt.eprintf("- %v bytes @ %v\n", entry.size, entry.location)
-				}
-			}
-			if len(track.bad_free_array) > 0 {
-				fmt.eprintf("=== %v incorrect frees: ===\n", len(track.bad_free_array))
-				for entry in track.bad_free_array {
-					fmt.eprintf("- %p @ %v\n", entry.memory, entry.location)
-				}
-			}
-			mem.tracking_allocator_destroy(&track)
-		}
-	}
-	
-	
-	do_stuff()
-}
-```
+See the [tracking allocator](#tracking-allocator) for an example of something that uses the `ODIN_DEBUG` constant in a `when` block.
 
 ### Command-line defines
 
@@ -3159,6 +3127,45 @@ delete(my_cstring)
 To see more uses of allocators and allocation-related procedures, please see [`package mem`](https://github.com/odin-lang/Odin/tree/master/core/mem) in the core library.
 
 For more information regarding memory allocation strategies in general, please see [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
+
+#### Tracking allocator
+
+Odin comes with a built in tracking allocator that lets you see if your progarm is leaking memory and when it does bad frees. Here's how to set it up:
+```odin
+package main
+
+import "core:fmt"
+import "core:mem"
+
+main :: proc() {
+	when ODIN_DEBUG {
+		track: mem.Tracking_Allocator
+		mem.tracking_allocator_init(&track, context.allocator)
+		context.allocator = mem.tracking_allocator(&track)
+
+		defer {
+			if len(track.allocation_map) > 0 {
+				fmt.eprintf("=== %v allocations not freed: ===\n", len(track.allocation_map))
+				for _, entry in track.allocation_map {
+					fmt.eprintf("- %v bytes @ %v\n", entry.size, entry.location)
+				}
+			}
+			if len(track.bad_free_array) > 0 {
+				fmt.eprintf("=== %v incorrect frees: ===\n", len(track.bad_free_array))
+				for entry in track.bad_free_array {
+					fmt.eprintf("- %p @ %v\n", entry.memory, entry.location)
+				}
+			}
+			mem.tracking_allocator_destroy(&track)
+		}
+	}
+	
+	do_stuff()
+}
+```
+This uses a [when statement](#when-statements) to only enable the tracking allocator when the `-debug` compilation flag is set. Since it sets the tracking alloator on the context in the beginning of `main`, the rest of the program will use this tracking allocator.
+
+Note that `when` blocks do not have a real scope, the curly braces `{}` are just there to group code. Any changes to the `context` within a `when` block are valid after the `when` block ends.
 
 #### Explicit `context` Definition
 Procedures which do not use the `"odin"` calling convention must explicitly assign the `context` if something within its body requires it.

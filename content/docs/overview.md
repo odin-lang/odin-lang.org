@@ -3030,7 +3030,14 @@ For the sake of demonstration, let's take POSIX: You could use `foobar_unix.odin
 
 Here's an example of a file that will only be included on Linux or Darwin:
 ```odin
-//+build linux, darwin
+#+build linux, darwin
+package foobar
+```
+
+The opposite, excluding the file on both Linux and Darwin, is achieved like this:
+```odin
+#+build !linux
+#+build !darwin
 package foobar
 ```
 
@@ -3538,13 +3545,13 @@ my_variable: int // cannot be accessed outside this file
 ```
 `@(private)` is equivalent to `@(private="package")`.
 
-Using `//+private` in a file at the package declaration will automatically add `@(private)` to everything in the file
+Using `#+private` before the package declaration will automatically add `@(private)` to everything in that file:
 ```odin
-//+private
+#+private
 package foo
 ```
 
-And `//+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
+And `#+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
 
 #### `@(require)`
 

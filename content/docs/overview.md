@@ -3855,7 +3855,7 @@ test :: proc() {
 }
 ```
 
-The `#partial` directive can also be used to initialize an [enumerated array](#enumeration-array).
+The `#partial` directive can also be used to initialize an [enumerated array](#enumerated-array).
 
 ### Procedure parameters
 

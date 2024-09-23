@@ -376,7 +376,7 @@ fmt.println(some_map[&quot;B&quot;]) // 5
 <pre><code class=language-odin data-lang=odin>switch arch := ODIN_ARCH; arch {
 case .i386, .wasm32, .arm32:
 	fmt.println(&quot;32 bit&quot;)
-case .amd64, .wasm64p32, .arm64:
+case .amd64, .wasm64p32, .arm64, .riscv64:
 	fmt.println(&quot;64 bit&quot;)
 case .Unknown:
 	fmt.println(&quot;Unknown architecture&quot;)

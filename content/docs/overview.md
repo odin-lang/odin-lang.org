@@ -432,7 +432,7 @@ A switch statement is another way to write a sequence of if-else statements. In 
 switch arch := ODIN_ARCH; arch {
 case .i386, .wasm32, .arm32:
 	fmt.println("32 bit")
-case .amd64, .wasm64p32, .arm64:
+case .amd64, .wasm64p32, .arm64, .riscv64:
 	fmt.println("64 bit")
 case .Unknown:
 	fmt.println("Unknown architecture")

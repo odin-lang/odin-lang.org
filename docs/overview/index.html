@@ -508,6 +508,7 @@ defer os.close(f)
 	fmt.println(&quot;Unsupported architecture&quot;)
 }
 </code></pre><p>The <code>when</code> statement is very useful for writing platform specific code. This is akin to the <code>#if</code> construct in C&rsquo;s preprocessor. However, in Odin, it is type checked.</p>
+<p>See the <a href=#when-statements>Conditional compilation section</a> for examples of built-in constants you can use with <code>when</code> statements.</p>
 <h3 id=branch-statements>Branch statements <a class=text-decoration-none href=#branch-statements>#</a></h3>
 <h4 id=break-statement><code>break</code> statement <a class=text-decoration-none href=#break-statement>#</a></h4>
 <p>A for loop or a switch statement can be left prematurely with a <code>break</code> statement. It leaves the innermost construct, unless a label of a construct is given:</p>
@@ -2343,11 +2344,11 @@ As shown in the example, <code>or_continue</code> also works with labels, just l
 Note that the entry point procedure <code>main</code> must not be located in a file with the <code>_test</code> suffix.</p>
 <p>Please see the procedure attribute <a href=https://odin-lang.org/docs/overview/#test><code>@(test)</code></a> for more information.</p>
 <h3 id=when-statements><code>when</code> statements <a class=text-decoration-none href=#when-statements>#</a></h3>
-<p>Sometimes you only want to include a small number of statements or declarations for compilation, if a certain compile-time expression evaluates
-to <code>true</code>.
-This expression can be any compile-time-known expression which results in a value of type <code>bool</code>.</p>
-<p>The compiler provides a set of builtin constants which are available in all files in a compilation, and which can be used in a <code>when</code> condition.
-Here is a comprehensive list of them:</p>
+<p>Sometimes you only want compile a block of code if a certain compile-time expression evaluates to <code>true</code>. This can be done using the <a href=#when-statement>when statements</a>:</p>
+<pre><code>when ODIN_OS == .Linux {
+	// Do Linux stuff
+}
+</code></pre><p>The compiler provides a set of builtin constants which are available in all files in a compilation, and which can be used in a <code>when</code> condition. Here is a comprehensive list of them:</p>
 <table>
 <thead>
 <tr>
@@ -2438,40 +2439,8 @@ Here is a comprehensive list of them:</p>
 </tr>
 </tbody>
 </table>
-<p>What follows is an example of when you might use this approach.
-It sets the initial allocator to one that tracks memory leaks and incorrect frees when the user has asked for debug information to be emitted.</p>
-<pre><code class=language-odin data-lang=odin>package main
-
-import &quot;core:fmt&quot;
-import &quot;core:mem&quot;
-
-main :: proc() {
-	when ODIN_DEBUG {
-		track: mem.Tracking_Allocator
-		mem.tracking_allocator_init(&amp;track, context.allocator)
-		context.allocator = mem.tracking_allocator(&amp;track)
-
-		defer {
-			if len(track.allocation_map) &gt; 0 {
-				fmt.eprintf(&quot;=== %v allocations not freed: ===\n&quot;, len(track.allocation_map))
-				for _, entry in track.allocation_map {
-					fmt.eprintf(&quot;- %v bytes @ %v\n&quot;, entry.size, entry.location)
-				}
-			}
-			if len(track.bad_free_array) &gt; 0 {
-				fmt.eprintf(&quot;=== %v incorrect frees: ===\n&quot;, len(track.bad_free_array))
-				for entry in track.bad_free_array {
-					fmt.eprintf(&quot;- %p @ %v\n&quot;, entry.memory, entry.location)
-				}
-			}
-			mem.tracking_allocator_destroy(&amp;track)
-		}
-	}
-	
-	
-	do_stuff()
-}
-</code></pre><h3 id=command-line-defines>Command-line defines <a class=text-decoration-none href=#command-line-defines>#</a></h3>
+<p>See the <a href=#tracking-allocator>tracking allocator</a> for an example of something that uses the <code>ODIN_DEBUG</code> constant in a <code>when</code> statement.</p>
+<h3 id=command-line-defines>Command-line defines <a class=text-decoration-none href=#command-line-defines>#</a></h3>
 <p>Sometimes you want to do something conditionally based on some compile-time parameters of some sort, but globally, across the entire project.
 This is how you define those.</p>
 <p>You may define a constant using the <code>-define</code> command line switch. e.g: <code>-define:FOO=true</code>.
@@ -2586,6 +2555,40 @@ delete(my_string)
 delete(my_cstring)
 </code></pre><p>To see more uses of allocators and allocation-related procedures, please see <a href=https://github.com/odin-lang/Odin/tree/master/core/mem><code>package mem</code></a> in the core library.</p>
 <p>For more information regarding memory allocation strategies in general, please see <a href=https://www.gingerbill.org/series/memory-allocation-strategies/>Ginger Bill&rsquo;s Memory Allocation Strategy</a> series.</p>
+<h4 id=tracking-allocator>Tracking allocator <a class=text-decoration-none href=#tracking-allocator>#</a></h4>
+<p>In the core collection you&rsquo;ll find a tracking allocator that warns you if your progarm is leaking memory or if it does bad frees. Here&rsquo;s how to set it up:</p>
+<pre><code class=language-odin data-lang=odin>package main
+
+import &quot;core:fmt&quot;
+import &quot;core:mem&quot;
+
+main :: proc() {
+	when ODIN_DEBUG {
+		track: mem.Tracking_Allocator
+		mem.tracking_allocator_init(&amp;track, context.allocator)
+		context.allocator = mem.tracking_allocator(&amp;track)
+
+		defer {
+			if len(track.allocation_map) &gt; 0 {
+				fmt.eprintf(&quot;=== %v allocations not freed: ===\n&quot;, len(track.allocation_map))
+				for _, entry in track.allocation_map {
+					fmt.eprintf(&quot;- %v bytes @ %v\n&quot;, entry.size, entry.location)
+				}
+			}
+			if len(track.bad_free_array) &gt; 0 {
+				fmt.eprintf(&quot;=== %v incorrect frees: ===\n&quot;, len(track.bad_free_array))
+				for entry in track.bad_free_array {
+					fmt.eprintf(&quot;- %p @ %v\n&quot;, entry.memory, entry.location)
+				}
+			}
+			mem.tracking_allocator_destroy(&amp;track)
+		}
+	}
+	
+	do_stuff()
+}
+</code></pre><p>This uses a <a href=#when-statements>when statement</a> to only enable the tracking allocator when the <code>-debug</code> compilation flag is set. Since it sets the tracking alloator on the context in the beginning of <code>main</code>, the rest of the program will use this tracking allocator.</p>
+<p>Note that <code>when</code> blocks do not have a real scope, the curly braces <code>{}</code> are just there to group code. Any changes to the <code>context</code> within a <code>when</code> block are valid after the <code>when</code> block ends.</p>
 <h4 id=explicit-context-definition>Explicit <code>context</code> Definition <a class=text-decoration-none href=#explicit-context-definition>#</a></h4>
 <p>Procedures which do not use the <code>"odin"</code> calling convention must explicitly assign the <code>context</code> if something within its body requires it.</p>
 <pre><code class=language-odin data-lang=odin>explicit_context_definition :: proc &quot;c&quot; () {
@@ -3585,6 +3588,7 @@ Some of this information includes:</p>
 <ul>
 <li><a href=#allocators>Allocators</a>
 <ul>
+<li><a href=#tracking-allocator>Tracking allocator</a></li>
 <li><a href=#explicit-context-definition>Explicit <code>context</code> Definition</a></li>
 </ul>
 </li>

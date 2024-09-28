@@ -2492,7 +2492,11 @@ when FOO {
 <a href=#file-suffixes>File Suffixes</a> are typically a nicer approach if they cover what you need.</p>
 <p>For the sake of demonstration, let&rsquo;s take POSIX: You could use <code>foobar_unix.odin</code>, which has no special meaning to the compiler at all, and use a tag in the file itself.</p>
 <p>Here&rsquo;s an example of a file that will only be included on Linux or Darwin:</p>
-<pre><code class=language-odin data-lang=odin>//+build linux, darwin
+<pre><code class=language-odin data-lang=odin>#+build linux, darwin
+package foobar
+</code></pre><p>The opposite, excluding the file on both Linux and Darwin, is achieved like this:</p>
+<pre><code class=language-odin data-lang=odin>#+build !linux
+#+build !darwin
 package foobar
 </code></pre><h2 id=implicit-context-system>Implicit context system <a class=text-decoration-none href=#implicit-context-system>#</a></h2>
 <p>In each scope, there is an implicit value named <code>context</code>. This <code>context</code> variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).</p>
@@ -2869,10 +2873,10 @@ my_other_variable: int
 <pre><code class=language-odin data-lang=odin>@(private=&quot;file&quot;)
 my_variable: int // cannot be accessed outside this file
 </code></pre><p><code>@(private)</code> is equivalent to <code>@(private="package")</code>.</p>
-<p>Using <code>//+private</code> in a file at the package declaration will automatically add <code>@(private)</code> to everything in the file</p>
-<pre><code class=language-odin data-lang=odin>//+private
+<p>Using <code>#+private</code> before the package declaration will automatically add <code>@(private)</code> to everything in that file:</p>
+<pre><code class=language-odin data-lang=odin>#+private
 package foo
-</code></pre><p>And <code>//+private file</code> will be equivalent to automatically adding <code>@(private="file")</code> to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute <code>@(private)</code> to the declaration.</p>
+</code></pre><p>And <code>#+private file</code> will be equivalent to automatically adding <code>@(private="file")</code> to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute <code>@(private)</code> to the declaration.</p>
 <h4 id=require><code>@(require)</code> <a class=text-decoration-none href=#require>#</a></h4>
 <p>Requires that the declaration is added to the final compilation and not optimized out.</p>
 <h3 id=linking-and-foreign-attributes>Linking and foreign attributes <a class=text-decoration-none href=#linking-and-foreign-attributes>#</a></h3>

@@ -66,3 +66,7 @@ $table-cell-padding-x-sm:     .2rem;
     animation-name: fade-in-navbar-logo;
     animation-duration: 1.5s;
 }
+
+.odin-article * a code {
+    text-decoration: underline;
+}

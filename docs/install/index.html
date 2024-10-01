@@ -102,7 +102,7 @@
 <p>There are 3 main ways of getting Odin:</p>
 <ul>
 <li><a href=#official-releases>Official Releases</a> - for downloading the latest monthly or nightly release</li>
-<li><a href=#from-source>From Source</a> - for building from source (very easy to do and <strong>recommended on Linux</strong>)</li>
+<li><a href=#from-source>From Source</a> - for building from source (very easy to do)</li>
 <li><a href=#package-managers>Package Managers</a> - for an overview of package managers that package Odin</li>
 </ul>
 <p>The compiler currently supports compiling on:</p>
@@ -151,14 +151,10 @@ It should look something like:
 </ul>
 <p><strong>Others (Unix):</strong></p>
 <ul>
-<li>Install LLVM 18 (see your package manager&rsquo;s instructions)
+<li>Install Clang which is used for linking (see your package manager&rsquo;s instructions)
 <ul>
-<li>For Debian/Ubuntu you can use <a href=https://apt.llvm.org/>https://apt.llvm.org/</a> for versions of LLVM your package manager doesn&rsquo;t have</li>
-</ul>
-</li>
-<li>Note that the releases are packaged from/for Ubuntu, other distributions may or may not work
-<ul>
-<li>If you are not on Debian/Ubuntu and get an error about libedit.so, you can usually fix it by running <code>patchelf --replace-needed libedit.so.2 libedit.so.0 libLLVM-18.so.18.1</code></li>
+<li>Debian/Ubuntu - <code>apt install clang</code></li>
+<li>Fedora - <code>dnf install clang</code></li>
 </ul>
 </li>
 <li>Optionally add the Odin folder to your shell&rsquo;s path or symlink the <code>odin</code> binary to a folder that is in your shell&rsquo;s path

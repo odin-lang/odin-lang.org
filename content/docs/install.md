@@ -9,7 +9,7 @@ Odin is dead-simple to get started with!
 
 There are 3 main ways of getting Odin:
 - [Official Releases](#official-releases) - for downloading the latest monthly or nightly release
-- [From Source](#from-source) - for building from source (very easy to do and **recommended on Linux**)
+- [From Source](#from-source) - for building from source (very easy to do)
 - [Package Managers](#package-managers) - for an overview of package managers that package Odin
 
 The compiler currently supports compiling on:
@@ -54,10 +54,9 @@ It should look something like:
 
 **Others (Unix):**
 
-* Install LLVM 18 (see your package manager's instructions)
-    * For Debian/Ubuntu you can use [https://apt.llvm.org/](https://apt.llvm.org/) for versions of LLVM your package manager doesn't have
-* Note that the releases are packaged from/for Ubuntu, other distributions may or may not work
-    * If you are not on Debian/Ubuntu and get an error about libedit.so, you can usually fix it by running `patchelf --replace-needed libedit.so.2 libedit.so.0 libLLVM-18.so.18.1`
+* Install Clang which is used for linking (see your package manager's instructions)
+    * Debian/Ubuntu - `apt install clang`
+    * Fedora - `dnf install clang`
 * Optionally add the Odin folder to your shell's path or symlink the `odin` binary to a folder that is in your shell's path
     * Example for bash (from the Odin folder): `echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.bashrc`
     * Note that the compiler executable expects to be next to/in the same folder as the `base`, `core`, and `vendor` folders, you can however set the `ODIN_ROOT` environment variable to override the path to these folders

@@ -3107,16 +3107,47 @@ test :: proc() {
 <p>This tag can be applied to a procedure parameter that is a pointer. This is a hint to the compiler that this parameter will not alias other parameters. This is equivalent to C&rsquo;s <code>__restrict</code>.</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc(#no_alias a, b: ^int) {}
 </code></pre><h4 id=any_int><code>#any_int</code> <a class=text-decoration-none href=#any_int>#</a></h4>
-<p>This tag can be applied to a procedure parameter that is an integer. This allows implicit casts to the procedures integer type at
-the call site.</p>
+<p><code>#any_int</code> enables implicit casts to a procedure&rsquo;s integer type at the call site. A parameter with <code>#any_int</code> must be an integer.</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc(#any_int a: int) {}
 x : i32
 foo(x) // This is now allowed without an explicit cast
 </code></pre><h4 id=caller_location><code>#caller_location</code> <a class=text-decoration-none href=#caller_location>#</a></h4>
-<p>This tag is used as a function&rsquo;s parameter value. In the following function signature,</p>
-<pre><code class=language-odin data-lang=odin>alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_location) -&gt; rawptr
-</code></pre><p><code>loc</code> is a variable of type <code>Source_Code_Location</code> (see <code>base/runtime/core.odin</code>) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling <code>alloc</code>).</p>
-<h4 id=c_vararg><code>#c_vararg</code> <a class=text-decoration-none href=#c_vararg>#</a></h4>
+<p><code>#caller_location</code> sets a parameter&rsquo;s default value to the location of the code calling the procedure. The location value has the type <a href=https://pkg.odin-lang.org/base/runtime/#Source_Code_Location><code>Source_Code_Location</code></a>. <code>#caller_location</code> may only be used as a default value for procedure parameters.</p>
+<pre><code class=language-odin data-lang=odin>package example_caller_location
+
+import &quot;core:fmt&quot;
+
+print_caller_location :: proc(loc := #caller_location) {
+	fmt.println(loc)
+	fmt.println(#procedure, &quot;called by&quot;, loc.procedure)
+}
+
+main :: proc() {
+	print_caller_location()
+	// C:/some/dir/example_caller_location.odin(11:2)
+	// print_caller_location called by main
+}
+</code></pre><h4 id=caller_expression-or-caller_expressionparam><code>#caller_expression</code> or <code>#caller_expression(&lt;param>)</code> <a class=text-decoration-none href=#caller_expression-or-caller_expressionparam>#</a></h4>
+<p><code>#caller_expression</code> gives a procedure the entire call expression or the expression used to create a parameter. <code>#caller_expression</code> may only be used as a default value for procedure parameters.</p>
+<pre><code class=language-odin data-lang=odin>package example_caller_expression
+
+import &quot;core:fmt&quot;
+
+entire_expression :: proc(greeting: string, count: int, expr := #caller_expression) {
+    fmt.println(expr)
+}
+
+param_expression :: proc(greeting: string, count: int, count_expr := #caller_expression(count)) {
+    fmt.println(count_expr)
+}
+
+main :: proc() {
+	entire_expression(&quot;Hellope!&quot;, 1 + 1)
+	// entire_expression(&quot;Hellope!&quot;, 1 + 1)
+	param_expression(&quot;Yo&quot;, 2 + 2)
+	// 2 + 2
+}
+</code></pre><h4 id=c_vararg><code>#c_vararg</code> <a class=text-decoration-none href=#c_vararg>#</a></h4>
 <p>Used to interface with vararg functions in foreign procedures.</p>
 <pre><code class=language-odin data-lang=odin>foreign foo {
     bar :: proc(n: int, #c_vararg args: ..any) ---
@@ -3676,6 +3707,7 @@ Some of this information includes:</p>
 <li><a href=#no_alias><code>#no_alias</code></a></li>
 <li><a href=#any_int><code>#any_int</code></a></li>
 <li><a href=#caller_location><code>#caller_location</code></a></li>
+<li><a href=#caller_expression-or-caller_expressionparam><code>#caller_expression</code> or <code>#caller_expression(&lt;param>)</code></a></li>
 <li><a href=#c_vararg><code>#c_vararg</code></a></li>
 <li><a href=#by_ptr><code>#by_ptr</code></a></li>
 <li><a href=#optional_ok><code>#optional_ok</code></a></li>

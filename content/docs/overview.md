@@ -3886,8 +3886,7 @@ foo :: proc(#no_alias a, b: ^int) {}
 
 #### `#any_int`
 
-This tag can be applied to a procedure parameter that is an integer. This allows implicit casts to the procedures integer type at
-the call site.
+`#any_int` enables implicit casts to a procedure's integer type at the call site. A parameter with `#any_int` must be an integer.
 
 ```odin
 foo :: proc(#any_int a: int) {}
@@ -3897,12 +3896,49 @@ foo(x) // This is now allowed without an explicit cast
 
 #### `#caller_location`
 
-This tag is used as a function's parameter value. In the following function signature,
+`#caller_location` sets a parameter's default value to the location of the code calling the procedure. The location value has the type [`Source_Code_Location`](https://pkg.odin-lang.org/base/runtime/#Source_Code_Location). `#caller_location` may only be used as a default value for procedure parameters.
+
 ```odin
-alloc :: proc(size: int, alignment: int = DEFAULT_ALIGNMENT, loc := #caller_location) -> rawptr
+package example_caller_location
+
+import "core:fmt"
+
+print_caller_location :: proc(loc := #caller_location) {
+	fmt.println(loc)
+	fmt.println(#procedure, "called by", loc.procedure)
+}
+
+main :: proc() {
+	print_caller_location()
+	// C:/some/dir/example_caller_location.odin(11:2)
+	// print_caller_location called by main
+}
 ```
 
-`loc` is a variable of type `Source_Code_Location` (see `base/runtime/core.odin`) that is automatically filled with the location of the line of code calling the function (in this case, the line of code calling `alloc`).
+#### `#caller_expression` or `#caller_expression(<param>)`
+
+`#caller_expression` gives a procedure the entire call expression or the expression used to create a parameter. `#caller_expression` may only be used as a default value for procedure parameters.
+
+```odin
+package example_caller_expression
+
+import "core:fmt"
+
+entire_expression :: proc(greeting: string, count: int, expr := #caller_expression) {
+    fmt.println(expr)
+}
+
+param_expression :: proc(greeting: string, count: int, count_expr := #caller_expression(count)) {
+    fmt.println(count_expr)
+}
+
+main :: proc() {
+	entire_expression("Hellope!", 1 + 1)
+	// entire_expression("Hellope!", 1 + 1)
+	param_expression("Yo", 2 + 2)
+	// 2 + 2
+}
+```
 
 #### `#c_vararg`
 Used to interface with vararg functions in foreign procedures.

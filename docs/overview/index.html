@@ -214,7 +214,7 @@ main :: proc() {
 <pre><code class=language-odin data-lang=odin>import &quot;core:fmt&quot;
 import foo &quot;core:fmt&quot; // reference a package by a different name
 </code></pre><h3 id=exported-names>Exported names <a class=text-decoration-none href=#exported-names>#</a></h3>
-<p>All declarations in a package are exported by default.</p>
+<p>All declarations in a package are public by default.</p>
 <p>The <code>private</code> attribute can be applied to an entity to prevent it from being exported from a package.</p>
 <pre><code class=language-odin data-lang=odin>@(private)
 my_variable: int // cannot be accessed outside this package

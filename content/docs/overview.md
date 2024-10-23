@@ -199,7 +199,7 @@ import foo "core:fmt" // reference a package by a different name
 
 ### Exported names
 
-All declarations in a package are exported by default.
+All declarations in a package are public by default.
 
 The `private` attribute can be applied to an entity to prevent it from being exported from a package.
 ```odin

@@ -403,7 +403,7 @@ For the current backend, LLVM is used to translate code to platform specific cod
 Other than the declaration syntax, the differences are minor. When designing the syntax, it had to feel right and light. A minimal amount of keywords and syntactic sugar. The syntax has been designed to be very easy to parse without a symbol table. This makes it easier to create build and analysis tools for Odin.
 
 ### Why are declarations backwards?
-Declarations are only backwards if you are used to C. In C, declarations follow the ["clockwise/spiral rule"](http://c-faq.com/decl/spiral.anderson.html) to reflect the usage of the declaration. This is can be confusing when reading.
+Declarations are only backwards if you are used to C. In C, declarations follow the ["clockwise/spiral rule"](http://c-faq.com/decl/spiral.anderson.html) to reflect the usage of the declaration. This can be confusing when reading.
 
 Please see: <https://odin-lang.org/news/declaration-syntax/>
 

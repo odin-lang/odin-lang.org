@@ -42,13 +42,19 @@ url = "/showcase"
 weight = 5
 
 [[menu.main]]
+identifier = "forum"
+name = "Forum"
+url = "https://forum.odin-lang.org"
+weight = 6
+
+[[menu.main]]
 identifier = "community"
 name = "Community"
 url = "/community"
-weight = 6
+weight = 7
 
 [[menu.main]]
 identifier = "github"
 name = "GitHub"
 url = "https://github.com/odin-lang/Odin"
-weight = 7
+weight = 8

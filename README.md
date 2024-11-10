@@ -4,7 +4,7 @@ This is the repository for the official odin website: [https://odin-lang.org/](h
 
 ## How to Build
 
-The website is build on [hugo](https://gohugo.io/). Follow the instructions for your preferred platform. 
+The website is built on [hugo](https://gohugo.io/). Follow the instructions for your preferred platform. 
 
 Once installed, simply run `hugo serve`, which will launch the site at localhost and watch for any file changes.
 

@@ -2,7 +2,6 @@
 window.addEventListener('DOMContentLoaded', () => {
 	const headers = [...document.querySelectorAll('h1[id],h2[id],h3[id],h4[id]')];
 	const sectionVisibility = new Map();
-	headers.forEach(header => sectionVisibility.set(header.getAttribute('id'), false));
 
 	const navbarHeight = document.querySelector('.odin-menu').offsetHeight;
 	const observerForTableOfContentActiveState = new IntersectionObserver(entries => {
@@ -30,7 +29,10 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 	}, { rootMargin: `${navbarHeight}px 0px 0px 0px`, threshold: 1.0 });
 
-	headers.forEach(observerForTableOfContentActiveState.observe);
+	headers.forEach(header => {
+        sectionVisibility.set(header.getAttribute('id'), false);
+        observerForTableOfContentActiveState.observe(header);
+    });
 })
 
 // removes all active states

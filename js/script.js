@@ -30,9 +30,9 @@ window.addEventListener('DOMContentLoaded', () => {
 	}, { rootMargin: `${navbarHeight}px 0px 0px 0px`, threshold: 1.0 });
 
 	headers.forEach(header => {
-        sectionVisibility.set(header.getAttribute('id'), false);
-        observerForTableOfContentActiveState.observe(header);
-    });
+		sectionVisibility.set(header.getAttribute('id'), false);
+		observerForTableOfContentActiveState.observe(header);
+	});
 })
 
 // removes all active states

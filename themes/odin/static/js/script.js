@@ -1,23 +1,38 @@
 // scrollspy find any new heading intersection and set the active property
 window.addEventListener('DOMContentLoaded', () => {
+	const headers = [...document.querySelectorAll('h1[id],h2[id],h3[id],h4[id]')];
+	const sectionVisibility = new Map();
+
+	const navbarHeight = document.querySelector('.odin-menu').offsetHeight;
 	const observerForTableOfContentActiveState = new IntersectionObserver(entries => {
 		for (let i = 0; i < entries.length; i += 1) {
-			var entry = entries[i];
+			const entry = entries[i];
 			const id = entry.target.getAttribute('id');
 
-			if (entry.isIntersecting) {
+			sectionVisibility.set(id, entry.isIntersecting);
+		}
+
+		/**
+		 * Find the first visible section and set the corresponding anchor state to active.
+		 * Otherwise, do nothing. This is the case when scrolling through long sections,
+		 * where the section header is out of the viewport, but the next section header is not yet visible.
+		 */
+		for (const [sectionId, isVisible] of sectionVisibility) {
+			if (isVisible) {
 				clearActiveStatesInTableOfContents();
-				
-				var anchor = document.querySelector(`nav li a[href="#${id}"]`);
+				const anchor = document.querySelector(`nav li a[href="#${sectionId}"]`);
 				anchor.parentElement.classList.add('active');
 				anchor.scrollIntoView({ block: "nearest" });
+
+				break;
 			}
 		}
-	})		
+	}, { rootMargin: `${navbarHeight}px 0px 0px 0px`, threshold: 1.0 });
 
-	document.querySelectorAll('h1[id],h2[id],h3[id],h4[id]').forEach((section) => {
-		observerForTableOfContentActiveState.observe(section);
-	});
+	headers.forEach(header => {
+        sectionVisibility.set(header.getAttribute('id'), false);
+        observerForTableOfContentActiveState.observe(header);
+    });
 })
 
 // removes all active states
@@ -36,5 +51,4 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 	})
 })
-
 

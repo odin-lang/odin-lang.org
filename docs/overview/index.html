@@ -3223,8 +3223,8 @@ bar :: struct {
 when #defined(n) { fmt.println(&quot;true&quot;) }
 if #defined(int) { fmt.println(&quot;true&quot;) }
 when #defined(nonexistent_proc) == false { fmt.println(&quot;proc was not defined&quot;) }
-</code></pre><h4 id=file-line-procedure><code>#file</code>, <code>#line</code>, <code>#procedure</code> <a class=text-decoration-none href=#file-line-procedure>#</a></h4>
-<p>Return the current file path, line number, or procedure name, respectively. Used like a constant value. <code>file_name :: #file</code></p>
+</code></pre><h4 id=file-directory-line-procedure><code>#file</code>, <code>#directory</code>, <code>#line</code>, <code>#procedure</code> <a class=text-decoration-none href=#file-directory-line-procedure>#</a></h4>
+<p>Return the current file path, directory, line number, or procedure name, respectively. Used like a constant value. <code>file_name :: #file</code></p>
 <h4 id=location-or-locationentity><code>#location()</code> or <code>#location(&lt;entity>)</code> <a class=text-decoration-none href=#location-or-locationentity>#</a></h4>
 <p>Returns a <code>runtime.Source_Code_Location</code> (see <code>base/runtime/core.odin</code>). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.</p>
 <pre><code class=language-odin data-lang=odin>foo :: proc() {}
@@ -3733,7 +3733,7 @@ Some of this information includes:</p>
 <li><a href=#panicstring><code>#panic(&lt;string>)</code></a></li>
 <li><a href=#configidentifier-default><code>#config(&lt;identifier>, default)</code></a></li>
 <li><a href=#defined><code>#defined</code></a></li>
-<li><a href=#file-line-procedure><code>#file</code>, <code>#line</code>, <code>#procedure</code></a></li>
+<li><a href=#file-directory-line-procedure><code>#file</code>, <code>#directory</code>, <code>#line</code>, <code>#procedure</code></a></li>
 <li><a href=#location-or-locationentity><code>#location()</code> or <code>#location(&lt;entity>)</code></a></li>
 <li><a href=#loadstring-path-or-loadstring-path-type><code>#load(&lt;string-path>)</code> or <code>#load(&lt;string-path>, &lt;type>)</code></a></li>
 <li><a href=#load_hashstring-path-string-hash><code>#load_hash(&lt;string-path>, &lt;string-hash>)</code></a></li>

@@ -4056,9 +4056,9 @@ if #defined(int) { fmt.println("true") }
 when #defined(nonexistent_proc) == false { fmt.println("proc was not defined") }
 ```
 
-#### `#file`, `#line`, `#procedure`
+#### `#file`, `#directory`, `#line`, `#procedure`
 
-Return the current file path, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
+Return the current file path, directory, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
 
 #### `#location()` or `#location(<entity>)`
 

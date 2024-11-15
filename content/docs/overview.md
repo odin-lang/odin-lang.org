@@ -3702,10 +3702,6 @@ main :: proc() {
 }
 ```
 
-#### `@(warning=<string>)`
-
-Produces a warning when a procedure is called.
-
 #### `@(disabled=<boolean>)`
 
 If the provided boolean is set, the procedure will not be used when called.

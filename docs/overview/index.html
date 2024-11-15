@@ -2979,9 +2979,7 @@ main :: proc() {
     foo() // won't compile
     _ = foo() // Ok
 }
-</code></pre><h4 id=warningstring><code>@(warning=&lt;string>)</code> <a class=text-decoration-none href=#warningstring>#</a></h4>
-<p>Produces a warning when a procedure is called.</p>
-<h4 id=disabledboolean><code>@(disabled=&lt;boolean>)</code> <a class=text-decoration-none href=#disabledboolean>#</a></h4>
+</code></pre><h4 id=disabledboolean><code>@(disabled=&lt;boolean>)</code> <a class=text-decoration-none href=#disabledboolean>#</a></h4>
 <p>If the provided boolean is set, the procedure will not be used when called.</p>
 <h4 id=init><code>@(init)</code> <a class=text-decoration-none href=#init>#</a></h4>
 <p>This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by <code>@(init)</code> will then be called at the start of the program before <code>main</code> is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.</p>
@@ -3673,7 +3671,6 @@ Some of this information includes:</p>
 <li><a href=#deferred_proc><code>(deferred_*=&lt;proc>)</code></a></li>
 <li><a href=#deprecatedstring><code>@(deprecated=&lt;string>)</code></a></li>
 <li><a href=#require_results><code>@(require_results)</code></a></li>
-<li><a href=#warningstring><code>@(warning=&lt;string>)</code></a></li>
 <li><a href=#disabledboolean><code>@(disabled=&lt;boolean>)</code></a></li>
 <li><a href=#init><code>@(init)</code></a></li>
 <li><a href=#cold><code>@(cold)</code></a></li>

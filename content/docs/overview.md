@@ -93,7 +93,7 @@ If the string passed to [`len`](https://pkg.odin-lang.org/base/builtin/#len) is 
 * `\\` - backslash
 * `\"` - double quote (if needed)
 * `\'` - single quote (if needed)
-* `\NN`- octal 6 bit character (2 digits)
+* `\NNN`- octal 6 bit character (3 digits)
 * `\xNN` - hexadecimal 8 bit character (2 digits)
 * `\uNNNN` - hexadecimal 16-bit Unicode character UTF-8 encoded (4 digits)
 * `\UNNNNNNNN` - hexadecimal 32-bit Unicode character UTF-8 encoded (8 digits)

@@ -1346,6 +1346,8 @@ for i in 0..=4 {
 	fmt.println(x[i])
 }
 ```
+Fixed arrays are equivalent to a struct with a field for each element. They are just a number of values in a row in memory.
+ 
 The notation `x[i]` is used to access the i-th element of `x`; and 0-index based (like C).
 
 The above array can also be constructed with a question mark (`?`) to automatically infer its length:

@@ -3,13 +3,13 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <link rel=icon href=/favicon.svg>
 <meta name=color-scheme content="only dark">
-<meta property="og:title" content="CAT & ONION">
-<meta property="og:description" content="A cozy and whimsical short cat adventure game ">
+<meta property="og:title" content="Understanding the Odin Programming Language">
+<meta property="og:description" content="A book that teaches the Odin Programming Language and demystifies low-level programming ">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://odin-lang.org/showcase/cat_and_onion/">
+<meta property="og:url" content="https://odin-lang.org/showcase/understanding_the_odin_programming_language/">
 <meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
-<meta property="article:published_time" content="2024-02-01T00:00:00+00:00">
-<meta property="article:modified_time" content="2024-02-01T00:00:00+00:00">
+<meta property="article:published_time" content="2024-12-10T00:00:00+00:00">
+<meta property="article:modified_time" content="2024-12-10T00:00:00+00:00">
 <link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
 <link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
 <script src=/lib/highlight/highlight.min.js></script>
@@ -18,7 +18,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
 <link href=/css/style.css rel=stylesheet>
-<title>CAT & ONION | Odin Programming Language </title>
+<title>Understanding the Odin Programming Language | Odin Programming Language </title>
 <link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0>
 <script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
@@ -79,13 +79,13 @@
 <a class=nav-link href=/showcase/embergen/>EmberGen</a>
 </li>
 <li class=nav-item>
-<a class=nav-link href=/showcase/understanding_the_odin_programming_language/>Understanding the Odin Programming Language</a>
+<a class="nav-link active" href=/showcase/understanding_the_odin_programming_language/ aria-current=page>Understanding the Odin Programming Language</a>
 </li>
 <li class=nav-item>
 <a class=nav-link href=/showcase/solar_storm/>Solar Storm</a>
 </li>
 <li class=nav-item>
-<a class="nav-link active" href=/showcase/cat_and_onion/ aria-current=page>CAT & ONION</a>
+<a class=nav-link href=/showcase/cat_and_onion/>CAT & ONION</a>
 </li>
 <li class=nav-item>
 <a class=nav-link href=/showcase/spall/>Spall</a>
@@ -101,35 +101,26 @@
 <nav aria-label=breadcrumb>
 <ol class=breadcrumb>
 <li class=breadcrumb-item><a href=/showcase>Showcase</a></li>
-<li class=breadcrumb-item><a href=/showcase/cat_and_onion>Cat and onion</a></li>
+<li class=breadcrumb-item><a href=/showcase/understanding_the_odin_programming_language>Understanding the odin programming language</a></li>
 </ol>
-<h1>CAT & ONION</h1>
+<h1>Understanding the Odin Programming Language</h1>
 </header>
 <div class=odin-article>
-<p><video style=max-width:100% width=450px autoplay loop muted playsinline><source src=/images/showcase/cat_and_onion_square_loop.mp4></video></p>
-<p>A cozy and whimsical short cat adventure game! It is fully written in Odin with raylib.</p>
-<h2 id=release-trailer>Release Trailer <a class=text-decoration-none href=#release-trailer>#</a></h2>
-<div style=position:relative;padding-bottom:56.25%;height:0;overflow:hidden>
-<iframe src=https://www.youtube.com/embed/gggtSXiJkKc style=position:absolute;top:0;left:0;width:100%;height:100%;border:0 allowfullscreen title="YouTube Video"></iframe>
-</div>
-<h2 id=why-odin>Why Odin? <a class=text-decoration-none href=#why-odin>#</a></h2>
-<p>Odin was chosen because it was &ldquo;low level with a high level feeling&rdquo;, meaning that it was possible to do all the low stuff one would normally do in C while also empowering creative gameplay programming through Odin&rsquo;s modern features.</p>
-<h2 id=development-videos>Development Videos <a class=text-decoration-none href=#development-videos>#</a></h2>
-<p>On the <a href=https://www.youtube.com/@karl_zylinski>Zylinski Games YouTube channel</a> you&rsquo;ll find many videos with details on how the game was made. There are also many past live streams. Some videos are specific to the game while others are more general Odin videos.</p>
-<h2 id=want-to-play>Want to play? <a class=text-decoration-none href=#want-to-play>#</a></h2>
-<p>You can buy the game on itch.io: <a href=https://zylinski.itch.io/cat-and-onion>https://zylinski.itch.io/cat-and-onion</a>.</p>
-<p>When you buy it on itch you also get a drop of the full Odin source code and all source assets, so you can see how it was made. Source code features that might be interesting are things such as hot reloading of gameplay code and homemade editor tools using a homemade IMGUI.</p>
-<p>The game is also coming out on Steam in Q1 2024: <a href=https://store.steampowered.com/app/2781210/CAT__ONION/>https://store.steampowered.com/app/2781210/CAT__ONION/</a></p>
+<p><a href=https://odinbook.com><img src=/images/showcase/understanding_the_odin_programming_language/cover.jpg alt="Cover of the book Understanding the Odin Programming Language by Karl Zylinski" style=max-height:300px;max-width:100%></a></p>
+<p><em>Understanding the Odin Programming Language</em> is a digital book for both beginners and intermediate Odin programmers. You&rsquo;ll learn about procedures, <strong>manual memory management</strong>, parametric polymorphism, data-oriented design, and much more.</p>
+<p>A programming language is a tool. <strong>By understanding your tools, you will become a better craftsperson</strong>. Therefore, on top of how to write Odin code, this book also provides explanations of why things work the way they do.</p>
+<p>The target audience is anyone with some programming experience. Odin is a simple yet powerful language, making it <strong>a great introduction to low-level programming</strong>, regardless of your programming background.</p>
+<h2 id=read-a-sample-or-buy-at-odinbookcomhttpsodinbookcom>Read a sample or buy at <a href=https://odinbook.com>odinbook.com</a> <a class=text-decoration-none href=#read-a-sample-or-buy-at-odinbookcomhttpsodinbookcom>#</a></h2>
+<img src=/images/showcase/understanding_the_odin_programming_language/parapoly.png style=max-width:49%;float:left>
+<img src=/images/showcase/understanding_the_odin_programming_language/ebook.jpg style=max-width:49%;float:left>
+<div style=clear:both></div>
 </div>
 </article>
 <div id=TOC class="col-lg-2 odin-toc-border">
 <div class="sticky-top odin-below-navbar py-3">
 <nav id=TableOfContents>
 <ul>
-<li><a href=#release-trailer>Release Trailer</a></li>
-<li><a href=#why-odin>Why Odin?</a></li>
-<li><a href=#development-videos>Development Videos</a></li>
-<li><a href=#want-to-play>Want to play?</a></li>
+<li><a href=#read-a-sample-or-buy-at-odinbookcomhttpsodinbookcom>Read a sample or buy at <a href=https://odinbook.com>odinbook.com</a></a></li>
 </ul>
 </nav>
 </div>

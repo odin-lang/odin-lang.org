@@ -1176,7 +1176,8 @@ x &gt;&gt; y if y &lt; 8*size_of(x) else 0
 for i in 0..=4 {
 	fmt.println(x[i])
 }
-</code></pre><p>The notation <code>x[i]</code> is used to access the i-th element of <code>x</code>; and 0-index based (like C).</p>
+</code></pre><p>Fixed arrays are equivalent to a struct with a field for each element. They are just a number of values in a row in memory.</p>
+<p>The notation <code>x[i]</code> is used to access the i-th element of <code>x</code>; and 0-index based (like C).</p>
 <p>The above array can also be constructed with a question mark (<code>?</code>) to automatically infer its length:</p>
 <pre><code class=language-odin data-lang=odin>x := [?]int{1, 2, 3, 4, 5}
 </code></pre><p>Construct an array with designated initializers:</p>

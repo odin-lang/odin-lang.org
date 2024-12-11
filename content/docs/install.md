@@ -83,8 +83,8 @@ It should look something like:
     * run the `x64 Native Tools Command Prompt for VS20xx` shortcut bundled with Visual Studio (search in start menu), or
     * run `vcvarsall.bat x64` from a blank `cmd` session
 3. Clone the repository somewhere: `git clone https://github.com/odin-lang/Odin`
-4. Optionally use `git checkout dev-YYYY-MM` to checkout one of the official releases
-5. Navigate to the Odin folder: `cd Odin`
+4. Navigate to the Odin folder: `cd Odin`
+5. Optionally use `git checkout dev-YYYY-MM` to checkout one of the official releases
 6. Run `build.bat release`
 7. Optionally [add the Odin compiler directory to the PATH environment variable](https://duckduckgo.com/?q=add+to+path+windows) so `odin.exe` is accessible everywhere on your computer
 

@@ -13,19 +13,19 @@ categories:
 
 [A brand-new stack for cross-platform apps.](https://orca-app.dev)
 
-For more detailed information you can read up on the link above. Please note that Orca is still Work in Progress.
+For more detailed information you can read up on the link above. Please note that Orca is still work in progress.
 
 ## Orca
 
-Orca is a new target `-target:orca_wasm32` that Odin supports now! It outputs a wasm blob that can be bundled through the Orca pipeline.
+Orca is a new target `-target:orca_wasm32` that Odin now supports! It outputs a WASM blob that can be bundled through the Orca pipeline.
 
 ### Bindings Generator
 
-Michael Kutowski (Skytrias) focused on getting the automatic bindings generator up and running. It's a python script which takes in the `api.json` that's generated through the Orca source code. 
+Michael Kutowski (Skytrias) focused on getting the automatic bindings generator up and running. It's a Python script which takes in the `api.json` that's generated through the Orca source code.
 
-Binding Generator: [orca-app/orca-odin](https://github.com/orca-app/orca-odin)
+Binding generator: [orca-app/orca-odin](https://github.com/orca-app/orca-odin)
 
-Core Library: [core:sys/orca](https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin)
+Core library: [core:sys/orca](https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin)
 
 ### Compiler Support
 
@@ -36,19 +36,19 @@ gingerBill and Laytan implemented the Orca target properly in the compiler and m
 There are a few things which Odin also does to make the experience of developing for the Orca target more pleasant:
 - main entrypoint automatically bound to the `on_init` event from Orca
 - `@fini` calls are bound to `on_terminate` event
-- `core:log` can be used normally -> uses Orca logging
+- `core:log` can be used normally and uses Orca logging
 - str8 type from Orca maps natively to Odin's string type
 - [C Macros](https://github.com/orca-app/orca-odin/blob/master/macros.odin) are implemented as normal procedures on the Odin side
 - Usage of macros for defer are done through @deferred calls
 
 ## Orca Original Examples
 
-The Odin [examples](https://github.com/odin-lang/examples/tree/master/orca) repo includes ports of the C Orca examples for more full fledged examples of Orca within Odin. 
+The Odin [examples](https://github.com/odin-lang/examples/tree/master/orca) repo includes ports of the C Orca examples for more full fledged examples of using Orca with Odin.
 
 ## Orca Step By Step
 
-In the upcoming Examples you can see how easy it is to create programs now!
-Additionally you also need to specifiy the output as shown below which will then be used by Orca to bundle up the application. All examples can be built this way
+In the following examples you can see how easy it is to create programs now!
+Additionally, you also need to specify the output, as shown below, which will then be used by Orca to bundle up the application. All examples can be built this way.
 
 ```
 odin build src -target:orca_wasm32 -out:module.wasm 
@@ -59,7 +59,7 @@ I've added comments on most lines to describe what is happening, the examples sh
 
 ### Orca Package (Bindings)
 
-[core:sys/orca](https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin) for a quick cheatsheet of all the procedures available
+[core:sys/orca](https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin) for a quick cheatsheet of all the procedures available.
 
 ### Plain Window
 
@@ -91,19 +91,19 @@ main :: proc() {
   canvas = oc.canvas_context_create()
 }
 
-// export the 'oc_on_frame_refresh' implemented call so it's bound to the orca application
+// Export the 'oc_on_frame_refresh' implemented call so it's bound to the Orca application.
 @(export)
 oc_on_frame_refresh :: proc "c" () {
-  // This runs every frame and we just want to setup the canvas fresh
+  // This runs every frame and we just want to setup the canvas fresh.
   oc.canvas_context_select(canvas)
   oc.set_color_rgba(1, 1, 1, 1)
   oc.clear()
 
-  // set a RGBA color and fill a rectangular region on the screen (x y w h)
+  // Set a RGBA color and fill a rectangular region on the screen (x y w h).
   oc.set_color_rgba(0, 0, 0, 1)
   oc.rectangle_fill(50, 50, 100, 10)
   
-  // finish all the canvas operations up and render them to the screen
+  // Finish all the canvas operations up and render them to the screen.
   oc.canvas_render(renderer, canvas, surface)
   oc.canvas_present(renderer, surface)    
 }
@@ -127,11 +127,11 @@ main :: proc() {
   surface = oc.canvas_surface_create(renderer)
   canvas = oc.canvas_context_create()
 
-  // We provide our wanted dimensions at startup
+  // We provide our wanted dimensions at startup.
   oc.window_set_size(frame_size)
 }
 
-// export the 'oc_on_resize' implemented call so it's bound to the orca application, this will be called whenever the window size changes
+// Export the 'oc_on_resize' implemented call so it's bound to the Orca application. This will be called whenever the window size changes.
 @(export)
 oc_on_resize :: proc "c" (width, height: u32) {
   frame_size.x = f32(width)
@@ -144,7 +144,7 @@ oc_on_frame_refresh :: proc "c" () {
   oc.set_color_rgba(1, 1, 1, 1)
   oc.clear()
 
-  // set the color to black and fill the window subtracted by some margin
+  // Set the color to black and fill the window subtracted by some margin.
   oc.set_color_rgba(0, 0, 0, 1)
   SIZE :: 50
   width := frame_size.x - SIZE * 2
@@ -194,7 +194,7 @@ main :: proc() {
     oc.UNICODE_SPECIALS,
   }
 
-  // create the font from an ttf asset that needs to be provided
+  // Create the font from a TTF asset that needs to be provided.
   font = oc.font_create_from_path("segoeui.ttf", 5, &ranges[0])    
 }
 
@@ -204,11 +204,11 @@ oc_on_frame_refresh :: proc "c" () {
   oc.set_color_rgba(1, 1, 1, 1)
   oc.clear()
 
-  // set the wanted font and a size
+  // Set the wanted font and a size.
   oc.set_font(font)
   oc.set_font_size(40)
 
-  // similar to before set a color and the text we want to draw at x & y
+  // Similar to before set a color and the text we want to draw at x & y.
   oc.set_color_rgba(0, 0, 0, 1)
   oc.text_fill(50, 50, "Hello World")
 
@@ -237,7 +237,7 @@ main :: proc() {
   canvas = oc.canvas_context_create()
 }
 
-// export the 'oc_on_raw_event' implemented call so it's bound to the orca application, this way we can check for window specific events like mouse movement, mouse clicks, keyboard events etc.
+// Export the 'oc_on_raw_event' implemented call so it's bound to the Orca application. This way we can check for window specific events like mouse movement, mouse clicks, keyboard events etc.
 @(export)
 oc_on_raw_event :: proc "c" (event: ^oc.event) {
   if event.type == .MOUSE_MOVE {
@@ -251,7 +251,7 @@ oc_on_frame_refresh :: proc "c" () {
   oc.set_color_rgba(1, 1, 1, 1)
   oc.clear()
 
-  // fill the rectangle region while x & y is following the mouse
+  // Fill the rectangle region while x & y is following the mouse.
   oc.set_color_rgba(0, 0, 0, 1)
   oc.rectangle_fill(mouse.x - 50, mouse.y - 50, 100, 100)
 

@@ -174,30 +174,30 @@
 <div class=odin-article>
 <h2 id=webassembly-apps-without-the-web>WebAssembly apps without the web. <a class=text-decoration-none href=#webassembly-apps-without-the-web>#</a></h2>
 <p><a href=https://orca-app.dev>A brand-new stack for cross-platform apps.</a></p>
-<p>For more detailed information you can read up on the link above. Please note that orca is still Work in Progress.</p>
+<p>For more detailed information you can read up on the link above. Please note that Orca is still Work in Progress.</p>
 <h2 id=orca>Orca <a class=text-decoration-none href=#orca>#</a></h2>
-<p>Orca is a new target <code>-target:orca_wasm32</code> that odin supports now! It outputs a wasm blob that can be bundled through the orca pipeline.</p>
+<p>Orca is a new target <code>-target:orca_wasm32</code> that Odin supports now! It outputs a wasm blob that can be bundled through the Orca pipeline.</p>
 <h3 id=bindings-generator>Bindings Generator <a class=text-decoration-none href=#bindings-generator>#</a></h3>
-<p>Michael Kutowski (Skytrias) focused on getting the automatic bindings genrator up and running. It&rsquo;s a python script which takes in the <code>api.json</code> that&rsquo;s generated through the orca source code.</p>
+<p>Michael Kutowski (Skytrias) focused on getting the automatic bindings generator up and running. It&rsquo;s a python script which takes in the <code>api.json</code> that&rsquo;s generated through the Orca source code.</p>
 <p>Binding Generator: <a href=https://github.com/orca-app/orca-odin>orca-app/orca-odin</a></p>
 <p>Core Library: <a href=https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin>core:sys/orca</a></p>
 <h3 id=compiler-support>Compiler Support <a class=text-decoration-none href=#compiler-support>#</a></h3>
-<p>GingerBill and Laytan implemented the orca target properly in the compiler and made sure it works properly.</p>
+<p>gingerBill and Laytan implemented the Orca target properly in the compiler and made sure it works properly.</p>
 <h3 id=user-experience>User Experience <a class=text-decoration-none href=#user-experience>#</a></h3>
-<p>There are a few things which odin also does to make the experience of developing for the orca target more pleasant:</p>
+<p>There are a few things which Odin also does to make the experience of developing for the Orca target more pleasant:</p>
 <ul>
-<li>main entrypoint automatically bound to the <code>on_init</code> event from orca</li>
+<li>main entrypoint automatically bound to the <code>on_init</code> event from Orca</li>
 <li><code>@fini</code> calls are bound to <code>on_terminate</code> event</li>
-<li><code>core:log</code> can be used normally -> uses orca logging</li>
-<li>str8 type from orca maps natively to odins string type</li>
-<li><a href=https://github.com/orca-app/orca-odin/blob/master/macros.odin>C Macros</a> are implemented as normal procedures on the odin side</li>
+<li><code>core:log</code> can be used normally -> uses Orca logging</li>
+<li>str8 type from Orca maps natively to Odin&rsquo;s string type</li>
+<li><a href=https://github.com/orca-app/orca-odin/blob/master/macros.odin>C Macros</a> are implemented as normal procedures on the Odin side</li>
 <li>Usage of macros for defer are done through @deferred calls</li>
 </ul>
 <h2 id=orca-original-examples>Orca Original Examples <a class=text-decoration-none href=#orca-original-examples>#</a></h2>
-<p>The odin <a href=https://github.com/odin-lang/examples/tree/master/orca>examples</a> repo includes ports of the C orca examples for more full fledged examples of orca within odin.</p>
+<p>The Odin <a href=https://github.com/odin-lang/examples/tree/master/orca>examples</a> repo includes ports of the C Orca examples for more full fledged examples of Orca within Odin.</p>
 <h2 id=orca-step-by-step>Orca Step By Step <a class=text-decoration-none href=#orca-step-by-step>#</a></h2>
 <p>In the upcoming Examples you can see how easy it is to create programs now!
-Additionally you also need to specifiy the output as shown below which will then be used by orca to bundle up the application. All examples can be built this way</p>
+Additionally you also need to specifiy the output as shown below which will then be used by Orca to bundle up the application. All examples can be built this way</p>
 <pre><code>odin build src -target:orca_wasm32 -out:module.wasm 
 orca bundle --name output module.wasm
 </code></pre><p>I&rsquo;ve added comments on most lines to describe what is happening, the examples should be read top to bottom.</p>

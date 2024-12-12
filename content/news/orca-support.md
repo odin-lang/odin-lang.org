@@ -71,7 +71,7 @@ main :: proc() {}
 
 <img src="/images/news/orca_plain_window.png" class="figure-img img-fluid rounded">
 
-That looks easy! Even simpler than raylib and reminds me of game libraries like love2d where things just work.
+That looks easy! Even simpler than [raylib](https://www.raylib.com) and reminds me of game libraries like [love2d](https://love2d.org) where things just work.
 
 ### Rectangle Fill (Fixed Size)
 ```odin

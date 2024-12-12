@@ -13,15 +13,15 @@ categories:
 
 [A brand-new stack for cross-platform apps.](https://orca-app.dev)
 
-For more detailed information you can read up on the link above. Please note that orca is still Work in Progress.
+For more detailed information you can read up on the link above. Please note that Orca is still Work in Progress.
 
 ## Orca
 
-Orca is a new target `-target:orca_wasm32` that odin supports now! It outputs a wasm blob that can be bundled through the orca pipeline.
+Orca is a new target `-target:orca_wasm32` that Odin supports now! It outputs a wasm blob that can be bundled through the Orca pipeline.
 
 ### Bindings Generator
 
-Michael Kutowski (Skytrias) focused on getting the automatic bindings genrator up and running. It's a python script which takes in the `api.json` that's generated through the orca source code. 
+Michael Kutowski (Skytrias) focused on getting the automatic bindings generator up and running. It's a python script which takes in the `api.json` that's generated through the Orca source code. 
 
 Binding Generator: [orca-app/orca-odin](https://github.com/orca-app/orca-odin)
 
@@ -29,26 +29,26 @@ Core Library: [core:sys/orca](https://github.com/odin-lang/Odin/blob/master/core
 
 ### Compiler Support
 
-GingerBill and Laytan implemented the orca target properly in the compiler and made sure it works properly. 
+gingerBill and Laytan implemented the Orca target properly in the compiler and made sure it works properly. 
 
 ### User Experience
 
-There are a few things which odin also does to make the experience of developing for the orca target more pleasant:
-- main entrypoint automatically bound to the `on_init` event from orca
+There are a few things which Odin also does to make the experience of developing for the Orca target more pleasant:
+- main entrypoint automatically bound to the `on_init` event from Orca
 - `@fini` calls are bound to `on_terminate` event
-- `core:log` can be used normally -> uses orca logging
-- str8 type from orca maps natively to odins string type
-- [C Macros](https://github.com/orca-app/orca-odin/blob/master/macros.odin) are implemented as normal procedures on the odin side
+- `core:log` can be used normally -> uses Orca logging
+- str8 type from Orca maps natively to Odin's string type
+- [C Macros](https://github.com/orca-app/orca-odin/blob/master/macros.odin) are implemented as normal procedures on the Odin side
 - Usage of macros for defer are done through @deferred calls
 
 ## Orca Original Examples
 
-The odin [examples](https://github.com/odin-lang/examples/tree/master/orca) repo includes ports of the C orca examples for more full fledged examples of orca within odin. 
+The Odin [examples](https://github.com/odin-lang/examples/tree/master/orca) repo includes ports of the C Orca examples for more full fledged examples of Orca within Odin. 
 
 ## Orca Step By Step
 
 In the upcoming Examples you can see how easy it is to create programs now!
-Additionally you also need to specifiy the output as shown below which will then be used by orca to bundle up the application. All examples can be built this way
+Additionally you also need to specifiy the output as shown below which will then be used by Orca to bundle up the application. All examples can be built this way
 
 ```
 odin build src -target:orca_wasm32 -out:module.wasm 

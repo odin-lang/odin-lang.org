@@ -207,7 +207,8 @@ orca bundle --name output module.wasm
 <pre><code class=language-odin data-lang=odin>package src
 
 main :: proc() {}
-</code></pre><p>That looks easy! Even simpler than raylib and reminds me of game libraries like love2d where things just work.</p>
+</code></pre><img src=/images/news/orca_plain_window.png class="figure-img img-fluid rounded">
+<p>That looks easy! Even simpler than raylib and reminds me of game libraries like love2d where things just work.</p>
 <h3 id=rectangle-fill-fixed-size>Rectangle Fill (Fixed Size) <a class=text-decoration-none href=#rectangle-fill-fixed-size>#</a></h3>
 <pre><code class=language-odin data-lang=odin>package src
 
@@ -241,7 +242,8 @@ oc_on_frame_refresh :: proc &quot;c&quot; () {
   oc.canvas_render(renderer, canvas, surface)
   oc.canvas_present(renderer, surface)    
 }
-</code></pre><h3 id=rectangle-fill-window-sized>Rectangle Fill (Window Sized) <a class=text-decoration-none href=#rectangle-fill-window-sized>#</a></h3>
+</code></pre><img src=/images/news/orca_rectangle_fill_fixed.png class="figure-img img-fluid rounded">
+<h3 id=rectangle-fill-window-sized>Rectangle Fill (Window Sized) <a class=text-decoration-none href=#rectangle-fill-window-sized>#</a></h3>
 <pre><code class=language-odin data-lang=odin>package src
 
 import oc &quot;core:sys/orca&quot;
@@ -282,12 +284,15 @@ oc_on_frame_refresh :: proc &quot;c&quot; () {
 
   oc.canvas_render(renderer, canvas, surface)
   oc.canvas_present(renderer, surface)    
-}```
-
-### Text Rendering
-
-```odin
-package src
+}
+</code></pre><div class=text-center>
+<img src=/images/news/orca_rectangle_fill_window.png class="img-fluid rounded">
+</div>
+<h3 id=text-rendering>Text Rendering <a class=text-decoration-none href=#text-rendering>#</a></h3>
+<p>The next example uses a resource that needs to be specified:</p>
+<pre><code>odin build src -target:orca_wasm32 -out:module.wasm 
+orca bundle --name output --resource-dir data module.wasm
+</code></pre><pre><code class=language-odin data-lang=odin>package src
 
 import oc &quot;core:sys/orca&quot;
 
@@ -332,7 +337,8 @@ oc_on_frame_refresh :: proc &quot;c&quot; () {
   oc.canvas_render(renderer, canvas, surface)
   oc.canvas_present(renderer, surface)    
 }
-</code></pre><h3 id=rectangle-fill-following-mouse>Rectangle Fill following Mouse <a class=text-decoration-none href=#rectangle-fill-following-mouse>#</a></h3>
+</code></pre><img src=/images/news/orca_text_rendering.png class="figure-img img-fluid rounded">
+<h3 id=rectangle-fill-following-mouse>Rectangle Fill following Mouse <a class=text-decoration-none href=#rectangle-fill-following-mouse>#</a></h3>
 <pre><code class=language-odin data-lang=odin>package src
 
 import oc &quot;core:sys/orca&quot;
@@ -391,6 +397,7 @@ oc_on_frame_refresh :: proc &quot;c&quot; () {
 <li><a href=#plain-window>Plain Window</a></li>
 <li><a href=#rectangle-fill-fixed-size>Rectangle Fill (Fixed Size)</a></li>
 <li><a href=#rectangle-fill-window-sized>Rectangle Fill (Window Sized)</a></li>
+<li><a href=#text-rendering>Text Rendering</a></li>
 <li><a href=#rectangle-fill-following-mouse>Rectangle Fill following Mouse</a></li>
 </ul>
 </li>

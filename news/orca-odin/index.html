@@ -174,13 +174,13 @@
 <div class=odin-article>
 <h2 id=webassembly-apps-without-the-web>WebAssembly apps without the web. <a class=text-decoration-none href=#webassembly-apps-without-the-web>#</a></h2>
 <p><a href=https://orca-app.dev>A brand-new stack for cross-platform apps.</a></p>
-<p>For more detailed information you can read up on the link above. Please note that Orca is still Work in Progress.</p>
+<p>For more detailed information you can read up on the link above. Please note that Orca is still work in progress.</p>
 <h2 id=orca>Orca <a class=text-decoration-none href=#orca>#</a></h2>
-<p>Orca is a new target <code>-target:orca_wasm32</code> that Odin supports now! It outputs a wasm blob that can be bundled through the Orca pipeline.</p>
+<p>Orca is a new target <code>-target:orca_wasm32</code> that Odin now supports! It outputs a WASM blob that can be bundled through the Orca pipeline.</p>
 <h3 id=bindings-generator>Bindings Generator <a class=text-decoration-none href=#bindings-generator>#</a></h3>
-<p>Michael Kutowski (Skytrias) focused on getting the automatic bindings generator up and running. It&rsquo;s a python script which takes in the <code>api.json</code> that&rsquo;s generated through the Orca source code.</p>
-<p>Binding Generator: <a href=https://github.com/orca-app/orca-odin>orca-app/orca-odin</a></p>
-<p>Core Library: <a href=https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin>core:sys/orca</a></p>
+<p>Michael Kutowski (Skytrias) focused on getting the automatic bindings generator up and running. It&rsquo;s a Python script which takes in the <code>api.json</code> that&rsquo;s generated through the Orca source code.</p>
+<p>Binding generator: <a href=https://github.com/orca-app/orca-odin>orca-app/orca-odin</a></p>
+<p>Core library: <a href=https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin>core:sys/orca</a></p>
 <h3 id=compiler-support>Compiler Support <a class=text-decoration-none href=#compiler-support>#</a></h3>
 <p>gingerBill and Laytan implemented the Orca target properly in the compiler and made sure it works properly.</p>
 <h3 id=user-experience>User Experience <a class=text-decoration-none href=#user-experience>#</a></h3>
@@ -188,21 +188,21 @@
 <ul>
 <li>main entrypoint automatically bound to the <code>on_init</code> event from Orca</li>
 <li><code>@fini</code> calls are bound to <code>on_terminate</code> event</li>
-<li><code>core:log</code> can be used normally -> uses Orca logging</li>
+<li><code>core:log</code> can be used normally and uses Orca logging</li>
 <li>str8 type from Orca maps natively to Odin&rsquo;s string type</li>
 <li><a href=https://github.com/orca-app/orca-odin/blob/master/macros.odin>C Macros</a> are implemented as normal procedures on the Odin side</li>
 <li>Usage of macros for defer are done through @deferred calls</li>
 </ul>
 <h2 id=orca-original-examples>Orca Original Examples <a class=text-decoration-none href=#orca-original-examples>#</a></h2>
-<p>The Odin <a href=https://github.com/odin-lang/examples/tree/master/orca>examples</a> repo includes ports of the C Orca examples for more full fledged examples of Orca within Odin.</p>
+<p>The Odin <a href=https://github.com/odin-lang/examples/tree/master/orca>examples</a> repo includes ports of the C Orca examples for more full fledged examples of using Orca with Odin.</p>
 <h2 id=orca-step-by-step>Orca Step By Step <a class=text-decoration-none href=#orca-step-by-step>#</a></h2>
-<p>In the upcoming Examples you can see how easy it is to create programs now!
-Additionally you also need to specifiy the output as shown below which will then be used by Orca to bundle up the application. All examples can be built this way</p>
+<p>In the following examples you can see how easy it is to create programs now!
+Additionally, you also need to specify the output, as shown below, which will then be used by Orca to bundle up the application. All examples can be built this way.</p>
 <pre><code>odin build src -target:orca_wasm32 -out:module.wasm 
 orca bundle --name output module.wasm
 </code></pre><p>I&rsquo;ve added comments on most lines to describe what is happening, the examples should be read top to bottom.</p>
 <h3 id=orca-package-bindings>Orca Package (Bindings) <a class=text-decoration-none href=#orca-package-bindings>#</a></h3>
-<p><a href=https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin>core:sys/orca</a> for a quick cheatsheet of all the procedures available</p>
+<p><a href=https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin>core:sys/orca</a> for a quick cheatsheet of all the procedures available.</p>
 <h3 id=plain-window>Plain Window <a class=text-decoration-none href=#plain-window>#</a></h3>
 <pre><code class=language-odin data-lang=odin>package src
 
@@ -226,19 +226,19 @@ main :: proc() {
   canvas = oc.canvas_context_create()
 }
 
-// export the 'oc_on_frame_refresh' implemented call so it's bound to the orca application
+// Export the 'oc_on_frame_refresh' implemented call so it's bound to the Orca application.
 @(export)
 oc_on_frame_refresh :: proc &quot;c&quot; () {
-  // This runs every frame and we just want to setup the canvas fresh
+  // This runs every frame and we just want to setup the canvas fresh.
   oc.canvas_context_select(canvas)
   oc.set_color_rgba(1, 1, 1, 1)
   oc.clear()
 
-  // set a RGBA color and fill a rectangular region on the screen (x y w h)
+  // Set a RGBA color and fill a rectangular region on the screen (x y w h).
   oc.set_color_rgba(0, 0, 0, 1)
   oc.rectangle_fill(50, 50, 100, 10)
   
-  // finish all the canvas operations up and render them to the screen
+  // Finish all the canvas operations up and render them to the screen.
   oc.canvas_render(renderer, canvas, surface)
   oc.canvas_present(renderer, surface)    
 }
@@ -258,11 +258,11 @@ main :: proc() {
   surface = oc.canvas_surface_create(renderer)
   canvas = oc.canvas_context_create()
 
-  // We provide our wanted dimensions at startup
+  // We provide our wanted dimensions at startup.
   oc.window_set_size(frame_size)
 }
 
-// export the 'oc_on_resize' implemented call so it's bound to the orca application, this will be called whenever the window size changes
+// Export the 'oc_on_resize' implemented call so it's bound to the Orca application. This will be called whenever the window size changes.
 @(export)
 oc_on_resize :: proc &quot;c&quot; (width, height: u32) {
   frame_size.x = f32(width)
@@ -275,7 +275,7 @@ oc_on_frame_refresh :: proc &quot;c&quot; () {
   oc.set_color_rgba(1, 1, 1, 1)
   oc.clear()
 
-  // set the color to black and fill the window subtracted by some margin
+  // Set the color to black and fill the window subtracted by some margin.
   oc.set_color_rgba(0, 0, 0, 1)
   SIZE :: 50
   width := frame_size.x - SIZE * 2
@@ -316,7 +316,7 @@ main :: proc() {
     oc.UNICODE_SPECIALS,
   }
 
-  // create the font from an ttf asset that needs to be provided
+  // Create the font from a TTF asset that needs to be provided.
   font = oc.font_create_from_path(&quot;segoeui.ttf&quot;, 5, &amp;ranges[0])    
 }
 
@@ -326,11 +326,11 @@ oc_on_frame_refresh :: proc &quot;c&quot; () {
   oc.set_color_rgba(1, 1, 1, 1)
   oc.clear()
 
-  // set the wanted font and a size
+  // Set the wanted font and a size.
   oc.set_font(font)
   oc.set_font_size(40)
 
-  // similar to before set a color and the text we want to draw at x &amp; y
+  // Similar to before set a color and the text we want to draw at x &amp; y.
   oc.set_color_rgba(0, 0, 0, 1)
   oc.text_fill(50, 50, &quot;Hello World&quot;)
 
@@ -354,7 +354,7 @@ main :: proc() {
   canvas = oc.canvas_context_create()
 }
 
-// export the 'oc_on_raw_event' implemented call so it's bound to the orca application, this way we can check for window specific events like mouse movement, mouse clicks, keyboard events etc.
+// Export the 'oc_on_raw_event' implemented call so it's bound to the Orca application. This way we can check for window specific events like mouse movement, mouse clicks, keyboard events etc.
 @(export)
 oc_on_raw_event :: proc &quot;c&quot; (event: ^oc.event) {
   if event.type == .MOUSE_MOVE {
@@ -368,7 +368,7 @@ oc_on_frame_refresh :: proc &quot;c&quot; () {
   oc.set_color_rgba(1, 1, 1, 1)
   oc.clear()
 
-  // fill the rectangle region while x &amp; y is following the mouse
+  // Fill the rectangle region while x &amp; y is following the mouse.
   oc.set_color_rgba(0, 0, 0, 1)
   oc.rectangle_fill(mouse.x - 50, mouse.y - 50, 100, 100)
 

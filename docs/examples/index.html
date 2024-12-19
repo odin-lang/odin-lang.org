@@ -3,10 +3,10 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <link rel=icon href=/favicon.svg>
 <meta name=color-scheme content="only dark">
-<meta property="og:title" content="Nightly Builds">
-<meta property="og:description" content="Get the latest nightly builds of Odin.">
+<meta property="og:title" content="Examples">
+<meta property="og:description" content="Examples of Odin Code.">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://odin-lang.org/docs/nightly/">
+<meta property="og:url" content="https://odin-lang.org/docs/examples/">
 <meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
 <link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
 <link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
@@ -16,7 +16,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
 <link href=/css/style.css rel=stylesheet>
-<title>Nightly Builds | Odin Programming Language </title>
+<title>Examples | Odin Programming Language </title>
 <link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0>
 <script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
@@ -83,13 +83,13 @@
 <a class=nav-link href=/docs/packages/>Packages</a>
 </li>
 <li class=nav-item>
-<a class=nav-link href=/docs/examples/>Examples</a>
+<a class="nav-link active" href=/docs/examples/ aria-current=page>Examples</a>
 </li>
 <li class=nav-item>
 <a class=nav-link href=/docs/odin-book/>Books [External]</a>
 </li>
 <li class=nav-item>
-<a class="nav-link active" href=/docs/nightly/ aria-current=page>Nightly Builds</a>
+<a class=nav-link href=/docs/nightly/>Nightly Builds</a>
 </li>
 <li class=nav-item>
 <a class=nav-link href=/docs/testing/>Running Tests</a>
@@ -102,26 +102,32 @@
 <nav aria-label=breadcrumb>
 <ol class=breadcrumb>
 <li class=breadcrumb-item><a href=/docs>Docs</a></li>
-<li class=breadcrumb-item><a href=/docs/nightly>Nightly</a></li>
+<li class=breadcrumb-item><a href=/docs/examples>Examples</a></li>
 </ol>
-<h1>Nightly Builds</h1>
+<h1>Examples</h1>
 </header>
 <div class=odin-article>
-<h2 id=tagged-releases>Tagged Releases <a class=text-decoration-none href=#tagged-releases>#</a></h2>
-<p><a href=https://github.com/odin-lang/Odin/releases>GitHub Tagged Releases</a></p>
-<h2 id=nightly-builds>Nightly Builds <a class=text-decoration-none href=#nightly-builds>#</a></h2>
-<div id=nightly-build-list>
-Retrieving nightly builds...
-</div>
-<script type=text/javascript>const json_url='https://odinbinaries.thisdrunkdane.io/file/odin-binaries/nightly.json',res=fetch(json_url).then(a=>a.json()).then(i=>{var c,e,b,f,a,d,g,h;const j=Object.keys(i.files).sort().reverse();c=document.getElementById("nightly-build-list"),c.innerHTML="";for(const k of j){const l=i.files[k];e=document.createElement('h4'),e.appendChild(document.createTextNode(k)),c.appendChild(e),b=document.createElement('table'),b.classList.add('nightly-table'),c.appendChild(b),b.innerHTML='<thead><tr><th>Filename</th><th>Size</th><th>SHA1</th></tr></thead>',f=document.createElement('tbody'),b.appendChild(f);for(const b of l)a=document.createElement('tr'),f.appendChild(a),d=document.createElement('td'),d.innerHTML='<a href="'+b.url+'">'+b.name+'</a>',a.appendChild(d),g=document.createElement('td'),g.innerHTML=(b.sizeInBytes/1024/1024).toFixed(1)+"MB",a.appendChild(g),h=document.createElement('td'),h.innerHTML=b.sha1,a.appendChild(h)}})</script>
+<p>Examples of Odin Code.</p>
+<h2 id=demoodin><code>demo.odin</code> <a class=text-decoration-none href=#demoodin>#</a></h2>
+<ul>
+<li><a href=https://github.com/odin-lang/Odin/blob/master/examples/demo/demo.odin>demo.odin</a></li>
+</ul>
+<p>The original demonstration of the Odin in a single file, including numerous examples of concepts and features of the programming language.</p>
+<h2 id=examples><code>examples</code> <a class=text-decoration-none href=#examples>#</a></h2>
+<ul>
+<li><a href=https://github.com/odin-lang/examples>odin-lang/examples</a></li>
+</ul>
+<p>This repository contains examples of how certain things can be accomplished in idiomatic <a href=https://github.com/odin-lang/Odin>Odin</a>, allowing you learn its semantics, as well as how to use parts of the <code>core</code> and <code>vendor</code> package collections.</p>
+<p>The code examples are published in the hope they are found useful, and are in the <a href=https://unlicense.org>Public Domain</a> or under <a href=https://github.com/odin-lang/Odin/blob/master/LICENSE>Odin&rsquo;s BSD-3 license</a>, per your choice.</p>
+<p>Assets and third-party libraries are provided under their own license. If in doubt, check the <code>LICENSE*</code> and <code>COPYING*</code> file(s) in a particular directory for clarification.</p>
 </div>
 </article>
 <div id=TOC class="col-lg-2 odin-toc-border">
 <div class="sticky-top odin-below-navbar py-3">
 <nav id=TableOfContents>
 <ul>
-<li><a href=#tagged-releases>Tagged Releases</a></li>
-<li><a href=#nightly-builds>Nightly Builds</a></li>
+<li><a href=#demoodin><code>demo.odin</code></a></li>
+<li><a href=#examples><code>examples</code></a></li>
 </ul>
 </nav>
 </div>

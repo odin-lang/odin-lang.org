@@ -405,6 +405,9 @@ delete(str)
 <p>Put all the <code>.odin</code> source files for a package in a directory. Source files must have the same <code>package</code> declaration. All source files within a package can refer to items from other files. There is no need for a forward declarations or a header file like in C.</p>
 <h3 id=why-isnt-x-in-the-core-library>Why isn&rsquo;t X in the core library? <a class=text-decoration-none href=#why-isnt-x-in-the-core-library>#</a></h3>
 <p>The core library is not yet complete. However when it is complete, it will remain small, as its purpose is to support the runtime, operating system specific calls, formatted I/O, and other key functionality that most Odin programs require.</p>
+<h3 id=why-are-package-declarations-required-in-every-file>Why are package declarations required in every file? <a class=text-decoration-none href=#why-are-package-declarations-required-in-every-file>#</a></h3>
+<p>All source files must have a <code>package</code> declaration at the top of the file which share the same name. This <code>package</code> declaration at the top of the file exists for consistent ABI, so that link names (except parametric polymorphic procedures and anonymous procedures) are deterministic and clear what they are. As Odin is trying to be a form of C alternative, having a deterministic link name is extremely useful for external tooling such as debuggers.</p>
+<p>The directory name nor any sort of relative path cannot be used to generate this import name (like other languages like Go) as Odin does not have a concept of a singular absolute root directory where all import paths come from. The name also has to be unique project-wide, so the directory name is not a good way to enforce uniqueness.</p>
 <h2 id=syntax>Syntax <a class=text-decoration-none href=#syntax>#</a></h2>
 <h3 id=what-does--mean>What does <code>:=</code> mean? <a class=text-decoration-none href=#what-does--mean>#</a></h3>
 <p>This is two different operators <code>:</code> and <code>=</code>; is used for variable declarations. The following are all equivalent:</p>
@@ -677,6 +680,7 @@ if menu(&quot;Hello&quot;) {
 <ul>
 <li><a href=#how-do-i-create-a-multiple-file-package>How do I create a multiple file package?</a></li>
 <li><a href=#why-isnt-x-in-the-core-library>Why isn&rsquo;t X in the core library?</a></li>
+<li><a href=#why-are-package-declarations-required-in-every-file>Why are package declarations required in every file?</a></li>
 </ul>
 </li>
 <li><a href=#syntax>Syntax</a>

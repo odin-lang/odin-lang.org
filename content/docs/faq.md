@@ -316,6 +316,11 @@ Put all the `.odin` source files for a package in a directory. Source files must
 ### Why isn't X in the core library?
 The core library is not yet complete. However when it is complete, it will remain small, as its purpose is to support the runtime, operating system specific calls, formatted I/O, and other key functionality that most Odin programs require.
 
+### Why are package declarations required in every file?
+All source files must have a `package` declaration at the top of the file which share the same name. This `package` declaration at the top of the file exists for consistent ABI, so that link names (except parametric polymorphic procedures and anonymous procedures) are deterministic and clear what they are. As Odin is trying to be a form of C alternative, having a deterministic link name is extremely useful for external tooling such as debuggers.
+
+The directory name nor any sort of relative path cannot be used to generate this import name (like other languages like Go) as Odin does not have a concept of a singular absolute root directory where all import paths come from. The name also has to be unique project-wide, so the directory name is not a good way to enforce uniqueness.
+
 
 ## Syntax
 ### What does `:=` mean?

@@ -307,13 +307,13 @@ for value in some_slice {
 	fmt.println(value)
 }
 
-some_dynamic_array := [dynamic]int{1, 4, 9}
+some_dynamic_array := [dynamic]int{1, 4, 9} // must be enabled with `#+feature dynamic-literals`
 defer delete(some_dynamic_array)
 for value in some_dynamic_array {
 	fmt.println(value)
 }
 
-some_map := map[string]int{"A" = 1, "C" = 9, "B" = 4}
+some_map := map[string]int{"A" = 1, "C" = 9, "B" = 4} // must be enabled with `#+feature dynamic-literals`
 defer delete(some_map)
 for key in some_map {
 	fmt.println(key)
@@ -370,7 +370,7 @@ for &value, index in some_dynamic_array {
 Map values can be iterated by-reference, but their keys cannot since map keys are immutable:
 
 ```odin
-some_map := map[string]int{"A" = 1, "C" = 9, "B" = 4}
+some_map := map[string]int{"A" = 1, "C" = 9, "B" = 4} // must be enabled with `#+feature dynamic-literals`
 defer delete(some_map)
 
 for key, &value in some_map {
@@ -2074,6 +2074,8 @@ m := map[string]int{
 	"Chloe" = 5,
 }
 ```
+
+**Note:** To enable compound literals for `map`s, `#+feature dynamic-literals` must be enabled per file. This is because dynamic literals will use the current `context.allocator` and thus implicitly allocate. The opt-in feature is there in order for Odin to not implicitly allocate by default and not give the user any surprises.
 
 Modifying existing map slots needs to be done in two steps. However assigning to a struct field is prohibited.
 

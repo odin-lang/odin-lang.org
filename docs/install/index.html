@@ -150,7 +150,7 @@ It should look something like:
 <li>If that command is not found you may need to install XCode from the App Store</li>
 </ul>
 </li>
-<li>Note that this release does not come with <code>wasm-ld</code> for compiling to WASM, for that you have to install LLVM (wasm-ld ships in that package) as described in the chapter about building from source</li>
+<li>Note that this release does not come with <code>wasm-ld</code> for compiling to WASM, you have to install that separately as described in <a href=#a-note-on-wasm-and-llvm-binaries>the chapter about building from source</a></li>
 <li>Optionally add the Odin folder to your shell&rsquo;s path or symlink the <code>odin</code> binary to a folder that is in your shell&rsquo;s path
 <ul>
 <li>Example for ZSH (from the Odin folder): <code>echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.zshrc</code></li>
@@ -216,7 +216,7 @@ It should look something like:
 <li>If that command is not found you may need to install XCode from the App Store</li>
 </ul>
 </li>
-<li>Install <a href=https://brew.sh/>Homebrew</a> and then LLVM: <code>brew install llvm@18</code>, the versions we support are 14, 17, and 18</li>
+<li>Install <a href=https://brew.sh/>Homebrew</a> and then LLVM: <code>brew install llvm</code>, the versions we support are 14, 17, 18, and 19</li>
 <li>Clone the repository somewhere: <code>git clone https://github.com/odin-lang/Odin</code></li>
 <li>Navigate to the Odin folder: <code>cd Odin</code></li>
 <li>Optionally use <code>git checkout dev-YYYY-MM</code> to checkout an official release</li>
@@ -233,10 +233,8 @@ It should look something like:
 </li>
 </ol>
 <h4 id=a-note-on-wasm-and-llvm-binaries>A note on WASM and LLVM binaries <a class=text-decoration-none href=#a-note-on-wasm-and-llvm-binaries>#</a></h4>
-<p>In order to compile for WASM, Odin calls out to <code>wasm-ld</code> for linking. This requires it to be available through your <code>$PATH</code>.
-By default, <code>brew</code> does not add any of LLVM&rsquo;s binaries to your <code>$PATH</code> and you will need to symlink it to a place where it is able to be found.
-You can symlink it to <code>/usr/local/bin</code> by doing <code>ln -s $(brew --prefix llvm)/bin/wasm-ld /usr/local/bin/wasm-ld</code>.</p>
-<p>Alternatively, you can add the entire <code>$(brew --prefix llvm)/bin</code> to your <code>$PATH</code>, but brew does not recommend it.</p>
+<p>In order to compile for WASM, Odin calls out to <code>wasm-ld</code> for linking.
+This linker is included in the <code>lld</code> formula, install it through <code>brew install lld</code>.</p>
 <h4 id=updating-1>Updating <a class=text-decoration-none href=#updating-1>#</a></h4>
 <ol>
 <li>Navigate to the Odin folder</li>

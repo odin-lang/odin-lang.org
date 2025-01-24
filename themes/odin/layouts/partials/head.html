@@ -49,7 +49,7 @@
 
 <!-- Bootstrap CSS -->
 {{ $scss := resources.Get "scss/custom.scss" }}
-{{ $style := $scss | resources.ToCSS | resources.Minify }}
+{{ $style := $scss | css.Sass | resources.Minify }}
 <link rel="stylesheet" href="{{ $style.Permalink }}">
 
 <!-- Highlight.JS -->

@@ -4289,7 +4289,7 @@ Thus, when necessity calls for it, **the entire literature and community of C is
 
 You can also make your experience navigating Odin code easier by installing a [syntax highlighter](https://en.wikipedia.org/wiki/Syntax_highlighting) and/or a [language server](https://en.wikipedia.org/wiki/Language_Server_Protocol), which do exist for some editors (e.g. VS Code, Vim, Sublime Text, and Emacs) and work well enough to make using Odin comfortable. See [the list of text editors that have support for Odin code](https://github.com/odin-lang/Odin/wiki/Odin-Libs#editor-support) for known examples.
 
-Finally, you can ask for information from [the Odin community on Discord](https://discord.com/invite/sVBPHEv) or elsewhere. There is also [an old Handmade Network forum](https://odin.handmade.network/forums) that is no longer in use and doesn't have many threads, but may still have a small amount of useful info on it.
+Finally, you can ask for information from [the Odin community on Discord](https://discord.gg/vafXTdubwr) or elsewhere. There is also [an old Handmade Network forum](https://odin.handmade.network/forums) that is no longer in use and doesn't have many threads, but may still have a small amount of useful info on it.
 
 There's a collection of other [libraries created by the Odin community](https://github.com/odin-lang/Odin/wiki/Odin-Libs) that may also be helpful.
 

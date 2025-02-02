@@ -2416,7 +2416,7 @@ Element types of integers, float, and complex numbers are supported by matrices.
 Indexing a matrix can be used with the matrix indexing syntax. This mirrors other type usages: type on the left, usage on the right.
 		
 ```odin
-elem := m[1, 2] // row 1, column 2
+elem := m[0, 1] // row 1, column 2
 ```
 
 Scalars act as if they are scaled identity matrices and can be assigned to matrices as them

@@ -2586,21 +2586,19 @@ main :: proc() {
 					fmt.eprintf(&quot;- %v bytes @ %v\n&quot;, entry.size, entry.location)
 				}
 			}
-			if len(track.bad_free_array) &gt; 0 {
-				fmt.eprintf(&quot;=== %v incorrect frees: ===\n&quot;, len(track.bad_free_array))
-				for entry in track.bad_free_array {
-					fmt.eprintf(&quot;- %p @ %v\n&quot;, entry.memory, entry.location)
-				}
-			}
 			mem.tracking_allocator_destroy(&amp;track)
 		}
 	}
 	
 	do_stuff()
 }
-</code></pre><p>This uses a <a href=#when-statements>when statement</a> to only enable the tracking allocator when the <code>-debug</code> compilation flag is set. Since it sets the tracking alloator on the context in the beginning of <code>main</code>, the rest of the program will use this tracking allocator.</p>
+</code></pre><p>This uses a <a href=#when-statements>when statement</a> to only enable the tracking allocator when the <code>-debug</code> compilation flag is set. Since it sets the tracking allocator on the context in the beginning of <code>main</code>, the rest of the program will use this tracking allocator.</p>
 <p>Note that <code>when</code> blocks do not have a real scope, the curly braces <code>{}</code> are just there to group code. Any changes to the <code>context</code> within a <code>when</code> block are valid after the <code>when</code> block ends.</p>
-<h4 id=explicit-context-definition>Explicit <code>context</code> Definition <a class=text-decoration-none href=#explicit-context-definition>#</a></h4>
+<p>By default, the tracking allocator will panic if a bad free occurs. It will print a message that informs you where that bad free happened. You can override that behavior by overriding <code>track.bad_free_callback</code>:</p>
+<pre><code>// This will add the bad frees to `track.bad_free_array`,
+// you must manually check the contents of that array.
+track.bad_free_callback = mem.tracking_allocator_bad_free_callback_add_to_array
+</code></pre><h4 id=explicit-context-definition>Explicit <code>context</code> Definition <a class=text-decoration-none href=#explicit-context-definition>#</a></h4>
 <p>Procedures which do not use the <code>"odin"</code> calling convention must explicitly assign the <code>context</code> if something within its body requires it.</p>
 <pre><code class=language-odin data-lang=odin>explicit_context_definition :: proc &quot;c&quot; () {
 	// Try commenting the following statement out below

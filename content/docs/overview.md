@@ -3164,12 +3164,6 @@ main :: proc() {
 					fmt.eprintf("- %v bytes @ %v\n", entry.size, entry.location)
 				}
 			}
-			if len(track.bad_free_array) > 0 {
-				fmt.eprintf("=== %v incorrect frees: ===\n", len(track.bad_free_array))
-				for entry in track.bad_free_array {
-					fmt.eprintf("- %p @ %v\n", entry.memory, entry.location)
-				}
-			}
 			mem.tracking_allocator_destroy(&track)
 		}
 	}
@@ -3177,9 +3171,16 @@ main :: proc() {
 	do_stuff()
 }
 ```
-This uses a [when statement](#when-statements) to only enable the tracking allocator when the `-debug` compilation flag is set. Since it sets the tracking alloator on the context in the beginning of `main`, the rest of the program will use this tracking allocator.
+This uses a [when statement](#when-statements) to only enable the tracking allocator when the `-debug` compilation flag is set. Since it sets the tracking allocator on the context in the beginning of `main`, the rest of the program will use this tracking allocator.
 
 Note that `when` blocks do not have a real scope, the curly braces `{}` are just there to group code. Any changes to the `context` within a `when` block are valid after the `when` block ends.
+
+By default, the tracking allocator will panic if a bad free occurs. It will print a message that informs you where that bad free happened. You can override that behavior by overriding `track.bad_free_callback`:
+```
+// This will add the bad frees to `track.bad_free_array`,
+// you must manually check the contents of that array.
+track.bad_free_callback = mem.tracking_allocator_bad_free_callback_add_to_array
+```
 
 #### Explicit `context` Definition
 Procedures which do not use the `"odin"` calling convention must explicitly assign the `context` if something within its body requires it.

@@ -6,7 +6,9 @@ weight: 2
 
 ## Introduction
 
-This article is a basic tutorial for the programming language _Odin_. This tutorial assumes a basic knowledge of programming concepts such as variables, statements, and types. It is recommended to read the [Getting started with Odin](/docs/install/) guide.
+This article is an introduction to the Odin Programming Language. You're assumed to have basic knowledge of programming concepts such as variables, statements, and types. You will see how familiar things are done in Odin, while also being introduced to new concepts.
+
+If you haven't already installed Odin, then you can read how in the [Getting Started with Odin](/docs/install/) guide.
 
 ## Hellope!
 
@@ -30,7 +32,7 @@ The `run` command compiles the `.odin` file to an executable and then runs that 
 odin build <dir>
 ```
 
-Odin thinks in terms of directory-based packages. To tell it to treat a single file as a standalone package, add `-file`, like so:
+Odin thinks in terms of directory-based packages. The `odin build <dir>` command takes all the files in the directory `<dir>`, compiles them into a package and then turns that into an executable. You can also tell it to treat a single file as a complete package, by adding `-file`, like so:
 ```txt
 odin run hellope.odin -file
 ```
@@ -3714,6 +3716,10 @@ If the provided boolean is set, the procedure will not be used when called.
 
 This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by `@(init)` will then be called at the start of the program before `main` is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
 
+#### `@(fini)`
+
+Like `@(init)` but run at after the `main` procedure finishes.
+
 #### `@(cold)`
 
 A hint to the compiler that this procedure is rarely called, and thus "cold".
@@ -3767,6 +3773,29 @@ main :: proc() {
     fmt.println(test()) // prints 3
 }
 ```
+
+#### `@(rodata)`
+
+A global or static variable with the `@(rodata)` attribute will live in the read-only data block of the program. This means that the value cannot be changed.
+
+In most cases, using a constant is a better idea. One example where `@(rodata)` is useful is this case:
+
+```
+@(rodata)
+numbers := []int {
+	7,
+	42,
+	628,
+}
+
+main :: proc() {
+	index := 1
+	n := numbers[index]
+	fmt.println(n)
+}
+```
+
+If you instead used a constant `numbers` array (`NUMBERS :: []int {}`), then it would not be possible to index `numbers` using a variable, because constants only exist at compile time.
 
 #### `@(thread_local)`
 
@@ -4076,7 +4105,7 @@ main :: proc() {
 
 #### `#load(<string-path>)` or `#load(<string-path>, <type>)`
 
-Returns a `[]u8` of file contents at compile time, or optionally as another type.
+Returns a `[]u8` of the file contents at compile time. This means that the loaded data is baked into your program. Optionally, you can provide a type name as second argument; interpreting the data as being of that type.
 ```odin
 foo := #load("path/to/file")
 bar := #load("path/to/file", string)
@@ -4100,6 +4129,17 @@ Returns a constant integer of the hash of a file's contents at compile time. Ava
 hash :: #load_hash("path/to/file", "crc32")
 ```
 
+#### `#load_directory(<string-path>)`
+
+Loads all files within a directory, at compile time. All the data of those files will be baked into your program. Returns `[]Load_Directory_File`, where `Load_Directory_File` looks like so:
+
+```
+Load_Directory_File :: struct {
+	name: string,
+	data: []byte, // immutable data
+}
+```
+`name` is the name of the file and `data` is the contents of the file.
 
 ## Useful idioms
 

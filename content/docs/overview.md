@@ -1096,8 +1096,8 @@ Binary:
 -       subtraction                integers, enums, floats, complex values, quaternions, arrays of numeric types, matrices
 *       multiplication             integers, floats, complex values, quaternions, arrays of numeric types, matrices
 /       division                   integers, floats, complex values, quaternions, arrays of numeric types
-%       modulo (truncated)         integers
-%%      remainder (floored)        integers
+%       remainder (floored)        integers
+%%      modulo (truncated)         integers
 
 |       bitwise or                 integers, enums
 ~       bitwise xor                integers, enums

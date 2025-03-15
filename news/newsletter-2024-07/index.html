@@ -1,466 +1,62 @@
-<!doctype html><html>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<link rel=icon href=/favicon.svg>
-<meta name=color-scheme content="only dark">
-<meta property="og:title" content="July 2024 Newsletter">
-<meta property="og:description" content="Highlights for July - Showcasing 4 Blogs Entries">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://odin-lang.org/news/newsletter-2024-07/">
-<meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
-<meta property="article:published_time" content="2024-06-30T00:00:00+00:00">
-<meta property="article:modified_time" content="2024-06-30T00:00:00+00:00">
-<link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
-<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
-<script src=/lib/highlight/highlight.min.js></script>
-<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[ijk]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
-<script>hljs.highlightAll()</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
-<link href=/css/style.css rel=stylesheet>
-<title>July 2024 Newsletter | Odin Programming Language </title>
-<link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0>
-<script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
-<div class=container-xxl>
-<a class=navbar-brand href=/>
-<img src=/logo.svg height=30 alt=Odin id=navbar-logo>
-</a>
-<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span>
-</button>
-<div class="collapse navbar-collapse" id=odin-navbar-content>
-<ul class="navbar-nav ms-md-auto">
-<li class=nav-item>
-<a class=nav-link href=/>Home</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/docs>Docs</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://pkg.odin-lang.org/>Packages</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news aria-current=page>News</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/showcase>Showcase</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://forum.odin-lang.org>Forum</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/community>Community</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
-</li>
-<li class=nav-item>
-<a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode">
-<span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg>
-</button>
-</a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-</header>
-<main>
-<div class=container-xxl>
-<div class="row odin-main">
-<nav class="col-lg-2 odin-sidebar-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3">
-<ul class="nav nav-pills d-flex flex-column">
-<li class=nav-item>
-<a class=nav-link href=/news/orca-odin/>Orca Odin Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-08/>August 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news/newsletter-2024-07/ aria-current=page>July 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/binding-to-c/>Binding to C</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a>
-</li>
-</ul>
-</div>
-</nav>
-<article class="col-lg-8 p-4">
-<header>
-<nav aria-label=breadcrumb>
-<ol class=breadcrumb>
-<li class=breadcrumb-item><a href=/news>News</a></li>
-<li class=breadcrumb-item><a href=/news/newsletter-2024-07>Newsletter 2024 07</a></li>
-</ol>
-<h1>July 2024 Newsletter</h1>
-</header>
-<div class=odin-article>
-<p>Read up on the compiler changes in the <a href=https://github.com/odin-lang/Odin/releases/tag/dev-2024-07>monthly release</a> notes.</p>
-<hr>
-<h2 id=documentation-update>Documentation Update <a class=text-decoration-none href=#documentation-update>#</a></h2>
-<p>Feoramund has updated the Documentation on the odin test runner <a href=https://odin-lang.org/docs/testing/>https://odin-lang.org/docs/testing/</a>. It goes into detail, what everyone will eventually have to dive into for more serious projects.</p>
-<hr>
-<h2 id=projects-shared-this-month>Projects shared this month <a class=text-decoration-none href=#projects-shared-this-month>#</a></h2>
-<table>
-<thead>
-<tr>
-<th>Project Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href=https://github.com/hitchh1k3r/odin-bgfx/>odin-bgfx</a></td>
-<td>bgfx bindings</td>
-</tr>
-<tr>
-<td><a href=https://github.com/markersniffen/odin-d3d11-h264-decode>odin-d3d11-h264</a></td>
-<td>d3d11 h264 decode reference</td>
-</tr>
-<tr>
-<td><a href=https://gist.github.com/jakubtomsu/2acd84731d3c2613c91e40c2e064ffe6>real-time-collision</a></td>
-<td>real time collision functions gist</td>
-</tr>
-<tr>
-<td><a href=https://github.com/mabeh19/bml/>bml</a></td>
-<td>binary parser based on XML schemes</td>
-</tr>
-<tr>
-<td><a href=https://github.com/Up05/toml_parser>toml_parser</a></td>
-<td>TOML parser</td>
-</tr>
-<tr>
-<td><a href=https://github.com/jasonKercher/serial>serial</a></td>
-<td>cross-platform serial communications</td>
-</tr>
-<tr>
-<td><a href=https://gist.github.com/jockus/61a90bef44048a26e056f2d538e67886>minimal-vulkan</a></td>
-<td>minimal vulkan triangle example using shader objects</td>
-</tr>
-<tr>
-<td><a href=https://github.com/ColleagueRiley/RGFW-Odin>RGFW-Odin</a></td>
-<td>RGFW cross-platform window abstraction library bindings</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id=introduction-to-odin-karl_zylinski>Introduction To Odin (karl_zylinski) <a class=text-decoration-none href=#introduction-to-odin-karl_zylinski>#</a></h2>
-<p>A big problem with learning a new language is the sparse quality material that&rsquo;s out there. Languages like Rust have tons of learning material and blog posts about each aspect of the language out there.</p>
-<p>After Karl Zylinski has published his game &ldquo;Cat & Onion&rdquo;, he is stepping up to try and improve this area. We&rsquo;re happy to see more advancement for odin in this regard. Our <a href=https://discord.gg/vafXTdubwr>discord</a> also has a channel #article-authoring where you can receive feedback on unpublished articles.</p>
-<p>Check it out at <a href=https://zylinski.se/posts/introduction-to-odin/>https://zylinski.se/posts/introduction-to-odin/</a>.</p>
-<hr>
-<h2 id=game-engine-dev-explained-for-non-programmers-massimog>Game Engine Dev, Explained for Non-Programmers (Massimog) <a class=text-decoration-none href=#game-engine-dev-explained-for-non-programmers-massimog>#</a></h2>
-<p>Massimog is working on their game engine and writing down blogs about all the details in the process. Give it a read! <a href=https://blog.massimogauthier.com/p/game-engine-dev-explained-for-non>https://blog.massimogauthier.com/p/game-engine-dev-explained-for-non</a></p>
-<p>Here is a short video of them showcasing their latest work so far.</p>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/jUHQJ-m6xOI?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<hr>
-<h2 id=an-after-effects-plug-in-in-odin-graphisco>An After Effects Plug-in In Odin? (graphisco) <a class=text-decoration-none href=#an-after-effects-plug-in-in-odin-graphisco>#</a></h2>
-<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-graphisco1.mp4></video></p>
-<p>Adobe After Effects has an extensive 3rd party plug-in ecosystem thanks to it&rsquo;s time tested C API. The usual language of choice to write AE plug-ins is of course C++. Through out the years my programming style evolved from using needlessly complicated C++ paradigms to a very C style C++. When Zig first appeared on my radar, I was really intrigued - a modern C replacement without all the cruft and not having to deal with C++. But it turned out to be not my cup of tea. Then I stumbled upon Odin and it seemed almost perfect. On top of it some of the features in Odin are tailor made to write computer graphics code. My initial view is to use Odin for small side projects and experiments but stick with C++ for commercial work.</p>
-<p>After writing some Odin code (mostly small tools and helper libs) I liked it so much that I decided to go all in with Odin for my next commercial project. The biggest hurdle for me is not the language itself but getting used to managing a project without an IDE. I eventually managed to write the build scripts but an IDE is sure more comfy especially for building plug-ins. There are no official Odin bindings for the AE SDK and Adobe doesn&rsquo;t publish any XML metadata to generate these bindings programmatically. So I had to port the headers manually, which in hindsight wasn&rsquo;t that bad.</p>
-<p>Now on to the language itself - it&rsquo;s very well thought out consistent. It mostly fits in my head and doesn&rsquo;t encourage you to be clever. Just enough metaprogramming to take the edge off and a decent amount of syntax sugar to make it easy. There are so many nice touches and features in Odin (like defer, tagged unions, using,#no_bounds_check, transmute) that I like but I&rsquo;ll highlight just two which I think are very unique to Odin and found them very effective in practice.</p>
-<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-graphisco2.mp4></video></p>
-<h3 id=feature-1-context>Feature 1: context <a class=text-decoration-none href=#feature-1-context>#</a></h3>
-<p>The biggest feature for me is the language level support for custom allocators and how they&rsquo;re all hidden in the background using the context. For AE plug-ins most if not all memory has to be allocated by the host, so plug-ins rely on custom allocators extensively, so this feature works amazingly well. This also let&rsquo;s me have different allocators (persistent allocator & a frame allocator for example) for different procedures without any hassle.</p>
-<h3 id=feature-2-or_return>Feature 2: or_return <a class=text-decoration-none href=#feature-2-or_return>#</a></h3>
-<p>This is another feature I&rsquo;ve come to rely upon frequently. It&rsquo;s very simple, yet so effective. Great for error propagation and a lot cleaner than throwing a C++ exception. Multiple return values make this an absolute delight. The AE SDK is full of functions that return a Error value and this really makes it a breeze. It&rsquo;s sister keyword or_else is also another gem.</p>
-<p>Also the Discord community is incredibly helpful and always guided me in the right direction, which I&rsquo;m very grateful for. I&rsquo;m glad that I decided to take the leap and it all worked out very well.</p>
-<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-graphisco3.mp4></video></p>
-<p>Check out the amazing plug-in at <a href=https://www.rowbyte.com/blog/stipple-image-stippling-for-after-effects>https://www.rowbyte.com/blog/stipple-image-stippling-for-after-effects</a>.</p>
-<p>I always love watching impressive visual demos, check out more high quality ones here <a href=https://simonbronson.com/stipple>https://simonbronson.com/stipple</a>.</p>
-<hr>
-<h2 id=text-editor-experimentation-3-skytrias>Text Editor Experimentation #3 (Skytrias) <a class=text-decoration-none href=#text-editor-experimentation-3-skytrias>#</a></h2>
-<p>Last month we covered the first steps of an AST based editor. We looked into the basic structure of nodes that correspond to the textual odin input, how we can build the AST manually and rendering.</p>
-<h3 id=first-step>First Step <a class=text-decoration-none href=#first-step>#</a></h3>
-<p>My first step after getting rendering working, was to build a predefined tree and have shared identifier editing work. It&rsquo;s nothing crazy but cool to see the effect of just using the same string source work out easily.</p>
-<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-skytrias1.mp4></video></p>
-<h3 id=how-editors-work>How Editors Work <a class=text-decoration-none href=#how-editors-work>#</a></h3>
-<p>Let&rsquo;s first remind ourselves how normal text editors work. We have a raw text file that we can edit (encodings ASCII/UTF8/etc).</p>
-<ol>
-<li>Insertion of 1 or more bytes</li>
-<li>Remove 1 or more bytes</li>
-<li>Select multiple characters</li>
-</ol>
-<p>The keyboard maps onto this easily:</p>
-<ol>
-<li>typing in characters to create them literally</li>
-<li>backspace/delete to remove the character at the cursor or the selection</li>
-<li>shift to extend the selection</li>
-</ol>
-<p>Any more complex higher level features can be built on top of this like multiple cursors by keeping the basics easy.</p>
-<h3 id=navigation>Navigation <a class=text-decoration-none href=#navigation>#</a></h3>
-<p>Coming back to the AST editor there are a few questions.</p>
-<ol>
-<li>How do we <em>move</em> around generally</li>
-</ol>
-<ul>
-<li>Move by AST Nodes</li>
-<li>Keep a textual based movement system</li>
-<li>Switch between modes or representations</li>
-</ul>
-<ol start=2>
-<li>What really is moving &ldquo;vertically&rdquo; now? Before it was moving to the same X Y-1 or Y+1 position</li>
-</ol>
-<ul>
-<li>Move to the nearest AST node above/below</li>
-<li>Move to the most logical AST node to follow up on</li>
-</ul>
-<ol start=3>
-<li>Multiselection makes sense but overcomplicates things</li>
-</ol>
-<ul>
-<li>Selecting multiple nodes is easy, but how do we <em>really</em> edit them</li>
-<li>What kind of restrictions would have to apply</li>
-</ul>
-<figure class="figure w-100 text-center">
-<video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-skytrias2.mp4></video>
-<figcaption class="figure-caption text-center">RED: Decl_Value | GREEN: Stmt_Assign | WHITE: Expr_Ident</figcaption>
-</figure>
-<p>I opted for moving horizontally through the nodes as they were layed out. Vertical movement happens to the closest node. Also the mouse picks the layed out region of the text to pick the node. As any accessory syntax like colons, commas or equal characters are just there to understand meaning, they arent &ldquo;selectable&rdquo;.</p>
-<h3 id=editing>Editing <a class=text-decoration-none href=#editing>#</a></h3>
-<p>Raw text editors don&rsquo;t put any constraints on the user at all. The compiler does the interpretation and sends any syntax errors back. How does an AST editor handle this and should it be language dependent or not?</p>
-<p>We have to ask ourselves a few crucial questions again.</p>
-<ol>
-<li>Do we want to always create a perfect AST where we can guarantee the compiler accepts it?</li>
-<li>Copy/Paste arbitrary nodes or only specific parts</li>
-<li>What is the undo/redo complexity</li>
-</ol>
-<p>How do we insert specific node structures and all their respective types? Here is a list of all possible node types we have to make editable.</p>
-<pre><code class=language-odin data-lang=odin>Node_Type :: enum {
-  Expr_Start,
-    Expr_Ident,
-    Expr_Proc_Lit,
-    Expr_Basic_Lit,
-    Expr_Comp_Lit,
-    Expr_Unary,
-    Expr_Binary,
-    Expr_Paren,
-    Expr_Index,
-    Expr_Deref,
-    Expr_Slice,
-    Expr_Call,
-  Expr_End,
-
-  Type_Start,
-    Type_Pointer,
-    Type_Distinct,
-    Type_Array,
-    Type_Dynamic_Array,
-    Type_Proc,
-    Type_Struct,
-    Type_Union,
-    Type_Enum,
-    Type_Map,
-  Type_End,
-
-  Stmt_Start,
-    Stmt_Block,
-    Stmt_If,
-    Stmt_When,
-    Stmt_Return,
-    Stmt_Defer,
-    Stmt_For,
-    Stmt_Range,
-    Stmt_Case,
-    Stmt_Switch,
-    Stmt_Assign,
-    Stmt_Using,
-    Stmt_Bad,
-  Stmt_End,
-
-  Decl_Start,
-    Decl_Value,
-    Decl_Import,
-  Decl_End,
-
-  Field_Start,
-    Field_Basic,
-  Field_End,
-}
-</code></pre><p>The &ldquo;Start&rdquo; and &ldquo;End&rdquo; enums are just for specifying ranges. Either way it&rsquo;s quite a lot to cover. For each of these there would have to be specific logic and constraints set.</p>
-<h3 id=insertion-feels-good>Insertion Feels Good <a class=text-decoration-none href=#insertion-feels-good>#</a></h3>
-<p>Here is the last recorded video I have. You can see scope movement and linear tree movement
-attempts. It looks quite easy but lot&rsquo;s of logic had to be added to make these basics work.</p>
-<p>On the left you can see the list of possible node types. The idea for testing was to select the one you want (almost like scratch) and insert that on &ldquo;enter&rdquo;.</p>
-<p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-skytrias3.mp4></video></p>
-<p>I&rsquo;m also showcasing moving nodes around in the parent declarion values, which again seems nice.</p>
-<h3 id=editing-nodes-will-feel-bad>Editing Nodes Will Feel Bad <a class=text-decoration-none href=#editing-nodes-will-feel-bad>#</a></h3>
-<p>I think the hardest thing to realize is that editing a tree linearly is bad. Let&rsquo;s take a normal math equation example, <code>result := 10 + 20 - 30</code> where the rough tree for that would be:</p>
-<pre><code class=language-odin data-lang=odin>result         :=           x + y            x - y
-          Decl_Value ':='
-Expr_Ident     -&gt;       Expr_Binary '+'  Expr_Binary '-'
-                           10 + 20
-                Expr_Basic_Lit Expr_Basic_Lit
-                                             30 - 30
-                                (Expr_Basic_Lit) Expr_Basic_Lit
-</code></pre><p>Those are 7 nodes that had to be &ldquo;created&rdquo; and correctly set instead of plainly typed out. The tree is a few levels deep for a simple declaration. Imagine it going more complex anything non trivial and representing insertion/removal/navigation becomes difficult.</p>
-<h3 id=supporting-existing-code>Supporting Existing Code <a class=text-decoration-none href=#supporting-existing-code>#</a></h3>
-<p>Another big issue with an Odin specific AST editor is, that we have to always support core/vendor packages that are written in the original raw text format. Meaning we will have to produce a valid AST that we can use the same way across the editor.</p>
-<p>The same goes for outputting odin code, we would have to export proper odin syntax files. Meaning input/output are raw text and the middle man is the AST editor? It would work but it feels off.</p>
-<p>Maybe it makes more sense to create a new ecosystem around a tiny language that works within a custom AST editor. That reminds me of a project <a href=https://mr4th.com/software/splink>https://mr4th.com/software/splink</a> which was just that for lisp.</p>
-<h3 id=ending-notes>Ending Notes <a class=text-decoration-none href=#ending-notes>#</a></h3>
-<p>One thing I remember when discussing this with <em><strong>GingerBill</strong></em> was that, he likes the idea but he would always wish for an &ldquo;escape&rdquo;, where you can just type in raw text and it will convert that to the AST representation.</p>
-<p>While I like the idea I think it feels like a defeat to the whole idea of the editor. In that case you could just have a raw text editor but parse the AST all the time to get IDE like features.</p>
-<p>I could agree with maybe a more partial version where you have AST nodes and some are just raw text like the math equation example. That would loose all meaning of shared identifiers and such though.</p>
-<p>I feel a bit beaten at this point and ended up abandoning this due to a never ending stop of complexity for virtually no benefit. Which is sort of the whole problem of inventing in this area. We can&rsquo;t achvieve the same original feel as a raw text editor, so why even bother.</p>
-<p>I would still love to see innovation or other examples of an AST editor, so if you see anything please let me know!</p>
-<h3 id=next-month>Next Month <a class=text-decoration-none href=#next-month>#</a></h3>
-<p>The last part will come out next month, where we&rsquo;ll look into a middle ground, the <em><strong>Token Based Editor</strong></em>.</p>
-</div>
-</article>
-<div id=TOC class="col-lg-2 odin-toc-border">
-<div class="sticky-top odin-below-navbar py-3">
-<nav id=TableOfContents>
-<ul>
-<li><a href=#documentation-update>Documentation Update</a></li>
-<li><a href=#projects-shared-this-month>Projects shared this month</a></li>
-<li><a href=#introduction-to-odin-karl_zylinski>Introduction To Odin (karl_zylinski)</a></li>
-<li><a href=#game-engine-dev-explained-for-non-programmers-massimog>Game Engine Dev, Explained for Non-Programmers (Massimog)</a></li>
-<li><a href=#an-after-effects-plug-in-in-odin-graphisco>An After Effects Plug-in In Odin? (graphisco)</a>
-<ul>
-<li><a href=#feature-1-context>Feature 1: context</a></li>
-<li><a href=#feature-2-or_return>Feature 2: or_return</a></li>
-</ul>
-</li>
-<li><a href=#text-editor-experimentation-3-skytrias>Text Editor Experimentation #3 (Skytrias)</a>
-<ul>
-<li><a href=#first-step>First Step</a></li>
-<li><a href=#how-editors-work>How Editors Work</a></li>
-<li><a href=#navigation>Navigation</a></li>
-<li><a href=#editing>Editing</a></li>
-<li><a href=#insertion-feels-good>Insertion Feels Good</a></li>
-<li><a href=#editing-nodes-will-feel-bad>Editing Nodes Will Feel Bad</a></li>
-<li><a href=#supporting-existing-code>Supporting Existing Code</a></li>
-<li><a href=#ending-notes>Ending Notes</a></li>
-<li><a href=#next-month>Next Month</a></li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-</div>
-</main>
-<footer class=odin-footer>
-<div class="container pb-5 pt-5">
-<div class="row g-4">
-<div class=col>
-<a class=navbar-brand href=/>
-<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
-<p>
-The Data-Oriented Language for Sane Software Development.
-</p>
-</div>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Resources</h4>
-<ul class=list-unstyled>
-<li><a href=/docs class=link-light>Docs</a></li>
-<li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li>
-<li><a href=/news class=link-light>News</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Community</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
-<li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li>
-<li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li>
-<li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li>
-<li><a href=/showcase target=_blank class=link-light>Showcase</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Contribute</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
-<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
-</ul>
-</nav>
-</div>
-<div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div>
-</div>
-</footer>
-<script src=/lib/bootstrap/js/bootstrap.min.js></script>
-<script src=/js/script.js></script>
-</body>
-</html>
+<!doctype html><html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.svg><meta name=color-scheme content="only dark"><meta property="og:title" content="July 2024 Newsletter"><meta property="og:description" content="Highlights for July - Showcasing 4 Blogs Entries"><meta property="og:type" content="article"><meta property="og:url" content="https://odin-lang.org/news/newsletter-2024-07/"><meta property="og:image" content="https://odin-lang.org/images/logo-slim.png"><meta property="article:published_time" content="2024-06-30T00:00:00+00:00"><meta property="article:modified_time" content="2024-06-30T00:00:00+00:00"><link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css><link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css><script src=/lib/highlight/highlight.min.js></script><script>hljs.registerLanguage("odin",function(e){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[e.C_LINE_COMMENT_MODE,e.C_BLOCK_COMMENT_MODE,{className:"string",variants:[e.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:e.C_NUMBER_RE+"[ijk]",relevance:1},e.C_NUMBER_MODE]}]}})</script><script>hljs.highlightAll()</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-67516878-2")</script><link href=/css/style.css rel=stylesheet><title>July 2024 Newsletter | Odin Programming Language </title><link rel=alternate type=application/rss+xml href=https://odin-lang.org//categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top><nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu"><div class=container-xxl><a class=navbar-brand href=/><img src=/logo.svg height=30 alt=Odin id=navbar-logo>
+</a><button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=odin-navbar-content><ul class="navbar-nav ms-md-auto"><li class=nav-item><a class=nav-link href=/>Home</a></li><li class=nav-item><a class=nav-link href=/docs>Docs</a></li><li class=nav-item><a class=nav-link href=https://pkg.odin-lang.org/>Packages</a></li><li class=nav-item><a class="nav-link active" href=/news aria-current=page>News</a></li><li class=nav-item><a class=nav-link href=/showcase>Showcase</a></li><li class=nav-item><a class=nav-link href=https://forum.odin-lang.org>Forum</a></li><li class=nav-item><a class=nav-link href=/community>Community</a></li><li class=nav-item><a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a></li><li class=nav-item><a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode"><span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg></button></a></li></ul></div></div></nav></header><main><div class=container-xxl><div class="row odin-main"><nav class="col-lg-2 odin-sidebar-border navbar-light"><div class="sticky-top odin-below-navbar py-3"><ul class="nav nav-pills d-flex flex-column"><li class=nav-item><a class=nav-link href=/news/orca-odin/>Orca Odin Support</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-08/>August 2024 Newsletter</a></li><li class=nav-item><a class="nav-link active" href=/news/newsletter-2024-07/ aria-current=page>July 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a></li><li class=nav-item><a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a></li><li class=nav-item><a class=nav-link href=/news/binding-to-c/>Binding to C</a></li><li class=nav-item><a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a></li><li class=nav-item><a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a></li><li class=nav-item><a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a></li><li class=nav-item><a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a></li><li class=nav-item><a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a></li></ul></div></nav><article class="col-lg-8 p-4"><header><nav aria-label=breadcrumb><ol class=breadcrumb><li class=breadcrumb-item><a href=/news>News</a></li><li class=breadcrumb-item><a href=/news/newsletter-2024-07>Newsletter 2024 07</a></li></ol><h1>July 2024 Newsletter</h1></header><div class=odin-article><p>Read up on the compiler changes in the <a href=https://github.com/odin-lang/Odin/releases/tag/dev-2024-07>monthly release</a> notes.</p><hr><h2 id=documentation-update>Documentation Update <a class=text-decoration-none href=#documentation-update>#</a></h2><p>Feoramund has updated the Documentation on the odin test runner <a href=https://odin-lang.org/docs/testing/>https://odin-lang.org/docs/testing/</a>. It goes into detail, what everyone will eventually have to dive into for more serious projects.</p><hr><h2 id=projects-shared-this-month>Projects shared this month <a class=text-decoration-none href=#projects-shared-this-month>#</a></h2><table><thead><tr><th>Project Name</th><th>Description</th></tr></thead><tbody><tr><td><a href=https://github.com/hitchh1k3r/odin-bgfx/>odin-bgfx</a></td><td>bgfx bindings</td></tr><tr><td><a href=https://github.com/markersniffen/odin-d3d11-h264-decode>odin-d3d11-h264</a></td><td>d3d11 h264 decode reference</td></tr><tr><td><a href=https://gist.github.com/jakubtomsu/2acd84731d3c2613c91e40c2e064ffe6>real-time-collision</a></td><td>real time collision functions gist</td></tr><tr><td><a href=https://github.com/mabeh19/bml/>bml</a></td><td>binary parser based on XML schemes</td></tr><tr><td><a href=https://github.com/Up05/toml_parser>toml_parser</a></td><td>TOML parser</td></tr><tr><td><a href=https://github.com/jasonKercher/serial>serial</a></td><td>cross-platform serial communications</td></tr><tr><td><a href=https://gist.github.com/jockus/61a90bef44048a26e056f2d538e67886>minimal-vulkan</a></td><td>minimal vulkan triangle example using shader objects</td></tr><tr><td><a href=https://github.com/ColleagueRiley/RGFW-Odin>RGFW-Odin</a></td><td>RGFW cross-platform window abstraction library bindings</td></tr></tbody></table><hr><h2 id=introduction-to-odin-karl_zylinski>Introduction To Odin (karl_zylinski) <a class=text-decoration-none href=#introduction-to-odin-karl_zylinski>#</a></h2><p>A big problem with learning a new language is the sparse quality material that&rsquo;s out there. Languages like Rust have tons of learning material and blog posts about each aspect of the language out there.</p><p>After Karl Zylinski has published his game &ldquo;Cat & Onion&rdquo;, he is stepping up to try and improve this area. We&rsquo;re happy to see more advancement for odin in this regard. Our <a href=https://discord.gg/vafXTdubwr>discord</a> also has a channel #article-authoring where you can receive feedback on unpublished articles.</p><p>Check it out at <a href=https://zylinski.se/posts/introduction-to-odin/>https://zylinski.se/posts/introduction-to-odin/</a>.</p><hr><h2 id=game-engine-dev-explained-for-non-programmers-massimog>Game Engine Dev, Explained for Non-Programmers (Massimog) <a class=text-decoration-none href=#game-engine-dev-explained-for-non-programmers-massimog>#</a></h2><p>Massimog is working on their game engine and writing down blogs about all the details in the process. Give it a read! <a href=https://blog.massimogauthier.com/p/game-engine-dev-explained-for-non>https://blog.massimogauthier.com/p/game-engine-dev-explained-for-non</a></p><p>Here is a short video of them showcasing their latest work so far.</p><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/jUHQJ-m6xOI?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><hr><h2 id=an-after-effects-plug-in-in-odin-graphisco>An After Effects Plug-in In Odin? (graphisco) <a class=text-decoration-none href=#an-after-effects-plug-in-in-odin-graphisco>#</a></h2><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-graphisco1.mp4></video></p><p>Adobe After Effects has an extensive 3rd party plug-in ecosystem thanks to it&rsquo;s time tested C API. The usual language of choice to write AE plug-ins is of course C++. Through out the years my programming style evolved from using needlessly complicated C++ paradigms to a very C style C++. When Zig first appeared on my radar, I was really intrigued - a modern C replacement without all the cruft and not having to deal with C++. But it turned out to be not my cup of tea. Then I stumbled upon Odin and it seemed almost perfect. On top of it some of the features in Odin are tailor made to write computer graphics code. My initial view is to use Odin for small side projects and experiments but stick with C++ for commercial work.</p><p>After writing some Odin code (mostly small tools and helper libs) I liked it so much that I decided to go all in with Odin for my next commercial project. The biggest hurdle for me is not the language itself but getting used to managing a project without an IDE. I eventually managed to write the build scripts but an IDE is sure more comfy especially for building plug-ins. There are no official Odin bindings for the AE SDK and Adobe doesn&rsquo;t publish any XML metadata to generate these bindings programmatically. So I had to port the headers manually, which in hindsight wasn&rsquo;t that bad.</p><p>Now on to the language itself - it&rsquo;s very well thought out consistent. It mostly fits in my head and doesn&rsquo;t encourage you to be clever. Just enough metaprogramming to take the edge off and a decent amount of syntax sugar to make it easy. There are so many nice touches and features in Odin (like defer, tagged unions, using,#no_bounds_check, transmute) that I like but I&rsquo;ll highlight just two which I think are very unique to Odin and found them very effective in practice.</p><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-graphisco2.mp4></video></p><h3 id=feature-1-context>Feature 1: context <a class=text-decoration-none href=#feature-1-context>#</a></h3><p>The biggest feature for me is the language level support for custom allocators and how they&rsquo;re all hidden in the background using the context. For AE plug-ins most if not all memory has to be allocated by the host, so plug-ins rely on custom allocators extensively, so this feature works amazingly well. This also let&rsquo;s me have different allocators (persistent allocator & a frame allocator for example) for different procedures without any hassle.</p><h3 id=feature-2-or_return>Feature 2: or_return <a class=text-decoration-none href=#feature-2-or_return>#</a></h3><p>This is another feature I&rsquo;ve come to rely upon frequently. It&rsquo;s very simple, yet so effective. Great for error propagation and a lot cleaner than throwing a C++ exception. Multiple return values make this an absolute delight. The AE SDK is full of functions that return a Error value and this really makes it a breeze. It&rsquo;s sister keyword or_else is also another gem.</p><p>Also the Discord community is incredibly helpful and always guided me in the right direction, which I&rsquo;m very grateful for. I&rsquo;m glad that I decided to take the leap and it all worked out very well.</p><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-graphisco3.mp4></video></p><p>Check out the amazing plug-in at <a href=https://www.rowbyte.com/blog/stipple-image-stippling-for-after-effects>https://www.rowbyte.com/blog/stipple-image-stippling-for-after-effects</a>.</p><p>I always love watching impressive visual demos, check out more high quality ones here <a href=https://simonbronson.com/stipple>https://simonbronson.com/stipple</a>.</p><hr><h2 id=text-editor-experimentation-3-skytrias>Text Editor Experimentation #3 (Skytrias) <a class=text-decoration-none href=#text-editor-experimentation-3-skytrias>#</a></h2><p>Last month we covered the first steps of an AST based editor. We looked into the basic structure of nodes that correspond to the textual odin input, how we can build the AST manually and rendering.</p><h3 id=first-step>First Step <a class=text-decoration-none href=#first-step>#</a></h3><p>My first step after getting rendering working, was to build a predefined tree and have shared identifier editing work. It&rsquo;s nothing crazy but cool to see the effect of just using the same string source work out easily.</p><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-skytrias1.mp4></video></p><h3 id=how-editors-work>How Editors Work <a class=text-decoration-none href=#how-editors-work>#</a></h3><p>Let&rsquo;s first remind ourselves how normal text editors work. We have a raw text file that we can edit (encodings ASCII/UTF8/etc).</p><ol><li>Insertion of 1 or more bytes</li><li>Remove 1 or more bytes</li><li>Select multiple characters</li></ol><p>The keyboard maps onto this easily:</p><ol><li>typing in characters to create them literally</li><li>backspace/delete to remove the character at the cursor or the selection</li><li>shift to extend the selection</li></ol><p>Any more complex higher level features can be built on top of this like multiple cursors by keeping the basics easy.</p><h3 id=navigation>Navigation <a class=text-decoration-none href=#navigation>#</a></h3><p>Coming back to the AST editor there are a few questions.</p><ol><li>How do we <em>move</em> around generally</li></ol><ul><li>Move by AST Nodes</li><li>Keep a textual based movement system</li><li>Switch between modes or representations</li></ul><ol start=2><li>What really is moving &ldquo;vertically&rdquo; now? Before it was moving to the same X Y-1 or Y+1 position</li></ol><ul><li>Move to the nearest AST node above/below</li><li>Move to the most logical AST node to follow up on</li></ul><ol start=3><li>Multiselection makes sense but overcomplicates things</li></ol><ul><li>Selecting multiple nodes is easy, but how do we <em>really</em> edit them</li><li>What kind of restrictions would have to apply</li></ul><figure class="figure w-100 text-center"><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-skytrias2.mp4></video><figcaption class="figure-caption text-center">RED: Decl_Value | GREEN: Stmt_Assign | WHITE: Expr_Ident</figcaption></figure><p>I opted for moving horizontally through the nodes as they were layed out. Vertical movement happens to the closest node. Also the mouse picks the layed out region of the text to pick the node. As any accessory syntax like colons, commas or equal characters are just there to understand meaning, they arent &ldquo;selectable&rdquo;.</p><h3 id=editing>Editing <a class=text-decoration-none href=#editing>#</a></h3><p>Raw text editors don&rsquo;t put any constraints on the user at all. The compiler does the interpretation and sends any syntax errors back. How does an AST editor handle this and should it be language dependent or not?</p><p>We have to ask ourselves a few crucial questions again.</p><ol><li>Do we want to always create a perfect AST where we can guarantee the compiler accepts it?</li><li>Copy/Paste arbitrary nodes or only specific parts</li><li>What is the undo/redo complexity</li></ol><p>How do we insert specific node structures and all their respective types? Here is a list of all possible node types we have to make editable.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>Node_Type <span style=color:#f92672>::</span> <span style=color:#66d9ef>enum</span> {
+</span></span><span style=display:flex><span>  Expr_Start,
+</span></span><span style=display:flex><span>    Expr_Ident,
+</span></span><span style=display:flex><span>    Expr_Proc_Lit,
+</span></span><span style=display:flex><span>    Expr_Basic_Lit,
+</span></span><span style=display:flex><span>    Expr_Comp_Lit,
+</span></span><span style=display:flex><span>    Expr_Unary,
+</span></span><span style=display:flex><span>    Expr_Binary,
+</span></span><span style=display:flex><span>    Expr_Paren,
+</span></span><span style=display:flex><span>    Expr_Index,
+</span></span><span style=display:flex><span>    Expr_Deref,
+</span></span><span style=display:flex><span>    Expr_Slice,
+</span></span><span style=display:flex><span>    Expr_Call,
+</span></span><span style=display:flex><span>  Expr_End,
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Type_Start,
+</span></span><span style=display:flex><span>    Type_Pointer,
+</span></span><span style=display:flex><span>    Type_Distinct,
+</span></span><span style=display:flex><span>    Type_Array,
+</span></span><span style=display:flex><span>    Type_Dynamic_Array,
+</span></span><span style=display:flex><span>    Type_Proc,
+</span></span><span style=display:flex><span>    Type_Struct,
+</span></span><span style=display:flex><span>    Type_Union,
+</span></span><span style=display:flex><span>    Type_Enum,
+</span></span><span style=display:flex><span>    Type_Map,
+</span></span><span style=display:flex><span>  Type_End,
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Stmt_Start,
+</span></span><span style=display:flex><span>    Stmt_Block,
+</span></span><span style=display:flex><span>    Stmt_If,
+</span></span><span style=display:flex><span>    Stmt_When,
+</span></span><span style=display:flex><span>    Stmt_Return,
+</span></span><span style=display:flex><span>    Stmt_Defer,
+</span></span><span style=display:flex><span>    Stmt_For,
+</span></span><span style=display:flex><span>    Stmt_Range,
+</span></span><span style=display:flex><span>    Stmt_Case,
+</span></span><span style=display:flex><span>    Stmt_Switch,
+</span></span><span style=display:flex><span>    Stmt_Assign,
+</span></span><span style=display:flex><span>    Stmt_Using,
+</span></span><span style=display:flex><span>    Stmt_Bad,
+</span></span><span style=display:flex><span>  Stmt_End,
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Decl_Start,
+</span></span><span style=display:flex><span>    Decl_Value,
+</span></span><span style=display:flex><span>    Decl_Import,
+</span></span><span style=display:flex><span>  Decl_End,
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Field_Start,
+</span></span><span style=display:flex><span>    Field_Basic,
+</span></span><span style=display:flex><span>  Field_End,
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>The &ldquo;Start&rdquo; and &ldquo;End&rdquo; enums are just for specifying ranges. Either way it&rsquo;s quite a lot to cover. For each of these there would have to be specific logic and constraints set.</p><h3 id=insertion-feels-good>Insertion Feels Good <a class=text-decoration-none href=#insertion-feels-good>#</a></h3><p>Here is the last recorded video I have. You can see scope movement and linear tree movement
+attempts. It looks quite easy but lot&rsquo;s of logic had to be added to make these basics work.</p><p>On the left you can see the list of possible node types. The idea for testing was to select the one you want (almost like scratch) and insert that on &ldquo;enter&rdquo;.</p><p><video class="ratio ratio-16x9 mb-1 rounded" controls src=/images/news/2024-07-skytrias3.mp4></video></p><p>I&rsquo;m also showcasing moving nodes around in the parent declarion values, which again seems nice.</p><h3 id=editing-nodes-will-feel-bad>Editing Nodes Will Feel Bad <a class=text-decoration-none href=#editing-nodes-will-feel-bad>#</a></h3><p>I think the hardest thing to realize is that editing a tree linearly is bad. Let&rsquo;s take a normal math equation example, <code>result := 10 + 20 - 30</code> where the rough tree for that would be:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>result         <span style=color:#f92672>:=</span>           x <span style=color:#f92672>+</span> y            x <span style=color:#f92672>-</span> y
+</span></span><span style=display:flex><span>          Decl_Value <span style=color:#960050;background-color:#1e0010>&#39;</span><span style=color:#f92672>:=</span><span style=color:#960050;background-color:#1e0010>&#39;</span>
+</span></span><span style=display:flex><span>Expr_Ident     <span style=color:#f92672>-&gt;</span>       Expr_Binary <span style=color:#e6db74>&#39;+&#39;</span>  Expr_Binary <span style=color:#e6db74>&#39;-&#39;</span>
+</span></span><span style=display:flex><span>                           <span style=color:#a6e22e>10</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>20</span>
+</span></span><span style=display:flex><span>                Expr_Basic_Lit Expr_Basic_Lit
+</span></span><span style=display:flex><span>                                             <span style=color:#a6e22e>30</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>30</span>
+</span></span><span style=display:flex><span>                                (Expr_Basic_Lit) Expr_Basic_Lit
+</span></span></code></pre></div><p>Those are 7 nodes that had to be &ldquo;created&rdquo; and correctly set instead of plainly typed out. The tree is a few levels deep for a simple declaration. Imagine it going more complex anything non trivial and representing insertion/removal/navigation becomes difficult.</p><h3 id=supporting-existing-code>Supporting Existing Code <a class=text-decoration-none href=#supporting-existing-code>#</a></h3><p>Another big issue with an Odin specific AST editor is, that we have to always support core/vendor packages that are written in the original raw text format. Meaning we will have to produce a valid AST that we can use the same way across the editor.</p><p>The same goes for outputting odin code, we would have to export proper odin syntax files. Meaning input/output are raw text and the middle man is the AST editor? It would work but it feels off.</p><p>Maybe it makes more sense to create a new ecosystem around a tiny language that works within a custom AST editor. That reminds me of a project <a href=https://mr4th.com/software/splink>https://mr4th.com/software/splink</a> which was just that for lisp.</p><h3 id=ending-notes>Ending Notes <a class=text-decoration-none href=#ending-notes>#</a></h3><p>One thing I remember when discussing this with <em><strong>GingerBill</strong></em> was that, he likes the idea but he would always wish for an &ldquo;escape&rdquo;, where you can just type in raw text and it will convert that to the AST representation.</p><p>While I like the idea I think it feels like a defeat to the whole idea of the editor. In that case you could just have a raw text editor but parse the AST all the time to get IDE like features.</p><p>I could agree with maybe a more partial version where you have AST nodes and some are just raw text like the math equation example. That would loose all meaning of shared identifiers and such though.</p><p>I feel a bit beaten at this point and ended up abandoning this due to a never ending stop of complexity for virtually no benefit. Which is sort of the whole problem of inventing in this area. We can&rsquo;t achvieve the same original feel as a raw text editor, so why even bother.</p><p>I would still love to see innovation or other examples of an AST editor, so if you see anything please let me know!</p><h3 id=next-month>Next Month <a class=text-decoration-none href=#next-month>#</a></h3><p>The last part will come out next month, where we&rsquo;ll look into a middle ground, the <em><strong>Token Based Editor</strong></em>.</p></div></article><div id=TOC class="col-lg-2 odin-toc-border"><div class="sticky-top odin-below-navbar py-3"><nav id=TableOfContents><ul><li><a href=#documentation-update>Documentation Update</a></li><li><a href=#projects-shared-this-month>Projects shared this month</a></li><li><a href=#introduction-to-odin-karl_zylinski>Introduction To Odin (karl_zylinski)</a></li><li><a href=#game-engine-dev-explained-for-non-programmers-massimog>Game Engine Dev, Explained for Non-Programmers (Massimog)</a></li><li><a href=#an-after-effects-plug-in-in-odin-graphisco>An After Effects Plug-in In Odin? (graphisco)</a><ul><li><a href=#feature-1-context>Feature 1: context</a></li><li><a href=#feature-2-or_return>Feature 2: or_return</a></li></ul></li><li><a href=#text-editor-experimentation-3-skytrias>Text Editor Experimentation #3 (Skytrias)</a><ul><li><a href=#first-step>First Step</a></li><li><a href=#how-editors-work>How Editors Work</a></li><li><a href=#navigation>Navigation</a></li><li><a href=#editing>Editing</a></li><li><a href=#insertion-feels-good>Insertion Feels Good</a></li><li><a href=#editing-nodes-will-feel-bad>Editing Nodes Will Feel Bad</a></li><li><a href=#supporting-existing-code>Supporting Existing Code</a></li><li><a href=#ending-notes>Ending Notes</a></li><li><a href=#next-month>Next Month</a></li></ul></li></ul></nav></div></div></div></div></main><footer class=odin-footer><div class="container pb-5 pt-5"><div class="row g-4"><div class=col><a class=navbar-brand href=/><img class=mb-3 src=/logo.svg height=30 alt=Odin></a><p>The Data-Oriented Language for Sane Software Development.</p></div><nav class=col-md-auto><h4 class=fw-normal>Resources</h4><ul class=list-unstyled><li><a href=/docs class=link-light>Docs</a></li><li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li><li><a href=/news class=link-light>News</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Community</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li><li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li><li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li><li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li><li><a href=/showcase target=_blank class=link-light>Showcase</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Contribute</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li><li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li></ul></nav></div><div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div></div></footer><script src=/lib/bootstrap/js/bootstrap.min.js></script><script src=/js/script.js></script></body></html>

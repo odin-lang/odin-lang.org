@@ -1,561 +1,149 @@
-<!doctype html><html>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<link rel=icon href=/favicon.svg>
-<meta name=color-scheme content="only dark">
-<meta property="og:title" content="August 2024 Newsletter">
-<meta property="og:description" content="Highlights for August - Interview with Feoramund">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://odin-lang.org/news/newsletter-2024-08/">
-<meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
-<meta property="article:published_time" content="2024-08-02T00:00:00+00:00">
-<meta property="article:modified_time" content="2024-08-02T00:00:00+00:00">
-<link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
-<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
-<script src=/lib/highlight/highlight.min.js></script>
-<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[ijk]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
-<script>hljs.highlightAll()</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
-<link href=/css/style.css rel=stylesheet>
-<title>August 2024 Newsletter | Odin Programming Language </title>
-<link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0>
-<script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
-<div class=container-xxl>
-<a class=navbar-brand href=/>
-<img src=/logo.svg height=30 alt=Odin id=navbar-logo>
-</a>
-<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span>
-</button>
-<div class="collapse navbar-collapse" id=odin-navbar-content>
-<ul class="navbar-nav ms-md-auto">
-<li class=nav-item>
-<a class=nav-link href=/>Home</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/docs>Docs</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://pkg.odin-lang.org/>Packages</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news aria-current=page>News</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/showcase>Showcase</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://forum.odin-lang.org>Forum</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/community>Community</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
-</li>
-<li class=nav-item>
-<a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode">
-<span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg>
-</button>
-</a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-</header>
-<main>
-<div class=container-xxl>
-<div class="row odin-main">
-<nav class="col-lg-2 odin-sidebar-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3">
-<ul class="nav nav-pills d-flex flex-column">
-<li class=nav-item>
-<a class=nav-link href=/news/orca-odin/>Orca Odin Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news/newsletter-2024-08/ aria-current=page>August 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-07/>July 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/binding-to-c/>Binding to C</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a>
-</li>
-</ul>
-</div>
-</nav>
-<article class="col-lg-8 p-4">
-<header>
-<nav aria-label=breadcrumb>
-<ol class=breadcrumb>
-<li class=breadcrumb-item><a href=/news>News</a></li>
-<li class=breadcrumb-item><a href=/news/newsletter-2024-08>Newsletter 2024 08</a></li>
-</ol>
-<h1>August 2024 Newsletter</h1>
-</header>
-<div class=odin-article>
-<p>Big highlights:</p>
-<ul>
-<li>Update to LLVM 18.1.8</li>
-</ul>
-<p>For the rest of the many compiler changes, read the <a href=https://github.com/odin-lang/Odin/releases/tag/dev-2024-08>monthly release</a> notes.</p>
-<hr>
-<h2 id=projects-shared-this-month>Projects shared this month <a class=text-decoration-none href=#projects-shared-this-month>#</a></h2>
-<table>
-<thead>
-<tr>
-<th>Project Name</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href=https://github.com/Ed94/VEFontCache-Odin>VEFontCache-Odin</a></td>
-<td>VEFontCache Port!</td>
-</tr>
-<tr>
-<td><a href=https://github.com/2nafish117/odin-renderdoc>odin-renderdoc</a></td>
-<td>odin renderdoc loader</td>
-</tr>
-<tr>
-<td><a href=https://github.com/joaocarvalhoopen/kissfft_in_odin>KISSFFT</a></td>
-<td>KISSFFT bindings</td>
-</tr>
-<tr>
-<td><a href=https://codeberg.org/mgavioli/locale>locale</a></td>
-<td>locale handling library</td>
-</tr>
-<tr>
-<td><a href=https://codeberg.org/mgavioli/podin>podin</a></td>
-<td>generates .pot files</td>
-</tr>
-<tr>
-<td><a href=https://github.com/Alkamist/odin_simple_neural_network>simple_neural_network</a></td>
-<td>simple neural network</td>
-</tr>
-<tr>
-<td><a href=https://github.com/A1029384756/odin-solitaire>odin-solitaire</a></td>
-<td>solitaire using raylib</td>
-</tr>
-<tr>
-<td><a href=https://github.com/scheinheiser/todo-app/>todo-app</a></td>
-<td>todo app using raylib</td>
-</tr>
-<tr>
-<td><a href=https://github.com/jfulto98/Odin-FreeCell/tree/master>Odin-FreeCell</a></td>
-<td>Odin FreeCell</td>
-</tr>
-<tr>
-<td><a href=https://github.com/brunodeangelis/tic-tac-toe>tic-tac-toe</a></td>
-<td>Tic Tac Toe</td>
-</tr>
-<tr>
-<td><a href=https://github.com/Akmal4163/Odin-Libuv>Odin-Libuv</a></td>
-<td>Libuv bindings</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h2 id=streams--youtube-content>Streams / Youtube Content <a class=text-decoration-none href=#streams--youtube-content>#</a></h2>
-<h3 id=karl-zylinski>Karl Zylinski <a class=text-decoration-none href=#karl-zylinski>#</a></h3>
-<p><code>Karl Zylinski</code> has been streaming solo gamedev using Odin, Raylib & Aseprite.</p>
-<ul>
-<li>Youtube: <a href=https://www.youtube.com/@karl_zylinski>https://www.youtube.com/@karl_zylinski</a></li>
-</ul>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/8J4ZGy-yIyc?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/DKaH9rY06BE?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/KVbHJ_CLdkA?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/itnWMsAEHoU?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<hr>
-<h3 id=gingerbill>GingerBill <a class=text-decoration-none href=#gingerbill>#</a></h3>
-<p><code>GingerBill</code> the creator of odin has been streaming some gamedev using raylib to learn it. It&rsquo;s amazing how quick he develops these things in such a short time!</p>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/B9kSV2TaKpw?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/YVapfoKYPLU?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/Ba_-oTLyoFs?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<h3 id=other-channels-found>Other Channels Found <a class=text-decoration-none href=#other-channels-found>#</a></h3>
-<p><a href=https://www.youtube.com/@marshallbcodes/videos>Marshal B Codes</a> is working on <a href=https://github.com/Solitude-Software-Solutions/OstrichDB>OstrichDB</a> a custom database written in odin.</p>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/ZuhFv3fX2oA?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<hr>
-<p><a href=https://www.youtube.com/@hughdavenport1>hughdavenport1</a> is working on odinz, a Z-machine interpreter in Odin! I&rsquo;ve never heard of it, but if you know about it, make sure to give it a watch. He&rsquo;s going strong with 10+ videos so far programming live.</p>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/d4Gjps5gIjw?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<hr>
-<p><a href=https://www.youtube.com/@cobbcoding>Cobb Coding</a> has done a video on investigating the odin source code for an issue he found, while trying out odin. Not something most newcomers do 😄. Great to see</p>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/x2F9QznOBoY?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<hr>
-<p><a href="https://www.youtube.com/watch?v=hp-2fQN5Nwo">DylanFalconer</a> first video of reasons to use odin that I personally know! I completly agree with all the points mentioned in the video.</p>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/hp-2fQN5Nwo?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<hr>
-<h2 id=interview-with-feoramund>Interview with Feoramund <a class=text-decoration-none href=#interview-with-feoramund>#</a></h2>
-<p>An interview with <a href=https://swevencraft.org>Feoramund</a>, author of the improved <code>core:testing</code> package.</p>
-<p>Q: Let’s start at the beginning. How did you find out about Odin and what
-appealed to you about it?</p>
-<p>A: Let me spin you a tale. It was October of 2023. I was getting the urge to
+<!doctype html><html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.svg><meta name=color-scheme content="only dark"><meta property="og:title" content="August 2024 Newsletter"><meta property="og:description" content="Highlights for August - Interview with Feoramund"><meta property="og:type" content="article"><meta property="og:url" content="https://odin-lang.org/news/newsletter-2024-08/"><meta property="og:image" content="https://odin-lang.org/images/logo-slim.png"><meta property="article:published_time" content="2024-08-02T00:00:00+00:00"><meta property="article:modified_time" content="2024-08-02T00:00:00+00:00"><link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css><link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css><script src=/lib/highlight/highlight.min.js></script><script>hljs.registerLanguage("odin",function(e){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[e.C_LINE_COMMENT_MODE,e.C_BLOCK_COMMENT_MODE,{className:"string",variants:[e.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:e.C_NUMBER_RE+"[ijk]",relevance:1},e.C_NUMBER_MODE]}]}})</script><script>hljs.highlightAll()</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-67516878-2")</script><link href=/css/style.css rel=stylesheet><title>August 2024 Newsletter | Odin Programming Language </title><link rel=alternate type=application/rss+xml href=https://odin-lang.org//categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top><nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu"><div class=container-xxl><a class=navbar-brand href=/><img src=/logo.svg height=30 alt=Odin id=navbar-logo>
+</a><button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=odin-navbar-content><ul class="navbar-nav ms-md-auto"><li class=nav-item><a class=nav-link href=/>Home</a></li><li class=nav-item><a class=nav-link href=/docs>Docs</a></li><li class=nav-item><a class=nav-link href=https://pkg.odin-lang.org/>Packages</a></li><li class=nav-item><a class="nav-link active" href=/news aria-current=page>News</a></li><li class=nav-item><a class=nav-link href=/showcase>Showcase</a></li><li class=nav-item><a class=nav-link href=https://forum.odin-lang.org>Forum</a></li><li class=nav-item><a class=nav-link href=/community>Community</a></li><li class=nav-item><a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a></li><li class=nav-item><a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode"><span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg></button></a></li></ul></div></div></nav></header><main><div class=container-xxl><div class="row odin-main"><nav class="col-lg-2 odin-sidebar-border navbar-light"><div class="sticky-top odin-below-navbar py-3"><ul class="nav nav-pills d-flex flex-column"><li class=nav-item><a class=nav-link href=/news/orca-odin/>Orca Odin Support</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a></li><li class=nav-item><a class="nav-link active" href=/news/newsletter-2024-08/ aria-current=page>August 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-07/>July 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a></li><li class=nav-item><a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a></li><li class=nav-item><a class=nav-link href=/news/binding-to-c/>Binding to C</a></li><li class=nav-item><a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a></li><li class=nav-item><a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a></li><li class=nav-item><a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a></li><li class=nav-item><a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a></li><li class=nav-item><a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a></li></ul></div></nav><article class="col-lg-8 p-4"><header><nav aria-label=breadcrumb><ol class=breadcrumb><li class=breadcrumb-item><a href=/news>News</a></li><li class=breadcrumb-item><a href=/news/newsletter-2024-08>Newsletter 2024 08</a></li></ol><h1>August 2024 Newsletter</h1></header><div class=odin-article><p>Big highlights:</p><ul><li>Update to LLVM 18.1.8</li></ul><p>For the rest of the many compiler changes, read the <a href=https://github.com/odin-lang/Odin/releases/tag/dev-2024-08>monthly release</a> notes.</p><hr><h2 id=projects-shared-this-month>Projects shared this month <a class=text-decoration-none href=#projects-shared-this-month>#</a></h2><table><thead><tr><th>Project Name</th><th>Description</th></tr></thead><tbody><tr><td><a href=https://github.com/Ed94/VEFontCache-Odin>VEFontCache-Odin</a></td><td>VEFontCache Port!</td></tr><tr><td><a href=https://github.com/2nafish117/odin-renderdoc>odin-renderdoc</a></td><td>odin renderdoc loader</td></tr><tr><td><a href=https://github.com/joaocarvalhoopen/kissfft_in_odin>KISSFFT</a></td><td>KISSFFT bindings</td></tr><tr><td><a href=https://codeberg.org/mgavioli/locale>locale</a></td><td>locale handling library</td></tr><tr><td><a href=https://codeberg.org/mgavioli/podin>podin</a></td><td>generates .pot files</td></tr><tr><td><a href=https://github.com/Alkamist/odin_simple_neural_network>simple_neural_network</a></td><td>simple neural network</td></tr><tr><td><a href=https://github.com/A1029384756/odin-solitaire>odin-solitaire</a></td><td>solitaire using raylib</td></tr><tr><td><a href=https://github.com/scheinheiser/todo-app/>todo-app</a></td><td>todo app using raylib</td></tr><tr><td><a href=https://github.com/jfulto98/Odin-FreeCell/tree/master>Odin-FreeCell</a></td><td>Odin FreeCell</td></tr><tr><td><a href=https://github.com/brunodeangelis/tic-tac-toe>tic-tac-toe</a></td><td>Tic Tac Toe</td></tr><tr><td><a href=https://github.com/Akmal4163/Odin-Libuv>Odin-Libuv</a></td><td>Libuv bindings</td></tr></tbody></table><hr><h2 id=streams--youtube-content>Streams / Youtube Content <a class=text-decoration-none href=#streams--youtube-content>#</a></h2><h3 id=karl-zylinski>Karl Zylinski <a class=text-decoration-none href=#karl-zylinski>#</a></h3><p><code>Karl Zylinski</code> has been streaming solo gamedev using Odin, Raylib & Aseprite.</p><ul><li>Youtube: <a href=https://www.youtube.com/@karl_zylinski>https://www.youtube.com/@karl_zylinski</a></li></ul><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/8J4ZGy-yIyc?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/DKaH9rY06BE?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/KVbHJ_CLdkA?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/itnWMsAEHoU?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><hr><h3 id=gingerbill>GingerBill <a class=text-decoration-none href=#gingerbill>#</a></h3><p><code>GingerBill</code> the creator of odin has been streaming some gamedev using raylib to learn it. It&rsquo;s amazing how quick he develops these things in such a short time!</p><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/B9kSV2TaKpw?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/YVapfoKYPLU?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/Ba_-oTLyoFs?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><h3 id=other-channels-found>Other Channels Found <a class=text-decoration-none href=#other-channels-found>#</a></h3><p><a href=https://www.youtube.com/@marshallbcodes/videos>Marshal B Codes</a> is working on <a href=https://github.com/Solitude-Software-Solutions/OstrichDB>OstrichDB</a> a custom database written in odin.</p><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/ZuhFv3fX2oA?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><hr><p><a href=https://www.youtube.com/@hughdavenport1>hughdavenport1</a> is working on odinz, a Z-machine interpreter in Odin! I&rsquo;ve never heard of it, but if you know about it, make sure to give it a watch. He&rsquo;s going strong with 10+ videos so far programming live.</p><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/d4Gjps5gIjw?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><hr><p><a href=https://www.youtube.com/@cobbcoding>Cobb Coding</a> has done a video on investigating the odin source code for an issue he found, while trying out odin. Not something most newcomers do 😄. Great to see</p><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/x2F9QznOBoY?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><hr><p><a href="https://www.youtube.com/watch?v=hp-2fQN5Nwo">DylanFalconer</a> first video of reasons to use odin that I personally know! I completly agree with all the points mentioned in the video.</p><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/hp-2fQN5Nwo?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><hr><h2 id=interview-with-feoramund>Interview with Feoramund <a class=text-decoration-none href=#interview-with-feoramund>#</a></h2><p>An interview with <a href=https://swevencraft.org>Feoramund</a>, author of the improved <code>core:testing</code> package.</p><p>Q: Let’s start at the beginning. How did you find out about Odin and what
+appealed to you about it?</p><p>A: Let me spin you a tale. It was October of 2023. I was getting the urge to
 start on a couple grand projects &ndash; something of real substance. So, I
-evaluated the languages I knew against the new ones I hadn&rsquo;t yet tried.</p>
-<p>I needed something that could support a large project worthy of spending months
+evaluated the languages I knew against the new ones I hadn&rsquo;t yet tried.</p><p>I needed something that could support a large project worthy of spending months
 on, something with good static analysis, where if I had forgotten how sections
 of the codebase worked, it wouldn&rsquo;t be as much of an issue. This ruled out all
-the scripting languages I knew.</p>
-<p>I really didn&rsquo;t want to write a new project in C++. To give you a little
+the scripting languages I knew.</p><p>I really didn&rsquo;t want to write a new project in C++. To give you a little
 background, it was the only language I knew well enough at the time that could
 theoretically sustain what I was aiming to make, but the towering mass of
 complicated semantics and its standard library caused me a lot of friction in
-the past. It didn&rsquo;t help that I was brought up in the OOP tradition.</p>
-<p>I was lucky enough to see a recording of one of Ginger Bill&rsquo;s interviews as I
+the past. It didn&rsquo;t help that I was brought up in the OOP tradition.</p><p>I was lucky enough to see a recording of one of Ginger Bill&rsquo;s interviews as I
 was gathering information on what was new in the programming language scene. So
 I lined all the challengers up: Rust, Go, Nim, Zig, Odin. I spent about a week,
-tinkering with each a day.</p>
-<p>In short, Odin was the only one that really appealed to me and gave me a good
-gut feeling about it being capable.</p>
-<p>My first project in Odin was a rock-paper-scissors simulator, since that&rsquo;s a
+tinkering with each a day.</p><p>In short, Odin was the only one that really appealed to me and gave me a good
+gut feeling about it being capable.</p><p>My first project in Odin was a rock-paper-scissors simulator, since that&rsquo;s a
 good way to gauge a variety of things about a language and its ecosystem
 without spending too much development time: user input, parsing, printing
 output, random numbers, control flow, package management, comparisons, separate
-procedures, et cetera.</p>
-<p>For why it appealed to me at first, I can say this: Odin doesn&rsquo;t have garbage
+procedures, et cetera.</p><p>For why it appealed to me at first, I can say this: Odin doesn&rsquo;t have garbage
 collection, doesn&rsquo;t enforce any revolutionary new ideas, doesn&rsquo;t have macros or
 a preprocessor. It&rsquo;s quite simple (as opposed to complicated, not complex; I
 know Bill likes to make this distinction.). It also has a very sound package
 management system that leverages the filesystem. The ideas and features that
 Odin implements feel like common sense, like they&rsquo;ve been around a long time
-and speak to a natural flow.</p>
-<p>Of course, Odin is also compiled and has a community upholding standards of
+and speak to a natural flow.</p><p>Of course, Odin is also compiled and has a community upholding standards of
 readability, maintenance, then speed. I wouldn&rsquo;t have to worry about many
-layers of indirection or confusing APIs.</p>
-<p>I will admit it took me some time to get used to putting variable names first,
+layers of indirection or confusing APIs.</p><p>I will admit it took me some time to get used to putting variable names first,
 then types, but I&rsquo;ve come to prefer that style far better than the other way
 now. This is true of almost everything in Odin: where there has been some
-adjustment period, I&rsquo;ve come to prefer the Odin way.</p>
-<p>For perhaps the first time since my early days of programming, Odin feels like
-a quickening or a refreshment. I&rsquo;m not bogged down anymore.</p>
-<p>===</p>
-<p>Q: Is there something you can say about your programming journey prior to
-discovering Odin?</p>
-<p>A: It&rsquo;s still ongoing, for certain. I started out playing with BASIC many years
+adjustment period, I&rsquo;ve come to prefer the Odin way.</p><p>For perhaps the first time since my early days of programming, Odin feels like
+a quickening or a refreshment. I&rsquo;m not bogged down anymore.</p><p>===</p><p>Q: Is there something you can say about your programming journey prior to
+discovering Odin?</p><p>A: It&rsquo;s still ongoing, for certain. I started out playing with BASIC many years
 ago, entertaining myself with little more than PRINT, GOTO, and INPUT on a
-home computer, and some days I do wish for those times again.</p>
-<p>The only disappointment with my journey is that I had spent a significant
+home computer, and some days I do wish for those times again.</p><p>The only disappointment with my journey is that I had spent a significant
 amount of time in the mire of poor thinking. I was caught by the OOP bug and
 probably several other popular-yet-bad habits, and for a long time, those
 paradigms were a vise over my mind in how I was able to form abstract
-concepts or complete complex works.</p>
-<p>Odin has been the bridge to clarifying much of my thinking, to the point that
+concepts or complete complex works.</p><p>Odin has been the bridge to clarifying much of my thinking, to the point that
 I&rsquo;m far more confident in my general programming skills than I&rsquo;ve ever been.
 I&rsquo;ve had more eureka moments with Odin than any other language in recent
-memory.</p>
-<p>If there&rsquo;s anything I can leave the reader with, it&rsquo;s that you must continue to
+memory.</p><p>If there&rsquo;s anything I can leave the reader with, it&rsquo;s that you must continue to
 explore what is possible and to not become dogmatically entwined with a tool, a
 framework, or a way of solving problems just because it&rsquo;s all you know. Seek
 out alternatives and try to have at least a couple possible pathways when
-presented with a problem, so that you don&rsquo;t fall into similar traps.</p>
-<p>I don&rsquo;t know if there&rsquo;s a shortcut past the stage of writing bad code and
+presented with a problem, so that you don&rsquo;t fall into similar traps.</p><p>I don&rsquo;t know if there&rsquo;s a shortcut past the stage of writing bad code and
 having ideas about forcing square pegs into round holes, but maybe together we
-can shorten the amount of time people spend in that stage.</p>
-<p>I could go on for pages about my journey so far, but I think I&rsquo;ve highlighted
-the most important bits related to Odin.</p>
-<p>===</p>
-<p>Q: It&rsquo;s not every day someone comes out of nowhere and drops a complete
+can shorten the amount of time people spend in that stage.</p><p>I could go on for pages about my journey so far, but I think I&rsquo;ve highlighted
+the most important bits related to Odin.</p><p>===</p><p>Q: It&rsquo;s not every day someone comes out of nowhere and drops a complete
 overhaul of a testing framework, never mind with code quality suggesting a
 great familiarity with the language. Why <em>that</em> package, and what was the
-design process like?</p>
-<p>A: The design process was a slow, methodical one. I said in the original pull
+design process like?</p><p>A: The design process was a slow, methodical one. I said in the original pull
 request that my overhaul was the culmination of months of gathering ideas of
 how tests could be done better, and this is no exaggeration. By the time I
 sent that PR, I believe I had been programming almost exclusively in Odin
-for eight months.</p>
-<p>During that time, I had been working on my own core library of sorts to support
+for eight months.</p><p>During that time, I had been working on my own core library of sorts to support
 the future grand projects I dreamed of. It may sound curious, but I am a
 newcomer to writing tests; I was never a student of Test-Driven Development or
 related disciplines; I used to do a lot of manual testing and <code>printf</code>
 debugging. The last big project I worked on with other people had an impressive
 test suite, and that sowed the seeds for how I would begin to write my own
-tests once I found how easy it was in Odin.</p>
-<p>I wrote dozens of tests for every personal package I made.</p>
-<p>Yet, I was not satisfied. I didn&rsquo;t like how all the test results just scrolled
+tests once I found how easy it was in Odin.</p><p>I wrote dozens of tests for every personal package I made.</p><p>Yet, I was not satisfied. I didn&rsquo;t like how all the test results just scrolled
 past, and if you wanted to see individual results, you&rsquo;d have to scroll back
-up. My dissatisfaction grew, and I kept imagining ways it could be better.</p>
-<p>Dissatisfaction coupled with the will and skill to change something, I think,
-is the fundamental energy that drives open source software development.</p>
-<p>And so, I set to work. I first started with how I wanted the test runner to
+up. My dissatisfaction grew, and I kept imagining ways it could be better.</p><p>Dissatisfaction coupled with the will and skill to change something, I think,
+is the fundamental energy that drives open source software development.</p><p>And so, I set to work. I first started with how I wanted the test runner to
 feel. I focused only on the visual aspect, what we as programmers and users
 would see, since that was a big focal point for me. I created a test runner
-simulator to that end, where I spent a few days tweaking how the output flowed.</p>
-<p>After that, I experimented with multithreading and inter-process communication
+simulator to that end, where I spent a few days tweaking how the output flowed.</p><p>After that, I experimented with multithreading and inter-process communication
 solutions. In this way, everything was designed in a modular fashion, and only
 at the end did all the pieces come together. It took a few weeks to properly
 do, and I believe most of my time was taken up by analyzing edge cases around
-multithreaded programming.</p>
-<p>I like to think that the Odin test runner is my first real, serious multithreaded program.</p>
-<p>Now, as for <em>why</em> did I pick <code>core:testing</code> to overhaul first&mldr; The short
+multithreaded programming.</p><p>I like to think that the Odin test runner is my first real, serious multithreaded program.</p><p>Now, as for <em>why</em> did I pick <code>core:testing</code> to overhaul first&mldr; The short
 answer is that tests are fundamental to development of large projects, and I
 believed at the time that I identified a point in the Odin ecosystem that could
-use some serious improvement.</p>
-<p>To elaborate on this, I wanted to not only learn more about multithreading and
+use some serious improvement.</p><p>To elaborate on this, I wanted to not only learn more about multithreading and
 apply some of my user interface design ideas to relieve my own frustration, but
 I also wanted to have a beneficial and lasting effect on this language that has
-helped clear up so much fog for me.</p>
-<p>Take tests as they are: they are procedures that signal concretely encoded
+helped clear up so much fog for me.</p><p>Take tests as they are: they are procedures that signal concretely encoded
 expectations of the programmer. They&rsquo;re so fundamental to what we do. We have
-hundreds of tests for the Odin core library collection.</p>
-<p>It&rsquo;s like giving back to the community, for me.</p>
-<p>===</p>
-<p>Q: You just dropped another pull request, this time to add <code>core:text/regex</code>.
+hundreds of tests for the Odin core library collection.</p><p>It&rsquo;s like giving back to the community, for me.</p><p>===</p><p>Q: You just dropped another pull request, this time to add <code>core:text/regex</code>.
 Tell us about that a bit. What were the technical decisions you found yourself
-having to address, for example.</p>
-<p>A: The implementation of the virtual machine design itself took some time to
+having to address, for example.</p><p>A: The implementation of the virtual machine design itself took some time to
 get just right. At first, the Opcode was a union of structs, which I found
 ended up taking about 24 bytes per opcode. Nowadays, that&rsquo;s hardly any memory
 at all. However, just because a resource is plentiful doesn&rsquo;t mean we should
-spend it so needlessly.</p>
-<p>The union of structs stage served me well in getting the initial implementation
+spend it so needlessly.</p><p>The union of structs stage served me well in getting the initial implementation
 up and running with some simple debugging tools, but I had to imagine the
 scenarios in which this package would be used, in production environments. If I
 could manage to crunch the costs down even further, it would be good for
-everyone.</p>
-<p>With that, I decided to use actual bytecode to represent the instructions for
+everyone.</p><p>With that, I decided to use actual bytecode to represent the instructions for
 the VM. This resulted in not only a significant drop in memory usage but even a
 little speed gain. A win all across the board. There was a small cost in
 readability, as everything that has to interact with a compiled regular
 expression now needs to account for operand sizes, especially the compiler when
-it&rsquo;s constructing operations, but it&rsquo;s a cost I&rsquo;m willing to pay.</p>
-<p>Another decision I made was to use a Top-Down Operator Precedence parser, also
+it&rsquo;s constructing operations, but it&rsquo;s a cost I&rsquo;m willing to pay.</p><p>Another decision I made was to use a Top-Down Operator Precedence parser, also
 known as a Pratt Parser, for constructing the regular expression from the
 string. It&rsquo;s possible that I could&rsquo;ve used a linear iteration through the
 string and constructed the AST that way, but the TDOP parser felt like the
 better, more maintainable choice. I had written only one in the past as an
 experiment, and I was really interested in putting this parser design to the
-test.</p>
-<p>For any non-trivial expression parsing, I can highly recommend the simplicity
-and power of the Pratt parser.</p>
-<p>As for optimization, I wrote a pattern optimizer that tries to nudge the
+test.</p><p>For any non-trivial expression parsing, I can highly recommend the simplicity
+and power of the Pratt parser.</p><p>As for optimization, I wrote a pattern optimizer that tries to nudge the
 expression towards better performance. I found great success with implementing
 special case opcodes for <code>Global</code> patterns and patterns ending with <code>.*$</code>. I
 had also considered using binary search to evaluate classes, but interestingly,
-I found it to be slower in practice once I checked the benchmarks.</p>
-<p>It&rsquo;s important to always benchmark and trial your ideas, just in case your
+I found it to be slower in practice once I checked the benchmarks.</p><p>It&rsquo;s important to always benchmark and trial your ideas, just in case your
 mental model of reality is incomplete; the test will reveal whether your
 assumptions are correct or not. Then, if you&rsquo;re really curious, you can dig
-deeper to find out why.</p>
-<p>===</p>
-<p>Q: When you&rsquo;re not busy writing or overhauling library code, in what manner are
-you using Odin, and how does it hold up?</p>
-<p>A: I&rsquo;ve been using Odin for all of my new projects since late last year, from
+deeper to find out why.</p><p>===</p><p>Q: When you&rsquo;re not busy writing or overhauling library code, in what manner are
+you using Odin, and how does it hold up?</p><p>A: I&rsquo;ve been using Odin for all of my new projects since late last year, from
 small to big. Of note, I am building an internet archival tool that I will use
 to preserve and display websites with the WARC format. I would also like to
 write a full game in Odin, one day. To that end, I have written a few prototype
-games in the language already.</p>
-<p>Odin holds up surprisingly well, and where it doesn&rsquo;t, I have sought to improve
+games in the language already.</p><p>Odin holds up surprisingly well, and where it doesn&rsquo;t, I have sought to improve
 it within the reach of my skill. Usually, if I have an issue, it&rsquo;s more on my
 own shoulders than the language&rsquo;s, which is to say I&rsquo;m not wrestling with the
-design decisions of C++ anymore, thankfully!</p>
-<p>However, I must admit that I haven&rsquo;t had much time lately to work on my own
+design decisions of C++ anymore, thankfully!</p><p>However, I must admit that I haven&rsquo;t had much time lately to work on my own
 personal projects, as I&rsquo;ve been rather busy as you&rsquo;ve pointed out. I hope to
 get back to it soon, but the prospect of writing more code for Odin itself is
-alluring in a way.</p>
-<p>It&rsquo;s a tough value proposition to make sometimes, you know?</p>
-<p>Fixing bugs and writing library code is guaranteed to be useful to someone and
+alluring in a way.</p><p>It&rsquo;s a tough value proposition to make sometimes, you know?</p><p>Fixing bugs and writing library code is guaranteed to be useful to someone and
 have a more profound impact on a greater number of people, but the outcome of
 personal projects can be more grim, as anyone who&rsquo;s been doing this long
 enough can attest to. I certainly have my own graveyard I&rsquo;ve kept well-tended
-for many years now across a myriad number of languages and frameworks.</p>
-<p>===</p>
-<p>Q: Is there anything else that strikes your fancy to grace us with in the short
-to medium term?</p>
-<p>A: Grace? You honour me with such words.</p>
-<p>I have a few ideas I&rsquo;m considering for additional candidates to the core
+for many years now across a myriad number of languages and frameworks.</p><p>===</p><p>Q: Is there anything else that strikes your fancy to grace us with in the short
+to medium term?</p><p>A: Grace? You honour me with such words.</p><p>I have a few ideas I&rsquo;m considering for additional candidates to the core
 library collection, once I&rsquo;m done with the <code>regex</code> package. I&rsquo;m keeping my eye
 towards what might be most useful while offering some learning opportunities
-for me.</p>
-<p>However, I won&rsquo;t say anything just yet. To borrow your phrasing from another
+for me.</p><p>However, I won&rsquo;t say anything just yet. To borrow your phrasing from another
 conversation we&rsquo;ve had, I prefer to emerge fully formed. People are more
 delighted when surprised with wonders rather than disappointed by fallen
-promises.</p>
-<p>===</p>
-<p>Q: What would you say your favorite thing about Odin is, and what would you say
+promises.</p><p>===</p><p>Q: What would you say your favorite thing about Odin is, and what would you say
 could be improved? This could be a feature, syntax, the community,
 documentation, tooling, anything and everything related to working with Odin
-that you really like, and conversely think could use some love, and why?</p>
-<p>A: Two questions in one! Surely I have the strength to answer both.</p>
-<p>I would have to say the plain simplicity is my favorite thing about Odin. The
+that you really like, and conversely think could use some love, and why?</p><p>A: Two questions in one! Surely I have the strength to answer both.</p><p>I would have to say the plain simplicity is my favorite thing about Odin. The
 clarity of the language lets me cut straight to the problem. It&rsquo;s almost as
 unfettered as assembly. Odin truly is an alternative to C, if not a proper
-successor.</p>
-<p>As for what could be improved&mldr; Well, I&rsquo;m conservative with my language
+successor.</p><p>As for what could be improved&mldr; Well, I&rsquo;m conservative with my language
 feature wishes, so I&rsquo;d say it would be great if we could keep fixing bugs and
 improving stability in the compiler. However, I will say that I&rsquo;m curious what
 an alternative backend to LLVM would be like. I imagine we would have faster
 compile times. Maybe we would get better code generation and smaller binaries
-too? I bet that&rsquo;s a heroic effort though, to build an alternative to LLVM.</p>
-<p>Odin&rsquo;s flexible enough that if something&rsquo;s missing, usually I can write what I
+too? I bet that&rsquo;s a heroic effort though, to build an alternative to LLVM.</p><p>Odin&rsquo;s flexible enough that if something&rsquo;s missing, usually I can write what I
 need myself, so I don&rsquo;t have any great demands. So long as the code generated
 by the compiler is as fast as can be, then the responsibility is on me to make
-the code performant, and I won&rsquo;t have to worry about any underlying costs.</p>
-<p>In closing, I will say that for Odin&rsquo;s future, I will be glad if the philosophy
+the code performant, and I won&rsquo;t have to worry about any underlying costs.</p><p>In closing, I will say that for Odin&rsquo;s future, I will be glad if the philosophy
 behind the language stays the course over the years to come, weathering
 whatever new techno-fads and siren songs composed only of buzz words happen to
-entice and arouse the masses.</p>
-</div>
-</article>
-<div id=TOC class="col-lg-2 odin-toc-border">
-<div class="sticky-top odin-below-navbar py-3">
-<nav id=TableOfContents>
-<ul>
-<li><a href=#projects-shared-this-month>Projects shared this month</a></li>
-<li><a href=#streams--youtube-content>Streams / Youtube Content</a>
-<ul>
-<li><a href=#karl-zylinski>Karl Zylinski</a></li>
-<li><a href=#gingerbill>GingerBill</a></li>
-<li><a href=#other-channels-found>Other Channels Found</a></li>
-</ul>
-</li>
-<li><a href=#interview-with-feoramund>Interview with Feoramund</a></li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-</div>
-</main>
-<footer class=odin-footer>
-<div class="container pb-5 pt-5">
-<div class="row g-4">
-<div class=col>
-<a class=navbar-brand href=/>
-<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
-<p>
-The Data-Oriented Language for Sane Software Development.
-</p>
-</div>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Resources</h4>
-<ul class=list-unstyled>
-<li><a href=/docs class=link-light>Docs</a></li>
-<li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li>
-<li><a href=/news class=link-light>News</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Community</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
-<li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li>
-<li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li>
-<li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li>
-<li><a href=/showcase target=_blank class=link-light>Showcase</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Contribute</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
-<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
-</ul>
-</nav>
-</div>
-<div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div>
-</div>
-</footer>
-<script src=/lib/bootstrap/js/bootstrap.min.js></script>
-<script src=/js/script.js></script>
-</body>
-</html>
+entice and arouse the masses.</p></div></article><div id=TOC class="col-lg-2 odin-toc-border"><div class="sticky-top odin-below-navbar py-3"><nav id=TableOfContents><ul><li><a href=#projects-shared-this-month>Projects shared this month</a></li><li><a href=#streams--youtube-content>Streams / Youtube Content</a><ul><li><a href=#karl-zylinski>Karl Zylinski</a></li><li><a href=#gingerbill>GingerBill</a></li><li><a href=#other-channels-found>Other Channels Found</a></li></ul></li><li><a href=#interview-with-feoramund>Interview with Feoramund</a></li></ul></nav></div></div></div></div></main><footer class=odin-footer><div class="container pb-5 pt-5"><div class="row g-4"><div class=col><a class=navbar-brand href=/><img class=mb-3 src=/logo.svg height=30 alt=Odin></a><p>The Data-Oriented Language for Sane Software Development.</p></div><nav class=col-md-auto><h4 class=fw-normal>Resources</h4><ul class=list-unstyled><li><a href=/docs class=link-light>Docs</a></li><li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li><li><a href=/news class=link-light>News</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Community</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li><li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li><li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li><li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li><li><a href=/showcase target=_blank class=link-light>Showcase</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Contribute</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li><li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li></ul></nav></div><div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div></div></footer><script src=/lib/bootstrap/js/bootstrap.min.js></script><script src=/js/script.js></script></body></html>

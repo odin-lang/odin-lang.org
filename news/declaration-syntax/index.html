@@ -1,362 +1,61 @@
-<!doctype html><html>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<link rel=icon href=/favicon.svg>
-<meta name=color-scheme content="only dark">
-<meta property="og:title" content="Odin's Declaration Syntax">
-<meta property="og:description" content="Odin&rsquo;s Declaration Syntax Compared With C">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://odin-lang.org/news/declaration-syntax/">
-<meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
-<meta property="article:published_time" content="2022-02-25T00:00:00+00:00">
-<meta property="article:modified_time" content="2022-02-25T00:00:00+00:00">
-<link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
-<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
-<script src=/lib/highlight/highlight.min.js></script>
-<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[ijk]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
-<script>hljs.highlightAll()</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
-<link href=/css/style.css rel=stylesheet>
-<title>Odin's Declaration Syntax | Odin Programming Language </title>
-<link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0>
-<script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
-<div class=container-xxl>
-<a class=navbar-brand href=/>
-<img src=/logo.svg height=30 alt=Odin id=navbar-logo>
-</a>
-<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span>
-</button>
-<div class="collapse navbar-collapse" id=odin-navbar-content>
-<ul class="navbar-nav ms-md-auto">
-<li class=nav-item>
-<a class=nav-link href=/>Home</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/docs>Docs</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://pkg.odin-lang.org/>Packages</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news aria-current=page>News</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/showcase>Showcase</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://forum.odin-lang.org>Forum</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/community>Community</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
-</li>
-<li class=nav-item>
-<a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode">
-<span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg>
-</button>
-</a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-</header>
-<main>
-<div class=container-xxl>
-<div class="row odin-main">
-<nav class="col-lg-2 odin-sidebar-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3">
-<ul class="nav nav-pills d-flex flex-column">
-<li class=nav-item>
-<a class=nav-link href=/news/orca-odin/>Orca Odin Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-08/>August 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-07/>July 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/binding-to-c/>Binding to C</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news/declaration-syntax/ aria-current=page>Odin's Declaration Syntax</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a>
-</li>
-</ul>
-</div>
-</nav>
-<article class="col-lg-8 p-4">
-<header>
-<nav aria-label=breadcrumb>
-<ol class=breadcrumb>
-<li class=breadcrumb-item><a href=/news>News</a></li>
-<li class=breadcrumb-item><a href=/news/declaration-syntax>Declaration syntax</a></li>
-</ol>
-<h1>Odin's Declaration Syntax</h1>
-</header>
-<div class=odin-article>
-<p>Newcomers to Odin from C-like languages often ask why the declaration syntax is different, or even &ldquo;opposite&rdquo; to what they are used to. In this article, we will compare the two languages and explain why I arrived at Odin&rsquo;s declaration syntax.</p>
-<h2 id=cs-syntax>C&rsquo;s Syntax <a class=text-decoration-none href=#cs-syntax>#</a></h2>
-<p>The declaration syntax in C is often thought of as &ldquo;type first&rdquo;, i.e. type declaration and usage in an expression share the same syntax<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>. Therefore:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> x;
-</code></pre></div><p>declares <code>x</code> to be an <code>int</code>, or more correctly, the expression <code>x</code> will have type <code>int</code>. Determining how to write the type for a variable declaration involves writing an expression that evaluates the variable&rsquo;s type completely.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#f92672>*</span>ptr;
-</code></pre></div><p>states that <code>ptr</code> is a pointer to <code>int</code> because <code>*ptr</code> has type <code>int</code>.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> array[<span style=color:#ae81ff>3</span>];
-</code></pre></div><p>states that <code>array</code> is an array of three ints because <code>array[0]</code> has type <code>int</code>.</p>
-<p>Following these rules, more complex types can be built up:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#f92672>*</span>a[<span style=color:#ae81ff>3</span>];
-</code></pre></div><p>states that <code>a</code> is an array 3 of pointer to <code>int</code> because <code>*a[0]</code> has type <code>int</code>.</p>
-<pre><code>int (*b)[3]; // pointer to array 3 of int
-</code></pre><p>states that <code>b</code> is a pointer to array 3 <code>int</code> because <code>(*b)[0]</code> has type <code>int</code>.</p>
-<h3 id=procedures>Procedures <a class=text-decoration-none href=#procedures>#</a></h3>
-<p>In the &ldquo;original&rdquo; pre-standardized C, procedure declarations express their types after the parameters names<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(argc, argv)
-	<span style=color:#66d9ef>int</span> argc;
-	<span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>argv[];
-{
-	...
-}
-</code></pre></div><p>Contemporary C&rsquo;s declaration-matches-usage was merged, making it more familiar:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>int</span> argc, <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>argv[]) {
-	...
-}
-</code></pre></div><p>This idea worked well enough in general, but it started to become unwieldy as soon as the programmer wants to declare a procedure pointer:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>pp)(<span style=color:#66d9ef>int</span> x, <span style=color:#66d9ef>int</span> y);
-</code></pre></div><p>Where <code>pp</code> is pointer to a procedure because if <code>(*pp)(x, y)</code> is written<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>, it is a call that returns an <code>int</code>.</p>
-<p>This is what is required to use <code>pp</code> as one of the parameters of the procedure itself:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>qp)(<span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>pp)(<span style=color:#66d9ef>int</span> x, <span style=color:#66d9ef>int</span> y), <span style=color:#66d9ef>int</span> b);
-</code></pre></div><p>This is now really difficult to read without using <code>typedef</code> declarations.</p>
-<p>Removing the identifier to turn a procedure&rsquo;s signature into a declaration can result in dense, confusing syntax:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> main(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>[])
-<span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>)(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>)
-<span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>qp)(<span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>)(<span style=color:#66d9ef>int</span> x, <span style=color:#66d9ef>int</span> y), <span style=color:#66d9ef>int</span> b)
-</code></pre></div><p>And what if the procedure pointer <code>qp</code> needed to return another procedure pointer instead of <code>int</code>?</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>(<span style=color:#f92672>*</span>qp)(<span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>)(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>), <span style=color:#66d9ef>int</span>))(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>)
-</code></pre></div><h3 id=type-qualifiers>Type Qualifiers <a class=text-decoration-none href=#type-qualifiers>#</a></h3>
-<p>C has many different <a href=https://docs.microsoft.com/en-us/cpp/c-language/type-qualifiers>type qualifiers</a> to indicate specific behaviour of a type. The following is an example of many of them applied to one huge declaration:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c>_Atomic <span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>long</span> <span style=color:#66d9ef>long</span> <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>volatile</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>restrict</span> foo[]; <span style=color:#75715e>// Yeah...
-</span></code></pre></div><p>An interesting thing about type qualifiers is that they can be in different places and still express the same thing:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>int</span> <span style=color:#66d9ef>const</span> x;
-<span style=color:#66d9ef>const</span> <span style=color:#66d9ef>int</span> x;
-
-<span style=color:#66d9ef>const</span> <span style=color:#66d9ef>int</span> <span style=color:#f92672>*</span>y;
-<span style=color:#66d9ef>int</span> <span style=color:#66d9ef>const</span> <span style=color:#f92672>*</span>y;
-</code></pre></div><p>And <code>typedef</code> has the same behaviour too:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>typedef</span> <span style=color:#66d9ef>int</span> my_int;
-<span style=color:#66d9ef>int</span> <span style=color:#66d9ef>typedef</span> my_int;
-</code></pre></div><h3 id=symbol-table>Symbol Table <a class=text-decoration-none href=#symbol-table>#</a></h3>
-<p>C requires a symbol table to parse to disambiguate between type declarations and an expression, e.g.:</p>
-<pre><code>foo * bar;
-</code></pre><p>At first glance, it is impossible to know if this an expression or a declaration, and the compiler must use a symbol table to differentiate them whilst parsing.</p>
-<h2 id=odin-syntax>Odin Syntax <a class=text-decoration-none href=#odin-syntax>#</a></h2>
-<p>Odin&rsquo;s approach is much closer to that of a Pascal-style approach, which is a lot easier to read, parse, and comprehend:</p>
-<pre><code class=language-odin data-lang=odin>x:     int
-ptr:   ^int
-array: [3]int
-</code></pre><p>where <code>x</code> is a variable of type <code>int</code>, <code>ptr</code> is a pointer to <code>int</code>, and <code>array</code> is an array 3 of <code>int</code>s.</p>
-<p>Unlike C, there is no relation between the type <code>[3]int</code> and how it will be used in an expression. Readability and simplicity is gained, at the &ldquo;expense&rdquo; of separating declaration and usage syntax:</p>
-<pre><code class=language-odin data-lang=odin>array: [3]int
-x = array[i]
-
-ptr: ^int
-x = ptr^
-</code></pre><p><strong>Note:</strong> Odin borrows the <code>^</code> syntax for pointers from the Pascal family, because it is pointy and allows for consistent usage of the type-on-left (i.e. <code>^int</code>, a pointer to an <code>int</code>), and usage-on-right (<code>x^</code>, dereference a pointer to an <code>int</code>) idiom.</p>
-<h3 id=procedures-1>Procedures <a class=text-decoration-none href=#procedures-1>#</a></h3>
-<p>Odin&rsquo;s procedure syntax follows a very similar approach as with other variable declarations. Odin&rsquo;s entry point doesn&rsquo;t take or return anything, but if the C form is transliterated into Odin:</p>
-<pre><code class=language-odin data-lang=odin>main :: proc(argc: int, argv: []string) -&gt; int {
-	...
-}
-</code></pre><p>This specific example may not be that much different from C other than the <code>char *</code> to <code>string</code>, but the entire declaration is readable from left-to-right:</p>
-<p><code>main</code> is declared a procedure that takes an <code>int</code> and a slice of <code>string</code>s, and returns an <code>int</code>, with a defined body.</p>
-<p><strong>Note:</strong> A proper semantic translation of that signature would be <code>proc "c" (argc: c.int, argv: [^]cstring) -> c.int</code>, but for understandability of this article, a transliteration is done to keep things understandable.</p>
-<p>One of the beautiful aspects of this style is that it is very easy to drop the procedure&rsquo;s parameter names and there is absolutely no confusion:</p>
-<pre><code class=language-odin data-lang=odin>main :: proc(int, []string) -&gt; int {
-	...
-}
-</code></pre><p>Another wonderful aspect of the ability to read left-to-right is that more complex types are easier to comprehend. Transliterating the C examples for the procedure pointers into the analogous procedure variables in Odin:</p>
-<pre><code class=language-odin data-lang=odin>qp: proc(pp: proc(x: int, y: int) -&gt; int, b: int) -&gt; int
-</code></pre><p>or if <code>qp</code> was to return a procedure:</p>
-<pre><code class=language-odin data-lang=odin>qp: proc(pp: proc(x: int, y: int) -&gt; int, b: int) -&gt; proc(int, int) -&gt; int
-</code></pre><p>or with all the parameter names removed:</p>
-<pre><code class=language-odin data-lang=odin>qp: proc(proc(int, int) -&gt; int, int) -&gt; proc(int, int) -&gt; int
-</code></pre><p>All of these declarations are still read very clearly from left-to-right, and it is still obvious without names what is declared where.</p>
-<h3 id=syntactic-meaning-of->Syntactic Meaning of <code>:</code> <a class=text-decoration-none href=#syntactic-meaning-of->#</a></h3>
-<p>Unlike C, Odin uses <code>:</code> to separate the name from the type in a value declaration. This symbol allows for the ability for the type be omitted and inferred from the declaration. The following are all equivalent:</p>
-<pre><code class=language-odin data-lang=odin>x : int = 123
-x :     = 123
-x := 123
-x := int(123)
-</code></pre><p><strong>Note:</strong> it is more common to see <code>x: int = 123</code> where the <code>:</code> is attached to the variable name itself</p>
-<p>This syntax has its origins in the language <a href=https://swtch.com/~rsc/thread/newsqueak.pdf>Newsqueak</a>. It can be thought of that <code>:</code> declares and <code>=</code> assigns; it is not a single token <a href=/docs/faq/#what-does--mean><code>:=</code></a>.</p>
-<p>Odin also has a different kind of declaration for constant value declarations:</p>
-<pre><code class=language-odin data-lang=odin>X :: 123
-X :   : 123
-
-Y : int : 123
-Y :: int(123)
-
-Z :: proc() {...}
-Z : proc() : proc() {...} // Redundant type declaration
-</code></pre><p>Here the first <code>:</code> still declares, whilst the second <code>:</code> defines; it is not a single token <a href=/docs/faq/#what-does--mean-1><code>::</code></a>.</p>
-<p><strong>Note:</strong> Constant value declarations are compile known values and not equivalent to C&rsquo;s <code>const</code> (an immutable [runtime] variable) but closer to C&rsquo;s <code>#define</code> in terms of semantics.</p>
-<section class=footnotes role=doc-endnotes>
-<hr>
-<ol>
-<li id=fn:1 role=doc-endnote>
-<p>Many think of C&rsquo;s declarations to be read in a &ldquo;spiral&rdquo;: <a href=http://c-faq.com/decl/spiral.anderson.html>http://c-faq.com/decl/spiral.anderson.html</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
-</li>
-<li id=fn:2 role=doc-endnote>
-<p>In those versions of C, if the type was never declared (including the return type), everything was assumed to be of type <code>int</code>.&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
-</li>
-<li id=fn:3 role=doc-endnote>
-<p>It should be noted that C allows for a shorthand where the programmer does not have to explicitly dereference the procedure pointer so <code>pp(x, y)</code> is valid, but it is still required to declare the procedure as a pointer to a procedure because the procedure has an unknown size.&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
-</li>
-</ol>
-</section>
-</div>
-</article>
-<div id=TOC class="col-lg-2 odin-toc-border">
-<div class="sticky-top odin-below-navbar py-3">
-<nav id=TableOfContents>
-<ul>
-<li><a href=#cs-syntax>C&rsquo;s Syntax</a>
-<ul>
-<li><a href=#procedures>Procedures</a></li>
-<li><a href=#type-qualifiers>Type Qualifiers</a></li>
-<li><a href=#symbol-table>Symbol Table</a></li>
-</ul>
-</li>
-<li><a href=#odin-syntax>Odin Syntax</a>
-<ul>
-<li><a href=#procedures-1>Procedures</a></li>
-<li><a href=#syntactic-meaning-of->Syntactic Meaning of <code>:</code></a></li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-</div>
-</main>
-<footer class=odin-footer>
-<div class="container pb-5 pt-5">
-<div class="row g-4">
-<div class=col>
-<a class=navbar-brand href=/>
-<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
-<p>
-The Data-Oriented Language for Sane Software Development.
-</p>
-</div>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Resources</h4>
-<ul class=list-unstyled>
-<li><a href=/docs class=link-light>Docs</a></li>
-<li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li>
-<li><a href=/news class=link-light>News</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Community</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
-<li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li>
-<li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li>
-<li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li>
-<li><a href=/showcase target=_blank class=link-light>Showcase</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Contribute</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
-<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
-</ul>
-</nav>
-</div>
-<div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div>
-</div>
-</footer>
-<script src=/lib/bootstrap/js/bootstrap.min.js></script>
-<script src=/js/script.js></script>
-</body>
-</html>
+<!doctype html><html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.svg><meta name=color-scheme content="only dark"><meta property="og:title" content="Odin's Declaration Syntax"><meta property="og:description" content="Odin&rsquo;s Declaration Syntax Compared With C"><meta property="og:type" content="article"><meta property="og:url" content="https://odin-lang.org/news/declaration-syntax/"><meta property="og:image" content="https://odin-lang.org/images/logo-slim.png"><meta property="article:published_time" content="2022-02-25T00:00:00+00:00"><meta property="article:modified_time" content="2022-02-25T00:00:00+00:00"><link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css><link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css><script src=/lib/highlight/highlight.min.js></script><script>hljs.registerLanguage("odin",function(e){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[e.C_LINE_COMMENT_MODE,e.C_BLOCK_COMMENT_MODE,{className:"string",variants:[e.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:e.C_NUMBER_RE+"[ijk]",relevance:1},e.C_NUMBER_MODE]}]}})</script><script>hljs.highlightAll()</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-67516878-2")</script><link href=/css/style.css rel=stylesheet><title>Odin's Declaration Syntax | Odin Programming Language </title><link rel=alternate type=application/rss+xml href=https://odin-lang.org//categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top><nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu"><div class=container-xxl><a class=navbar-brand href=/><img src=/logo.svg height=30 alt=Odin id=navbar-logo>
+</a><button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=odin-navbar-content><ul class="navbar-nav ms-md-auto"><li class=nav-item><a class=nav-link href=/>Home</a></li><li class=nav-item><a class=nav-link href=/docs>Docs</a></li><li class=nav-item><a class=nav-link href=https://pkg.odin-lang.org/>Packages</a></li><li class=nav-item><a class="nav-link active" href=/news aria-current=page>News</a></li><li class=nav-item><a class=nav-link href=/showcase>Showcase</a></li><li class=nav-item><a class=nav-link href=https://forum.odin-lang.org>Forum</a></li><li class=nav-item><a class=nav-link href=/community>Community</a></li><li class=nav-item><a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a></li><li class=nav-item><a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode"><span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg></button></a></li></ul></div></div></nav></header><main><div class=container-xxl><div class="row odin-main"><nav class="col-lg-2 odin-sidebar-border navbar-light"><div class="sticky-top odin-below-navbar py-3"><ul class="nav nav-pills d-flex flex-column"><li class=nav-item><a class=nav-link href=/news/orca-odin/>Orca Odin Support</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-08/>August 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-07/>July 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a></li><li class=nav-item><a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a></li><li class=nav-item><a class=nav-link href=/news/binding-to-c/>Binding to C</a></li><li class=nav-item><a class="nav-link active" href=/news/declaration-syntax/ aria-current=page>Odin's Declaration Syntax</a></li><li class=nav-item><a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a></li><li class=nav-item><a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a></li><li class=nav-item><a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a></li><li class=nav-item><a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a></li></ul></div></nav><article class="col-lg-8 p-4"><header><nav aria-label=breadcrumb><ol class=breadcrumb><li class=breadcrumb-item><a href=/news>News</a></li><li class=breadcrumb-item><a href=/news/declaration-syntax>Declaration syntax</a></li></ol><h1>Odin's Declaration Syntax</h1></header><div class=odin-article><p>Newcomers to Odin from C-like languages often ask why the declaration syntax is different, or even &ldquo;opposite&rdquo; to what they are used to. In this article, we will compare the two languages and explain why I arrived at Odin&rsquo;s declaration syntax.</p><h2 id=cs-syntax>C&rsquo;s Syntax <a class=text-decoration-none href=#cs-syntax>#</a></h2><p>The declaration syntax in C is often thought of as &ldquo;type first&rdquo;, i.e. type declaration and usage in an expression share the same syntax<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>. Therefore:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> x;
+</span></span></code></pre></div><p>declares <code>x</code> to be an <code>int</code>, or more correctly, the expression <code>x</code> will have type <code>int</code>. Determining how to write the type for a variable declaration involves writing an expression that evaluates the variable&rsquo;s type completely.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#f92672>*</span>ptr;
+</span></span></code></pre></div><p>states that <code>ptr</code> is a pointer to <code>int</code> because <code>*ptr</code> has type <code>int</code>.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> array[<span style=color:#ae81ff>3</span>];
+</span></span></code></pre></div><p>states that <code>array</code> is an array of three ints because <code>array[0]</code> has type <code>int</code>.</p><p>Following these rules, more complex types can be built up:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#f92672>*</span>a[<span style=color:#ae81ff>3</span>];
+</span></span></code></pre></div><p>states that <code>a</code> is an array 3 of pointer to <code>int</code> because <code>*a[0]</code> has type <code>int</code>.</p><pre tabindex=0><code>int (*b)[3]; // pointer to array 3 of int
+</code></pre><p>states that <code>b</code> is a pointer to array 3 <code>int</code> because <code>(*b)[0]</code> has type <code>int</code>.</p><h3 id=procedures>Procedures <a class=text-decoration-none href=#procedures>#</a></h3><p>In the &ldquo;original&rdquo; pre-standardized C, procedure declarations express their types after the parameters names<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(argc, argv)
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>int</span> argc;
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>argv[];
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>	...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Contemporary C&rsquo;s declaration-matches-usage was merged, making it more familiar:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>int</span> argc, <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>argv[]) {
+</span></span><span style=display:flex><span>	...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>This idea worked well enough in general, but it started to become unwieldy as soon as the programmer wants to declare a procedure pointer:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>pp)(<span style=color:#66d9ef>int</span> x, <span style=color:#66d9ef>int</span> y);
+</span></span></code></pre></div><p>Where <code>pp</code> is pointer to a procedure because if <code>(*pp)(x, y)</code> is written<sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup>, it is a call that returns an <code>int</code>.</p><p>This is what is required to use <code>pp</code> as one of the parameters of the procedure itself:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>qp)(<span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>pp)(<span style=color:#66d9ef>int</span> x, <span style=color:#66d9ef>int</span> y), <span style=color:#66d9ef>int</span> b);
+</span></span></code></pre></div><p>This is now really difficult to read without using <code>typedef</code> declarations.</p><p>Removing the identifier to turn a procedure&rsquo;s signature into a declaration can result in dense, confusing syntax:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#a6e22e>main</span>(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>char</span> <span style=color:#f92672>*</span>[])
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>)(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>qp)(<span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>)(<span style=color:#66d9ef>int</span> x, <span style=color:#66d9ef>int</span> y), <span style=color:#66d9ef>int</span> b)
+</span></span></code></pre></div><p>And what if the procedure pointer <code>qp</code> needed to return another procedure pointer instead of <code>int</code>?</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>(<span style=color:#f92672>*</span>qp)(<span style=color:#66d9ef>int</span> (<span style=color:#f92672>*</span>)(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>), <span style=color:#66d9ef>int</span>))(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>)
+</span></span></code></pre></div><h3 id=type-qualifiers>Type Qualifiers <a class=text-decoration-none href=#type-qualifiers>#</a></h3><p>C has many different <a href=https://docs.microsoft.com/en-us/cpp/c-language/type-qualifiers>type qualifiers</a> to indicate specific behaviour of a type. The following is an example of many of them applied to one huge declaration:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span>_Atomic <span style=color:#66d9ef>unsigned</span> <span style=color:#66d9ef>long</span> <span style=color:#66d9ef>long</span> <span style=color:#66d9ef>int</span> <span style=color:#66d9ef>const</span> <span style=color:#66d9ef>volatile</span> <span style=color:#f92672>*</span><span style=color:#66d9ef>restrict</span> foo[]; <span style=color:#75715e>// Yeah...
+</span></span></span></code></pre></div><p>An interesting thing about type qualifiers is that they can be in different places and still express the same thing:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#66d9ef>const</span> x;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#66d9ef>int</span> x;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#66d9ef>int</span> <span style=color:#f92672>*</span>y;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#66d9ef>const</span> <span style=color:#f92672>*</span>y;
+</span></span></code></pre></div><p>And <code>typedef</code> has the same behaviour too:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=display:flex><span><span style=color:#66d9ef>typedef</span> <span style=color:#66d9ef>int</span> my_int;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>int</span> <span style=color:#66d9ef>typedef</span> my_int;
+</span></span></code></pre></div><h3 id=symbol-table>Symbol Table <a class=text-decoration-none href=#symbol-table>#</a></h3><p>C requires a symbol table to parse to disambiguate between type declarations and an expression, e.g.:</p><pre tabindex=0><code>foo * bar;
+</code></pre><p>At first glance, it is impossible to know if this an expression or a declaration, and the compiler must use a symbol table to differentiate them whilst parsing.</p><h2 id=odin-syntax>Odin Syntax <a class=text-decoration-none href=#odin-syntax>#</a></h2><p>Odin&rsquo;s approach is much closer to that of a Pascal-style approach, which is a lot easier to read, parse, and comprehend:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>x<span style=color:#f92672>:</span>     <span style=color:#66d9ef>int</span>
+</span></span><span style=display:flex><span>ptr<span style=color:#f92672>:</span>   <span style=color:#f92672>^</span><span style=color:#66d9ef>int</span>
+</span></span><span style=display:flex><span>array<span style=color:#f92672>:</span> [<span style=color:#a6e22e>3</span>]<span style=color:#66d9ef>int</span>
+</span></span></code></pre></div><p>where <code>x</code> is a variable of type <code>int</code>, <code>ptr</code> is a pointer to <code>int</code>, and <code>array</code> is an array 3 of <code>int</code>s.</p><p>Unlike C, there is no relation between the type <code>[3]int</code> and how it will be used in an expression. Readability and simplicity is gained, at the &ldquo;expense&rdquo; of separating declaration and usage syntax:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>array<span style=color:#f92672>:</span> [<span style=color:#a6e22e>3</span>]<span style=color:#66d9ef>int</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>=</span> array[i]
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ptr<span style=color:#f92672>:</span> <span style=color:#f92672>^</span><span style=color:#66d9ef>int</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>=</span> ptr<span style=color:#f92672>^</span>
+</span></span></code></pre></div><p><strong>Note:</strong> Odin borrows the <code>^</code> syntax for pointers from the Pascal family, because it is pointy and allows for consistent usage of the type-on-left (i.e. <code>^int</code>, a pointer to an <code>int</code>), and usage-on-right (<code>x^</code>, dereference a pointer to an <code>int</code>) idiom.</p><h3 id=procedures-1>Procedures <a class=text-decoration-none href=#procedures-1>#</a></h3><p>Odin&rsquo;s procedure syntax follows a very similar approach as with other variable declarations. Odin&rsquo;s entry point doesn&rsquo;t take or return anything, but if the C form is transliterated into Odin:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>(argc<span style=color:#f92672>:</span> <span style=color:#66d9ef>int</span>, argv<span style=color:#f92672>:</span> []<span style=color:#66d9ef>string</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>int</span> {
+</span></span><span style=display:flex><span>	...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>This specific example may not be that much different from C other than the <code>char *</code> to <code>string</code>, but the entire declaration is readable from left-to-right:</p><p><code>main</code> is declared a procedure that takes an <code>int</code> and a slice of <code>string</code>s, and returns an <code>int</code>, with a defined body.</p><p><strong>Note:</strong> A proper semantic translation of that signature would be <code>proc "c" (argc: c.int, argv: [^]cstring) -> c.int</code>, but for understandability of this article, a transliteration is done to keep things understandable.</p><p>One of the beautiful aspects of this style is that it is very easy to drop the procedure&rsquo;s parameter names and there is absolutely no confusion:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>(<span style=color:#66d9ef>int</span>, []<span style=color:#66d9ef>string</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>int</span> {
+</span></span><span style=display:flex><span>	...
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>Another wonderful aspect of the ability to read left-to-right is that more complex types are easier to comprehend. Transliterating the C examples for the procedure pointers into the analogous procedure variables in Odin:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>qp<span style=color:#f92672>:</span> <span style=color:#66d9ef>proc</span>(pp<span style=color:#f92672>:</span> <span style=color:#66d9ef>proc</span>(x<span style=color:#f92672>:</span> <span style=color:#66d9ef>int</span>, y<span style=color:#f92672>:</span> <span style=color:#66d9ef>int</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>int</span>, b<span style=color:#f92672>:</span> <span style=color:#66d9ef>int</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>int</span>
+</span></span></code></pre></div><p>or if <code>qp</code> was to return a procedure:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>qp<span style=color:#f92672>:</span> <span style=color:#66d9ef>proc</span>(pp<span style=color:#f92672>:</span> <span style=color:#66d9ef>proc</span>(x<span style=color:#f92672>:</span> <span style=color:#66d9ef>int</span>, y<span style=color:#f92672>:</span> <span style=color:#66d9ef>int</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>int</span>, b<span style=color:#f92672>:</span> <span style=color:#66d9ef>int</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>proc</span>(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>int</span>
+</span></span></code></pre></div><p>or with all the parameter names removed:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>qp<span style=color:#f92672>:</span> <span style=color:#66d9ef>proc</span>(<span style=color:#66d9ef>proc</span>(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>proc</span>(<span style=color:#66d9ef>int</span>, <span style=color:#66d9ef>int</span>) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>int</span>
+</span></span></code></pre></div><p>All of these declarations are still read very clearly from left-to-right, and it is still obvious without names what is declared where.</p><h3 id=syntactic-meaning-of->Syntactic Meaning of <code>:</code> <a class=text-decoration-none href=#syntactic-meaning-of->#</a></h3><p>Unlike C, Odin uses <code>:</code> to separate the name from the type in a value declaration. This symbol allows for the ability for the type be omitted and inferred from the declaration. The following are all equivalent:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>x <span style=color:#f92672>:</span> <span style=color:#66d9ef>int</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>123</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>:</span>     <span style=color:#f92672>=</span> <span style=color:#a6e22e>123</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>:=</span> <span style=color:#a6e22e>123</span>
+</span></span><span style=display:flex><span>x <span style=color:#f92672>:=</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>123</span>)
+</span></span></code></pre></div><p><strong>Note:</strong> it is more common to see <code>x: int = 123</code> where the <code>:</code> is attached to the variable name itself</p><p>This syntax has its origins in the language <a href=https://swtch.com/~rsc/thread/newsqueak.pdf>Newsqueak</a>. It can be thought of that <code>:</code> declares and <code>=</code> assigns; it is not a single token <a href=/docs/faq/#what-does--mean><code>:=</code></a>.</p><p>Odin also has a different kind of declaration for constant value declarations:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>X <span style=color:#f92672>::</span> <span style=color:#a6e22e>123</span>
+</span></span><span style=display:flex><span>X <span style=color:#f92672>:</span>   <span style=color:#f92672>:</span> <span style=color:#a6e22e>123</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Y <span style=color:#f92672>:</span> <span style=color:#66d9ef>int</span> <span style=color:#f92672>:</span> <span style=color:#a6e22e>123</span>
+</span></span><span style=display:flex><span>Y <span style=color:#f92672>::</span> <span style=color:#66d9ef>int</span>(<span style=color:#a6e22e>123</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Z <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>() {...}
+</span></span><span style=display:flex><span>Z <span style=color:#f92672>:</span> <span style=color:#66d9ef>proc</span>() <span style=color:#f92672>:</span> <span style=color:#66d9ef>proc</span>() {...} <span style=color:#75715e>// Redundant type declaration
+</span></span></span></code></pre></div><p>Here the first <code>:</code> still declares, whilst the second <code>:</code> defines; it is not a single token <a href=/docs/faq/#what-does--mean-1><code>::</code></a>.</p><p><strong>Note:</strong> Constant value declarations are compile known values and not equivalent to C&rsquo;s <code>const</code> (an immutable [runtime] variable) but closer to C&rsquo;s <code>#define</code> in terms of semantics.</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p>Many think of C&rsquo;s declarations to be read in a &ldquo;spiral&rdquo;: <a href=http://c-faq.com/decl/spiral.anderson.html>http://c-faq.com/decl/spiral.anderson.html</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2><p>In those versions of C, if the type was never declared (including the return type), everything was assumed to be of type <code>int</code>.&#160;<a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3><p>It should be noted that C allows for a shorthand where the programmer does not have to explicitly dereference the procedure pointer so <code>pp(x, y)</code> is valid, but it is still required to declare the procedure as a pointer to a procedure because the procedure has an unknown size.&#160;<a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div></article><div id=TOC class="col-lg-2 odin-toc-border"><div class="sticky-top odin-below-navbar py-3"><nav id=TableOfContents><ul><li><a href=#cs-syntax>C&rsquo;s Syntax</a><ul><li><a href=#procedures>Procedures</a></li><li><a href=#type-qualifiers>Type Qualifiers</a></li><li><a href=#symbol-table>Symbol Table</a></li></ul></li><li><a href=#odin-syntax>Odin Syntax</a><ul><li><a href=#procedures-1>Procedures</a></li><li><a href=#syntactic-meaning-of->Syntactic Meaning of <code>:</code></a></li></ul></li></ul></nav></div></div></div></div></main><footer class=odin-footer><div class="container pb-5 pt-5"><div class="row g-4"><div class=col><a class=navbar-brand href=/><img class=mb-3 src=/logo.svg height=30 alt=Odin></a><p>The Data-Oriented Language for Sane Software Development.</p></div><nav class=col-md-auto><h4 class=fw-normal>Resources</h4><ul class=list-unstyled><li><a href=/docs class=link-light>Docs</a></li><li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li><li><a href=/news class=link-light>News</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Community</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li><li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li><li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li><li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li><li><a href=/showcase target=_blank class=link-light>Showcase</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Contribute</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li><li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li></ul></nav></div><div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div></div></footer><script src=/lib/bootstrap/js/bootstrap.min.js></script><script src=/js/script.js></script></body></html>

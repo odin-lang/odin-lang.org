@@ -1,453 +1,165 @@
-<!doctype html><html>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<link rel=icon href=/favicon.svg>
-<meta name=color-scheme content="only dark">
-<meta property="og:title" content="Orca Odin Support">
-<meta property="og:description" content="How to use Orca as a new platform target and examples">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://odin-lang.org/news/orca-odin/">
-<meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
-<meta property="article:published_time" content="2024-12-11T00:00:00+00:00">
-<meta property="article:modified_time" content="2024-12-11T00:00:00+00:00">
-<link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
-<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
-<script src=/lib/highlight/highlight.min.js></script>
-<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[ijk]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
-<script>hljs.highlightAll()</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
-<link href=/css/style.css rel=stylesheet>
-<title>Orca Odin Support | Odin Programming Language </title>
-<link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0>
-<script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
-<div class=container-xxl>
-<a class=navbar-brand href=/>
-<img src=/logo.svg height=30 alt=Odin id=navbar-logo>
-</a>
-<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span>
-</button>
-<div class="collapse navbar-collapse" id=odin-navbar-content>
-<ul class="navbar-nav ms-md-auto">
-<li class=nav-item>
-<a class=nav-link href=/>Home</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/docs>Docs</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://pkg.odin-lang.org/>Packages</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news aria-current=page>News</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/showcase>Showcase</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://forum.odin-lang.org>Forum</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/community>Community</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
-</li>
-<li class=nav-item>
-<a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode">
-<span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg>
-</button>
-</a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-</header>
-<main>
-<div class=container-xxl>
-<div class="row odin-main">
-<nav class="col-lg-2 odin-sidebar-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3">
-<ul class="nav nav-pills d-flex flex-column">
-<li class=nav-item>
-<a class="nav-link active" href=/news/orca-odin/ aria-current=page>Orca Odin Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-08/>August 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-07/>July 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/binding-to-c/>Binding to C</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a>
-</li>
-</ul>
-</div>
-</nav>
-<article class="col-lg-8 p-4">
-<header>
-<nav aria-label=breadcrumb>
-<ol class=breadcrumb>
-<li class=breadcrumb-item><a href=/news>News</a></li>
-<li class=breadcrumb-item><a href=/news/orca-odin>Orca odin</a></li>
-</ol>
-<h1>Orca Odin Support</h1>
-</header>
-<div class=odin-article>
-<h2 id=webassembly-apps-without-the-web>WebAssembly apps without the web. <a class=text-decoration-none href=#webassembly-apps-without-the-web>#</a></h2>
-<p><a href=https://orca-app.dev>A brand-new stack for cross-platform apps.</a></p>
-<p>For more detailed information you can read up on the link above. Please note that Orca is still work in progress.</p>
-<h2 id=orca>Orca <a class=text-decoration-none href=#orca>#</a></h2>
-<p>Orca is a new target <code>-target:orca_wasm32</code> that Odin now supports! It outputs a WASM blob that can be bundled through the Orca pipeline.</p>
-<h3 id=bindings-generator>Bindings Generator <a class=text-decoration-none href=#bindings-generator>#</a></h3>
-<p>Michael Kutowski (Skytrias) focused on getting the automatic bindings generator up and running. It&rsquo;s a Python script which takes in the <code>api.json</code> that&rsquo;s generated through the Orca source code.</p>
-<p>Binding generator: <a href=https://github.com/orca-app/orca-odin>orca-app/orca-odin</a></p>
-<p>Core library: <a href=https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin>core:sys/orca</a></p>
-<h3 id=compiler-support>Compiler Support <a class=text-decoration-none href=#compiler-support>#</a></h3>
-<p>gingerBill and Laytan implemented the Orca target properly in the compiler and made sure it works properly.</p>
-<h3 id=user-experience>User Experience <a class=text-decoration-none href=#user-experience>#</a></h3>
-<p>There are a few things which Odin also does to make the experience of developing for the Orca target more pleasant:</p>
-<ul>
-<li>main entrypoint automatically bound to the <code>on_init</code> event from Orca</li>
-<li><code>@fini</code> calls are bound to <code>on_terminate</code> event</li>
-<li><code>core:log</code> can be used normally and uses Orca logging</li>
-<li>str8 type from Orca maps natively to Odin&rsquo;s string type</li>
-<li><a href=https://github.com/orca-app/orca-odin/blob/master/macros.odin>C Macros</a> are implemented as normal procedures on the Odin side</li>
-<li>Usage of macros for defer are done through @deferred calls</li>
-</ul>
-<h2 id=orca-original-examples>Orca Original Examples <a class=text-decoration-none href=#orca-original-examples>#</a></h2>
-<p>The Odin <a href=https://github.com/odin-lang/examples/tree/master/orca>examples</a> repo includes ports of the C Orca examples for more full fledged examples of using Orca with Odin.</p>
-<h2 id=orca-step-by-step>Orca Step By Step <a class=text-decoration-none href=#orca-step-by-step>#</a></h2>
-<p>In the following examples you can see how easy it is to create programs now!
-Additionally, you also need to specify the output, as shown below, which will then be used by Orca to bundle up the application. All examples can be built this way.</p>
-<pre><code>odin build src -target:orca_wasm32 -out:module.wasm 
+<!doctype html><html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.svg><meta name=color-scheme content="only dark"><meta property="og:title" content="Orca Odin Support"><meta property="og:description" content="How to use Orca as a new platform target and examples"><meta property="og:type" content="article"><meta property="og:url" content="https://odin-lang.org/news/orca-odin/"><meta property="og:image" content="https://odin-lang.org/images/logo-slim.png"><meta property="article:published_time" content="2024-12-11T00:00:00+00:00"><meta property="article:modified_time" content="2024-12-11T00:00:00+00:00"><link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css><link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css><script src=/lib/highlight/highlight.min.js></script><script>hljs.registerLanguage("odin",function(e){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[e.C_LINE_COMMENT_MODE,e.C_BLOCK_COMMENT_MODE,{className:"string",variants:[e.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:e.C_NUMBER_RE+"[ijk]",relevance:1},e.C_NUMBER_MODE]}]}})</script><script>hljs.highlightAll()</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-67516878-2")</script><link href=/css/style.css rel=stylesheet><title>Orca Odin Support | Odin Programming Language </title><link rel=alternate type=application/rss+xml href=https://odin-lang.org//categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top><nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu"><div class=container-xxl><a class=navbar-brand href=/><img src=/logo.svg height=30 alt=Odin id=navbar-logo>
+</a><button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=odin-navbar-content><ul class="navbar-nav ms-md-auto"><li class=nav-item><a class=nav-link href=/>Home</a></li><li class=nav-item><a class=nav-link href=/docs>Docs</a></li><li class=nav-item><a class=nav-link href=https://pkg.odin-lang.org/>Packages</a></li><li class=nav-item><a class="nav-link active" href=/news aria-current=page>News</a></li><li class=nav-item><a class=nav-link href=/showcase>Showcase</a></li><li class=nav-item><a class=nav-link href=https://forum.odin-lang.org>Forum</a></li><li class=nav-item><a class=nav-link href=/community>Community</a></li><li class=nav-item><a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a></li><li class=nav-item><a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode"><span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg></button></a></li></ul></div></div></nav></header><main><div class=container-xxl><div class="row odin-main"><nav class="col-lg-2 odin-sidebar-border navbar-light"><div class="sticky-top odin-below-navbar py-3"><ul class="nav nav-pills d-flex flex-column"><li class=nav-item><a class="nav-link active" href=/news/orca-odin/ aria-current=page>Orca Odin Support</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-08/>August 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-07/>July 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-11/>November 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a></li><li class=nav-item><a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a></li><li class=nav-item><a class=nav-link href=/news/binding-to-c/>Binding to C</a></li><li class=nav-item><a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a></li><li class=nav-item><a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a></li><li class=nav-item><a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a></li><li class=nav-item><a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a></li><li class=nav-item><a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a></li></ul></div></nav><article class="col-lg-8 p-4"><header><nav aria-label=breadcrumb><ol class=breadcrumb><li class=breadcrumb-item><a href=/news>News</a></li><li class=breadcrumb-item><a href=/news/orca-odin>Orca odin</a></li></ol><h1>Orca Odin Support</h1></header><div class=odin-article><h2 id=webassembly-apps-without-the-web>WebAssembly apps without the web. <a class=text-decoration-none href=#webassembly-apps-without-the-web>#</a></h2><p><a href=https://orca-app.dev>A brand-new stack for cross-platform apps.</a></p><p>For more detailed information you can read up on the link above. Please note that Orca is still work in progress.</p><h2 id=orca>Orca <a class=text-decoration-none href=#orca>#</a></h2><p>Orca is a new target <code>-target:orca_wasm32</code> that Odin now supports! It outputs a WASM blob that can be bundled through the Orca pipeline.</p><h3 id=bindings-generator>Bindings Generator <a class=text-decoration-none href=#bindings-generator>#</a></h3><p>Michael Kutowski (Skytrias) focused on getting the automatic bindings generator up and running. It&rsquo;s a Python script which takes in the <code>api.json</code> that&rsquo;s generated through the Orca source code.</p><p>Binding generator: <a href=https://github.com/orca-app/orca-odin>orca-app/orca-odin</a></p><p>Core library: <a href=https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin>core:sys/orca</a></p><h3 id=compiler-support>Compiler Support <a class=text-decoration-none href=#compiler-support>#</a></h3><p>gingerBill and Laytan implemented the Orca target properly in the compiler and made sure it works properly.</p><h3 id=user-experience>User Experience <a class=text-decoration-none href=#user-experience>#</a></h3><p>There are a few things which Odin also does to make the experience of developing for the Orca target more pleasant:</p><ul><li>main entrypoint automatically bound to the <code>on_init</code> event from Orca</li><li><code>@fini</code> calls are bound to <code>on_terminate</code> event</li><li><code>core:log</code> can be used normally and uses Orca logging</li><li>str8 type from Orca maps natively to Odin&rsquo;s string type</li><li><a href=https://github.com/orca-app/orca-odin/blob/master/macros.odin>C Macros</a> are implemented as normal procedures on the Odin side</li><li>Usage of macros for defer are done through @deferred calls</li></ul><h2 id=orca-original-examples>Orca Original Examples <a class=text-decoration-none href=#orca-original-examples>#</a></h2><p>The Odin <a href=https://github.com/odin-lang/examples/tree/master/orca>examples</a> repo includes ports of the C Orca examples for more full fledged examples of using Orca with Odin.</p><h2 id=orca-step-by-step>Orca Step By Step <a class=text-decoration-none href=#orca-step-by-step>#</a></h2><p>In the following examples you can see how easy it is to create programs now!
+Additionally, you also need to specify the output, as shown below, which will then be used by Orca to bundle up the application. All examples can be built this way.</p><pre tabindex=0><code>odin build src -target:orca_wasm32 -out:module.wasm 
 orca bundle --name output module.wasm
-</code></pre><p>I&rsquo;ve added comments on most lines to describe what is happening, the examples should be read top to bottom.</p>
-<h3 id=orca-package-bindings>Orca Package (Bindings) <a class=text-decoration-none href=#orca-package-bindings>#</a></h3>
-<p><a href=https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin>core:sys/orca</a> for a quick cheatsheet of all the procedures available.</p>
-<h3 id=plain-window>Plain Window <a class=text-decoration-none href=#plain-window>#</a></h3>
-<pre><code class=language-odin data-lang=odin>package src
-
-main :: proc() {}
-</code></pre><img src=/images/news/orca_plain_window.png class="figure-img img-fluid rounded">
-<p>That looks easy! Even simpler than <a href=https://www.raylib.com>raylib</a> and reminds me of game libraries like <a href=https://love2d.org>love2d</a> where things just work.</p>
-<h3 id=rectangle-fill-fixed-size>Rectangle Fill (Fixed Size) <a class=text-decoration-none href=#rectangle-fill-fixed-size>#</a></h3>
-<pre><code class=language-odin data-lang=odin>package src
-
-import oc &quot;core:sys/orca&quot;
-
-// globals
-surface: oc.surface
-renderer: oc.canvas_renderer
-canvas: oc.canvas_context
-
-main :: proc() {
-  // init globals
-  renderer = oc.canvas_renderer_create()
-  surface = oc.canvas_surface_create(renderer)
-  canvas = oc.canvas_context_create()
-}
-
-// Export the 'oc_on_frame_refresh' implemented call so it's bound to the Orca application.
-@(export)
-oc_on_frame_refresh :: proc &quot;c&quot; () {
-  // This runs every frame and we just want to setup the canvas fresh.
-  oc.canvas_context_select(canvas)
-  oc.set_color_rgba(1, 1, 1, 1)
-  oc.clear()
-
-  // Set a RGBA color and fill a rectangular region on the screen (x y w h).
-  oc.set_color_rgba(0, 0, 0, 1)
-  oc.rectangle_fill(50, 50, 100, 10)
-  
-  // Finish all the canvas operations up and render them to the screen.
-  oc.canvas_render(renderer, canvas, surface)
-  oc.canvas_present(renderer, surface)    
-}
-</code></pre><img src=/images/news/orca_rectangle_fill_fixed.png class="figure-img img-fluid rounded">
-<h3 id=rectangle-fill-window-sized>Rectangle Fill (Window Sized) <a class=text-decoration-none href=#rectangle-fill-window-sized>#</a></h3>
-<pre><code class=language-odin data-lang=odin>package src
-
-import oc &quot;core:sys/orca&quot;
-
-surface: oc.surface
-renderer: oc.canvas_renderer
-canvas: oc.canvas_context
-frame_size: oc.vec2 = {500, 500} // Our wanted starting window size
-
-main :: proc() {
-  renderer = oc.canvas_renderer_create()
-  surface = oc.canvas_surface_create(renderer)
-  canvas = oc.canvas_context_create()
-
-  // We provide our wanted dimensions at startup.
-  oc.window_set_size(frame_size)
-}
-
-// Export the 'oc_on_resize' implemented call so it's bound to the Orca application. This will be called whenever the window size changes.
-@(export)
-oc_on_resize :: proc &quot;c&quot; (width, height: u32) {
-  frame_size.x = f32(width)
-  frame_size.y = f32(height)
-}
-
-@(export)
-oc_on_frame_refresh :: proc &quot;c&quot; () {
-  oc.canvas_context_select(canvas)
-  oc.set_color_rgba(1, 1, 1, 1)
-  oc.clear()
-
-  // Set the color to black and fill the window subtracted by some margin.
-  oc.set_color_rgba(0, 0, 0, 1)
-  SIZE :: 50
-  width := frame_size.x - SIZE * 2
-  height := frame_size.y - SIZE * 2
-  oc.rectangle_fill(SIZE, SIZE, width, height)
-
-  oc.canvas_render(renderer, canvas, surface)
-  oc.canvas_present(renderer, surface)    
-}
-</code></pre><div class=text-center>
-<img src=/images/news/orca_rectangle_fill_window.png class="img-fluid rounded">
-</div>
-<h3 id=text-rendering>Text Rendering <a class=text-decoration-none href=#text-rendering>#</a></h3>
-<p>The next example uses a resource that needs to be specified:</p>
-<pre><code>odin build src -target:orca_wasm32 -out:module.wasm 
+</code></pre><p>I&rsquo;ve added comments on most lines to describe what is happening, the examples should be read top to bottom.</p><h3 id=orca-package-bindings>Orca Package (Bindings) <a class=text-decoration-none href=#orca-package-bindings>#</a></h3><p><a href=https://github.com/odin-lang/Odin/blob/master/core/sys/orca/odin.odin>core:sys/orca</a> for a quick cheatsheet of all the procedures available.</p><h3 id=plain-window>Plain Window <a class=text-decoration-none href=#plain-window>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#f92672>package</span> src
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>() {}
+</span></span></code></pre></div><img src=/images/news/orca_plain_window.png class="figure-img img-fluid rounded"><p>That looks easy! Even simpler than <a href=https://www.raylib.com>raylib</a> and reminds me of game libraries like <a href=https://love2d.org>love2d</a> where things just work.</p><h3 id=rectangle-fill-fixed-size>Rectangle Fill (Fixed Size) <a class=text-decoration-none href=#rectangle-fill-fixed-size>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#f92672>package</span> src
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> oc <span style=color:#e6db74>&#34;core:sys/orca&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// globals
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>surface<span style=color:#f92672>:</span> oc.surface
+</span></span><span style=display:flex><span>renderer<span style=color:#f92672>:</span> oc.canvas_renderer
+</span></span><span style=display:flex><span>canvas<span style=color:#f92672>:</span> oc.canvas_context
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>() {
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// init globals
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  renderer <span style=color:#f92672>=</span> oc.canvas_renderer_create()
+</span></span><span style=display:flex><span>  surface <span style=color:#f92672>=</span> oc.canvas_surface_create(renderer)
+</span></span><span style=display:flex><span>  canvas <span style=color:#f92672>=</span> oc.canvas_context_create()
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Export the &#39;oc_on_frame_refresh&#39; implemented call so it&#39;s bound to the Orca application.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#a6e22e>@(export)</span>
+</span></span><span style=display:flex><span>oc_on_frame_refresh <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span> <span style=color:#e6db74>&#34;c&#34;</span> () {
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// This runs every frame and we just want to setup the canvas fresh.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  oc.canvas_context_select(canvas)
+</span></span><span style=display:flex><span>  oc.set_color_rgba(<span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>)
+</span></span><span style=display:flex><span>  oc.<span style=color:#66d9ef>clear</span>()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Set a RGBA color and fill a rectangular region on the screen (x y w h).
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  oc.set_color_rgba(<span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>1</span>)
+</span></span><span style=display:flex><span>  oc.rectangle_fill(<span style=color:#a6e22e>50</span>, <span style=color:#a6e22e>50</span>, <span style=color:#a6e22e>100</span>, <span style=color:#a6e22e>10</span>)
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Finish all the canvas operations up and render them to the screen.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  oc.canvas_render(renderer, canvas, surface)
+</span></span><span style=display:flex><span>  oc.canvas_present(renderer, surface)    
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><img src=/images/news/orca_rectangle_fill_fixed.png class="figure-img img-fluid rounded"><h3 id=rectangle-fill-window-sized>Rectangle Fill (Window Sized) <a class=text-decoration-none href=#rectangle-fill-window-sized>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#f92672>package</span> src
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> oc <span style=color:#e6db74>&#34;core:sys/orca&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>surface<span style=color:#f92672>:</span> oc.surface
+</span></span><span style=display:flex><span>renderer<span style=color:#f92672>:</span> oc.canvas_renderer
+</span></span><span style=display:flex><span>canvas<span style=color:#f92672>:</span> oc.canvas_context
+</span></span><span style=display:flex><span>frame_size<span style=color:#f92672>:</span> oc.vec2 <span style=color:#f92672>=</span> {<span style=color:#a6e22e>500</span>, <span style=color:#a6e22e>500</span>} <span style=color:#75715e>// Our wanted starting window size
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>() {
+</span></span><span style=display:flex><span>  renderer <span style=color:#f92672>=</span> oc.canvas_renderer_create()
+</span></span><span style=display:flex><span>  surface <span style=color:#f92672>=</span> oc.canvas_surface_create(renderer)
+</span></span><span style=display:flex><span>  canvas <span style=color:#f92672>=</span> oc.canvas_context_create()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// We provide our wanted dimensions at startup.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  oc.window_set_size(frame_size)
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Export the &#39;oc_on_resize&#39; implemented call so it&#39;s bound to the Orca application. This will be called whenever the window size changes.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#a6e22e>@(export)</span>
+</span></span><span style=display:flex><span>oc_on_resize <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span> <span style=color:#e6db74>&#34;c&#34;</span> (width, height<span style=color:#f92672>:</span> <span style=color:#66d9ef>u32</span>) {
+</span></span><span style=display:flex><span>  frame_size.x <span style=color:#f92672>=</span> <span style=color:#66d9ef>f32</span>(width)
+</span></span><span style=display:flex><span>  frame_size.y <span style=color:#f92672>=</span> <span style=color:#66d9ef>f32</span>(height)
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@(export)</span>
+</span></span><span style=display:flex><span>oc_on_frame_refresh <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span> <span style=color:#e6db74>&#34;c&#34;</span> () {
+</span></span><span style=display:flex><span>  oc.canvas_context_select(canvas)
+</span></span><span style=display:flex><span>  oc.set_color_rgba(<span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>)
+</span></span><span style=display:flex><span>  oc.<span style=color:#66d9ef>clear</span>()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Set the color to black and fill the window subtracted by some margin.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  oc.set_color_rgba(<span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>1</span>)
+</span></span><span style=display:flex><span>  SIZE <span style=color:#f92672>::</span> <span style=color:#a6e22e>50</span>
+</span></span><span style=display:flex><span>  width <span style=color:#f92672>:=</span> frame_size.x <span style=color:#f92672>-</span> SIZE <span style=color:#f92672>*</span> <span style=color:#a6e22e>2</span>
+</span></span><span style=display:flex><span>  height <span style=color:#f92672>:=</span> frame_size.y <span style=color:#f92672>-</span> SIZE <span style=color:#f92672>*</span> <span style=color:#a6e22e>2</span>
+</span></span><span style=display:flex><span>  oc.rectangle_fill(SIZE, SIZE, width, height)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  oc.canvas_render(renderer, canvas, surface)
+</span></span><span style=display:flex><span>  oc.canvas_present(renderer, surface)    
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=text-center><img src=/images/news/orca_rectangle_fill_window.png class="img-fluid rounded"></div><h3 id=text-rendering>Text Rendering <a class=text-decoration-none href=#text-rendering>#</a></h3><p>The next example uses a resource that needs to be specified:</p><pre tabindex=0><code>odin build src -target:orca_wasm32 -out:module.wasm 
 orca bundle --name output --resource-dir data module.wasm
-</code></pre><pre><code class=language-odin data-lang=odin>package src
-
-import oc &quot;core:sys/orca&quot;
-
-surface: oc.surface
-renderer: oc.canvas_renderer
-canvas: oc.canvas_context
-font: oc.font // font global
-
-main :: proc() {
-  renderer = oc.canvas_renderer_create()
-  surface = oc.canvas_surface_create(renderer)
-  canvas = oc.canvas_context_create()
-
-  // NOTE: This is temporary and will change soon
-  // Describe wanted unicode ranges to usable for rendering
-  ranges := [?]oc.unicode_range {
-    oc.UNICODE_BASIC_LATIN,
-    oc.UNICODE_C1_CONTROLS_AND_LATIN_1_SUPPLEMENT,
-    oc.UNICODE_LATIN_EXTENDED_A,
-    oc.UNICODE_LATIN_EXTENDED_B,
-    oc.UNICODE_SPECIALS,
-  }
-
-  // Create the font from a TTF asset that needs to be provided.
-  font = oc.font_create_from_path(&quot;segoeui.ttf&quot;, 5, &amp;ranges[0])    
-}
-
-@(export)
-oc_on_frame_refresh :: proc &quot;c&quot; () {
-  oc.canvas_context_select(canvas)
-  oc.set_color_rgba(1, 1, 1, 1)
-  oc.clear()
-
-  // Set the wanted font and a size.
-  oc.set_font(font)
-  oc.set_font_size(40)
-
-  // Similar to before set a color and the text we want to draw at x &amp; y.
-  oc.set_color_rgba(0, 0, 0, 1)
-  oc.text_fill(50, 50, &quot;Hello World&quot;)
-
-  oc.canvas_render(renderer, canvas, surface)
-  oc.canvas_present(renderer, surface)    
-}
-</code></pre><img src=/images/news/orca_text_rendering.png class="figure-img img-fluid rounded">
-<h3 id=rectangle-fill-following-mouse>Rectangle Fill following Mouse <a class=text-decoration-none href=#rectangle-fill-following-mouse>#</a></h3>
-<pre><code class=language-odin data-lang=odin>package src
-
-import oc &quot;core:sys/orca&quot;
-
-surface: oc.surface
-renderer: oc.canvas_renderer
-canvas: oc.canvas_context
-mouse: oc.vec2
-
-main :: proc() {
-  renderer = oc.canvas_renderer_create()
-  surface = oc.canvas_surface_create(renderer)
-  canvas = oc.canvas_context_create()
-}
-
-// Export the 'oc_on_raw_event' implemented call so it's bound to the Orca application. This way we can check for window specific events like mouse movement, mouse clicks, keyboard events etc.
-@(export)
-oc_on_raw_event :: proc &quot;c&quot; (event: ^oc.event) {
-  if event.type == .MOUSE_MOVE {
-    mouse = { event.mouse.x, event.mouse.y }
-  }    
-}
-
-@(export)
-oc_on_frame_refresh :: proc &quot;c&quot; () {
-  oc.canvas_context_select(canvas)
-  oc.set_color_rgba(1, 1, 1, 1)
-  oc.clear()
-
-  // Fill the rectangle region while x &amp; y is following the mouse.
-  oc.set_color_rgba(0, 0, 0, 1)
-  oc.rectangle_fill(mouse.x - 50, mouse.y - 50, 100, 100)
-
-  oc.canvas_render(renderer, canvas, surface)
-  oc.canvas_present(renderer, surface)    
-}
-</code></pre>
-</div>
-</article>
-<div id=TOC class="col-lg-2 odin-toc-border">
-<div class="sticky-top odin-below-navbar py-3">
-<nav id=TableOfContents>
-<ul>
-<li><a href=#webassembly-apps-without-the-web>WebAssembly apps without the web.</a></li>
-<li><a href=#orca>Orca</a>
-<ul>
-<li><a href=#bindings-generator>Bindings Generator</a></li>
-<li><a href=#compiler-support>Compiler Support</a></li>
-<li><a href=#user-experience>User Experience</a></li>
-</ul>
-</li>
-<li><a href=#orca-original-examples>Orca Original Examples</a></li>
-<li><a href=#orca-step-by-step>Orca Step By Step</a>
-<ul>
-<li><a href=#orca-package-bindings>Orca Package (Bindings)</a></li>
-<li><a href=#plain-window>Plain Window</a></li>
-<li><a href=#rectangle-fill-fixed-size>Rectangle Fill (Fixed Size)</a></li>
-<li><a href=#rectangle-fill-window-sized>Rectangle Fill (Window Sized)</a></li>
-<li><a href=#text-rendering>Text Rendering</a></li>
-<li><a href=#rectangle-fill-following-mouse>Rectangle Fill following Mouse</a></li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-</div>
-</main>
-<footer class=odin-footer>
-<div class="container pb-5 pt-5">
-<div class="row g-4">
-<div class=col>
-<a class=navbar-brand href=/>
-<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
-<p>
-The Data-Oriented Language for Sane Software Development.
-</p>
-</div>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Resources</h4>
-<ul class=list-unstyled>
-<li><a href=/docs class=link-light>Docs</a></li>
-<li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li>
-<li><a href=/news class=link-light>News</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Community</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
-<li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li>
-<li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li>
-<li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li>
-<li><a href=/showcase target=_blank class=link-light>Showcase</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Contribute</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
-<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
-</ul>
-</nav>
-</div>
-<div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div>
-</div>
-</footer>
-<script src=/lib/bootstrap/js/bootstrap.min.js></script>
-<script src=/js/script.js></script>
-</body>
-</html>
+</code></pre><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#f92672>package</span> src
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> oc <span style=color:#e6db74>&#34;core:sys/orca&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>surface<span style=color:#f92672>:</span> oc.surface
+</span></span><span style=display:flex><span>renderer<span style=color:#f92672>:</span> oc.canvas_renderer
+</span></span><span style=display:flex><span>canvas<span style=color:#f92672>:</span> oc.canvas_context
+</span></span><span style=display:flex><span>font<span style=color:#f92672>:</span> oc.font <span style=color:#75715e>// font global
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>() {
+</span></span><span style=display:flex><span>  renderer <span style=color:#f92672>=</span> oc.canvas_renderer_create()
+</span></span><span style=display:flex><span>  surface <span style=color:#f92672>=</span> oc.canvas_surface_create(renderer)
+</span></span><span style=display:flex><span>  canvas <span style=color:#f92672>=</span> oc.canvas_context_create()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// NOTE: This is temporary and will change soon
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  <span style=color:#75715e>// Describe wanted unicode ranges to usable for rendering
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  ranges <span style=color:#f92672>:=</span> [<span style=color:#960050;background-color:#1e0010>?</span>]oc.unicode_range {
+</span></span><span style=display:flex><span>    oc.UNICODE_BASIC_LATIN,
+</span></span><span style=display:flex><span>    oc.UNICODE_C1_CONTROLS_AND_LATIN_1_SUPPLEMENT,
+</span></span><span style=display:flex><span>    oc.UNICODE_LATIN_EXTENDED_A,
+</span></span><span style=display:flex><span>    oc.UNICODE_LATIN_EXTENDED_B,
+</span></span><span style=display:flex><span>    oc.UNICODE_SPECIALS,
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Create the font from a TTF asset that needs to be provided.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  font <span style=color:#f92672>=</span> oc.font_create_from_path(<span style=color:#e6db74>&#34;segoeui.ttf&#34;</span>, <span style=color:#a6e22e>5</span>, <span style=color:#f92672>&amp;</span>ranges[<span style=color:#a6e22e>0</span>])    
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@(export)</span>
+</span></span><span style=display:flex><span>oc_on_frame_refresh <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span> <span style=color:#e6db74>&#34;c&#34;</span> () {
+</span></span><span style=display:flex><span>  oc.canvas_context_select(canvas)
+</span></span><span style=display:flex><span>  oc.set_color_rgba(<span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>)
+</span></span><span style=display:flex><span>  oc.<span style=color:#66d9ef>clear</span>()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Set the wanted font and a size.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  oc.set_font(font)
+</span></span><span style=display:flex><span>  oc.set_font_size(<span style=color:#a6e22e>40</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Similar to before set a color and the text we want to draw at x &amp; y.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  oc.set_color_rgba(<span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>1</span>)
+</span></span><span style=display:flex><span>  oc.text_fill(<span style=color:#a6e22e>50</span>, <span style=color:#a6e22e>50</span>, <span style=color:#e6db74>&#34;Hello World&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  oc.canvas_render(renderer, canvas, surface)
+</span></span><span style=display:flex><span>  oc.canvas_present(renderer, surface)    
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><img src=/images/news/orca_text_rendering.png class="figure-img img-fluid rounded"><h3 id=rectangle-fill-following-mouse>Rectangle Fill following Mouse <a class=text-decoration-none href=#rectangle-fill-following-mouse>#</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#f92672>package</span> src
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> oc <span style=color:#e6db74>&#34;core:sys/orca&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>surface<span style=color:#f92672>:</span> oc.surface
+</span></span><span style=display:flex><span>renderer<span style=color:#f92672>:</span> oc.canvas_renderer
+</span></span><span style=display:flex><span>canvas<span style=color:#f92672>:</span> oc.canvas_context
+</span></span><span style=display:flex><span>mouse<span style=color:#f92672>:</span> oc.vec2
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>() {
+</span></span><span style=display:flex><span>  renderer <span style=color:#f92672>=</span> oc.canvas_renderer_create()
+</span></span><span style=display:flex><span>  surface <span style=color:#f92672>=</span> oc.canvas_surface_create(renderer)
+</span></span><span style=display:flex><span>  canvas <span style=color:#f92672>=</span> oc.canvas_context_create()
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// Export the &#39;oc_on_raw_event&#39; implemented call so it&#39;s bound to the Orca application. This way we can check for window specific events like mouse movement, mouse clicks, keyboard events etc.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#a6e22e>@(export)</span>
+</span></span><span style=display:flex><span>oc_on_raw_event <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span> <span style=color:#e6db74>&#34;c&#34;</span> (event<span style=color:#f92672>:</span> <span style=color:#f92672>^</span>oc.event) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>if</span> event.type <span style=color:#f92672>==</span> .MOUSE_MOVE {
+</span></span><span style=display:flex><span>    mouse <span style=color:#f92672>=</span> { event.mouse.x, event.mouse.y }
+</span></span><span style=display:flex><span>  }    
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>@(export)</span>
+</span></span><span style=display:flex><span>oc_on_frame_refresh <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span> <span style=color:#e6db74>&#34;c&#34;</span> () {
+</span></span><span style=display:flex><span>  oc.canvas_context_select(canvas)
+</span></span><span style=display:flex><span>  oc.set_color_rgba(<span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>, <span style=color:#a6e22e>1</span>)
+</span></span><span style=display:flex><span>  oc.<span style=color:#66d9ef>clear</span>()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Fill the rectangle region while x &amp; y is following the mouse.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  oc.set_color_rgba(<span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>1</span>)
+</span></span><span style=display:flex><span>  oc.rectangle_fill(mouse.x <span style=color:#f92672>-</span> <span style=color:#a6e22e>50</span>, mouse.y <span style=color:#f92672>-</span> <span style=color:#a6e22e>50</span>, <span style=color:#a6e22e>100</span>, <span style=color:#a6e22e>100</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  oc.canvas_render(renderer, canvas, surface)
+</span></span><span style=display:flex><span>  oc.canvas_present(renderer, surface)    
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div></article><div id=TOC class="col-lg-2 odin-toc-border"><div class="sticky-top odin-below-navbar py-3"><nav id=TableOfContents><ul><li><a href=#webassembly-apps-without-the-web>WebAssembly apps without the web.</a></li><li><a href=#orca>Orca</a><ul><li><a href=#bindings-generator>Bindings Generator</a></li><li><a href=#compiler-support>Compiler Support</a></li><li><a href=#user-experience>User Experience</a></li></ul></li><li><a href=#orca-original-examples>Orca Original Examples</a></li><li><a href=#orca-step-by-step>Orca Step By Step</a><ul><li><a href=#orca-package-bindings>Orca Package (Bindings)</a></li><li><a href=#plain-window>Plain Window</a></li><li><a href=#rectangle-fill-fixed-size>Rectangle Fill (Fixed Size)</a></li><li><a href=#rectangle-fill-window-sized>Rectangle Fill (Window Sized)</a></li><li><a href=#text-rendering>Text Rendering</a></li><li><a href=#rectangle-fill-following-mouse>Rectangle Fill following Mouse</a></li></ul></li></ul></nav></div></div></div></div></main><footer class=odin-footer><div class="container pb-5 pt-5"><div class="row g-4"><div class=col><a class=navbar-brand href=/><img class=mb-3 src=/logo.svg height=30 alt=Odin></a><p>The Data-Oriented Language for Sane Software Development.</p></div><nav class=col-md-auto><h4 class=fw-normal>Resources</h4><ul class=list-unstyled><li><a href=/docs class=link-light>Docs</a></li><li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li><li><a href=/news class=link-light>News</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Community</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li><li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li><li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li><li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li><li><a href=/showcase target=_blank class=link-light>Showcase</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Contribute</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li><li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li></ul></nav></div><div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div></div></footer><script src=/lib/bootstrap/js/bootstrap.min.js></script><script src=/js/script.js></script></body></html>

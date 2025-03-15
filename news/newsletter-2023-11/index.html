@@ -1,599 +1,160 @@
-<!doctype html><html>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<link rel=icon href=/favicon.svg>
-<meta name=color-scheme content="only dark">
-<meta property="og:title" content="November 2023 Newsletter">
-<meta property="og:description" content="Highlights for November - Community Showcase Categorized">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://odin-lang.org/news/newsletter-2023-11/">
-<meta property="og:image" content="https://odin-lang.org/images/logo-slim.png">
-<meta property="article:published_time" content="2023-11-01T00:00:00+00:00">
-<meta property="article:modified_time" content="2023-11-01T00:00:00+00:00">
-<link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css>
-<link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css>
-<script src=/lib/highlight/highlight.min.js></script>
-<script>hljs.registerLanguage("odin",function(a){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[a.C_LINE_COMMENT_MODE,a.C_BLOCK_COMMENT_MODE,{className:"string",variants:[a.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:a.C_NUMBER_RE+"[ijk]",relevance:1},a.C_NUMBER_MODE]}]}})</script>
-<script>hljs.highlightAll()</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','UA-67516878-2')</script>
-<link href=/css/style.css rel=stylesheet>
-<title>November 2023 Newsletter | Odin Programming Language </title>
-<link rel=alternate type=application/rss+xml href=https://odin-lang.org/categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0>
-<script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu">
-<div class=container-xxl>
-<a class=navbar-brand href=/>
-<img src=/logo.svg height=30 alt=Odin id=navbar-logo>
-</a>
-<button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
-<span class=navbar-toggler-icon></span>
-</button>
-<div class="collapse navbar-collapse" id=odin-navbar-content>
-<ul class="navbar-nav ms-md-auto">
-<li class=nav-item>
-<a class=nav-link href=/>Home</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/docs>Docs</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://pkg.odin-lang.org/>Packages</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news aria-current=page>News</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/showcase>Showcase</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://forum.odin-lang.org>Forum</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/community>Community</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a>
-</li>
-<li class=nav-item>
-<a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode">
-<span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg>
-</button>
-</a>
-</li>
-</ul>
-</div>
-</div>
-</nav>
-</header>
-<main>
-<div class=container-xxl>
-<div class="row odin-main">
-<nav class="col-lg-2 odin-sidebar-border navbar-light">
-<div class="sticky-top odin-below-navbar py-3">
-<ul class="nav nav-pills d-flex flex-column">
-<li class=nav-item>
-<a class=nav-link href=/news/orca-odin/>Orca Odin Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-08/>August 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-07/>July 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class="nav-link active" href=/news/newsletter-2023-11/ aria-current=page>November 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/binding-to-c/>Binding to C</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a>
-</li>
-<li class=nav-item>
-<a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a>
-</li>
-</ul>
-</div>
-</nav>
-<article class="col-lg-8 p-4">
-<header>
-<nav aria-label=breadcrumb>
-<ol class=breadcrumb>
-<li class=breadcrumb-item><a href=/news>News</a></li>
-<li class=breadcrumb-item><a href=/news/newsletter-2023-11>Newsletter 2023 11</a></li>
-</ol>
-<h1>November 2023 Newsletter</h1>
-</header>
-<div class=odin-article>
-<h2 id=compiler-updates>Compiler Updates <a class=text-decoration-none href=#compiler-updates>#</a></h2>
-<p><a href=https://github.com/odin-lang/Odin/releases/tag/dev-2023-11>Monthly Release</a> includes LLVM 17.0.1 support for linux and darwin.</p>
-<hr>
-<h2 id=events>Events <a class=text-decoration-none href=#events>#</a></h2>
-<p>Handmade Seattle is happening in November! Make sure to check out the event <a href=https://handmadecities.com/seattle/>https://handmadecities.com/seattle/</a>.</p>
-<div style=display:flex;justify-content:center;width:100%>
-<iframe title=vimeo-player src="https://player.vimeo.com/video/879655373?h=14e5a203ce" width=640 height=360 frameborder=0 allowfullscreen></iframe>
-</div>
-<hr>
-<h2 id=youtube>YouTube <a class=text-decoration-none href=#youtube>#</a></h2>
-<p><a href="https://www.youtube.com/watch?v=VLcTrUhSdlg&list=PLEQTpgQ9eFCGlQa2z0j_TQTGggHOIF8Z1">Rickard Andersson</a> (<code>gonz</code> on Discord) continues on his odin videos</p>
-<p>Here&rsquo;s a list of what he went over this month:</p>
-<ul>
-<li><a href="https://youtu.be/wQJnJ1NNfQU?si=rItSKMMLAhsOM645">&ldquo;Debugging Odin code&rdquo; addendum - SeerGDB</a></li>
-<li><a href="https://youtu.be/0GGJBm0r3nA?si=b8YpxMfdyv9EghlO">Command line arguments and dependencies in Odin</a></li>
-<li><a href="https://youtu.be/oNZzosryjV8?si=muOhMxABnmQyZGGM">Using functions from other languages (FFI) in Odin</a></li>
-<li><a href="https://youtu.be/Gyt0kzLhtgs?si=UCKvgY1itV7ymDtl">FFI example in Odin: Using Odin code in Erlang/Elixir</a></li>
-<li><a href="https://youtu.be/6FQy8bhs3HI?si=p8MwO5PCsfX_H4QE">Types and data in Odin</a></li>
-<li><a href="https://youtu.be/S1DlBm8iXZU?si=36Ue2JvWaNfgaHNk">Stream, Reader and data pointers</a></li>
-<li><a href="https://youtu.be/x0rBroR3aog?si=qWMtPYxoc5lsVk2a">Bytes, binary and hexadecimal</a></li>
-<li><a href="https://youtu.be/VVwbuij_c-Q?si=E3Jiv4rRUeae_sTP">Byte order / Endianness</a></li>
-<li><a href="https://youtu.be/JaOKqXJT4d4?si=CDwcXfRjwL-h6VLv">Bitwise operations - Extracting from and setting values in bytes</a></li>
-</ul>
-<p>Gotta catch up on these!</p>
-<hr>
-<h2 id=games>Games <a class=text-decoration-none href=#games>#</a></h2>
-<p><strong>SabeMakesGames</strong> released his first small game done with odin! Check it out here <a href=https://sabe09.itch.io/attack-of-the-goobers>https://sabe09.itch.io/attack-of-the-goobers</a></p>
-<p>He also made a short video on it:</p>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/UcQpfkHqsZk?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<hr>
-<h2 id=editors>Editors <a class=text-decoration-none href=#editors>#</a></h2>
-<p><strong>obiwan87</strong> has added support of <a href=https://plugins.jetbrains.com/plugin/22933-odin-lang-support>JetBrains editors</a>! It&rsquo;s still early and doesnt support everything but its a nice start.</p>
-<img src=https://plugins.jetbrains.com/files/22933/screenshot_1fb7a251-94b8-4b1b-b5ad-26b9c08c3163 class="figure-img img-fluid rounded">
-<hr>
-<h2 id=new--updated-projects>New / Updated Projects <a class=text-decoration-none href=#new--updated-projects>#</a></h2>
-<p>I&rsquo;ll try posting the comments or descriptions the authors posted for their packages.</p>
-<h3 id=journey-ecs---raigon>Journey ECS - Raigon <a class=text-decoration-none href=#journey-ecs---raigon>#</a></h3>
-<p>Read more on: <a href=https://github.com/KDahir247/Journey_ECS>https://github.com/KDahir247/Journey_ECS</a></p>
-<p>Fast Minimal Sparse set for Odin Language Which is being used in Odin-Journey.</p>
-<p>Features:</p>
-<ul>
-<li>Fast single component iteration & entity iteration (Dense array iteration)</li>
-<li>Unlimitied amount of component can be added</li>
-<li>Very minimal Only does what it needs and nothing more.</li>
-<li>SOA component dense array</li>
-<li>Extremely fast grouping and sub grouping query (eg. Entity with position and scale)</li>
-<li>Reduced memory consumption on sparse array</li>
-<li>Allow upto or more then 1 Million entity</li>
-</ul>
-<div style=font-size:.875em>Example of code:</div>
-<pre><code class=language-odin data-lang=odin>package main
-
-import ecs &quot;foldername that has this single script&quot;
-
-main :: proc() {
-  world := init_world()
-  defer deinit_world(world)
-
-  Position :: struct{
-      val : #simd[4]f32,
-  }
-
-  Rotation :: struct{
-      val : #simd[4]f32,
-  }
-
-  Scale :: struct{
-      val : #simd[4]f32,
-  }
-
-  Velocity :: struct{
-      val : #simd[4]f32,
-  }
-
-  register(world, Position)
-  register(world, Rotation)
-  register(world, Scale)
-  register(world, Velocity)
-  
-  entity := create_entity(world)
-  entity1 := create_entity(world) 
-  entity2 := create_entity(world) 
-  entity3 := create_entity(world) 
-  entity4 := create_entity(world)
-
-  velocityx := Velocity{
-      val = {1.0, 0.0, 0.0, 0.0},
-  }
-
-  postion_x := Position{
-      val = {2.0, 0.0, 0.0, 0.0},
-  }
-
-  postion_y := Position{
-      val = {0.0,3.14,0.0,0.0},
-  }
-
-  position_xy := Position{
-      val = {24.0,7.11,0.0,0.0},
-  }
- 
-
-  Quaternion_IDENTITY := Rotation{
-      val = {0.0,0.0,0.0,1.0},
-  }
-
-  add_soa_component(world, entity2, velocityx)
-  add_soa_component(world, entity1, postion_x)
-  add_soa_component(world, entity2, postion_y)
-  add_soa_component(world, entity2, Quaternion_IDENTITY)
-
-  add_soa_component(world, entity, position_xy)
-  add_soa_component(world, entity, Quaternion_IDENTITY)
-
-  postion_scale_query := query(world, Velocity, Scale) //register and sort using group
-  position_rotation_query := query(world, Position, Rotation) //register and sort using group
-
-  position_rotation_query1 := query(world, Position, Rotation) //doesn't register or sort using group uses the cache result
-  postion_scale_query1 := query(world, Velocity, Scale) //doesn't register or sort using group uses the cache result
- 
-  for component_storage, index in run(&amp;position_rotation_query){
-    mut_component_storage := component_storage
-
-    if component_storage.entities[index] == 2{
-        fmt.println(&quot;Moving the player entity&quot;, component_storage.entities[index] , &quot;Right by 100&quot; )
-        mut_component_storage.component_a[index].val += {100.0, 0.0, 0.0, 0.0}
-    }
-
-    fmt.print(component_storage.entities[index], &quot; :\t&quot;)
-    fmt.print(component_storage.component_a[index], &quot;\t&quot;)
-    fmt.print(component_storage.component_b[index])
-    fmt.println()
-  }
-  fmt.println(&quot;\n&quot;)
-}
-</code></pre><h3 id=job-scheduler---jakubtomsu-jacob>Job Scheduler - <code>jakubtomsu (Jacob)</code> <a class=text-decoration-none href=#job-scheduler---jakubtomsu-jacob>#</a></h3>
-<p>Read more on: <a href=https://github.com/jakubtomsu/jobs>https://github.com/jakubtomsu/jobs</a></p>
-<p>I made a small job system for Odin. This is a port of my old fiber-based C++ job scheduler, but it&rsquo;s much simpler and has less overhead. I also added a few examples, including boids simulation with Raylib.
-Features include:</p>
-<ul>
-<li>dispatching jobs</li>
-<li>waiting for jobs (while processing other queued jobs at the same time)</li>
-<li>nested jobs</li>
-<li>utilities for batch processing arrays/slices</li>
-<li>optional immediate-mode-style thread processing loop</li>
-</ul>
-<div style=font-size:.875em>A simple hello world program:</div>
-<pre><code class=language-odin data-lang=odin>main :: proc() {
-    jobs.initialize()
-
-    g: jobs.Group
-    jobs.dispatch(.Medium, jobs.make_job(&amp;g, hello_job))
-    jobs.wait(&amp;g)
-
-    jobs.shutdown()
-}
-
-hello_job :: proc(_: rawptr) {
-    fmt.println(&quot;Hello from thread&quot;, jobs.current_thread_index())
-}
-</code></pre><h3 id=cody-a-simple-code-counter---jetdove>Cody: A simple code counter - <code>JetDove</code> <a class=text-decoration-none href=#cody-a-simple-code-counter---jetdove>#</a></h3>
-<p>Read more on: <a href=https://github.com/CoolDove/cody>https://github.com/CoolDove/cody</a></p>
-<img src=https://raw.githubusercontent.com/CoolDove/cody/master/example/example_0.png class="figure-img img-fluid rounded" alt=...>
-<h3 id=box2d-v3-odin-bindings---cristhofer>Box2D v3 odin bindings - <code>Cristhofer</code> <a class=text-decoration-none href=#box2d-v3-odin-bindings---cristhofer>#</a></h3>
-<p>Read more on: <a href=https://github.com/cristhofermarques/odin-box2d/>https://github.com/cristhofermarques/odin-box2d/</a></p>
-<div style=font-size:.875em>Example:</div>
-<pre><code class=language-odin data-lang=odin>package box2d_example
-
-import b2 &quot;box2d&quot;
-import &quot;core:fmt&quot;
-
-main :: proc()
-{
-    world_def := b2.DEFAULT_WORLD_DEF
-    world_def.gravity = b2.Vec2{0, -10}
-    world_id := b2.create_world(&amp;world_def)
-    defer b2.destroy_world(world_id)
-    
-    ground_body_def := b2.DEFAULT_BODY_DEF
-    ground_body_def.position = b2.Vec2{0, -10}
-    ground_body_id := b2.world_create_body(world_id, &amp;ground_body_def)
-
-    ground_box := b2.make_box(50, 10)
-    ground_shape_def := b2.DEFAULT_SHAPE_DEF
-    b2.body_create_polygon(ground_body_id, &amp;ground_shape_def, &amp;ground_box)
-
-    body_def := b2.DEFAULT_BODY_DEF
-    body_def.type = .Dynamic
-    body_def.position = b2.Vec2{0, 4}
-    body_id := b2.world_create_body(world_id, &amp;body_def)
-
-    shape_def := b2.DEFAULT_SHAPE_DEF
-    shape_def.density = 1
-    shape_def.friction = 0.3
-
-    circle: b2.Circle
-    circle.radius = 1
-    b2.body_create_circle(body_id, &amp;shape_def, &amp;circle)
-
-    time_step: f32 = 1.0 / 60.0
-    velocity_iterations: i32 = 6
-    position_iterations: i32 = 2
-    
-    for i in 0..&lt;60
-    {
-        b2.world_step(world_id, time_step, velocity_iterations, position_iterations)
-        position := b2.body_get_position(body_id)
-        angle := b2.body_get_angle(body_id)
-        fmt.println(position, angle)
-    }
-}
-</code></pre><h3 id=magicavoxel-vox-model-loader---jakubtomsu-jacob>MagicaVoxel .vox model Loader - <code>jakubtomsu (Jacob)</code> <a class=text-decoration-none href=#magicavoxel-vox-model-loader---jakubtomsu-jacob>#</a></h3>
-<p>Read more on: <a href=https://github.com/jakubtomsu/odin-vox>https://github.com/jakubtomsu/odin-vox</a></p>
-<p>A simple loader for .vox models from MagicaVoxel.
-The base format is fully implemented, but no extensions are supported yet.</p>
-<div style=font-size:.875em>Usage:</div>
-<pre><code class=language-odin data-lang=odin>// Load and parse data from file.
-// Alternatively use `vox.load_from_data`.
-if data, ok := vox.load_from_file(&quot;my_model.vox&quot;, context.temp_allocator); ok {
-  for model, i in data.models {
-    fmt.printf(&quot;Model %i:\n&quot;, i)
-    fmt.printf(&quot;\tsize: %v\n&quot;, model.size)
-    fmt.printf(&quot;\tvoxels:\n&quot;)
-    for voxel, j in model.voxels {
-      fmt.printf(&quot;\t[%i] %v: %i\n&quot;, j, voxel.pos, voxel.color_index)
-    }
-  }
-}
-</code></pre><hr>
-<h2 id=community-showcase>Community Showcase <a class=text-decoration-none href=#community-showcase>#</a></h2>
-<p>Another month has passed - this time around there was less going on but we&rsquo;re nearing the end of the year.</p>
-<h3 id=game-development>Game Development <a class=text-decoration-none href=#game-development>#</a></h3>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1161680998472364212/My_Movie_4.mov></video>
-<div class="card-body text-center">
-<p class=card-text>We are building a 2D engine and this is our progress so far. Right now we have a custom ECS, and we have a animation system, plus we have 2D point lights implemented - ScottCastle
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1162028187128184882/astroberg.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>building a small editor for the game I'm currently toying with. Normally I just do everything in code but its nice to be able to edit colliders and such while seeing the effect. - rhoeberg
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1162143170138742784/dialogue_system.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>Realized my game needed branching dialogue, so I made this editor + new gameplay code for handling dialogue choices! 😺 - karl_zylinski
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1162501743997890761/collisions.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>Trying to make my little FPS engine based on Raylib - Nefrace
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1163591126595411988/arc_rVf9MWXQsX.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>Starting to put together an in-game editor, added some window management features to make it comfy. - davidcergizan
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1165591489888399481/2023-10-22_11-59-30.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>started to implement window docking because I got jealous of how slick @davidcergizans editor is looking. Still a lot of work to get it nice but I think its doable - rhoeberg
-</p>
-</div>
-</div>
-<div class="ratio ratio-16x9 my-2">
-<iframe src="https://www.youtube.com/embed/adpJ7Xk28n0?rel=0" allowfullscreen crossorigin=anonymous></iframe>
-</div>
-<h3 id=graphics>Graphics <a class=text-decoration-none href=#graphics>#</a></h3>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1158811588107706408/itj_wm-03-10-2023.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>Got the basics working. This is a window manager for linux, written in Odin - Smilex
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1165664678316355634/rayman_gpu.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>working on a raymarching renderer! - sandwichman
-</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1165794582999605278/2023-10-22_19-29-11.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>new demo! sorry for the jumpy motion, it doesn't like sharing the GPU with my recording software quite yet 😭 - sandwichman
-</p>
-</div>
-</div>
-<h3 id=tools--ui>Tools & UI <a class=text-decoration-none href=#tools--ui>#</a></h3>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://media.discordapp.net/attachments/404399251276169217/1158167253636894830/simplescreenrecorder-2023-10-02_00.17.35.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>my image splicer doing the most basic image splicing, just for the end of the jam - Stvff
-</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://media.discordapp.net/attachments/568871319425515531/1158732067887120455/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>After so many hours of headbanging against manpages and 3 odin internal compiler errors found, I've managed to start writing a debugger... - flysand</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1169005175084699748/new20.mp4 class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>got custom win32 window borders working for my platform layer 🎉 - Skytrias</p>
-</div>
-</div>
-<h3 id=miscellaneous>Miscellaneous <a class=text-decoration-none href=#miscellaneous>#</a></h3>
-<div class="card my-2 shadow text-center">
-<img src=https://media.discordapp.net/attachments/568871319425515531/1163536181267546253/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>Working on a MIPS assembler for a personal project. I'm really bad at parsing but here is my first progress update in which I am successfully validating token sequences that correspond to the instructions. - Heinrich</p>
-</div>
-</div>
-<div class="card my-2 shadow">
-<video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1167142997712965804/odinfuck.mp4></video>
-<div class="card-body text-center">
-<p class=card-text>Made my go-to thing to make in a new language - a Brainfuck compiler - Only generates naïve code for linux-x64 but I might add more backends and some optimizations - Danie
-</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1167454763940581527/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>My first test run of my MIPS assembler producing a binary usable by my emulator. - Heinrich</p>
-</div>
-</div>
-<div class="card my-2 shadow text-center">
-<img src=https://cdn.discordapp.com/attachments/568871319425515531/1167503428004618241/image.png class="figure-img img-fluid rounded" alt=...>
-<div class=card-body>
-<p class=card-text>The true purpose of the emulator. I am associating part of the memory with a text display beginning at 0x400. - Heinrich</p>
-</div>
-</div>
-</div>
-</article>
-<div id=TOC class="col-lg-2 odin-toc-border">
-<div class="sticky-top odin-below-navbar py-3">
-<nav id=TableOfContents>
-<ul>
-<li><a href=#compiler-updates>Compiler Updates</a></li>
-<li><a href=#events>Events</a></li>
-<li><a href=#youtube>YouTube</a></li>
-<li><a href=#games>Games</a></li>
-<li><a href=#editors>Editors</a></li>
-<li><a href=#new--updated-projects>New / Updated Projects</a>
-<ul>
-<li><a href=#journey-ecs---raigon>Journey ECS - Raigon</a></li>
-<li><a href=#job-scheduler---jakubtomsu-jacob>Job Scheduler - <code>jakubtomsu (Jacob)</code></a></li>
-<li><a href=#cody-a-simple-code-counter---jetdove>Cody: A simple code counter - <code>JetDove</code></a></li>
-<li><a href=#box2d-v3-odin-bindings---cristhofer>Box2D v3 odin bindings - <code>Cristhofer</code></a></li>
-<li><a href=#magicavoxel-vox-model-loader---jakubtomsu-jacob>MagicaVoxel .vox model Loader - <code>jakubtomsu (Jacob)</code></a></li>
-</ul>
-</li>
-<li><a href=#community-showcase>Community Showcase</a>
-<ul>
-<li><a href=#game-development>Game Development</a></li>
-<li><a href=#graphics>Graphics</a></li>
-<li><a href=#tools--ui>Tools & UI</a></li>
-<li><a href=#miscellaneous>Miscellaneous</a></li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-</div>
-</main>
-<footer class=odin-footer>
-<div class="container pb-5 pt-5">
-<div class="row g-4">
-<div class=col>
-<a class=navbar-brand href=/>
-<img class=mb-3 src=/logo.svg height=30 alt=Odin></a>
-<p>
-The Data-Oriented Language for Sane Software Development.
-</p>
-</div>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Resources</h4>
-<ul class=list-unstyled>
-<li><a href=/docs class=link-light>Docs</a></li>
-<li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li>
-<li><a href=/news class=link-light>News</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Community</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li>
-<li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li>
-<li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li>
-<li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li>
-<li><a href=/showcase target=_blank class=link-light>Showcase</a></li>
-</ul>
-</nav>
-<nav class=col-md-auto>
-<h4 class=fw-normal>Contribute</h4>
-<ul class=list-unstyled>
-<li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li>
-<li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li>
-</ul>
-</nav>
-</div>
-<div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div>
-</div>
-</footer>
-<script src=/lib/bootstrap/js/bootstrap.min.js></script>
-<script src=/js/script.js></script>
-</body>
-</html>
+<!doctype html><html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><link rel=icon href=/favicon.svg><meta name=color-scheme content="only dark"><meta property="og:title" content="November 2023 Newsletter"><meta property="og:description" content="Highlights for November - Community Showcase Categorized"><meta property="og:type" content="article"><meta property="og:url" content="https://odin-lang.org/news/newsletter-2023-11/"><meta property="og:image" content="https://odin-lang.org/images/logo-slim.png"><meta property="article:published_time" content="2023-11-01T00:00:00+00:00"><meta property="article:modified_time" content="2023-11-01T00:00:00+00:00"><link rel=stylesheet href=https://odin-lang.org/scss/custom.min.css><link rel=stylesheet href=/lib/highlight/styles/github-dark.min.css><script src=/lib/highlight/highlight.min.js></script><script>hljs.registerLanguage("odin",function(e){return{aliases:["odin","odinlang","odin-lang"],keywords:{keyword:"auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_else or_return package proc return struct switch transmute type_of typeid union using when where",literal:"true false nil",built_in:"abs align_of cap clamp complex conj expand_to_tuple imag jmag kmag len max min offset_of quaternion real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of"},illegal:"</",contains:[e.C_LINE_COMMENT_MODE,e.C_BLOCK_COMMENT_MODE,{className:"string",variants:[e.QUOTE_STRING_MODE,{begin:"'",end:"[^\\\\]'"},{begin:"`",end:"`"}]},{className:"number",variants:[{begin:e.C_NUMBER_RE+"[ijk]",relevance:1},e.C_NUMBER_MODE]}]}})</script><script>hljs.highlightAll()</script><script async src="https://www.googletagmanager.com/gtag/js?id=UA-67516878-2"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","UA-67516878-2")</script><link href=/css/style.css rel=stylesheet><title>November 2023 Newsletter | Odin Programming Language </title><link rel=alternate type=application/rss+xml href=https://odin-lang.org//categories/newsletter/index.xml title="Odin Newsletter"><body data-bs-spy=scroll data-bs-target=#TOC data-bs-offset=0 tabindex=0><script>window.localStorage.getItem("theme")||window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches&&(window.localStorage.setItem("theme","dark"),document.body.classList.add("dark-mode")),window.localStorage.getItem("theme")==="dark"&&document.body.classList.add("dark-mode");function toggleDarkMode(){document.body.classList.toggle("dark-mode")?window.localStorage.setItem("theme","dark"):window.localStorage.setItem("theme","light")}</script><header class=sticky-top><nav class="navbar navbar-expand-lg navbar-dark bg-primary odin-menu"><div class=container-xxl><a class=navbar-brand href=/><img src=/logo.svg height=30 alt=Odin id=navbar-logo>
+</a><button class=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#odin-navbar-content aria-controls=odin-navbar-content aria-expanded=false aria-label="Toggle navigation">
+<span class=navbar-toggler-icon></span></button><div class="collapse navbar-collapse" id=odin-navbar-content><ul class="navbar-nav ms-md-auto"><li class=nav-item><a class=nav-link href=/>Home</a></li><li class=nav-item><a class=nav-link href=/docs>Docs</a></li><li class=nav-item><a class=nav-link href=https://pkg.odin-lang.org/>Packages</a></li><li class=nav-item><a class="nav-link active" href=/news aria-current=page>News</a></li><li class=nav-item><a class=nav-link href=/showcase>Showcase</a></li><li class=nav-item><a class=nav-link href=https://forum.odin-lang.org>Forum</a></li><li class=nav-item><a class=nav-link href=/community>Community</a></li><li class=nav-item><a class=nav-link href=https://github.com/odin-lang/Odin target=_blank>GitHub</a></li><li class=nav-item><a class="nav-link btn-dark-mode" onclick=toggleDarkMode() title="Toggle Light/Dark Mode"><span class=dark-mode-appearance>Appearance:</span><svg fill="#fff" id="dark-mode-icon" viewBox="0 0 384 512"><path d="M223.5 32C1e2 32 0 132.3.0 256S1e2 480 223.5 480c60.6.0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9.0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/></svg><svg fill="#fff" id="light-mode-icon" viewBox="0 0 16 16"><path d="M8 12a4 4 0 100-8 4 4 0 000 8M8 0a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 0m0 13a.5.5.0 01.5.5v2a.5.5.0 01-1 0v-2A.5.5.0 018 13m8-5a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2a.5.5.0 01.5.5M3 8a.5.5.0 01-.5.5h-2a.5.5.0 010-1h2A.5.5.0 013 8m10.657-5.657a.5.5.0 010 .707l-1.414 1.415a.5.5.0 11-.707-.708l1.414-1.414a.5.5.0 01.707.0m-9.193 9.193a.5.5.0 010 .707L3.05 13.657a.5.5.0 01-.707-.707l1.414-1.414a.5.5.0 01.707.0m9.193 2.121a.5.5.0 01-.707.0l-1.414-1.414a.5.5.0 01.707-.707l1.414 1.414a.5.5.0 010 .707M4.464 4.465a.5.5.0 01-.707.0L2.343 3.05a.5.5.0 11.707-.707l1.414 1.414a.5.5.0 010 .708"/></svg></button></a></li></ul></div></div></nav></header><main><div class=container-xxl><div class="row odin-main"><nav class="col-lg-2 odin-sidebar-border navbar-light"><div class="sticky-top odin-below-navbar py-3"><ul class="nav nav-pills d-flex flex-column"><li class=nav-item><a class=nav-link href=/news/orca-odin/>Orca Odin Support</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-12/>December 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-10/>October 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-09/>September 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-08/>August 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-07/>July 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-06/>June 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-05/>May 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-04/>April 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-03/>March 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-02/>February 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2024-01/>January 2024 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-12/>December 2023 Newsletter</a></li><li class=nav-item><a class="nav-link active" href=/news/newsletter-2023-11/ aria-current=page>November 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-09/>September 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-08/>August 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-07/>July 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-06/>June 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2023-04/>April 2023 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-12/>December 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/newsletter-2022-11/>November 2022 Newsletter</a></li><li class=nav-item><a class=nav-link href=/news/read-a-file-line-by-line/>Reading a File Line by Line</a></li><li class=nav-item><a class=nav-link href=/news/calling-odin-from-python/>Calling Odin from Python</a></li><li class=nav-item><a class=nav-link href=/news/binding-to-c/>Binding to C</a></li><li class=nav-item><a class=nav-link href=/news/declaration-syntax/>Odin's Declaration Syntax</a></li><li class=nav-item><a class=nav-link href=/news/major-graphics-apis/>Official Metal and Direct3D Support</a></li><li class=nav-item><a class=nav-link href=/news/new-package-documentation/>New Package Documentation</a></li><li class=nav-item><a class=nav-link href=/news/optional-semicolons/>Optional Semicolons</a></li><li class=nav-item><a class=nav-link href=/news/quine-in-odin/>A Quine in Odin</a></li></ul></div></nav><article class="col-lg-8 p-4"><header><nav aria-label=breadcrumb><ol class=breadcrumb><li class=breadcrumb-item><a href=/news>News</a></li><li class=breadcrumb-item><a href=/news/newsletter-2023-11>Newsletter 2023 11</a></li></ol><h1>November 2023 Newsletter</h1></header><div class=odin-article><h2 id=compiler-updates>Compiler Updates <a class=text-decoration-none href=#compiler-updates>#</a></h2><p><a href=https://github.com/odin-lang/Odin/releases/tag/dev-2023-11>Monthly Release</a> includes LLVM 17.0.1 support for linux and darwin.</p><hr><h2 id=events>Events <a class=text-decoration-none href=#events>#</a></h2><p>Handmade Seattle is happening in November! Make sure to check out the event <a href=https://handmadecities.com/seattle/>https://handmadecities.com/seattle/</a>.</p><div style=display:flex;justify-content:center;width:100%><iframe title=vimeo-player src="https://player.vimeo.com/video/879655373?h=14e5a203ce" width=640 height=360 frameborder=0 allowfullscreen></iframe></div><hr><h2 id=youtube>YouTube <a class=text-decoration-none href=#youtube>#</a></h2><p><a href="https://www.youtube.com/watch?v=VLcTrUhSdlg&amp;list=PLEQTpgQ9eFCGlQa2z0j_TQTGggHOIF8Z1">Rickard Andersson</a> (<code>gonz</code> on Discord) continues on his odin videos</p><p>Here&rsquo;s a list of what he went over this month:</p><ul><li><a href="https://youtu.be/wQJnJ1NNfQU?si=rItSKMMLAhsOM645">&ldquo;Debugging Odin code&rdquo; addendum - SeerGDB</a></li><li><a href="https://youtu.be/0GGJBm0r3nA?si=b8YpxMfdyv9EghlO">Command line arguments and dependencies in Odin</a></li><li><a href="https://youtu.be/oNZzosryjV8?si=muOhMxABnmQyZGGM">Using functions from other languages (FFI) in Odin</a></li><li><a href="https://youtu.be/Gyt0kzLhtgs?si=UCKvgY1itV7ymDtl">FFI example in Odin: Using Odin code in Erlang/Elixir</a></li><li><a href="https://youtu.be/6FQy8bhs3HI?si=p8MwO5PCsfX_H4QE">Types and data in Odin</a></li><li><a href="https://youtu.be/S1DlBm8iXZU?si=36Ue2JvWaNfgaHNk">Stream, Reader and data pointers</a></li><li><a href="https://youtu.be/x0rBroR3aog?si=qWMtPYxoc5lsVk2a">Bytes, binary and hexadecimal</a></li><li><a href="https://youtu.be/VVwbuij_c-Q?si=E3Jiv4rRUeae_sTP">Byte order / Endianness</a></li><li><a href="https://youtu.be/JaOKqXJT4d4?si=CDwcXfRjwL-h6VLv">Bitwise operations - Extracting from and setting values in bytes</a></li></ul><p>Gotta catch up on these!</p><hr><h2 id=games>Games <a class=text-decoration-none href=#games>#</a></h2><p><strong>SabeMakesGames</strong> released his first small game done with odin! Check it out here <a href=https://sabe09.itch.io/attack-of-the-goobers>https://sabe09.itch.io/attack-of-the-goobers</a></p><p>He also made a short video on it:</p><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/UcQpfkHqsZk?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><hr><h2 id=editors>Editors <a class=text-decoration-none href=#editors>#</a></h2><p><strong>obiwan87</strong> has added support of <a href=https://plugins.jetbrains.com/plugin/22933-odin-lang-support>JetBrains editors</a>! It&rsquo;s still early and doesnt support everything but its a nice start.</p><img src=https://plugins.jetbrains.com/files/22933/screenshot_1fb7a251-94b8-4b1b-b5ad-26b9c08c3163 class="figure-img img-fluid rounded"><hr><h2 id=new--updated-projects>New / Updated Projects <a class=text-decoration-none href=#new--updated-projects>#</a></h2><p>I&rsquo;ll try posting the comments or descriptions the authors posted for their packages.</p><h3 id=journey-ecs---raigon>Journey ECS - Raigon <a class=text-decoration-none href=#journey-ecs---raigon>#</a></h3><p>Read more on: <a href=https://github.com/KDahir247/Journey_ECS>https://github.com/KDahir247/Journey_ECS</a></p><p>Fast Minimal Sparse set for Odin Language Which is being used in Odin-Journey.</p><p>Features:</p><ul><li>Fast single component iteration & entity iteration (Dense array iteration)</li><li>Unlimitied amount of component can be added</li><li>Very minimal Only does what it needs and nothing more.</li><li>SOA component dense array</li><li>Extremely fast grouping and sub grouping query (eg. Entity with position and scale)</li><li>Reduced memory consumption on sparse array</li><li>Allow upto or more then 1 Million entity</li></ul><div style=font-size:.875em>Example of code:</div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#f92672>package</span> main
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> ecs <span style=color:#e6db74>&#34;foldername that has this single script&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>() {
+</span></span><span style=display:flex><span>  world <span style=color:#f92672>:=</span> init_world()
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>defer</span> deinit_world(world)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Position <span style=color:#f92672>::</span> <span style=color:#66d9ef>struct</span>{
+</span></span><span style=display:flex><span>      val <span style=color:#f92672>:</span> <span style=color:#a6e22e>#simd</span>[<span style=color:#a6e22e>4</span>]<span style=color:#66d9ef>f32</span>,
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Rotation <span style=color:#f92672>::</span> <span style=color:#66d9ef>struct</span>{
+</span></span><span style=display:flex><span>      val <span style=color:#f92672>:</span> <span style=color:#a6e22e>#simd</span>[<span style=color:#a6e22e>4</span>]<span style=color:#66d9ef>f32</span>,
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Scale <span style=color:#f92672>::</span> <span style=color:#66d9ef>struct</span>{
+</span></span><span style=display:flex><span>      val <span style=color:#f92672>:</span> <span style=color:#a6e22e>#simd</span>[<span style=color:#a6e22e>4</span>]<span style=color:#66d9ef>f32</span>,
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Velocity <span style=color:#f92672>::</span> <span style=color:#66d9ef>struct</span>{
+</span></span><span style=display:flex><span>      val <span style=color:#f92672>:</span> <span style=color:#a6e22e>#simd</span>[<span style=color:#a6e22e>4</span>]<span style=color:#66d9ef>f32</span>,
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  register(world, Position)
+</span></span><span style=display:flex><span>  register(world, Rotation)
+</span></span><span style=display:flex><span>  register(world, Scale)
+</span></span><span style=display:flex><span>  register(world, Velocity)
+</span></span><span style=display:flex><span>  
+</span></span><span style=display:flex><span>  entity <span style=color:#f92672>:=</span> create_entity(world)
+</span></span><span style=display:flex><span>  entity1 <span style=color:#f92672>:=</span> create_entity(world) 
+</span></span><span style=display:flex><span>  entity2 <span style=color:#f92672>:=</span> create_entity(world) 
+</span></span><span style=display:flex><span>  entity3 <span style=color:#f92672>:=</span> create_entity(world) 
+</span></span><span style=display:flex><span>  entity4 <span style=color:#f92672>:=</span> create_entity(world)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  velocityx <span style=color:#f92672>:=</span> Velocity{
+</span></span><span style=display:flex><span>      val <span style=color:#f92672>=</span> {<span style=color:#a6e22e>1</span><span style=color:#ae81ff>.0</span>, <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>, <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>, <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>},
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  postion_x <span style=color:#f92672>:=</span> Position{
+</span></span><span style=display:flex><span>      val <span style=color:#f92672>=</span> {<span style=color:#a6e22e>2</span><span style=color:#ae81ff>.0</span>, <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>, <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>, <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>},
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  postion_y <span style=color:#f92672>:=</span> Position{
+</span></span><span style=display:flex><span>      val <span style=color:#f92672>=</span> {<span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>,<span style=color:#a6e22e>3</span><span style=color:#ae81ff>.14</span>,<span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>,<span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>},
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  position_xy <span style=color:#f92672>:=</span> Position{
+</span></span><span style=display:flex><span>      val <span style=color:#f92672>=</span> {<span style=color:#a6e22e>24</span><span style=color:#ae81ff>.0</span>,<span style=color:#a6e22e>7</span><span style=color:#ae81ff>.11</span>,<span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>,<span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>},
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  Quaternion_IDENTITY <span style=color:#f92672>:=</span> Rotation{
+</span></span><span style=display:flex><span>      val <span style=color:#f92672>=</span> {<span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>,<span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>,<span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>,<span style=color:#a6e22e>1</span><span style=color:#ae81ff>.0</span>},
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  add_soa_component(world, entity2, velocityx)
+</span></span><span style=display:flex><span>  add_soa_component(world, entity1, postion_x)
+</span></span><span style=display:flex><span>  add_soa_component(world, entity2, postion_y)
+</span></span><span style=display:flex><span>  add_soa_component(world, entity2, Quaternion_IDENTITY)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  add_soa_component(world, entity, position_xy)
+</span></span><span style=display:flex><span>  add_soa_component(world, entity, Quaternion_IDENTITY)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  postion_scale_query <span style=color:#f92672>:=</span> query(world, Velocity, Scale) <span style=color:#75715e>//register and sort using group
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  position_rotation_query <span style=color:#f92672>:=</span> query(world, Position, Rotation) <span style=color:#75715e>//register and sort using group
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>
+</span></span><span style=display:flex><span>  position_rotation_query1 <span style=color:#f92672>:=</span> query(world, Position, Rotation) <span style=color:#75715e>//doesn&#39;t register or sort using group uses the cache result
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>  postion_scale_query1 <span style=color:#f92672>:=</span> query(world, Velocity, Scale) <span style=color:#75715e>//doesn&#39;t register or sort using group uses the cache result
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span> 
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> component_storage, index <span style=color:#66d9ef>in</span> run(<span style=color:#f92672>&amp;</span>position_rotation_query){
+</span></span><span style=display:flex><span>    mut_component_storage <span style=color:#f92672>:=</span> component_storage
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> component_storage.entities[index] <span style=color:#f92672>==</span> <span style=color:#a6e22e>2</span>{
+</span></span><span style=display:flex><span>        fmt.println(<span style=color:#e6db74>&#34;Moving the player entity&#34;</span>, component_storage.entities[index] , <span style=color:#e6db74>&#34;Right by 100&#34;</span> )
+</span></span><span style=display:flex><span>        mut_component_storage.component_a[index].val <span style=color:#f92672>+=</span> {<span style=color:#a6e22e>100</span><span style=color:#ae81ff>.0</span>, <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>, <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>, <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.0</span>}
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    fmt.print(component_storage.entities[index], <span style=color:#e6db74>&#34; :\t&#34;</span>)
+</span></span><span style=display:flex><span>    fmt.print(component_storage.component_a[index], <span style=color:#e6db74>&#34;\t&#34;</span>)
+</span></span><span style=display:flex><span>    fmt.print(component_storage.component_b[index])
+</span></span><span style=display:flex><span>    fmt.println()
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>  fmt.println(<span style=color:#e6db74>&#34;\n&#34;</span>)
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=job-scheduler---jakubtomsu-jacob>Job Scheduler - <code>jakubtomsu (Jacob)</code> <a class=text-decoration-none href=#job-scheduler---jakubtomsu-jacob>#</a></h3><p>Read more on: <a href=https://github.com/jakubtomsu/jobs>https://github.com/jakubtomsu/jobs</a></p><p>I made a small job system for Odin. This is a port of my old fiber-based C++ job scheduler, but it&rsquo;s much simpler and has less overhead. I also added a few examples, including boids simulation with Raylib.
+Features include:</p><ul><li>dispatching jobs</li><li>waiting for jobs (while processing other queued jobs at the same time)</li><li>nested jobs</li><li>utilities for batch processing arrays/slices</li><li>optional immediate-mode-style thread processing loop</li></ul><div style=font-size:.875em>A simple hello world program:</div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>() {
+</span></span><span style=display:flex><span>    jobs.initialize()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    g<span style=color:#f92672>:</span> jobs.Group
+</span></span><span style=display:flex><span>    jobs.dispatch(.Medium, jobs.make_job(<span style=color:#f92672>&amp;</span>g, hello_job))
+</span></span><span style=display:flex><span>    jobs.wait(<span style=color:#f92672>&amp;</span>g)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    jobs.shutdown()
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>hello_job <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>(_<span style=color:#f92672>:</span> <span style=color:#66d9ef>rawptr</span>) {
+</span></span><span style=display:flex><span>    fmt.println(<span style=color:#e6db74>&#34;Hello from thread&#34;</span>, jobs.current_thread_index())
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=cody-a-simple-code-counter---jetdove>Cody: A simple code counter - <code>JetDove</code> <a class=text-decoration-none href=#cody-a-simple-code-counter---jetdove>#</a></h3><p>Read more on: <a href=https://github.com/CoolDove/cody>https://github.com/CoolDove/cody</a></p><img src=https://raw.githubusercontent.com/CoolDove/cody/master/example/example_0.png class="figure-img img-fluid rounded" alt=...><h3 id=box2d-v3-odin-bindings---cristhofer>Box2D v3 odin bindings - <code>Cristhofer</code> <a class=text-decoration-none href=#box2d-v3-odin-bindings---cristhofer>#</a></h3><p>Read more on: <a href=https://github.com/cristhofermarques/odin-box2d/>https://github.com/cristhofermarques/odin-box2d/</a></p><div style=font-size:.875em>Example:</div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#f92672>package</span> box2d_example
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> b2 <span style=color:#e6db74>&#34;box2d&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> <span style=color:#e6db74>&#34;core:fmt&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>main <span style=color:#f92672>::</span> <span style=color:#66d9ef>proc</span>()
+</span></span><span style=display:flex><span>{
+</span></span><span style=display:flex><span>    world_def <span style=color:#f92672>:=</span> b2.DEFAULT_WORLD_DEF
+</span></span><span style=display:flex><span>    world_def.gravity <span style=color:#f92672>=</span> b2.Vec2{<span style=color:#a6e22e>0</span>, <span style=color:#f92672>-</span><span style=color:#a6e22e>10</span>}
+</span></span><span style=display:flex><span>    world_id <span style=color:#f92672>:=</span> b2.create_world(<span style=color:#f92672>&amp;</span>world_def)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>defer</span> b2.destroy_world(world_id)
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    ground_body_def <span style=color:#f92672>:=</span> b2.DEFAULT_BODY_DEF
+</span></span><span style=display:flex><span>    ground_body_def.position <span style=color:#f92672>=</span> b2.Vec2{<span style=color:#a6e22e>0</span>, <span style=color:#f92672>-</span><span style=color:#a6e22e>10</span>}
+</span></span><span style=display:flex><span>    ground_body_id <span style=color:#f92672>:=</span> b2.world_create_body(world_id, <span style=color:#f92672>&amp;</span>ground_body_def)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    ground_box <span style=color:#f92672>:=</span> b2.make_box(<span style=color:#a6e22e>50</span>, <span style=color:#a6e22e>10</span>)
+</span></span><span style=display:flex><span>    ground_shape_def <span style=color:#f92672>:=</span> b2.DEFAULT_SHAPE_DEF
+</span></span><span style=display:flex><span>    b2.body_create_polygon(ground_body_id, <span style=color:#f92672>&amp;</span>ground_shape_def, <span style=color:#f92672>&amp;</span>ground_box)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    body_def <span style=color:#f92672>:=</span> b2.DEFAULT_BODY_DEF
+</span></span><span style=display:flex><span>    body_def.type <span style=color:#f92672>=</span> .Dynamic
+</span></span><span style=display:flex><span>    body_def.position <span style=color:#f92672>=</span> b2.Vec2{<span style=color:#a6e22e>0</span>, <span style=color:#a6e22e>4</span>}
+</span></span><span style=display:flex><span>    body_id <span style=color:#f92672>:=</span> b2.world_create_body(world_id, <span style=color:#f92672>&amp;</span>body_def)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    shape_def <span style=color:#f92672>:=</span> b2.DEFAULT_SHAPE_DEF
+</span></span><span style=display:flex><span>    shape_def.density <span style=color:#f92672>=</span> <span style=color:#a6e22e>1</span>
+</span></span><span style=display:flex><span>    shape_def.friction <span style=color:#f92672>=</span> <span style=color:#a6e22e>0</span><span style=color:#ae81ff>.3</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    circle<span style=color:#f92672>:</span> b2.Circle
+</span></span><span style=display:flex><span>    circle.radius <span style=color:#f92672>=</span> <span style=color:#a6e22e>1</span>
+</span></span><span style=display:flex><span>    b2.body_create_circle(body_id, <span style=color:#f92672>&amp;</span>shape_def, <span style=color:#f92672>&amp;</span>circle)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    time_step<span style=color:#f92672>:</span> <span style=color:#66d9ef>f32</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>1</span><span style=color:#ae81ff>.0</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>60</span><span style=color:#ae81ff>.0</span>
+</span></span><span style=display:flex><span>    velocity_iterations<span style=color:#f92672>:</span> <span style=color:#66d9ef>i32</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>6</span>
+</span></span><span style=display:flex><span>    position_iterations<span style=color:#f92672>:</span> <span style=color:#66d9ef>i32</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>2</span>
+</span></span><span style=display:flex><span>    
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> i <span style=color:#66d9ef>in</span> <span style=color:#a6e22e>0</span><span style=color:#f92672>..&lt;</span><span style=color:#a6e22e>60</span>
+</span></span><span style=display:flex><span>    {
+</span></span><span style=display:flex><span>        b2.world_step(world_id, time_step, velocity_iterations, position_iterations)
+</span></span><span style=display:flex><span>        position <span style=color:#f92672>:=</span> b2.body_get_position(body_id)
+</span></span><span style=display:flex><span>        angle <span style=color:#f92672>:=</span> b2.body_get_angle(body_id)
+</span></span><span style=display:flex><span>        fmt.println(position, angle)
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h3 id=magicavoxel-vox-model-loader---jakubtomsu-jacob>MagicaVoxel .vox model Loader - <code>jakubtomsu (Jacob)</code> <a class=text-decoration-none href=#magicavoxel-vox-model-loader---jakubtomsu-jacob>#</a></h3><p>Read more on: <a href=https://github.com/jakubtomsu/odin-vox>https://github.com/jakubtomsu/odin-vox</a></p><p>A simple loader for .vox models from MagicaVoxel.
+The base format is fully implemented, but no extensions are supported yet.</p><div style=font-size:.875em>Usage:</div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#75715e>// Load and parse data from file.
+</span></span></span><span style=display:flex><span><span style=color:#75715e>// Alternatively use `vox.load_from_data`.
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>if</span> data, ok <span style=color:#f92672>:=</span> vox.load_from_file(<span style=color:#e6db74>&#34;my_model.vox&#34;</span>, <span style=color:#66d9ef>context</span>.temp_allocator); ok {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>for</span> model, i <span style=color:#66d9ef>in</span> data.models {
+</span></span><span style=display:flex><span>    fmt.printf(<span style=color:#e6db74>&#34;Model %i:\n&#34;</span>, i)
+</span></span><span style=display:flex><span>    fmt.printf(<span style=color:#e6db74>&#34;\tsize: %v\n&#34;</span>, model.size)
+</span></span><span style=display:flex><span>    fmt.printf(<span style=color:#e6db74>&#34;\tvoxels:\n&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> voxel, j <span style=color:#66d9ef>in</span> model.voxels {
+</span></span><span style=display:flex><span>      fmt.printf(<span style=color:#e6db74>&#34;\t[%i] %v: %i\n&#34;</span>, j, voxel.pos, voxel.color_index)
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><hr><h2 id=community-showcase>Community Showcase <a class=text-decoration-none href=#community-showcase>#</a></h2><p>Another month has passed - this time around there was less going on but we&rsquo;re nearing the end of the year.</p><h3 id=game-development>Game Development <a class=text-decoration-none href=#game-development>#</a></h3><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1161680998472364212/My_Movie_4.mov></video><div class="card-body text-center"><p class=card-text>We are building a 2D engine and this is our progress so far. Right now we have a custom ECS, and we have a animation system, plus we have 2D point lights implemented - ScottCastle</p></div></div><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1162028187128184882/astroberg.mp4></video><div class="card-body text-center"><p class=card-text>building a small editor for the game I'm currently toying with. Normally I just do everything in code but its nice to be able to edit colliders and such while seeing the effect. - rhoeberg</p></div></div><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1162143170138742784/dialogue_system.mp4></video><div class="card-body text-center"><p class=card-text>Realized my game needed branching dialogue, so I made this editor + new gameplay code for handling dialogue choices! 😺 - karl_zylinski</p></div></div><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1162501743997890761/collisions.mp4></video><div class="card-body text-center"><p class=card-text>Trying to make my little FPS engine based on Raylib - Nefrace</p></div></div><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1163591126595411988/arc_rVf9MWXQsX.mp4></video><div class="card-body text-center"><p class=card-text>Starting to put together an in-game editor, added some window management features to make it comfy. - davidcergizan</p></div></div><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1165591489888399481/2023-10-22_11-59-30.mp4></video><div class="card-body text-center"><p class=card-text>started to implement window docking because I got jealous of how slick @davidcergizans editor is looking. Still a lot of work to get it nice but I think its doable - rhoeberg</p></div></div><div class="ratio ratio-16x9 my-2"><iframe src="https://www.youtube.com/embed/adpJ7Xk28n0?rel=0" allowfullscreen crossorigin=anonymous></iframe></div><h3 id=graphics>Graphics <a class=text-decoration-none href=#graphics>#</a></h3><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1158811588107706408/itj_wm-03-10-2023.mp4></video><div class="card-body text-center"><p class=card-text>Got the basics working. This is a window manager for linux, written in Odin - Smilex</p></div></div><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1165664678316355634/rayman_gpu.mp4></video><div class="card-body text-center"><p class=card-text>working on a raymarching renderer! - sandwichman</p></div></div><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1165794582999605278/2023-10-22_19-29-11.mp4></video><div class="card-body text-center"><p class=card-text>new demo! sorry for the jumpy motion, it doesn't like sharing the GPU with my recording software quite yet 😭 - sandwichman</p></div></div><h3 id=tools--ui>Tools & UI <a class=text-decoration-none href=#tools--ui>#</a></h3><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://media.discordapp.net/attachments/404399251276169217/1158167253636894830/simplescreenrecorder-2023-10-02_00.17.35.mp4></video><div class="card-body text-center"><p class=card-text>my image splicer doing the most basic image splicing, just for the end of the jam - Stvff</p></div></div><div class="card my-2 shadow text-center"><img src=https://media.discordapp.net/attachments/568871319425515531/1158732067887120455/image.png class="figure-img img-fluid rounded" alt=...><div class=card-body><p class=card-text>After so many hours of headbanging against manpages and 3 odin internal compiler errors found, I've managed to start writing a debugger... - flysand</p></div></div><div class="card my-2 shadow text-center"><img src=https://cdn.discordapp.com/attachments/568871319425515531/1169005175084699748/new20.mp4 class="figure-img img-fluid rounded" alt=...><div class=card-body><p class=card-text>got custom win32 window borders working for my platform layer 🎉 - Skytrias</p></div></div><h3 id=miscellaneous>Miscellaneous <a class=text-decoration-none href=#miscellaneous>#</a></h3><div class="card my-2 shadow text-center"><img src=https://media.discordapp.net/attachments/568871319425515531/1163536181267546253/image.png class="figure-img img-fluid rounded" alt=...><div class=card-body><p class=card-text>Working on a MIPS assembler for a personal project. I'm really bad at parsing but here is my first progress update in which I am successfully validating token sequences that correspond to the instructions. - Heinrich</p></div></div><div class="card my-2 shadow"><video class="object-fit-cover rounded" muted loop controls src=https://cdn.discordapp.com/attachments/568871319425515531/1167142997712965804/odinfuck.mp4></video><div class="card-body text-center"><p class=card-text>Made my go-to thing to make in a new language - a Brainfuck compiler - Only generates naïve code for linux-x64 but I might add more backends and some optimizations - Danie</p></div></div><div class="card my-2 shadow text-center"><img src=https://cdn.discordapp.com/attachments/568871319425515531/1167454763940581527/image.png class="figure-img img-fluid rounded" alt=...><div class=card-body><p class=card-text>My first test run of my MIPS assembler producing a binary usable by my emulator. - Heinrich</p></div></div><div class="card my-2 shadow text-center"><img src=https://cdn.discordapp.com/attachments/568871319425515531/1167503428004618241/image.png class="figure-img img-fluid rounded" alt=...><div class=card-body><p class=card-text>The true purpose of the emulator. I am associating part of the memory with a text display beginning at 0x400. - Heinrich</p></div></div></div></article><div id=TOC class="col-lg-2 odin-toc-border"><div class="sticky-top odin-below-navbar py-3"><nav id=TableOfContents><ul><li><a href=#compiler-updates>Compiler Updates</a></li><li><a href=#events>Events</a></li><li><a href=#youtube>YouTube</a></li><li><a href=#games>Games</a></li><li><a href=#editors>Editors</a></li><li><a href=#new--updated-projects>New / Updated Projects</a><ul><li><a href=#journey-ecs---raigon>Journey ECS - Raigon</a></li><li><a href=#job-scheduler---jakubtomsu-jacob>Job Scheduler - <code>jakubtomsu (Jacob)</code></a></li><li><a href=#cody-a-simple-code-counter---jetdove>Cody: A simple code counter - <code>JetDove</code></a></li><li><a href=#box2d-v3-odin-bindings---cristhofer>Box2D v3 odin bindings - <code>Cristhofer</code></a></li><li><a href=#magicavoxel-vox-model-loader---jakubtomsu-jacob>MagicaVoxel .vox model Loader - <code>jakubtomsu (Jacob)</code></a></li></ul></li><li><a href=#community-showcase>Community Showcase</a><ul><li><a href=#game-development>Game Development</a></li><li><a href=#graphics>Graphics</a></li><li><a href=#tools--ui>Tools & UI</a></li><li><a href=#miscellaneous>Miscellaneous</a></li></ul></li></ul></nav></div></div></div></div></main><footer class=odin-footer><div class="container pb-5 pt-5"><div class="row g-4"><div class=col><a class=navbar-brand href=/><img class=mb-3 src=/logo.svg height=30 alt=Odin></a><p>The Data-Oriented Language for Sane Software Development.</p></div><nav class=col-md-auto><h4 class=fw-normal>Resources</h4><ul class=list-unstyled><li><a href=/docs class=link-light>Docs</a></li><li><a href=https://pkg.odin-lang.org/ class=link-light>Packages</a></li><li><a href=/news class=link-light>News</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Community</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin target=_blank class=link-light>GitHub</a></li><li><a href=https://discord.gg/vafXTdubwr target=_blank class=link-light>Discord</a></li><li><a href=https://www.twitch.tv/ginger_bill target=_blank class=link-light>Twitch</a></li><li><a href=https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg target=_blank class=link-light>YouTube</a></li><li><a href=/showcase target=_blank class=link-light>Showcase</a></li></ul></nav><nav class=col-md-auto><h4 class=fw-normal>Contribute</h4><ul class=list-unstyled><li><a href=https://github.com/odin-lang/Odin/issues target=_blank class=link-light>Issues</a></li><li><a href=https://www.patreon.com/gingerbill target=_blank class=link-light>Donate</a></li></ul></nav></div><div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div></div></footer><script src=/lib/bootstrap/js/bootstrap.min.js></script><script src=/js/script.js></script></body></html>

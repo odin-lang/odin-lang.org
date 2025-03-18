@@ -218,6 +218,36 @@ Most programmers spend most of their time _reading_ code; not _writing_ code. An
 ### Why are slices, dynamic arrays, and maps references whilst arrays are values?
 This is mostly because it "felt" right and is very convenient. Having them as values would require many allocations and may even require automatic memory management to handle correctly.
 
+### Why can I not index/address a constant with a variable?
+
+```odin
+// Common Example of the Error
+
+FOO :: [3]f32{1, 2, 3}
+
+i: int = ...
+x := FOO[i] // error since `FOO` is a compile-time known constant which only exists at compile-time
+
+```
+
+In Odin, `::` and `:=` are two different ways to declare named values. `:=` is shorthand for declaring a runtime-known variable with an inferred type. `::` is shorthand for declaring a compile-time-known constant value with an inferred type.
+
+For people coming from C, Odin's `::` is closer to `#define` than it is `static const`. The named "constants" in Odin only exist at compile-time and must be instantiated as a variable in order to be addressed/index.
+
+To achieve similar behaviour to C's `static const`, apply the `@(rodata)` attribute to a variable declaration (`:=`) to state that the data must live in the read-only data section of the executable.
+
+```odin
+// Common Example of the desired behaviour
+
+@(rodata)
+FOO := [3]f32{1, 2, 3}
+
+i: int = ...
+x := FOO[i] // allowed since `FOO` is a runtime-known variable
+
+```
+
+
 ## Procedures
 ### Why is it named `proc`?
 _Procedure_ used to be the common term as opposed to a function or subroutine. A function is a mathematical entity that has no side effects. A subroutine is something that has side effects but does not return anything.

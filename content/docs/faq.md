@@ -529,6 +529,23 @@ The official implementation of Odin currently supports: `amd64`, `arm64` (aarch6
 
 Note: `wasm64p32` is a pseudo-architecture which has 32-bit pointers but 64-bit `int`/`uint`, but fundamentally the same as `wasm32`. IT IS NOT THE SAME AS `wasm64`.
 
+### Why does Odin require the MSVC toolchain on Windows?
+
+From _Ginger Bill_ directly:
+
+> For C/C++ development on Windows, there are two main toolchains: MSVC and MinGW.
+>
+> For C, they are _meant to be_ ABI compatible in theory, but in practice they are not for non-obvious reasons.
+>
+> For C++, their ABIs are incompatible. Most third-party libraries that precompiled will also assume the MSVC toolchain, and not MinGW. MinGW is also kind of a mess in itself. So outside of libc/libc++, you will suffer.
+>
+> As for the C aspect, some libraries that provide a C interface may actually rely on specific C++ symbols directly, and assume that they will exist because of ABI assumptions of that toolchain. This does happen in practice, even if it is rare.
+>
+> Most people appear to want MinGW just to minimize the amount of stuff that they require to download, but in short, you are going to need to download the Windows SDK (and other libraries) any way. This is the problem of developing on Windows&mdash;you effectively need to use Microsoft's toolchain.
+>
+> There are some unofficial tools out there (see <https://github.com/Data-Oriented-House/PortableBuildTools>) that allow you to download a standalone MSVC compiler/linker/etc without having install Visual Studio; contains only the bare minimum components.
+
+
 ### Is the Odin compiler self hosted?
 
 Odin is not currently self hosted nor will be until _after_ version 1.0 when the main implementation of the Odin compiler adheres to a specification and is heavily tested. In general, self hosting before a stable language and compiler exists is masturbatory pleasure.

@@ -105,6 +105,15 @@ Odin uses plain error handling through the use of multiple return values. It is 
 
 Please see gingerBill's article for more information: [Exceptions — And Why Odin Will Never Have Them](https://www.gingerbill.org/article/2018/09/05/exceptions-and-why-odin-will-never-have-them/).
 
+### Is Odin "just" a language for game development?
+
+**No.** It is a common misconception that Odin is "just" for game development ("gamedev") due to the numerous [vendor](https://pkg.odin-lang.org/vendor/) packages that could be used in the aid of the development of a game. However, gamedev is pretty much the most wide domain possible where you will do virtually every area of programming possible.
+
+Odin is a general purpose language; is capable of being used in numerous different areas from application development, servers, graphics, games, kernels, CLI/TUIs, etc.
+
+There are many aspects of Odin which do make working with 2D and 3D related operations (which are common in gamedev) much nicer than other languages, especially Odin's [array programming](https://odin-lang.org/docs/overview/#array-programming), [swizzling](https://odin-lang.org/docs/overview/#swizzle-operations), [`#soa` data types](https://odin-lang.org/docs/overview/#soa-data-types), quaternions and matrices, and so much more niceties which other languages do not offer out-of-the-box.
+
+
 ## Types
 ### Is Odin an object oriented language?
 No. Data structures are just data.

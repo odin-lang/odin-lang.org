@@ -370,7 +370,7 @@ Through manual dependency management. Regardless of the language, it is a very g
 
 Not everything that can be automated ought to be automated. The automation of dependency hell is a case which should not encouraged. People love to put themselves in hell, dragging others down with them, and a package manager enables that.
 
-Another issue is that for other languages, the concept of a package is ill-defined in the language itself. And as such, the package manager itself is usually trying to define the concept of what a package is, which leads to many issues. Sometimes, if there are multiple competing package managers with different definitions of what a package is, the monstrosity of a package-manager-manager and the hell that brings with it.
+Another issue is that for other languages, the concept of a package is ill-defined in the language itself. And as such, the package manager itself is usually trying to define the concept of what a package is, which leads to many issues. Sometimes, if there are multiple competing package managers with different definitions of what a package is, the monstrosity of a package-manager-manager arises and the hell that brings with it.
 
 
 ## Syntax

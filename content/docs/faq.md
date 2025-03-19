@@ -360,6 +360,18 @@ All source files must have a `package` declaration at the top of the file which 
 
 The directory name nor any sort of relative path cannot be used to generate this import name (like other languages like Go) as Odin does not have a concept of a singular absolute root directory where all import paths come from. The name also has to be unique project-wide, so the directory name is not a good way to enforce uniqueness.
 
+### Is there an official Odin package manager?
+
+Odin will __never__ officially support a package manager.
+
+#### How do I manage my code without a "package manager"?
+
+Through manual dependency management. Regardless of the language, it is a very good idea that you know what you are depending on in your project. Copying and vendoring each package manually, and fixing the specific versions down is the most practical approach to keeping a code-base stable, reliable, and maintainable. Automated systems such as generic package managers
+
+Not everything that can be automated ought to be automated. The automation of dependency hell is a case which should not encouraged. People love to put themselves in hell, dragging others down with them, and a package manager enables that.
+
+Another issue is that for other languages, the concept of a package is ill-defined in the language itself. And as such, the package manager itself is usually trying to define the concept of what a package is, which leads to many issues. Sometimes, if there are multiple competing package managers with different definitions of what a package is, the the monstrosity of a package-manager-manager and the hell that brings with it.
+
 
 ## Syntax
 ### What does `:=` mean?

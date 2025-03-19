@@ -373,6 +373,15 @@ Not everything that can be automated ought to be automated. The automation of de
 Another issue is that for other languages, the concept of a package is ill-defined in the language itself. And as such, the package manager itself is usually trying to define the concept of what a package is, which leads to many issues. Sometimes, if there are multiple competing package managers with different definitions of what a package is, the monstrosity of a package-manager-manager arises and the hell that brings with it.
 
 
+### What is the criteria for selection what packages go into the `vendor` library collection?
+
+The criteria is approximately the following:
+
+* Widely useable
+* Does not cause tons of maintenance burden
+* Ginger Bill does not hate it
+
+
 ## Syntax
 ### What does `:=` mean?
 This is two different operators `:` and `=`; is used for variable declarations. The following are all equivalent:

@@ -129,9 +129,11 @@ Variables are initialized to zero by default unless specified otherwise.
 
 ```odin
 x := 10
-x := 20 // Redeclaration of `x` in this scope
-y, z := 20, 30
-test, z := 20, 30 // not allowed since `z` exists already
+{
+	x := 20 // Redeclaration of `x` in this scope
+	y, z := 20, 30
+	test, z := 20, 30 // not allowed since `z` exists already
+}
 ```
 
 ## Assignment statements

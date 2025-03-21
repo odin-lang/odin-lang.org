@@ -100,7 +100,7 @@ It should look something like:
 
 1. Install XCode command-line tools `xcode-select --install`
     * If that command is not found you may need to install XCode from the App Store
-2. Install [Homebrew](https://brew.sh/) and then LLVM: `brew install llvm`, the versions we support are 14, 17, 18, and 19
+2. Install [Homebrew](https://brew.sh/) and then LLVM: `brew install llvm`, the versions we support are 14, 17, 18, 19, and 20
 3. Clone the repository somewhere: `git clone https://github.com/odin-lang/Odin`
 4. Navigate to the Odin folder: `cd Odin`
 5. Optionally use `git checkout dev-YYYY-MM` to checkout an official release
@@ -124,9 +124,9 @@ This linker is included in the `lld` formula, install it through `brew install l
 
 ### Others (Unix)
 
-1. Install clang and LLVM (the versions we support are 14, 17 and 18) using your package manager
+1. Install clang and LLVM (the versions we support are 14, 17, 18, 19, and 20) using your package manager
     * It could be that LLVM is split into multiple packages and you also need to install something like `llvm-devel`
-2. Make sure `llvm-config`, `llvm-config-(14|17|18)`, or `llvm-config(14|17|18)` and `clang` are able to be found through your `$PATH`
+2. Make sure `llvm-config`, `llvm-config-(14|17|18|19|20)`, or `llvm-config(14|17|18|19|20)` and `clang` are able to be found through your `$PATH`
     * If you want to specify an explicit LLVM version or path, you can set the `LLVM_CONFIG` environment variable: `LLVM_CONFIG=/path/to/llvm-config make release-native`
 3. Clone the repository somewhere: `git clone https://github.com/odin-lang/Odin`
 4. Navigate to the Odin folder: `cd Odin`

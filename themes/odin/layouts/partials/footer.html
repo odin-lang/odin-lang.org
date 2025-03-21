@@ -46,9 +46,15 @@
             </nav>
         </div>
 
-        <div class="mt-4 text-muted">© 2016–2024 Ginger Bill</div>
+		<div class="mt-4 text-muted">© 2016–<span data-copyright-year>2024</span> Ginger Bill</div>
     </div>
 </footer>
+
+<script>
+	const element = document.querySelector("[data-copyright-year]");
+	if (element !== null || element !== undefined)
+		element.innerText = (new Date()).getFullYear();
+</script>
 
 <!-- Bootstrap JS -->
 <script src="/lib/bootstrap/js/bootstrap.min.js"></script>

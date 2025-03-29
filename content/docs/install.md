@@ -51,6 +51,7 @@ It should look something like:
 * Optionally add the Odin folder to your shell's path or symlink the `odin` binary to a folder that is in your shell's path
     * Example for ZSH (from the Odin folder): `echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.zshrc`
     * Note that the compiler executable expects to be next to/in the same folder as the `base`, `core`, and `vendor` folders, you can however set the `ODIN_ROOT` environment variable to override the path to these folders
+* If macOS complains that it can't verify the executable, it might be quarantined because it's unsigned. To unquarantine, try `xattr -d com.apple.quarantine <path_to_odin_executable>`
 
 **Others (Unix):**
 

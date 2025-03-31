@@ -605,6 +605,13 @@ From _Ginger Bill_ directly:
 >
 > There are some unofficial tools out there (see <https://github.com/Data-Oriented-House/PortableBuildTools>) that allow you to download a standalone MSVC compiler/linker/etc without having install Visual Studio; contains only the bare minimum components.
 
+### Does the Odin compiler implement Return Value Optimization (RVO)?
+
+Since Odin does not have constructors nor destructors, there is no proper need for Return Value Optimization (RVO). Any value outside of the conventions of `new`/`free` and `make`/`delete` live on "the stack". Even structs do not have constructors.
+
+By default, all memory is initialized to zero; there is no way to set a default value to any other value (e.g. fields on a complex data structure). Zero initialization is a property of the memory allocation API in Odin too.
+
+Odin's calling convention will try to optimize for performance but RVO is not an "optimization" that is needed in Odin.
 
 ### Is the Odin compiler self hosted?
 

@@ -3230,6 +3230,31 @@ foreign kernel32 {
 }
 ```
 
+The Odin compiler can also automatically build and link imported assembly files.
+Depending on the host system, [`clang`](https://clang.llvm.org/), [`as`](https://www.gnu.org/software/binutils), or [`nasm`](https://nasm.us/) may be used to compile the assembly.
+Recognized file extensions for assembly files are: `asm`, `s`, and `S`.
+
+For examples of how Odin uses this feature, see `base/runtime/entry_*.asm`.
+
+```odin
+foreign import lowlevel "lowlevel.asm"
+foreign lowlevel {
+    __get_flags :: proc "c" () -> u64 ---
+}
+```
+
+```x86asm
+bits 64
+
+global __get_flags
+
+section .text
+__get_flags:
+	pushfq
+	pop rax
+	ret
+```
+
 If a library exports global variables, you can import those into Odin as well.
 
 ```odin

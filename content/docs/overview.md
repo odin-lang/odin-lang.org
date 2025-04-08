@@ -585,7 +585,7 @@ defer os.close(f)
 In this case, it acts akin to an explicit C++ destructor however, the error handling is basic control flow.
 
 It's important to note that `defer` cannot be used to change a procedure's named return values, as it runs after exit when the values have already been returned.
-```cpp
+```odin
 foo :: proc() -> (n: int) {
 	defer {
 		n = 456 // This won't affect `n`

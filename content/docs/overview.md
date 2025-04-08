@@ -584,6 +584,17 @@ defer os.close(f)
 ```
 In this case, it acts akin to an explicit C++ destructor however, the error handling is basic control flow.
 
+It's important to note that `defer` cannot be used to change a procedure's named return values, as it runs after exit when the values have already been returned.
+```cpp
+foo :: proc() -> (n: int) {
+	defer {
+		n = 456 // This won't affect `n`
+	}
+	n = 123
+	return
+}
+```
+
 **Note:** The `defer` construct in Odin differs from Go's `defer`, which is function-exit and relies on a closure stack system.
 
 ### `when` statement
@@ -2809,12 +2820,6 @@ foo_2 :: proc() -> (n: int, err: Error) {
 	// using the normal idiom is a better choice and clearer to read
 	if z, zerr := caller_2(); zerr != nil {
 		return -345 * z, zerr
-	}
-
-	// If the other return values need to be set depending on what the end value is,
-	// the `defer if` idiom can be used
-	defer if err != nil {
-		n = -1
 	}
 
 	n = 123

@@ -4234,7 +4234,7 @@ for _, j in foos {
 // By-reference range-based through pointer
 for &v, j in foos {
 	using v // `v` is now a variable reference as `foos` was passed by pointer
-	fmt.println(j, foo, f, i)
+	fmt.println(j, v, f, i)
 }
 ```
 

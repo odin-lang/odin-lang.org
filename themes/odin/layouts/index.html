@@ -5,7 +5,7 @@
             <img class="img-fluid mb-5 hero-logo" src="/logo.svg" height="120" alt="Odin" />
             <h1 class="fw-normal"><b>Odin</b> Programming Language</h1>
             <h2 class="fw-normal">{{ .Site.Params.Slogan }}</h2>
-            <div class="mt-3">
+            <div class="d-flex flex-row gap-1 mt-3">
                 <a href="/docs/overview" class="btn btn-secondary text-light">
                     Overview
                 </a>
@@ -27,15 +27,17 @@
                     <p>
                         Odin is the C alternative for the Joy of Programming.
                     </p>
-                    <a href="/docs" class="btn btn-outline-primary">
-                        Read the Docs
-                    </a>
-                    <a href="https://github.com/odin-lang/Odin/blob/master/examples/demo/demo.odin" class="btn btn-outline-primary">
-                        See the Full Demo
-                    </a>
-                    <a href="https://github.com/odin-lang/examples" class="btn btn-outline-primary">
-                        See More Examples
-                    </a>
+					<div class="col gap-1">
+						<a href="/docs" class="btn btn-outline-primary">
+							Read the Docs
+						</a>
+						<a href="https://github.com/odin-lang/Odin/blob/master/examples/demo/demo.odin" class="btn btn-outline-primary">
+							See the Full Demo
+						</a>
+						<a href="https://github.com/odin-lang/examples" class="btn btn-outline-primary">
+							See More Examples
+						</a>
+					</div>
                 </div>
                 <div class="col-lg col-lg-6">
                     <div class="tab-content">
@@ -289,7 +291,7 @@
                             Odin additionally brings you officially maintained bindings for popular libraries such as <a href="https://pkg.odin-lang.org/vendor/sdl2" target="_blank">SDL2</a>, <a href="https://pkg.odin-lang.org/vendor/glfw" target="_blank">GLFW</a>, <a href="https://pkg.odin-lang.org/vendor/raylib" target="_blank">raylib</a>, <a href="https://pkg.odin-lang.org/vendor/microui" target="_blank">microui</a>, <a href="https://pkg.odin-lang.org/vendor/miniaudio" target="_blank">miniaudio</a> and much more, in its <a href="https://pkg.odin-lang.org/vendor" target="_blank"><code>vendor</code></a> library!
                         </p>
                     </div>
-                    <div class="mt-3">
+                    <div class="col gap-1 mt-3">
                         <a
                             href="https://github.com/odin-lang/Odin/tree/master/core"
                             target="_blank"
@@ -370,7 +372,7 @@
                     <p>
                         Join the Odin Discord and help us bring the joy of programming in Odin to all. 🥳
                     </p>
-                    <div class="mt-3">
+                    <div class="col gap-1 mt-3">
                         <a
                             href="https://github.com/odin-lang/Odin"
                             target="_blank"

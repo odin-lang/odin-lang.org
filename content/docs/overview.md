@@ -3151,7 +3151,7 @@ For more information regarding memory allocation strategies in general, please s
 
 #### Tracking allocator
 
-In the core collection you'll find a tracking allocator that warns you if your progarm is leaking memory or if it does bad frees. Here's how to set it up:
+In the core collection you'll find a tracking allocator that warns you if your program is leaking memory or if it does bad frees. Here's how to set it up:
 ```odin
 package main
 

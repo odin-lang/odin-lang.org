@@ -431,7 +431,7 @@ The reason for the specific syntax was done for the following reasons:
 * Allows for partial ranges e.g. `x[:]`, `x[:n]`, `x[i:]`
 * Partial ranges with _two_ range expression (`a..<b` and `a..=b`) do not look aesthetically good are also inconsistent: `x[..<]` `x[..=]`, `x[..<n]` `x[..=n]`, `x[i..<]` `x[i..=]`
 * Virtually all slicing cases only ever require the Python/Go like semantics because Odin is a 0-index language
-* Ranges in Odin are only allowed in [several contexts](/docs/overview/#other-operators)
+* Ranges in Odin are only allowed in [a limited number of specific contexts](/docs/overview/#other-operators)
 
 ## How do I ...?
 ### Convert an integer to a string or vice versa?

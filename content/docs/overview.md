@@ -455,7 +455,7 @@ case foo():
 `foo()` does not get called if `i==0`. If all the case values are constants, the compiler may optimize the switch statement into a jump table (like C).
 
 
-A `switch` statement without a condition is the same as `switch true`. This can be used to write a clean and long if-else chain and have the ability to [`break`](#fallthrough-statement) if needed
+A `switch` statement without a condition is the same as `switch true`. This can be used to write a clean and long if-else chain and have the ability to [`fallthrough`](#fallthrough-statement) if needed
 ```odin
 switch {
 case x < 0:

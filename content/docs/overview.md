@@ -1477,7 +1477,7 @@ Slices are like references to arrays; they do not store any data, rather they de
 
 Internally, a slice stores a pointer to the data and an integer to store the length of the slice.
 
-The built-in [`len`](https://pkg.odin-lang.org/base/builtin/#len) proc returns the array's length.
+The built-in [`len`](https://pkg.odin-lang.org/base/builtin/#len) proc returns the slice's length.
 ```odin
 x: []int = ...
 length_of_x := len(x)

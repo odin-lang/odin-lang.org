@@ -3295,8 +3295,11 @@ foreign kernel32 {
 
 Available attributes for foreign blocks:
 
-`default_calling_convention=<string>` default calling convention for procedures declared within this foreign block  
-`link_prefix=<string>` prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden  
+- `default_calling_convention=<string>` - The default calling convention for procedures declared within this foreign block.
+- `link_prefix=<string>` - This prefix is prepended to the linkage names of the entities except where the link name has been explicitly overridden.
+- `link_suffix=<string>` - This suffix is appended to the linkage names of the entities except where the link name has been explicitly overridden.
+- `private=<string>` - The default private level for all entities. Defaults to `"package"` if not set but may be set to `"file"`.
+- `require_results` - All procedures declared within this foreign block must have their return values used.
 
 ## Using a `vendor` library
 

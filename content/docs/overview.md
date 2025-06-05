@@ -3656,6 +3656,21 @@ foo :: proc "c" () -> int {
 }
 ```
 
+#### `@(link_suffix=<string>)`
+
+This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. This is similar to `link_prefix`, except that it appends to the end of the link name instead of prepending to the start.
+```odin
+@(link_suffix = "_x86")
+foreign foo {
+	testbar :: proc(baz: int) --- // This now refers to testbar_x86
+}
+
+@(export, link_suffix="_x86")
+foo :: proc "c" () -> int {
+	return 42
+}
+```
+
 #### `@export` or `@(export=true/false)`
 
 Exports a variable or procedure symbol, useful for producing DLLs.

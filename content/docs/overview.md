@@ -1802,6 +1802,8 @@ assert(Direction_Vectors[cast(Direction) 2] == { 0, 1 })
 
 The `#partial` directive can be used to initialize an enumerated array *partially*.
 
+The [`#sparse`](#sparse) directive can be used to initialize an enumerated array with an `Enum` which does not have contiguous values.
+
 ```odin
 arr: [enum {A, B, C}]int
 arr = #partial { // without partial the compiler would complain
@@ -4124,6 +4126,25 @@ foo :: #type proc(foo: string)
 
 bar :: struct {
     gin: foo,
+}
+```
+
+#### `#sparse`
+
+This directive may be used to create a sparse [enumerated array](#enumerated-array).
+This is necessary when the enumerated values are not contiguous.
+
+```odin
+Key :: enum {
+	Bronze =  1,
+	Silver =  5,
+	Gold   = 10,
+}
+
+Key_Descriptions :: #sparse[Key]string {
+	.Bronze = "a blocky bronze key",
+	.Silver = "a shiny silver key",
+	.Gold   = "a glittering gold key",
 }
 ```
 

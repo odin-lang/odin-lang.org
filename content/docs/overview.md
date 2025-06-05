@@ -974,6 +974,8 @@ y: int = --- // uses uninitialized memory
 ```
 This is the default behaviour in C, whilst the default behaviour in Odin is to zero the memory.
 
+**Note:** `---` is not a contract in that all memory is uninitialized, but that it may be. For example, as a side-effect of an implementation detail, padding in a struct must be zeroed to permit trivial bitwise memory comparison.
+
 #### Built-in procedures
 
 For the full list of builtin-procedures, see the documentation for [package builtin](https://pkg.odin-lang.org/base/builtin/).

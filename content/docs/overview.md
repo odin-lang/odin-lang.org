@@ -399,6 +399,20 @@ array := [?]int { 10, 20, 30, 40, 50 }
 }
 ```
 
+#### `for` loop unrolling
+
+The `#unroll` directive takes a `for` loop and expands it at compile-time to the individual statements, repeated for as many times as the loop would normally iterate. This may result in performance improvements or provides the ability to repeat a set of instructions a limited number of times without explicitly writing each out in repetition.
+
+Please note that `#unroll` may only be used with ranged `for` loops that have constant intervals known at compile-time.
+
+```odin
+x: [4]u8 = 0xFF
+y: [4]u8 = 0x88
+#unroll for i in 0..<len(x) {
+	x[i] ~= y[i]
+}
+```
+
 ### `if` statement
 
 Odin's `if` statements do not need to be surrounded by parentheses `( )` but braces `{ }` or `do` are required.

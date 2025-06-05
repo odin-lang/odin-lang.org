@@ -4130,6 +4130,8 @@ proc_without_bounds_check :: proc() #no_bounds_check {
 }
 ```
 
+By default, the Odin compiler has bounds checking enabled program-wide where applicable, and it may be turned off by passing the `-no-bounds-check` build flag.
+
 #### `#type_assert` and `#no_type_assert`
 
 `#no_type_assert` will bypass the underlying call to `runtime.type_assertion_check` when placed at the head of a statement or block which would normally do a type assert, such as the resolution of a `union` or an `any` into its true type.

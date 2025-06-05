@@ -399,6 +399,20 @@ array := [?]int { 10, 20, 30, 40, 50 }
 }
 ```
 
+#### `for` loop unrolling
+
+The `#unroll` directive takes a `for` loop and expands it at compile-time to the individual statements, repeated for as many times as the loop would normally iterate. This may result in performance improvements or provides the ability to repeat a set of instructions a limited number of times without explicitly writing each out in repetition.
+
+Please note that `#unroll` may only be used with ranged `for` loops that have constant intervals known at compile-time.
+
+```odin
+x: [4]u8 = 0xFF
+y: [4]u8 = 0x88
+#unroll for i in 0..<len(x) {
+	x[i] ~= y[i]
+}
+```
+
 ### `if` statement
 
 Odin's `if` statements do not need to be surrounded by parentheses `( )` but braces `{ }` or `do` are required.
@@ -559,6 +573,8 @@ You can defer an entire block too:
 		foo()
 		bar()
 	}
+	// This is equivalent to `defer { if cond { bar() } }` because the `if` is
+	// a statement in its own right.
 	defer if cond {
 		bar()
 	}
@@ -1477,7 +1493,7 @@ Slices are like references to arrays; they do not store any data, rather they de
 
 Internally, a slice stores a pointer to the data and an integer to store the length of the slice.
 
-The built-in [`len`](https://pkg.odin-lang.org/base/builtin/#len) proc returns the array's length.
+The built-in [`len`](https://pkg.odin-lang.org/base/builtin/#len) proc returns the slice's length.
 ```odin
 x: []int = ...
 length_of_x := len(x)
@@ -3295,8 +3311,11 @@ foreign kernel32 {
 
 Available attributes for foreign blocks:
 
-`default_calling_convention=<string>` default calling convention for procedures declared within this foreign block  
-`link_prefix=<string>` prefix that needs to be appended to the linkage names of the entities except where the link name has been explicitly overridden  
+- `default_calling_convention=<string>` - The default calling convention for procedures declared within this foreign block.
+- `link_prefix=<string>` - This prefix is prepended to the linkage names of the entities except where the link name has been explicitly overridden.
+- `link_suffix=<string>` - This suffix is appended to the linkage names of the entities except where the link name has been explicitly overridden.
+- `private=<string>` - The default private level for all entities. Defaults to `"package"` if not set but may be set to `"file"`.
+- `require_results` - All procedures declared within this foreign block must have their return values used.
 
 ## Using a `vendor` library
 
@@ -3648,6 +3667,21 @@ foreign foo {
 }
 
 @(export, link_prefix="ltb_")
+foo :: proc "c" () -> int {
+	return 42
+}
+```
+
+#### `@(link_suffix=<string>)`
+
+This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. This is similar to `link_prefix`, except that it appends to the end of the link name instead of prepending to the start.
+```odin
+@(link_suffix = "_x86")
+foreign foo {
+	testbar :: proc(baz: int) --- // This now refers to testbar_x86
+}
+
+@(export, link_suffix="_x86")
 foo :: proc "c" () -> int {
 	return 42
 }
@@ -4098,6 +4132,35 @@ proc_without_bounds_check :: proc() #no_bounds_check {
 }
 ```
 
+By default, the Odin compiler has bounds checking enabled program-wide where applicable, and it may be turned off by passing the `-no-bounds-check` build flag.
+
+#### `#type_assert` and `#no_type_assert`
+
+`#no_type_assert` will bypass the underlying call to `runtime.type_assertion_check` when placed at the head of a statement or block which would normally do a type assert, such as the resolution of a `union` or an `any` into its true type.
+`#type_assert` will re-enable type assertions, if they were turned off in an outer scope.
+
+```odin
+Number :: union {
+	int,
+	f64,
+}
+
+proc_without_type_assertions :: proc(a: any, b: Number, m: Maybe(int)) -> int #no_type_assert {
+	c := 0
+	#type_assert {
+		// These statements will assert that the assumptions about the types of
+		// the underlying values are correct, because we have overriden the
+		// outer scope's `#no_type_assert` status.
+		c += a.(int)
+		c += m.(int) // A `Maybe` can only be its type or the nil type.
+	}
+	return c + b.(int) // This will not assert that `b` is an int.
+}
+```
+
+By default, the Odin compiler has type assertions enabled program-wide where applicable, and they may be turned off by passing the `-no-type-assert` build flag.
+Note that `-disable-assert` does not also turn off type assertions; `-no-type-assert` must be passed explicitly.
+
 ### Built-in procedures
 
 #### `#assert(<boolean>)`
@@ -4254,14 +4317,22 @@ for &v, j in foos {
 ```
 
 #### `defer if`
+The `defer if` idiom is equivalent to an `if` statement inside of a `defer`. It is merely a shorthand that comes about from the natural evaluation of `if` as a statement in its own right; it does not optionally defer a statement on the basis of a boolean condition at the time of evaluation, but it evaluates the condition once the deferred block is acted upon.
+
 ```odin
-cond := true
-
-defer if cond {
-	fmt.println("Hello World") // "Hello world" last
+cond := false
+defer {
+	if cond { fmt.println("c") } // This will print last.
 }
-
-fmt.println("Hellope") // "Hellope" first
+defer if cond {
+	fmt.println("b") // This will print after "a".
+}
+defer {
+	// This is first evaluated, allowing the prior `defer`s to act, as evaluation
+	happens in reverse declaration order.
+	cond = true
+	fmt.println("a") // This will print first.
+}
 ```
 
 #### `Maybe(T)`

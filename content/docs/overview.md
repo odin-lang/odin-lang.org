@@ -4206,6 +4206,14 @@ when #defined(nonexistent_proc) == false { fmt.println("proc was not defined") }
 
 Return the current file path, directory, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
 
+#### `#exists(<string-path>)`
+
+Returns `true` or `false` if the file at the given path exists. If the path is relative, it is accessed relative to the Odin source file that references it.
+
+```odin
+config_exists :: #exists("config.ini")
+```
+
 #### `#location()` or `#location(<entity>)`
 
 Returns a `runtime.Source_Code_Location` (see `base/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.

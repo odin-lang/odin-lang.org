@@ -3960,6 +3960,20 @@ B :: union #no_nil {int, bool}
 {bool}
 ```
 
+#### `#no_copy`
+This tag can be applied to a `struct` to forbid copies being made.
+The initialization of a `#no_copy` type must be either implicitly zero, a constant literal, or a return value from a call expression.
+
+```odin
+Mutex :: struct #no_copy {
+	state: uintptr,
+}
+
+main :: proc() {
+	m: Mutex
+	v := m // This line will raise an error.
+}
+```
 
 ### Control statements
 

@@ -3836,6 +3836,12 @@ foo :: proc(_: ^testing.T) {
 }
 ```
 
+#### `@(no_sanitize_address)`
+
+If set, the procedure will not be instrumented by [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html) when using the `-sanitize:address` build flag, which permits the procedure and all called procedures to read and write to any memory that may be marked as invalid by the sanitizer.
+
+This attribute will typically be used in the procedures that make up a memory allocator.
+
 ### Variable attributes
 
 #### `@(static)`

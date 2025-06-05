@@ -4130,6 +4130,33 @@ proc_without_bounds_check :: proc() #no_bounds_check {
 }
 ```
 
+#### `#type_assert` and `#no_type_assert`
+
+`#no_type_assert` will bypass the underlying call to `runtime.type_assertion_check` when placed at the head of a statement or block which would normally do a type assert, such as the resolution of a `union` or an `any` into its true type.
+`#type_assert` will re-enable type assertions, if they were turned off in an outer scope.
+
+```odin
+Number :: union {
+	int,
+	f64,
+}
+
+proc_without_type_assertions :: proc(a: any, b: Number, m: Maybe(int)) -> int #no_type_assert {
+	c := 0
+	#type_assert {
+		// These statements will assert that the assumptions about the types of
+		// the underlying values are correct, because we have overriden the
+		// outer scope's `#no_type_assert` status.
+		c += a.(int)
+		c += m.(int) // A `Maybe` can only be its type or the nil type.
+	}
+	return c + b.(int) // This will not assert that `b` is an int.
+}
+```
+
+By default, the Odin compiler has type assertions enabled program-wide where applicable, and they may be turned off by passing the `-no-type-assert` build flag.
+Note that `-disable-assert` does not also turn off type assertions; `-no-type-assert` must be passed explicitly.
+
 ### Built-in procedures
 
 #### `#assert(<boolean>)`

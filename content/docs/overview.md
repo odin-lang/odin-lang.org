@@ -3808,10 +3808,10 @@ A hint to the compiler that this procedure is rarely called, and thus "cold".
 
 #### `@(optimization_mode=<string>)`
 
-Set the optimization mode of a procedure. Valid modes are `"none"`, `"minimal"`, `"size"`, and `"speed"`.
+Set the optimization mode of a procedure. Valid modes are `"none"` and `"favor_size"`.
 
 ```odin
-@(optimization_mode="speed")
+@(optimization_mode="favor_size")
 skip_whitespace :: proc(t: ^Tokenizer) {
     for {
         switch t.ch {

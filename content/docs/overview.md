@@ -4238,9 +4238,30 @@ foo := #load("path/to/file", string) or_else "Hellope"
 fmt.println(foo)
 ```
 
+#### `#hash(<string-text>, <string-hash>)`
+
+Returns a constant integer of the hash of a string literal at compile time.
+
+Available hashes:
+- `"adler32"`
+- `"crc32"`
+- `"crc64"`
+- `"fnv32"`
+- `"fnv64"`
+- `"fnv32a"`
+- `"fnv64a"`
+- `"murmur32"`
+- `"murmur64"`
+
+```odin
+hash :: #hash("interesting-string", "fnv32a")
+```
+
 #### `#load_hash(<string-path>, <string-hash>)`
 
-Returns a constant integer of the hash of a file's contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
+Returns a constant integer of the hash of a file's contents at compile time.
+
+This procedure has the same list of available hashes as [`#hash`](#hash).
 
 ```odin
 hash :: #load_hash("path/to/file", "crc32")

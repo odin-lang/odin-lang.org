@@ -573,6 +573,8 @@ You can defer an entire block too:
 		foo()
 		bar()
 	}
+	// This is equivalent to `defer { if cond { bar() } }` because the `if` is
+	// a statement in its own right.
 	defer if cond {
 		bar()
 	}
@@ -4315,14 +4317,22 @@ for &v, j in foos {
 ```
 
 #### `defer if`
+The `defer if` idiom is equivalent to an `if` statement inside of a `defer`. It is merely a shorthand that comes about from the natural evaluation of `if` as a statement in its own right; it does not optionally defer a statement on the basis of a boolean condition at the time of evaluation, but it evaluates the condition once the deferred block is acted upon.
+
 ```odin
-cond := true
-
-defer if cond {
-	fmt.println("Hello World") // "Hello world" last
+cond := false
+defer {
+	if cond { fmt.println("c") } // This will print last.
 }
-
-fmt.println("Hellope") // "Hellope" first
+defer if cond {
+	fmt.println("b") // This will print after "a".
+}
+defer {
+	// This is first evaluated, allowing the prior `defer`s to act, as evaluation
+	happens in reverse declaration order.
+	cond = true
+	fmt.println("a") // This will print first.
+}
 ```
 
 #### `Maybe(T)`

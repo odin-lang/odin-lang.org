@@ -3734,12 +3734,12 @@ foreign import lib {
 
 ### Procedure attributes
 
-#### `(deferred_*=<proc>)`
+#### `@(deferred_*=<proc>)`
 
-* `(deferred_in=<proc>)`
-* `(deferred_out=<proc>)`
-* `(deferred_in_out=<proc>)`
-* `(deferred_none=<proc>)`
+* `@(deferred_in=<proc>)`
+* `@(deferred_out=<proc>)`
+* `@(deferred_in_out=<proc>)`
+* `@(deferred_none=<proc>)`
 
 These attributes can be attached to a procedure `X` which will be called at the end of the calling scope for `X`s caller.
 `deferred_in` will receive the same parameters as the called proc. `deferred_out` will receive the result of the called proc. `deferred_in_out` will receive both. `deferred_none` will receive no parameters.

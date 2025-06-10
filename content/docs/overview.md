@@ -1802,6 +1802,8 @@ assert(Direction_Vectors[cast(Direction) 2] == { 0, 1 })
 
 The `#partial` directive can be used to initialize an enumerated array *partially*.
 
+The [`#sparse`](#sparse) directive can be used to initialize an enumerated array with an `Enum` which does not have contiguous values.
+
 ```odin
 arr: [enum {A, B, C}]int
 arr = #partial { // without partial the compiler would complain
@@ -3734,12 +3736,12 @@ foreign import lib {
 
 ### Procedure attributes
 
-#### `(deferred_*=<proc>)`
+#### `@(deferred_*=<proc>)`
 
-* `(deferred_in=<proc>)`
-* `(deferred_out=<proc>)`
-* `(deferred_in_out=<proc>)`
-* `(deferred_none=<proc>)`
+* `@(deferred_in=<proc>)`
+* `@(deferred_out=<proc>)`
+* `@(deferred_in_out=<proc>)`
+* `@(deferred_none=<proc>)`
 
 These attributes can be attached to a procedure `X` which will be called at the end of the calling scope for `X`s caller.
 `deferred_in` will receive the same parameters as the called proc. `deferred_out` will receive the result of the called proc. `deferred_in_out` will receive both. `deferred_none` will receive no parameters.
@@ -3808,10 +3810,10 @@ A hint to the compiler that this procedure is rarely called, and thus "cold".
 
 #### `@(optimization_mode=<string>)`
 
-Set the optimization mode of a procedure. Valid modes are `"none"`, `"minimal"`, `"size"`, and `"speed"`.
+Set the optimization mode of a procedure. Valid modes are `"none"` and `"favor_size"`.
 
 ```odin
-@(optimization_mode="speed")
+@(optimization_mode="favor_size")
 skip_whitespace :: proc(t: ^Tokenizer) {
     for {
         switch t.ch {
@@ -3835,6 +3837,12 @@ import "core:testing"
 foo :: proc(_: ^testing.T) {
 }
 ```
+
+#### `@(no_sanitize_address)`
+
+If set, the procedure will not be instrumented by [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html) when using the `-sanitize:address` build flag, which permits the procedure and all called procedures to read and write to any memory that may be marked as invalid by the sanitizer.
+
+This attribute will typically be used in the procedures that make up a memory allocator.
 
 ### Variable attributes
 
@@ -3952,6 +3960,22 @@ B :: union #no_nil {int, bool}
 {bool}
 ```
 
+#### `#no_copy`
+This tag can be applied to a `struct` to forbid copies being made.
+The initialization of a `#no_copy` type must be either implicitly zero, a constant literal, or a return value from a call expression.
+
+```odin
+Mutex :: struct #no_copy {
+	state: uintptr,
+}
+
+main :: proc() {
+	m: Mutex
+	v1 := m  // This line will raise an error.
+	p  := &m
+	v2 := p^ // So will this line.
+}
+```
 
 ### Control statements
 
@@ -4121,6 +4145,25 @@ bar :: struct {
 }
 ```
 
+#### `#sparse`
+
+This directive may be used to create a sparse [enumerated array](#enumerated-array).
+This is necessary when the enumerated values are not contiguous.
+
+```odin
+Key :: enum {
+	Bronze =  1,
+	Silver =  5,
+	Gold   = 10,
+}
+
+Key_Descriptions :: #sparse[Key]string {
+	.Bronze = "a blocky bronze key",
+	.Silver = "a shiny silver key",
+	.Gold   = "a glittering gold key",
+}
+```
+
 ### Statements
 
 #### `#bounds_check` and `#no_bounds_check`
@@ -4200,9 +4243,49 @@ when #defined(nonexistent_proc) == false { fmt.println("proc was not defined") }
 
 Return the current file path, directory, line number, or procedure name, respectively. Used like a constant value. `file_name :: #file`
 
+#### `#exists(<string-path>)`
+
+Returns `true` or `false` if the file at the given path exists. If the path is relative, it is accessed relative to the Odin source file that references it.
+
+```odin
+config_exists :: #exists("config.ini")
+```
+
+#### `#branch_location`
+
+When used within a [`defer`](#defer-statement) statement, this directive returns a [`runtime.Source_Code_Location`](https://pkg.odin-lang.org/base/runtime/#Source_Code_Location) of the point at which the control flow triggered execution of the `defer`. This may be a `return` statement or the end of a scope.
+```odin
+package main
+
+import "base:runtime"
+import "core:fmt"
+
+find_exit :: proc(v: bool, exit: ^runtime.Source_Code_Location) {
+	defer {
+		exit ^= #branch_location
+	}
+	if v == true {
+		return
+	} else {
+		return
+	}
+}
+
+main :: proc() {
+	result_true:  runtime.Source_Code_Location
+	result_false: runtime.Source_Code_Location
+
+	find_exit(true,  &result_true)
+	find_exit(false, &result_false)
+
+	fmt.println(result_true)  // prints line 11
+	fmt.println(result_false) // prints line 13
+}
+```
+
 #### `#location()` or `#location(<entity>)`
 
-Returns a `runtime.Source_Code_Location` (see `base/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
+Returns a [`runtime.Source_Code_Location`](https://pkg.odin-lang.org/base/runtime/#Source_Code_Location). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
 ```odin
 foo :: proc() {}
 
@@ -4232,9 +4315,30 @@ foo := #load("path/to/file", string) or_else "Hellope"
 fmt.println(foo)
 ```
 
+#### `#hash(<string-text>, <string-hash>)`
+
+Returns a constant integer of the hash of a string literal at compile time.
+
+Available hashes:
+- `"adler32"`
+- `"crc32"`
+- `"crc64"`
+- `"fnv32"`
+- `"fnv64"`
+- `"fnv32a"`
+- `"fnv64a"`
+- `"murmur32"`
+- `"murmur64"`
+
+```odin
+hash :: #hash("interesting-string", "fnv32a")
+```
+
 #### `#load_hash(<string-path>, <string-hash>)`
 
-Returns a constant integer of the hash of a file's contents at compile time. Available hashes:  `"adler32"`, `"crc32"`, `"crc64"`, `"fnv32"`, `"fnv64"`, `"fnv32a"`, `"fnv64a"`, `"murmur32"`, or `"murmur64"`.
+Returns a constant integer of the hash of a file's contents at compile time.
+
+This procedure has the same list of available hashes as [`#hash`](#hash).
 
 ```odin
 hash :: #load_hash("path/to/file", "crc32")

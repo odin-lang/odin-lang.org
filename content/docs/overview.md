@@ -3971,7 +3971,9 @@ Mutex :: struct #no_copy {
 
 main :: proc() {
 	m: Mutex
-	v := m // This line will raise an error.
+	v1 := m  // This line will raise an error.
+	p  := &m
+	v2 := p^ // So will this line.
 }
 ```
 

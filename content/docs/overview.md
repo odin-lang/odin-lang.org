@@ -4249,9 +4249,41 @@ Returns `true` or `false` if the file at the given path exists. If the path is r
 config_exists :: #exists("config.ini")
 ```
 
+#### `#branch_location`
+
+When used within a [`defer`](#defer-statement) statement, this directive returns a [`runtime.Source_Code_Location`](https://pkg.odin-lang.org/base/runtime/#Source_Code_Location) of the point at which the control flow triggered execution of the `defer`. This may be a `return` statement or the end of a scope.
+```odin
+package main
+
+import "base:runtime"
+import "core:fmt"
+
+find_exit :: proc(v: bool, exit: ^runtime.Source_Code_Location) {
+	defer {
+		exit ^= #branch_location
+	}
+	if v == true {
+		return
+	} else {
+		return
+	}
+}
+
+main :: proc() {
+	result_true:  runtime.Source_Code_Location
+	result_false: runtime.Source_Code_Location
+
+	find_exit(true,  &result_true)
+	find_exit(false, &result_false)
+
+	fmt.println(result_true)  // prints line 11
+	fmt.println(result_false) // prints line 13
+}
+```
+
 #### `#location()` or `#location(<entity>)`
 
-Returns a `runtime.Source_Code_Location` (see `base/runtime/core.odin`). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
+Returns a [`runtime.Source_Code_Location`](https://pkg.odin-lang.org/base/runtime/#Source_Code_Location). Can be called with no parameters for current location, or with a parameter for the location of the variable/proc declaration.
 ```odin
 foo :: proc() {}
 

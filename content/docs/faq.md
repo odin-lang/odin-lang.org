@@ -384,7 +384,7 @@ The criteria is approximately the following:
 
 ### Why does Odin not have any extra "namespacing" feature alongside packages?
 
-In Odin, packages are designed to be treated as libraries, rather than _mere organization_. People have a massive tendency to _taxonomize_ code more than absolutely necessary and as such, they will use any mechanism to do this, even if it does not benefit them or their team in the slightest. This "organization" aspect that many people ask for is virtually aways a desire to _taxonomize_ rather than _organize_--these are actually quite different in practice.
+In Odin, packages are designed to be treated as libraries, rather than _mere organization_. People have a massive tendency to _taxonomize_ code more than absolutely necessary and as such, they will use any mechanism to do this, even if it does not benefit them or their team in the slightest. This "organization" aspect that many people ask for is virtually always a desire to _taxonomize_ rather than _organize_--these are actually quite different in practice.
 
 The problem is that if you have TWO different ways to do very similar things (packages and explicit namespaces), even if those things are categorically different, due to this aspect of human nature, people will tend to do the thing they are more acquainted with (e.g. files as namespaces, or explicit namespaces) rather than the preferred approach (packages as libraries).
 

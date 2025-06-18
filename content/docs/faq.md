@@ -388,7 +388,7 @@ In Odin, packages are designed to be treated as libraries, rather than _mere org
 
 The problem is that if you have TWO different ways to do very similar things (packages and explicit namespaces), even if those things are categorically different, due to this aspect of human nature, people will tend to do the thing they are more acquainted with (e.g. files as namespaces, or explicit namespaces) rather than the preferred approach (packages as libraries).
 
-If an extra "namspacing" construct was added to allow people to either "organize" code in another way, or add another layer of indirection for taxonomization, it murkies the concept of what a package is in the language.
+If an extra "namespacing" construct was added to allow people to either "organize" code in another way, or add another layer of indirection for taxonomization, it murkies the concept of what a package is in the language.
 
 If "taxonomization" is __absolutely__ necessary, please prefer to prefix the identifiers of the declarations. Typing is not the bottleneck when programming, reading/scanning is.
 

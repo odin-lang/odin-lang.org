@@ -382,6 +382,17 @@ The criteria is approximately the following:
 * Ginger Bill does not hate it
 
 
+### Why does Odin not have any extra "namespacing" feature alongside packages?
+
+In Odin, packages are designed to be treated as libraries, rather than _mere organization_. People have a massive tendency to _taxonomize_ code more than absolutely necessary and as such, they will use any mechanism to do this, even if it does not benefit them or their team in the slightest. This "organization" aspect that many people ask for is virtually aways a desire to _taxonomize_ rather than _organize_--these are actually quite different in practice.
+
+The problem is that if you have TWO different ways to do very similar things (packages and explicit namespaces), even if those things are categorically different, due to this aspect of human nature, people will tend to do the thing they are more acquainted with (e.g. files as namespaces, or explicit namespaces) rather than the preferred approach (packages as libraries).
+
+If an extra "namspacing" construct was added to allow people to either "organize" code in another way, or add another layer of indirection for taxonomization, it murkies the concept of what a package is in the language.
+
+If "taxonomization" is __absolutely__ necessary, please prefer to prefix the identifiers of the declarations. Typing is not the bottleneck when programming, reading/scanning is.
+
+
 ## Syntax
 ### What does `:=` mean?
 This is two different operators `:` and `=`; is used for variable declarations. The following are all equivalent:

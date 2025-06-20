@@ -731,6 +731,8 @@ Continuing the C family tradition, everything in Odin is passed by value (rather
 
 Passing a pointer value makes a copy of the pointer, not the data it points to. Slices, dynamic arrays, and maps behave like pointers in this case (Internally they are structures that contain values, which include pointers, and the "structure" is passed by value).
 
+#### Shadowing Parameters
+
 To mutate the procedure parameter (like in C), an explicit copy is required. This can be done through shadowing the variable declaration:
 
 ```odin
@@ -742,6 +744,8 @@ foo :: proc(x: int) {
 	}
 }
 ```
+
+#### Variadic Parameters
 
 Procedures can be variadic, taking a varying number of arguments:
 
@@ -771,7 +775,7 @@ fmt.println(a, b) // 2 1
 ```
 
 ### Named results
-Return values in Odin may be named. If so, they are treated as variables defined at the top of the procedure, like input parameters. A `return` statement without arguments returns the named return value. "Naked" return statements should only be used in short procedures as it reduces clarity when reading.
+Return values in Odin may be named. If so, they are treated as variables defined at the top of the procedure, like input parameters. A `return` statement without arguments returns the named return value (or values). "Naked" return statements should only be used in short procedures as it reduces clarity when reading.
 
 ```odin
 do_math :: proc(input: int) -> (x, y: int) {
@@ -782,7 +786,18 @@ do_math :: proc(input: int) -> (x, y: int) {
 do_math_with_naked_return :: proc(input: int) -> (x, y: int) {
 	x = 2*input + 1
 	y = 3*input / 5
-	return
+	return // A "naked" return statement, as no values are explicitly specified.
+}
+```
+
+Assigning [default values](#default-values) to named results is also possible:
+
+```odin
+conditionally_blue :: proc(red: bool) -> (color := "blue") {
+    if red {
+        return "red"
+    }
+    return
 }
 ```
 
@@ -811,6 +826,8 @@ create_window :: proc(title: string, x := 0, y := 0, width := 854, height := 480
 window1, err1 := create_window("Title1")
 window2, err2 := create_window(title="Title1", width=640, height=360)
 ```
+
+Default values are assigned at the start of the procedure call and can be [overwritten](#shadowing-parameters). They may also be assigned to [named results](#named-results).
 
 **Note:** These default values must be compile time known values, such as a constant value or `nil` (if the type supports it).
 

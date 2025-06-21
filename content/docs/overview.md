@@ -639,7 +639,7 @@ See the [Conditional compilation section](#when-statements) for examples of buil
 
 ### Branch statements
 #### `break` statement
-A for loop or a switch statement can be left prematurely with a `break` statement. It leaves the innermost construct, unless a label of a construct is given:
+A for loop, conditional, or a switch statement can be left prematurely with a `break` statement. It leaves the innermost construct, unless a label of a construct is given:
 ```odin
 for cond {
 	switch {
@@ -655,6 +655,13 @@ for cond {
 loop: for cond1 {
 	for cond2 {
 		break loop // leaves both loops
+	}
+}
+
+outer: if cond {
+	ok := check_something()
+	if !ok {
+		break outer // label names are required with conditionals
 	}
 }
 

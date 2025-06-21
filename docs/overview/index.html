@@ -292,7 +292,7 @@ Nesting these packages is a helpful taxonomy. It does not imply a dependency: <c
 </span></span><span style=display:flex><span>} <span style=color:#66d9ef>else</span> {
 </span></span><span style=display:flex><span>	fmt.println(<span style=color:#e6db74>&#34;Unsupported architecture&#34;</span>)
 </span></span><span style=display:flex><span>}
-</span></span></code></pre></div><p>The <code>when</code> statement is very useful for writing platform specific code. This is akin to the <code>#if</code> construct in C&rsquo;s preprocessor. However, in Odin, it is type checked.</p><p>See the <a href=#when-statements>Conditional compilation section</a> for examples of built-in constants you can use with <code>when</code> statements.</p><h3 id=branch-statements>Branch statements <a class=text-decoration-none href=#branch-statements>#</a></h3><h4 id=break-statement><code>break</code> statement <a class=text-decoration-none href=#break-statement>#</a></h4><p>A for loop or a switch statement can be left prematurely with a <code>break</code> statement. It leaves the innermost construct, unless a label of a construct is given:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#66d9ef>for</span> cond {
+</span></span></code></pre></div><p>The <code>when</code> statement is very useful for writing platform specific code. This is akin to the <code>#if</code> construct in C&rsquo;s preprocessor. However, in Odin, it is type checked.</p><p>See the <a href=#when-statements>Conditional compilation section</a> for examples of built-in constants you can use with <code>when</code> statements.</p><h3 id=branch-statements>Branch statements <a class=text-decoration-none href=#branch-statements>#</a></h3><h4 id=break-statement><code>break</code> statement <a class=text-decoration-none href=#break-statement>#</a></h4><p>A for loop, conditional, or a switch statement can be left prematurely with a <code>break</code> statement. It leaves the innermost construct, unless a label of a construct is given:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-odin data-lang=odin><span style=display:flex><span><span style=color:#66d9ef>for</span> cond {
 </span></span><span style=display:flex><span>	<span style=color:#66d9ef>switch</span> {
 </span></span><span style=display:flex><span>	<span style=color:#66d9ef>case</span><span style=color:#f92672>:</span>
 </span></span><span style=display:flex><span>		<span style=color:#66d9ef>if</span> cond {
@@ -306,6 +306,13 @@ Nesting these packages is a helpful taxonomy. It does not imply a dependency: <c
 </span></span><span style=display:flex><span>loop<span style=color:#f92672>:</span> <span style=color:#66d9ef>for</span> cond1 {
 </span></span><span style=display:flex><span>	<span style=color:#66d9ef>for</span> cond2 {
 </span></span><span style=display:flex><span>		<span style=color:#66d9ef>break</span> loop <span style=color:#75715e>// leaves both loops
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>	}
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>outer<span style=color:#f92672>:</span> <span style=color:#66d9ef>if</span> cond {
+</span></span><span style=display:flex><span>	ok <span style=color:#f92672>:=</span> check_something()
+</span></span><span style=display:flex><span>	<span style=color:#66d9ef>if</span> <span style=color:#960050;background-color:#1e0010>!</span>ok {
+</span></span><span style=display:flex><span>		<span style=color:#66d9ef>break</span> outer <span style=color:#75715e>// label names are required with conditionals
 </span></span></span><span style=display:flex><span><span style=color:#75715e></span>	}
 </span></span><span style=display:flex><span>}
 </span></span><span style=display:flex><span>

@@ -2989,7 +2989,7 @@ Please see the procedure attribute [`@(test)`](https://odin-lang.org/docs/overvi
 
 ### `when` statements
 
-Sometimes you only want compile a block of code if a certain compile-time expression evaluates to `true`. This can be done using the [when statements](#when-statement):
+Sometimes you only want to compile a block of code if a certain compile-time expression evaluates to `true`. This can be done using the [when statements](#when-statement):
 
 ```
 when ODIN_OS == .Linux {
@@ -3002,7 +3002,7 @@ The compiler provides a set of builtin constants which are available in all file
 | Name                              | Description                                                                                                                                                                                 |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `ODIN_ARCH`                       | An enum value indicating what the CPU architecture of the target is. (`.amd64`, `.i386`, `.arm32`, `.arm64`, `.wasm32`, `.wasm64p32`, `.riscv64`)                                           |
-| `ODIN_ARCH_STRING`                | An string indicating what the CPU architecture of the target is.  (`"amd64"`, `"i386"`, `"arm32"`, `"arm64"`, `"wasm32"`, `"wasm64p32"`, `"riscv64"`)                                       |
+| `ODIN_ARCH_STRING`                | A string indicating what the CPU architecture of the target is.  (`"amd64"`, `"i386"`, `"arm32"`, `"arm64"`, `"wasm32"`, `"wasm64p32"`, `"riscv64"`)                                       |
 | `ODIN_BUILD_MODE`                 | An enum value indicating what type of compiled output the user desires. (`.Executable`, `.Dynamic`, `.Static`, `.Object`, `.Assembly`, or `.LLVM_IR`)                                       |
 | `ODIN_BUILD_PROJECT_NAME`         | Name of the folder that contains the entry point.                                                                                                                                           |
 | `ODIN_COMPILE_TIMESTAMP`          | An i64 containing the time at which the executable was compiled, in nanoseconds. This is compatible with the `time.Time` type, i.e. `time.Time{_nsec=ODIN_COMPILE_TIMESTAMP}`               |

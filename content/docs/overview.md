@@ -972,6 +972,8 @@ S :: "Hellope" // untyped string,  will implicitly convert to string and cstring
 B :: true      // untyped boolean, will implicitly convert to bool, b8, b16, etc.
 ```
 
+(The more formal name for these "untyped" types is [existential](https://en.wikipedia.org/wiki/Existential_type) or [abstract](https://en.wikipedia.org/wiki/Abstract_type) types.)
+
 ### Auto cast operation
 The `auto_cast` operator automatically casts an expression to the destination's type if possible:
 ```odin

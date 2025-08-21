@@ -200,7 +200,7 @@ My_Int :: distinct int
 \* if there is no default type for the untyped type, the type of the value cannot be inferred and this will cause an error.
 
 ### What is the size of `int`?
-`size_of(int) = size_of(uint) = size_of(rawptr)`. For portability, code that relies on a particular size of value should use an explicitly sized type, like `i64`. `int` and `uint` are guaranteed to be big enough to represent a pointer; however, please use `uintptr` to represent a pointer.
+`size_of(int) = size_of(uint) >= size_of(uintptr) = size_of(rawptr)`. For portability, code that relies on a particular size of value should use an explicitly sized type, like `i64`. `int` and `uint` are guaranteed to be big enough to represent a pointer; however, please use `uintptr` to represent a pointer.
 
 Floating-point types and complex types are always sized, because the programmer should be aware of precision.
 

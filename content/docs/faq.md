@@ -290,7 +290,7 @@ Odin is an imperative procedural language by design, but if it was to add _metho
 
 This is actually the main reason Odin doesn't have methods in the language: it's a rabbit hole feature which requires asking a lot of questions.
 
-If Odin was to add them, it would not make to just add "mere methods" because that would effectively just be wanting a syntactic choice at the end of the day more than anything, and not really offer anything in terms of semantics.
+If Odin was to add them, it would not make sense to just add "mere methods" because that would effectively just be wanting a syntactic choice at the end of the day more than anything, and not really offer anything in terms of semantics.
 
 It also bifurcates the language further leading more possible dialects of the language. Were some people prefer `foo(&x)` and others prefer `x.foo()`. A huge aspect of the design of Odin is to minimize (not eliminate) the possibility of dialects.
 

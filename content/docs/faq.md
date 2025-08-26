@@ -268,6 +268,33 @@ We believe that data and code should be separate concepts; data should not have 
 
 Use a procedure.
 
+## But really, why does Odin not have any methods?
+
+Odin is an imperative procedural language by design, but if it was to add _methods_ as a construct, it has to be asked what kind of "methods" are wanted in the first place:
+
+* Are they "mere methods" where you can associate a procedure/function with a data type?
+    * Are they primarily just for organizational purposes or structural?
+* Are they going to be used in a more traditional inheritance hierarchy?
+    * Will things have to adhere to an interface or something else?
+    * Is multiple-inheritance going to be allowed?
+* Are they going to be part of a typeclass system?
+    * Are they implicit (like Go) or explicit (like Rust)?
+* Are they implemented with dynamic dispatch or static dispatch or even general message passing (e.g. Objective-C)?
+* Will constructors and destructors be necessary?
+* Will any data types be allowed to have methods or are they be restricted to `class`es?
+    * If they are bound to a `class`, are they defined within the body of the `class`?
+        * Will you have the concepts of class-level `public`/`private` (and even `protected`/`friend`)?
+    * If they work on any data type, will they be restricted to their definition within the "library/package" or anyone anywhere can append methods to a type?
+* Will Odin allow for extra sugar for getter/setter accessors/properties?
+* And many more questions...
+
+This is actually the main reason Odin doesn't have methods in the language: it's a rabbit hole feature which requires asking a lot of questions.
+
+If Odin was to add them, it would not make to just add "mere methods" because that would effectively just be wanting a syntactic choice at the end of the day more than anything, and not really offer anything in terms of semantics.
+
+It also bifurcates the language further leading more possible dialects of the language. Were some people prefer `foo(&x)` and others prefer `x.foo()`. A huge aspect of the design of Odin is to minimize (not eliminate) the possibility of dialects.
+
+
 ### How do I define a procedure with a different calling convention?
 ```odin
 proc "c" ()

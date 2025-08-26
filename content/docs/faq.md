@@ -268,7 +268,7 @@ We believe that data and code should be separate concepts; data should not have 
 
 Use a procedure.
 
-## But really, why does Odin not have any methods?
+### But really, why does Odin not have any methods?
 
 Odin is an imperative procedural language by design, but if it was to add _methods_ as a construct, it has to be asked what kind of "methods" are wanted in the first place:
 

@@ -10,7 +10,7 @@ categories:
   - apis
 ---
 
-Odin now officially supports both the [Metal](https://developer.apple.com/metal/) API and [Direct3D](https://docs.microsoft.com/en-us/windows/win32/direct3d) 11 & 12 out-of-the box! This makes Odin currently the only language that officially supports all of the major graphics APIs: [OpenGL](https://pkg.odin-lang.org/vendor/OpenGL/), [Vulkan](https://pkg.odin-lang.org/vendor/vulkan/), [Direct3D11](https://pkg.odin-lang.org/vendor/directx/d3d11/), [Direct3D12](https://pkg.odin-lang.org/vendor/directx/d3d12/), [Metal](https://pkg.odin-lang.org/vendor/darwin/Metal/), and [WebGL 1 & 2](https://github.com/odin-lang/Odin/tree/master/vendor/wasm/WebGL).
+Odin now officially supports both the [Metal](https://developer.apple.com/metal/) API and [Direct3D](https://docs.microsoft.com/en-us/windows/win32/direct3d) 11 & 12 out-of-the box! This makes Odin currently the only language that officially supports all of the major graphics APIs: [OpenGL](https://pkg.odin-lang.org/vendor/OpenGL/), [Vulkan](https://pkg.odin-lang.org/vendor/vulkan/), [Direct3D11](https://pkg.odin-lang.org/vendor/directx/d3d11/), [Direct3D12](https://pkg.odin-lang.org/vendor/directx/d3d12/), [Metal](https://pkg.odin-lang.org/vendor/darwin/Metal/), [wgpu](https://pkg.odin-lang.org/vendor/wgpu) and [WebGL 1 & 2](https://github.com/odin-lang/Odin/tree/master/vendor/wasm/WebGL).
 
 ## Metal
 

@@ -4461,7 +4461,7 @@ defer if cond {
 }
 defer {
 	// This is first evaluated, allowing the prior `defer`s to act, as evaluation
-	happens in reverse declaration order.
+	// happens in reverse declaration order.
 	cond = true
 	fmt.println("a") // This will print first.
 }

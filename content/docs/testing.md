@@ -1,7 +1,7 @@
 ---
 title: Running Tests
 summary: A walkthrough of Odin's test runner.
-weight: 8
+weight: 7
 ---
 
 ## The Test Runner

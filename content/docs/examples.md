@@ -1,7 +1,7 @@
 ---
 title: Examples
 summary: Examples of Odin Code.
-weight: 5
+weight: 4
 ---
 
 Examples of Odin Code.

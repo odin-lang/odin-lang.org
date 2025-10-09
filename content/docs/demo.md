@@ -1,7 +1,7 @@
 ---
 title: Demo File
 summary: The original demonstration of the Odin in a single file, including numerous examples of concepts and features of the programming language.
-weight: 4
+weight: 5
 ---
 
 Source: [demo.odin](https://github.com/odin-lang/Odin/blob/master/examples/demo/demo.odin)

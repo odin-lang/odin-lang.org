@@ -3085,6 +3085,61 @@ The opposite, excluding the file on both Linux and Darwin, is achieved like this
 package foobar
 ```
 
+#### Advanced Build Tags
+
+##### `#+vet`
+Can be used to enable or disable vetting options on a per-file basis.
+
+Possible Options:
+* `unused`
+* `unused-variables`
+* `unused-imports`
+* `shadowing`
+* `using-stmt`
+* `using-param`
+* `style`
+* `semicolon`
+* `deprecated`
+* `cast`
+* `tabs`
+* `unused-procedures`
+* `explicit-allocators`
+
+
+##### `#+test`
+The file is completely ignored from parsing and type checking _EXCEPT_ during `odin test`.
+
+##### `#+ignore`
+The file is completely ignored from parsing and type checking.
+
+##### `#+private`
+Using `#+private` before the package declaration will automatically add `@(private)` to everything in that file:
+```odin
+#+private
+package foo
+```
+
+And `#+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
+
+
+##### `#+feature`
+Enables a specific feature or changes the behaviour of a specific aspect of the language
+
+* `#+feature dynamic-literals`
+  * Enables dynamic-literals for types `map` and `[dynamic]T`
+* `#+feature integer-divsion-by-zero:<option>`
+	* Makes all integer division within this file operation a specific way
+	* `#+feature integer-divsion-by-zero:trap`     -- Trap on division/modulo/remainder by zero
+	* `#+feature integer-divsion-by-zero:zero`     -- `x/0 == 0` and `x%0 == x` and `x%%0 == x`
+	* `#+feature integer-divsion-by-zero:self`     -- `x/0 == x` and `x%0 == 0` and `x%%0 == 0`
+	* `#+feature integer-divsion-by-zero:all-bits` -- `x/0 == ~T(0)` and `x%0 == x` and `x%%0 == x`
+* `#+feature global-context`
+	* Enable the use of globals that require the `context` to be defined in the global scope
+	* The `context` by default does not exist in the global scope
+
+##### `#+no-instrumentation`
+Disables instrumentation within the entire file
+
 
 ## Implicit context system
 In each scope, there is an implicit value named `context`. This `context` variable is local to each scope and is implicitly passed by pointer to any procedure call in that scope (if the procedure has the Odin calling convention).

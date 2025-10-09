@@ -4543,15 +4543,6 @@ Odin is a strongly and `distinct`ly typed language by default. It has very few i
 * Untyped rune     -> all rune types
 * Untyped strings  -> all string types
 
-## Extra Information
-More details can be found on the [Github wiki for Odin](https://github.com/odin-lang/Odin/wiki).
-Some of this information includes:
-
-- [Compiler Flags](https://github.com/odin-lang/Odin/wiki/Compiler-Flags)
-- [Built in Procedures](https://github.com/odin-lang/Odin/wiki/Built-in-Procedures)
-- [Keywords and Operators](https://github.com/odin-lang/Odin/wiki/Keywords-and-Operators)
-- ...and more
-
 ## What to do if you get stuck
 
 If you are unable to find the information you need on this overview page, the [FAQ](https://odin-lang.org/docs/faq/), the [wiki](https://github.com/odin-lang/Odin/wiki), the [example repository](https://github.com/odin-lang/examples) (which contains demos for using the vendor libs, e.g. [Tetris in raylib](https://github.com/odin-lang/examples/blob/master/raylib/tetroid/raylib_tetroid.odin)), or the [package documentation](https://pkg.odin-lang.org/), then you will likely find it very helpful to explore your Odin source code directory, especially the files contained in the following five subdirectories: `examples\demo`, `tests`, `core`, `vendor`, and `misc\old_demos`.  

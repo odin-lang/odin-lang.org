@@ -4233,7 +4233,7 @@ proc_without_type_assertions :: proc(a: any, b: Number, m: Maybe(int)) -> int #n
 By default, the Odin compiler has type assertions enabled program-wide where applicable, and they may be turned off by passing the `-no-type-assert` build flag.
 Note that `-disable-assert` does not also turn off type assertions; `-no-type-assert` must be passed explicitly.
 
-### Built-in procedures
+### Built-in directives
 
 #### `#assert(<boolean>)`
 

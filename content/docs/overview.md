@@ -37,28 +37,47 @@ Odin thinks in terms of directory-based packages. The `odin build <dir>` command
 odin run hellope.odin -file
 ```
 
-## Lexical elements and literals
-### Comments
-Comments can be anywhere outside of a string or character literal. Single line comments begin with `//`:
+## Variable declarations
+A variable declaration declares a new variable for the current scope.
 ```odin
-// A comment
-
-my_integer_variable: int // A comment for documentation
+x: int // declares `x` to have type `int`
+y, z: int // declares `y` and `z` to have type `int`
 ```
 
-Multi-line comments begin with `/*` and end with `*/`. Multi-line comments can be also be nested (unlike in C):
+Variables are initialized to zero by default unless specified otherwise.
+
+**Note:** Declarations have to be *unique* within a scope.
+
 ```odin
-/*
-	You can have any text or code here and
-	have it be commented.
-	/*
-		NOTE: comments can be nested!
-	*/
-*/
+x := 10
+x := 20 // Redeclaration of `x` in this scope
+y, z := 20, 30
+test, z := 20, 30 // not allowed since `z` exists already
 ```
 
-Comments are parsed as tokens within the compiler. This is to allow for future work on automatic documentation tools.
+## Assignment statements
 
+The assignment statement assigns a new value to a variable/location:
+```odin
+x: int = 123 // declares a new variable `x` with type `int` and assigns a value to it
+x = 637 // assigns a new value to `x`
+```
+`=` is the assignment operator.
+
+You can assign multiple variables with it:
+```odin
+x, y := 1, "hello" // declares `x` and `y` and infers the types from the assignments
+y, x = "bye", 5
+```
+
+**Note:** `:=` is two tokens, `:` and `=`. The following are all equivalent:
+```odin
+x: int = 123
+x:     = 123 // default type for an integer literal is `int`
+x := 123
+```
+
+## Literals
 
 ### String and character literals
 String literals are enclosed in double quotes and character literals in single quotes. Special characters are escaped with a backslash `\`.
@@ -116,45 +135,27 @@ x: int // `x` is typed as being of type `int`
 x = 1 // `1` is an untyped integer literal which can implicitly convert to `int`
 ```
 
-## Variable declarations
-A variable declaration declares a new variable for the current scope.
+## Comments
+Comments can be anywhere outside of a string or character literal. Single line comments begin with `//`:
 ```odin
-x: int // declares `x` to have type `int`
-y, z: int // declares `y` and `z` to have type `int`
+// A comment
+
+my_integer_variable: int // A comment for documentation
 ```
 
-Variables are initialized to zero by default unless specified otherwise.
-
-**Note:** Declarations have to be *unique* within a scope.
-
+Multi-line comments begin with `/*` and end with `*/`. Multi-line comments can be also be nested (unlike in C):
 ```odin
-x := 10
-x := 20 // Redeclaration of `x` in this scope
-y, z := 20, 30
-test, z := 20, 30 // not allowed since `z` exists already
+/*
+	You can have any text or code here and
+	have it be commented.
+	/*
+		NOTE: comments can be nested!
+	*/
+*/
 ```
 
-## Assignment statements
+Comments are parsed as tokens within the compiler. This is to allow for future work on automatic documentation tools.
 
-The assignment statement assigns a new value to a variable/location:
-```odin
-x: int = 123 // declares a new variable `x` with type `int` and assigns a value to it
-x = 637 // assigns a new value to `x`
-```
-`=` is the assignment operator.
-
-You can assign multiple variables with it:
-```odin
-x, y := 1, "hello" // declares `x` and `y` and infers the types from the assignments
-y, x = "bye", 5
-```
-
-**Note:** `:=` is two tokens, `:` and `=`. The following are all equivalent:
-```odin
-x: int = 123
-x:     = 123 // default type for an integer literal is `int`
-x := 123
-```
 
 ## Constant declarations
 Constants are entities (symbols) which have an assigned value. The constant's value cannot be changed. The constant's value must be able to be evaluated at compile time:

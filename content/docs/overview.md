@@ -3784,15 +3784,15 @@ Attributes modify the compilation details or behaviour of declarations.
 * [`@(raddbg_type_view=<string?>)`](#raddbg_type_viewstring)
 
 
-### `@(builtin)`
+#### `@(builtin)`
 
 Marks builtin procs in Odin's "base:runtime" package. Cannot be used in user code.
 
-### `@(cold)`
+#### `@(cold)`
 
 A hint to the compiler that this procedure is rarely called, and thus "cold".
 
-### `@(default_calling_convention=<string>)`
+#### `@(default_calling_convention=<string>)`
 
 	This attribute can be attached to a `foreign` block to specify the default calling convention for all procedures in the block. Example:
 	```odin
@@ -3802,7 +3802,7 @@ A hint to the compiler that this procedure is rarely called, and thus "cold".
 	}
 	```
 
-### `@(deferred_*=<procedure>)`
+#### `@(deferred_*=<procedure>)`
 
 * `@(deferred_none=<procedure>)`
 * `@(deferred_in=<procedure>)`
@@ -3838,7 +3838,7 @@ foo :: proc() {
 ```
 
 
-### `@(deprecated=<string>)`
+#### `@(deprecated=<string>)`
 
 Mark a procedure as deprecated. Running `odin build/run/check` will print out the message for each usage of the deprecated proc.
 ```odin
@@ -3848,33 +3848,33 @@ foo :: proc() {
 }
 ```
 
-### `@(disabled=<boolean>)`
+#### `@(disabled=<boolean>)`
 
 If the provided boolean is set, the procedure will not be used when called.
 
-### `@(enable_target_feature=<string>)`
+#### `@(enable_target_feature=<string>)`
 
-### `@(entry_point_only)`
+#### `@(entry_point_only)`
 
 Marks a procedure that can be called wtihin the entry point only.
 
-### `@(export=<boolean?>)`
+#### `@(export=<boolean?>)`
 
 Exports a variable or procedure symbol, useful for producing DLLs.
 
-### `@(init)`
+#### `@(init)`
 
 This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by `@(init)` will then be called at the start of the program before `main` is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
 
-### `@(fini)`
+#### `@(fini)`
 
 Like `@(init)` but run at after the `main` procedure finishes.
 
-### `@(instrumentation_enter)`
+#### `@(instrumentation_enter)`
 
-### `@(instrumentation_exit)`
+#### `@(instrumentation_exit)`
 
-### `@(link_name=<string>)`
+#### `@(link_name=<string>)`
 
 This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. This specifies what the variable/proc is called in the library.
 Example:
@@ -3890,7 +3890,7 @@ foo :: proc "c" () -> int {
 }
 ```
 
-### `@(link_prefix=<string>)`
+#### `@(link_prefix=<string>)`
 
 
 This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. So if functions are prefixed with `ltb_` in the library, you can attach this and not specify that on the procedure on the Odin side; conversely, non-Odin procedures must match the exported procedure's name with its link prefix. Example:
@@ -3906,7 +3906,7 @@ foo :: proc "c" () -> int {
 }
 ```
 
-### `@(link_section=<string>)`
+#### `@(link_section=<string>)`
 
 
 Specify the link section for a global variable.
@@ -3916,7 +3916,7 @@ Specify the link section for a global variable.
 my_global: i32
 ```
 
-### `@(link_suffix=<string>)`
+#### `@(link_suffix=<string>)`
 
 This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. This is similar to `link_prefix`, except that it appends to the end of the link name instead of prepending to the start.
 ```odin
@@ -3931,40 +3931,40 @@ foo :: proc "c" () -> int {
 }
 ```
 
-### `@(linkage=<string>)`
+#### `@(linkage=<string>)`
 
 Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: `"internal"`, `"strong"`, `"weak"`, and `"link_once"`.
 
-### `@(no_instrumentation=<boolean?>)`
+#### `@(no_instrumentation=<boolean?>)`
 
-### `@(no_sanitize_address)`
+#### `@(no_sanitize_address)`
 
 
 If set, the procedure will not be instrumented by [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html) when using the `-sanitize:address` build flag, which permits the procedure and all called procedures to read and write to any memory that may be marked as invalid by the sanitizer.
 
 This attribute will typically be used in the procedures that make up a memory allocator.
 
-### `@(no_sanitize_memory)`
+#### `@(no_sanitize_memory)`
 
-### `@(objc_class=<string>)`
+#### `@(objc_class=<string>)`
 
-### `@(objc_context_provider=<procedure>)`
+#### `@(objc_context_provider=<procedure>)`
 
-### `@(objc_implement=<boolean>)`
+#### `@(objc_implement=<boolean>)`
 
-### `@(objc_is_class_method=<boolean>)`
+#### `@(objc_is_class_method=<boolean>)`
 
-### `@(objc_ivar=<type>)`
+#### `@(objc_ivar=<type>)`
 
-### `@(objc_name=<string>)`
+#### `@(objc_name=<string>)`
 
-### `@(objc_selector=<string>)`
+#### `@(objc_selector=<string>)`
 
-### `@(objc_superclass=<type>)`
+#### `@(objc_superclass=<type>)`
 
-### `@(objc_type=<type>)`
+#### `@(objc_type=<type>)`
 
-### `@(optimization_mode=<string>)`
+#### `@(optimization_mode=<string>)`
 
 
 Set the optimization mode of a procedure. Valid modes are `"none"` and `"favor_size"`.
@@ -3983,7 +3983,7 @@ skip_whitespace :: proc(t: ^Tokenizer) {
 }
 ```
 
-### `@(private=<string?>)`
+#### `@(private=<string?>)`
 
 Prevents a top level element from being exported with the package.
 ```odin
@@ -4008,13 +4008,13 @@ package foo
 
 And `#+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
 
-### `@(raddbg_type_view=<string?>)`
+#### `@(raddbg_type_view=<string?>)`
 
-### `@(require=<boolean?>)`
+#### `@(require=<boolean?>)`
 
 Requires that the declaration is added to the final compilation and not optimized out.
 
-### `@(require_results)`
+#### `@(require_results)`
 
 Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called, the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
 ```odin
@@ -4029,9 +4029,9 @@ main :: proc() {
 }
 ```
 
-### `@(require_target_feature=<string>)`
+#### `@(require_target_feature=<string>)`
 
-### `@(rodata)`
+#### `@(rodata)`
 
 A global or static variable with the `@(rodata)` attribute will live in the read-only data block of the program. This means that the value cannot be changed.
 
@@ -4055,7 +4055,7 @@ main :: proc() {
 If you instead used a constant `numbers` array (`NUMBERS :: []int {}`), then it would not be possible to index `numbers` using a variable, because constants only exist at compile time.
 
 
-### `@(static)`
+#### `@(static)`
 
 This attribute can be applied to a variable to have it keep its state even when going out of scope.
 This is the same behavior as a `static` local variable in C.
@@ -4073,9 +4073,9 @@ main :: proc() {
 }
 ```
 
-### `@(tag=<string>)`
+#### `@(tag=<string>)`
 
-### `@(test)`
+#### `@(test)`
 
 Allows procedures with the attribute `@(test)` to be run with the command `odin test` directly.
 
@@ -4087,26 +4087,12 @@ foo :: proc(_: ^testing.T) {
 }
 ```
 
-### `@(thread_local=<string?>)`
+#### `@(thread_local=<string?>)`
 
 Can be applied to a variable at file scope
 ```odin
 @(thread_local) foo: int
 ```
-
-### Specialized attributes
-
-* **@(builtin)**
-Marks builtin procs in Odin's "base:runtime" package. Cannot be used in user code.
-
-* **@(objc_name=\<string\>)**
-* **@(objc_type=\<type\>)**
-* **@(objc_is_class_method=\<boolean\>)**
-
-* **@(require_target_feature=\<string\>)**
-* **@(enable_target_feature=\<string\>)**
-
-
 
 
 ## Directives

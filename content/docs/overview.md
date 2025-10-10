@@ -3744,7 +3744,7 @@ Attributes modify the compilation details or behaviour of declarations.
 * [`@(no_instrumentation=<boolean?>)`](#no_instrumentationboolean)
 * [`@(no_sanitize_address)`](#no_sanitize_address)
 * [`@(no_sanitize_memory)`](#no_sanitize_memory)
-* [`@(objc_implement=<boolean>)`](#objc_implementboolean)
+* [`@(objc_implement=<boolean?>)`](#objc_implementboolean)
 * [`@(objc_is_class_method=<boolean>)`](#objc_is_class_methodboolean)
 * [`@(objc_name=<string>)`](#objc_namestring)
 * [`@(objc_selector=<string>)`](#objc_selectorstring)
@@ -3854,6 +3854,15 @@ If the provided boolean is set, the procedure will not be used when called.
 
 #### `@(enable_target_feature=<string>)`
 
+Enables a specific feature needed for the target.
+
+```odin
+@(enable_target_feature="sse2,ssse3")
+byteswap :: proc "contextless" (x: x86.__m128i) -> x86.__m128i {
+	return x86._mm_shuffle_epi8(x, _BYTESWAP_INDEX)
+}
+```
+
 #### `@(entry_point_only)`
 
 Marks a procedure that can be called wtihin the entry point only.
@@ -3872,7 +3881,25 @@ Like `@(init)` but run at after the `main` procedure finishes.
 
 #### `@(instrumentation_enter)`
 
+Attaches to a procedure declaration to mark as the procedure to use for instrumentation profiling on enter. It must have the signature: `proc "contextless" (proc_address, call_site_return_address: rawptr, loc: runtime.Source_Code_Location)`.
+
+```odin
+@(instrumentation_enter)
+spall_enter :: proc "contextless" (proc_address, call_site_return_address: rawptr, loc: runtime.Source_Code_Location) {
+	spall._buffer_begin(&spall_ctx, &spall_buffer, "", "", loc)
+}
+````
+
 #### `@(instrumentation_exit)`
+
+Attaches to a procedure declaration to mark as the procedure to use for instrumentation profiling on exit. It must have the signature: `proc "contextless" (proc_address, call_site_return_address: rawptr, loc: runtime.Source_Code_Location)`.
+
+```odin
+@(instrumentation_exit)
+spall_exit :: proc "contextless" (proc_address, call_site_return_address: rawptr, loc: runtime.Source_Code_Location) {
+	spall._buffer_end(&spall_ctx, &spall_buffer)
+}
+````
 
 #### `@(link_name=<string>)`
 
@@ -3937,8 +3964,9 @@ Allows the ability to specify the specific linkage of a declaration. Allow linka
 
 #### `@(no_instrumentation=<boolean?>)`
 
-#### `@(no_sanitize_address)`
+Disables instrumentation for the specified procedure. If no boolean is specified, the default state is `true`.
 
+#### `@(no_sanitize_address)`
 
 If set, the procedure will not be instrumented by [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html) when using the `-sanitize:address` build flag, which permits the procedure and all called procedures to read and write to any memory that may be marked as invalid by the sanitizer.
 
@@ -3946,23 +3974,52 @@ This attribute will typically be used in the procedures that make up a memory al
 
 #### `@(no_sanitize_memory)`
 
+Disables checks for memory santization for the specified procedure.
+
 #### `@(objc_class=<string>)`
+
+Specifies the name of the Objective-C class for a type.
+
+```odin
+@(objc_class="NSAutoreleasePool")
+AutoreleasePool :: struct {using _: Object}
+```
 
 #### `@(objc_context_provider=<procedure>)`
 
-#### `@(objc_implement=<boolean>)`
+Specifies the procedure to use to give a default `context` for. It must be a procedure that takes 1 parameter (a signle point to the `@(objc_type)` value) and only returns `runtime.Context`.
+
+n.b. Prefer not to use this if possible.
+
+#### `@(objc_implement=<boolean?>)`
+
+Specifies whether this declaration is an implementation of an Objective-C class or not on the Odin-side.
 
 #### `@(objc_is_class_method=<boolean>)`
 
+Specifies whether the procedure or procedure groups is bound the class type or the variable (i.e. `+` vs `-` in Objective-C).
+
 #### `@(objc_ivar=<type>)`
+
+Specifies the type to be used as the instance variable (`ivar`) with the associated Objective-C class type.
+
+See: https://developer.apple.com/documentation/objectivec/ivar?language=objc
 
 #### `@(objc_name=<string>)`
 
+Specifies the name to be used as the bound "method" (NOT the internal name)
+
 #### `@(objc_selector=<string>)`
+
+Specifies the internal selector name for the Objective-C call.
 
 #### `@(objc_superclass=<type>)`
 
+Specifies the superclass for the class type.
+
 #### `@(objc_type=<type>)`
+
+Specifies the associated Objective-C class type for a procedure/procedure-group.
 
 #### `@(optimization_mode=<string>)`
 
@@ -4010,6 +4067,8 @@ And `#+private file` will be equivalent to automatically adding `@(private="file
 
 #### `@(raddbg_type_view=<string?>)`
 
+Adds custom a debug watch window rendering for the RAD Debugger. If no custom view rule as a string is set, then the Odin compiler will generate a specific view from the struct fields tags (reading the `fmt:"..."` style declarations).
+
 #### `@(require=<boolean?>)`
 
 Requires that the declaration is added to the final compilation and not optimized out.
@@ -4030,6 +4089,8 @@ main :: proc() {
 ```
 
 #### `@(require_target_feature=<string>)`
+
+Forces a procedure to require a specific target feature on use. e.g. `@(require_target_feature="sha512,sse4.1)`
 
 #### `@(rodata)`
 
@@ -4074,6 +4135,8 @@ main :: proc() {
 ```
 
 #### `@(tag=<string>)`
+
+An attribute that user-level code can use but will be ignored by the compiler. This is useful for metaprogramming purposes. If more custom tags are required, use the flag `-ignore-custom-attributes`.
 
 #### `@(test)`
 

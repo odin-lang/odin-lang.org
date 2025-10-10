@@ -3695,6 +3695,95 @@ Attributes modify the compilation details or behaviour of declarations.
 
 ### General attributes
 
+List of attributes (without description):
+
+#### User tag which is ignored by the compiler
+
+* `@(tag=<string>)` - works on ANY declaration
+
+#### Foreign Blocks
+
+* `@(default_calling_convention=<string>)` -- `foreign` blocks
+* `@(link_prefix=<string>)` -- `foreign` blocks and declarations within `foreign` blocks
+* `@(link_suffix=<string>)` -- `foreign` blocks and declarations within `foreign` blocks
+* `@(private=<string?>)` -- all declarations except `import` statements
+* `@(require_results)` -- procedure declarations and `foreign` blocks
+
+#### Procedure Groups
+
+* `@(objc_is_class_method=<boolean>)`
+* `@(objc_name=<string>)`
+* `@(objc_type=<type>)`
+* `@(require_results)`
+
+#### Procedure Declarations
+
+* `@(cold)`
+* `@(deferred_in=<procedure>)`
+* `@(deferred_in_by_ptr=<procedure>)`
+* `@(deferred_in_out=<procedure>)`
+* `@(deferred_in_out_by_ptr=<procedure>)`
+* `@(deferred_none=<procedure>)`
+* `@(deferred_out=<procedure>)`
+* `@(deferred_out_by_ptr=<procedure>)`
+* `@(deprecated=<string>)`
+* `@(disabled=<boolean>)`
+* `@(enable_target_feature=<string>)`
+* `@(entry_point_only)`
+* `@(export=<boolean?>)`
+* `@(fini)`
+* `@(init)`
+* `@(instrumentation_enter)`
+* `@(instrumentation_exit)`
+* `@(link_name=<string>)`
+* `@(link_prefix=<string>)`
+* `@(link_suffix=<string>)`
+* `@(linkage=<string>)`
+* `@(no_instrumentation=<boolean?>)`
+* `@(no_sanitize_address)`
+* `@(no_sanitize_memory)`
+* `@(objc_implement=<boolean>)`
+* `@(objc_is_class_method=<boolean>)`
+* `@(objc_name=<string>)`
+* `@(objc_selector=<string>)`
+* `@(objc_type=<type>)`
+* `@(optimization_mode=<string>)`
+* `@(require=<boolean?>)`
+* `@(require_results)`
+* `@(require_target_feature=<string>)`
+* `@(test)`
+
+#### Variable Declarations
+
+* `@(export=<boolean?>)`
+* `@(link_name=<string>)`
+* `@(link_prefix=<string>)`
+* `@(link_section=<string>)`
+* `@(link_suffix=<string>)`
+* `@(linkage=<string>)`
+* `@(private=<string>?)` -- globals only
+* `@(require=<boolean?>)`
+* `@(roadata)`
+* `@(static)` -- locals variable declarations only
+* `@(thread_local=<string?>)`
+
+#### Constant Value Declarations
+
+* `@(private=<string>?)`
+
+#### Type Declarations
+
+* `@(objc_class=<string>)`
+* `@(objc_context_provider=<procedure>)`
+* `@(objc_implement=<boolean?>)`
+* `@(objc_ivar=<type>)`
+* `@(objc_superclass=<type>)`
+* `@(private=<string>?)`
+* `@(raddbg_type_view=<string?>)`
+
+
+
+
 #### `@(private)`
 
 Prevents a top level element from being exported with the package.

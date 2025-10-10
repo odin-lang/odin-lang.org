@@ -3695,224 +3695,123 @@ Attributes modify the compilation details or behaviour of declarations.
 
 ### General attributes
 
-List of attributes (without description):
-
 #### User tag which is ignored by the compiler
 
-* `@(tag=<string>)` - works on ANY declaration
+* [`@(tag=<string>)`](#tagstring) -- works on ANY declaration
+
+#### Non-User Code
+
+* [`@(builtin)`](#builtin) --- marks builtin declarations in Odin's `base:runtime` package. Cannot be used in user code
 
 #### Foreign Blocks
 
-* `@(default_calling_convention=<string>)` -- `foreign` blocks
-* `@(link_prefix=<string>)` -- `foreign` blocks and declarations within `foreign` blocks
-* `@(link_suffix=<string>)` -- `foreign` blocks and declarations within `foreign` blocks
-* `@(private=<string?>)` -- all declarations except `import` statements
-* `@(require_results)` -- procedure declarations and `foreign` blocks
+* [`@(default_calling_convention=<string>)`](#default_calling_conventionstring) -- `foreign` blocks
+* [`@(link_prefix=<string>)`](#link_prefixstring) -- `foreign` blocks and declarations within `foreign` blocks
+* [`@(link_suffix=<string>)`](#link_suffixstring) -- `foreign` blocks and declarations within `foreign` blocks
+* [`@(private=<string?>)`](#privatestring)-- all declarations except `import` statements
+* [`@(require_results)`](#require_results) -- procedure declarations and `foreign` blocks
 
 #### Procedure Groups
 
-* `@(objc_is_class_method=<boolean>)`
-* `@(objc_name=<string>)`
-* `@(objc_type=<type>)`
-* `@(require_results)`
+* [`@(objc_is_class_method=<boolean>)`](#objc_is_class_methodboolean)
+* [`@(objc_name=<string>)`](#objc_namestring)
+* [`@(objc_type=<type>)`](#objc_typetype)
+* [`@(require_results)`](#require_results)
 
 #### Procedure Declarations
 
-* `@(cold)`
-* `@(deferred_in=<procedure>)`
-* `@(deferred_in_by_ptr=<procedure>)`
-* `@(deferred_in_out=<procedure>)`
-* `@(deferred_in_out_by_ptr=<procedure>)`
-* `@(deferred_none=<procedure>)`
-* `@(deferred_out=<procedure>)`
-* `@(deferred_out_by_ptr=<procedure>)`
-* `@(deprecated=<string>)`
-* `@(disabled=<boolean>)`
-* `@(enable_target_feature=<string>)`
-* `@(entry_point_only)`
-* `@(export=<boolean?>)`
-* `@(fini)`
-* `@(init)`
-* `@(instrumentation_enter)`
-* `@(instrumentation_exit)`
-* `@(link_name=<string>)`
-* `@(link_prefix=<string>)`
-* `@(link_suffix=<string>)`
-* `@(linkage=<string>)`
-* `@(no_instrumentation=<boolean?>)`
-* `@(no_sanitize_address)`
-* `@(no_sanitize_memory)`
-* `@(objc_implement=<boolean>)`
-* `@(objc_is_class_method=<boolean>)`
-* `@(objc_name=<string>)`
-* `@(objc_selector=<string>)`
-* `@(objc_type=<type>)`
-* `@(optimization_mode=<string>)`
-* `@(require=<boolean?>)`
-* `@(require_results)`
-* `@(require_target_feature=<string>)`
-* `@(test)`
+* [`@(cold)`](#cold)
+* [`@(deferred_in=<procedure>)`](#deferred_procedure)
+* [`@(deferred_in_by_ptr=<procedure>)`](#deferred_procedure)
+* [`@(deferred_in_out=<procedure>)`](#deferred_procedure)
+* [`@(deferred_in_out_by_ptr=<procedure>)`](#deferred_procedure)
+* [`@(deferred_none=<procedure>)`](#deferred_procedure)
+* [`@(deferred_out=<procedure>)`](#deferred_procedure)
+* [`@(deferred_out_by_ptr=<procedure>)`](#deferred_procedure)
+* [`@(deprecated=<string>)`](#deprecatedstring)
+* [`@(disabled=<boolean>)`](#disabledboolean)
+* [`@(enable_target_feature=<string>)`](enable_target_featurestring)
+* [`@(entry_point_only)`](#entry_point_only)
+* [`@(export=<boolean?>)`](#exportboolean)
+* [`@(fini)`](#fini)
+* [`@(init)`](#init)
+* [`@(instrumentation_enter)`](#instrumentation_enter)
+* [`@(instrumentation_exit)`](#instrumentation_exit)
+* [`@(link_name=<string>)`](#link_namestring)
+* [`@(link_prefix=<string>)`](#link_prefixstring)
+* [`@(link_suffix=<string>)`](#link_suffixstring)
+* [`@(linkage=<string>)`](#linkagestring)
+* [`@(no_instrumentation=<boolean?>)`](#no_instrumentationboolean)
+* [`@(no_sanitize_address)`](#no_sanitize_address)
+* [`@(no_sanitize_memory)`](#no_sanitize_memory)
+* [`@(objc_implement=<boolean>)`](#objc_implementboolean)
+* [`@(objc_is_class_method=<boolean>)`](#objc_is_class_methodboolean)
+* [`@(objc_name=<string>)`](#objc_namestring)
+* [`@(objc_selector=<string>)`](#objc_selectorstring)
+* [`@(objc_type=<type>)`](#objc_typetype)
+* [`@(optimization_mode=<string>)`](#optimization_modestring)
+* [`@(require=<boolean?>)`](#requireboolean)
+* [`@(require_results)`](#require_results)
+* [`@(require_target_feature=<string>)`](#require_target_featurestring)
+* [`@(test)`](#test-1)
 
 #### Variable Declarations
 
-* `@(export=<boolean?>)`
-* `@(link_name=<string>)`
-* `@(link_prefix=<string>)`
-* `@(link_section=<string>)`
-* `@(link_suffix=<string>)`
-* `@(linkage=<string>)`
-* `@(private=<string>?)` -- globals only
-* `@(require=<boolean?>)`
-* `@(roadata)`
-* `@(static)` -- locals variable declarations only
-* `@(thread_local=<string?>)`
+* [`@(export=<boolean?>)`](#exportboolean)
+* [`@(link_name=<string>)`](#link_namestring)
+* [`@(link_prefix=<string>)`](#link_prefixstring)
+* [`@(link_section=<string>)`](#link_sectionstring)
+* [`@(link_suffix=<string>)`](#link_suffixstring)
+* [`@(linkage=<string>)`](#linkagestring)
+* [`@(private=<string>?)`](#privatestring) -- globals only
+* [`@(require=<boolean?>)`](#requireboolean)
+* [`@(rodata)`](#rodata)
+* [`@(static)`](#static) -- locals variable declarations only
+* [`@(thread_local=<string?>)`](#thread_localstring)
 
 #### Constant Value Declarations
 
-* `@(private=<string>?)`
+* [`@(private=<string>?)`](#privatestring)
 
 #### Type Declarations
 
-* `@(objc_class=<string>)`
-* `@(objc_context_provider=<procedure>)`
-* `@(objc_implement=<boolean?>)`
-* `@(objc_ivar=<type>)`
-* `@(objc_superclass=<type>)`
-* `@(private=<string>?)`
-* `@(raddbg_type_view=<string?>)`
+* [`@(objc_class=<string>)`](#objc_classstring)
+* [`@(objc_context_provider=<procedure>)`](#objc_context_providerprocedure)
+* [`@(objc_implement=<boolean?>)`](#objc_implementboolean)
+* [`@(objc_ivar=<type>)`](#objc_ivartype)
+* [`@(objc_superclass=<type>)`](#objc_superclasstype)
+* [`@(private=<string>?)`](#privatestring)
+* [`@(raddbg_type_view=<string?>)`](#raddbg_type_viewstring)
 
 
+### `@(builtin)`
 
+Marks builtin procs in Odin's "base:runtime" package. Cannot be used in user code.
 
-#### `@(private)`
+### `@(cold)`
 
-Prevents a top level element from being exported with the package.
-```odin
-@(private)
-my_variable: int // cannot be accessed outside this package
-@private // parenthesis can be dropped on no arguments  
-my_other_variable: int
-```
+A hint to the compiler that this procedure is rarely called, and thus "cold".
 
-You may also make an entity private to _the file_ instead of the package.
-```odin
-@(private="file")
-my_variable: int // cannot be accessed outside this file
-```
-`@(private)` is equivalent to `@(private="package")`.
+### `@(default_calling_convention=<string>)`
 
-Using `#+private` before the package declaration will automatically add `@(private)` to everything in that file:
-```odin
-#+private
-package foo
-```
+	This attribute can be attached to a `foreign` block to specify the default calling convention for all procedures in the block. Example:
+	```odin
+	@(default_calling_convention = "std")
+	foreign kernel32 {
+	    @(link_name="LoadLibraryA") load_library_a  :: proc(c_str: ^u8) -> Hmodule ---
+	}
+	```
 
-And `#+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
+### `@(deferred_*=<procedure>)`
 
-#### `@(require)`
+* `@(deferred_none=<procedure>)`
+* `@(deferred_in=<procedure>)`
+* `@(deferred_out=<procedure>)`
+* `@(deferred_in_out=<procedure>)`
+* `@(deferred_in_by_ptr=<procedure>)`
+* `@(deferred_out_by_ptr=<procedure>)`
+* `@(deferred_in_out_by_ptr=<procedure>)`
 
-Requires that the declaration is added to the final compilation and not optimized out.
-
-
-### Linking and foreign attributes
-
-#### `@(link_name=<string>)`
-
-This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. This specifies what the variable/proc is called in the library.
-Example:
-```odin
-foreign foo {
-    @(link_name = "bar")
-    testbar :: proc(baz: int) ---
-}
-
-@(export, link_name="lib_foo")
-foo :: proc "c" () -> int {
-	return 42
-}
-```
-
-#### `@(link_prefix=<string>)`
-
-This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. So if functions are prefixed with `ltb_` in the library, you can attach this and not specify that on the procedure on the Odin side; conversely, non-Odin procedures must match the exported procedure's name with its link prefix. Example:
-```odin
-@(link_prefix = "ltb_")
-foreign foo {
-    testbar :: proc(baz: int) --- // This now refers to ltb_testbar
-}
-
-@(export, link_prefix="ltb_")
-foo :: proc "c" () -> int {
-	return 42
-}
-```
-
-#### `@(link_suffix=<string>)`
-
-This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. This is similar to `link_prefix`, except that it appends to the end of the link name instead of prepending to the start.
-```odin
-@(link_suffix = "_x86")
-foreign foo {
-	testbar :: proc(baz: int) --- // This now refers to testbar_x86
-}
-
-@(export, link_suffix="_x86")
-foo :: proc "c" () -> int {
-	return 42
-}
-```
-
-#### `@export` or `@(export=true/false)`
-
-Exports a variable or procedure symbol, useful for producing DLLs.
-
-#### `@(linkage=<string>)`
-
-Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: `"internal"`, `"strong"`, `"weak"`, and `"link_once"`.
-
-#### `@(default_calling_convention=<string>)`
-
-This attribute can be attached to a `foreign` block to specify the default calling convention for all procedures in the block. Example:
-```odin
-@(default_calling_convention = "std")
-foreign kernel32 {
-    @(link_name="LoadLibraryA") load_library_a  :: proc(c_str: ^u8) -> Hmodule ---
-}
-```
-
-#### `@(link_section=<string>)`
-
-Specify the link section for a global variable.
-
-```odin
-@(link_section=".foo")
-my_global: i32
-```
-
-#### `@(extra_linker_flags=<string>)`
-
-Provide additional linker flags to a `foreign import` declaration.
-
-```odin
-@(extra_linker_flags="/NODEFAULTLIB:libcmt")
-foreign import lib {
-    "windows/raylib.lib",
-    "system:Winmm.lib",
-    "system:Gdi32.lib",
-    "system:User32.lib",
-    "system:Shell32.lib",
-}
-```
-
-
-### Procedure attributes
-
-#### `@(deferred_*=<proc>)`
-
-* `@(deferred_in=<proc>)`
-* `@(deferred_out=<proc>)`
-* `@(deferred_in_out=<proc>)`
-* `@(deferred_none=<proc>)`
 
 These attributes can be attached to a procedure `X` which will be called at the end of the calling scope for `X`s caller.
 `deferred_in` will receive the same parameters as the called proc. `deferred_out` will receive the result of the called proc. `deferred_in_out` will receive both. `deferred_none` will receive no parameters.
@@ -3938,7 +3837,8 @@ foo :: proc() {
 // In baz
 ```
 
-#### `@(deprecated=<string>)`
+
+### `@(deprecated=<string>)`
 
 Mark a procedure as deprecated. Running `odin build/run/check` will print out the message for each usage of the deprecated proc.
 ```odin
@@ -3948,38 +3848,124 @@ foo :: proc() {
 }
 ```
 
-#### `@(require_results)`
-
-Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called, the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
-```odin
-@(require_results)
-foo :: proc() -> bool {
-    return true
-}
-
-main :: proc() {
-    foo() // won't compile
-    _ = foo() // Ok
-}
-```
-
-#### `@(disabled=<boolean>)`
+### `@(disabled=<boolean>)`
 
 If the provided boolean is set, the procedure will not be used when called.
 
-#### `@(init)`
+### `@(enable_target_feature=<string>)`
+
+### `@(entry_point_only)`
+
+Marks a procedure that can be called wtihin the entry point only.
+
+### `@(export=<boolean?>)`
+
+Exports a variable or procedure symbol, useful for producing DLLs.
+
+### `@(init)`
 
 This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by `@(init)` will then be called at the start of the program before `main` is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.
 
-#### `@(fini)`
+### `@(fini)`
 
 Like `@(init)` but run at after the `main` procedure finishes.
 
-#### `@(cold)`
+### `@(instrumentation_enter)`
 
-A hint to the compiler that this procedure is rarely called, and thus "cold".
+### `@(instrumentation_exit)`
 
-#### `@(optimization_mode=<string>)`
+### `@(link_name=<string>)`
+
+This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. This specifies what the variable/proc is called in the library.
+Example:
+```odin
+foreign foo {
+    @(link_name = "bar")
+    testbar :: proc(baz: int) ---
+}
+
+@(export, link_name="lib_foo")
+foo :: proc "c" () -> int {
+	return 42
+}
+```
+
+### `@(link_prefix=<string>)`
+
+
+This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. So if functions are prefixed with `ltb_` in the library, you can attach this and not specify that on the procedure on the Odin side; conversely, non-Odin procedures must match the exported procedure's name with its link prefix. Example:
+```odin
+@(link_prefix = "ltb_")
+foreign foo {
+    testbar :: proc(baz: int) --- // This now refers to ltb_testbar
+}
+
+@(export, link_prefix="ltb_")
+foo :: proc "c" () -> int {
+	return 42
+}
+```
+
+### `@(link_section=<string>)`
+
+
+Specify the link section for a global variable.
+
+```odin
+@(link_section=".foo")
+my_global: i32
+```
+
+### `@(link_suffix=<string>)`
+
+This attribute can be attached to variable and procedure declarations, either when exporting or inside a `foreign` block. This is similar to `link_prefix`, except that it appends to the end of the link name instead of prepending to the start.
+```odin
+@(link_suffix = "_x86")
+foreign foo {
+	testbar :: proc(baz: int) --- // This now refers to testbar_x86
+}
+
+@(export, link_suffix="_x86")
+foo :: proc "c" () -> int {
+	return 42
+}
+```
+
+### `@(linkage=<string>)`
+
+Allows the ability to specify the specific linkage of a declaration. Allow linkage kinds: `"internal"`, `"strong"`, `"weak"`, and `"link_once"`.
+
+### `@(no_instrumentation=<boolean?>)`
+
+### `@(no_sanitize_address)`
+
+
+If set, the procedure will not be instrumented by [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html) when using the `-sanitize:address` build flag, which permits the procedure and all called procedures to read and write to any memory that may be marked as invalid by the sanitizer.
+
+This attribute will typically be used in the procedures that make up a memory allocator.
+
+### `@(no_sanitize_memory)`
+
+### `@(objc_class=<string>)`
+
+### `@(objc_context_provider=<procedure>)`
+
+### `@(objc_implement=<boolean>)`
+
+### `@(objc_is_class_method=<boolean>)`
+
+### `@(objc_ivar=<type>)`
+
+### `@(objc_name=<string>)`
+
+### `@(objc_selector=<string>)`
+
+### `@(objc_superclass=<type>)`
+
+### `@(objc_type=<type>)`
+
+### `@(optimization_mode=<string>)`
+
 
 Set the optimization mode of a procedure. Valid modes are `"none"` and `"favor_size"`.
 
@@ -3997,45 +3983,55 @@ skip_whitespace :: proc(t: ^Tokenizer) {
 }
 ```
 
-#### `@(test)`
+### `@(private=<string?>)`
 
-Allows procedures with the attribute `@(test)` to be run with the command `odin test` directly.
-
+Prevents a top level element from being exported with the package.
 ```odin
-import "core:testing"
-
-@(test)
-foo :: proc(_: ^testing.T) {
-}
+@(private)
+my_variable: int // cannot be accessed outside this package
+@private // parenthesis can be dropped on no arguments
+my_other_variable: int
 ```
 
-#### `@(no_sanitize_address)`
-
-If set, the procedure will not be instrumented by [AddressSanitizer](https://clang.llvm.org/docs/AddressSanitizer.html) when using the `-sanitize:address` build flag, which permits the procedure and all called procedures to read and write to any memory that may be marked as invalid by the sanitizer.
-
-This attribute will typically be used in the procedures that make up a memory allocator.
-
-### Variable attributes
-
-#### `@(static)`
-
-This attribute can be applied to a variable to have it keep its state even when going out of scope.
-This is the same behavior as a `static` local variable in C.
+You may also make an entity private to _the file_ instead of the package.
 ```odin
-test :: proc() -> int {
-    @(static) foo := 0
-    foo += 1
-    return foo
+@(private="file")
+my_variable: int // cannot be accessed outside this file
+```
+`@(private)` is equivalent to `@(private="package")`.
+
+Using `#+private` before the package declaration will automatically add `@(private)` to everything in that file:
+```odin
+#+private
+package foo
+```
+
+And `#+private file` will be equivalent to automatically adding `@(private="file")` to each declaration. This means that to remove the private-to-file association, you must apply a private-to-package attribute `@(private)` to the declaration.
+
+### `@(raddbg_type_view=<string?>)`
+
+### `@(require=<boolean?>)`
+
+Requires that the declaration is added to the final compilation and not optimized out.
+
+### `@(require_results)`
+
+Ensures procedure return values are acknowledged, meaning that in any scope where a procedure `p` having procedure attribute `@(require_results)` is called, the scope must explicitly handle the return values of procedure `p` in some way, such as by storing the return values of `p` in variables or explicitly dropping the values by setting `_` equal them.
+```odin
+@(require_results)
+foo :: proc() -> bool {
+    return true
 }
 
 main :: proc() {
-    fmt.println(test()) // prints 1
-    fmt.println(test()) // prints 2
-    fmt.println(test()) // prints 3
+    foo() // won't compile
+    _ = foo() // Ok
 }
 ```
 
-#### `@(rodata)`
+### `@(require_target_feature=<string>)`
+
+### `@(rodata)`
 
 A global or static variable with the `@(rodata)` attribute will live in the read-only data block of the program. This means that the value cannot be changed.
 
@@ -4058,7 +4054,40 @@ main :: proc() {
 
 If you instead used a constant `numbers` array (`NUMBERS :: []int {}`), then it would not be possible to index `numbers` using a variable, because constants only exist at compile time.
 
-#### `@(thread_local)`
+
+### `@(static)`
+
+This attribute can be applied to a variable to have it keep its state even when going out of scope.
+This is the same behavior as a `static` local variable in C.
+```odin
+test :: proc() -> int {
+    @(static) foo := 0
+    foo += 1
+    return foo
+}
+
+main :: proc() {
+    fmt.println(test()) // prints 1
+    fmt.println(test()) // prints 2
+    fmt.println(test()) // prints 3
+}
+```
+
+### `@(tag=<string>)`
+
+### `@(test)`
+
+Allows procedures with the attribute `@(test)` to be run with the command `odin test` directly.
+
+```odin
+import "core:testing"
+
+@(test)
+foo :: proc(_: ^testing.T) {
+}
+```
+
+### `@(thread_local=<string?>)`
 
 Can be applied to a variable at file scope
 ```odin
@@ -4076,6 +4105,8 @@ Marks builtin procs in Odin's "base:runtime" package. Cannot be used in user cod
 
 * **@(require_target_feature=\<string\>)**
 * **@(enable_target_feature=\<string\>)**
+
+
 
 
 ## Directives

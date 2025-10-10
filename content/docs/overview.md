@@ -3730,7 +3730,7 @@ Attributes modify the compilation details or behaviour of declarations.
 * [`@(deferred_out_by_ptr=<procedure>)`](#deferred_procedure)
 * [`@(deprecated=<string>)`](#deprecatedstring)
 * [`@(disabled=<boolean>)`](#disabledboolean)
-* [`@(enable_target_feature=<string>)`](enable_target_featurestring)
+* [`@(enable_target_feature=<string>)`](#enable_target_featurestring)
 * [`@(entry_point_only)`](#entry_point_only)
 * [`@(export=<boolean?>)`](#exportboolean)
 * [`@(fini)`](#fini)

@@ -2669,11 +2669,12 @@ Procedures (Runtime Level) (all square matrix procedures) in `core:math/linalg`:
 [raw_data](https://pkg.odin-lang.org/base/builtin/#raw_data) is a built-in procedure which returns the underlying data of a built-in data type as a [Multi-Pointer](#multi-pointers).
 
 ```odin
-raw_data([]$E)         -> [^]E    // slices
-raw_data([dynamic]$E)  -> [^]E    // dynamic arrays
-raw_data(^[$N]$E)      -> [^]E    // fixed array and enumerated arrays 
-raw_data(^#simd[$N]$E) -> [^]E    // simd vectors 
-raw_data(string)       -> [^]byte // 	
+raw_data([]$E)              -> [^]E    // slices
+raw_data([dynamic]$E)       -> [^]E    // dynamic arrays
+raw_data(^[$N]$E)           -> [^]E    // fixed array and enumerated arrays 
+raw_data(^#simd[$N]$E)      -> [^]E    // simd vectors 
+raw_data(^matrix[$I, $J]$E) -> [^]E    // matrices 
+raw_data(string)            -> [^]byte // 	
 ```
 
 ## `using` statement

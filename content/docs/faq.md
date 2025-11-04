@@ -18,7 +18,7 @@ The language borrows heavily from (in order of philosophy and impact): [Pascal](
 [Niklaus Wirth](https://en.wikipedia.org/wiki/Niklaus_Wirth) and [Rob Pike](https://en.wikipedia.org/wiki/Rob_Pike) have been the programming language design idols throughout this project.
 
 ### How is Odin licensed?
-The Odin compiler and the library are under the [BSD 3-Clause license](https://github.com/odin-lang/Odin/blob/master/LICENSE).
+The Odin compiler and the library are under the [zlib license](https://github.com/odin-lang/Odin/blob/master/LICENSE).
 
 ### Does Odin have any third-party library?
 Check out a few selected libraries at https://github.com/odin-lang/Odin/wiki/Odin-Libs.

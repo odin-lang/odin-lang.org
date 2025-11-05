@@ -2224,7 +2224,7 @@ fmt.println(a()) // 100
 #### Calling conventions
 Odin supports the following calling conventions:
 
-* **odin** - default convention used for an Odin **proc**. It is the same as **cdecl** but passes an implicit `context` pointer on each call. (**Note:** This is subject to change)
+* **odin** - default convention used for an Odin **proc**. It passes all parameters larger than 16 bytes by reference and passes an implicit `context` pointer on each call. (**Note:** This is subject to change)
 * **contextless** - This is the same as **odin** but without the implicit `context` pointer.
 * **stdcall** or **std** -- This is the stdcall convention as specified by Microsoft.
 * **cdecl** or **c** -- This is the default calling convention generated of a procedure in C.

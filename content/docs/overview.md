@@ -3799,13 +3799,13 @@ A hint to the compiler that this procedure is rarely called, and thus "cold".
 
 #### `@(default_calling_convention=<string>)`
 
-	This attribute can be attached to a `foreign` block to specify the default calling convention for all procedures in the block. Example:
-	```odin
-	@(default_calling_convention = "std")
-	foreign kernel32 {
-	    @(link_name="LoadLibraryA") load_library_a  :: proc(c_str: ^u8) -> Hmodule ---
-	}
-	```
+This attribute can be attached to a `foreign` block to specify the default calling convention for all procedures in the block. Example:
+```odin
+@(default_calling_convention = "std")
+foreign kernel32 {
+	@(link_name="LoadLibraryA") load_library_a  :: proc(c_str: ^u8) -> Hmodule ---
+}
+```
 
 #### `@(deferred_*=<procedure>)`
 
@@ -3870,7 +3870,7 @@ byteswap :: proc "contextless" (x: x86.__m128i) -> x86.__m128i {
 
 #### `@(entry_point_only)`
 
-Marks a procedure that can be called wtihin the entry point only.
+Marks a procedure that can be called within the entry point only.
 
 #### `@(export=<boolean?>)`
 
@@ -4095,7 +4095,7 @@ main :: proc() {
 
 #### `@(require_target_feature=<string>)`
 
-Forces a procedure to require a specific target feature on use. e.g. `@(require_target_feature="sha512,sse4.1)`
+Forces a procedure to require a specific target feature on use. e.g. `@(require_target_feature="sha512,sse4.1")`
 
 #### `@(rodata)`
 
@@ -4141,7 +4141,7 @@ main :: proc() {
 
 #### `@(tag=<string>)`
 
-An attribute that user-level code can use but will be ignored by the compiler. This is useful for metaprogramming purposes. If more custom tags are required, use the flag `-ignore-custom-attributes`.
+An attribute that user-level code can use but will be ignored by the compiler. This is useful for metaprogramming purposes. If more custom tags are required, use the flag `-ignore-unknown-attributes`.
 
 #### `@(test)`
 

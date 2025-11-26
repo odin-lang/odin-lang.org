@@ -321,6 +321,8 @@ foo :: proc() {
 ```
 
 
+C++ is an example of a language which has capturing lambda procedures/functions but they are of a different type to regular function pointers. Essenttialy they are a struct with `operator()`  overloaded. This means if a capturing lambda procedure is wanted to be used as a callback alongside regular function pointers, something equivalent to `std::function` must be used or templates are required. Therefore this now means there are 3 different ways of handling functions/procedures as a values/callbacks: C-style function pointers, templated parameters, or `std::function`. There is no unification and this only results in more complications in using them as values/callbacks in practice.
+
 ### Why are maps built-in?
 
 The same reason why strings and dynamic arrays are: they are such a useful, powerful, and important data structure that providing an excellent first class implementation with syntactic support makes programming more of a joy. Odin's main implementation of `map` types are strong for the vast majority of use cases. If something specific is needed, it is possible to write your own but it will not benefit from the same convenient syntax. We believe that this is a reasonable trade-off between clarity and flexibility.

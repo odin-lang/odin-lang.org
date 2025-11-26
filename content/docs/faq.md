@@ -308,7 +308,7 @@ proc "naked" ()
 
 ### Does Odin have closures?
 
-Odin only has non-capturing lambda procedures. For capturing closures to function consistently across all contexts under a unified procedure type (alongside non-capturing procedure values), some form of automatic memory management is required. This does not necessarily imply garbage collection or ARC, but could involve a mechanism similar to RAII (with deallocation on scope exit coupled with copy/move constructors). Even so, this remains automatic and runs counter to Odin’s core philosophy.
+Odin only has non-capturing lambda procedures. For capturing closures to function consistently across all contexts under a unified procedure type (alongside non-capturing procedure values), some form of automatic memory management is required. This does not necessarily imply garbage collection or ARC, but could involve a mechanism similar to RAII (with allocation and deallocation of the closure's memory coupled with copy/move constructors). Even so, this remains automatic and runs counter to Odin’s core philosophy.
 
 ```odin
 foo :: proc() {

@@ -2206,7 +2206,7 @@ Notes:
 	* C's bit fields on `struct`s are undefined and are not portable across targets and compilers
 
 ### Procedure type
-A procedure type is internally a pointer to a procedure in memory. `nil` is the zero value a procedure type.
+A procedure type is internally a pointer to a procedure in memory. `nil` is the zero value of a procedure type.
 
 Examples:
 ```odin

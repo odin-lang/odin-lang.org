@@ -4180,6 +4180,32 @@ Accessing a field in a packed struct may require copying the field out of the st
 struct #packed {x: u8, y: i32, z: u16, w: u8}
 ```
 
+#### `#all_or_none`
+
+This tag can be applied to a struct. Prevents partial initialization of the struct, so either all or none of the fields must be filled.
+```odin
+Foo :: struct #all_or_none {
+    a, b, c: i32
+}
+
+test :: proc() {
+    // No fields set
+    a := Foo {}
+    
+    // This is an error.
+    b := Foo {
+        a = 10
+    }
+    
+    // All fields set
+    c := Foo {
+        a = 10,
+        b = 10,
+        c = 10
+    }
+}
+```
+
 #### `#raw_union`
 
 This tag can be applied to a struct. Struct's fields will share the same memory space which serves the same functionality as `union`s in C language. Useful when writing bindings especially.

@@ -24,6 +24,7 @@
                             ><h3>{{.Title}}</h3></a
                         >
                         <p>{{.Summary}}</p>
+                        {{- if not .PublishDate.IsZero }}<div class="publish-date">{{ .PublishDate.Format "2006-01-02" | safeHTMLAttr }}</div>{{- end}}
                     </div>
                     {{ end }}
                 </div>

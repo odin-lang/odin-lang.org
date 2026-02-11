@@ -18,6 +18,11 @@
                             {{ end }}
                         </ol>
                     <h1>{{ .Title }}</h1>
+
+                    {{- if .IsPage }}
+                    {{- if not .PublishDate.IsZero }}<p class="publish-date">{{ .PublishDate.Format "2006-01-02" | safeHTMLAttr }}</p>
+                    {{ end }}
+                    {{- end }}{{/* .IsPage */}}
                 </header>
                 <div class="odin-article">
                     <!-- Add anchors to links -->

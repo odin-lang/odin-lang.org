@@ -1990,6 +1990,12 @@ struct #align(4) {...} // align to 4 bytes
 struct #packed {...} // remove padding between fields
 struct #raw_union {...} // all fields share the same offset (0). This is the same as C's union
 ```
+You can also force structs to use simple comparison if all their fields are nearly simply comparable using
+```odin
+struct #simple {...}
+```
+Simple comparison means that two values with the same exact memory representation are equal, e.g. `memcmp(&a, &b) == 0`. 
+"Nearly simply comparable" means all simply comparable types, as well as floats. The reason floats aren't simply comparable is because of special rules around 0, -0, and NaN
 
 #### Struct field tags
 Struct fields can be tagged with a string literal to attach meta-information which can be used with runtime-type information. Usually this is used to provide transactional information info on how a struct field is encoded to or decoded from another format, but you can store whatever you want within the string literal
@@ -4435,6 +4441,9 @@ Specify whether a procedure literal or call will be forced to inline (`#force_in
 
 This is enabled all optization levels except `-o:none` which has all inlining disabled.
 
+#### `#must_tail`
+
+Explicitly directs Odin on how to optimize tail calls. Attached to procedure calls with the `preserve/none`, `preserve/most`, and `preserve/all` calling conventions.
 
 ### Statements
 

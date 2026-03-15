@@ -1715,20 +1715,20 @@ shrink(&x)
 fmt.println(len(x), cap(x)) // 5 5
 ```
 
-#### `Small_Array(N, T)` container dynamic array
+### `[dynamic; N]T` fixed capacity dynamic array
 
-The `core` library also contains a container dynamic array [Small_Array(N, T)](https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin). It implements most dynamic array procedures while being able to remain on the stack.
+Odin supports a fixed capacity dynamic array `[dynamic; N]T`. It implements most dynamic array procedures while being able to remain on the stack.
 
 Short Example:
 ```odin
-import sa "core:container/small_array"
-
-x: sa.Small_Array(8, int)
-fmt.println(sa.len(x), sa.cap(x)) // 0 8
-sa.append(&x, 1, 2, 3) 
-fmt.println(sa.len(x), sa.cap(x)) // 3 8
-fmt.println(sa.slice(&x)) // [1, 2, 3]
+x: [dynamic; 8]int
+fmt.println(len(x), cap(x)) // 0 8
+append(&x, 1, 2, 3)
+fmt.println(len(x), cap(x)) // 3 8
+fmt.println(x[:]) // [1, 2, 3]
 ```
+
+n.b. This replaces the `core` library container dynamic array [Small_Array(N, T)](https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin).
 
 ### Enumerations
 Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:

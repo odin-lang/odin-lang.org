@@ -3854,14 +3854,24 @@ If the provided boolean is set, the procedure will not be used when called.
 
 #### `@(enable_target_feature=<string>)`
 
-Enables a specific feature needed for the target.
+Enables or disables a specific feature needed for the target.
 
 ```odin
 @(enable_target_feature="sse2,ssse3")
 byteswap :: proc "contextless" (x: x86.__m128i) -> x86.__m128i {
 	return x86._mm_shuffle_epi8(x, _BYTESWAP_INDEX)
 }
+
+// clang-style `+`/`-` prefixes are also supported.
+@(enable_target_feature="+sse2,+ssse3,-avx")
+byteswap2 :: proc "contextless" (x: x86.__m128i) -> x86.__m128i {
+	return x86._mm_shuffle_epi8(x, _BYTESWAP_INDEX)
+}
 ```
+
+This attribute is primarily useful when maintaining backward compatibility while allowing the use of newer CPU features, by providing multiple implementations.
+
+When using the `-` prefix to disable a target feature, it is strongly recomended for the procedure to be marked with the `#force_inline` or `#force_no_inline` directive, as functions that are automatically inlined may silently use the disabled feature anyway.
 
 #### `@(entry_point_only)`
 

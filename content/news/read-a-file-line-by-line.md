@@ -25,8 +25,8 @@ import "core:os"
 import "core:strings"
 
 read_file_by_lines_in_whole :: proc(filepath: string) {
-	data, ok := os.read_entire_file(filepath, context.allocator)
-	if !ok {
+	data, err := os.read_entire_file(filepath, context.allocator)
+	if err != nil {
 		// could not read file
 		return
 	}
@@ -50,7 +50,7 @@ import "core:bufio"
 
 read_file_by_lines_with_buffering :: proc(filepath: string) {
 	f, ferr := os.open(filepath)
-	if ferr != 0 {
+	if ferr != nil {
 		// handle error appropriately
 		return
 	}

@@ -1990,6 +1990,12 @@ struct #align(4) {...} // align to 4 bytes
 struct #packed {...} // remove padding between fields
 struct #raw_union {...} // all fields share the same offset (0). This is the same as C's union
 ```
+You can also force structs to use simple comparison if all their fields are nearly simply comparable using
+```odin
+struct #simple {...}
+```
+Simple comparison means that two values with the same exact memory representation are equal, e.g. `memcmp(&a, &b) == 0`. 
+"Nearly simply comparable" means all simply comparable types, as well as floats. The reason floats aren't simply comparable is because of special rules around 0, -0, and NaN
 
 #### Struct field tags
 Struct fields can be tagged with a string literal to attach meta-information which can be used with runtime-type information. Usually this is used to provide transactional information info on how a struct field is encoded to or decoded from another format, but you can store whatever you want within the string literal
@@ -4185,6 +4191,32 @@ Accessing a field in a packed struct may require copying the field out of the st
 struct #packed {x: u8, y: i32, z: u16, w: u8}
 ```
 
+#### `#all_or_none`
+
+This tag can be applied to a struct. Prevents partial initialization of the struct, so either all or none of the fields must be filled.
+```odin
+Foo :: struct #all_or_none {
+    a, b, c: i32
+}
+
+test :: proc() {
+    // No fields set
+    a := Foo {}
+    
+    // This is an error.
+    b := Foo {
+        a = 10
+    }
+    
+    // All fields set
+    c := Foo {
+        a = 10,
+        b = 10,
+        c = 10
+    }
+}
+```
+
 #### `#raw_union`
 
 This tag can be applied to a struct. Struct's fields will share the same memory space which serves the same functionality as `union`s in C language. Useful when writing bindings especially.
@@ -4219,23 +4251,6 @@ B :: union #no_nil {int, bool}
 // Possible states of B:
 {int} // default state
 {bool}
-```
-
-#### `#no_copy`
-This tag can be applied to a `struct` to forbid copies being made.
-The initialization of a `#no_copy` type must be either implicitly zero, a constant literal, or a return value from a call expression.
-
-```odin
-Mutex :: struct #no_copy {
-	state: uintptr,
-}
-
-main :: proc() {
-	m: Mutex
-	v1 := m  // This line will raise an error.
-	p  := &m
-	v2 := p^ // So will this line.
-}
 ```
 
 ### Control statements
@@ -4431,6 +4446,9 @@ Specify whether a procedure literal or call will be forced to inline (`#force_in
 
 This is enabled all optization levels except `-o:none` which has all inlining disabled.
 
+#### `#must_tail`
+
+Explicitly directs Odin on how to optimize tail calls. Attached to procedure calls with the `preserve/none`, `preserve/most`, and `preserve/all` calling conventions.
 
 ### Statements
 

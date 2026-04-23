@@ -4077,7 +4077,26 @@ And `#+private file` will be equivalent to automatically adding `@(private="file
 
 #### `@(raddbg_type_view=<string?>)`
 
-Adds custom a debug watch window rendering for the RAD Debugger. If no custom view rule as a string is set, then the Odin compiler will generate a specific view from the struct fields tags (reading the `fmt:"..."` style declarations).
+Adds custom a debug watch window rendering for the RAD Debugger. If no custom view rule as a string is set, then the Odin compiler will generate a specific view from either `raddbg:"..."` struct fields tags, or by translating `fmt:"..."` tags.
+```odin
+@(raddbg_type_view="rows($, array(data, len), len)")
+Arr_int :: struct {
+    data: [^]int,
+    len: int, 
+}
+
+@(raddbg_type_view)
+Arr_float :: struct {
+    data: [^]f64 `raddbg:"array(data, len)"`,
+    len: int, 
+}
+
+@(raddbg_type_view)
+Arr_rune :: struct {
+    data: [^]rune `fmt:",len"`,
+    len: int, 
+}
+```
 
 #### `@(require=<boolean?>)`
 

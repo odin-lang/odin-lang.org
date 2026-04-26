@@ -1787,8 +1787,6 @@ main :: proc() {
 	Foo :: enum {A, B, C}
 	using Foo
 	a := A
-
-	
 }
 ```
 

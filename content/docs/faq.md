@@ -673,6 +673,18 @@ From _Ginger Bill_ directly:
 >
 > There are some unofficial tools out there (see <https://github.com/Data-Oriented-House/PortableBuildTools>) that allow you to download a standalone MSVC compiler/linker/etc without having install Visual Studio; contains only the bare minimum components.
 
+### Does Odin Support "Embedded Programming"?
+
+This is a common FAQ, and the honest answer is: it depends on what you mean by "embedded."
+
+The term is surprisingly vague and broad. When we ask people to clarify, the answers range widely: from 64-bit ARM boards like a Raspberry Pi 4/5, to Arduinos of various unspecified models, to i386 chips on a PCB (which are essentially old desktop machines). The specifics matter a lot: Does the hardware have floating-point support? A unified memory space? Multiple cores?
+
+Odin was designed for modern systems, so it assumes capabilities like hardware floats and unified virtual memory. With that in mind, Odin already supports 32-bit and 64-bit platforms, so if your target falls in that range, you're likely in good shape.
+
+However, Odin will never support 8-bit or 16-bit systems, and this is by design. Many experienced developers would argue that even C isn't well suited for those platforms. What those environments really need is a better high-level assembly language, and that's a gap in the market, but not one Odin is trying to fill. Languages that attempt to stretch down to those lower-end targets tend to be poorly suited for it regardless of how much complexity they hide behind the scenes.
+
+If you're interested in using Odin for an embedded project, we'd encourage you to think carefully about what your target hardware actually looks like. "Embedded" is a much more overloaded term than most people realize, and the answer to whether Odin is the right fit will come down to the specifics of your platform.
+
 ### Does the Odin compiler implement Return Value Optimization (RVO)?
 
 Since Odin does not have constructors nor destructors, there is no proper need for Return Value Optimization (RVO). Any value outside of the conventions of `new`/`free` and `make`/`delete` live on "the stack". Even structs do not have constructors.

@@ -20,7 +20,6 @@ The compiler currently supports compiling on:
 - FreeBSD x86-64/AMD64 and ARM64
 - NetBSD x86-64/AMD64 and ARM64
 - OpenBSD x86-64/AMD64
-- Haiku x86-64/AMD64 (experimental)
 
 and supports compiling **to** many more targets.
 

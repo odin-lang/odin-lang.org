@@ -685,6 +685,12 @@ However, Odin will never support 8-bit or 16-bit systems, and this is by design.
 
 If you're interested in using Odin for an embedded project, we'd encourage you to think carefully about what your target hardware actually looks like. "Embedded" is a much more overloaded term than most people realize, and the answer to whether Odin is the right fit will come down to the specifics of your platform.
 
+### If Odin uses LLVM, why doesn't it support every platform LLVM supports?
+
+While Odin does support LLVM as its main backend, LLVM's ability to generate machine code for a given platform is only part of the picture. The Odin compiler also needs to handle the platform's ABI (Application Binary Interface), and that has to be implemented manually for each target. LLVM doesn't do that part automatically.
+
+On top of that, Odin was designed for 32-bit and 64-bit systems. Even though LLVM can technically target 8-bit, 16-bit, or other unusually sized architectures, Odin itself won't work on those platforms; that's a language-level design decision, not a limitation of the backend.
+
 ### Does the Odin compiler implement Return Value Optimization (RVO)?
 
 Since Odin does not have constructors nor destructors, there is no proper need for Return Value Optimization (RVO). Any value outside of the conventions of `new`/`free` and `make`/`delete` live on "the stack". Even structs do not have constructors.

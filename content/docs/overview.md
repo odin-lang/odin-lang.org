@@ -776,6 +776,32 @@ odds := []int{1, 3, 5}
 fmt.println(sum(..odds))        // 9, passing a slice as varargs
 ```
 
+**Note:** Odin makes a compromise for the sake of performance in that large arguments (as determined by the compiler) are internally passed by reference (as opposed to always copying them to the stack, as C does) and this can have surprising consequences if you are not aware of it. Here's an example:
+```odin
+package main
+
+import "core:fmt"
+
+Data :: struct {
+	number: [1000]i64,
+}
+
+foo :: proc(alpha: Data, beta: ^Data) {
+	// Both `alpha` and `beta` reference the same data, but because of
+	// the size of `alpha`, it is passed by reference internally for speed.
+	//
+	// Uncomment the line below to override this behavior.
+	// alpha := alpha // This will make an explicit copy of the data.
+	beta.number[5] = 123
+	fmt.println(alpha.number[5]) // prints 123, unless explicitly copied
+}
+
+main :: proc() {
+	data: Data
+	foo(data, &data)
+}
+```
+
 ### Multiple results
 A procedure in Odin can return any number of results. For example:
 ```odin

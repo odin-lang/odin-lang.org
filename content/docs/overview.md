@@ -1991,6 +1991,35 @@ struct #packed {...} // remove padding between fields
 struct #raw_union {...} // all fields share the same offset (0). This is the same as C's union
 ```
 
+#### `#all_or_none`
+
+The directive `#all_or_none` can be applied to a `struct`. This prevents partial initialization of the struct compound literal, by requiring it is either all or the fields are specified or none of the fields are specified.
+
+```odin
+Foo :: struct #all_or_none {
+	a: int,
+	b: int,
+	c: int,
+}
+
+test :: proc() {
+	// No fields set
+	a := Foo{}
+
+	// This is an error.
+	b := Foo{
+		a = 10,
+	}
+
+	// All fields set
+	c := Foo{
+		a = 10,
+		b = 10,
+		c = 10,
+	}
+}
+```
+
 #### Struct field tags
 Struct fields can be tagged with a string literal to attach meta-information which can be used with runtime-type information. Usually this is used to provide transactional information info on how a struct field is encoded to or decoded from another format, but you can store whatever you want within the string literal
 ```odin

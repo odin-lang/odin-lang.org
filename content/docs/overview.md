@@ -4443,6 +4443,9 @@ Specify whether a procedure literal or call will be forced to inline (`#force_in
 
 This is enabled all optization levels except `-o:none` which has all inlining disabled.
 
+#### `#must_tail`
+
+Explicitly state that a procedure call must be optimized as a tail call. This must be attached to procedure calls with the `preserve/none`, `preserve/most`, or `preserve/all` calling conventions.
 
 ### Statements
 

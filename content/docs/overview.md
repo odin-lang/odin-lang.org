@@ -1987,8 +1987,10 @@ Foo :: struct {
 Structs can be annotated with different memory layout and alignment requirements:
 ```odin
 struct #align(4) {...} // align to 4 bytes
-struct #packed {...} // remove padding between fields
 struct #raw_union {...} // all fields share the same offset (0). This is the same as C's union
+struct #packed {...} // remove padding between fields
+struct #min_field_align(4) {...} // all fields must have a minimum alignment of 4 bytes (equivalent to `#pragma pack(4)` in C extensions)
+struct #max_field_align(4) {...} // all fields must have a maximum alignment of 4 bytes
 ```
 
 #### `#all_or_none`

@@ -17,18 +17,6 @@ Option      = "[" Expression "]" ;
 Repetition  = "{" Expression "}" ;
 ```
 
-## Keywords
-
-```txt
-asm          auto_cast    bit_field    bit_set      break        case
-cast         context      continue     defer        distinct     do
-dynamic      else         enum         fallthrough  for          foreign
-if           import       in           map          matrix       not_in
-or_break     or_continue  or_else      or_return    package      proc
-return       struct       switch       transmute    typeid       union
-using        when         where
-```
-
 ## Lexical Grammar
 
 ```txt
@@ -84,6 +72,33 @@ COMMENT          = "//" { ANY_CHAR } NEWLINE
    "{" "}"
 */
 ```
+
+### Keywords
+
+```txt
+asm          auto_cast    bit_field    bit_set      break        case
+cast         context      continue     defer        distinct     do
+dynamic      else         enum         fallthrough  for          foreign
+if           import       in           map          matrix       not_in
+or_break     or_continue  or_else      or_return    package      proc
+return       struct       switch       transmute    typeid       union
+using        when         where
+```
+
+### Punctuation
+```txt
+=      !      #      @      $      ^      ?      +
+-      *      /      %      %%     &      |      ~
+&~     <<     >>     &&     ||     +=     -=     *=
+/=     %=     %%=    &=     |=     ~=     &~=    <<=
+>>=    &&=    ||=    ++     --     ,      ---    ==
+!=     <      >      <=     >=     (      )      [
+]      {      }      :      ;      .      ,      ..
+..=    ..<    \
+```
+
+`\` acts as a newline consumer.
+
 
 ## Syntax Grammar
 

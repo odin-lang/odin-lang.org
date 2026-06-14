@@ -4454,7 +4454,7 @@ Key_Descriptions :: #sparse[Key]string {
 
 Specify whether a procedure literal or call will be forced to inline (`#force_inline`) or forced to never inline `#force_no_inline`. This is **not** a suggestion to the compiler. If the compiler cannot inline the procedure, it will (currently) silently ignore the directive.
 
-This is enabled all optization levels except `-o:none` which has all inlining disabled.
+This is enabled for all optimization levels except `-o:none` which has all inlining disabled.
 
 #### `#must_tail`
 

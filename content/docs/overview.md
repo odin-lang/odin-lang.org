@@ -3386,7 +3386,7 @@ foreign kernel32 {
 
 The Odin compiler can also automatically build and link imported assembly files.
 Depending on the host system, [`clang`](https://clang.llvm.org/), [`as`](https://www.gnu.org/software/binutils), or [`nasm`](https://nasm.us/) may be used to compile the assembly.
-Recognized file extensions for assembly files are: `asm`, `s`, and `S`.
+Recognized file extensions for assembly files are: `asm`, `as`, and `S`.
 
 For examples of how Odin uses this feature, see `base/runtime/entry_*.asm`.
 

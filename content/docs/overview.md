@@ -3010,6 +3010,41 @@ As shown in the example, `or_continue` also works with labels, just like `contin
 
 `or_break` follows the same mechanics as `or_continue`, except that it performs a `break` operation on its containing loop instead of a `continue`.
 
+## `**` operator (`expand_values`)
+
+The `**` operator expands a struct or fixed length array to multiple values. `**` is equivalent to the builtin [`expand_values`](https://pkg.odin-lang.org/base/builtin/#expand_values) procedure.
+
+```odin
+package expand_values_operator_example
+
+import "core:fmt"
+
+Extend2D :: struct {
+    width:  u32,
+    height: u32,
+}
+
+Extend3D :: struct {
+    width:  u32,
+    height: u32,
+    depth:  u32,
+}
+
+main :: proc() {
+	e2d := Extend2D{1, 2}
+	e3d_with_op := Extend3D{**e2d, 3}
+	e3d_with_proc := Extend3D{expand_values(e2d), 3}
+	fmt.println(e3d_with_op) // Extend3D{width = 1, height = 2, depth = 3}
+	fmt.println(e3d_with_proc) // Extend3D{width = 1, height = 2, depth = 3}
+
+	v3 := [3]f32{1, 2, 3}
+	v4_with_op := [4]f32{**v3, 4}
+	v4_with_proc  := [4]f32{expand_values(v3), 4}
+	fmt.println(v4_with_op) // [1, 2, 3, 4]
+	fmt.println(v4_with_proc) // [1, 2, 3, 4]
+}
+```
+
 ## Conditional compilation
 
 A couple of ways are provided for doing this, and each of them have their uses.
@@ -3723,7 +3758,14 @@ As the `->` operator is effectively syntactic sugar, all of the same semantics s
 
 ## Attributes
 
-Attributes modify the compilation details or behaviour of declarations.
+Attributes modify the compilation details or behaviour of declarations. Attributes are prefixed with `@` and must be wrapped in parenthesis when assigning values or using multiple attributes.
+
+```odin
+@private
+@(private)
+@(private="file")
+@(private="file", require_results)
+```
 
 ### General attributes
 

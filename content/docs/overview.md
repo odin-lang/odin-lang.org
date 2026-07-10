@@ -2038,7 +2038,7 @@ Within Odin's core library, the standard convention is to store a `key` that den
 If multiple information is to be passed in the `"value"`, usually it is specified by separating it with a common (`,`), e.g.
 
 ```odin
-name: string `json:"username,omitempty",
+name: string `json:"username,omitempty"`,
 ```
 
 n.b. Field tags also exist for [`bit_field` record types](#bit-fields).

@@ -2543,8 +2543,8 @@ fmt.println("a", a)
 fmt.println("b", b)
 
 c := a * b
-#assert(type_of(c) == matrix[2, 2]f32)
-fmt.tprintln("c = a * b", c)		
+assert(typeid_of(type_of(c)) == typeid_of(matrix[2, 2]f32))
+fmt.println("c = a * b", c)		
 ```
 
 Matrices support multiplication between matrices and arrays:

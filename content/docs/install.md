@@ -85,8 +85,9 @@ It should look something like:
 3. Clone the repository somewhere: `git clone https://github.com/odin-lang/Odin`
 4. Navigate to the Odin folder: `cd Odin`
 5. Optionally use `git checkout dev-YYYY-MM` to checkout one of the official releases
-6. Run `build.bat release`
-7. Optionally [add the Odin compiler directory to the PATH environment variable](https://duckduckgo.com/?q=add+to+path+windows) so `odin.exe` is accessible everywhere on your computer
+6. Run `git lfs install` (once, to install git hooks) and optionally `git lfs pull` to set up Git LFS and fetch the files stored there.
+7. Run `build.bat release`
+8. Optionally [add the Odin compiler directory to the PATH environment variable](https://duckduckgo.com/?q=add+to+path+windows) so `odin.exe` is accessible everywhere on your computer
 
 #### Updating
 
@@ -94,7 +95,8 @@ It should look something like:
 2. Navigate to the Odin folder
 3. Optionally use `git checkout dev-YYYY-MM` to checkout an official release
 4. `git pull`
-5. `build.bat release`
+5. If the git hooks didn't update files stored in Git LFS, use `git lfs pull`
+6. `build.bat release`
 
 ### MacOS
 
@@ -104,9 +106,10 @@ It should look something like:
 3. Clone the repository somewhere: `git clone https://github.com/odin-lang/Odin`
 4. Navigate to the Odin folder: `cd Odin`
 5. Optionally use `git checkout dev-YYYY-MM` to checkout an official release
-6. Run `make release-native`
+6. Run `git lfs install` (once, to install git hooks) and optionally `git lfs pull` to set up Git LFS and fetch the files stored there.
+7. Run `make release-native`
     * If you want to specify an explicit LLVM version or path, you can set the `LLVM_CONFIG` environment variable: `LLVM_CONFIG=/path/to/llvm-config make release-native`
-7. Optionally add the Odin folder to your shell's path or symlink the `odin` binary to a folder that is in your shell's path
+8. Optionally add the Odin folder to your shell's path or symlink the `odin` binary to a folder that is in your shell's path
     * Example for ZSH (from the Odin folder): `echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.zshrc`
     * Note that the compiler executable expects to be next to/in the same folder as the `base`, `core`, and `vendor` folders, you can however set the `ODIN_ROOT` environment variable to override this
 
@@ -120,7 +123,8 @@ This linker is included in the `lld` formula, install it through `brew install l
 1. Navigate to the Odin folder
 2. Optionally use `git checkout dev-YYYY-MM` to checkout an official release
 3. `git pull`
-4. `make release-native`
+4. If the git hooks didn't update files stored in Git LFS, use `git lfs pull`
+5. `make release-native`
 
 ### Others (Unix)
 
@@ -134,9 +138,10 @@ This linker is included in the `lld` formula, install it through `brew install l
 3. Clone the repository somewhere: `git clone https://github.com/odin-lang/Odin`
 4. Navigate to the Odin folder: `cd Odin`
 5. Optionally use `git checkout dev-YYYY-MM` to checkout an official release
-6. Run `make release-native`
+6. Run `git lfs install` (once, to install git hooks) and optionally `git lfs pull` to set up Git LFS and fetch the files stored there.
+7. Run `make release-native`
     * If an atomic.h error occurs, see the following section about it
-7. Optionally add the Odin folder to your shell's path or symlink the `odin` binary to a folder that is in your shell's path
+8. Optionally add the Odin folder to your shell's path or symlink the `odin` binary to a folder that is in your shell's path
     * Example for bash (from the Odin folder): `echo 'export PATH="/path/to/Odin/folder:$PATH"' >> ~/.bashrc`
     * Note that the compiler executable expects to be next to/in the same folder as the `base`, `core`, and `vendor` folders, you can however set the `ODIN_ROOT` environment variable to override this
 
@@ -152,7 +157,9 @@ for help and more information see [this GitHub issue](https://github.com/odin-la
 1. Navigate to the Odin folder
 2. Optionally use `git checkout dev-YYYY-MM` to checkout an official release
 3. `git pull`
-4. `make release-native`
+4. Run `git lfs install` and optionally `git lfs pull` to set up Git LFS and fetch the files stored there.
+5. If the git hooks didn't update files stored in Git LFS, use `git lfs pull`
+6. `make release-native`
 
 ## Got stuck?
 

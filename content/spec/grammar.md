@@ -8,7 +8,7 @@ The Odin Programming Language expressed in EBNF.
 
 The EBNF grammar used (represented itself in EBNF):
 ```txt
-Production  = name "=" [ Expression ] "." ;
+Production  = name "=" [ Expression ] ";" ;
 Expression  = Alternative { "|" Alternative } ;
 Alternative = Term { Term } ;
 Term        = name | token [ "…" token ] | Group | Option | Repetition ;
@@ -21,18 +21,18 @@ Repetition  = "{" Expression "}" ;
 
 ```txt
 IDENT            = ( LETTER | "_" ) { LETTER | DIGIT | "_" } ;
-LETTER           = "a".."z" | "A".."Z" | "_" | UNICODE_LETTER ;
+LETTER           = "a"…"z" | "A"…"Z" | "_" | UNICODE_LETTER ;
 
-INT_LIT          = DECIMAL_LIT | BINARY_LIT | OCTAL_LIT | DOZENAL_LIT | HEX_LIT ;
+INT_LIT          = DECIMAL_LIT | BINARY_LIT | OCTAL_LIT | DOZENAL_LIT | HEX_LIT | EX_DECIMAL_LIT ;
 DECIMAL_LIT      = DIGIT { [ "_" ] DIGIT } ;
 BINARY_LIT       = "0b" BIN_DIGIT { [ "_" ] BIN_DIGIT } ;
 OCTAL_LIT        = "0o" OCT_DIGIT { [ "_" ] OCT_DIGIT } ;
 DOZENAL_LIT      = "0z" DOZ_DIGIT { [ "_" ] DOZ_DIGIT } ;
 HEX_LIT          = "0x" HEX_DIGIT { [ "_" ] HEX_DIGIT } ;
+EX_DECIMAL_LIT   = "0d" DECIMAL_LIT { [ "_" ] DECIMAL_LIT } ;
 
-FLOAT_LIT        = DIGIT { DIGIT } "." DIGIT { DIGIT } [ EXPONENT ]
-                 | DIGIT { DIGIT } EXPONENT
-                 | "0h" HEX_DIGIT { [ "_" HEX_DIGIT ]} ;
+FLOAT_LIT        = [ DECIMAL_LIT ] "." DECIMAL_LIT [ EXPONENT ]
+                 | DECIMAL_LIT "." [ DECIMAL_LIT ] [ EXPONENT ] ;
 
 EXPONENT         = ( "e" | "E" ) [ "+" | "-" ] DIGIT { DIGIT } ;
 
@@ -44,18 +44,18 @@ STRING_LIT       = '"' { CHAR | ESCAPE_SEQ } '"' ;
 RAW_STRING_LIT   = "`" { ANY_CHAR } "`" ;
 
 ESCAPE_SEQ       = "\" ( "a" | "b" | "e" | "f" | "n" | "r" | "t" | "v"
-                       | "\\" | '"' | "'"
-                       | OCT_DIGIT OCT_DIGIT OCT_DIGIT
-                       | "x" HEX_DIGIT HEX_DIGIT
-                       | "u" HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
-                       | "U" HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
-                             HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ) ;
+                 | "\\" | '"' | "'"
+                 | OCT_DIGIT OCT_DIGIT OCT_DIGIT
+                 | "x" HEX_DIGIT HEX_DIGIT
+                 | "u" HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+                 | "U" HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT
+                       HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ) ;
 
-DIGIT            = "0".."9" ;
+DIGIT            = "0"…"9" ;
 BIN_DIGIT        = "0" | "1" ;
-OCT_DIGIT        = "0".."7" ;
-DOZ_DIGIT        = "0".."9" | "a"| "b"  | "A" | "B" ;
-HEX_DIGIT        = "0".."9" | "a".."f" | "A".."F" ;
+OCT_DIGIT        = "0"…"7" ;
+DOZ_DIGIT        = "0"…"9" | "a"| "b"  | "A" | "B" ;
+HEX_DIGIT        = "0"…"9" | "a"…"f" | "A"…"F" ;
 
 COMMENT          = "//" { ANY_CHAR } NEWLINE
                  | "/*" { ANY_CHAR | COMMENT } "*/" /* nestable */
@@ -94,7 +94,7 @@ using        when         where
 >>=    &&=    ||=    ++     --     ,      ---    ==
 !=     <      >      <=     >=     (      )      [
 ]      {      }      :      ;      .      ,      ..
-..=    ..<    \
+..=    ..<    \      **
 ```
 
 `\` acts as a newline consumer.
@@ -327,7 +327,8 @@ PostfixOrOp      = "or_return"
 
 ArgList          = Arg { "," Arg } [ "," ] ;
 Arg              = [ IDENT "=" ] Expr
-                 | ".." Expr ;                                  /* spread */
+                 | ".." Expr                                    /* variadic spread */
+                 | "**" Expr ;                                  /* expand_values shorthand */
 
 
 Operand          = IDENT
@@ -432,7 +433,9 @@ StructDirectives = { "#packed"
 
 FieldList        = Field { "," Field } [ "," ] ;
 
-Field            = FieldNameList ":" Type [ FieldTag ] ;
+Field            = FieldNamed | FieldUnnamed ;
+FieldNamed       = FieldNameList ":" Type [ FieldTag ] ;
+FieldUnnamed     = Type ;
 
 FieldNameList    = FieldName { "," FieldName } ;
 FieldName        = [ "using" | "#subtype" ] IDENT ;
@@ -471,14 +474,16 @@ ProcLiteral      = ProcType [ WhereClause ] ( ProcBody | "---" ) ; /* --- = no b
 ProcGroup        = "proc" "{" ProcGroupList "}" ;                  /* procedure group          */
 
 
-ProcBody         = "{" { Stmt } "}"
-ProcGroupList    = Expr { "," Expr } [ "," ] ;
+ProcBody          = "{" { Stmt } "}"
+ProcGroupList     = Expr { "," Expr } [ "," ] ;
 
 CallingConvention = STRING_LIT ;                                /* "odin", "c", "std", "contextless", "fast", "none", etc. */
 
-ProcParamList    = ProcParam { "," ProcParam } [ "," ] ;
+ProcParamList     = ProcParam { "," ProcParam } [ "," ] ;
 
-ProcParam        = [ ParamPrefix ] PolyIdentList ":" [ ParamModifier ] ProcParamType [ "=" Expr ] ;
+ProcParam         = ProcParamNamed | ProcParamUnnnamed ;
+ProcParamNamed    = [ ParamPrefix ] PolyIdentList ":" [ ParamModifier ] ProcParamType [ "=" Expr ] ;
+ProcParamUnnnamed = [ ParamPrefix ] [ ParamModifier ] ProcParamType ;
 
 ProcParamType    = Type
                  | "typeid" "/" ProcParamType ;

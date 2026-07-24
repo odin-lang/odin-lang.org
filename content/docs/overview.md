@@ -504,7 +504,7 @@ case 20..<30:
 
 #### `#partial switch`
 
-With `enum` values:
+Suppose we have this `enum`:
 ```odin
 Foo :: enum {
 	A,
@@ -512,7 +512,21 @@ Foo :: enum {
 	C,
 	D,
 }
+```
 
+When switching on a value of type `Foo`, the compiler will check that every possible `enum` value is handled. If you don't want to handle some cases you can add the `#partial` directive. If the item being switched does not match any of the cases, execution skips to after the end of the switch. The following code will print nothing since no cases are matched.
+
+```odin
+f := Foo.C
+#partial switch f {
+case .A: fmt.println("A")
+case .D: fmt.println("D")
+}
+```
+
+The complier does not guarantee that the value of `enum` variables are valid. The user may, for example, write `f := Foo(7)` to produce a value that corresponds to none of the `enum` members. To handle this in a `switch` statement, you can add an empty case statement `case:` to the switch, which will only match on invalid `enum` values. This empty `case` is not a catch-all case and will not match valid `enum` values, so the compiler will still give an error if any `enum` members are not handled unless `#partial` is used. The compiler does not require you to handle invalid `enum` values even when `#partial` is not used.
+
+```odin
 f := Foo.A
 switch f {
 case .A: fmt.println("A")
@@ -521,12 +535,8 @@ case .C: fmt.println("C")
 case .D: fmt.println("D")
 case:    fmt.println("?")
 }
-
-#partial switch f {
-case .A: fmt.println("A")
-case .D: fmt.println("D")
-}
 ```
+
 
 With `union` types (see [Type switch statement](#type-switch-statement))
 ```odin

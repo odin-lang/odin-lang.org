@@ -1,0 +1,17 @@
+---
+title: BLICK
+slug: blick
+summary: A fully native nonlinear video editor built from scratch for a fast, fluid workflow.
+author: Dihedron Software
+date: '2026-08-04'
+categories:
+  - showcase
+type: redirect
+redirect: https://blickeditor.com/?lang=en
+showcase_description: A fully native nonlinear video editor built from scratch for an editing workflow that keeps up.
+showcase_hero_description: Blick is a fully native nonlinear video editor built from scratch for an editing workflow that keeps up.
+showcase_kind: Creative tools
+showcase_preview: /images/showcase/blick.svg
+showcase_preview_type: image
+showcase_logo: true
+---

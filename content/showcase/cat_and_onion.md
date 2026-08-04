@@ -12,7 +12,6 @@ showcase_description: A cozy, whimsical cat adventure made with Odin and raylib.
 showcase_kind: Games
 showcase_preview: /images/showcase/cat_and_onion_cover.gif
 showcase_preview_type: image
-showcase_feature: true
 ---
 
 <video style="max-width: 100%" width="450px" autoplay loop muted playsinline><source src="/images/showcase/cat_and_onion_square_loop.mp4"></video>
@@ -38,5 +37,4 @@ You can buy the game on itch.io: [https://zylinski.itch.io/cat-and-onion](https:
 When you buy it on itch you also get a drop of the full Odin source code and all source assets, so you can see how it was made. Source code features that might be interesting are things such as hot reloading of gameplay code and homemade editor tools using a homemade IMGUI.
 
 The game is also coming out on Steam in Q1 2024: [https://store.steampowered.com/app/2781210/CAT__ONION/](https://store.steampowered.com/app/2781210/CAT__ONION/)
-
 

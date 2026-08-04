@@ -2,43 +2,54 @@
 <main class="showcase-page">
     <section class="showcase-hero">
         <div class="container-xxl">
+            {{ $latestProjects := first 3 .Pages.ByDate.Reverse }}
             <div class="showcase-hero-copy">
-                <p class="showcase-eyebrow">Made with Odin</p>
-                <h1>Software with a point of view.</h1>
-                <p class="showcase-intro">Explore a growing collection of games, creative tools, developer utilities, and books built by people who choose Odin to make things their own way.</p>
-                <a class="showcase-jump" href="#projects">Browse the projects <span aria-hidden="true">↓</span></a>
-            </div>
-            {{ with index (where .Pages "Params.showcase_feature" true) 0 }}
-            <a class="showcase-feature" href="{{ .Params.redirect }}" target="_blank" rel="noopener noreferrer" aria-label="Visit {{ .Title }}">
-                <div class="showcase-feature-media">
-                    {{ if eq .Params.showcase_preview_type "video" }}
-                    <video autoplay loop muted playsinline preload="metadata">
-                        <source src="{{ .Params.showcase_preview }}" type="video/mp4">
-                    </video>
-                    {{ else }}
-                    <img src="{{ .Params.showcase_preview }}" alt="Preview of {{ .Title }}">
+                <p class="showcase-eyebrow">Built with Odin</p>
+                <h1>Showcase</h1>
+                <div class="showcase-intro-stage">
+                    {{ range $index, $project := $latestProjects }}
+                    <p class="showcase-intro showcase-intro-slide{{ if eq $index 0 }} is-active{{ end }}" data-showcase-intro>{{ with $project.Params.showcase_hero_description }}{{ . }}{{ else }}{{ $project.Params.showcase_description }}{{ end }}</p>
                     {{ end }}
                 </div>
-                <div class="showcase-feature-caption">
-                    <span>Featured project</span>
-                    <strong>{{ .Title }}</strong>
-                    <span class="showcase-external" aria-hidden="true">↗</span>
+                <a class="showcase-jump" href="#projects">Browse the projects <span aria-hidden="true">↓</span></a>
+            </div>
+            <div class="showcase-feature-stage" data-showcase-rotator>
+                {{ range $index, $project := $latestProjects }}
+                <a class="showcase-feature{{ if eq $index 0 }} is-active{{ end }}" href="{{ $project.Params.redirect }}" target="_blank" rel="noopener noreferrer" aria-label="Visit {{ $project.Title }}" data-showcase-slide>
+                    <div class="showcase-feature-media{{ if $project.Params.showcase_logo }} showcase-feature-logo{{ end }}">
+                        {{ if eq $project.Params.showcase_preview_type "video" }}
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="{{ $project.Params.showcase_preview }}" type="video/mp4">
+                        </video>
+                        {{ else }}
+                        <img src="{{ $project.Params.showcase_preview }}" alt="Preview of {{ $project.Title }}">
+                        {{ end }}
+                    </div>
+                    <div class="showcase-feature-caption">
+                        <span>Latest project</span>
+                        <strong>{{ $project.Title }}</strong>
+                        <span class="showcase-external" aria-hidden="true">↗</span>
+                    </div>
+                </a>
+                {{ end }}
+                <div class="showcase-feature-dots" aria-label="Latest projects">
+                    {{ range $index, $project := $latestProjects }}
+                    <button type="button" class="{{ if eq $index 0 }}is-active{{ end }}" aria-label="Show {{ $project.Title }}" aria-pressed="{{ if eq $index 0 }}true{{ else }}false{{ end }}" data-showcase-dot></button>
+                    {{ end }}
                 </div>
-            </a>
-            {{ end }}
+            </div>
         </div>
     </section>
 
     <section class="showcase-projects" id="projects">
         <div class="container-xxl">
             <header class="showcase-section-heading">
-                <p class="showcase-eyebrow">The collection</p>
-                <h2>Tools made tangible.</h2>
-                <p>Each project has its own home. These are the moments that made us want to point you there.</p>
+                <h2>All software</h2>
+                <p>Games, creative tools, and libraries created by the Odin community.</p>
             </header>
 
             <div class="showcase-grid">
-                {{ range where .Pages "Params.showcase_feature" "ne" true }}
+                {{ range .Pages.ByDate.Reverse }}
                 <a class="showcase-card" href="{{ .Params.redirect }}" target="_blank" rel="noopener noreferrer">
                     <div class="showcase-card-media">
                         {{ if eq .Params.showcase_preview_type "video" }}
@@ -71,4 +82,45 @@
         </div>
     </section>
 </main>
+<script>
+    document.querySelectorAll('[data-showcase-rotator]').forEach(function (rotator) {
+        var slides = Array.from(rotator.querySelectorAll('[data-showcase-slide]'));
+        var intros = Array.from(document.querySelectorAll('[data-showcase-intro]'));
+        var dots = Array.from(rotator.querySelectorAll('[data-showcase-dot]'));
+        var activeIndex = 0;
+        var rotation;
+
+        function showSlide(index) {
+            activeIndex = index;
+            slides.forEach(function (slide, slideIndex) {
+                slide.classList.toggle('is-active', slideIndex === activeIndex);
+            });
+            intros.forEach(function (intro, introIndex) {
+                intro.classList.toggle('is-active', introIndex === activeIndex);
+            });
+            dots.forEach(function (dot, dotIndex) {
+                var isActive = dotIndex === activeIndex;
+                dot.classList.toggle('is-active', isActive);
+                dot.setAttribute('aria-pressed', isActive);
+            });
+        }
+
+        function startRotation() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || slides.length < 2) return;
+            rotation = window.setInterval(function () {
+                showSlide((activeIndex + 1) % slides.length);
+            }, 6500);
+        }
+
+        dots.forEach(function (dot, index) {
+            dot.addEventListener('click', function () {
+                window.clearInterval(rotation);
+                showSlide(index);
+                startRotation();
+            });
+        });
+
+        startRotation();
+    });
+</script>
 {{ end }}

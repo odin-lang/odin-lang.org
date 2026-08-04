@@ -1,5 +1,5 @@
 ---
-title: BLICK
+title: Blick
 slug: blick
 summary: A fully native nonlinear video editor built from scratch for a fast, fluid workflow.
 author: Dihedron Software
@@ -16,4 +16,5 @@ showcase_model: Commercial
 showcase_preview: /images/showcase/blick.svg
 showcase_preview_type: image
 showcase_logo: true
+showcase_logo_background: gradient
 ---

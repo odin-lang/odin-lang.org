@@ -17,7 +17,7 @@
             <div class="showcase-feature-stage" data-showcase-rotator>
                 {{ range $index, $project := $latestProjects }}
                 <a class="showcase-feature{{ if eq $index 0 }} is-active{{ end }}" href="{{ $project.Params.redirect }}" target="_blank" rel="noopener noreferrer" aria-label="Visit {{ $project.Title }}" data-showcase-slide>
-                    <div class="showcase-feature-media{{ if $project.Params.showcase_logo }} showcase-feature-logo{{ end }}">
+                    <div class="showcase-feature-media{{ if $project.Params.showcase_logo }} showcase-feature-logo{{ end }}{{ if eq $project.Params.showcase_logo_background "gradient" }} showcase-feature-logo-gradient{{ end }}">
                         {{ if eq $project.Params.showcase_preview_type "video" }}
                         <video autoplay loop muted playsinline preload="metadata">
                             <source src="{{ $project.Params.showcase_preview }}" type="video/mp4">
@@ -52,7 +52,7 @@
             <div class="showcase-grid">
                 {{ range $showcaseProjects }}
                 <a class="showcase-card" href="{{ .Params.redirect }}" target="_blank" rel="noopener noreferrer">
-                    <div class="showcase-card-media{{ if .Params.showcase_logo }} showcase-card-logo{{ end }}">
+                    <div class="showcase-card-media{{ if .Params.showcase_logo }} showcase-card-logo{{ end }}{{ if eq .Params.showcase_logo_background "gradient" }} showcase-card-logo-gradient{{ end }}">
                         {{ if eq .Params.showcase_preview_type "video" }}
                         <video autoplay loop muted playsinline preload="metadata">
                             <source src="{{ .Params.showcase_preview }}" type="video/mp4">

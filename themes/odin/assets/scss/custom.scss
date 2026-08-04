@@ -170,7 +170,8 @@ $table-cell-padding-x-sm:     .2rem;
 .showcase-feature-media { aspect-ratio: 16 / 10; background: #14253a; overflow: hidden; }
 .showcase-feature-media::after { background: linear-gradient(180deg, transparent 42%, rgba(7, 16, 28, .76)); content: ""; inset: 0; pointer-events: none; position: absolute; }
 .showcase-feature img, .showcase-feature video { height: 100%; object-fit: cover; width: 100%; }
-.showcase-feature-logo { background: linear-gradient(135deg, #1b2445, #3b1e3c 58%, #a44726); }
+.showcase-feature-logo { background: #d9e8f4; }
+.showcase-feature-logo-gradient { background: linear-gradient(135deg, #1b2445, #3b1e3c 58%, #a44726); }
 .showcase-feature-logo img { object-fit: contain; padding: clamp(2rem, 8%, 5rem); }
 
 .showcase-feature-caption {
@@ -206,7 +207,8 @@ $table-cell-padding-x-sm:     .2rem;
 .showcase-card:hover { background: #e9f3fb; border-color: #5f9bcf; box-shadow: 0 0 0 1px #5f9bcf, 0 1rem 2.2rem rgba(29, 65, 104, .12); color: var(--showcase-ink); text-decoration: none; transform: translateY(-.3rem); }
 .showcase-card-media { aspect-ratio: 16 / 9; background: #c5d9ea; overflow: hidden; }
 .showcase-card-media img, .showcase-card-media video { display: block; height: 100%; object-fit: cover; width: 100%; }
-.showcase-card-logo { background: linear-gradient(135deg, #1b2445, #3b1e3c 58%, #a44726); }
+.showcase-card-logo { background: #d9e8f4; }
+.showcase-card-logo-gradient { background: linear-gradient(135deg, #1b2445, #3b1e3c 58%, #a44726); }
 .showcase-card-logo img { object-fit: contain; padding: 1.5rem; }
 .showcase-card-media img[alt="Preview of Understanding the Odin Programming Language"] { object-fit: contain; padding: 1rem; }
 .showcase-card-content { display: flex; flex: 1; flex-direction: column; padding: 1.5rem; }
@@ -229,6 +231,8 @@ $table-cell-padding-x-sm:     .2rem;
 
 body.dark-mode .showcase-page { --showcase-ink: #e5f0fb; --showcase-muted: #b5c6d9; --showcase-panel: #152438; --showcase-line: #263b52; --showcase-blue: #8bc1f5; }
 body.dark-mode .showcase-hero { background: radial-gradient(circle at 82% 8%, rgba(47, 116, 184, .32), transparent 25rem), linear-gradient(125deg, #101c2a 0%, #0d1117 68%, #14263a 100%); }
+body.dark-mode .showcase-feature-logo, body.dark-mode .showcase-card-logo { background: #20354a; }
+body.dark-mode .showcase-feature-logo-gradient, body.dark-mode .showcase-card-logo-gradient { background: linear-gradient(135deg, #1b2445, #3b1e3c 58%, #a44726); }
 body.dark-mode .showcase-card:hover { background: #1a2e46; }
 body.dark-mode .showcase-card { border-color: #42627f; }
 body.dark-mode .showcase-card:hover { border-color: #78ace0; box-shadow: 0 0 0 1px #78ace0, 0 1rem 2.2rem rgba(0, 0, 0, .2); }

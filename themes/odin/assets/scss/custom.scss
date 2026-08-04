@@ -189,10 +189,12 @@ $table-cell-padding-x-sm:     .2rem;
 .showcase-feature-caption span:first-child { font-size: .73rem; font-weight: 700; grid-column: 1; letter-spacing: .09em; text-transform: uppercase; }
 .showcase-feature-caption strong { font-size: clamp(1.8rem, 3vw, 3.1rem); grid-column: 1; letter-spacing: -.045em; line-height: 1; }
 .showcase-external { font-size: 2rem; grid-column: 2; grid-row: 1 / span 2; }
-.showcase-feature-dots { display: flex; gap: .45rem; left: 1.5rem; position: absolute; top: 1.2rem; z-index: 2; }
-.showcase-feature-dots button { background: rgba(255, 255, 255, .5); border: 0; border-radius: 50%; height: .5rem; padding: 0; transition: background .2s ease, transform .2s ease; width: .5rem; }
-.showcase-feature-dots button.is-active { background: white; transform: scale(1.25); }
-.showcase-feature-dots button:focus-visible { outline: 2px solid white; outline-offset: 3px; }
+.showcase-feature-dots { display: flex; gap: 0; left: 1.25rem; position: absolute; top: .95rem; z-index: 2; }
+.showcase-feature-dots button { align-items: center; background: transparent; border: 0; border-radius: 50%; cursor: pointer; display: flex; height: 1.25rem; justify-content: center; padding: 0; width: 1.25rem; }
+.showcase-feature-dots button::before { background: rgba(255, 255, 255, .5); border-radius: 50%; content: ""; height: .5rem; transition: background .2s ease, transform .2s ease; width: .5rem; }
+.showcase-feature-dots button:hover::before, .showcase-feature-dots button.is-active::before { background: white; }
+.showcase-feature-dots button.is-active::before { transform: scale(1.25); }
+.showcase-feature-dots button:focus-visible { outline: 2px solid white; outline-offset: 2px; }
 
 .showcase-projects { padding: clamp(4rem, 8vw, 8rem) 0; }
 .showcase-section-heading { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); max-width: 43rem; }
@@ -200,23 +202,24 @@ $table-cell-padding-x-sm:     .2rem;
 .showcase-section-heading > p:last-child { color: var(--showcase-muted); font-size: 1.1rem; line-height: 1.65; }
 
 .showcase-grid { display: grid; gap: 1.4rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.showcase-card { background: var(--showcase-panel); border: 1px solid transparent; color: var(--showcase-ink); display: flex; flex-direction: column; min-height: 100%; transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
-.showcase-card:hover { background: #e9f3fb; border-color: #a9cbe8; box-shadow: 0 1rem 2.2rem rgba(29, 65, 104, .12); color: var(--showcase-ink); text-decoration: none; transform: translateY(-.3rem); }
+.showcase-card { background: var(--showcase-panel); border: 1px solid #b6d0e7; color: var(--showcase-ink); display: flex; flex-direction: column; min-height: 100%; transition: background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease; }
+.showcase-card:hover { background: #e9f3fb; border-color: #5f9bcf; box-shadow: 0 0 0 1px #5f9bcf, 0 1rem 2.2rem rgba(29, 65, 104, .12); color: var(--showcase-ink); text-decoration: none; transform: translateY(-.3rem); }
 .showcase-card-media { aspect-ratio: 16 / 9; background: #c5d9ea; overflow: hidden; }
 .showcase-card-media img, .showcase-card-media video { display: block; height: 100%; object-fit: cover; width: 100%; }
 .showcase-card-logo { background: linear-gradient(135deg, #1b2445, #3b1e3c 58%, #a44726); }
 .showcase-card-logo img { object-fit: contain; padding: 1.5rem; }
 .showcase-card-media img[alt="Preview of Understanding the Odin Programming Language"] { object-fit: contain; padding: 1rem; }
 .showcase-card-content { display: flex; flex: 1; flex-direction: column; padding: 1.5rem; }
-.showcase-card-meta { align-items: center; color: var(--showcase-blue); display: flex; font-size: .95rem; font-weight: 800; justify-content: space-between; margin-bottom: 1rem; }
+.showcase-card-meta { margin-bottom: 1rem; }
 .showcase-card-tags { display: flex; flex-wrap: wrap; gap: .35rem; }
 .showcase-card-tag { border: 1px solid #a8c8e6; border-radius: 99rem; font-size: .66rem; font-weight: 800; letter-spacing: .075em; padding: .28rem .5rem; text-transform: uppercase; }
 .showcase-card-model { background: rgba(255, 255, 255, .52); color: var(--showcase-muted); }
+.showcase-card-title-row { align-items: flex-start; display: flex; gap: 1rem; justify-content: space-between; }
 .showcase-card h3 { font-size: 1.5rem; font-weight: 750; letter-spacing: -.035em; line-height: 1.1; margin-bottom: .3rem; }
+.showcase-card-arrow { color: var(--showcase-blue); flex: none; font-size: 1.3rem; font-weight: 800; line-height: 1; transition: transform .2s ease; }
 .showcase-card p { color: var(--showcase-muted); font-size: .95rem; line-height: 1.55; margin: 0; }
 .showcase-card-byline { color: var(--showcase-blue) !important; font-size: .78rem !important; font-weight: 700; letter-spacing: .025em; margin-bottom: .9rem !important; }
-.showcase-card-visit { align-items: center; border-bottom: 1px solid var(--showcase-orange); color: var(--showcase-ink); display: inline-flex; font-size: .85rem; font-weight: 750; gap: .45rem; margin-top: 1.35rem; padding-bottom: .2rem; width: fit-content; }
-.showcase-card:hover .showcase-card-visit { color: var(--showcase-blue); }
+.showcase-card:hover .showcase-card-arrow { transform: translate(.18rem, -.18rem); }
 
 .showcase-submit { align-items: center; background: var(--showcase-blue); color: white; display: flex; gap: 2rem; justify-content: space-between; margin-top: clamp(4rem, 8vw, 8rem); padding: clamp(2rem, 5vw, 4rem); }
 .showcase-submit .showcase-eyebrow { color: #b5d8fb; }
@@ -227,8 +230,8 @@ $table-cell-padding-x-sm:     .2rem;
 body.dark-mode .showcase-page { --showcase-ink: #e5f0fb; --showcase-muted: #b5c6d9; --showcase-panel: #152438; --showcase-line: #263b52; --showcase-blue: #8bc1f5; }
 body.dark-mode .showcase-hero { background: radial-gradient(circle at 82% 8%, rgba(47, 116, 184, .32), transparent 25rem), linear-gradient(125deg, #101c2a 0%, #0d1117 68%, #14263a 100%); }
 body.dark-mode .showcase-card:hover { background: #1a2e46; }
-body.dark-mode .showcase-card { border-color: #263b52; }
-body.dark-mode .showcase-card:hover { border-color: #54799e; }
+body.dark-mode .showcase-card { border-color: #42627f; }
+body.dark-mode .showcase-card:hover { border-color: #78ace0; box-shadow: 0 0 0 1px #78ace0, 0 1rem 2.2rem rgba(0, 0, 0, .2); }
 body.dark-mode .showcase-card-tag { border-color: #54799e; }
 body.dark-mode .showcase-card-model { background: rgba(255, 255, 255, .06); }
 body.dark-mode .showcase-submit { background: #1f5f9e; }

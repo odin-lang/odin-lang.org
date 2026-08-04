@@ -67,12 +67,13 @@
                                 <span class="showcase-card-tag">{{ .Params.showcase_kind }}</span>
                                 {{ with .Params.showcase_model }}<span class="showcase-card-tag showcase-card-model">{{ . }}</span>{{ end }}
                             </div>
-                            <span aria-hidden="true">↗</span>
                         </div>
-                        <h3>{{ .Title }}</h3>
+                        <div class="showcase-card-title-row">
+                            <h3>{{ .Title }}</h3>
+                            <span class="showcase-card-arrow" aria-hidden="true">↗</span>
+                        </div>
                         {{ with .Params.author }}<p class="showcase-card-byline">by {{ . }}</p>{{ end }}
                         <p>{{ .Params.showcase_description }}</p>
-                        <span class="showcase-card-visit">Visit project <span aria-hidden="true">↗</span></span>
                     </div>
                 </a>
                 {{ end }}

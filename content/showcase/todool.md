@@ -2,7 +2,7 @@
 title: Todool
 slug: todool
 summary: To-do editor with modal editing, advanced movement, and powerful commands for tracking development cycles.
-author: Skytrias
+author: Michael Kutowski
 date: '2022-01-24'
 categories:
   - showcase

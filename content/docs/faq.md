@@ -321,7 +321,7 @@ foo :: proc() {
 ```
 
 
-C++ is an example of a language which has capturing lambda procedures/functions but they are of a different type to regular function pointers. Essenttialy they are a struct with `operator()`  overloaded. This means if a capturing lambda procedure is wanted to be used as a callback alongside regular function pointers, something equivalent to `std::function` must be used or templates are required. Therefore this now means there are 3 different ways of handling functions/procedures as a values/callbacks: C-style function pointers, templated parameters, or `std::function`. There is no unification and this only results in more complications in using them as values/callbacks in practice.
+C++ is an example of a language which has capturing lambda procedures/functions but they are of a different type to regular function pointers. Essentially they are a struct with `operator()`  overloaded. This means if a capturing lambda procedure is wanted to be used as a callback alongside regular function pointers, something equivalent to `std::function` must be used or templates are required. Therefore this now means there are 3 different ways of handling functions/procedures as a values/callbacks: C-style function pointers, templated parameters, or `std::function`. There is no unification and this only results in more complications in using them as values/callbacks in practice.
 
 ### Why are maps built-in?
 
@@ -483,7 +483,7 @@ Odin does not have a `while` statement as `for` is the only loop construct. The 
 
 Another reason is that Odin has a `do` keyword already which has a different meaning to that in C. In Odin, `do` is to have single-line statements on control flow rather than `{}`. The language enforces that the statement must be on the same line as the keyword of that control flow which prevents the issues that C has with allowing any statement as its body. But because that is the keyword, it means we cannot have `do while` loops. Now this could have been solved with using a different keyword (most likely `then` would have been the best option), but we are not changing the syntax now since Odin is effectively done, and this issue is so minor in practice, it is not a problem at all.
 
-The other reason is that every piece of control flow in Odin allows `for` an init statement before the "condition":
+The other reason is that every piece of control flow in Odin allows for an init statement before the "condition":
 
 ```odin
 if x := foo(); x > 0 { ... }
@@ -491,7 +491,7 @@ switch x := bar(); x { ... }
 for i := 0; i < n; i += 2 { ... }
 ```
 
-If we were to add this `for` while, it would effectively be slightly redundant compared to a `for` loop. And even be longer to write to write:
+If we were to add this for `while`, it would effectively be slightly redundant compared to a `for` loop. And even be longer to write:
 
 ```c
 for x := foo(); x > 0; { ... }

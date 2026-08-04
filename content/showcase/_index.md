@@ -1,6 +1,6 @@
 ---
 title: Showcase
 linktitle: Showcase
-summary: Showcase of Projects Using Odin
-layout: blank
+summary: A selection of tools, games, and software built with Odin.
+layout: showcase
 ---

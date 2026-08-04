@@ -7,6 +7,12 @@ date: '2023-07-02'
 categories:
   - showcase
 weight: 1
+type: redirect
+redirect: https://github.com/DanielGavin/ols
+showcase_description: A fast language server that brings Odin-aware tooling to your favourite editor.
+showcase_kind: Developer tools
+showcase_preview: https://raw.githubusercontent.com/DanielGavin/ols/master/images/completion.png
+showcase_preview_type: image
 ---
 
 [Ols](https://github.com/DanielGavin/ols) is a language server for Odin, and works on all the popular text editors. 
@@ -69,5 +75,4 @@ Here you can see some of the main features of `ols`:
 <img src="https://raw.githubusercontent.com/DanielGavin/ols/master/images/showcase/fake_methods.png" width="100%">
 
 <div class="clearfix"></div>
-
 

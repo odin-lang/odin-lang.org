@@ -6,6 +6,12 @@ author: Karl Zylinski
 date: '2024-12-10'
 categories:
   - showcase
+type: redirect
+redirect: https://odinbook.com/
+showcase_description: A practical introduction to the Odin language and the ideas behind low-level programming.
+showcase_kind: Learning
+showcase_preview: /images/showcase/understanding_the_odin_programming_language/cover.jpg
+showcase_preview_type: image
 ---
 
 <a href="https://odinbook.com"><img src="/images/showcase/understanding_the_odin_programming_language/cover.jpg" alt="Cover of the book Understanding the Odin Programming Language by Karl Zylinski" style="max-height:300px; max-width: 100%"></a>
@@ -22,7 +28,6 @@ The target audience is anyone with some programming experience. The book is easy
 
 <img src="/images/showcase/understanding_the_odin_programming_language/ebook.jpg" style="max-width: 49%; float: left;">
 <div style="clear:both"></div>
-
 
 
 

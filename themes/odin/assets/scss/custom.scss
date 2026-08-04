@@ -70,3 +70,150 @@ $table-cell-padding-x-sm:     .2rem;
 .odin-article * a code {
     text-decoration: underline;
 }
+
+// Showcase
+.showcase-page {
+    --showcase-ink: #101b2b;
+    --showcase-muted: #536276;
+    --showcase-panel: #edf4fb;
+    --showcase-line: #d2e0ed;
+    --showcase-blue: #2767ad;
+    --showcase-orange: #ef7a30;
+    color: var(--showcase-ink);
+    overflow: hidden;
+}
+
+.showcase-hero {
+    background:
+        radial-gradient(circle at 82% 8%, rgba(96, 175, 246, .30), transparent 25rem),
+        linear-gradient(125deg, #edf5fb 0%, #f8fbfd 58%, #e1eef9 100%);
+    border-bottom: 1px solid var(--showcase-line);
+    padding: clamp(3.5rem, 8vw, 8rem) 0 clamp(4rem, 9vw, 9rem);
+}
+
+.showcase-hero .container-xxl {
+    align-items: center;
+    display: grid;
+    gap: clamp(2.5rem, 6vw, 7rem);
+    grid-template-columns: minmax(0, .9fr) minmax(22rem, 1.1fr);
+}
+
+.showcase-hero-copy { max-width: 42rem; }
+
+.showcase-eyebrow {
+    color: var(--showcase-blue);
+    font-size: .76rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    margin: 0 0 1rem;
+    text-transform: uppercase;
+}
+
+.showcase-hero h1,
+.showcase-section-heading h2,
+.showcase-submit h2 {
+    font-weight: 750;
+    letter-spacing: -.055em;
+}
+
+.showcase-hero h1 {
+    font-size: clamp(3.25rem, 6vw, 6.1rem);
+    line-height: .95;
+    margin-bottom: 1.5rem;
+}
+
+.showcase-intro {
+    color: var(--showcase-muted);
+    font-size: clamp(1.05rem, 1.45vw, 1.3rem);
+    line-height: 1.6;
+    max-width: 36rem;
+}
+
+.showcase-jump {
+    border-bottom: 2px solid var(--showcase-orange);
+    color: var(--showcase-ink);
+    display: inline-flex;
+    font-weight: 700;
+    gap: .75rem;
+    margin-top: 1rem;
+    padding: .4rem 0;
+}
+
+.showcase-jump:hover { color: var(--showcase-blue); text-decoration: none; }
+
+.showcase-feature {
+    box-shadow: 0 1.5rem 4rem rgba(33, 75, 118, .19);
+    color: white;
+    display: block;
+    position: relative;
+    transform: rotate(2deg);
+    transition: box-shadow .25s ease, transform .25s ease;
+}
+
+.showcase-feature:hover {
+    box-shadow: 0 2rem 5rem rgba(33, 75, 118, .27);
+    color: white;
+    text-decoration: none;
+    transform: rotate(0deg) translateY(-.35rem);
+}
+
+.showcase-feature-media { aspect-ratio: 16 / 10; background: #14253a; overflow: hidden; }
+.showcase-feature-media::after { background: linear-gradient(180deg, transparent 42%, rgba(7, 16, 28, .76)); content: ""; inset: 0; pointer-events: none; position: absolute; }
+.showcase-feature img, .showcase-feature video { height: 100%; object-fit: cover; width: 100%; }
+
+.showcase-feature-caption {
+    align-items: end;
+    bottom: 0;
+    display: grid;
+    gap: .1rem;
+    grid-template-columns: 1fr auto;
+    left: 0;
+    padding: 1.5rem;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+}
+
+.showcase-feature-caption span:first-child { font-size: .73rem; font-weight: 700; grid-column: 1; letter-spacing: .09em; text-transform: uppercase; }
+.showcase-feature-caption strong { font-size: clamp(1.8rem, 3vw, 3.1rem); grid-column: 1; letter-spacing: -.045em; line-height: 1; }
+.showcase-external { font-size: 2rem; grid-column: 2; grid-row: 1 / span 2; }
+
+.showcase-projects { padding: clamp(4rem, 8vw, 8rem) 0; }
+.showcase-section-heading { margin-bottom: clamp(2.5rem, 5vw, 4.5rem); max-width: 43rem; }
+.showcase-section-heading h2, .showcase-submit h2 { font-size: clamp(2.2rem, 4vw, 4.1rem); line-height: 1; margin-bottom: 1rem; }
+.showcase-section-heading > p:last-child { color: var(--showcase-muted); font-size: 1.1rem; line-height: 1.65; }
+
+.showcase-grid { display: grid; gap: 1.4rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.showcase-card { background: var(--showcase-panel); color: var(--showcase-ink); display: flex; flex-direction: column; min-height: 100%; transition: background .2s ease, box-shadow .2s ease, transform .2s ease; }
+.showcase-card:hover { background: #e2eff9; box-shadow: 0 1rem 2.2rem rgba(29, 65, 104, .12); color: var(--showcase-ink); text-decoration: none; transform: translateY(-.3rem); }
+.showcase-card-media { aspect-ratio: 16 / 9; background: #c5d9ea; overflow: hidden; }
+.showcase-card-media img, .showcase-card-media video { display: block; height: 100%; object-fit: cover; width: 100%; }
+.showcase-card-media img[alt="Preview of Understanding the Odin Programming Language"] { object-fit: contain; padding: 1rem; }
+.showcase-card-content { display: flex; flex: 1; flex-direction: column; padding: 1.5rem; }
+.showcase-card-meta { color: var(--showcase-blue); display: flex; font-size: .76rem; font-weight: 800; justify-content: space-between; letter-spacing: .08em; margin-bottom: .9rem; text-transform: uppercase; }
+.showcase-card h3 { font-size: 1.5rem; font-weight: 750; letter-spacing: -.035em; line-height: 1.1; margin-bottom: .6rem; }
+.showcase-card p { color: var(--showcase-muted); font-size: .95rem; line-height: 1.55; margin: 0; }
+
+.showcase-submit { align-items: center; background: var(--showcase-blue); color: white; display: flex; gap: 2rem; justify-content: space-between; margin-top: clamp(4rem, 8vw, 8rem); padding: clamp(2rem, 5vw, 4rem); }
+.showcase-submit .showcase-eyebrow { color: #b5d8fb; }
+.showcase-submit h2 { margin: 0; }
+.showcase-submit a { border: 1px solid rgba(255, 255, 255, .7); color: white; flex: none; font-weight: 700; padding: .85rem 1.1rem; }
+.showcase-submit a:hover { background: white; color: var(--showcase-blue); text-decoration: none; }
+
+body.dark-mode .showcase-page { --showcase-ink: #e5f0fb; --showcase-muted: #b5c6d9; --showcase-panel: #152438; --showcase-line: #263b52; --showcase-blue: #8bc1f5; }
+body.dark-mode .showcase-hero { background: radial-gradient(circle at 82% 8%, rgba(47, 116, 184, .32), transparent 25rem), linear-gradient(125deg, #101c2a 0%, #0d1117 68%, #14263a 100%); }
+body.dark-mode .showcase-card:hover { background: #1a2e46; }
+body.dark-mode .showcase-submit { background: #1f5f9e; }
+
+@media (max-width: 991px) {
+    .showcase-hero .container-xxl { grid-template-columns: 1fr; }
+    .showcase-feature { margin: 1rem auto 0; max-width: 44rem; transform: none; width: 94%; }
+    .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 575px) {
+    .showcase-hero { padding-top: 3.5rem; }
+    .showcase-grid { grid-template-columns: 1fr; }
+    .showcase-submit { align-items: flex-start; flex-direction: column; }
+    .showcase-feature-caption { padding: 1.1rem; }
+}

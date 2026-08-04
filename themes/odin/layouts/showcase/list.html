@@ -1,0 +1,74 @@
+{{ define "main" }}
+<main class="showcase-page">
+    <section class="showcase-hero">
+        <div class="container-xxl">
+            <div class="showcase-hero-copy">
+                <p class="showcase-eyebrow">Made with Odin</p>
+                <h1>Software with a point of view.</h1>
+                <p class="showcase-intro">Explore a growing collection of games, creative tools, developer utilities, and books built by people who choose Odin to make things their own way.</p>
+                <a class="showcase-jump" href="#projects">Browse the projects <span aria-hidden="true">↓</span></a>
+            </div>
+            {{ with index (where .Pages "Params.showcase_feature" true) 0 }}
+            <a class="showcase-feature" href="{{ .Params.redirect }}" target="_blank" rel="noopener noreferrer" aria-label="Visit {{ .Title }}">
+                <div class="showcase-feature-media">
+                    {{ if eq .Params.showcase_preview_type "video" }}
+                    <video autoplay loop muted playsinline preload="metadata">
+                        <source src="{{ .Params.showcase_preview }}" type="video/mp4">
+                    </video>
+                    {{ else }}
+                    <img src="{{ .Params.showcase_preview }}" alt="Preview of {{ .Title }}">
+                    {{ end }}
+                </div>
+                <div class="showcase-feature-caption">
+                    <span>Featured project</span>
+                    <strong>{{ .Title }}</strong>
+                    <span class="showcase-external" aria-hidden="true">↗</span>
+                </div>
+            </a>
+            {{ end }}
+        </div>
+    </section>
+
+    <section class="showcase-projects" id="projects">
+        <div class="container-xxl">
+            <header class="showcase-section-heading">
+                <p class="showcase-eyebrow">The collection</p>
+                <h2>Tools made tangible.</h2>
+                <p>Each project has its own home. These are the moments that made us want to point you there.</p>
+            </header>
+
+            <div class="showcase-grid">
+                {{ range where .Pages "Params.showcase_feature" "ne" true }}
+                <a class="showcase-card" href="{{ .Params.redirect }}" target="_blank" rel="noopener noreferrer">
+                    <div class="showcase-card-media">
+                        {{ if eq .Params.showcase_preview_type "video" }}
+                        <video autoplay loop muted playsinline preload="metadata">
+                            <source src="{{ .Params.showcase_preview }}" type="video/mp4">
+                        </video>
+                        {{ else }}
+                        <img src="{{ .Params.showcase_preview }}" alt="Preview of {{ .Title }}" loading="lazy">
+                        {{ end }}
+                    </div>
+                    <div class="showcase-card-content">
+                        <div class="showcase-card-meta">
+                            <span>{{ .Params.showcase_kind }}</span>
+                            <span aria-hidden="true">↗</span>
+                        </div>
+                        <h3>{{ .Title }}</h3>
+                        <p>{{ .Params.showcase_description }}</p>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+
+            <aside class="showcase-submit">
+                <div>
+                    <p class="showcase-eyebrow">Built something?</p>
+                    <h2>Put your work on the map.</h2>
+                </div>
+                <a href="https://github.com/odin-lang/odin-lang.org/issues/new?title=Showcase%20project%20submission" target="_blank" rel="noopener noreferrer">Share your project <span aria-hidden="true">↗</span></a>
+            </aside>
+        </div>
+    </section>
+</main>
+{{ end }}

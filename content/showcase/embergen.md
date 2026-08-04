@@ -7,6 +7,12 @@ date: '2022-01-24'
 categories:
   - showcase
 weight: 1
+type: redirect
+redirect: https://jangafx.com/software/embergen/
+showcase_description: Real-time volumetric fluid simulation for games, films, and motion graphics.
+showcase_kind: Creative tools
+showcase_preview: https://jangafx.com/Q12021Launch/Media_Organized/videos/EmberGen/Film/film-composite.mp4
+showcase_preview_type: video
 ---
 
 [JangaFX](https://jangafx.com/) are the creators of the 3D animation software [EmberGen](https://jangafx.com/software/embergen/) written fully in Odin.

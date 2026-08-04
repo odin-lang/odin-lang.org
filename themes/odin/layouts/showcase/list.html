@@ -27,7 +27,7 @@
                         {{ end }}
                     </div>
                     <div class="showcase-feature-caption">
-                        <span>Latest project</span>
+                        <span>{{ with $project.Params.showcase_status }}{{ . }}{{ else }}Latest project{{ end }}</span>
                         <strong>{{ $project.Title }}</strong>
                         <span class="showcase-external" aria-hidden="true">↗</span>
                     </div>
@@ -66,6 +66,7 @@
                             <div class="showcase-card-tags">
                                 <span class="showcase-card-tag">{{ .Params.showcase_kind }}</span>
                                 {{ with .Params.showcase_model }}<span class="showcase-card-tag showcase-card-model">{{ . }}</span>{{ end }}
+                                {{ with .Params.showcase_status }}<span class="showcase-card-tag showcase-card-status">{{ . }}</span>{{ end }}
                             </div>
                         </div>
                         <div class="showcase-card-title-row">

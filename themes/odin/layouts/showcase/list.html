@@ -2,7 +2,8 @@
 <main class="showcase-page">
     <section class="showcase-hero">
         <div class="container-xxl">
-            {{ $latestProjects := first 3 .Pages.ByDate.Reverse }}
+            {{ $showcaseProjects := .Pages.ByLastmod.Reverse }}
+            {{ $latestProjects := first 3 $showcaseProjects }}
             <div class="showcase-hero-copy">
                 <p class="showcase-eyebrow">Built with Odin</p>
                 <h1>Showcase</h1>
@@ -49,9 +50,9 @@
             </header>
 
             <div class="showcase-grid">
-                {{ range .Pages.ByDate.Reverse }}
+                {{ range $showcaseProjects }}
                 <a class="showcase-card" href="{{ .Params.redirect }}" target="_blank" rel="noopener noreferrer">
-                    <div class="showcase-card-media">
+                    <div class="showcase-card-media{{ if .Params.showcase_logo }} showcase-card-logo{{ end }}">
                         {{ if eq .Params.showcase_preview_type "video" }}
                         <video autoplay loop muted playsinline preload="metadata">
                             <source src="{{ .Params.showcase_preview }}" type="video/mp4">
@@ -62,11 +63,16 @@
                     </div>
                     <div class="showcase-card-content">
                         <div class="showcase-card-meta">
-                            <span>{{ .Params.showcase_kind }}</span>
+                            <div class="showcase-card-tags">
+                                <span class="showcase-card-tag">{{ .Params.showcase_kind }}</span>
+                                {{ with .Params.showcase_model }}<span class="showcase-card-tag showcase-card-model">{{ . }}</span>{{ end }}
+                            </div>
                             <span aria-hidden="true">↗</span>
                         </div>
                         <h3>{{ .Title }}</h3>
+                        {{ with .Params.author }}<p class="showcase-card-byline">by {{ . }}</p>{{ end }}
                         <p>{{ .Params.showcase_description }}</p>
+                        <span class="showcase-card-visit">Visit project <span aria-hidden="true">↗</span></span>
                     </div>
                 </a>
                 {{ end }}

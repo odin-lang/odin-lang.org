@@ -1,0 +1,19 @@
+<script>
+    document.querySelectorAll('[data-gallery-video]').forEach(function (video) {
+        function showVideo() {
+            video.parentElement.classList.add('is-video-ready');
+        }
+
+        function hideVideo() {
+            video.parentElement.classList.remove('is-video-ready');
+        }
+
+        video.addEventListener('playing', showVideo);
+        video.addEventListener('pause', hideVideo);
+        video.addEventListener('waiting', hideVideo);
+        video.addEventListener('stalled', hideVideo);
+        video.addEventListener('error', hideVideo);
+
+        if (video.readyState >= 2 && !video.paused) showVideo();
+    });
+</script>

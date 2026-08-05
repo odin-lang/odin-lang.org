@@ -50,7 +50,7 @@
 <!-- Bootstrap CSS -->
 {{ $scss := resources.Get "scss/custom.scss" }}
 {{ $style := $scss | css.Sass | resources.Minify }}
-<link rel="stylesheet" href="{{ $style.Permalink }}">
+<link rel="stylesheet" href="{{ $style.RelPermalink }}">
 
 <!-- Highlight.JS -->
 <link rel="stylesheet" href="/lib/highlight/styles/github-dark.min.css" />

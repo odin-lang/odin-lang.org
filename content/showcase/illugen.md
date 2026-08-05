@@ -15,4 +15,5 @@ showcase_model: Commercial
 showcase_preview: /images/showcase/illugen.svg
 showcase_preview_type: image
 showcase_logo: true
+showcase_video: /images/showcase/illugen-preview.mp4
 ---

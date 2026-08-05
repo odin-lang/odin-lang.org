@@ -17,4 +17,5 @@ showcase_preview: /images/showcase/blick.svg
 showcase_preview_type: image
 showcase_logo: true
 showcase_logo_background: gradient
+showcase_video: /images/showcase/blick-preview.mp4
 ---

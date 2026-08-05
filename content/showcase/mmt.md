@@ -14,4 +14,5 @@ showcase_kind: Tools
 showcase_model: Commercial
 showcase_preview: /images/showcase/mmt_hero.webp
 showcase_preview_type: image
+showcase_video: /images/showcase/mmt-preview.mp4
 ---

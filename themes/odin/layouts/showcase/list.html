@@ -1,80 +1,37 @@
 {{ define "main" }}
+{{ $showcaseProjects := .Pages.ByLastmod.Reverse }}
 <main class="showcase-page">
-    <section class="showcase-hero">
+    <section class="showcase-spotlights" id="projects">
         <div class="container-xxl">
-            {{ $showcaseProjects := .Pages.ByLastmod.Reverse }}
-            {{ $latestProjects := first 3 $showcaseProjects }}
-            <div class="showcase-hero-copy">
+            <header class="showcase-spotlights-heading">
                 <p class="showcase-eyebrow">Built with Odin</p>
                 <h1>Showcase</h1>
-                <div class="showcase-intro-stage">
-                    {{ range $index, $project := $latestProjects }}
-                    <p class="showcase-intro showcase-intro-slide{{ if eq $index 0 }} is-active{{ end }}" data-showcase-intro>{{ with $project.Params.showcase_hero_description }}{{ . }}{{ else }}{{ $project.Params.showcase_description }}{{ end }}</p>
-                    {{ end }}
-                </div>
-                <a class="showcase-jump" href="#projects">Browse the projects <span aria-hidden="true">↓</span></a>
-            </div>
-            <div class="showcase-feature-stage" data-showcase-rotator>
-                {{ range $index, $project := $latestProjects }}
-                <a class="showcase-feature{{ if eq $index 0 }} is-active{{ end }}" href="{{ $project.Params.redirect }}" target="_blank" rel="noopener noreferrer" aria-label="Visit {{ $project.Title }}" data-showcase-slide>
-                    <div class="showcase-feature-media{{ if $project.Params.showcase_logo }} showcase-feature-logo{{ end }}{{ if eq $project.Params.showcase_logo_background "gradient" }} showcase-feature-logo-gradient{{ end }}">
-                        {{ if eq $project.Params.showcase_preview_type "video" }}
-                        <video autoplay loop muted playsinline preload="metadata">
-                            <source src="{{ $project.Params.showcase_preview }}" type="video/mp4">
-                        </video>
-                        {{ else }}
-                        <img src="{{ $project.Params.showcase_preview }}" alt="Preview of {{ $project.Title }}">
-                        {{ end }}
-                    </div>
-                    <div class="showcase-feature-caption">
-                        <span>{{ with $project.Params.showcase_status }}{{ . }}{{ else }}Latest project{{ end }}</span>
-                        <strong>{{ $project.Title }}</strong>
-                        <span class="showcase-external" aria-hidden="true">↗</span>
-                    </div>
-                </a>
-                {{ end }}
-                <div class="showcase-feature-dots" aria-label="Latest projects">
-                    {{ range $index, $project := $latestProjects }}
-                    <button type="button" class="{{ if eq $index 0 }}is-active{{ end }}" aria-label="Show {{ $project.Title }}" aria-pressed="{{ if eq $index 0 }}true{{ else }}false{{ end }}" data-showcase-dot></button>
-                    {{ end }}
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="showcase-projects" id="projects">
-        <div class="container-xxl">
-            <header class="showcase-section-heading">
-                <h2>All software</h2>
-                <p>Games, creative tools, and libraries created by the Odin community.</p>
+                <p>Tools, libraries, and learning resources created by the Odin community.</p>
             </header>
 
-            <div class="showcase-grid">
-                {{ range $showcaseProjects }}
-                <a class="showcase-card" href="{{ .Params.redirect }}" target="_blank" rel="noopener noreferrer">
-                    <div class="showcase-card-media{{ if .Params.showcase_logo }} showcase-card-logo{{ end }}{{ if eq .Params.showcase_logo_background "gradient" }} showcase-card-logo-gradient{{ end }}">
-                        {{ if eq .Params.showcase_preview_type "video" }}
-                        <video autoplay loop muted playsinline preload="metadata">
-                            <source src="{{ .Params.showcase_preview }}" type="video/mp4">
+            <div class="showcase-spotlights-list">
+                {{ range $index, $project := $showcaseProjects }}
+                <a class="showcase-spotlight-card{{ if eq (mod $index 2) 1 }} showcase-spotlight-card--reverse{{ end }}{{ if $project.Params.showcase_media_fit }} showcase-spotlight-card--{{ $project.Params.showcase_media_fit }}{{ end }}" href="{{ $project.Params.redirect }}" target="_blank" rel="noopener noreferrer">
+                    <div class="showcase-spotlight-media{{ if $project.Params.showcase_logo }} showcase-spotlight-logo{{ end }}{{ if eq $project.Params.showcase_logo_background "gradient" }} showcase-spotlight-logo-gradient{{ end }}">
+                        {{ with $project.Params.showcase_video }}
+                        <video autoplay loop muted playsinline preload="metadata" poster="{{ $project.Params.showcase_preview }}" controlslist="nofullscreen nodownload noremoteplayback" disablepictureinpicture>
+                            <source src="{{ . }}" type="{{ if hasSuffix . ".webm" }}video/webm{{ else }}video/mp4{{ end }}">
                         </video>
                         {{ else }}
-                        <img src="{{ .Params.showcase_preview }}" alt="Preview of {{ .Title }}" loading="lazy">
+                        <img src="{{ $project.Params.showcase_preview }}" alt="Preview of {{ $project.Title }}" loading="lazy">
                         {{ end }}
                     </div>
-                    <div class="showcase-card-content">
-                        <div class="showcase-card-meta">
-                            <div class="showcase-card-tags">
-                                <span class="showcase-card-tag">{{ .Params.showcase_kind }}</span>
-                                {{ with .Params.showcase_model }}<span class="showcase-card-tag showcase-card-model">{{ . }}</span>{{ end }}
-                                {{ with .Params.showcase_status }}<span class="showcase-card-tag showcase-card-status">{{ . }}</span>{{ end }}
-                            </div>
+                    <div class="showcase-spotlight-shade" aria-hidden="true"></div>
+                    <div class="showcase-spotlight-content">
+                        <div class="showcase-spotlight-tags">
+                            <span>{{ $project.Params.showcase_kind }}</span>
+                            {{ with $project.Params.showcase_model }}<span>{{ . }}</span>{{ end }}
+                            {{ with $project.Params.showcase_status }}<span>{{ . }}</span>{{ end }}
                         </div>
-                        <div class="showcase-card-title-row">
-                            <h3>{{ .Title }}</h3>
-                            <span class="showcase-card-arrow" aria-hidden="true">↗</span>
-                        </div>
-                        {{ with .Params.author }}<p class="showcase-card-byline">by {{ . }}</p>{{ end }}
-                        <p>{{ .Params.showcase_description }}</p>
+                        <h2 class="showcase-spotlight-title">{{ $project.Title }}</h2>
+                        {{ with $project.Params.author }}<p class="showcase-spotlight-byline">by {{ . }}</p>{{ end }}
+                        <p>{{ $project.Params.showcase_description }}</p>
+                        <span class="showcase-spotlight-link">Visit project</span>
                     </div>
                 </a>
                 {{ end }}
@@ -90,45 +47,4 @@
         </div>
     </section>
 </main>
-<script>
-    document.querySelectorAll('[data-showcase-rotator]').forEach(function (rotator) {
-        var slides = Array.from(rotator.querySelectorAll('[data-showcase-slide]'));
-        var intros = Array.from(document.querySelectorAll('[data-showcase-intro]'));
-        var dots = Array.from(rotator.querySelectorAll('[data-showcase-dot]'));
-        var activeIndex = 0;
-        var rotation;
-
-        function showSlide(index) {
-            activeIndex = index;
-            slides.forEach(function (slide, slideIndex) {
-                slide.classList.toggle('is-active', slideIndex === activeIndex);
-            });
-            intros.forEach(function (intro, introIndex) {
-                intro.classList.toggle('is-active', introIndex === activeIndex);
-            });
-            dots.forEach(function (dot, dotIndex) {
-                var isActive = dotIndex === activeIndex;
-                dot.classList.toggle('is-active', isActive);
-                dot.setAttribute('aria-pressed', isActive);
-            });
-        }
-
-        function startRotation() {
-            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || slides.length < 2) return;
-            rotation = window.setInterval(function () {
-                showSlide((activeIndex + 1) % slides.length);
-            }, 6500);
-        }
-
-        dots.forEach(function (dot, index) {
-            dot.addEventListener('click', function () {
-                window.clearInterval(rotation);
-                showSlide(index);
-                startRotation();
-            });
-        });
-
-        startRotation();
-    });
-</script>
 {{ end }}

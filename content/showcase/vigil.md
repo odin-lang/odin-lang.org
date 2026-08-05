@@ -15,4 +15,5 @@ showcase_kind: Tools
 showcase_model: Commercial
 showcase_preview: /images/showcase/vigil_overview.png
 showcase_preview_type: image
+showcase_video: /images/showcase/vigil_theme_showcase.webm
 ---

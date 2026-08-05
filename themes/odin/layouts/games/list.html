@@ -8,7 +8,7 @@
         <div class="container-xxl">
             <header class="games-steam-heading">
                 <p class="games-eyebrow">Built with Odin</p>
-                <h1>Steam releases</h1>
+                <h1>Steam games</h1>
                 <p>Full releases and upcoming storefront games made with Odin.</p>
             </header>
 
@@ -32,13 +32,10 @@
                             <span>Steam</span>
                             {{ with $game.Params.game_status }}<span>{{ . }}</span>{{ end }}
                         </div>
-                        <div class="games-steam-title-row">
-                            <h2>{{ $game.Title }}</h2>
-                            <span aria-hidden="true">↗</span>
-                        </div>
+                        <h2>{{ $game.Title }}</h2>
                         {{ with $game.Params.author }}<p class="games-steam-byline">by {{ . }}</p>{{ end }}
                         <p>{{ $game.Params.game_description }}</p>
-                        <span class="games-steam-link">View on Steam <span aria-hidden="true">↗</span></span>
+                        <span class="games-steam-link">View on Steam</span>
                     </div>
                 </a>
                 {{ end }}
@@ -73,10 +70,7 @@
                             <span>Itch.io</span>
                             {{ with $game.Params.game_status }}<span>{{ . }}</span>{{ end }}
                         </div>
-                        <div class="games-card-title-row">
-                            <h3>{{ $game.Title }}</h3>
-                            <span aria-hidden="true">↗</span>
-                        </div>
+                        <h3>{{ $game.Title }}</h3>
                         {{ with $game.Params.author }}<p class="games-card-byline">by {{ . }}</p>{{ end }}
                         <p>{{ $game.Params.game_description }}</p>
                     </div>
@@ -93,7 +87,7 @@
                     <p class="games-eyebrow">Made a game?</p>
                     <h2>Show the community what you made.</h2>
                 </div>
-                <a href="https://github.com/odin-lang/odin-lang.org/issues/new?title=Game%20showcase%20submission" target="_blank" rel="noopener noreferrer">Submit your game <span aria-hidden="true">↗</span></a>
+                <a href="https://github.com/odin-lang/odin-lang.org/issues/new?title=Game%20showcase%20submission" target="_blank" rel="noopener noreferrer">Submit your game</a>
             </aside>
         </div>
     </section>

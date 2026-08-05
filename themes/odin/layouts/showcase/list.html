@@ -10,8 +10,8 @@
             </header>
 
             <div class="showcase-spotlights-list">
-                {{ range $index, $project := $showcaseProjects }}
-                <a class="showcase-spotlight-card{{ if eq (mod $index 2) 1 }} showcase-spotlight-card--reverse{{ end }}{{ if $project.Params.showcase_media_fit }} showcase-spotlight-card--{{ $project.Params.showcase_media_fit }}{{ end }}" href="{{ $project.Params.redirect }}" target="_blank" rel="noopener noreferrer">
+                {{ range $project := $showcaseProjects }}
+                <a class="showcase-spotlight-card{{ if $project.Params.showcase_media_fit }} showcase-spotlight-card--{{ $project.Params.showcase_media_fit }}{{ end }}" href="{{ $project.Params.redirect }}" target="_blank" rel="noopener noreferrer">
                     <div class="showcase-spotlight-media{{ if $project.Params.showcase_logo }} showcase-spotlight-logo{{ end }}{{ if eq $project.Params.showcase_logo_background "gradient" }} showcase-spotlight-logo-gradient{{ end }}">
                         {{ with $project.Params.showcase_video }}
                         <video autoplay loop muted playsinline preload="metadata" poster="{{ $project.Params.showcase_preview }}" controlslist="nofullscreen nodownload noremoteplayback" disablepictureinpicture>

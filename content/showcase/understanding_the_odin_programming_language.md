@@ -13,4 +13,5 @@ showcase_kind: Books
 showcase_preview: /images/showcase/understanding_the_odin_programming_language/cover.jpg
 showcase_preview_type: image
 showcase_media_fit: contain
+showcase_title_size: compact
 ---

@@ -1,0 +1,97 @@
+{{ define "main" }}
+{{ $steamGames := where .Pages "Params.game_platform" "Steam" }}
+{{ $steamGames = $steamGames.ByDate.Reverse }}
+{{ $itchGames := where .Pages "Params.game_platform" "Itch.io" }}
+{{ $itchGames = $itchGames.ByTitle }}
+<main class="games-page">
+    <section class="games-steam" id="steam">
+        <div class="container-xxl">
+            <header class="games-steam-heading">
+                <p class="games-eyebrow">Built with Odin</p>
+                <h1>Steam games</h1>
+                <p>Full releases and upcoming storefront games made with Odin.</p>
+            </header>
+
+            <div class="games-steam-list">
+                {{ range $game := $steamGames }}
+                <a class="games-steam-card" href="{{ $game.Params.redirect }}" target="_blank" rel="noopener noreferrer">
+                    <div class="games-steam-media">
+                        {{ with $game.Params.game_video }}
+                        <img class="gallery-video-poster" src="{{ $game.Params.game_preview }}" alt="Preview of {{ $game.Title }}" loading="eager" decoding="async">
+                        <video autoplay loop muted playsinline preload="metadata" poster="{{ $game.Params.game_preview }}" controlslist="nofullscreen nodownload noremoteplayback" disablepictureinpicture data-gallery-video>
+                            <source src="{{ . }}" type="{{ with $game.Params.game_video_type }}{{ . }}{{ else }}video/mp4{{ end }}">
+                        </video>
+                        {{ else with $game.Params.game_preview }}
+                        <img src="{{ . }}" alt="Preview of {{ $game.Title }}" loading="lazy">
+                        {{ else }}
+                        <div class="games-card-fallback" aria-hidden="true"><span>{{ $game.Title }}</span></div>
+                        {{ end }}
+                    </div>
+                    <div class="games-steam-shade" aria-hidden="true"></div>
+                    <div class="games-steam-content">
+                        <div class="games-steam-tags">
+                            <span>Steam</span>
+                            {{ with $game.Params.game_status }}<span>{{ . }}</span>{{ end }}
+                        </div>
+                        <h2>{{ $game.Title }}</h2>
+                        {{ with $game.Params.author }}<p class="games-steam-byline">by {{ . }}</p>{{ end }}
+                        <p>{{ $game.Params.game_description }}</p>
+                        <span class="games-steam-link">View on Steam</span>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+        </div>
+    </section>
+
+    <section class="games-catalog games-catalog-itch" id="itch">
+        <div class="container-xxl">
+            <header class="games-section-heading">
+                <p class="games-eyebrow">Itch.io projects &amp; jams</p>
+                <h2>Small scopes. Big ideas.</h2>
+                <p>Prototypes, jam entries, and independently released projects shared directly by their creators.</p>
+            </header>
+
+            <div class="games-grid">
+                {{ range $game := $itchGames }}
+                <a class="games-card" href="{{ $game.Params.redirect }}" target="_blank" rel="noopener noreferrer">
+                    <div class="games-card-media">
+                        {{ with $game.Params.game_video }}
+                        <video autoplay loop muted playsinline preload="metadata" poster="{{ $game.Params.game_preview }}">
+                            <source src="{{ . }}" type="{{ with $game.Params.game_video_type }}{{ . }}{{ else }}video/mp4{{ end }}">
+                        </video>
+                        {{ else with $game.Params.game_preview }}
+                        <img src="{{ . }}" alt="Preview of {{ $game.Title }}" loading="lazy">
+                        {{ else }}
+                        <div class="games-card-fallback" aria-hidden="true"><span>{{ $game.Title }}</span></div>
+                        {{ end }}
+                    </div>
+                    <div class="games-card-content">
+                        <div class="games-card-tags">
+                            <span>Itch.io</span>
+                            {{ with $game.Params.game_status }}<span>{{ . }}</span>{{ end }}
+                        </div>
+                        <h3>{{ $game.Title }}</h3>
+                        {{ with $game.Params.author }}<p class="games-card-byline">by {{ . }}</p>{{ end }}
+                        <p>{{ $game.Params.game_description }}</p>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+        </div>
+    </section>
+
+    <section class="games-catalog games-catalog-submit">
+        <div class="container-xxl">
+            <aside class="games-submit">
+                <div>
+                    <p class="games-eyebrow">Made a game?</p>
+                    <h2>Show the community what you made.</h2>
+                </div>
+                <a href="https://github.com/odin-lang/odin-lang.org/issues/new?title=Game%20showcase%20submission" target="_blank" rel="noopener noreferrer">Submit your game</a>
+            </aside>
+        </div>
+    </section>
+</main>
+{{ partial "gallery-videos.html" . }}
+{{ end }}

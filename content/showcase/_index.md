@@ -1,6 +1,6 @@
 ---
 title: Showcase
 linktitle: Showcase
-summary: Showcase of Projects Using Odin
-layout: blank
+summary: A selection of tools, libraries, and learning resources built with Odin.
+layout: showcase
 ---

@@ -1,0 +1,52 @@
+{{ define "main" }}
+{{ $showcaseProjects := .Pages.ByLastmod.Reverse }}
+<main class="showcase-page">
+    <section class="showcase-spotlights" id="projects">
+        <div class="container-xxl">
+            <header class="showcase-spotlights-heading">
+                <p class="showcase-eyebrow">Built with Odin</p>
+                <h1>Showcase</h1>
+                <p>Tools, libraries, and learning resources created by the Odin community.</p>
+            </header>
+
+            <div class="showcase-spotlights-list">
+                {{ range $project := $showcaseProjects }}
+                <a class="showcase-spotlight-card{{ if $project.Params.showcase_media_fit }} showcase-spotlight-card--{{ $project.Params.showcase_media_fit }}{{ end }}" href="{{ $project.Params.redirect }}" target="_blank" rel="noopener noreferrer">
+                    <div class="showcase-spotlight-media{{ if $project.Params.showcase_logo }} showcase-spotlight-logo{{ end }}{{ if eq $project.Params.showcase_logo_background "gradient" }} showcase-spotlight-logo-gradient{{ end }}">
+                        {{ with $project.Params.showcase_video }}
+                        <img class="gallery-video-poster" src="{{ $project.Params.showcase_preview }}" alt="Preview of {{ $project.Title }}" loading="eager" decoding="async">
+                        <video autoplay loop muted playsinline preload="metadata" poster="{{ $project.Params.showcase_preview }}" controlslist="nofullscreen nodownload noremoteplayback" disablepictureinpicture data-gallery-video>
+                            <source src="{{ . }}" type="{{ if hasSuffix . ".webm" }}video/webm{{ else }}video/mp4{{ end }}">
+                        </video>
+                        {{ else }}
+                        <img src="{{ $project.Params.showcase_preview }}" alt="Preview of {{ $project.Title }}" loading="lazy">
+                        {{ end }}
+                    </div>
+                    <div class="showcase-spotlight-shade" aria-hidden="true"></div>
+                    <div class="showcase-spotlight-content">
+                        <div class="showcase-spotlight-tags">
+                            <span>{{ $project.Params.showcase_kind }}</span>
+                            {{ with $project.Params.showcase_model }}<span>{{ . }}</span>{{ end }}
+                            {{ with $project.Params.showcase_status }}<span>{{ . }}</span>{{ end }}
+                        </div>
+                        <h2 class="showcase-spotlight-title{{ with $project.Params.showcase_title_size }} showcase-spotlight-title--{{ . }}{{ end }}">{{ $project.Title }}</h2>
+                        {{ with $project.Params.author }}<p class="showcase-spotlight-byline">by {{ . }}</p>{{ end }}
+                        <p>{{ $project.Params.showcase_description }}</p>
+                        <span class="showcase-spotlight-link">Visit project</span>
+                    </div>
+                </a>
+                {{ end }}
+            </div>
+
+            <aside class="showcase-submit">
+                <div>
+                    <p class="showcase-eyebrow">Built something?</p>
+                    <h2>Put your work on the map.</h2>
+                </div>
+                <a href="https://github.com/odin-lang/odin-lang.org/issues/new?title=Showcase%20project%20submission" target="_blank" rel="noopener noreferrer">Share your project <span aria-hidden="true">↗</span></a>
+            </aside>
+        </div>
+    </section>
+</main>
+{{ partial "gallery-videos.html" . }}
+{{ end }}

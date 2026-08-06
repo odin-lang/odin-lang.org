@@ -1,28 +1,17 @@
 ---
 title: Understanding the Odin Programming Language
 slug: understanding_the_odin_programming_language
-summary: A book that teaches the Odin Programming Language and demystifies low-level programming <img src="/images/showcase/understanding_the_odin_programming_language/cover.jpg" class="showcase-preview">
+summary: A digital book for beginners and intermediate Odin programmers.
 author: Karl Zylinski
 date: '2024-12-10'
 categories:
   - showcase
+type: redirect
+redirect: https://odinbook.com/
+showcase_description: A digital book for beginners and intermediate Odin programmers.
+showcase_kind: Books
+showcase_preview: /images/showcase/understanding_the_odin_programming_language/cover.jpg
+showcase_preview_type: image
+showcase_media_fit: contain
+showcase_title_size: compact
 ---
-
-<a href="https://odinbook.com"><img src="/images/showcase/understanding_the_odin_programming_language/cover.jpg" alt="Cover of the book Understanding the Odin Programming Language by Karl Zylinski" style="max-height:300px; max-width: 100%"></a>
-
-*Understanding the Odin Programming Language* is a digital book for both beginners and intermediate Odin programmers. You'll learn about variables, constants, procedures, manual memory management, parametric polymorphism, data-oriented design, and much more.
-
-On top of how to write Odin code, this book also provides explanations of why things work the way they do. A programming language is a tool. By understanding your tools, you will become a better craftsperson.
-
-The target audience is anyone with some programming experience. The book is easy to read and Odin is a simple language. This makes the book a great introduction to low-level programming, regardless of your programming background. 
-
-## Read a sample or buy at [odinbook.com](https://odinbook.com)
-
-<img src="/images/showcase/understanding_the_odin_programming_language/parapoly.png" style="max-width: 49%; float: left;">
-
-<img src="/images/showcase/understanding_the_odin_programming_language/ebook.jpg" style="max-width: 49%; float: left;">
-<div style="clear:both"></div>
-
-
-
-

@@ -100,7 +100,6 @@ $table-cell-padding-x-sm: 0.2rem;
 
 .showcase-spotlights-heading {
   margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
-  max-width: 44rem;
 }
 
 .showcase-spotlights-heading .showcase-eyebrow {
@@ -120,7 +119,6 @@ $table-cell-padding-x-sm: 0.2rem;
   font-size: clamp(1.05rem, 1.45vw, 1.3rem);
   line-height: 1.6;
   margin: 0;
-  max-width: 35rem;
 }
 
 .showcase-spotlights-list {
@@ -580,7 +578,6 @@ $table-cell-padding-x-sm: 0.2rem;
 }
 .showcase-section-heading {
   margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
-  max-width: 43rem;
 }
 .showcase-section-heading h2,
 .showcase-submit h2 {
@@ -843,7 +840,6 @@ body.dark-mode .showcase-submit {
   font-size: clamp(1.05rem, 1.45vw, 1.3rem);
   line-height: 1.6;
   margin: 0;
-  max-width: 34rem;
 }
 .games-steam-list {
   display: grid;
@@ -1174,7 +1170,6 @@ body.dark-mode .showcase-submit {
 }
 .games-section-heading {
   margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
-  max-width: 43rem;
 }
 .games-section-heading h2,
 .games-submit h2 {
@@ -1195,6 +1190,7 @@ body.dark-mode .showcase-submit {
 .games-card {
   background: var(--games-panel);
   border: 1px solid var(--games-line);
+  border-radius: 1rem;
   box-shadow: 0 0.9rem 2.4rem rgba(26, 55, 100, 0.08),
     inset 0 0 0 1px rgba(255, 255, 255, 0.45);
   color: var(--games-ink);
@@ -1215,7 +1211,7 @@ body.dark-mode .showcase-submit {
 }
 .games-card:hover {
   background: #f8faff;
-  border-color: #7b9cd2;
+  border: 1px solid var(--showcase-orange)!important;
   box-shadow: 0 0 0 1px #7b9cd2, 0 1.3rem 2.7rem rgba(26, 55, 100, 0.16);
   color: var(--games-ink);
   text-decoration: none;
@@ -1224,6 +1220,7 @@ body.dark-mode .showcase-submit {
 .games-card-media {
   min-height: 100%;
   overflow: hidden;
+  border-radius: 1rem 0 0 1rem;
 }
 .games-card-fallback {
   align-items: center;
@@ -1341,7 +1338,7 @@ body.dark-mode .games-page {
   --games-ink: #e7eef9;
   --games-muted: #b9c7da;
   --games-panel: #17253a;
-  --games-line: #31445f;
+  --games-line: #ef7a30;
   --games-blue: #91c0ff;
   background: #101722;
 }

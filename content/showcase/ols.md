@@ -1,5 +1,5 @@
 ---
-title: Ols
+title: OLS
 slug: ols
 summary: Language server for Odin with completion, hover, and go-to-definition support across all major editors.
 author: Daniel Gavin

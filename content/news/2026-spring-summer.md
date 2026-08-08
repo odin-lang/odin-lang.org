@@ -21,7 +21,7 @@ A [games](/games) sister page was also added for games made in Odin.
 
 Speaking of which, here are some highlights:
 
-### Blick by Dihedron Software - Available now
+### Blick by Dihedron Software - Available Now
 
 [Blick](https://blickeditor.com/?lang=en) is a fully native nonlinear video editor built from scratch for an editing workflow that keeps up.
 
@@ -31,7 +31,7 @@ Fully native, built from scratch. Blick is written from scratch in Odin. The ren
 
 <a href="https://blickeditor.com/?lang=en" target="_blank" title="Blick"><img src="/images/news/2026-summer-blick.jpg" alt="Blick" class="figure-img img-fluid"></a>
 
-### Vigil by Michael Kutowski - Available now
+### Vigil by Michael Kutowski - Available Now
 
 [Vigil](https://mktwsk.xyz/vigil) is a portable, CPU-rendered desktop workspace for exploring Odin codebases. It maps packages, imports, symbols, files, and documentation so you can understand a project’s shape before diving into source. Quick Open, source-linked docs, history, favorites, and a minimap keep investigation fast and connected.
 

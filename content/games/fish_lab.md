@@ -10,5 +10,5 @@ game_description: An upcoming incremental game about collecting fish, making dis
 game_platform: Steam
 game_status: Coming Sep 14
 game_preview: /images/games/fish-lab.jpg
-game_video: /images/games/fish-lab-trailer.mp4
+game_video: /images/games/fish-lab-trailer-v2.mp4
 ---

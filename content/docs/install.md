@@ -130,7 +130,7 @@ This linker is included in the `lld` formula, install it through `brew install l
 
 1. Install clang and LLVM (the versions we support are 17, 18, 19, 20, 21, and 22) using your package manager
     * It could be that LLVM is split into multiple packages and you also need to install something like `llvm-devel`
-    * If you are using an older OS release, the distro may not offer a sufficiently current version of LLVM.
+    * If you are using an older (or Enterprise) release, the distro may not offer a sufficiently current and complete version of LLVM by default
          * On a Debian-based distro, we recommend using https://apt.llvm.org to install LLVM 22
          * On a RedHat-based distro, we suggest COPR, e.g. `dnf copr enable fedora-llvm-team/llvm-snapshots`
 2. Make sure `llvm-config`, `llvm-config-(17|18|19|20|21|22)`, or `llvm-config(17|18|19|20|21|22)` and `clang` are able to be found through your `$PATH`

@@ -1,22 +1,27 @@
 ---
-title: Inline Assembly Templates Overview
+title: Inline asm Templates Overview
 summary: Overview of the inline `asm` templates in Odin
 weight: 10
 ---
 
-**Note:** Currently amd64 targets only (e.g. `windows_amd64`, `linux_amd64`, `darwin_amd64`).
+> **Note:** Currently amd64 targets only (e.g. `windows_amd64`, `linux_amd64`, `darwin_amd64`).
+
+## Overview
 
 An `asm` template is a callable entity, instantiated in place at each call like a
 forced-inline procedure. It is not a statement block spliced into a surrounding
-procedure, rather it behaves like an intrinsic. Some platform-specific intrinsics
+procedure; rather, it behaves like an intrinsic. Some platform-specific intrinsics
 will be replaced by this system in the near future.
 
-The general `instruction [operand{, operand}]` form is intended as a _universal syntax_
-across instruction set architectures: every ISA shares this common grammar while still
-exposing its own instructions and registers. The approach is modeled on
+The general `instruction [operand{, operand}]` form is intended as a _universal
+syntax_ across instruction set architectures: every ISA shares this common grammar
+while still exposing its own instructions and registers. The approach is modeled on
 Go's Plan 9–derived assembler, which likewise uses one syntax across all its targets
 ([Go's assembler guide](https://go.dev/doc/asm), [the Plan 9 assembler manual](https://9p.io/sys/doc/asm.html)).
 That syntax originated with Plan 9 (Ken Thompson's toolchain) and was carried into Go.
+
+Odin's inline assembly uses a context-free grammar, but this does not mean any
+mnemonics are shared across ISAs—only the syntax itself is.
 
 ## Declaration
 
@@ -28,24 +33,24 @@ name :: asm(params) -> (results) [bindings] {
 
 - `params`   - input operands. Plain names and types.
 - `results`  - output operands. Plain names and types.
-- `bindings` - ties, pins, scratch, width-views, and clobbers and effects.
+- `bindings` - ties, pins, scratch, width-views, clobbers, and effects.
 - `body`     - the instruction stream.
 
-`-> (results)` and the `[bindings]` block are optional.
+Both `-> (results)` and the `[bindings]` block are optional.
+
+The body uses Intel operand order (`dst, src`); the backend lowers per-target.
+Physical registers take a `%` sigil (`%rax`); parameter and scratch names are
+bare (`r`, `acc`).
 
 Results may be left unbound at the call site; the compiler ignores the unused
 ones implicitly, so a template whose results are ABI artifacts need not be
 destructured.
 
 ```odin
-mfence :: asm() [ #side_effects, #clobber memory ] { mfence }
+mfence :: asm() [ #volatile, #clobber memory ] { mfence }
 // NOTE: `#volatile` and `#clobber memory` are both inferred here from
 // the use of `mfence`, but are written for clarity.
 ```
-
-The body uses Intel operand order (`dst, src`); the backend lowers per-target.
-Physical registers take a `%` sigil (`%rax`); parameter and scratch names are
-bare (`r`, `acc`).
 
 ### Parameter types
 
@@ -53,7 +58,8 @@ A parameter type is one of: integer, float, boolean, pointer, multi-pointer, or
 `#simd[N]T`.
 
 A `$name` parameter is a compile-time immediate (`$ctrl: u8`). It must not be
-pointer-like. Its value is only known, and only range-checked, at instantiation.
+pointer-like, and its value is only known—and only range-checked—at
+instantiation.
 
 ## Bindings
 
@@ -74,19 +80,28 @@ clobbers are declared in the block directly.
 | `#align_stack`      | forces stack realignment on entry to the template            |
 
 The right-hand side disambiguates the two `=` forms: `= %reg` (a register) is a
-pin; `= src` (a name) is a width-view of another operand.
-
-A bare `->` leaves the register to the compiler. `= %reg` pins to a specific
-register for the target platform.
+pin; `= src` (a name) is a width-view of another operand. A bare `->` leaves the
+register to the compiler, while `= %reg` pins to a specific register for the
+target platform.
 
 Scratch declarations are template-lifetime registers, allocated once. They live
 in the binding block, not the body—there is no block scope in a template.
 
+### Registers
+
+Explicit registers are prefixed with `%` to prevent namespace collisions with
+user-provided parameters and with other global constants in parent scopes.
+Register names are the target's own (e.g. `%rax`, `%xmm0`, `%r11`, `%al` on AMD64),
+named specifically for each platform rather than given generalized names.
+
+Depending on the template, it may be common to use explicit registers
+everywhere, or common to use scratch parameters instead.
+
 ### Ties
 
-`in -> out` binds an input and an output to one register. Lowers to a
-read-write operand (`+r`). Tie with a pin (`in -> out = %rax`) fixes the
-register; tie without one lets the allocator choose.
+`in -> out` binds an input and an output to one register. It lowers to a
+read-write operand (`+r`). A tie with a pin (`in -> out = %rax`) fixes the
+register; a tie without one lets the allocator choose.
 
 ```odin
 add_one :: asm(x: u64) -> (r: u64) [ x -> r ] { inc r }
@@ -94,8 +109,7 @@ add_one :: asm(x: u64) -> (r: u64) [ x -> r ] { inc r }
 
 ### Pins
 
-`name = %reg` forces a specific physical register. Register names are the
-target's own (`%rax`, `%xmm0`, `%r11`, `%al`). Two operands may pin the same
+`name = %reg` forces a specific physical register. Two operands may pin the same
 register (an in-out that needs no tie):
 
 ```odin
@@ -119,9 +133,9 @@ alias an input. Pin scratch with `name: T = %reg` for a fixed register, or use
 ### Width-views
 
 `view: T = src` is a second name for `src`'s register, seen at width `T`.
-One register, two widths; no pin, so the allocator stays free. Integer only, and
-`T` must be narrower than `src`'s width (a view exists to name a sub-register).
-For the `setcc`-then-arithmetic idiom:
+One register, two widths; with no pin, the allocator stays free. It is
+integer-only, and `T` must be narrower than `src`'s width (a view exists to name
+a sub-register). For the `setcc`-then-arithmetic idiom:
 
 ```odin
 count_less :: asm(x: []i64, n: i64, thr: i64) -> (count: i64) [
@@ -143,8 +157,8 @@ Intel-style effective addresses. The general form is
 
 - `[base]`
 - `[base + index]`
-- `[base + index*scale]` —scale `1`, `2`, `4`, `8`
-- `[base + index<<scale]`—shift form, scale `0..=3`
+- `[base + index*scale]`  - scale `1`, `2`, `4`, `8`
+- `[base + index<<scale]` - shift form, scale `0..=3`
 - `[base + index*scale + disp]`
 
 `[base + index>>scale]` is accepted only on targets that encode it (e.g. arm64),
@@ -152,17 +166,17 @@ not amd64.
 
 Rules:
 
-- base and index must be 32- or 64-bit integer registers, and the same width.
+- Base and index must be 32- or 64-bit integer registers, and the same width.
 - `%rsp`/`%esp` may be a base but never an index.
-- a scale requires an index.
-- the displacement is a compile-time integer that fits a signed 32-bit value; a
+- A scale requires an index.
+- The displacement is a compile-time integer that fits a signed 32-bit value; a
   register belongs in the index slot, not the displacement.
 
 ### Size annotation
 
 `[base]:T` gives the memory operand an explicit access width, for when no
-register operand pins it (`crc32 r32, r/m8`). It is a type ascription—only the
-size and class of `T` are used—not a value cast, so `:u8`, `:i8`, `:b8` are
+register operand pins it (`crc32 r32, r/m8`). It is a type ascription, only the
+size and class of `T` are used, not a value cast, so `:u8`, `:i8`, `:b8` are
 identical.
 
 ```odin
@@ -204,12 +218,25 @@ a label or another prefix), and is checked for legality against the following
 instruction's form (`lock` requires a memory destination; `rep`/`repne` require
 a string instruction).
 
+## Data and alignment directives
+
+These directives are written in the body and emit raw bytes or control layout in
+the instruction stream:
+
+- `#byte N[, N]` — directly emit a byte or bytes (represented as integers) as
+  instruction information.
+- `#skip N` — produce N bytes of zeros.
+- `#nop N` — produce N bytes' worth of "nops", emitting the minimal number of
+  "nop"-like instructions.
+- `#align N` — align the next instruction to `N` bytes, which must be a power of
+  two.
+
 ## Clobbers and effects
 
 Three orthogonal axes:
 
 - `#clobber %reg`   - a register is trashed.
-- `#clobber flags`     - the condition codes (flags) are modified.
+- `#clobber flags`  - the condition codes (flags) are modified.
 - `#clobber memory` - memory the compiler cannot see is read or written; also
   forces ordering.
 
@@ -217,9 +244,9 @@ Most clobbers are inferred from the instructions used; write them explicitly
 only for effects that cannot be inferred (e.g. runtime-dependent AVX-512
 masking).
 
-## Directives
+## Template directives
 
-Placed with the `[...]` block.
+Placed within the `[...]` block:
 
 - `#volatile` marks the whole template as _volatile_: it must not be deleted
   even if its results are unused, nor reordered. This is distinct from
@@ -264,7 +291,7 @@ unrelated one. Prefix legality (`lock` on a memory destination; `rep`/`repne`
 on a string instruction) is checked against the selected form.
 
 Clobbers, condition-code effects, and side effects are inferred from the
-instructions used; the explicit `#clobber` and `#side_effects` forms are for the
+instructions used; the explicit `#clobber` and `#volatile` forms are for the
 cases the tables cannot infer (see above).
 
 ## Instantiation
@@ -274,7 +301,8 @@ parameters are therefore evaluated per call, not at the template definition.
 
 ## `asm` groups
 
-Akin to procedure groups for explicit overloading, `asm` templates can be grouped too to have overloading behaviour:
+Like procedure groups (which provide explicit overloading), `asm` templates can
+also be grouped to give overloading behaviour:
 
 ```odin
 store_u32 :: asm(p: ^u32, v: u32) {
@@ -292,7 +320,8 @@ store :: asm{
 
 ## Inline `asm` calls
 
-Sometimes you just want a single instantiation of an `asm` template which is to be called immediately.
+Sometimes you just want a single instantiation of an `asm` template that is
+called immediately:
 
 ```odin
 asm(p: ^u64, v: u64) {
@@ -300,21 +329,11 @@ asm(p: ^u64, v: u64) {
 }(&x[i], 123)
 ```
 
-This can be only used directly within a call expression, and cannot be used as a regular value since it does not really exist since it is purely a template.
-
-## Directive Instructions
-
-* `#byte N[, N]`
-  * Directly emit a byte or bytes (represented as integers) as instruction information.
-* `#skip N`
-  * Produces N-bytes of zeros
-* `#nop N`
-  * Produces N-bytes worth of "nops", emitting the minimal number of "nop"-like instructions
-* `#align N`
-  * Aligns the next instruction `N` bytes which must be a power of two
+This form can only be used directly within a call expression; it cannot be used
+as a regular value, because it does not really exist—it is purely a template.
 
 
-## Examples showing syntax
+## Examples Showing The Syntax
 
 ```odin
 add_one :: asm(x: u64) -> (r: u64) [
@@ -528,8 +547,10 @@ main :: proc() {
 	fmt.println("store_u64:", slot)
 
 	// vector kernel: [^]f32 args via raw_data, scalar f32 result
-	xs := [8]f32{1, 2, 3, 4, 5, 6, 7, 8}
-	ys := [8]f32{8, 7, 6, 5, 4, 3, 2, 1}
+	xs := make_aligned([]f32, 8, 16)
+	ys := make_aligned([]f32, 8, 16)
+	copy(xs, []f32{1, 2, 3, 4, 5, 6, 7, 8})
+	copy(ys, []f32{8, 7, 6, 5, 4, 3, 2, 1})
 	d := dot_f32x4_v2(raw_data(xs[:]), raw_data(ys[:]), 8)
 	fmt.println("dot:", d)             // 1*8+2*7+...+8*1 = 120
 

@@ -388,6 +388,29 @@ fmt.println(some_map["B"]) // 5
 
 **Note:** It is not possible to iterate a string in a by-reference manner as strings are immutable.
 
+Range-based `for` loops can also iterate over the results of a procedure that returns a multi-valued tuple whose last value is a `bool`. The loop continues while the boolean is `true`, and the preceding values in the tuple are available as loop variables. This is similar in concept to a "custom iterator" but is just syntactic sugar for calling the procedure in a loop.
+
+```odin
+iter_count := 0
+some_procedure :: proc() -> (int, int, int, cond: bool) {
+	iter_count += 1
+	if iter_count < 4 {
+		return iter_count, iter_count*2, iter_count*3, true
+	} else {
+		return 0, 0, 0, false
+	}
+}
+
+for a, b, c in some_procedure() {
+	fmt.println(a, b, c)
+	// Prints
+	// 1 2 3
+	// 2 4 6
+	// 3 6 9
+}
+```
+
+
 #### `for` reverse iteration
 
 The `#reverse` directive makes a range-based `for` loop iterate in reverse.

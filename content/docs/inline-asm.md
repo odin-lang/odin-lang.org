@@ -15,9 +15,8 @@ The general `instruction [operand{, operand}]` form is intended as a _universal 
 across instruction set architectures: every ISA shares this common grammar while still
 exposing its own instructions and registers. The approach is modeled on
 Go's Plan 9–derived assembler, which likewise uses one syntax across all its targets
-([Go's assembler guide](https://go.dev/doc/asm),
-[the Plan 9 assembler manual](https://9p.io/sys/doc/asm.html)). That syntax originated
-with Plan 9 (Ken Thompson's toolchain) and was carried into Go.
+([Go's assembler guide](https://go.dev/doc/asm), [the Plan 9 assembler manual](https://9p.io/sys/doc/asm.html)).
+That syntax originated with Plan 9 (Ken Thompson's toolchain) and was carried into Go.
 
 ## Declaration
 
@@ -400,14 +399,14 @@ dot_f32x4_v2 :: asm(a, b: [^]f32, n: i64) -> (result: f32) [
 	vxorps acc1, acc1, acc1
 	xor    i, i
 .loop:
-	vmovups     t0, [a + i<<2]
+	vmovups     t0, [a + i<<2]              // equivalent to [a + i*4]
 	vmovups     t1, [a + i<<2 + 16]
 	vfmadd231ps acc0, t0, [b + i<<2]        // acc0 += t0 * b[i:][:4]
 	vfmadd231ps acc1, t1, [b + i<<2 + 16]   // acc1 += t1 * b[i+4:][:4]
 	add    i, 8
 	cmp    i, n
 	jl     .loop
-	vaddps  acc0, acc0, acc1               // combine the two chains
+	vaddps  acc0, acc0, acc1                // combine the two chains
 	vhaddps acc0, acc0, acc0
 	vhaddps acc0, acc0, acc0
 	vmovss  result, acc0, acc0

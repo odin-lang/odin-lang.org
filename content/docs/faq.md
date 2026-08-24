@@ -594,26 +594,9 @@ defer os.close(f) // will be executed at the end of the scope
 ...
 ```
 
-### Why is `#partial switch` needed when there is a catch-all `case:`?
-
-By default, `switch` statements which have an `enum` or `union` condition require the user to specify every case that the type defines. It is a very common mistake to forget to add a new case when a new variant is added in other languages, so Odin defaults to telling the user of this mistake. If the user wants to explicitly opt-out of this behaviour, `#partial` can be applied to the `switch` statement directly to state that not all of the cases need to be specified.
-
-`case:` is the catch-all case which allows for anything not specified, which includes `nil` or even invalid cases (e.g. custom-user-values or corrupted cases). `#partial` and `case:` are orthogonal concepts which are used to achieve different things entirely. Each variant might be handled, but there might still be an invalid case not handled thus `case:` might still be required depending on the problem.
-
-### Why does `#reverse` not work on ranges in `for in` loops?
-
-* It is a lot clearer to write a normal C-style `for` loop
-    * `for i := hi; i >= lo; i -= 1 {...}`
-* It might not execute the way the user expects, especially for floats
-    * `for i in 1.2 ..< 3.4 {...}` is valid in Odin
-* It will cause off-by-one bugs in certain cases
-
-
-
 #### Deferred Attributes
 
 There is also the `deferred_*` attributes which can be attached to procedures to have very useful functionality, such as [IMGUIs](https://en.wikipedia.org/wiki/Immediate_Mode_GUI).
-
 
 <table>
 <tbody>
@@ -648,6 +631,21 @@ if menu("Hello") {
 
 }
 ```
+
+### Why is `#partial switch` needed when there is a catch-all `case:`?
+
+By default, `switch` statements which have an `enum` or `union` condition require the user to specify every case that the type defines. It is a very common mistake to forget to add a new case when a new variant is added in other languages, so Odin defaults to telling the user of this mistake. If the user wants to explicitly opt-out of this behaviour, `#partial` can be applied to the `switch` statement directly to state that not all of the cases need to be specified.
+
+`case:` is the catch-all case which allows for anything not specified, which includes `nil` or even invalid cases (e.g. custom-user-values or corrupted cases). `#partial` and `case:` are orthogonal concepts which are used to achieve different things entirely. Each variant might be handled, but there might still be an invalid case not handled thus `case:` might still be required depending on the problem.
+
+### Why does `#reverse` not work on ranges in `for in` loops?
+
+* It is a lot clearer to write a normal C-style `for` loop
+    * `for i := hi; i >= lo; i -= 1 {...}`
+* It might not execute the way the user expects, especially for floats
+    * `for i in 1.2 ..< 3.4 {...}` is valid in Odin
+* It will cause off-by-one bugs in certain cases
+
 
 ## Compiler
 

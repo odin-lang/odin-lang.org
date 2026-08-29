@@ -867,12 +867,15 @@ Default values are assigned at the start of the procedure call and can be [overw
 **Note:** These default values must be compile time known values, such as a constant value or `nil` (if the type supports it).
 
 ### Explicit procedure overloading
-Unlike other languages, Odin provides the ability to explicitly overload procedures:
+Unlike other languages, Odin provides the ability to explicitly overload procedures using procedure groups:
 ```odin
 bool_to_string :: proc(b: bool) -> string {...}
 int_to_string  :: proc(i: int)  -> string {...}
 
-to_string :: proc{bool_to_string, int_to_string}
+to_string :: proc{
+	bool_to_string,
+	int_to_string,
+}
 ```
 
 #### Rationale behind explicit overloading

@@ -3232,6 +3232,8 @@ By default, the `context` value has default values for its parameters which is d
 
 To see what the implicit `context` value contains, please see the definition of the `Context` struct in [package runtime](https://github.com/odin-lang/Odin/blob/master/base/runtime/core.odin).
 
+Limitation: Because of the way the copy-on-write `context` system works and is tied to scopes, you can't update a context value (like e.g. `context.user_index`) from within a loop. [If you need to update something](https://github.com/odin-lang/Odin/issues/7498) on the `context` within a loop to be availble to callees, try setting `context.user_ptr` to some user data outside the loop, and modify that user data from within the loop.
+
 ### Allocators
 Odin is a manual memory management based language. This means that Odin programmers must manage their own memory, allocations, and tracking. To aid with memory management, Odin has huge support for custom allocators, especially through the implicit `context` system.
 

@@ -12,6 +12,7 @@ redirect: https://mmt.gg/
 showcase_description: Advanced crypto liquidity and order-flow analysis for professional traders.
 showcase_kind: Tools
 showcase_model: Commercial
+showcase_platforms: web
 showcase_preview: /images/showcase/mmt_hero.webp
 showcase_preview_type: image
 showcase_video: /images/showcase/mmt-preview.mp4

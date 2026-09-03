@@ -10,6 +10,7 @@ type: redirect
 redirect: https://odinbook.com/
 showcase_description: A digital book for beginners and intermediate Odin programmers.
 showcase_kind: Books
+showcase_platforms: web
 showcase_preview: /images/showcase/understanding_the_odin_programming_language/cover.jpg
 showcase_preview_type: image
 showcase_media_fit: contain

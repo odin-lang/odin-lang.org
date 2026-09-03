@@ -23,6 +23,14 @@
                     </div>
                     <div class="showcase-spotlight-shade" aria-hidden="true"></div>
                     <div class="showcase-spotlight-content">
+                        {{ with $project.Params.showcase_platforms }}
+                        <div class="showcase-spotlight-tags showcase-spotlight-platforms" aria-label="Platforms">
+                            {{ range split . "," }}
+                                {{ $platform := trim . " " }}
+                                {{ if $platform }}<span>{{ $platform }}</span>{{ end }}
+                            {{ end }}
+                        </div>
+                        {{ end }}
                         <div class="showcase-spotlight-tags">
                             <span>{{ $project.Params.showcase_kind }}</span>
                             {{ with $project.Params.showcase_model }}<span>{{ . }}</span>{{ end }}

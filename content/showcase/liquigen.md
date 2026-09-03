@@ -12,6 +12,7 @@ redirect: https://jangafx.com/software/liquigen/
 showcase_description: Real-time liquid simulations for water, blood, and slime with instant meshing.
 showcase_kind: Tools
 showcase_model: Commercial
+showcase_platforms: windows,linux,macos
 showcase_preview: /images/showcase/liquigen.svg
 showcase_preview_type: image
 showcase_logo: true

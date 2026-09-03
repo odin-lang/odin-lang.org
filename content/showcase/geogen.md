@@ -12,6 +12,7 @@ redirect: https://jangafx.com/software/geogen/
 showcase_description: Real-time terrain and planet generation with node-based workflows.
 showcase_kind: Tools
 showcase_model: Commercial
+showcase_platforms: windows,linux,macos
 showcase_preview: /images/showcase/geogen.svg
 showcase_preview_type: image
 showcase_logo: true

@@ -13,6 +13,7 @@ showcase_description: A fully native nonlinear video editor built from scratch f
 showcase_hero_description: Blick is a fully native nonlinear video editor built from scratch for an editing workflow that keeps up.
 showcase_kind: Tools
 showcase_model: Commercial
+showcase_platforms: windows,macos
 showcase_preview: /images/showcase/blick.svg
 showcase_preview_type: image
 showcase_logo: true

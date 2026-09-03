@@ -13,6 +13,7 @@ showcase_description: A portable, software-rendered desktop workspace for packag
 showcase_hero_description: Vigil is a portable, software-rendered desktop workspace for packages, symbols, documentation, and source navigation.
 showcase_kind: Tools
 showcase_model: Commercial
+showcase_platforms: windows,linux,macos
 showcase_preview: /images/showcase/vigil_overview.png
 showcase_preview_type: image
 showcase_video: /images/showcase/vigil_theme_showcase.webm

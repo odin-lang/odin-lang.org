@@ -367,13 +367,13 @@ rdtsc :: asm() -> (lo, hi: u32) [
 	rdtsc
 }
 
-cpuid :: asm(leaf: u32) -> (a, b, c, d: u32) [
-	leaf -> a = %eax,
-	b = %ebx,
-	c = %ecx,
-	d = %edx,
+cpuid :: asm(leaf: u32, subleaf: u32) -> (a, b, c, d: u32) [
+    leaf -> a = %eax,
+    b = %ebx,
+    subleaf -> c = %ecx,
+    d = %edx,
 ] {
-	cpuid
+    cpuid
 }
 
 // [#clobber memory] is inferred

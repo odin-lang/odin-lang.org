@@ -367,10 +367,10 @@ rdtsc :: asm() -> (lo, hi: u32) [
 	rdtsc
 }
 
-cpuid :: asm(leaf: u32) -> (a, b, c, d: u32) [
+cpuid :: asm(leaf: u32, subleaf: u32) -> (a, b, c, d: u32) [
 	leaf -> a = %eax,
 	b = %ebx,
-	c = %ecx,
+	subleaf -> c = %ecx,
 	d = %edx,
 ] {
 	cpuid

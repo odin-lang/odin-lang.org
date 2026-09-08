@@ -442,6 +442,7 @@ memcpy_rep :: asm(dst, src: rawptr, len: uint) -> (end_dst, end_src: rawptr, rem
 	src -> end_src = %rsi,
 	len -> rem     = %rcx,
 ] {
+	cld
 	rep
 	movsb
 }

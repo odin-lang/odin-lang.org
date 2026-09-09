@@ -41,63 +41,50 @@
                     </div>
                 </div>
                 <div class="col-lg col-lg-6">
-                    <div class="tab-content">
-                        <select class="form-select mb-2" id="example-code-select">
-                            <option id="example-1-select" value="example-1-code">Hellope</option>
-                            <option id="example-2-select" value="example-2-code">Array Programming</option>
-                            <option id="example-3-select" value="example-3-code">SOA Types</option>
-                            <option id="example-4-select" value="example-4-code">Context System</option>
-                            <option id="example-5-select" value="example-5-code">Reflection</option>
-                        </select>
-                        <div
-                            class="tab-pane show active example-code"
-                            id="example-1-code"
-                            role="option"
-                            aria-labelledby="example-1-code"
-                        >
-                            <pre><code class="language-odin border-start border-end border-bottom home-code-example"
-                                >{{ partial "odin-examples/hellope" }}</code
-                            ></pre>
+                    <div class="code-example" id="home-code-example">
+                        <div class="code-tabs" role="tablist" aria-label="Odin code examples">
+                            <button class="code-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="example-1-code" data-target="example-1-code" data-file="hellope.odin">Hellope</button>
+                            <button class="code-tab" type="button" role="tab" aria-selected="false" aria-controls="example-2-code" data-target="example-2-code" data-file="arrays.odin">Array Programming</button>
+                            <button class="code-tab" type="button" role="tab" aria-selected="false" aria-controls="example-3-code" data-target="example-3-code" data-file="soa.odin">SOA Types</button>
+                            <button class="code-tab" type="button" role="tab" aria-selected="false" aria-controls="example-4-code" data-target="example-4-code" data-file="context.odin">Context System</button>
+                            <button class="code-tab" type="button" role="tab" aria-selected="false" aria-controls="example-5-code" data-target="example-5-code" data-file="reflection.odin">Reflection</button>
                         </div>
-                        <div
-                            class="tab-pane example-code"
-                            id="example-2-code"
-                            role="option"
-                            aria-labelledby="example-2-code"
-                        >
-                            <pre><code class="language-odin border-start border-end border-bottom home-code-example"
-                                >{{ partial "odin-examples/array-programming" }}</code
-                            ></pre>
-                        </div>
-                        <div
-                            class="tab-pane example-code"
-                            id="example-3-code"
-                            role="option"
-                            aria-labelledby="example-3-code"
-                        >
-                            <pre><code class="language-odin border-start border-end border-bottom home-code-example"
-                                >{{ partial "odin-examples/soa-structs" }}</code
-                            ></pre>
-                        </div>
-                        <div
-                            class="tab-pane example-code"
-                            id="example-4-code"
-                            role="option"
-                            aria-labelledby="example-4-code"
-                        >
-                            <pre><code class="language-odin border-start border-end border-bottom home-code-example"
-                                >{{ partial "odin-examples/context-system" }}</code
-                            ></pre>
-                        </div>
-                        <div
-                            class="tab-pane example-code"
-                            id="example-5-code"
-                            role="option"
-                            aria-labelledby="example-5-code"
-                        >
-                            <pre class="home-code-example"><code class="language-odin border-start border-end border-bottom"
-                                >{{ partial "odin-examples/reflection" }}</code
-                            ></pre>
+
+                        <div class="code-window">
+                            <div class="code-window-bar">
+                                <span class="code-window-file" id="code-window-file">hellope.odin</span>
+                                <button class="code-copy" type="button" id="code-copy-btn" aria-label="Copy code to clipboard">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <span class="code-copy-label">Copy</span>
+                                </button>
+                            </div>
+                            <div class="code-window-body">
+                                <div class="code-pane is-active" id="example-1-code" role="tabpanel">
+                                    <pre><code class="language-odin home-code-example"
+                                        >{{ partial "odin-examples/hellope" }}</code
+                                    ></pre>
+                                </div>
+                                <div class="code-pane" id="example-2-code" role="tabpanel">
+                                    <pre><code class="language-odin home-code-example"
+                                        >{{ partial "odin-examples/array-programming" }}</code
+                                    ></pre>
+                                </div>
+                                <div class="code-pane" id="example-3-code" role="tabpanel">
+                                    <pre><code class="language-odin home-code-example"
+                                        >{{ partial "odin-examples/soa-structs" }}</code
+                                    ></pre>
+                                </div>
+                                <div class="code-pane" id="example-4-code" role="tabpanel">
+                                    <pre><code class="language-odin home-code-example"
+                                        >{{ partial "odin-examples/context-system" }}</code
+                                    ></pre>
+                                </div>
+                                <div class="code-pane" id="example-5-code" role="tabpanel">
+                                    <pre><code class="language-odin home-code-example"
+                                        >{{ partial "odin-examples/reflection" }}</code
+                                    ></pre>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -358,10 +345,55 @@
     </section>
 </main>
 <script>
-    document.getElementById("example-code-select").addEventListener("change", function (event) {
-        document.querySelectorAll(".example-code").forEach((o) => o.classList.remove("active", "show"));
-        document.getElementById(event.target.value).classList.add("active", "show");
-    });
+    (function () {
+        var root = document.getElementById("home-code-example");
+        if (!root) return;
+
+        var tabs = Array.prototype.slice.call(root.querySelectorAll(".code-tab"));
+        var fileEl = document.getElementById("code-window-file");
+
+        function activate(tab) {
+            tabs.forEach(function (t) {
+                var on = t === tab;
+                t.classList.toggle("is-active", on);
+                t.setAttribute("aria-selected", on ? "true" : "false");
+            });
+            root.querySelectorAll(".code-pane").forEach(function (p) {
+                p.classList.remove("is-active");
+            });
+            var pane = document.getElementById(tab.getAttribute("data-target"));
+            if (pane) pane.classList.add("is-active");
+            if (fileEl) fileEl.textContent = tab.getAttribute("data-file") || "";
+        }
+
+        tabs.forEach(function (tab, i) {
+            tab.addEventListener("click", function () { activate(tab); });
+            // Left/right arrow navigation across the tab strip.
+            tab.addEventListener("keydown", function (e) {
+                var next;
+                if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
+                else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
+                if (next) { e.preventDefault(); next.focus(); activate(next); }
+            });
+        });
+
+        var copyBtn = document.getElementById("code-copy-btn");
+        if (copyBtn && navigator.clipboard) {
+            var label = copyBtn.querySelector(".code-copy-label");
+            copyBtn.addEventListener("click", function () {
+                var code = root.querySelector(".code-pane.is-active code");
+                if (!code) return;
+                navigator.clipboard.writeText(code.innerText).then(function () {
+                    copyBtn.classList.add("is-copied");
+                    if (label) label.textContent = "Copied!";
+                    setTimeout(function () {
+                        copyBtn.classList.remove("is-copied");
+                        if (label) label.textContent = "Copy";
+                    }, 1600);
+                }).catch(function () {});
+            });
+        }
+    })();
 </script>
 {{ if .IsHome }}
 <script src="/js/fade-in-logo-after-header.js"></script>

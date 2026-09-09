@@ -21,9 +21,158 @@ $table-cell-padding-x-sm: 0.2rem;
   margin-bottom: 0.5em;
 }
 
+/* Homepage code example — tabbed "code window" */
+.code-example {
+  // Match the highlight.js github-dark theme used on the light site.
+  --code-bg: #0d1117;
+  --code-bar: #161b22;
+  --code-line: #21262d;
+  --code-file: #8b949e;
+  --code-tab-ink: #4a5b6d;
+  --code-tab-line: #cbd8e6;
+  --code-tab-hover: rgba(56, 130, 210, 0.09);
+}
+
+.code-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.85rem;
+}
+
+.code-tab {
+  background: transparent;
+  border: 1px solid var(--code-tab-line);
+  border-radius: 99rem;
+  color: var(--code-tab-ink);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  padding: 0.4rem 0.9rem;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+.code-tab:hover {
+  background: var(--code-tab-hover);
+  border-color: $blue;
+  color: $blue;
+  text-decoration: none;
+}
+.code-tab.is-active {
+  background: $blue;
+  border-color: $blue;
+  color: #fff;
+}
+.code-tab:focus-visible {
+  outline: 2px solid $blue;
+  outline-offset: 2px;
+}
+
+.code-window {
+  background: var(--code-bg);
+  border: 1px solid var(--code-line);
+  border-radius: 0.75rem;
+  box-shadow: 0 1.2rem 3rem rgba(9, 17, 28, 0.18);
+  overflow: hidden;
+}
+
+.code-window-bar {
+  align-items: center;
+  background: var(--code-bar);
+  border-bottom: 1px solid var(--code-line);
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+}
+.code-window-file {
+  color: var(--code-file);
+  font-family: var(--bs-font-monospace, monospace);
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+}
+
+.code-copy {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--code-line);
+  border-radius: 0.4rem;
+  color: var(--code-file);
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 0.76rem;
+  font-weight: 700;
+  gap: 0.35rem;
+  margin-left: auto;
+  padding: 0.28rem 0.55rem;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+.code-copy:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #e6edf3;
+}
+.code-copy svg {
+  height: 0.9rem;
+  width: 0.9rem;
+}
+.code-copy.is-copied {
+  border-color: #27c93f;
+  color: #4ae168;
+}
+.code-copy:focus-visible {
+  outline: 2px solid $blue;
+  outline-offset: 2px;
+}
+
+.code-pane {
+  display: none;
+}
+.code-pane.is-active {
+  display: block;
+}
+.code-window-body pre {
+  margin: 0;
+}
+.code-window-body code.hljs {
+  border-radius: 0;
+}
+
 .home-code-example {
+  display: block;
   // max-height: 31rem;
   max-height: 18rem;
+  overflow: auto;
+}
+
+body.dark-mode .code-example {
+  --code-bg: var(--dark-code); // #182028, matches .dark-mode code.hljs
+  --code-bar: #12191f;
+  --code-line: var(--dark-border);
+  --code-file: #9fb2c6;
+  --code-tab-ink: #b9c7da;
+  --code-tab-line: #35485f;
+  --code-tab-hover: rgba(122, 173, 229, 0.14);
+}
+body.dark-mode .code-tab:hover {
+  border-color: var(--bs-primary);
+  color: var(--bs-primary);
+}
+body.dark-mode .code-tab.is-active {
+  background: var(--dark-blue);
+  border-color: var(--dark-blue);
+  color: #eaf3ff;
+}
+
+@media (max-width: 575px) {
+  // Keep the tab strip to a single swipeable row instead of stacking.
+  .code-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .code-tabs::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 #jangafx-companies {

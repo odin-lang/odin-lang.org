@@ -266,7 +266,7 @@ $table-cell-padding-x-sm: 0.2rem;
 .showcase-spotlight-title {
   border-left: 6px solid var(--showcase-orange);
   border-radius: 6px;
-  font-size: clamp(1.8rem, 2.4vw, 3.6rem);
+  font-size: clamp(2.1rem, 3.4vw, 3.6rem);
   font-weight: 750;
   line-height: 1;
   margin: 0;
@@ -297,7 +297,7 @@ $table-cell-padding-x-sm: 0.2rem;
   font-size: clamp(0.88rem, 1.2vw, 1rem);
   line-height: 1.5;
   margin: 1rem 0 0;
-  min-height: 1.5em; // reserve 3 lines so the title lands uniformly
+  min-height: 1.5em;
   max-width: 32rem;
 }
 
@@ -832,14 +832,36 @@ $table-cell-padding-x-sm: 0.2rem;
     display: none;
   }
 
-  .showcase-marquee-card {
+  /* Compact, image-forward tiles. Scoped with .home-showcase-marquee so they
+     override the taller full-page .showcase-spotlight-card rules at <=575px. */
+  .home-showcase-marquee .showcase-marquee-card {
     flex: 0 0 clamp(15rem, 80vw, 20rem);
-    height: 18.5rem;
     width: clamp(15rem, 80vw, 20rem); /* a sliver of the next card peeks in as a swipe hint */
+    height: 12rem;
+    min-height: 12rem;
     scroll-snap-align: center;
   }
 
-  .showcase-marquee-card .showcase-spotlight-title {
+  /* Show only the poster image — no autoplaying video on mobile. */
+  .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-media video {
+    display: none;
+  }
+
+  /* Trim the overlay to just tags + title so the tile can stay short. */
+  .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-byline,
+  .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-content > p,
+  .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-link {
+    display: none;
+  }
+
+  .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-content {
+    padding: 1rem;
+  }
+  .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-tags {
+    margin-bottom: 0.5rem;
+    min-height: 0;
+  }
+  .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-title {
     font-size: 1.35rem;
   }
 }

@@ -1,29 +1,32 @@
 {{/*
-  One infinite-scrolling row of shared project cards.
-  The list is rendered twice so a -50% translate loops without a gap.
+  One infinite-scrolling lane of shared project cards.
+  The list is rendered twice so a jump of one group's width loops without a gap.
+  The edge zones sit outside the scrolling row so they stay fixed over the lane.
 */}}
 {{- $projects := .projects -}}
 {{- $direction := .direction | default "forwards" -}}
 {{- $n := len $projects -}}
 {{- if gt $n 0 -}}
-{{- $seconds := mul $n 8 -}}
-{{- if lt $seconds 24 }}{{ $seconds = 24 }}{{ end -}}
-{{- if gt $seconds 80 }}{{ $seconds = 80 }}{{ end -}}
-<div class="home-showcase-marquee-row home-showcase-marquee-row--{{ $direction }}">
-    <div
-        class="home-showcase-marquee-track"
-        style="--marquee-duration: {{ $seconds }}s;"
-    >
-        <div class="home-showcase-marquee-group">
-            {{ range $projects }}
-                {{ partial "showcase-card.html" (dict "project" . "variant" "marquee") }}
-            {{ end }}
+<div class="home-showcase-marquee-lane">
+    <div class="home-showcase-marquee-row home-showcase-marquee-row--{{ $direction }}" tabindex="0">
+        <div class="home-showcase-marquee-track">
+            <div class="home-showcase-marquee-group">
+                {{ range $projects }}
+                    {{ partial "showcase-card.html" (dict "project" . "variant" "marquee") }}
+                {{ end }}
+            </div>
+            <div class="home-showcase-marquee-group" aria-hidden="true">
+                {{ range $projects }}
+                    {{ partial "showcase-card.html" (dict "project" . "variant" "marquee") }}
+                {{ end }}
+            </div>
         </div>
-        <div class="home-showcase-marquee-group" aria-hidden="true">
-            {{ range $projects }}
-                {{ partial "showcase-card.html" (dict "project" . "variant" "marquee") }}
-            {{ end }}
-        </div>
+    </div>
+    <div class="home-showcase-marquee-edge home-showcase-marquee-edge--left" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </div>
+    <div class="home-showcase-marquee-edge home-showcase-marquee-edge--right" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </div>
 </div>
 {{- end -}}

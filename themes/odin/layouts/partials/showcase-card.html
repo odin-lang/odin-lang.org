@@ -89,8 +89,10 @@
             {{- end -}}
         </div>
         <h2 class="showcase-spotlight-title{{ with $project.Params.showcase_title_size }} showcase-spotlight-title--{{ . }}{{ end }}">{{ $project.Title }}</h2>
+        {{ if $isMarquee }}<div class="showcase-marquee-reveal">{{ end }}
         {{ with $project.Params.author }}<p class="showcase-spotlight-byline">by {{ . }}</p>{{ end }}
         {{ with $description }}<p>{{ . }}</p>{{ end }}
         <span class="showcase-spotlight-link">{{ $cta }}</span>
+        {{ if $isMarquee }}</div>{{ end }}
     </div>
 </a>

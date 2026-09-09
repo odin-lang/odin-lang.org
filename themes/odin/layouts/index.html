@@ -16,7 +16,58 @@
         </div>
     </section>
 
-    <section class="section-style-2" id="example">
+    {{ $showcasePage := site.GetPage "showcase" }}
+    {{ $gamesPage := site.GetPage "games" }}
+    {{ $showcaseProjects := slice }}
+    {{ $steamGames := slice }}
+    {{ if $showcasePage }}
+        {{ $showcaseProjects = $showcasePage.Pages.ByLastmod.Reverse }}
+    {{ end }}
+    {{ if $gamesPage }}
+        {{ $steamGames = where $gamesPage.Pages "Params.game_platform" "Steam" }}
+        {{ $steamGames = $steamGames.ByDate.Reverse }}
+    {{ end }}
+
+    <section class="home-showcase" id="users">
+        <div class="home-showcase-marquee pt-3" aria-label="Projects and games built with Odin">
+            {{ partial "showcase-marquee-row.html" (dict "projects" $showcaseProjects "direction" "forwards") }}
+            {{ partial "showcase-marquee-row.html" (dict "projects" $steamGames "direction" "reverse") }}
+        </div>
+
+        <div class="container pb-5 pt-4 text-center">
+            <h2 class="mb-2">Odin in Production</h2>
+            <p class="home-showcase-lede mx-auto mb-4">
+                Software from the <a href="/showcase" class="link-light">Showcase</a>
+                and games shipping on <a href="/games" class="link-light">Steam</a>,
+                all built with Odin.
+            </p>
+            <a href="/showcase" class="btn btn-outline-light me-2">See the Showcase</a>
+            <a href="/games" class="btn btn-outline-light">See the Games</a>
+        </div>
+    </section>
+
+    <section class="bg-secondary text-light">
+        <div class="container py-5">
+            <div
+                class="
+                    row
+                    justify-content-center
+                    align-items-center
+                    text-center
+                    gy-2
+                "
+            >
+                <div class="col-auto mx-2">
+                    <h2>Join the Odin community on Discord.</h2>
+                </div>
+                <div class="col-auto mx-2">
+                    <a href="https://discord.gg/vafXTdubwr" class="btn btn-outline-light">Join Discord</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-style-1" id="example">
         <div class="container py-5">
             <div class="row g-4">
                 <div class="col-lg col-lg-6">
@@ -29,13 +80,13 @@
                     </p>
 
                     <div class="d-flex gap-2 flex-wrap">
-                        <a href="/docs" class="btn btn-outline-primary">
+                        <a href="/docs" class="btn btn-outline-light">
                             Read the Docs
                         </a>
-                        <a href="https://github.com/odin-lang/Odin/blob/master/examples/demo/demo.odin" class="btn btn-outline-primary">
+                        <a href="https://github.com/odin-lang/Odin/blob/master/examples/demo/demo.odin" class="btn btn-outline-light">
                             See the Full Demo
                         </a>
-                        <a href="https://github.com/odin-lang/examples" class="btn btn-outline-primary">
+                        <a href="https://github.com/odin-lang/examples" class="btn btn-outline-light">
                             See More Examples
                         </a>
                     </div>
@@ -92,27 +143,6 @@
         </div>
     </section>
 
-    <section class="bg-secondary text-light">
-        <div class="container py-5">
-            <div
-                class="
-                    row
-                    justify-content-center
-                    align-items-center
-                    text-center
-                    gy-2
-                "
-            >
-                <div class="col-auto mx-2">
-                    <h2>Join the Odin community on Discord.</h2>
-                </div>
-                <div class="col-auto mx-2">
-                    <a href="https://discord.gg/vafXTdubwr" class="btn btn-outline-light">Join Discord</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="section-style-3" id="principles">
         <div class="container py-5">
             <h2 class="mb-4">The Odin Principles</h2>
@@ -150,47 +180,6 @@
                     See Overview
                 </a>
             </div>
-        </div>
-    </section>
-
-    {{ $showcasePage := site.GetPage "showcase" }}
-    {{ $gamesPage := site.GetPage "games" }}
-    {{ $showcaseProjects := slice }}
-    {{ $steamGames := slice }}
-    {{ if $showcasePage }}
-        {{ $showcaseProjects = $showcasePage.Pages.ByLastmod.Reverse }}
-    {{ end }}
-    {{ if $gamesPage }}
-        {{ $steamGames = where $gamesPage.Pages "Params.game_platform" "Steam" }}
-        {{ $steamGames = $steamGames.ByDate.Reverse }}
-    {{ end }}
-
-     <section class="section-style-1 home-showcase" id="users">
-        <div class="container py-5 pb-4">
-            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3 mb-4">
-                <div>
-                    <h2 class="mb-2">Odin in Production</h2>
-                    <p class="mb-0 home-showcase-lede">
-                        Software from the <a href="/showcase" class="link-light">Showcase</a>
-                        and games shipping on <a href="/games" class="link-light">Steam</a>,
-                        all built with Odin.
-                    </p>
-                </div>
-                <div class="d-flex flex-wrap gap-2">
-                    <a href="/showcase" class="btn btn-secondary text-light">Showcase</a>
-                    <a href="/games" class="btn btn-outline-light">Games</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="home-showcase-marquee" aria-label="Projects and games built with Odin">
-            {{ partial "showcase-marquee-row.html" (dict "projects" $showcaseProjects "direction" "forwards") }}
-            {{ partial "showcase-marquee-row.html" (dict "projects" $steamGames "direction" "reverse") }}
-        </div>
-
-        <div class="container pb-5 pt-4 text-center">
-            <a href="/showcase" class="btn btn-outline-light me-2">See the Showcase</a>
-            <a href="/games" class="btn btn-outline-light">See the Games</a>
         </div>
     </section>
 
@@ -311,14 +300,13 @@
                 <div class="col-lg">
                     <div class="row">
                         <h3 class="mb-4">Thank You!</h3>
-                        <div class="col-sm">
-                            <a href="https://github.com/sponsors/odin-lang/" class="display: inline-block">
-                                <div style=" background-color: #f2f8fe; height: 100px !important; width: 250px; ">
-                                    <img src="/images/github-sponsors-logo.png" alt="Odin GitHub Sponsors" style="margin: 25px auto; width: 100%"/>
-                                </div>
+                        <div class="col-sm-auto">
+                            <a href="https://github.com/sponsors/odin-lang/" class="d-inline-block sponsors-logo-link">
+                                <img class="sponsors-logo sponsors-logo--light" src="/images/github_sponsors_black.png" alt="Odin GitHub Sponsors" />
+                                <img class="sponsors-logo sponsors-logo--dark" src="/images/github_sponsors_white.png" alt="Odin GitHub Sponsors" />
                             </a>
                         </div>
-                        <div class="col-sm">
+                        <div class="col-sm-auto">
                             <a href="https://www.patreon.com/gingerbill">
                                 <div style=" background-color: #ff424d; height: 100px !important; width: 250px; ">
                                     <img src="/Digital-Patreon-Wordmark_White.png" alt="Odin Patreon" style="margin: 25px auto; width: 100%"/>
@@ -398,5 +386,6 @@
 {{ if .IsHome }}
 <script src="/js/fade-in-logo-after-header.js"></script>
 {{ partial "gallery-videos.html" . }}
+{{ partial "showcase-marquee.html" . }}
 {{ end }}
 {{ end }}

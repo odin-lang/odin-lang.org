@@ -8,8 +8,6 @@
         // How often (ms) to re-pick the centre-most marquee videos while visible.
         var RANK_INTERVAL = 200;
 
-        var reduceMotion = window.matchMedia &&
-            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var pageHidden = document.hidden;
 
         // A video decodes only when it's on screen, its group is on screen, the tab
@@ -80,7 +78,7 @@
         }
 
         function startRanking() {
-            if (reduceMotion || pageHidden || rankTimer !== null) return;
+            if (pageHidden || rankTimer !== null) return;
             rankOnce();
             rankTimer = window.setInterval(rankOnce, RANK_INTERVAL);
         }

@@ -395,7 +395,7 @@ body.dark-mode .code-tab.is-active {
   flex-wrap: wrap;
   gap: 0.35rem;
   margin-bottom: 1.25rem;
-  min-height: 1.6rem;
+  min-height: 0.6rem;
   opacity: 0;
   transform: translateY(0.4rem);
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -415,7 +415,7 @@ body.dark-mode .code-tab.is-active {
 .showcase-spotlight-title {
   border-left: 6px solid var(--showcase-orange);
   border-radius: 6px;
-  font-size: clamp(2.1rem, 3.4vw, 3.6rem);
+  font-size: clamp(1.5em, 2.4vw, 3.6rem);
   font-weight: 750;
   line-height: 1;
   margin: 0;

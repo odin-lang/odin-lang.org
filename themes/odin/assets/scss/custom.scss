@@ -812,28 +812,6 @@ $table-cell-padding-x-sm: 0.2rem;
   font-size: 0.92rem;
 }
 
-/* In the strip, keep title + short description visible without hover. */
-.showcase-marquee-card .showcase-spotlight-content > p {
-  margin-top: 0.55rem;
-  max-height: 3.2rem;
-  opacity: 0.92;
-  transform: none;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-.showcase-marquee-card .showcase-spotlight-tags:not(.showcase-spotlight-platforms) {
-  margin-bottom: 0.65rem;
-  max-height: 2rem;
-  opacity: 1;
-  transform: none;
-}
-
-.showcase-marquee-card .showcase-spotlight-shade::after {
-  opacity: 0.55;
-}
-
 @keyframes home-showcase-marquee {
   from {
     transform: translate3d(0, 0, 0);
@@ -876,7 +854,19 @@ $table-cell-padding-x-sm: 0.2rem;
   }
 }
 
+.showcase-marquee-card .showcase-spotlight-media video {
+  opacity: 1;
+}
 
+.showcase-marquee-card .showcase-spotlight-media.is-video-ready video {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-marquee-card video {
+    display: none;
+  }
+}
 
 
 

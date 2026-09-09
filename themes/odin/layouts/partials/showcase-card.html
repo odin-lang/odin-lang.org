@@ -36,12 +36,12 @@
     rel="noopener noreferrer"
 >
     <div class="showcase-spotlight-media{{ if $project.Params.showcase_logo }} showcase-spotlight-logo{{ end }}{{ if eq $project.Params.showcase_logo_background "gradient" }} showcase-spotlight-logo-gradient{{ end }}">
-        {{- if and (not $isMarquee) $video $preview -}}
+        {{- if and $video $preview -}}
         <img
             class="gallery-video-poster"
             src="{{ $preview }}"
             alt="Preview of {{ $project.Title }}"
-            loading="eager"
+            loading="{{ if $isMarquee }}eager{{ else }}lazy{{ end }}"
             decoding="async"
         >
         <video
@@ -49,7 +49,7 @@
             loop
             muted
             playsinline
-            preload="metadata"
+            preload="{{ if $isMarquee }}auto{{ else }}metadata{{ end }}"
             poster="{{ $preview }}"
             controlslist="nofullscreen nodownload noremoteplayback"
             disablepictureinpicture

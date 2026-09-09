@@ -3,12 +3,19 @@
         var videos = Array.prototype.slice.call(document.querySelectorAll('[data-gallery-video]'));
         if (!videos.length) return;
 
+        // How many videos may decode at once *per marquee row*. Lower = less CPU.
+        var MARQUEE_MAX_PER_ROW = 6;
+        // How often (ms) to re-pick the centre-most marquee videos while visible.
+        var RANK_INTERVAL = 200;
+
+        var reduceMotion = window.matchMedia &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var pageHidden = document.hidden;
 
-        // A video should decode only when it's on screen, its group is on screen,
-        // and the tab is in the foreground. Otherwise pause it (and show the poster).
+        // A video decodes only when it's on screen, its group is on screen, the tab
+        // is focused, and (for marquee cards) it's currently in the centre-most set.
         function shouldPlay(v) {
-            return v._inView && !v._groupHidden && !pageHidden;
+            return v._inView && !v._groupHidden && !pageHidden && v._wantsPlay;
         }
         function sync(v) {
             if (shouldPlay(v)) {
@@ -29,15 +36,63 @@
         videos.forEach(function (v) {
             v._inView = false;
             v._groupHidden = false;
+            // Grid videos play whenever on screen; marquee videos wait for the
+            // centre-ranking below to switch them on.
+            v._wantsPlay = !inMarquee(v);
             v.addEventListener('playing', function () { ready(v); });
             ['pause', 'waiting', 'stalled', 'error'].forEach(function (ev) {
                 v.addEventListener(ev, function () { unready(v); });
             });
         });
 
+        var marquees = Array.prototype.slice.call(document.querySelectorAll('.home-showcase-marquee'));
+
+        // ---- Marquee: keep only the N centre-most videos per row playing ----
+        var rankTimer = null;
+
+        function rankOnce() {
+            var anyVisible = false;
+            marquees.forEach(function (m) {
+                if (m._hidden) return;
+                anyVisible = true;
+                var rows = m.querySelectorAll('.home-showcase-marquee-row');
+                Array.prototype.forEach.call(rows, function (row) {
+                    var vids = Array.prototype.slice.call(row.querySelectorAll('[data-gallery-video]'));
+                    if (!vids.length) return;
+                    var r = row.getBoundingClientRect();
+                    var centre = r.left + r.width / 2;
+                    vids.forEach(function (v) {
+                        var vr = v.getBoundingClientRect();
+                        // Ignore cards scrolled outside the row's visible box.
+                        v._dist = (vr.right < r.left || vr.left > r.right)
+                            ? Infinity
+                            : Math.abs((vr.left + vr.width / 2) - centre);
+                    });
+                    vids.slice()
+                        .sort(function (a, b) { return a._dist - b._dist; })
+                        .forEach(function (v, i) {
+                            v._wantsPlay = i < MARQUEE_MAX_PER_ROW && v._dist !== Infinity;
+                        });
+                    vids.forEach(sync);
+                });
+            });
+            if (!anyVisible) stopRanking();
+        }
+
+        function startRanking() {
+            if (reduceMotion || pageHidden || rankTimer !== null) return;
+            rankOnce();
+            rankTimer = window.setInterval(rankOnce, RANK_INTERVAL);
+        }
+        function stopRanking() {
+            if (rankTimer !== null) { window.clearInterval(rankTimer); rankTimer = null; }
+        }
+        function anyMarqueeVisible() {
+            return marquees.some(function (m) { return !m._hidden; });
+        }
+
         if ('IntersectionObserver' in window) {
-            // Grid videos (Showcase / Games) move only with page scroll, so we can
-            // observe each one individually and pause the ones off screen.
+            // Grid videos (Showcase / Games) move only with page scroll — observe each.
             var gridVideos = videos.filter(function (v) { return !inMarquee(v); });
             if (gridVideos.length) {
                 var vio = new IntersectionObserver(function (entries) {
@@ -49,30 +104,34 @@
                 gridVideos.forEach(function (v) { vio.observe(v); });
             }
 
-            // Marquee cards move by CSS transform, where per-element observation is
-            // unreliable — so gate every video in a marquee by its static container.
-            var marquees = Array.prototype.slice.call(document.querySelectorAll('.home-showcase-marquee'));
+            // Marquee cards move by CSS transform (per-element IO is unreliable), so
+            // gate each marquee's videos by its static container, then rank centres.
             if (marquees.length) {
+                marquees.forEach(function (m) { m._hidden = true; });
                 var mio = new IntersectionObserver(function (entries) {
                     entries.forEach(function (e) {
+                        e.target._hidden = !e.isIntersecting;
                         e.target.querySelectorAll('[data-gallery-video]').forEach(function (v) {
                             v._inView = e.isIntersecting;
                             v._groupHidden = !e.isIntersecting;
-                            sync(v);
+                            if (!e.isIntersecting) { v._wantsPlay = false; sync(v); }
                         });
                     });
+                    if (anyMarqueeVisible()) startRanking(); else stopRanking();
                 }, { rootMargin: '100px', threshold: 0 });
                 marquees.forEach(function (m) { mio.observe(m); });
             }
         } else {
-            // No IntersectionObserver: fall back to the old "play everything" behaviour.
-            videos.forEach(function (v) { v._inView = true; sync(v); });
+            // No IntersectionObserver: play everything (old behaviour), no cap.
+            videos.forEach(function (v) { v._inView = true; v._wantsPlay = true; sync(v); });
         }
 
         // Never decode video while the tab is in the background.
         document.addEventListener('visibilitychange', function () {
             pageHidden = document.hidden;
-            videos.forEach(sync);
+            if (pageHidden) { stopRanking(); videos.forEach(sync); }
+            else if (anyMarqueeVisible()) { startRanking(); }
+            videos.forEach(function (v) { if (!inMarquee(v)) sync(v); });
         });
     })();
 </script>

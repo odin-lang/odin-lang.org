@@ -1,0 +1,287 @@
+<script>
+    (function () {
+        var rows = Array.prototype.slice.call(
+            document.querySelectorAll('.home-showcase-marquee-row'));
+        if (!rows.length) return;
+
+        var AUTO_PIXELS_PER_SECOND = 28;
+        var STEER_PIXELS_PER_SECOND = 260;
+        var MAX_STEP_SECONDS = 0.25;
+        var DRAG_THRESHOLD_PIXELS = 8;
+        var EASING_PER_SECOND = 3.2;
+        var PAUSE_EASING_PER_SECOND = 11;
+        var MAX_FLING_PIXELS_PER_SECOND = 2600;
+        var FLING_STALE_MILLISECONDS = 60;
+        var MIN_SAMPLE_SECONDS = 0.008;
+        var MOBILE_DWELL_MILLISECONDS = 1700;
+        var MOBILE_MOVE_MILLISECONDS = 620;
+        var MOBILE_RESUME_MILLISECONDS = 1200;
+        var MOBILE_SETTLE_MILLISECONDS = 140;
+
+        var desktopQuery = window.matchMedia('(min-width: 768px)');
+        function desktopMode() { return desktopQuery.matches; }
+
+        rows.forEach(function (row) {
+            var track = row.querySelector('.home-showcase-marquee-track');
+            if (!track) return;
+
+            var groups = track.querySelectorAll('.home-showcase-marquee-group');
+            var baseSign = row.classList.contains('home-showcase-marquee-row--reverse') ? -1 : 1;
+            var paused = false;
+            var steerDirection = 0;
+            var lastTimestamp = 0;
+            var subPixelCarry = 0;
+            var currentVelocity = AUTO_PIXELS_PER_SECOND * baseSign;
+            var coasting = false;
+
+            var pointerIsDown = false;
+            var dragging = false;
+            var suppressPauseUntilLeave = false;
+            var suppressNextClick = false;
+            var activePointerId = null;
+            var dragStartX = 0;
+            var lastSampleX = 0;
+            var lastSampleTime = 0;
+            var pointerVelocity = 0;
+
+            var lane = row.closest('.home-showcase-marquee-lane') || row.parentElement;
+            Array.prototype.forEach.call(
+                lane.querySelectorAll('.home-showcase-marquee-edge'),
+                function (edge) {
+                    var direction = edge.classList.contains('home-showcase-marquee-edge--left') ? -1 : 1;
+                    edge.addEventListener('pointerenter', function () { steerDirection = direction; });
+                    edge.addEventListener('pointerleave', function () { steerDirection = 0; });
+                });
+
+            // The list renders as two identical groups, so a jump of one group's
+            // repeat distance lands on a visually identical frame: an invisible seam.
+            function loopWidth() {
+                if (groups[1]) return groups[1].offsetLeft - groups[0].offsetLeft;
+                return groups[0] ? groups[0].offsetWidth : track.scrollWidth / 2;
+            }
+
+            function autoScrollActive() {
+                return groups[1] &&
+                    window.getComputedStyle(groups[1]).display !== 'none';
+            }
+
+            function normalizePosition() {
+                var span = loopWidth();
+                if (span <= 0) return;
+                if (row.scrollLeft >= span) row.scrollLeft -= span;
+                else if (row.scrollLeft <= 0) row.scrollLeft += span;
+            }
+
+            function anchorReverseLane() {
+                if (baseSign < 0 && desktopMode() && autoScrollActive()) {
+                    row.scrollLeft = loopWidth();
+                }
+            }
+
+            function targetVelocity() {
+                if (steerDirection !== 0) return STEER_PIXELS_PER_SECOND * steerDirection;
+                if (paused && !suppressPauseUntilLeave) return 0;
+                return AUTO_PIXELS_PER_SECOND * baseSign;
+            }
+
+            function frame(timestamp) {
+                if (lastTimestamp === 0) lastTimestamp = timestamp;
+                var elapsed = (timestamp - lastTimestamp) / 1000;
+                lastTimestamp = timestamp;
+
+                if (!document.hidden && elapsed > 0 && elapsed < MAX_STEP_SECONDS) {
+                    if (!desktopMode()) {
+                        mobileFrame(timestamp);
+                    } else if (!dragging && autoScrollActive()) {
+                        var target = targetVelocity();
+                        var easing = coasting ? EASING_PER_SECOND : PAUSE_EASING_PER_SECOND;
+                        var blend = 1 - Math.exp(-easing * elapsed);
+                        currentVelocity += (target - currentVelocity) * blend;
+                        if (coasting && Math.abs(currentVelocity - target) < 6) coasting = false;
+                        subPixelCarry += currentVelocity * elapsed;
+                        var wholePixels = Math.trunc(subPixelCarry);
+                        if (wholePixels !== 0) {
+                            subPixelCarry -= wholePixels;
+                            row.scrollLeft += wholePixels;
+                            normalizePosition();
+                        }
+                    }
+                }
+                requestAnimationFrame(frame);
+            }
+
+            function onPointerDown(event) {
+                if (!desktopMode()) return;
+                if (event.pointerType === 'mouse' && event.button !== 0) return;
+                if (!autoScrollActive()) return;
+                pointerIsDown = true;
+                dragging = false;
+                activePointerId = event.pointerId;
+                dragStartX = event.clientX;
+                lastSampleX = event.clientX;
+                lastSampleTime = event.timeStamp;
+                pointerVelocity = 0;
+            }
+
+            function onPointerMove(event) {
+                if (!pointerIsDown) return;
+                if (!dragging) {
+                    if (Math.abs(event.clientX - dragStartX) < DRAG_THRESHOLD_PIXELS) return;
+                    dragging = true;
+                    suppressPauseUntilLeave = true;
+                    row.classList.add('is-dragging');
+                    try { row.setPointerCapture(activePointerId); } catch (ignore) {}
+                    lastSampleX = event.clientX;
+                    lastSampleTime = event.timeStamp;
+                    return;
+                }
+                event.preventDefault();
+                var delta = event.clientX - lastSampleX;
+                row.scrollLeft -= delta;
+                normalizePosition();
+                var sampleSeconds = (event.timeStamp - lastSampleTime) / 1000;
+                if (sampleSeconds > 0) {
+                    pointerVelocity = -delta / Math.max(sampleSeconds, MIN_SAMPLE_SECONDS);
+                }
+                lastSampleX = event.clientX;
+                lastSampleTime = event.timeStamp;
+            }
+
+            function endPointer(event) {
+                if (!pointerIsDown) return;
+                pointerIsDown = false;
+                if (!dragging) return;
+                dragging = false;
+                row.classList.remove('is-dragging');
+                try { row.releasePointerCapture(activePointerId); } catch (ignore) {}
+
+                var stale = (event.timeStamp - lastSampleTime) > FLING_STALE_MILLISECONDS;
+                var release = stale ? 0 : pointerVelocity;
+                currentVelocity = Math.max(-MAX_FLING_PIXELS_PER_SECOND,
+                    Math.min(MAX_FLING_PIXELS_PER_SECOND, release));
+                coasting = Math.abs(currentVelocity) > AUTO_PIXELS_PER_SECOND * 1.5;
+                suppressNextClick = true;
+                lastTimestamp = 0;
+            }
+
+            row.addEventListener('pointerdown', onPointerDown);
+            row.addEventListener('pointermove', onPointerMove);
+            row.addEventListener('pointerup', endPointer);
+            row.addEventListener('pointercancel', endPointer);
+            row.addEventListener('dragstart', function (event) { event.preventDefault(); });
+            row.addEventListener('click', function (event) {
+                if (suppressNextClick) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    suppressNextClick = false;
+                }
+            }, true);
+
+            // A plain hover pauses the lane so people can read and click a card.
+            // A drag keeps it live until the pointer leaves, so the fling can settle.
+            row.addEventListener('pointerenter', function () { paused = true; });
+            row.addEventListener('focusin', function () { paused = true; });
+            row.addEventListener('pointerleave', function () {
+                paused = false;
+                suppressPauseUntilLeave = false;
+                lastTimestamp = 0;
+            });
+            row.addEventListener('focusout', function () {
+                paused = false;
+                lastTimestamp = 0;
+            });
+
+            // On touch the strip is an infinite quantized carousel. The loop below
+            // eases it one card onward, waits, and repeats. Driving the glide by
+            // hand keeps it animating even when the browser forces reduced motion
+            // (which would turn a native smooth scroll into an instant jump). The
+            // finger can still drag, and it loops with no edge.
+            var touching = false;
+            var lastTouchEnd = 0;
+            var settleTimer = null;
+            var mobilePhase = 'dwell';
+            var phaseStart = 0;
+            var moveFrom = 0;
+            var moveTo = 0;
+
+            function cardStep() {
+                var cards = groups[0] ? groups[0].children : [];
+                if (cards.length >= 2) return Math.abs(cards[1].offsetLeft - cards[0].offsetLeft);
+                return cards.length ? cards[0].offsetWidth : 0;
+            }
+
+            function inViewport() {
+                var box = row.getBoundingClientRect();
+                var viewHeight = window.innerHeight || document.documentElement.clientHeight;
+                return box.bottom > 0 && box.top < viewHeight;
+            }
+
+            function normalizeMobile() {
+                if (desktopMode() || touching || mobilePhase === 'move') return;
+                var span = loopWidth();
+                if (span <= 0) return;
+                if (row.scrollLeft >= span) row.scrollLeft -= span;
+                else if (row.scrollLeft <= 0) row.scrollLeft += span;
+            }
+
+            function mobileFrame(timestamp) {
+                if (phaseStart === 0) phaseStart = timestamp;
+                var idle = touching ||
+                    (performance.now() - lastTouchEnd) < MOBILE_RESUME_MILLISECONDS ||
+                    !inViewport();
+                if (idle) {
+                    mobilePhase = 'dwell';
+                    phaseStart = timestamp;
+                    return;
+                }
+                var step = cardStep();
+                var span = loopWidth();
+                if (step <= 0 || span <= 0) { phaseStart = timestamp; return; }
+
+                if (mobilePhase === 'move') {
+                    var progress = (timestamp - phaseStart) / MOBILE_MOVE_MILLISECONDS;
+                    if (progress >= 1) {
+                        row.scrollLeft = moveTo;
+                        mobilePhase = 'dwell';
+                        phaseStart = timestamp;
+                    } else {
+                        var eased = progress < 0.5
+                            ? 2 * progress * progress
+                            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+                        row.scrollLeft = moveFrom + (moveTo - moveFrom) * eased;
+                    }
+                } else if (timestamp - phaseStart >= MOBILE_DWELL_MILLISECONDS) {
+                    // Reposition by a whole loop (invisible: identical cards) so there
+                    // is always a full card of room in the travel direction.
+                    if (baseSign > 0) {
+                        if (row.scrollLeft >= span) row.scrollLeft -= span;
+                    } else if (row.scrollLeft <= step) {
+                        row.scrollLeft += span;
+                    }
+                    moveFrom = row.scrollLeft;
+                    moveTo = moveFrom + step * baseSign;
+                    mobilePhase = 'move';
+                    phaseStart = timestamp;
+                }
+            }
+
+            row.addEventListener('touchstart', function () { touching = true; }, { passive: true });
+            ['touchend', 'touchcancel'].forEach(function (name) {
+                row.addEventListener(name, function () {
+                    touching = false;
+                    lastTouchEnd = performance.now();
+                }, { passive: true });
+            });
+            row.addEventListener('scroll', function () {
+                if (desktopMode() || mobilePhase === 'move') return;
+                if (settleTimer) window.clearTimeout(settleTimer);
+                settleTimer = window.setTimeout(normalizeMobile, MOBILE_SETTLE_MILLISECONDS);
+            }, { passive: true });
+
+            anchorReverseLane();
+            window.addEventListener('load', anchorReverseLane);
+            window.addEventListener('resize', anchorReverseLane);
+            requestAnimationFrame(frame);
+        });
+    })();
+</script>

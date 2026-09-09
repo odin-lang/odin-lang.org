@@ -901,8 +901,15 @@ body.dark-mode .code-tab.is-active {
   padding: 0 0 0.5rem;
 }
 
+.home-showcase-marquee-lane {
+  position: relative;
+}
+
 .home-showcase-marquee-row {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   mask-image: linear-gradient(
     90deg,
     transparent 0%,
@@ -919,16 +926,68 @@ body.dark-mode .code-tab.is-active {
   );
 }
 
+.home-showcase-marquee-row::-webkit-scrollbar {
+  display: none;
+}
+
+.home-showcase-marquee-row {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.home-showcase-marquee-row.is-dragging {
+  cursor: grabbing;
+}
+
 .home-showcase-marquee-track {
   display: flex;
   width: max-content;
-  animation: home-showcase-marquee var(--marquee-duration, 40s) linear infinite;
-  animation-play-state: running;
 }
 
-.home-showcase-marquee-row--reverse .home-showcase-marquee-track {
-  animation-direction: reverse;
-  animation-delay: -12s;
+.home-showcase-marquee-edge {
+  align-items: center;
+  bottom: 0;
+  cursor: pointer;
+  display: flex;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  transition: opacity 0.3s ease;
+  width: 9%;
+  min-width: 3.5rem;
+  max-width: 7rem;
+  z-index: 4;
+}
+
+.home-showcase-marquee-lane:hover .home-showcase-marquee-edge,
+.home-showcase-marquee-lane:focus-within .home-showcase-marquee-edge {
+  opacity: 1;
+}
+
+.home-showcase-marquee-edge--left {
+  justify-content: flex-start;
+  left: 0;
+  padding-left: 0.6rem;
+}
+
+.home-showcase-marquee-edge--right {
+  justify-content: flex-end;
+  padding-right: 0.6rem;
+  right: 0;
+}
+
+.home-showcase-marquee-edge svg {
+  color: rgba(255, 255, 255, 0.82);
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
+  height: 1.7rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+  width: 1.7rem;
+}
+
+.home-showcase-marquee-edge:hover svg {
+  color: #fff;
+  transform: scale(1.18);
 }
 
 .home-showcase-marquee-group {
@@ -937,44 +996,75 @@ body.dark-mode .code-tab.is-active {
   padding-right: 1rem;
 }
 
-.home-showcase-marquee:hover .home-showcase-marquee-track,
-.home-showcase-marquee:focus-within .home-showcase-marquee-track {
-  animation-play-state: paused;
-}
-
 .showcase-marquee-card {
   flex: 0 0 22rem;
-  height: 18.5rem;
+  height: 20.5rem;
   width: 22rem;
 }
 
-.showcase-marquee-card .showcase-spotlight-content > p {
-  -webkit-line-clamp: 2;
-  min-height: 1.5em;
+.home-showcase-marquee .showcase-marquee-card .showcase-spotlight-content {
+  justify-content: flex-end;
+  padding: 1.5rem;
 }
 
-@keyframes home-showcase-marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
+.home-showcase-marquee .showcase-marquee-card .showcase-spotlight-tags {
+  margin-bottom: 0.7rem;
+  min-height: 0;
+  opacity: 1;
+  transform: none;
+}
+
+.home-showcase-marquee .showcase-marquee-card .showcase-spotlight-title {
+  font-size: clamp(1.4rem, 1.9vw, 1.85rem);
+  line-height: 1.05;
+}
+
+.home-showcase-marquee .showcase-marquee-reveal {
+  display: flex;
+  flex-direction: column;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.2, 0.65, 0.2, 1),
+    opacity 0.3s ease;
+}
+
+.home-showcase-marquee
+  .showcase-marquee-card:is(:hover, :focus-visible)
+  .showcase-marquee-reveal {
+  max-height: 9rem;
+  opacity: 1;
+}
+
+.home-showcase-marquee .showcase-marquee-reveal p:not(.showcase-spotlight-byline) {
+  color: #dfe9f4;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 0.55rem 0 0;
+  overflow: hidden;
 }
 
 @media (max-width: 767.98px) {
-  /* On touch there's no hover to pause the scroll or reveal text, so the
-     auto-marquee becomes a finger-swipeable, snap-to-card carousel instead. */
+  /* On touch there are no hover controls: the strip is a snap-to-card carousel
+     that the script advances one card at a time, and the finger can drag too. */
   .home-showcase-marquee {
     gap: 0.85rem;
   }
 
+  .home-showcase-marquee-edge {
+    display: none;
+  }
+
   .home-showcase-marquee-row {
+    cursor: auto;
     mask-image: none;
     -webkit-mask-image: none;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
     scroll-padding-inline: 1rem;
     scrollbar-width: none; /* Firefox */
   }
@@ -982,19 +1072,17 @@ body.dark-mode .code-tab.is-active {
     display: none; /* Safari/Chrome */
   }
 
-  .home-showcase-marquee-track,
-  .home-showcase-marquee-row--reverse .home-showcase-marquee-track {
-    animation: none; /* no auto-scroll on touch */
+  .home-showcase-marquee-track {
     width: max-content;
+    padding-inline: 1rem; /* keeps the first and last card clear of the edges */
   }
 
+  /* Both card sets stay in the DOM so the strip can loop. A right margin equal
+     to the inter-card gap keeps the seam between the two sets even. */
   .home-showcase-marquee-group {
     gap: 0.85rem;
-    padding: 0 1rem; /* lets the first/last card sit clear of the edges */
-  }
-  /* Only need one set of cards when the user is scrolling manually. */
-  .home-showcase-marquee-group[aria-hidden="true"] {
-    display: none;
+    margin-right: 0.85rem;
+    padding: 0;
   }
 
   /* Compact, image-forward tiles. Scoped with .home-showcase-marquee so they
@@ -1028,27 +1116,6 @@ body.dark-mode .code-tab.is-active {
   }
   .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-title {
     font-size: 1.35rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-showcase-marquee-track {
-    animation: none;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 100%;
-    width: 100%;
-    padding: 0 1rem;
-  }
-
-  .home-showcase-marquee-group:last-child {
-    display: none;
-  }
-
-  .home-showcase-marquee-row {
-    mask-image: none;
-    -webkit-mask-image: none;
-    overflow-x: auto;
   }
 }
 

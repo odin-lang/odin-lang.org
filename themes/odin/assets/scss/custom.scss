@@ -135,7 +135,7 @@ $table-cell-padding-x-sm: 0.2rem;
   color: white;
   display: block;
   isolation: isolate;
-  min-height: clamp(20rem, 28vw, 25rem);
+  height: clamp(21rem, 28vw, 25rem);
   overflow: hidden;
   position: relative;
   transition: border-color 0.25s ease, box-shadow 0.25s ease,
@@ -245,13 +245,11 @@ $table-cell-padding-x-sm: 0.2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem;
-  margin-bottom: 0;
-  max-height: 0;
+  margin-bottom: 1.25rem;
+  min-height: 1.6rem;
   opacity: 0;
-  overflow: hidden;
-  transform: translateY(0.75rem);
-  transition: max-height 0.35s ease, margin-bottom 0.35s ease,
-    opacity 0.22s ease, transform 0.35s ease;
+  transform: translateY(0.4rem);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .showcase-spotlight-tags span {
@@ -285,19 +283,21 @@ $table-cell-padding-x-sm: 0.2rem;
 .showcase-spotlight-content > p,
 .showcase-spotlight-byline,
 .showcase-spotlight-link {
-  max-height: 0;
   opacity: 0;
-  overflow: hidden;
-  transform: translateY(0.75rem);
-  transition: max-height 0.35s ease, margin 0.35s ease, opacity 0.22s ease,
-    transform 0.35s ease;
+  transform: translateY(0.4rem);
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .showcase-spotlight-content > p {
   color: #dfe9f4;
-  font-size: clamp(0.95rem, 1.35vw, 1.1rem);
-  line-height: 1.55;
-  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-size: clamp(0.88rem, 1.2vw, 1rem);
+  line-height: 1.5;
+  margin: 1rem 0 0;
+  min-height: calc(3 * 1.5em); // reserve 3 lines so the title lands uniformly
   max-width: 32rem;
 }
 
@@ -306,7 +306,7 @@ $table-cell-padding-x-sm: 0.2rem;
   font-size: 0.8rem !important;
   font-weight: 700;
   letter-spacing: 0.03em;
-  margin: 0 !important;
+  margin: 0.55rem 0 0 !important;
 }
 
 .showcase-spotlight-link {
@@ -316,7 +316,7 @@ $table-cell-padding-x-sm: 0.2rem;
   font-size: 0.92rem;
   font-weight: 800;
   gap: 0.5rem;
-  margin-top: 0;
+  margin-top: 1.3rem;
   padding-bottom: 0.3rem;
   width: fit-content;
 }
@@ -326,32 +326,12 @@ $table-cell-padding-x-sm: 0.2rem;
   opacity: 1;
 }
 
-.showcase-spotlight-card:is(:hover, :focus-visible) .showcase-spotlight-tags {
-  margin-bottom: 1.25rem;
-  max-height: 3rem;
-  opacity: 1;
-  transform: none;
-}
-
-.showcase-spotlight-card:is(:hover, :focus-visible) .showcase-spotlight-byline {
-  margin: 0.55rem 0 0 !important;
-  max-height: 2rem;
-  opacity: 1;
-  transform: none;
-}
-
+.showcase-spotlight-card:is(:hover, :focus-visible) .showcase-spotlight-tags,
+.showcase-spotlight-card:is(:hover, :focus-visible) .showcase-spotlight-byline,
 .showcase-spotlight-card:is(:hover, :focus-visible)
   .showcase-spotlight-content
-  > p {
-  margin: 1rem 0 0;
-  max-height: 8rem;
-  opacity: 1;
-  transform: none;
-}
-
+  > p,
 .showcase-spotlight-card:is(:hover, :focus-visible) .showcase-spotlight-link {
-  margin-top: 1.3rem;
-  max-height: 2rem;
   opacity: 1;
   transform: none;
 }
@@ -799,8 +779,13 @@ $table-cell-padding-x-sm: 0.2rem;
 
 .showcase-marquee-card {
   flex: 0 0 22rem;
-  min-height: 16.5rem;
+  height: 18.5rem;
   width: 22rem;
+}
+
+.showcase-marquee-card .showcase-spotlight-content > p {
+  -webkit-line-clamp: 2;
+  min-height: calc(2 * 1.5em);
 }
 
 @keyframes home-showcase-marquee {
@@ -815,7 +800,7 @@ $table-cell-padding-x-sm: 0.2rem;
 @media (max-width: 767.98px) {
   .showcase-marquee-card {
     flex-basis: 17.5rem;
-    min-height: 14.5rem;
+    height: 17rem;
     width: 17.5rem;
   }
 
@@ -1527,27 +1512,10 @@ body.dark-mode .games-catalog-itch {
   .showcase-spotlight-shade::after {
     opacity: 1;
   }
-  .showcase-spotlight-tags {
-    margin-bottom: 1.25rem;
-    max-height: 3rem;
-    opacity: 1;
-    transform: none;
-  }
-  .showcase-spotlight-byline {
-    margin: 0.55rem 0 0 !important;
-    max-height: 2rem;
-    opacity: 1;
-    transform: none;
-  }
-  .showcase-spotlight-content > p {
-    margin: 1rem 0 0;
-    max-height: 8rem;
-    opacity: 1;
-    transform: none;
-  }
+  .showcase-spotlight-tags,
+  .showcase-spotlight-byline,
+  .showcase-spotlight-content > p,
   .showcase-spotlight-link {
-    margin-top: 1.3rem;
-    max-height: 2rem;
     opacity: 1;
     transform: none;
   }

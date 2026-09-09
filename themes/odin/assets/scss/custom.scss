@@ -40,6 +40,21 @@ $table-cell-padding-x-sm: 0.2rem;
   margin-bottom: 0.85rem;
 }
 
+#example .code-example {
+  --code-tab-ink: rgba(255, 255, 255, 0.72);
+  --code-tab-line: rgba(255, 255, 255, 0.34);
+  --code-tab-hover: rgba(255, 255, 255, 0.12);
+}
+#example .code-tab:hover {
+  border-color: #fff;
+  color: #fff;
+}
+#example .code-tab.is-active {
+  background: #fff;
+  border-color: #fff;
+  color: #10233b;
+}
+
 .code-tab {
   background: transparent;
   border: 1px solid var(--code-tab-line);
@@ -896,7 +911,13 @@ body.dark-mode .code-tab.is-active {
 /* Homepage Showcase marquee */
 
 .home-showcase {
+  background: linear-gradient(180deg, #111f30 0%, #0c1420 100%);
+  color: #fff;
   overflow: hidden;
+}
+
+.home-showcase h2 {
+  color: #fff;
 }
 
 .home-showcase-lede {
@@ -1010,6 +1031,25 @@ body.dark-mode .code-tab.is-active {
   flex: 0 0 22rem;
   height: 20.5rem;
   width: 22rem;
+}
+
+.home-showcase-marquee .showcase-marquee-card::after {
+  border: 2px solid transparent;
+  border-radius: inherit;
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: border-color 0.25s ease;
+  z-index: 3;
+}
+
+.home-showcase-marquee .showcase-marquee-card:is(:hover, :focus-visible) {
+  box-shadow: 0 2rem 4.5rem rgba(2, 8, 18, 0.5);
+}
+
+.home-showcase-marquee .showcase-marquee-card:is(:hover, :focus-visible)::after {
+  border-color: rgba(255, 255, 255, 0.9);
 }
 
 .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-content {

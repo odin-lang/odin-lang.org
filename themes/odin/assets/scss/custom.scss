@@ -266,7 +266,7 @@ $table-cell-padding-x-sm: 0.2rem;
 .showcase-spotlight-title {
   border-left: 6px solid var(--showcase-orange);
   border-radius: 6px;
-  font-size: clamp(2.1rem, 3.4vw, 3.6rem);
+  font-size: clamp(1.8rem, 2.4vw, 3.6rem);
   font-weight: 750;
   line-height: 1;
   margin: 0;
@@ -297,7 +297,7 @@ $table-cell-padding-x-sm: 0.2rem;
   font-size: clamp(0.88rem, 1.2vw, 1rem);
   line-height: 1.5;
   margin: 1rem 0 0;
-  min-height: calc(3 * 1.5em); // reserve 3 lines so the title lands uniformly
+  min-height: 1.5em; // reserve 3 lines so the title lands uniformly
   max-width: 32rem;
 }
 
@@ -785,7 +785,7 @@ $table-cell-padding-x-sm: 0.2rem;
 
 .showcase-marquee-card .showcase-spotlight-content > p {
   -webkit-line-clamp: 2;
-  min-height: calc(2 * 1.5em);
+  min-height: 1.5em;
 }
 
 @keyframes home-showcase-marquee {
@@ -798,10 +798,45 @@ $table-cell-padding-x-sm: 0.2rem;
 }
 
 @media (max-width: 767.98px) {
+  /* On touch there's no hover to pause the scroll or reveal text, so the
+     auto-marquee becomes a finger-swipeable, snap-to-card carousel instead. */
+  .home-showcase-marquee {
+    gap: 0.85rem;
+  }
+
+  .home-showcase-marquee-row {
+    mask-image: none;
+    -webkit-mask-image: none;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1rem;
+    scrollbar-width: none; /* Firefox */
+  }
+  .home-showcase-marquee-row::-webkit-scrollbar {
+    display: none; /* Safari/Chrome */
+  }
+
+  .home-showcase-marquee-track,
+  .home-showcase-marquee-row--reverse .home-showcase-marquee-track {
+    animation: none; /* no auto-scroll on touch */
+    width: max-content;
+  }
+
+  .home-showcase-marquee-group {
+    gap: 0.85rem;
+    padding: 0 1rem; /* lets the first/last card sit clear of the edges */
+  }
+  /* Only need one set of cards when the user is scrolling manually. */
+  .home-showcase-marquee-group[aria-hidden="true"] {
+    display: none;
+  }
+
   .showcase-marquee-card {
-    flex-basis: 17.5rem;
-    height: 17rem;
-    width: 17.5rem;
+    flex: 0 0 clamp(15rem, 80vw, 20rem);
+    height: 18.5rem;
+    width: clamp(15rem, 80vw, 20rem); /* a sliver of the next card peeks in as a swipe hint */
+    scroll-snap-align: center;
   }
 
   .showcase-marquee-card .showcase-spotlight-title {

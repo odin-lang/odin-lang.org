@@ -1,0 +1,97 @@
+{{/*
+  Shared project card for Showcase, Games, and the homepage marquee.
+
+  Usage:
+    {{ partial "showcase-card.html" (dict "project" $project) }}
+    {{ partial "showcase-card.html" (dict "project" $project "variant" "marquee") }}
+*/}}
+{{- $project := .project -}}
+{{- $variant := .variant | default "" -}}
+{{- $isMarquee := eq $variant "marquee" -}}
+
+{{- $preview := $project.Params.showcase_preview | default $project.Params.game_preview -}}
+{{- $video := $project.Params.showcase_video | default $project.Params.game_video -}}
+{{- $videoType := $project.Params.game_video_type | default "" -}}
+{{- if and $video (not $videoType) -}}
+    {{- if hasSuffix $video ".webm" -}}
+        {{- $videoType = "video/webm" -}}
+    {{- else -}}
+        {{- $videoType = "video/mp4" -}}
+    {{- end -}}
+{{- end -}}
+{{- $description := $project.Params.showcase_description | default $project.Params.game_description -}}
+{{- $href := $project.Params.redirect | default $project.RelPermalink -}}
+{{- $isGame := isset $project.Params "game_platform" -}}
+{{- $cta := "Visit project" -}}
+{{- if eq $project.Params.game_platform "Steam" -}}
+    {{- $cta = "View on Steam" -}}
+{{- else if eq $project.Params.game_platform "Itch.io" -}}
+    {{- $cta = "View on Itch.io" -}}
+{{- end -}}
+
+<a
+    class="showcase-spotlight-card{{ if $project.Params.showcase_media_fit }} showcase-spotlight-card--{{ $project.Params.showcase_media_fit }}{{ end }}{{ if $isMarquee }} showcase-marquee-card{{ end }}"
+    href="{{ $href }}"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    <div class="showcase-spotlight-media{{ if $project.Params.showcase_logo }} showcase-spotlight-logo{{ end }}{{ if eq $project.Params.showcase_logo_background "gradient" }} showcase-spotlight-logo-gradient{{ end }}">
+        {{- if and (not $isMarquee) $video $preview -}}
+        <img
+            class="gallery-video-poster"
+            src="{{ $preview }}"
+            alt="Preview of {{ $project.Title }}"
+            loading="eager"
+            decoding="async"
+        >
+        <video
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            poster="{{ $preview }}"
+            controlslist="nofullscreen nodownload noremoteplayback"
+            disablepictureinpicture
+            data-gallery-video
+        >
+            <source src="{{ $video }}" type="{{ $videoType }}">
+        </video>
+        {{- else if $preview -}}
+        <img
+            src="{{ $preview }}"
+            alt="Preview of {{ $project.Title }}"
+            loading="{{ if $isMarquee }}eager{{ else }}lazy{{ end }}"
+        >
+        {{- else -}}
+        <div class="games-card-fallback" aria-hidden="true"><span>{{ $project.Title }}</span></div>
+        {{- end -}}
+    </div>
+    <div class="showcase-spotlight-shade" aria-hidden="true"></div>
+    <div class="showcase-spotlight-content">
+        {{- if not $isGame -}}
+            {{ with $project.Params.showcase_platforms }}
+            <div class="showcase-spotlight-tags showcase-spotlight-platforms" aria-label="Platforms">
+                {{ range split . "," }}
+                    {{ $platform := trim . " " }}
+                    {{ if $platform }}<span>{{ $platform }}</span>{{ end }}
+                {{ end }}
+            </div>
+            {{ end }}
+        {{- end -}}
+        <div class="showcase-spotlight-tags">
+            {{- if $isGame -}}
+                {{ with $project.Params.game_platform }}<span>{{ . }}</span>{{ end }}
+                {{ with $project.Params.game_status }}<span>{{ . }}</span>{{ end }}
+            {{- else -}}
+                {{ with $project.Params.showcase_kind }}<span>{{ . }}</span>{{ end }}
+                {{ with $project.Params.showcase_model }}<span>{{ . }}</span>{{ end }}
+                {{ with $project.Params.showcase_status }}<span>{{ . }}</span>{{ end }}
+            {{- end -}}
+        </div>
+        <h2 class="showcase-spotlight-title{{ with $project.Params.showcase_title_size }} showcase-spotlight-title--{{ . }}{{ end }}">{{ $project.Title }}</h2>
+        {{ with $project.Params.author }}<p class="showcase-spotlight-byline">by {{ . }}</p>{{ end }}
+        {{ with $description }}<p>{{ . }}</p>{{ end }}
+        <span class="showcase-spotlight-link">{{ $cta }}</span>
+    </div>
+</a>

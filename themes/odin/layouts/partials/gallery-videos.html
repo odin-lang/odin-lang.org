@@ -1,19 +1,78 @@
 <script>
-    document.querySelectorAll('[data-gallery-video]').forEach(function (video) {
-        function showVideo() {
-            video.parentElement.classList.add('is-video-ready');
+    (function () {
+        var videos = Array.prototype.slice.call(document.querySelectorAll('[data-gallery-video]'));
+        if (!videos.length) return;
+
+        var pageHidden = document.hidden;
+
+        // A video should decode only when it's on screen, its group is on screen,
+        // and the tab is in the foreground. Otherwise pause it (and show the poster).
+        function shouldPlay(v) {
+            return v._inView && !v._groupHidden && !pageHidden;
+        }
+        function sync(v) {
+            if (shouldPlay(v)) {
+                var p = v.play();
+                if (p && p.catch) p.catch(function () {});
+            } else if (!v.paused) {
+                v.pause();
+            }
         }
 
-        function hideVideo() {
-            video.parentElement.classList.remove('is-video-ready');
+        function ready(v)   { v.parentElement.classList.add('is-video-ready'); }
+        function unready(v) { v.parentElement.classList.remove('is-video-ready'); }
+
+        function inMarquee(v) {
+            return v.closest ? v.closest('.home-showcase-marquee') : null;
         }
 
-        video.addEventListener('playing', showVideo);
-        video.addEventListener('pause', hideVideo);
-        video.addEventListener('waiting', hideVideo);
-        video.addEventListener('stalled', hideVideo);
-        video.addEventListener('error', hideVideo);
+        videos.forEach(function (v) {
+            v._inView = false;
+            v._groupHidden = false;
+            v.addEventListener('playing', function () { ready(v); });
+            ['pause', 'waiting', 'stalled', 'error'].forEach(function (ev) {
+                v.addEventListener(ev, function () { unready(v); });
+            });
+        });
 
-        if (video.readyState >= 2 && !video.paused) showVideo();
-    });
+        if ('IntersectionObserver' in window) {
+            // Grid videos (Showcase / Games) move only with page scroll, so we can
+            // observe each one individually and pause the ones off screen.
+            var gridVideos = videos.filter(function (v) { return !inMarquee(v); });
+            if (gridVideos.length) {
+                var vio = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) {
+                        e.target._inView = e.isIntersecting;
+                        sync(e.target);
+                    });
+                }, { rootMargin: '100px', threshold: 0.01 });
+                gridVideos.forEach(function (v) { vio.observe(v); });
+            }
+
+            // Marquee cards move by CSS transform, where per-element observation is
+            // unreliable — so gate every video in a marquee by its static container.
+            var marquees = Array.prototype.slice.call(document.querySelectorAll('.home-showcase-marquee'));
+            if (marquees.length) {
+                var mio = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (e) {
+                        e.target.querySelectorAll('[data-gallery-video]').forEach(function (v) {
+                            v._inView = e.isIntersecting;
+                            v._groupHidden = !e.isIntersecting;
+                            sync(v);
+                        });
+                    });
+                }, { rootMargin: '100px', threshold: 0 });
+                marquees.forEach(function (m) { mio.observe(m); });
+            }
+        } else {
+            // No IntersectionObserver: fall back to the old "play everything" behaviour.
+            videos.forEach(function (v) { v._inView = true; sync(v); });
+        }
+
+        // Never decode video while the tab is in the background.
+        document.addEventListener('visibilitychange', function () {
+            pageHidden = document.hidden;
+            videos.forEach(sync);
+        });
+    })();
 </script>

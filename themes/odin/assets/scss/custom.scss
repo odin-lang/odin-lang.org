@@ -1137,11 +1137,6 @@ body.dark-mode .code-tab.is-active {
   opacity: 1;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .showcase-marquee-card video {
-    display: none;
-  }
-}
 
 
 .home-hero-eyebrow {

@@ -1,0 +1,15 @@
+package main
+
+import "core:fmt"
+
+Suit :: enum {Hearts, Diamonds, Clubs, Spades}
+
+main :: proc() {
+	symbols := [Suit]rune{
+		.Hearts   = '♥',
+		.Diamonds = '♦',
+		.Clubs    = '♣',
+		.Spades   = '♠',
+	}
+	fmt.println(symbols[.Spades]) // ♠
+}

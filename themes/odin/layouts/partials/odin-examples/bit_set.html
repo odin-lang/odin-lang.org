@@ -1,0 +1,12 @@
+package main
+
+import "core:fmt"
+
+Permission  :: enum {Read, Write, Execute}
+Permissions :: bit_set[Permission]
+
+main :: proc() {
+	p: Permissions = {.Read, .Write}
+	fmt.println(.Execute in p)  // false
+	fmt.println(p + {.Execute}) // Permissions{Read, Write, Execute}
+}

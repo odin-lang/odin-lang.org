@@ -916,6 +916,22 @@ body.dark-mode .code-tab.is-active {
   overflow: hidden;
 }
 
+.sponsors-logo {
+  display: block;
+  height: 130px;
+  margin: 0 auto;
+  width: auto;
+}
+.sponsors-logo--dark {
+  display: none;
+}
+body.dark-mode .sponsors-logo--light {
+  display: none;
+}
+body.dark-mode .sponsors-logo--dark {
+  display: block;
+}
+
 .home-showcase h2 {
   color: #fff;
 }

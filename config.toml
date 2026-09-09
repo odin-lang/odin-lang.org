@@ -4,7 +4,7 @@ theme = "odin"
 
 [params]
 # slogan = "The Data-Oriented Language for Sane Software Development."
-slogan = "Fall in Love with Programming Again."
+slogan = "Fall in Love with Programming, All Over Again."
 
 [markup.goldmark.renderer]
 unsafe = true

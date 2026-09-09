@@ -867,6 +867,22 @@ body.dark-mode .code-tab.is-active {
   text-decoration: none;
 }
 
+/* Cohesion: mirror the marquee's reduced-motion handling across the refresh.
+   Keep fades and colour changes, but drop the translate/scale movement on the
+   shared project cards (homepage marquee + Showcase/Games) and their reveals. */
+@media (prefers-reduced-motion: reduce) {
+  .showcase-spotlight-tags,
+  .showcase-spotlight-byline,
+  .showcase-spotlight-content > p,
+  .showcase-spotlight-link,
+  .showcase-spotlight-card:is(:hover, :focus-visible),
+  .showcase-spotlight-card:is(:hover, :focus-visible) .showcase-spotlight-media img,
+  .showcase-spotlight-card:is(:hover, :focus-visible) .showcase-spotlight-media video,
+  .games-card:hover {
+    transform: none;
+  }
+}
+
 /* Homepage Showcase marquee */
 
 .home-showcase {

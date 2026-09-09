@@ -3,10 +3,10 @@ body {
 }
 
 a {
-	text-decoration: none;
+    text-decoration: none;
 }
 a:hover {
-	text-decoration: underline;
+    text-decoration: underline;
 }
 
 .hero-logo {
@@ -14,8 +14,8 @@ a:hover {
 }
 
 .section-style-1 {
-    background-color: #3882d2;
-    color: var(--bs-light);
+    background-color: var(--section-1-bg);
+    color: var(--section-1-fg);
 }
 
 @media (min-width: 1400px) {
@@ -25,13 +25,13 @@ a:hover {
 }
 
 .section-style-2 {
-    background-color: #f8f9fa;
-    color: var(--bs-dark);
+    background-color: var(--section-2-bg);
+    color: var(--section-2-fg);
 }
 
 .section-style-3 {
-    background-color: white;
-    color: var(--bs-dark);
+    background-color: var(--section-3-bg);
+    color: var(--section-3-fg);
 }
 
 .odin-menu {
@@ -63,9 +63,9 @@ a:hover {
     font-family: var(--bs-font-sans-serif);
     font-size: 0.75rem;
     font-weight: 400;
-    color: inherit;    
+    color: inherit;
 }
-    
+
 #TableOfContents {
     color: var(--bs-primary);
 }
@@ -199,6 +199,14 @@ a {
     --dark-orange-border: HSL(28, 30%, 70%);
     --pale-orange: #fa4;
     --dark-code: #182028;
+
+    /* Section palette — light defaults; dark mode swaps these under body.dark-mode. */
+    --section-1-bg: #3882d2;
+    --section-1-fg: var(--bs-light);
+    --section-2-bg: #f8f9fa;
+    --section-2-fg: var(--bs-dark);
+    --section-3-bg: #ffffff;
+    --section-3-fg: var(--bs-dark);
 }
 
 :root .dark-mode {
@@ -223,21 +231,14 @@ a {
 body.dark-mode {
     background-color: var(--dark-background);
     color: var(--bs-light);
-}
 
-.dark-mode .section-style-1 {
-    background-color: var(--dark-blue)!important;
-    color: var(--bs-light);
-}
-
-.dark-mode .section-style-2 {
-    background-color: var(--dark-background);
-    color: var(--bs-light);
-}
-
-.dark-mode .section-style-3 {
-    background-color: var(--dark-third);
-    color: var(--bs-light);
+    /* Same section tokens, dark values — no per-section overrides or !important needed. */
+    --section-1-bg: var(--dark-blue);
+    --section-1-fg: var(--bs-light);
+    --section-2-bg: var(--dark-background);
+    --section-2-fg: var(--bs-light);
+    --section-3-bg: var(--dark-third);
+    --section-3-fg: var(--bs-light);
 }
 
 .dark-mode .bg-primary {

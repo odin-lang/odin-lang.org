@@ -237,14 +237,24 @@ body.dark-mode .code-tab.is-active {
 }
 
 .showcase-spotlights {
-  background: radial-gradient(
-      circle at 86% 7%,
-      rgba(88, 159, 222, 0.24),
-      transparent 34rem
-    ),
-    linear-gradient(135deg, #edf6fc, #f9fbfd 52%, #e7f0f8);
+  background: linear-gradient(180deg, #fbfdff 0%, #e6eff8 48%, #cfdeed 100%);
   color: var(--showcase-ink);
+  isolation: isolate;
+  overflow: hidden;
   padding: clamp(4rem, 8vw, 8rem) 0;
+  position: relative;
+}
+
+.showcase-spotlights::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  content: "";
+  inset: 0;
+  mix-blend-mode: soft-light;
+  opacity: 0.9;
+  mask-image: linear-gradient(180deg, #000 0%, #000 30%, transparent 84%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 30%, transparent 84%);
+  position: absolute;
+  z-index: -1;
 }
 
 .showcase-spotlights-heading {
@@ -1174,13 +1184,11 @@ body.dark-mode .showcase-page {
   background: #101722;
 }
 body.dark-mode .showcase-spotlights {
-  background: radial-gradient(
-      circle at 86% 7%,
-      rgba(101, 178, 245, 0.29),
-      transparent 34rem
-    ),
-    linear-gradient(135deg, #111c2c, #15263c 52%, #2d2d47);
+  background: linear-gradient(180deg, #1e2f46 0%, #131f30 50%, #090e15 100%);
   color: white;
+}
+body.dark-mode .showcase-spotlights::before {
+  opacity: 1;
 }
 body.dark-mode .showcase-spotlights-heading .showcase-eyebrow {
   color: #9bc8f6;

@@ -19,7 +19,6 @@
         var MOBILE_SETTLE_MILLISECONDS = 140;
 
         var desktopQuery = window.matchMedia('(min-width: 768px)');
-        function desktopMode() { return desktopQuery.matches; }
 
         rows.forEach(function (row) {
             var track = row.querySelector('.home-showcase-marquee-track');
@@ -27,6 +26,8 @@
 
             var groups = track.querySelectorAll('.home-showcase-marquee-group');
             var baseSign = row.classList.contains('home-showcase-marquee-row--reverse') ? -1 : 1;
+            var isDesktop = desktopQuery.matches;
+
             var paused = false;
             var steerDirection = 0;
             var lastTimestamp = 0;
@@ -43,6 +44,31 @@
             var lastSampleX = 0;
             var lastSampleTime = 0;
             var pointerVelocity = 0;
+            var pendingPointerX = 0;
+            var lastAppliedX = 0;
+
+            // Layout reads are cached and refreshed only on load/resize/breakpoint,
+            // never in the per-frame or per-pointermove hot paths, so dragging and
+            // auto-scroll never trigger a synchronous reflow.
+            var loopSpan = 0;
+            var cardStepPx = 0;
+            var groupsLaidOut = false;
+            var inView = true;
+
+            function measure() {
+                if (groups[1]) {
+                    loopSpan = groups[1].offsetLeft - groups[0].offsetLeft;
+                    groupsLaidOut = loopSpan > 0 &&
+                        window.getComputedStyle(groups[1]).display !== 'none';
+                } else {
+                    loopSpan = groups[0] ? groups[0].offsetWidth : 0;
+                    groupsLaidOut = false;
+                }
+                var cards = groups[0] ? groups[0].children : null;
+                cardStepPx = (cards && cards.length >= 2)
+                    ? Math.abs(cards[1].offsetLeft - cards[0].offsetLeft)
+                    : (cards && cards.length ? cards[0].offsetWidth : 0);
+            }
 
             var lane = row.closest('.home-showcase-marquee-lane') || row.parentElement;
             Array.prototype.forEach.call(
@@ -53,29 +79,17 @@
                     edge.addEventListener('pointerleave', function () { steerDirection = 0; });
                 });
 
-            // The list renders as two identical groups, so a jump of one group's
-            // repeat distance lands on a visually identical frame: an invisible seam.
-            function loopWidth() {
-                if (groups[1]) return groups[1].offsetLeft - groups[0].offsetLeft;
-                return groups[0] ? groups[0].offsetWidth : track.scrollWidth / 2;
-            }
-
-            function autoScrollActive() {
-                return groups[1] &&
-                    window.getComputedStyle(groups[1]).display !== 'none';
-            }
-
+            // Two identical groups: a jump of one group's width lands on an
+            // identical frame, so wrapping is an invisible seam.
             function normalizePosition() {
-                var span = loopWidth();
-                if (span <= 0) return;
-                if (row.scrollLeft >= span) row.scrollLeft -= span;
-                else if (row.scrollLeft <= 0) row.scrollLeft += span;
+                if (loopSpan <= 0) return;
+                if (row.scrollLeft >= loopSpan) row.scrollLeft -= loopSpan;
+                else if (row.scrollLeft <= 0) row.scrollLeft += loopSpan;
             }
 
             function anchorReverseLane() {
-                if (baseSign < 0 && desktopMode() && autoScrollActive()) {
-                    row.scrollLeft = loopWidth();
-                }
+                measure();
+                if (baseSign < 0 && isDesktop && groupsLaidOut) row.scrollLeft = loopSpan;
             }
 
             function targetVelocity() {
@@ -89,10 +103,17 @@
                 var elapsed = (timestamp - lastTimestamp) / 1000;
                 lastTimestamp = timestamp;
 
-                if (!document.hidden && elapsed > 0 && elapsed < MAX_STEP_SECONDS) {
-                    if (!desktopMode()) {
+                if (dragging) {
+                    var dragDelta = pendingPointerX - lastAppliedX;
+                    if (dragDelta !== 0) {
+                        lastAppliedX = pendingPointerX;
+                        row.scrollLeft -= dragDelta;
+                        normalizePosition();
+                    }
+                } else if (!document.hidden && elapsed > 0 && elapsed < MAX_STEP_SECONDS) {
+                    if (!isDesktop) {
                         mobileFrame(timestamp);
-                    } else if (!dragging && autoScrollActive()) {
+                    } else if (groupsLaidOut) {
                         var target = targetVelocity();
                         var easing = coasting ? EASING_PER_SECOND : PAUSE_EASING_PER_SECOND;
                         var blend = 1 - Math.exp(-easing * elapsed);
@@ -111,9 +132,9 @@
             }
 
             function onPointerDown(event) {
-                if (!desktopMode()) return;
+                if (!isDesktop) return;
                 if (event.pointerType === 'mouse' && event.button !== 0) return;
-                if (!autoScrollActive()) return;
+                if (!groupsLaidOut) return;
                 pointerIsDown = true;
                 dragging = false;
                 activePointerId = event.pointerId;
@@ -123,6 +144,9 @@
                 pointerVelocity = 0;
             }
 
+            // The pointermove handler only records the latest position and a cheap
+            // velocity sample. The scroll write happens once per animation frame
+            // (above), which coalesces bursts from high-refresh pointers.
             function onPointerMove(event) {
                 if (!pointerIsDown) return;
                 if (!dragging) {
@@ -131,17 +155,18 @@
                     suppressPauseUntilLeave = true;
                     row.classList.add('is-dragging');
                     try { row.setPointerCapture(activePointerId); } catch (ignore) {}
+                    lastAppliedX = event.clientX;
+                    pendingPointerX = event.clientX;
                     lastSampleX = event.clientX;
                     lastSampleTime = event.timeStamp;
                     return;
                 }
                 event.preventDefault();
-                var delta = event.clientX - lastSampleX;
-                row.scrollLeft -= delta;
-                normalizePosition();
+                pendingPointerX = event.clientX;
                 var sampleSeconds = (event.timeStamp - lastSampleTime) / 1000;
                 if (sampleSeconds > 0) {
-                    pointerVelocity = -delta / Math.max(sampleSeconds, MIN_SAMPLE_SECONDS);
+                    pointerVelocity = -(event.clientX - lastSampleX) /
+                        Math.max(sampleSeconds, MIN_SAMPLE_SECONDS);
                 }
                 lastSampleX = event.clientX;
                 lastSampleTime = event.timeStamp;
@@ -204,39 +229,23 @@
             var moveFrom = 0;
             var moveTo = 0;
 
-            function cardStep() {
-                var cards = groups[0] ? groups[0].children : [];
-                if (cards.length >= 2) return Math.abs(cards[1].offsetLeft - cards[0].offsetLeft);
-                return cards.length ? cards[0].offsetWidth : 0;
-            }
-
-            function inViewport() {
-                var box = row.getBoundingClientRect();
-                var viewHeight = window.innerHeight || document.documentElement.clientHeight;
-                return box.bottom > 0 && box.top < viewHeight;
-            }
-
             function normalizeMobile() {
-                if (desktopMode() || touching || mobilePhase === 'move') return;
-                var span = loopWidth();
-                if (span <= 0) return;
-                if (row.scrollLeft >= span) row.scrollLeft -= span;
-                else if (row.scrollLeft <= 0) row.scrollLeft += span;
+                if (isDesktop || touching || mobilePhase === 'move' || loopSpan <= 0) return;
+                if (row.scrollLeft >= loopSpan) row.scrollLeft -= loopSpan;
+                else if (row.scrollLeft <= 0) row.scrollLeft += loopSpan;
             }
 
             function mobileFrame(timestamp) {
                 if (phaseStart === 0) phaseStart = timestamp;
                 var idle = touching ||
                     (performance.now() - lastTouchEnd) < MOBILE_RESUME_MILLISECONDS ||
-                    !inViewport();
+                    !inView;
                 if (idle) {
                     mobilePhase = 'dwell';
                     phaseStart = timestamp;
                     return;
                 }
-                var step = cardStep();
-                var span = loopWidth();
-                if (step <= 0 || span <= 0) { phaseStart = timestamp; return; }
+                if (cardStepPx <= 0 || loopSpan <= 0) { phaseStart = timestamp; return; }
 
                 if (mobilePhase === 'move') {
                     var progress = (timestamp - phaseStart) / MOBILE_MOVE_MILLISECONDS;
@@ -254,12 +263,12 @@
                     // Reposition by a whole loop (invisible: identical cards) so there
                     // is always a full card of room in the travel direction.
                     if (baseSign > 0) {
-                        if (row.scrollLeft >= span) row.scrollLeft -= span;
-                    } else if (row.scrollLeft <= step) {
-                        row.scrollLeft += span;
+                        if (row.scrollLeft >= loopSpan) row.scrollLeft -= loopSpan;
+                    } else if (row.scrollLeft <= cardStepPx) {
+                        row.scrollLeft += loopSpan;
                     }
                     moveFrom = row.scrollLeft;
-                    moveTo = moveFrom + step * baseSign;
+                    moveTo = moveFrom + cardStepPx * baseSign;
                     mobilePhase = 'move';
                     phaseStart = timestamp;
                 }
@@ -273,14 +282,37 @@
                 }, { passive: true });
             });
             row.addEventListener('scroll', function () {
-                if (desktopMode() || mobilePhase === 'move') return;
+                if (isDesktop || mobilePhase === 'move') return;
                 if (settleTimer) window.clearTimeout(settleTimer);
                 settleTimer = window.setTimeout(normalizeMobile, MOBILE_SETTLE_MILLISECONDS);
             }, { passive: true });
 
+            if ('IntersectionObserver' in window) {
+                inView = false;
+                new IntersectionObserver(function (entries) {
+                    inView = entries[entries.length - 1].isIntersecting;
+                }, { rootMargin: '150px 0px' }).observe(row);
+            }
+
+            function onBreakpoint(event) {
+                isDesktop = event.matches;
+                measure();
+            }
+            if (desktopQuery.addEventListener) desktopQuery.addEventListener('change', onBreakpoint);
+            else if (desktopQuery.addListener) desktopQuery.addListener(onBreakpoint);
+
+            var resizePending = false;
+            window.addEventListener('resize', function () {
+                if (resizePending) return;
+                resizePending = true;
+                requestAnimationFrame(function () {
+                    resizePending = false;
+                    anchorReverseLane();
+                });
+            });
+
             anchorReverseLane();
             window.addEventListener('load', anchorReverseLane);
-            window.addEventListener('resize', anchorReverseLane);
             requestAnimationFrame(frame);
         });
     })();

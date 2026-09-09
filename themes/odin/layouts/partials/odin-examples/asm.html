@@ -1,0 +1,16 @@
+package main
+
+import "core:fmt"
+
+rdtsc :: asm() -> (lo, hi: u32) [
+	lo = %eax,
+	hi = %edx,
+] {
+	rdtsc
+}
+
+main :: proc() {
+	lo, hi := rdtsc()
+	cycles := (u64(hi) << 32) | u64(lo)
+	fmt.println("cycle counter:", cycles)
+}

@@ -1,0 +1,12 @@
+package main
+
+import "core:fmt"
+
+main :: proc() {
+	xs := [5]int{10, 20, 30, 40, 50}
+
+	fmt.println(xs[:])   // [10, 20, 30, 40, 50]  whole array as a view
+	fmt.println(xs[1:4]) // [20, 30, 40]
+	fmt.println(xs[2:])  // [30, 40, 50]
+	fmt.println(xs[:3])  // [10, 20, 30]
+}

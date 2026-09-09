@@ -1,0 +1,16 @@
+package main
+
+import "core:fmt"
+
+Pos :: struct { line, col: int }
+
+Token :: struct {
+	using pos: Pos,
+	text: string,
+}
+
+main :: proc() {
+	tok := Token{Pos{3, 12}, "hello"}
+	fmt.println(tok.line, tok.col) // reach in without .pos
+	fmt.println(tok.text)
+}

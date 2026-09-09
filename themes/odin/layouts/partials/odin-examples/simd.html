@@ -1,0 +1,13 @@
+package main
+
+import "core:fmt"
+import "core:simd"
+
+main :: proc() {
+	a := #simd[4]f32{1, 2, 3, 4}
+	b := #simd[4]f32{10, 20, 30, 40}
+
+	c := a + b              // one add across all four lanes
+	fmt.println(c)          // <11, 22, 33, 44>
+	fmt.println(simd.reduce_add_ordered(c)) // 110
+}

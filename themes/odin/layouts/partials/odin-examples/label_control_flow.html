@@ -1,0 +1,20 @@
+package main
+
+import "core:fmt"
+
+main :: proc() {
+	grid := [3][3]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9},
+	}
+
+	search: for row, y in grid {
+		for val, x in row {
+			if val == 5 {
+				fmt.printfln("found at (%d, %d)", x, y)
+				break search
+			}
+		}
+	}
+}

@@ -1,0 +1,12 @@
+package main
+
+import "core:fmt"
+
+divmod :: proc(a, b: int) -> (quotient, remainder: int) {
+	return a / b, a % b
+}
+
+main :: proc() {
+	q, r := divmod(17, 5)
+	fmt.println(q, r) // 3 2
+}

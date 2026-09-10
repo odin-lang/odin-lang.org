@@ -229,6 +229,15 @@
             var moveFrom = 0;
             var moveTo = 0;
 
+            var snapOff = false;
+            function setSnapOff(v) {
+                if (v === snapOff) {
+                    return; // only touch the DOM when it actually changes
+                }
+                snapOff = v;
+                row.classList.toggle('is-auto-move', v);
+            }
+
             function normalizeMobile() {
                 if (isDesktop || touching || mobilePhase === 'move' || loopSpan <= 0) return;
                 if (row.scrollLeft >= loopSpan) row.scrollLeft -= loopSpan;
@@ -241,11 +250,17 @@
                     (performance.now() - lastTouchEnd) < MOBILE_RESUME_MILLISECONDS ||
                     !inView;
                 if (idle) {
+                    setSnapOff(false);             // hand control back to CSS snap so a swipe settles to a card
                     mobilePhase = 'dwell';
                     phaseStart = timestamp;
                     return;
                 }
-                if (cardStepPx <= 0 || loopSpan <= 0) { phaseStart = timestamp; return; }
+                if (cardStepPx <= 0 || loopSpan <= 0) {
+                    phaseStart = timestamp;
+                    return;
+                }
+
+                setSnapOff(true);                  // auto mode: we own scrollLeft, snap must not interfere
 
                 if (mobilePhase === 'move') {
                     var progress = (timestamp - phaseStart) / MOBILE_MOVE_MILLISECONDS;
@@ -260,10 +275,10 @@
                         row.scrollLeft = moveFrom + (moveTo - moveFrom) * eased;
                     }
                 } else if (timestamp - phaseStart >= MOBILE_DWELL_MILLISECONDS) {
-                    // Reposition by a whole loop (invisible: identical cards) so there
-                    // is always a full card of room in the travel direction.
                     if (baseSign > 0) {
-                        if (row.scrollLeft >= loopSpan) row.scrollLeft -= loopSpan;
+                        if (row.scrollLeft >= loopSpan) {
+                            row.scrollLeft -= loopSpan;
+                        }
                     } else if (row.scrollLeft <= cardStepPx) {
                         row.scrollLeft += loopSpan;
                     }

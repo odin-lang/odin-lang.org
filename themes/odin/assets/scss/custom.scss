@@ -1136,6 +1136,10 @@ body.dark-mode .sponsors-logo--dark {
     display: none;
   }
 
+  .home-showcase-marquee-row.is-auto-move {
+    scroll-snap-type: none;
+  }
+
   .home-showcase-marquee-row {
     cursor: auto;
     mask-image: none;

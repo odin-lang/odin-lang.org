@@ -49,15 +49,36 @@
 
 
 {{- /* Twitter / X cards — mirror the Open Graph values, reuse the same image fallback */}}
-{{- $ogImage := "/images/logo-slim.png" -}}
-{{- with $.Param "images" }}{{ $ogImage = index . 0 }}{{ end -}}
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="{{ .Title }}" />
 <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ if .IsPage }}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
-<meta name="twitter:image" content="{{ $ogImage | absURL }}" />
-{{- with .Site.Params.twitter }}
+<meta name="twitter:image" content="{{ "/images/logo-slim.png" | absURL }}" />
 <meta name="twitter:site" content="@odinlang" />
-{{- end }}
+
+{{- /* Structured data (schema.org JSON-LD): Organization + WebSite graph */}}
+{{- $base := absURL "/" -}}
+{{- $sameAs := slice
+    "https://github.com/odin-lang/Odin"
+    "https://discord.gg/vafXTdubwr"
+    "https://www.twitch.tv/ginger_bill"
+    "https://www.youtube.com/channel/UCUSck1dOH7VKmG4lRW7tZXg" -}}
+{{- with .Site.Params.twitter }}{{ $sameAs = $sameAs | append (printf "https://x.com/%s" (strings.TrimPrefix "@" .)) }}{{ end -}}
+{{- $org := dict
+    "@type" "Organization"
+    "@id" (printf "%s#organization" $base)
+    "name" .Site.Title
+    "url" $base
+    "logo" (dict "@type" "ImageObject" "url" (absURL "/logo.svg"))
+    "sameAs" $sameAs -}}
+{{- $website := dict
+    "@type" "WebSite"
+    "@id" (printf "%s#website" $base)
+    "name" .Site.Title
+    "url" $base
+    "publisher" (dict "@id" (printf "%s#organization" $base)) -}}
+{{- with .Site.Params.description }}{{ $website = merge $website (dict "description" .) }}{{ end -}}
+{{- $ld := dict "@context" "https://schema.org" "@graph" (slice $org $website) -}}
+<script type="application/ld+json">{{ jsonify $ld | safeJS }}</script>
 
 <!-- Bootstrap CSS -->
 {{ $scss := resources.Get "scss/custom.scss" }}

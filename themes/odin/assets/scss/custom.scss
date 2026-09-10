@@ -217,6 +217,17 @@ body.dark-mode .code-tab.is-active {
   }
 }
 
+@media (prefers-color-scheme: light) {
+  .dark-mode-invert-image {
+    filter: invert(0%);
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .dark-mode-invert-image {
+    filter: invert(100%);
+  }
+}
+
 .youtube-container {
   position: relative;
   width: 100%;

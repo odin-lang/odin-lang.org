@@ -24,6 +24,34 @@ $table-cell-padding-x-sm: 0.2rem;
   will-change: transform, opacity, filter;
 }
 
+/* Skip-to-content link: off-screen until focused, then slides in above the nav. */
+.skip-link {
+  position: fixed;
+  top: -4rem;
+  left: 0.75rem;
+  z-index: 2000;
+  padding: 0.55rem 1rem;
+  background: $blue;
+  color: #fff;
+  border-radius: 0 0 0.4rem 0.4rem;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* Defer rendering of long, below-the-fold homepage sections until scrolled near. */
+#example,
+#principles,
+#batteries-included,
+#community {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+
 // Fix text buttons with blue background being black instead of white
 .btn-outline-primary:hover {
   color: $light;

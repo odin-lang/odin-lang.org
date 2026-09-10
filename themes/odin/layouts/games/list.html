@@ -3,7 +3,7 @@
 {{ $steamGames = $steamGames.ByDate.Reverse }}
 {{ $itchGames := where .Pages "Params.game_platform" "Itch.io" }}
 {{ $itchGames = $itchGames.ByTitle }}
-<main class="showcase-page">
+<main id="main" tabindex="-1" class="showcase-page">
     <section class="showcase-spotlights" id="steam">
         <div class="container-xxl">
             <header class="showcase-spotlights-heading">

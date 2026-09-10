@@ -1,5 +1,5 @@
 {{ define "main" }}
-<main>
+<main id="main" tabindex="-1">
     <section class="section-style-1" id="home-hero-header">
         <div class=" container d-flex flex-column justify-content-center align-items-center text-center p-5 ">
             <img class="img-fluid mb-5 hero-logo" src="/logo.svg" height="120" alt="Odin" />
@@ -258,13 +258,13 @@
                     </div>
                 </div>
                 <div class="col-lg text-center pt-4" id="vendor-packages">
-                    <a href="https://pkg.odin-lang.org/vendor/sdl2"                           rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/Simple_DirectMedia_Layer_Logo.svg"     alt="Simple DirectMedia Layer" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/raylib"                         rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/raylib_64x64.png"                      alt="raylib" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/OpenGL"                         rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/OpenGL_logo.svg"                       alt="OpenGL" /></a>
-                    <a href="https://github.com/odin-lang/Odin/tree/master/vendor/wasm/WebGL" rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/WebGL_Logo.svg"                        alt="WebGL" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/vulkan"                         rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" width="200px" src="/vendor/companies/Vulkan_logo.svg"                       alt="Vulkan" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/darwin/Metal"                   rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/Metal_2_Logo.png"                      alt="Metal" /></a>
-                    <a href="https://github.com/odin-lang/Odin/tree/master/vendor/directx"    rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4 img-dark-mode-invert" height="64px" src="/vendor/companies/DirectX_logo.svg" alt="DirectX" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/sdl2"                           rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/Simple_DirectMedia_Layer_Logo.svg"     alt="Simple DirectMedia Layer" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/raylib"                         rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/raylib_64x64.png"                      alt="raylib" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/OpenGL"                         rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/OpenGL_logo.svg"                       alt="OpenGL" /></a>
+                    <a href="https://github.com/odin-lang/Odin/tree/master/vendor/wasm/WebGL" rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/WebGL_Logo.svg"                        alt="WebGL" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/vulkan"                         rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" width="200px" src="/vendor/companies/Vulkan_logo.svg"                       alt="Vulkan" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/darwin/Metal"                   rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/Metal_2_Logo.png"                      alt="Metal" /></a>
+                    <a href="https://github.com/odin-lang/Odin/tree/master/vendor/directx"    rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4 img-dark-mode-invert" height="64px" src="/vendor/companies/DirectX_logo.svg" alt="DirectX" /></a>
                     <a href="https://pkg.odin-lang.org/vendor/wgpu"                           rel="noopener" target="_blank">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 61.657897 79.084803" class="mx-4 mb-4" height="64px" aria-label="wgpu">
                             <linearGradient id="wgpu-logo-gradient-a" gradientUnits="userSpaceOnUse" x1="67.733323" x2="67.733323" y1="31.883125" y2="50.933122">
@@ -299,14 +299,14 @@
                             </g>
                         </svg>
                     </a>
-                    <a href="https://pkg.odin-lang.org/vendor/box3d"                     rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/box2d.svg"            alt="box3d" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/microui"                   rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/microui_logo.png"     alt="microui" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/miniaudio"                 rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="36px" src="/vendor/companies/miniaudio_logo.png"   alt="miniaudio" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/curl"                      rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="32px" src="/vendor/companies/curl-logo.svg"        alt="curl" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/lua"                       rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/lua_logo.png"         alt="lua" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/ggpo"                      rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/ggpo_logo.png"        alt="ggpo" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/commonmark"                rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/markdown-mark.png"    alt="commonmark" id="light-mode-icon" style="filter: invert(100%)" /></a>
-                    <a href="https://pkg.odin-lang.org/vendor/commonmark"                rel="noopener" target="_blank"><img loading="lazy" class="mx-4 mb-4" height="64px" src="/vendor/companies/markdown-mark.png"    alt="commonmark" id="dark-mode-icon" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/box3d"                     rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/box2d.svg"            alt="box3d" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/microui"                   rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/microui_logo.png"     alt="microui" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/miniaudio"                 rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="36px" src="/vendor/companies/miniaudio_logo.png"   alt="miniaudio" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/curl"                      rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="32px" src="/vendor/companies/curl-logo.svg"        alt="curl" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/lua"                       rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/lua_logo.png"         alt="lua" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/ggpo"                      rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/ggpo_logo.png"        alt="ggpo" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/commonmark"                rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/markdown-mark.png"    alt="commonmark" id="light-mode-icon" style="filter: invert(100%)" /></a>
+                    <a href="https://pkg.odin-lang.org/vendor/commonmark"                rel="noopener" target="_blank"><img loading="lazy" decoding="async" class="mx-4 mb-4" height="64px" src="/vendor/companies/markdown-mark.png"    alt="commonmark" id="dark-mode-icon" /></a>
 
                     <p class="pt-4 text-muted opacity-50 text-center">All product names, logos, and brands are property of their respective owners.</p>
                 </div>
@@ -402,13 +402,25 @@
         }
 
         tabs.forEach(function (tab, i) {
+            tab.tabIndex = tab.classList.contains("is-active") ? 0 : -1;
             tab.addEventListener("click", function () { activate(tab); });
             // Left/right arrow navigation across the tab strip.
             tab.addEventListener("keydown", function (e) {
                 var next;
-                if (e.key === "ArrowRight") next = tabs[(i + 1) % tabs.length];
-                else if (e.key === "ArrowLeft") next = tabs[(i - 1 + tabs.length) % tabs.length];
-                if (next) { e.preventDefault(); next.focus(); activate(next); }
+                if (e.key === "ArrowRight") {
+                    next = tabs[(i + 1) % tabs.length];
+                } else if (e.key === "ArrowLeft") {
+                    next = tabs[(i - 1 + tabs.length) % tabs.length];
+                } else if (e.key === "Home") {
+                    next = tabs[0];
+                } else if (e.key === "End") {
+                    next = tabs[tabs.length - 1];
+                }
+                if (next) {
+                    e.preventDefault();
+                    next.focus();
+                    activate(next);
+                }
             });
         });
 

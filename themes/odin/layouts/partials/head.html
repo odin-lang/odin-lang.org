@@ -12,10 +12,16 @@
 <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
 <meta property="og:url" content="{{ .Permalink }}" />
+{{- $ogImageAlt := .Site.Title -}}
+{{- if .IsPage }}{{ $ogImageAlt = .Title }}{{ end }}
 {{ with $.Param "images" }}{{ range first 6 . }}
 <meta property="og:image" content="{{ . | absURL }}" />
+<meta property="og:image:alt" content="{{ $ogImageAlt }}" />
 {{ end }}{{ else }}
 <meta property="og:image" content="{{ "/images/logo-slim.png" | absURL }}" />
+<meta property="og:image:alt" content="{{ $ogImageAlt }}" />
+<meta property="og:image:width" content="500" />
+<meta property="og:image:height" content="260" />
 {{ end }}
 
 {{- if .IsPage }}

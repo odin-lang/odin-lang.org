@@ -50,5 +50,79 @@ window.addEventListener('DOMContentLoaded', () => {
 			table.classList.add("table", "table-striped");
 		}
 	})
-})
+});
 
+
+
+// Randomly rotate the hero slogan with an animated swap.
+(function () {
+	const el     = document.querySelector('.slogan-rotator');
+	const dataEl = document.getElementById('slogan-data');
+	if (!el || !dataEl) {
+		return;
+	}
+
+	let slogans;
+	try {
+		slogans = JSON.parse(dataEl.textContent);
+		if (typeof slogans === 'string') {
+			slogans = JSON.parse(slogans); // peel a second layer if double-encoded
+		}
+	} catch (e) {
+		return;
+	}
+	console.log(Array.isArray(slogans), slogans.length, slogans);
+	if (!Array.isArray(slogans) || slogans.length < 2) {
+		return;
+	}
+
+
+	const style = [
+			[{transform:'translateX(0)',      opacity:1, filter:'blur(0)'},
+			 {transform:'translateX(-1.4rem)',opacity:0, filter:'blur(6px)'}],
+			[{transform:'translateX(1.4rem)', opacity:0, filter:'blur(6px)'},
+			 {transform:'translateX(0)',      opacity:1, filter:'blur(0)'}],
+	];
+	const interval = Math.max(1000, parseInt(el.dataset.sloganInterval, 10) || 2200);
+
+	let i = Math.max(0, slogans.indexOf(el.textContent.trim()));
+	let busy = false;
+
+	function nextIndex() {
+		if (slogans.length < 3) {
+			return (i + 1) % slogans.length;
+		}
+		let n;
+		do {
+			n = Math.floor(Math.random() * slogans.length);
+		} while (n === i);
+		return n;
+	}
+	function timing() {
+		return {
+			duration: 400,
+			easing:   'cubic-bezier(.4,0,.2,1)',
+			fill:     'both'
+		};
+	}
+	async function swap() {
+		if (busy || document.hidden) {
+			// don't animate on a background tab
+			return;
+		}
+		busy = true;
+		const n = nextIndex();
+		const pair = style;
+		try {
+			await el.animate(pair[0], timing()).finished;
+			el.textContent = slogans[n];
+			await el.animate(pair[1], timing()).finished;
+			i = n;
+		} catch (e) {
+			// animation cancelled
+		}
+		busy = false;
+	}
+
+	setInterval(swap, interval);
+})();

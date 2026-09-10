@@ -6,6 +6,16 @@ theme = "odin"
 # slogan = "The Data-Oriented Language for Sane Software Development."
 slogan = "Fall in Love with Programming, all over Again."
 
+slogans = [
+  "Fall in Love with Programming, all over Again.",
+  "The Data-Oriented Language for Sane Software Development.",
+  "Programming Done Right.",
+  "The Data-Oriented Language for People Who Ship.",
+  "For the Joy of Programming.",
+  "Built for the Machine. Written for You.",
+  "Simple to read. Serious to run.",
+]
+
 [markup.goldmark.renderer]
 unsafe = true
 

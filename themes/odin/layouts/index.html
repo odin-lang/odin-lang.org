@@ -4,7 +4,12 @@
         <div class=" container d-flex flex-column justify-content-center align-items-center text-center p-5 ">
             <img class="img-fluid mb-5 hero-logo" src="/logo.svg" height="120" alt="Odin" />
             <h1 class="fw-normal"><b>Odin</b> Programming Language</h1>
-            <h2 class="fw-normal">{{ .Site.Params.Slogan }}</h2>
+            <h2 class="fw-normal slogan-line">
+                <span class="slogan-rotator" data-slogan-interval="3000">{{ .Site.Params.Slogan }}</span>
+            </h2>
+            {{ with .Site.Params.slogans }}
+            <script type="application/json" id="slogan-data">{{ . | jsonify }}</script>
+            {{ end }}
             <div class="d-flex flex-wrap justify-content-center gap-2 mt-3">
                 <a href="/docs/overview" class="btn btn-secondary text-light">
                     Overview

@@ -12,6 +12,18 @@ $table-cell-padding-x-sm: 0.2rem;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+.slogan-line {
+  min-height: calc(2 * 1.35em);        // ~2 lines, so wrapping slogans don't jolt the hero
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 700px;                  // only needed for the "flip" style
+}
+.slogan-rotator {
+  display: inline-block;
+  will-change: transform, opacity, filter;
+}
+
 // Fix text buttons with blue background being black instead of white
 .btn-outline-primary:hover {
   color: $light;

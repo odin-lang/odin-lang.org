@@ -71,11 +71,9 @@ window.addEventListener('DOMContentLoaded', () => {
 	} catch (e) {
 		return;
 	}
-	console.log(Array.isArray(slogans), slogans.length, slogans);
 	if (!Array.isArray(slogans) || slogans.length < 2) {
 		return;
 	}
-
 
 	const style = [
 			[{transform:'translateX(0)',      opacity:1, filter:'blur(0)'},
@@ -85,19 +83,44 @@ window.addEventListener('DOMContentLoaded', () => {
 	];
 	const interval = Math.max(1000, parseInt(el.dataset.sloganInterval, 10) || 2200);
 
-	let i = Math.max(0, slogans.indexOf(el.textContent.trim()));
+	// -1 if the server-rendered text isn't one of the pool entries.
+	let i = slogans.indexOf(el.textContent.trim());
 	let busy = false;
 
-	function nextIndex() {
-		if (slogans.length < 3) {
-			return (i + 1) % slogans.length;
+	// Shuffle bag: every slogan is drawn once per cycle before any repeats.
+	let bag = [];
+	let seeded = false;
+
+	function fillBag() {
+		bag = slogans.map(function (_, idx) { return idx; });
+		for (let k = bag.length - 1; k > 0; k--) { // Fisher–Yates shuffle
+			const j = Math.floor(Math.random() * (k + 1));
+			const t = bag[k];
+			bag[k] = bag[j];
+			bag[j] = t;
 		}
-		let n;
-		do {
-			n = Math.floor(Math.random() * slogans.length);
-		} while (n === i);
-		return n;
+		if (!seeded) {
+			seeded = true;
+			if (i >= 0) {
+				const at = bag.indexOf(i);
+				if (at !== -1) {
+					bag.splice(at, 1);
+				}
+			}
+		} else if (bag.length > 1 && bag[bag.length - 1] === i) {
+			const t = bag[bag.length - 1];
+			bag[bag.length - 1] = bag[0];
+			bag[0] = t;
+		}
 	}
+
+	function nextIndex() {
+		if (bag.length === 0) {
+			fillBag();
+		}
+		return bag.pop();
+	}
+
 	function timing() {
 		return {
 			duration: 400,

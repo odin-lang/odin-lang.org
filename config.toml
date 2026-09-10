@@ -14,6 +14,7 @@ slogans = [
   "For the Joy of Programming.",
   "Built for the Machine. Written for You.",
   "Simple to read. Serious to run.",
+  "The Batteries Included Language.",
 ]
 
 [markup.goldmark.renderer]

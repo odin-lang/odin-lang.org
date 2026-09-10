@@ -1,13 +1,12 @@
 package main
 
-import "core:fmt"
 import "core:simd"
 
-main :: proc() {
-	a := #simd[4]f32{1, 2, 3, 4}
-	b := #simd[4]f32{10, 20, 30, 40}
-
-	c := a + b              // one add across all four lanes
-	fmt.println(c)          // <11, 22, 33, 44>
-	fmt.println(simd.reduce_add_ordered(c)) // 110
+// Vectorized check that a utf8 buffer is all ASCII
+is_ascii :: proc(utf8: []#simd[16]u8) -> bool {
+	acc: #simd[16]u8
+	for chunk in utf8 {
+		acc |= chunk // fold every set of code units into the result
+	}
+	return simd.reduce_max(acc) < 0x80 // every lane in the ASCII range?
 }

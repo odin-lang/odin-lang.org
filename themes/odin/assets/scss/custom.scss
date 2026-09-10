@@ -967,6 +967,8 @@ body.dark-mode .sponsors-logo--dark {
 .home-showcase-marquee-row {
   overflow-x: auto;
   overflow-y: hidden;
+  padding-block: 0.4rem;
+  margin-block: -0.4rem;
   scrollbar-width: none;
   -ms-overflow-style: none;
   mask-image: linear-gradient(

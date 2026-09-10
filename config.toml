@@ -17,6 +17,8 @@ slogans = [
   "The Batteries Included Language.",
 ]
 
+twitter = "@odinlang"
+
 [markup.goldmark.renderer]
 unsafe = true
 

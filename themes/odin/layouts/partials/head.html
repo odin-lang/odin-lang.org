@@ -55,8 +55,12 @@
 <meta name="twitter:image" content="{{ "/images/logo-slim.png" | absURL }}" />
 <meta name="twitter:site" content="@odinlang" />
 
-{{- /* Structured data (schema.org JSON-LD): Organization + WebSite graph */}}
+{{- /* Structured data (schema.org JSON-LD): Organization + WebSite + Odin source; BlogPosting on news */}}
 {{- $base := absURL "/" -}}
+{{- $orgID := printf "%s#organization" $base -}}
+{{- $siteID := printf "%s#website" $base -}}
+{{- $image := "/images/logo-slim.png" -}}
+{{- with $.Param "images" }}{{ $image = index . 0 }}{{ end -}}
 {{- $sameAs := slice
     "https://github.com/odin-lang/Odin"
     "https://discord.gg/vafXTdubwr"
@@ -65,19 +69,46 @@
 {{- with .Site.Params.twitter }}{{ $sameAs = $sameAs | append (printf "https://x.com/%s" (strings.TrimPrefix "@" .)) }}{{ end -}}
 {{- $org := dict
     "@type" "Organization"
-    "@id" (printf "%s#organization" $base)
+    "@id" $orgID
     "name" .Site.Title
     "url" $base
     "logo" (dict "@type" "ImageObject" "url" (absURL "/logo.svg"))
     "sameAs" $sameAs -}}
 {{- $website := dict
     "@type" "WebSite"
-    "@id" (printf "%s#website" $base)
+    "@id" $siteID
     "name" .Site.Title
     "url" $base
-    "publisher" (dict "@id" (printf "%s#organization" $base)) -}}
+    "publisher" (dict "@id" $orgID) -}}
 {{- with .Site.Params.description }}{{ $website = merge $website (dict "description" .) }}{{ end -}}
-{{- $ld := dict "@context" "https://schema.org" "@graph" (slice $org $website) -}}
+{{- $software := dict
+    "@type" "SoftwareSourceCode"
+    "@id" (printf "%s#software" $base)
+    "name" "Odin"
+    "url" $base
+    "codeRepository" "https://github.com/odin-lang/Odin"
+    "programmingLanguage" "Odin"
+    "runtimePlatform" "Windows, macOS, Linux"
+    "license" "https://github.com/odin-lang/Odin/blob/master/LICENSE"
+    "author" (dict "@id" $orgID) -}}
+{{- with .Site.Params.description }}{{ $software = merge $software (dict "description" .) }}{{ end -}}
+{{- $graph := slice $org $website $software -}}
+{{- if and .IsPage (eq .Section "news") -}}
+    {{- $article := dict
+        "@type" "BlogPosting"
+        "headline" .Title
+        "url" .Permalink
+        "mainEntityOfPage" .Permalink
+        "image" (absURL $image)
+        "isPartOf" (dict "@id" $siteID)
+        "publisher" (dict "@id" $orgID) -}}
+    {{- with .Params.summary }}{{ $article = merge $article (dict "description" (. | markdownify | plainify | htmlUnescape | strings.TrimSpace)) }}{{ end -}}
+    {{- with .Params.author }}{{ $article = merge $article (dict "author" (dict "@type" "Person" "name" .)) }}{{ end -}}
+    {{- if not .Date.IsZero }}{{ $article = merge $article (dict "datePublished" (.Date.Format "2006-01-02T15:04:05-07:00")) }}{{ end -}}
+    {{- if not .Lastmod.IsZero }}{{ $article = merge $article (dict "dateModified" (.Lastmod.Format "2006-01-02T15:04:05-07:00")) }}{{ end -}}
+    {{- $graph = $graph | append $article -}}
+{{- end -}}
+{{- $ld := dict "@context" "https://schema.org" "@graph" $graph -}}
 <script type="application/ld+json">{{ jsonify $ld | safeJS }}</script>
 
 <!-- Bootstrap CSS -->

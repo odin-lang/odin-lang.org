@@ -7,7 +7,7 @@
 {{- $direction := .direction | default "forwards" -}}
 {{- $n := len $projects -}}
 {{- if gt $n 0 -}}
-<div class="home-showcase-marquee-group" aria-hidden="true" inert>
+<div class="home-showcase-marquee-group" aria-hidden="true">
     <div class="home-showcase-marquee-row home-showcase-marquee-row--{{ $direction }}" tabindex="0">
         <div class="home-showcase-marquee-track">
             <div class="home-showcase-marquee-group">

@@ -2,9 +2,10 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="/favicon.svg">
+<link rel="canonical" href="{{ .Permalink }}">
 
 <!-- Meta Cards -->
-<meta name="color-scheme" content="only dark" />
+<meta name="color-scheme" content="light dark" />
 
 
 <meta property="og:title" content="{{ .Title }}" />
@@ -12,7 +13,6 @@
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
 <meta property="og:url" content="{{ .Permalink }}" />
 {{ with $.Param "images" }}{{ range first 6 . }}
-<meta property="og:image" content="{{ . | absURL }}" />
 <meta property="og:image" content="{{ . | absURL }}" />
 {{ end }}{{ else }}
 <meta property="og:image" content="{{ "/images/logo-slim.png" | absURL }}" />

@@ -48,13 +48,17 @@
             loop
             muted
             playsinline
-            preload="{{ if $isMarquee }}auto{{ else }}metadata{{ end }}"
+            preload="none"
             poster="{{ $preview }}"
             controlslist="nofullscreen nodownload noremoteplayback"
             disablepictureinpicture
             data-gallery-video
+            {{- if $isMarquee }} data-gallery-lazy="true"{{ end }}
         >
-            <source src="{{ $video }}" type="{{ $videoType }}">
+            <source
+                {{- if $isMarquee }} data-src="{{ $video }}"{{ else }} src="{{ $video }}"{{ end }}
+                type="{{ $videoType }}"
+            >
         </video>
         {{- else if $preview -}}
         <img

@@ -10,13 +10,81 @@
 
         var pageHidden = document.hidden;
 
-        // A video decodes only when it's on screen, its group is on screen, the tab
-        // is focused, and (for marquee cards) it's currently in the centre-most set.
-        function shouldPlay(v) {
-            return v._inView && !v._groupHidden && !pageHidden && v._wantsPlay;
+        function mediaMatches(query) {
+            try { return window.matchMedia(query).matches; } catch (ignore) { return false; }
         }
+
+        function deviceCanPlayMarqueeVideos() {
+            if (mediaMatches('(prefers-reduced-motion: reduce)')) return false;
+            if (mediaMatches('(prefers-reduced-data: reduce)')) return false;
+
+            var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (conn) {
+                if (conn.saveData) return false;
+                var type = conn.effectiveType || '';
+                if (type === 'slow-2g' || type === '2g' || type === '3g') return false;
+            }
+
+            // Chrome-only RAM hint. Several simultaneous decodes plus the page
+            // is a poor fit for devices that report under 4 GB.
+            if (typeof navigator.deviceMemory === 'number' && navigator.deviceMemory < 4) {
+                return false;
+            }
+
+            if (typeof navigator.hardwareConcurrency === 'number' &&
+                navigator.hardwareConcurrency > 0 &&
+                navigator.hardwareConcurrency < 4) {
+                return false;
+            }
+
+            // Phones and small tablets: only opt in when the device looks
+            // comfortable (RAM API present and healthy, or a high core count).
+            var mobileLike = mediaMatches('(pointer: coarse)') && mediaMatches('(max-width: 767.98px)');
+            if (mobileLike) {
+                var ramOk = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory >= 4;
+                var cpuOk = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency >= 8;
+                if (!ramOk && !cpuOk) return false;
+            }
+
+            return true;
+        }
+
+        var marqueeVideosOk = deviceCanPlayMarqueeVideos();
+
+        function inMarquee(v) {
+            return v.closest ? v.closest('.home-showcase-marquee') : null;
+        }
+
+        function armVideo(v) {
+            if (v._armed) return;
+            var source = v.querySelector('source[data-src]');
+            if (source && !source.getAttribute('src')) {
+                source.setAttribute('src', source.getAttribute('data-src'));
+                v.load();
+            }
+            v._armed = true;
+        }
+
+        function disarmVideo(v) {
+            if (!v.paused) v.pause();
+            var source = v.querySelector('source');
+            if (source && source.hasAttribute('data-src')) {
+                source.removeAttribute('src');
+            }
+            try { v.removeAttribute('src'); } catch (ignore) {}
+            try { v.load(); } catch (ignore) {}
+            v._armed = false;
+            v._wantsPlay = false;
+            unready(v);
+        }
+
+        function shouldPlay(v) {
+            return v._inView && !v._groupHidden && !pageHidden && v._wantsPlay && v._armed !== false;
+        }
+
         function sync(v) {
             if (shouldPlay(v)) {
+                armVideo(v);
                 var p = v.play();
                 if (p && p.catch) p.catch(function () {});
             } else if (!v.paused) {
@@ -27,28 +95,40 @@
         function ready(v)   { v.parentElement.classList.add('is-video-ready'); }
         function unready(v) { v.parentElement.classList.remove('is-video-ready'); }
 
-        function inMarquee(v) {
-            return v.closest ? v.closest('.home-showcase-marquee') : null;
-        }
+        var marquees = Array.prototype.slice.call(document.querySelectorAll('.home-showcase-marquee'));
+        marquees.forEach(function (m) {
+            m.classList.toggle('is-video-capable', marqueeVideosOk);
+        });
 
         videos.forEach(function (v) {
             v._inView = false;
             v._groupHidden = false;
-            // Grid videos play whenever on screen; marquee videos wait for the
-            // centre-ranking below to switch them on.
             v._wantsPlay = !inMarquee(v);
+            v._armed = !v.hasAttribute('data-gallery-lazy');
+
+            if (inMarquee(v) && !marqueeVideosOk) {
+                v._armed = false;
+                v._wantsPlay = false;
+                return;
+            }
+
             v.addEventListener('playing', function () { ready(v); });
             ['pause', 'waiting', 'stalled', 'error'].forEach(function (ev) {
                 v.addEventListener(ev, function () { unready(v); });
             });
         });
 
-        var marquees = Array.prototype.slice.call(document.querySelectorAll('.home-showcase-marquee'));
+        if (!marqueeVideosOk) {
+            videos.forEach(function (v) {
+                if (inMarquee(v)) disarmVideo(v);
+            });
+        }
 
         // ---- Marquee: keep only the N centre-most videos per row playing ----
         var rankTimer = null;
 
         function rankOnce() {
+            if (!marqueeVideosOk) return;
             var anyVisible = false;
             marquees.forEach(function (m) {
                 if (m._hidden) return;
@@ -61,7 +141,6 @@
                     var centre = r.left + r.width / 2;
                     vids.forEach(function (v) {
                         var vr = v.getBoundingClientRect();
-                        // Ignore cards scrolled outside the row's visible box.
                         v._dist = (vr.right < r.left || vr.left > r.right)
                             ? Infinity
                             : Math.abs((vr.left + vr.width / 2) - centre);
@@ -78,7 +157,7 @@
         }
 
         function startRanking() {
-            if (pageHidden || rankTimer !== null) return;
+            if (!marqueeVideosOk || pageHidden || rankTimer !== null) return;
             rankOnce();
             rankTimer = window.setInterval(rankOnce, RANK_INTERVAL);
         }
@@ -89,8 +168,44 @@
             return marquees.some(function (m) { return !m._hidden; });
         }
 
+        function disableMarqueeVideos() {
+            if (!marqueeVideosOk) return;
+            marqueeVideosOk = false;
+            stopRanking();
+            marquees.forEach(function (m) { m.classList.remove('is-video-capable'); });
+            videos.forEach(function (v) {
+                if (inMarquee(v)) disarmVideo(v);
+            });
+        }
+
+        // If the machine already misses vsync before any clip starts, stay on stills.
+        function probeFrameBudget() {
+            if (!marqueeVideosOk) return;
+            var samples = [];
+            var last = 0;
+            var frames = 0;
+            function tick(now) {
+                if (last) samples.push(now - last);
+                last = now;
+                frames += 1;
+                if (frames < 20) {
+                    window.requestAnimationFrame(tick);
+                    return;
+                }
+                samples.sort(function (a, b) { return a - b; });
+                var median = samples[Math.floor(samples.length / 2)] || 0;
+                var longFrames = 0;
+                for (var i = 0; i < samples.length; i++) {
+                    if (samples[i] > 28) longFrames += 1;
+                }
+                if (median > 24 || longFrames > samples.length * 0.35) {
+                    disableMarqueeVideos();
+                }
+            }
+            window.requestAnimationFrame(tick);
+        }
+
         if ('IntersectionObserver' in window) {
-            // Grid videos (Showcase / Games) move only with page scroll — observe each.
             var gridVideos = videos.filter(function (v) { return !inMarquee(v); });
             if (gridVideos.length) {
                 var vio = new IntersectionObserver(function (entries) {
@@ -102,9 +217,7 @@
                 gridVideos.forEach(function (v) { vio.observe(v); });
             }
 
-            // Marquee cards move by CSS transform (per-element IO is unreliable), so
-            // gate each marquee's videos by its static container, then rank centres.
-            if (marquees.length) {
+            if (marquees.length && marqueeVideosOk) {
                 marquees.forEach(function (m) { m._hidden = true; });
                 var mio = new IntersectionObserver(function (entries) {
                     entries.forEach(function (e) {
@@ -119,17 +232,21 @@
                 }, { rootMargin: '100px', threshold: 0 });
                 marquees.forEach(function (m) { mio.observe(m); });
             }
-        } else {
-            // No IntersectionObserver: play everything (old behaviour), no cap.
+        } else if (marqueeVideosOk) {
             videos.forEach(function (v) { v._inView = true; v._wantsPlay = true; sync(v); });
+        } else {
+            videos.forEach(function (v) {
+                if (!inMarquee(v)) { v._inView = true; v._wantsPlay = true; sync(v); }
+            });
         }
 
-        // Never decode video while the tab is in the background.
         document.addEventListener('visibilitychange', function () {
             pageHidden = document.hidden;
             if (pageHidden) { stopRanking(); videos.forEach(sync); }
-            else if (anyMarqueeVisible()) { startRanking(); }
+            else if (marqueeVideosOk && anyMarqueeVisible()) { startRanking(); }
             videos.forEach(function (v) { if (!inMarquee(v)) sync(v); });
         });
+
+        if (marqueeVideosOk) probeFrameBudget();
     })();
 </script>

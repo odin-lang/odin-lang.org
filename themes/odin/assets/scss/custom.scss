@@ -999,6 +999,14 @@ body.dark-mode .sponsors-logo--dark {
   padding: 0 0 0.5rem;
 }
 
+.home-showcase-marquee:not(.is-video-capable) .showcase-marquee-card .showcase-spotlight-media video {
+    display: none;
+}
+
+.home-showcase-marquee.is-video-capable .showcase-marquee-card .showcase-spotlight-media video {
+    display: block;
+}
+
 .home-showcase-marquee-lane {
   position: relative;
 }
@@ -1216,11 +1224,6 @@ body.dark-mode .sponsors-logo--dark {
     height: 12rem;
     min-height: 12rem;
     scroll-snap-align: center;
-  }
-
-  /* Show only the poster image — no autoplaying video on mobile. */
-  .home-showcase-marquee .showcase-marquee-card .showcase-spotlight-media video {
-    display: none;
   }
 
   /* Trim the overlay to just tags + title so the tile can stay short. */

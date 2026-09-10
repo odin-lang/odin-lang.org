@@ -3,11 +3,8 @@
         var videos = Array.prototype.slice.call(document.querySelectorAll('[data-gallery-video]'));
         if (!videos.length) return;
 
-        // How many videos may decode at once *per marquee row*. Lower = less CPU.
         var MARQUEE_MAX_PER_ROW = 6;
-        // How often (ms) to re-pick the centre-most marquee videos while visible.
         var RANK_INTERVAL = 200;
-
         var pageHidden = document.hidden;
 
         function mediaMatches(query) {
@@ -22,11 +19,12 @@
             if (conn) {
                 if (conn.saveData) return false;
                 var type = conn.effectiveType || '';
-                if (type === 'slow-2g' || type === '2g' || type === '3g') return false;
+                // 3g is reported on capable Wi-Fi often enough to be useless.
+                if (type === 'slow-2g' || type === '2g') {
+                    return false;
+                }
             }
 
-            // Chrome-only RAM hint. Several simultaneous decodes plus the page
-            // is a poor fit for devices that report under 4 GB.
             if (typeof navigator.deviceMemory === 'number' && navigator.deviceMemory < 4) {
                 return false;
             }
@@ -35,15 +33,6 @@
                 navigator.hardwareConcurrency > 0 &&
                 navigator.hardwareConcurrency < 4) {
                 return false;
-            }
-
-            // Phones and small tablets: only opt in when the device looks
-            // comfortable (RAM API present and healthy, or a high core count).
-            var mobileLike = mediaMatches('(pointer: coarse)') && mediaMatches('(max-width: 767.98px)');
-            if (mobileLike) {
-                var ramOk = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory >= 4;
-                var cpuOk = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency >= 8;
-                if (!ramOk && !cpuOk) return false;
             }
 
             return true;
@@ -79,7 +68,7 @@
         }
 
         function shouldPlay(v) {
-            return v._inView && !v._groupHidden && !pageHidden && v._wantsPlay && v._armed !== false;
+            return v._inView && !v._groupHidden && !pageHidden && v._wantsPlay;
         }
 
         function sync(v) {
@@ -113,7 +102,9 @@
             }
 
             v.addEventListener('playing', function () { ready(v); });
-            ['pause', 'waiting', 'stalled', 'error'].forEach(function (ev) {
+            // Don't treat pause/waiting as "not ready": ranking pauses edge
+            // clips, and preload=none always waits before the first frame.
+            ['stalled', 'error'].forEach(function (ev) {
                 v.addEventListener(ev, function () { unready(v); });
             });
         });
@@ -124,7 +115,6 @@
             });
         }
 
-        // ---- Marquee: keep only the N centre-most videos per row playing ----
         var rankTimer = null;
 
         function rankOnce() {
@@ -178,7 +168,8 @@
             });
         }
 
-        // If the machine already misses vsync before any clip starts, stay on stills.
+        // Measure after load, not during it. Only demote if the page is
+        // still badly over budget once videos are already trying to play.
         function probeFrameBudget() {
             if (!marqueeVideosOk) return;
             var samples = [];
@@ -188,17 +179,17 @@
                 if (last) samples.push(now - last);
                 last = now;
                 frames += 1;
-                if (frames < 20) {
+                if (frames < 45) {
                     window.requestAnimationFrame(tick);
                     return;
                 }
                 samples.sort(function (a, b) { return a - b; });
-                var median = samples[Math.floor(samples.length / 2)] || 0;
+                var mid = samples[Math.floor(samples.length / 2)] || 0;
                 var longFrames = 0;
                 for (var i = 0; i < samples.length; i++) {
-                    if (samples[i] > 28) longFrames += 1;
+                    if (samples[i] > 40) longFrames += 1;
                 }
-                if (median > 24 || longFrames > samples.length * 0.35) {
+                if (mid > 36 && longFrames > samples.length * 0.5) {
                     disableMarqueeVideos();
                 }
             }
@@ -247,6 +238,13 @@
             videos.forEach(function (v) { if (!inMarquee(v)) sync(v); });
         });
 
-        if (marqueeVideosOk) probeFrameBudget();
+        if (marqueeVideosOk) {
+            var startProbe = function () { probeFrameBudget(); };
+            if (typeof window.requestIdleCallback === 'function') {
+                window.requestIdleCallback(startProbe, { timeout: 2500 });
+            } else {
+                window.setTimeout(startProbe, 1500);
+            }
+        }
     })();
 </script>

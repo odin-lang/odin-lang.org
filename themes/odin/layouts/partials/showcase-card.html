@@ -48,7 +48,7 @@
             loop
             muted
             playsinline
-            preload="none"
+            preload="{{ if $isMarquee }}auto{{ else }}metadata{{ end }}"
             poster="{{ $preview }}"
             controlslist="nofullscreen nodownload noremoteplayback"
             disablepictureinpicture

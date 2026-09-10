@@ -98,13 +98,13 @@ $table-cell-padding-x-sm: 0.2rem;
 .code-tab {
   background: transparent;
   border: 1px solid var(--code-tab-line);
-  border-radius: 99rem;
+  border-radius: 0.4rem!important;
   color: var(--code-tab-ink);
   cursor: pointer;
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: -0.01em;
-  padding: 0.4rem 0.9rem;
+  padding: 0.2rem 0.5rem;
   transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   white-space: nowrap;
 }

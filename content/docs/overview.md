@@ -173,7 +173,12 @@ For more information regarding value declarations in general, please see the [Od
 
 ## Packages
 
-Odin programs consist of packages. A package is a directory of Odin code files, all of which have the same package declaration at the top. Execution starts in the package's `main` procedure.
+Odin programs consist of packages. A package is a directory of Odin code files, all of which have the same package declaration at the top. The `odin build <dir>` command takes all the files in the directory `<dir>`, compiles them into a package and then turns that into an executable. Execution starts in the package's `main` procedure.
+
+You can also tell the compiler to treat a single file as a complete package, by adding `-file`, like so:
+```txt
+odin run hellope.odin -file
+```
 
 ### `import` statement
 

@@ -3945,6 +3945,16 @@ Exports a variable or procedure symbol, useful for producing DLLs.
 
 This attribute can be attached to a foreign block to specify additional flags to be passed to the linker.
 
+```odin
+@(extra_linker_flags="-L/path/to/lib_dir")
+foreign import foo "system:foo"
+
+foreign foo {
+    foo_add_int    :: proc(a, b: c.int)    -> c.int ---
+    foo_add_double :: proc(a, b: c.double) -> c.double ---
+}
+```
+
 #### `@(init)`
 
 This attribute may be applied to any procedure that neither takes any parameters nor returns any values. All suitable procedures marked in this way by `@(init)` will then be called at the start of the program before `main` is called. The exact order in which all such intialization functions are called is deterministic and hence reliable. The order is determined by a topological sort of the import graph and then in alphabetical file order within the package and then top down within the file.

@@ -3460,6 +3460,7 @@ foreign kernel32 {
 Available attributes for foreign blocks:
 
 - `default_calling_convention=<string>` - The default calling convention for procedures declared within this foreign block.
+- `extra_linker_flags=<string>` - Specifies additional linker flags for this foreign block.
 - `link_prefix=<string>` - This prefix is prepended to the linkage names of the entities except where the link name has been explicitly overridden.
 - `link_suffix=<string>` - This suffix is appended to the linkage names of the entities except where the link name has been explicitly overridden.
 - `private=<string>` - The default private level for all entities. Defaults to `"package"` if not set but may be set to `"file"`.
@@ -3768,6 +3769,7 @@ Attributes modify the compilation details or behaviour of declarations.
 #### Foreign Blocks
 
 * [`@(default_calling_convention=<string>)`](#default_calling_conventionstring) -- `foreign` blocks
+* [`@(extra_linker_flags=<string>)`](#extra_linker_flagsstring) -- `foreign` blocks
 * [`@(link_prefix=<string>)`](#link_prefixstring) -- `foreign` blocks and declarations within `foreign` blocks
 * [`@(link_suffix=<string>)`](#link_suffixstring) -- `foreign` blocks and declarations within `foreign` blocks
 * [`@(private=<string?>)`](#privatestring)-- all declarations except `import` statements
@@ -3943,6 +3945,20 @@ Marks a procedure that can be called within the entry point only.
 #### `@(export=<boolean?>)`
 
 Exports a variable or procedure symbol, useful for producing DLLs.
+
+#### `@(extra_linker_flags=<string>)`
+
+This attribute can be attached to a foreign block to specify additional flags to be passed to the linker.
+
+```odin
+@(extra_linker_flags="-L/path/to/lib_dir")
+foreign import foo "system:foo"
+
+foreign foo {
+    foo_add_int    :: proc(a, b: c.int)    -> c.int ---
+    foo_add_double :: proc(a, b: c.double) -> c.double ---
+}
+```
 
 #### `@(init)`
 

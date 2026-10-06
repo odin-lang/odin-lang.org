@@ -358,6 +358,12 @@ body.dark-mode {
     filter: invert(100%);
 }
 
+/* the "themed-img" shortcode's two versions of an image; !important as they may set their own display */
+.dark-mode .img-theme-light,
+body:not(.dark-mode) .img-theme-dark {
+    display: none !important;
+}
+
 /* Auto Numbering */
 body {counter-reset: h2}
 h2 {counter-reset: h3}

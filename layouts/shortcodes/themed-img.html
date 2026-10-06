@@ -1,0 +1,7 @@
+{{- /* an image with a light and a dark version, of which the page shows the one for its theme; "dark" defaults to "src" with "-dark" before its extension */ -}}
+{{- $src := .Get "src" -}}
+{{- $dark := .Get "dark" | default (replaceRE `(\.[a-zA-Z]+)$` "-dark$1" $src) -}}
+{{- $alt := .Get "alt" -}}
+{{- $style := .Get "style" -}}
+<img class="img-theme-light" src="{{ $src }}" alt="{{ $alt }}"{{ with $style }} style="{{ . | safeCSS }}"{{ end }} loading="lazy" decoding="async">
+<img class="img-theme-dark" src="{{ $dark }}" alt="{{ $alt }}"{{ with $style }} style="{{ . | safeCSS }}"{{ end }} loading="lazy" decoding="async">

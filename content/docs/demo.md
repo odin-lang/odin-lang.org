@@ -11,7 +11,7 @@ The original demonstration of the Odin in a single file, including numerous exam
 
 ```odin
 #+vet !using-stmt !using-param
-#+feature dynamic-literals
+#+feature dynamic-literals using-stmt
 package main
 
 import "core:fmt"
@@ -23,6 +23,7 @@ import "core:reflect"
 import "base:runtime"
 import "base:intrinsics"
 import "core:math/big"
+import "core:math/rand"
 
 /*
 	Odin is a general-purpose programming language with distinct typing built
@@ -48,8 +49,8 @@ import "core:math/big"
 	Nightly Builds - https://odin-lang.org/docs/nightly/
 		Get the latest nightly builds of Odin.
 	More Odin Examples - https://github.com/odin-lang/examples
-		This repository contains examples of how certain things can be accomplished
-		in idiomatic Odin, allowing you learn its semantics, as well as how to use
+		This repository contains examples of how certain things can be accomplished 
+		in idiomatic Odin, allowing you learn its semantics, as well as how to use 
 		parts of the core and vendor package collections.
 */
 
@@ -762,6 +763,11 @@ union_type :: proc() {
 }
 
 using_statement :: proc() {
+	// IMPORTANT NOTE: `using` as a statement is an opt-in feature which can be abled
+	// by adding `#+feature using-stmt` to be beginning of the file
+	//
+	// `using` as a struct field modifier remains available always
+
 	fmt.println("\n# using statement")
 	// using can used to bring entities declared in a scope/namespace
 	// into the current scope. This can be applied to import names, struct
@@ -1222,24 +1228,11 @@ threading_example :: proc() {
 
 
 		for i in 0..<30 {
-			// be mindful of the allocator used for tasks. The allocator needs to be thread safe, or be owned by the task for exclusive use
+			// be mindful of the allocator used for tasks. The allocator needs to be thread safe, or be owned by the task for exclusive use 
 			thread.pool_add_task(&pool, allocator=context.allocator, procedure=task_proc, data=nil, user_index=i)
 		}
 
 		thread.pool_start(&pool)
-
-		{
-			// Wait a moment before we cancel a thread
-			time.sleep(5 * time.Millisecond)
-
-			// Allow one thread to print at a time.
-			for !did_acquire(&print_mutex) { thread.yield() }
-
-			thread.terminate(pool.threads[N - 1], 0)
-			fmt.println("Canceled last thread")
-			print_mutex = false
-		}
-
 		thread.pool_finish(&pool)
 	}
 }
@@ -1625,7 +1618,7 @@ where_clauses :: proc() {
 			where intrinsics.type_is_numeric(E) {
 			x := a.y*b.z - a.z*b.y
 			y := a.z*b.x - a.x*b.z
-			z := a.x*b.y - a.y*b.z
+			z := a.x*b.y - a.y*b.x
 			return T{x, y, z}
 		}
 
@@ -2266,7 +2259,7 @@ arbitrary_precision_mathematics :: proc() {
 
 		cb := big.internal_count_bits(a)
 		if print_name {
-			fmt.printf(name)
+			fmt.print(name)
 		}
 		if err != nil {
 			fmt.printf(" (Error: %v) ", err)
@@ -2282,6 +2275,10 @@ arbitrary_precision_mathematics :: proc() {
 
 	a, b, c, d, e, f, res := &big.Int{}, &big.Int{}, &big.Int{}, &big.Int{}, &big.Int{}, &big.Int{}, &big.Int{}
 	defer big.destroy(a, b, c, d, e, f, res)
+
+	// Set the context RNG to something that does not require
+	// cryptographic entropy (not supported on all targets).
+	context.random_generator = rand.xoshiro256_random_generator()
 
 	// How many bits should the random prime be?
 	bits   := 64

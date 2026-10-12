@@ -126,66 +126,8 @@
 <link rel="stylesheet" href="/lib/highlight/styles/github-dark.min.css" />
 <script src="/lib/highlight/highlight.min.js"></script>
 <script src="/lib/highlight/languages/x86asm.min.js"></script>
-<script>
-hljs.registerLanguage("odin", function(e) {
-    return {
-        name: "Odin",
-        aliases: ["odin", "odinlang", "odin-lang"],
-        keywords: {
-            keyword: "asm auto_cast bit_field bit_set break case cast context continue defer distinct do dynamic else enum fallthrough for foreign if import in map matrix not_in or_break or_continue or_else or_return package proc return struct switch transmute type_of typeid union using when where",
-            literal: "true false nil",
-            built_in: "abs align_of cap clamp complex compress_values conj expand_values imag jmag kmag len max min offset_of offset_of_by_string quaternion raw_data real size_of soa_unzip soa_zip swizzle type_info_of type_of typeid_of unreachable " +
-                "int uint uintptr rawptr any " +
-                "u8 u16 u32 u64 u128 i8 i16 i32 i64 i128 " +
-                "u16le u32le u64le u128le i16le i32le i64le i128le " +
-                "u16be u32be u64be u128be i16be i32be i64be i128be " +
-                "f16 f32 f64 " +
-                "f16le f32le f64le " +
-                "f16be f32be f64be " +
-                "bool b8 b16 b32 b64 " +
-                "string cstring string16 cstring16 " +
-                "byte rune " +
-                "complex32 complex64 complex128 " +
-                "quaternion64 quaternion128 quaternion256 " +
-                ""
-        },
-        illegal: "</",
-        contains: [
-            e.C_LINE_COMMENT_MODE,
-            // block comments nest in Odin
-            e.COMMENT("/\\*", "\\*/", {contains: ["self"]}),
-            {
-                className: "string",
-                variants: [
-                    // multi-line strings must be tried before the single quote forms
-                    {begin: '"""', end: '"""', contains: [e.BACKSLASH_ESCAPE]},
-                    {begin: "```", end: "```"},
-                    {begin: '"', end: '"', illegal: "\\n", contains: [e.BACKSLASH_ESCAPE]},
-                    {begin: "`", end: "`"},
-                    {begin: "'", end: "'", illegal: "\\n", contains: [e.BACKSLASH_ESCAPE]}
-                ]
-            },
-            // file tags, e.g. `#+build windows`, take the rest of their line
-            {className: "meta", begin: "#\\+", end: "$"},
-            // directives, e.g. `#partial`, `#soa`, `#assert`
-            {className: "meta", begin: "#[A-Za-z_]\\w*"},
-            // attributes, e.g. `@(require_results)`, `@(link_name="foo")`, `@private`
-            {className: "meta", begin: "@\\(", end: "\\)", contains: [{className: "string", begin: '"', end: '"', contains: [e.BACKSLASH_ESCAPE]}]},
-            {className: "meta", begin: "@[A-Za-z_]\\w*"},
-            {
-                className: "number",
-                relevance: 0,
-                variants: [
-                    // 0b binary, 0o octal, 0d decimal, 0z dozenal, 0x hexadecimal, 0h hexadecimal float
-                    {begin: "\\b0[bodzxh][0-9a-fA-F_]+[ijk]?"},
-                    // the `.` is not taken when it starts a range, e.g. `0..<10`
-                    {begin: "\\b[0-9][0-9_]*(\\.(?!\\.)[0-9_]*)?([eE][-+]?[0-9_]+)?[ijk]?"}
-                ]
-            }
-        ]
-    }
-});
-</script>
+<!-- Odin's grammar, shared with pkg.odin-lang.org -->
+<script src="/js/highlight-odin.js"></script>
 <script>hljs.highlightAll();</script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -198,54 +140,9 @@ hljs.registerLanguage("odin", function(e) {
   gtag('config', 'UA-67516878-2');
 </script>
 
-<!-- Collapsible sidebars, the same as on pkg.odin-lang.org -->
-<script>
-    function toggleSidebar(button) {
-        const name = button.dataset.sidebar;
-        const collapsed = document.documentElement.classList.toggle(name + "-collapsed");
-        button.setAttribute("aria-expanded", !collapsed);
-        window.localStorage.setItem(name, collapsed ? "collapsed" : "expanded");
-    }
-    // restored before the page is drawn, so a collapsed sidebar never flashes open
-    for (const name of ["docs-sidebar", "toc-sidebar"]) {
-        if (window.localStorage.getItem(name) === "collapsed") {
-            document.documentElement.classList.add(name + "-collapsed");
-        }
-    }
-    document.addEventListener("DOMContentLoaded", () => {
-        for (const button of document.querySelectorAll(".odin-sidebar-toggle")) {
-            const collapsed = document.documentElement.classList.contains(button.dataset.sidebar + "-collapsed");
-            button.setAttribute("aria-expanded", !collapsed);
-        }
-
-        // keep the current page in view in a long sidebar
-        const list = document.querySelector("#docs-sidebar .odin-sidebar-content");
-        const active = list && list.querySelector("a.active");
-        if (!active || list.scrollHeight <= list.clientHeight) {
-            return;
-        }
-        const top = active.getBoundingClientRect().top - list.getBoundingClientRect().top;
-        if (top < 0 || top > list.clientHeight - active.offsetHeight) {
-            list.scrollTop += top - list.clientHeight/2;
-        }
-    });
-    // [ and ] collapse or expand the pages and contents sidebars
-    window.addEventListener("keydown", ev => {
-        if (ev.ctrlKey || ev.metaKey || ev.altKey || (ev.key !== "[" && ev.key !== "]")) {
-            return;
-        }
-        if (ev.target.closest && ev.target.closest("input, textarea, select, [contenteditable]")) {
-            return;
-        }
-        const button = document.querySelector(`.odin-sidebar-toggle[data-sidebar="${ev.key === "[" ? "docs-sidebar" : "toc-sidebar"}"]`);
-        if (button && button.offsetParent !== null) {
-            ev.preventDefault();
-            toggleSidebar(button);
-        }
-    });
-</script>
-
-<script src="/js/docs.js" defer></script>
+<!-- The documentation pages' sidebars and copy buttons, shared with pkg.odin-lang.org.
+     Not deferred, so a collapsed sidebar is collapsed before the page is drawn -->
+<script src="/js/docs.js"></script>
 
 <!-- Custom CSS -->
 <link href="/css/style.css" rel="stylesheet" />

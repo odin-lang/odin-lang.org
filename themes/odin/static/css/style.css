@@ -377,12 +377,19 @@ article[autonumbering] h4:before {counter-increment: h4; content: counter(h2) ".
 article[autonumbering] .toc__menu ul { counter-reset: item }
 article[autonumbering] .toc__menu li a:before { content: counters(item, ".") ". "; counter-increment: item }
 
-/* Sidebars
+/* Documentation pages
 
-These are the same as the sidebars of pkg.odin-lang.org (see its style.css), so that both sites
-share one look. They are scoped to `.odin-site-docs`, as pkg.odin-lang.org also loads this file. */
+Shared by the documentation pages of this site and by pkg.odin-lang.org, which loads this file, so
+both have the same sidebars, contents, and code blocks. Their markup is:
 
-.odin-site-docs {
+    <div class="row odin-main odin-docs-layout">
+        <nav class="odin-sidebar ...">           a toggle, then <div class="odin-sidebar-content">
+        <article class="documentation ...">
+        <div class="odin-toc-border ..."><div>   a toggle, then <nav id="TableOfContents">
+
+and js/docs.js collapses the sidebars and adds the code blocks' copy buttons. */
+
+:root {
     --odin-sidebar-width: clamp(11rem, 13vw, 14rem);
     --odin-toc-width:     clamp(11rem, 15vw, 16rem);
     --odin-rail-width:    2.5rem;
@@ -390,98 +397,139 @@ share one look. They are scoped to `.odin-site-docs`, as pkg.odin-lang.org also 
     --odin-sidebar-muted: #6c757d;
     --odin-sidebar-hover: rgba(127, 127, 127, 0.12);
     --odin-sidebar-thumb: rgba(127, 127, 127, 0.3);
+
+    --odin-code-bg:        #f8f8f8;
+    --odin-code-border:    #c6c8ca;
+    --odin-code-text:      #202224;
+    --odin-code-keyword:   #ff5252;
+    --odin-code-string:    #093;
+    --odin-code-number:    #0b7285;
+    --odin-code-comment:   #888;
+    --odin-code-directive: #05a;
+    --odin-code-procedure: #047919;
 }
-.dark-mode .odin-site-docs {
+.dark-mode {
     --odin-sidebar-link:  #7aade5;
     --odin-sidebar-muted: #8b98a9;
+
+    --odin-code-bg:        var(--dark-code);
+    --odin-code-border:    var(--dark-border);
+    --odin-code-text:      var(--bs-light);
+    --odin-code-string:    #0a5;
+    --odin-code-number:    #79c0ff;
+    --odin-code-directive: #58a6ff;
+    --odin-code-procedure: #42b557;
 }
 
-.odin-site-docs #docs-sidebar, .odin-site-docs #TableOfContents {
+/* sidebars */
+
+.odin-sidebar, #TableOfContents {
     font-size: 0.8125rem;
 }
 
-.odin-site-docs #docs-sidebar {
+.odin-sidebar {
     overflow-x: hidden;
 }
 
-.odin-site-docs #docs-sidebar > div {
+.odin-sidebar > div {
     overflow-x: auto;
 }
 
-.dark-mode .odin-site-docs #docs-sidebar, .dark-mode .odin-site-docs .odin-toc-border {
+.dark-mode .odin-sidebar, .dark-mode .odin-toc-border {
     color-scheme: dark;
 }
 
-.odin-site-docs .odin-sidebar-content:hover, .odin-site-docs #TableOfContents:hover {
+.odin-sidebar-content:hover, #TableOfContents:hover {
     --odin-sidebar-thumb: rgba(127, 127, 127, 0.6);
 }
 /* the standard properties make Chrome on Windows draw arrow buttons, so only Firefox gets them */
 @supports not selector(::-webkit-scrollbar) {
-    .odin-site-docs .odin-sidebar-content, .odin-site-docs #TableOfContents, .odin-site-docs #TableOfContents > ul {
+    .odin-sidebar-content, #TableOfContents, #TableOfContents > ul {
         scrollbar-width: thin;
         scrollbar-color: var(--odin-sidebar-thumb) transparent;
     }
 }
-.odin-site-docs .odin-sidebar-content::-webkit-scrollbar, .odin-site-docs #TableOfContents::-webkit-scrollbar, .odin-site-docs #TableOfContents > ul::-webkit-scrollbar {
+.odin-sidebar-content::-webkit-scrollbar, #TableOfContents::-webkit-scrollbar, #TableOfContents > ul::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
-.odin-site-docs .odin-sidebar-content::-webkit-scrollbar-track, .odin-site-docs #TableOfContents::-webkit-scrollbar-track, .odin-site-docs #TableOfContents > ul::-webkit-scrollbar-track {
+.odin-sidebar-content::-webkit-scrollbar-track, #TableOfContents::-webkit-scrollbar-track, #TableOfContents > ul::-webkit-scrollbar-track {
     background: transparent;
 }
-.odin-site-docs .odin-sidebar-content::-webkit-scrollbar-thumb, .odin-site-docs #TableOfContents::-webkit-scrollbar-thumb, .odin-site-docs #TableOfContents > ul::-webkit-scrollbar-thumb {
+.odin-sidebar-content::-webkit-scrollbar-thumb, #TableOfContents::-webkit-scrollbar-thumb, #TableOfContents > ul::-webkit-scrollbar-thumb {
     background-color: var(--odin-sidebar-thumb);
     border-radius: 3px;
 }
 
-h4.docs-sidebar-title {
+.odin-sidebar-current {
+    margin-bottom: 1rem;
+    color: var(--odin-sidebar-muted);
+}
+.odin-sidebar-current a {
+    color: var(--odin-sidebar-link);
+}
+
+h4.odin-sidebar-title {
     font-size: 1.125rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
 }
-h4.docs-sidebar-title a {
+.odin-sidebar-title a {
     color: inherit;
 }
 
-#docs-sidebar ul {
+.odin-sidebar ul {
     list-style-type: none;
     padding: 0;
 }
 
-#docs-sidebar li > a,
-.odin-site-docs #TableOfContents a {
+.odin-sidebar li > a, .odin-sidebar .odin-sidebar-label,
+#TableOfContents a {
     display: block;
     padding: 0.0625rem 0.5rem;
     border-radius: 0.25rem;
     color: var(--odin-sidebar-link);
     font-size: inherit;
 }
-#docs-sidebar li > a:hover, .odin-site-docs #TableOfContents a:hover {
+.odin-sidebar li > a:hover, #TableOfContents a:hover {
     background-color: var(--odin-sidebar-hover);
 }
 
-#docs-sidebar li:not(:last-child) {
+.odin-sidebar li:not(:last-child) {
     margin-bottom: 0.125rem;
 }
 
-#docs-sidebar a.active {
+.odin-sidebar .odin-sidebar-group > a, .odin-sidebar .odin-sidebar-group > .odin-sidebar-label {
+    font-weight: 600;
+}
+.odin-sidebar .odin-sidebar-label {
+    color: var(--odin-sidebar-muted);
+}
+
+.odin-sidebar li > ul {
+    margin: 0.125rem 0 0.375rem 0.75rem;
+    padding-left: 0.25rem;
+    border-left: 1px solid var(--odin-sidebar-hover);
+}
+
+.odin-sidebar a.active {
     font-weight: 600;
     color: var(--bs-secondary);
     background-color: rgba(var(--bs-secondary-rgb), 0.12);
 }
 
-.odin-site-docs #TableOfContents {
+#TableOfContents {
     overflow-x: hidden;
 }
 
-.odin-site-docs #TableOfContents > ul {
+#TableOfContents > ul {
     overflow-x: auto;
 }
 
-.odin-site-docs #TableOfContents > ul > li:not(:first-child) {
+#TableOfContents > ul > li:not(:first-child) {
     margin-top: 0.75rem;
 }
-.odin-site-docs #TableOfContents > ul > li > a {
+#TableOfContents > ul > li > a {
     color: var(--odin-sidebar-muted);
     font-size: 0.75rem;
     font-weight: 600;
@@ -489,12 +537,12 @@ h4.docs-sidebar-title a {
     text-transform: uppercase;
 }
 
-.odin-site-docs #TableOfContents li > ul {
+#TableOfContents li > ul {
     padding-left: 0.75rem;
 }
 
 /* code in headings keeps its case, but takes the colour of its entry */
-.odin-site-docs #TableOfContents code {
+#TableOfContents code {
     color: inherit;
     font-size: inherit;
     text-transform: none;
@@ -502,13 +550,13 @@ h4.docs-sidebar-title a {
 }
 
 /* wrapped names hang under their first line */
-#docs-sidebar li > a, .odin-site-docs #TableOfContents li li > a {
+.odin-sidebar li > a, #TableOfContents li li > a {
     padding-left: 1.25rem;
     text-indent: -0.75rem;
 }
 
 /* only the current entry is highlighted, the bar still spans its children */
-.odin-site-docs #TableOfContents li.active {
+#TableOfContents li.active, .dark-mode #TableOfContents li.active {
     color: inherit;
     font-weight: inherit;
     border-left: none;
@@ -516,12 +564,13 @@ h4.docs-sidebar-title a {
     /* an inset box-shadow leaves hairlines on its other edges at fractional display scales */
     background: linear-gradient(var(--bs-secondary), var(--bs-secondary)) no-repeat left / 2px 100%;
 }
-.odin-site-docs #TableOfContents li.active > a {
+/* paint-only: making it bold changes its width, which relays out every entry (~9000 on core:sys/windows) as you scroll */
+#TableOfContents li.active > a {
     color: var(--bs-secondary);
     background-color: rgba(var(--bs-secondary-rgb), 0.12);
 }
 
-.odin-site-docs .odin-sidebar-toggle {
+.odin-sidebar-toggle {
     display: none;
     align-items: center;
     gap: 0.5rem;
@@ -537,11 +586,11 @@ h4.docs-sidebar-title a {
     line-height: 1;
     cursor: pointer;
 }
-.odin-site-docs .odin-sidebar-toggle:hover {
+.odin-sidebar-toggle:hover {
     background-color: var(--odin-sidebar-hover);
     color: inherit;
 }
-.odin-site-docs .odin-sidebar-toggle svg {
+.odin-sidebar-toggle svg {
     width: 1rem;
     height: 1rem;
     fill: none;
@@ -550,160 +599,133 @@ h4.docs-sidebar-title a {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
-.odin-site-docs .odin-sidebar-toggle span {
+.odin-sidebar-toggle span {
     display: none;
 }
 
 @media only screen and (min-width: 992px) {
-    .odin-site-docs > #docs-sidebar {
+    .odin-docs-layout > .odin-sidebar {
         display: flex;
         flex-direction: column;
         flex: 0 0 var(--odin-sidebar-width);
         width: var(--odin-sidebar-width);
         overflow: hidden;
     }
-    .odin-site-docs > .odin-toc-border {
+    .odin-docs-layout > .odin-toc-border {
         flex: 0 0 var(--odin-toc-width);
         width: var(--odin-toc-width);
     }
-    .odin-site-docs > article {
+    .odin-docs-layout > article {
         flex: 1 1 0;
         width: auto;
         min-width: 0;
     }
 
     /* the toggles stay put while the lists scroll beneath them */
-    .odin-site-docs > .odin-toc-border > .odin-below-navbar {
+    .odin-docs-layout > .odin-toc-border > .odin-below-navbar {
         display: flex;
         flex-direction: column;
         overflow: hidden;
     }
-    .odin-site-docs .odin-sidebar-content, .odin-site-docs #TableOfContents {
+    .odin-sidebar-content, .odin-docs-layout #TableOfContents {
         flex: 1 1 auto;
         min-height: 0;
         overflow-y: auto;
     }
 
-    .odin-site-docs .odin-sidebar-toggle {
+    .odin-sidebar-toggle {
         display: flex;
         flex: none;
         margin-bottom: 0.5rem;
     }
-    .odin-site-docs #docs-sidebar > .odin-sidebar-toggle {
+    .odin-sidebar > .odin-sidebar-toggle {
         align-self: flex-end;
         margin-top: 1rem;
     }
-    .odin-site-docs .odin-toc-border .odin-sidebar-toggle {
+    .odin-toc-border .odin-sidebar-toggle {
         align-self: flex-start;
     }
-    .odin-site-docs .odin-toc-border .odin-sidebar-toggle svg {
+    .odin-toc-border .odin-sidebar-toggle svg {
         transform: scaleX(-1);
     }
 
     /* collapsed sidebars shrink to a rail holding only their toggle */
-    .docs-sidebar-collapsed .odin-site-docs > #docs-sidebar,
-    .toc-sidebar-collapsed .odin-site-docs > .odin-toc-border {
+    .nav-sidebar-collapsed .odin-docs-layout > .odin-sidebar,
+    .toc-sidebar-collapsed .odin-docs-layout > .odin-toc-border {
         flex-basis: var(--odin-rail-width);
         width: var(--odin-rail-width);
         padding-left: 0;
         padding-right: 0;
     }
-    .docs-sidebar-collapsed .odin-site-docs #docs-sidebar > .odin-sidebar-content,
-    .toc-sidebar-collapsed .odin-site-docs #TableOfContents {
+    .nav-sidebar-collapsed .odin-sidebar > .odin-sidebar-content,
+    .toc-sidebar-collapsed #TableOfContents {
         display: none;
     }
-    .docs-sidebar-collapsed .odin-site-docs #docs-sidebar > .odin-sidebar-toggle,
-    .toc-sidebar-collapsed .odin-site-docs .odin-toc-border .odin-sidebar-toggle {
+    .nav-sidebar-collapsed .odin-sidebar > .odin-sidebar-toggle,
+    .toc-sidebar-collapsed .odin-toc-border .odin-sidebar-toggle {
         align-self: center;
         flex-direction: column;
         padding: 0.5rem 0.25rem;
     }
-    .docs-sidebar-collapsed .odin-site-docs #docs-sidebar > .odin-sidebar-toggle span,
-    .toc-sidebar-collapsed .odin-site-docs .odin-toc-border .odin-sidebar-toggle span {
+    .nav-sidebar-collapsed .odin-sidebar > .odin-sidebar-toggle span,
+    .toc-sidebar-collapsed .odin-toc-border .odin-sidebar-toggle span {
         display: block;
         writing-mode: vertical-rl;
     }
-    .docs-sidebar-collapsed .odin-site-docs #docs-sidebar > .odin-sidebar-toggle svg {
+    .nav-sidebar-collapsed .odin-sidebar > .odin-sidebar-toggle svg {
         transform: scaleX(-1);
     }
-    .toc-sidebar-collapsed .odin-site-docs .odin-toc-border .odin-sidebar-toggle svg {
+    .toc-sidebar-collapsed .odin-toc-border .odin-sidebar-toggle svg {
         transform: none;
     }
 }
 
-/* Code blocks
+/* code blocks, which share the box and colours of pkg.odin-lang.org's signatures, rather than
+   highlight.js's github-dark theme in both light and dark mode */
 
-These share the box and colours of the code on pkg.odin-lang.org, rather than highlight.js's
-github-dark theme in both light and dark mode. The `!important`s beat the inline styles Hugo
-puts on the `pre`s. */
-
-.odin-site-docs {
-    --odin-code-bg:        #f8f8f8;
-    --odin-code-border:    #c6c8ca;
-    --odin-code-text:      #202224;
-    --odin-code-keyword:   #ff5252;
-    --odin-code-string:    #093;
-    --odin-code-number:    #0b7285;
-    --odin-code-comment:   #888;
-    --odin-code-directive: #05a;
-    --odin-code-procedure: #047919;
-}
-.dark-mode .odin-site-docs {
-    --odin-code-bg:        var(--dark-code);
-    --odin-code-border:    var(--dark-border);
-    --odin-code-text:      var(--bs-light);
-    --odin-code-string:    #0a5;
-    --odin-code-number:    #79c0ff;
-    --odin-code-directive: #58a6ff;
-    --odin-code-procedure: #42b557;
-}
-
-.odin-site-docs article pre {
+.documentation pre {
     position: relative;
+}
+.documentation pre:has(> code) {
     padding: 0.625rem;
     border: 1px solid var(--odin-code-border);
     border-radius: 0.25rem;
-    background-color: var(--odin-code-bg) !important;
-    color: var(--odin-code-text) !important;
-    tab-size: 4;
+    background-color: var(--odin-code-bg);
+    tab-size: 8;
 }
-.odin-site-docs article pre > code,
-.odin-site-docs article pre > code.hljs {
+.documentation pre > code.hljs {
     padding: 0;
-    background: none !important;
-    color: inherit;
+    background: none;
+    color: var(--odin-code-text);
 }
-.odin-site-docs pre .hljs-keyword, .odin-site-docs pre .hljs-literal {
+.documentation .hljs-keyword, .documentation .hljs-literal, .documentation .hljs-type {
     color: var(--odin-code-keyword);
 }
-.odin-site-docs pre .hljs-built_in {
+.documentation .hljs-built_in {
     color: var(--odin-code-keyword);
     font-weight: 600;
 }
-.odin-site-docs pre .hljs-string {
+.documentation .hljs-string {
     color: var(--odin-code-string);
 }
-.odin-site-docs pre .hljs-number {
+.documentation .hljs-number {
     color: var(--odin-code-number);
 }
-.odin-site-docs pre .hljs-comment {
+.documentation .hljs-comment {
     color: var(--odin-code-comment);
 }
-.odin-site-docs pre .hljs-meta {
+.documentation .hljs-meta {
     color: var(--odin-code-directive);
 }
-/* other languages' tokens, e.g. in C or assembly examples, so none keep github-dark's colours */
-.odin-site-docs pre .hljs-type {
-    color: var(--odin-code-keyword);
-}
-.odin-site-docs pre .hljs-title {
+.documentation .hljs-title {
     color: var(--odin-code-procedure);
 }
-.odin-site-docs pre :is(.hljs-symbol, .hljs-attr, .hljs-attribute, .hljs-variable, .hljs-params, .hljs-property, .hljs-subst, .hljs-operator, .hljs-punctuation) {
+/* other languages' tokens, e.g. in C or assembly examples, so none keep github-dark's colours */
+.documentation pre :is(.hljs-symbol, .hljs-attr, .hljs-attribute, .hljs-variable, .hljs-params, .hljs-property, .hljs-subst, .hljs-operator, .hljs-punctuation) {
     color: inherit;
 }
 
-.odin-site-docs article pre .copy-code {
+.documentation pre .copy-code {
     position:      absolute;
     top:           0.4rem;
     right:         0.4rem;
@@ -719,9 +741,26 @@ puts on the `pre`s. */
     opacity:       0;
     transition:    opacity 0.12s ease;
 }
-.odin-site-docs article pre:hover .copy-code,
-.odin-site-docs article pre .copy-code:focus { opacity: 1; }
-.odin-site-docs article pre .copy-code:hover { background: rgba(127,127,127,.25); }
+.documentation pre:hover .copy-code,
+.documentation pre .copy-code:focus { opacity: 1; }
+.documentation pre .copy-code:hover { background: rgba(127,127,127,.25); }
+
+/* This site's own documentation pages */
+
+/* Hugo puts inline styles on its code blocks, which these replace */
+.odin-site-docs article pre {
+    padding: 0.625rem;
+    border: 1px solid var(--odin-code-border);
+    border-radius: 0.25rem;
+    background-color: var(--odin-code-bg) !important;
+    color: var(--odin-code-text) !important;
+    tab-size: 4 !important;
+}
+.odin-site-docs article pre > code {
+    padding: 0;
+    background: none !important;
+    color: inherit;
+}
 
 /* the `#` link after each heading only shows when hovering the heading */
 @media (hover: hover) {

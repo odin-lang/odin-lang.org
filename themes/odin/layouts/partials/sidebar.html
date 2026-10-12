@@ -1,11 +1,11 @@
-{{- /* Mirrors the packages sidebar of pkg.odin-lang.org (`write_pkg_sidebar`) so both sites share one look */ -}}
+{{- /* The same markup as the packages sidebar of pkg.odin-lang.org (`write_pkg_sidebar`), styled by the shared css/style.css */ -}}
 {{ $currentPage := . }}
 {{ $label := .Section | humanize }}
-<nav id="docs-sidebar" class="col-lg-2 odin-sidebar-border navbar-light sticky-top odin-below-navbar">
-    {{ partial "sidebar-toggle" (dict "name" "docs-sidebar" "label" $label) }}
+<nav class="col-lg-2 odin-sidebar odin-sidebar-border navbar-light sticky-top odin-below-navbar">
+    {{ partial "sidebar-toggle" (dict "name" "nav-sidebar" "label" $label) }}
     <div class="odin-sidebar-content pb-3">
         {{ with .CurrentSection }}
-        <h4 class="docs-sidebar-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
+        <h4 class="odin-sidebar-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
         {{ end }}
         <ul>
             {{ range where .Site.RegularPages "Section" .Section }}

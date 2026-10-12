@@ -202,16 +202,15 @@ import "core:testing"
 
 @(test)
 my_test :: proc(t: ^testing.T) {
-	fd, open_error := os.open("test_data")
+	f, open_error := os.open("test_data")
 
-	if !testing.expect_value(t, open_error, os.ERROR_NONE) {
+	if !testing.expect_value(t, open_error, nil) {
 		return
 	}
 
-	testing.cleanup(t, proc (raw_handle: rawptr) {
-		handle := cast(^os.Handle)raw_handle
-		os.close(handle^)
-	}, &fd)
+	testing.cleanup(t, proc(raw_file: rawptr) {
+		os.close((^os.File)(raw_file))
+	}, f)
 
 	some_value := 5
 
@@ -221,7 +220,7 @@ my_test :: proc(t: ^testing.T) {
 }
 ```
 
-If we didn't use `cleanup`, the `fd` file handle would still be open, because `defer` statements are not run if the thread panics.
+If we didn't use `cleanup`, the file `f` would still be open, because `defer` statements are not run if the thread panics.
 
 However, for almost all situations, you should be fine trusting in `defer`; `cleanup` is for those rare times when you have a particularly unstable test case and need to clean it up afterwards.
 

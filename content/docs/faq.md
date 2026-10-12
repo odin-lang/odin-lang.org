@@ -586,7 +586,7 @@ No. There are no ownership semantics in Odin.
 No. `defer` can be used to defer a statement till end of a scope. `defer` is explicit and much more flexible than a C++-style destructor in that it can be used for anything.
 ```odin
 f, err := os.open(...)
-if err != os.ERROR_NONE {
+if err != nil {
     // handle error
 }
 defer os.close(f) // will be executed at the end of the scope

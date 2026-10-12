@@ -89,14 +89,26 @@ a:hover {
     overflow: auto;
 }
 
-/* The glorious scroll-to element with sticky header offset hack. */
-.odin-article h1,
-.odin-article h2,
-.odin-article h3,
-.odin-article h4,
-.odin-article h5 {
+/* The scroll-to element with sticky header offset hack, which pkg.odin-lang.org's headings still
+   rely on (its own style.css overrides it in places); `:where` keeps its specificity as it was */
+:where(.odin-docs-layout:not(.odin-site-docs)) .odin-article h1,
+:where(.odin-docs-layout:not(.odin-site-docs)) .odin-article h2,
+:where(.odin-docs-layout:not(.odin-site-docs)) .odin-article h3,
+:where(.odin-docs-layout:not(.odin-site-docs)) .odin-article h4,
+:where(.odin-docs-layout:not(.odin-site-docs)) .odin-article h5 {
     margin-top: -59px; /* menu bar height */
     padding-top: calc(59px + 1.5rem); /* menu bar height */
+}
+
+/* This site's: what is linked to stops below the menu bar and the section label (js/docs-page.js) */
+.odin-site-docs .odin-article [id] {
+    scroll-margin-top: calc(59px + 2.75rem); /* menu bar height */
+}
+.odin-site-docs .odin-article :is(h1, h2, h3, h4, h5) {
+    margin-top: 2.5rem;
+}
+.odin-site-docs .odin-article :is(h1, h2, h3, h4, h5) + :is(h2, h3, h4, h5) {
+    margin-top: 2rem;
 }
 
 .odin-main {
@@ -398,8 +410,9 @@ and js/docs.js collapses the sidebars and adds the code blocks' copy buttons. */
     --odin-sidebar-hover: rgba(127, 127, 127, 0.12);
     --odin-sidebar-thumb: rgba(127, 127, 127, 0.3);
     --odin-card-border:   #dee2e6;
+    --odin-rule:          #e9ecef;
 
-    --odin-code-bg:        #f8f8f8;
+    --odin-code-bg:       #f8f8f8;
     --odin-code-border:    #c6c8ca;
     --odin-code-text:      #202224;
     --odin-code-keyword:   #ff5252;
@@ -413,6 +426,7 @@ and js/docs.js collapses the sidebars and adds the code blocks' copy buttons. */
     --odin-sidebar-link:  #7aade5;
     --odin-sidebar-muted: #8b98a9;
     --odin-card-border:   var(--dark-border);
+    --odin-rule:          #1c2430;
 
     --odin-code-bg:        var(--dark-code);
     --odin-code-border:    var(--dark-border);
@@ -1018,6 +1032,52 @@ h4.odin-sidebar-title {
     color: inherit;
 }
 
+/* Markdown tables, which scroll sideways rather than widen the page. Their class keeps
+   js/script.js from making them Bootstrap tables */
+.doc-table-scroll {
+    max-width: 100%;
+    margin-bottom: 1rem;
+    overflow-x: auto;
+}
+.doc-table {
+    border-collapse: collapse;
+}
+.doc-table th, .doc-table td {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--odin-card-border);
+    vertical-align: top;
+}
+.doc-table th {
+    background-color: var(--odin-code-bg);
+}
+
+/* the section being read, under the navbar; the page's script adds it and keeps it up to date */
+.odin-section-label {
+    position: sticky;
+    top: 59px;
+    z-index: 10;
+    order: -2147483647;
+    height: 0;
+}
+.odin-section-label > span {
+    display: block;
+    padding: 0.375rem 0;
+    border-bottom: 1px solid var(--odin-rule);
+    background-color: #fff;
+    color: var(--odin-sidebar-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    visibility: hidden;
+}
+.dark-mode .odin-section-label > span {
+    background-color: var(--dark-background);
+}
+.odin-section-label.visible > span {
+    visibility: visible;
+}
+
 /* This site's own documentation pages */
 
 /* the search of the page's sections, whose results drop down over the page */
@@ -1072,10 +1132,69 @@ h4.odin-sidebar-title {
 .dark-mode .kind-attribute { --kind-color: #b79cf0; }
 .dark-mode .kind-directive { --kind-color: #4fd1b7; }
 
-/* the gap under the search box: a heading brings its own, anything else (most often a paragraph) gets the same */
-.odin-site-docs header:has(.odin-search-wrapper) + .odin-article > :first-child:not(h2, h3, h4, h5, h6) {
+/* the gap under the search box, whether a heading or a paragraph comes first */
+.odin-site-docs header:has(.odin-search-wrapper) + .odin-article > :first-child {
     margin-top: 1.5rem;
 }
+
+/* the names a table is about stay whole; on narrow screens the table scrolls instead */
+.odin-site-docs .doc-table td:first-child code {
+    white-space: nowrap;
+}
+
+/* the sections being read, e.g. "Attributes › General attributes"; long ones are cut short */
+.odin-site-docs .odin-section-label > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.odin-section-label code {
+    color: inherit;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+/* GitHub's alerts, e.g. `> [!NOTE]`, as callouts; layouts/_default/_markup/render-blockquote.html */
+.odin-callout {
+    margin: 0 0 1rem;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid rgba(var(--callout-rgb), 0.35);
+    border-radius: 0.25rem;
+    background-color: rgba(var(--callout-rgb), 0.06);
+}
+.odin-callout > :last-child {
+    margin-bottom: 0;
+}
+.odin-callout-title {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 0.25rem;
+    color: var(--callout-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.odin-callout-title svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.odin-callout-note      { --callout-rgb:  56, 130, 210; --callout-color: #2b6cb0; }
+.odin-callout-tip       { --callout-rgb:  26, 127,  55; --callout-color: #1a7f37; }
+.odin-callout-important { --callout-rgb: 124,  77, 206; --callout-color: #6741b0; }
+.odin-callout-warning   { --callout-rgb: 191, 135,   0; --callout-color: #9a6700; }
+.odin-callout-caution   { --callout-rgb: 209,  36,  47; --callout-color: #c0212b; }
+.dark-mode .odin-callout-note      { --callout-color: #7aade5; }
+.dark-mode .odin-callout-tip       { --callout-color: #3fb950; }
+.dark-mode .odin-callout-important { --callout-color: #b79cf0; }
+.dark-mode .odin-callout-warning   { --callout-color: #d29922; }
+.dark-mode .odin-callout-caution   { --callout-color: #f85149; }
 
 /* "copy link" shows on the hovered heading */
 .odin-article :is(h2, h3, h4, h5):hover .copy-link {

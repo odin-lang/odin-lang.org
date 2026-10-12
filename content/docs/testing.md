@@ -96,7 +96,8 @@ Because the numeric values of each rune in `"hellope"` add up to `745`, this tes
 [ERROR] --- [2024-06-10 17:45:38] [tests.odin:16:my_test()] expected 745, got 752
 ```
 
-**Note:** A test can have multiple `expect`ations, not just one. You can use any combination of the procedures documented here.
+> [!NOTE]
+> A test can have multiple `expect`ations, not just one. You can use any combination of the procedures documented here.
 
 #### Conclusion
 
@@ -226,7 +227,8 @@ However, for almost all situations, you should be fine trusting in `defer`; `cle
 
 It should be noted that, if the test panics or times out, `cleanup` runs with greater privilege in the main thread, to preserve the state of the test's memory. With this in mind, all `cleanup` procedures must not, under any circumstance: fail an assertion, fail a bounds check, access invalid memory, panic, or raise a signal of any sort. Otherwise, they will take down the entire test runner.
 
-**Note:** Even if a test fails catastrophically and doesn't clean up any of the memory it used, the test runner equips each test thread with its own custom allocator that is wiped clean at the start of a new test. You do not need to worry about memory leaks in completed tests causing issues later on.
+> [!NOTE]
+> Even if a test fails catastrophically and doesn't clean up any of the memory it used, the test runner equips each test thread with its own custom allocator that is wiped clean at the start of a new test. You do not need to worry about memory leaks in completed tests causing issues later on.
 
 ### `testing.expect`
 

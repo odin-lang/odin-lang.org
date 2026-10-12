@@ -4,7 +4,8 @@ summary: Overview of the inline `asm` templates in Odin
 weight: 10
 ---
 
-> **Note:** Supported targets: `amd64`, `arm64`, and `riscv64`.
+> [!NOTE]
+> Supported targets: `amd64`, `arm64`, and `riscv64`.
 
 ## Overview
 

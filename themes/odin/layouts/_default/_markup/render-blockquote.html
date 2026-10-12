@@ -1,0 +1,16 @@
+{{- /* GitHub's alerts, e.g. `> [!NOTE]`, as callouts; any other blockquote as usual */ -}}
+{{- if eq .Type "alert" -}}
+{{- $icons := dict
+    "note"      `<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>`
+    "tip"       `<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.6 10.8c.7.5 1.1 1.3 1.1 2.2h5c0-.9.4-1.7 1.1-2.2A6 6 0 0 0 12 3z"/>`
+    "important" `<path d="M4 4.5h16v11H10l-4.5 4v-4H4z"/><path d="M12 7.5v4M12 13.5h.01"/>`
+    "warning"   `<path d="M12 3.5 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/>`
+    "caution"   `<path d="M8.3 3h7.4L21 8.3v7.4L15.7 21H8.3L3 15.7V8.3z"/><path d="M12 7.5v5M12 16h.01"/>`
+-}}
+<div class="odin-callout odin-callout-{{ .AlertType }}" role="note">
+<p class="odin-callout-title"><svg viewBox="0 0 24 24" aria-hidden="true">{{ index $icons .AlertType | default (index $icons "note") | safeHTML }}</svg>{{ with .AlertTitle }}{{ . }}{{ else }}{{ .AlertType | title }}{{ end }}</p>
+{{ .Text }}</div>
+{{ else -}}
+<blockquote>
+{{ .Text }}</blockquote>
+{{ end -}}

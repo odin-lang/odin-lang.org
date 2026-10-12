@@ -46,7 +46,8 @@ y, z: int // declares `y` and `z` to have type `int`
 
 Variables are initialized to zero by default unless specified otherwise.
 
-**Note:** Declarations have to be *unique* within a scope.
+> [!NOTE]
+> Declarations have to be *unique* within a scope.
 
 ```odin
 x := 10
@@ -70,12 +71,13 @@ x, y := 1, "hello" // declares `x` and `y` and infers the types from the assignm
 y, x = "bye", 5
 ```
 
-**Note:** `:=` is two tokens, `:` and `=`. The following are all equivalent:
-```odin
-x: int = 123
-x:     = 123 // default type for an integer literal is `int`
-x := 123
-```
+> [!NOTE]
+> `:=` is two tokens, `:` and `=`. The following are all equivalent:
+> ```odin
+> x: int = 123
+> x:     = 123 // default type for an integer literal is `int`
+> x := 123
+> ```
 
 ## Literals
 
@@ -244,7 +246,8 @@ main :: proc() {
 The `core:` prefix is used to state where the import is meant to look; this is called a library collection. If no prefix is present, the import will look relative to the current file.
 
 
-**Note:** By convention, the package name is the same as the last element in the import path. The `"core:fmt"` package comprises files that begin with the statement `package fmt`. However, this is not enforced by the compiler, which means the default name for the import name will be determined by the last element in the import path if possible.
+> [!NOTE]
+> By convention, the package name is the same as the last element in the import path. The `"core:fmt"` package comprises files that begin with the statement `package fmt`. However, this is not enforced by the compiler, which means the default name for the import name will be determined by the last element in the import path if possible.
 
 A different import name can be used over the default package name:
 ```odin
@@ -299,11 +302,12 @@ for i := 0; i < 10; i += 1 {
 }
 ```
 
-**Note:** Unlike other languages like C, there are no parentheses `( )` surrounding the three components. Braces `{ }` or a `do` are always required.
-```odin
-for i := 0; i < 10; i += 1 { }
-for i := 0; i < 10; i += 1 do single_statement()
-```
+> [!NOTE]
+> Unlike other languages like C, there are no parentheses `( )` surrounding the three components. Braces `{ }` or a `do` are always required.
+> ```odin
+> for i := 0; i < 10; i += 1 { }
+> for i := 0; i < 10; i += 1 do single_statement()
+> ```
 
 The initial and post statements are optional:
 ```odin
@@ -438,7 +442,8 @@ fmt.println(some_map["B"]) // 5
 ```
 
 
-**Note:** It is not possible to iterate a string in a by-reference manner as strings are immutable.
+> [!NOTE]
+> It is not possible to iterate a string in a by-reference manner as strings are immutable.
 
 Range-based `for` loops can also iterate over the results of a procedure that returns a multi-valued tuple whose last value is a `bool`. The loop continues while the boolean is `true`, and the preceding values in the tuple are available as loop variables. This is similar in concept to a "custom iterator" but is just syntactic sugar for calling the procedure in a loop.
 
@@ -687,7 +692,8 @@ foo :: proc() -> (n: int) {
 }
 ```
 
-**Note:** The `defer` construct in Odin differs from Go's `defer`, which is function-exit and relies on a closure stack system.
+> [!NOTE]
+> The `defer` construct in Odin differs from Go's `defer`, which is function-exit and relies on a closure stack system.
 
 ### `when` statement
 The `when` statement is almost identical to the `if` statement but with some differences:
@@ -932,7 +938,8 @@ window2, err2 := create_window(title="Title1", width=640, height=360)
 
 Default values are assigned at the start of the procedure call and can be [overwritten](#shadowing-parameters). They may also be assigned to [named results](#named-results).
 
-**Note:** These default values must be compile time known values, such as a constant value or `nil` (if the type supports it).
+> [!NOTE]
+> These default values must be compile time known values, such as a constant value or `nil` (if the type supports it).
 
 ### Explicit procedure overloading
 Unlike other languages, Odin provides the ability to explicitly overload procedures:
@@ -1007,7 +1014,8 @@ any
 
 The `uintptr` type is pointer sized, and the `int`, `uint` types are the "natural" register size, which is guaranteed to greater than or equal to the size of a pointer (i.e. `size_of(uint) >= size_of(uintptr)`). When you need an integer value, you should default to using `int` unless you have a specific reason to use a sized or unsigned integer type
 
-**Note:** The Odin `string` type stores the pointer to the data and the length of the string. `cstring` is used to interface with foreign libraries written in/for C that use zero-terminated strings. [`string16` and `cstring16`](#string16-and-cstring16-types) are their UTF-16 equivalents.
+> [!NOTE]
+> The Odin `string` type stores the pointer to the data and the length of the string. `cstring` is used to interface with foreign libraries written in/for C that use zero-terminated strings. [`string16` and `cstring16`](#string16-and-cstring16-types) are their UTF-16 equivalents.
 
 ### Zero values
 Variables declared without an explicit initial value are given their _zero_ value.
@@ -1101,7 +1109,8 @@ y: int = --- // uses uninitialized memory
 ```
 This is the default behaviour in C, whilst the default behaviour in Odin is to zero the memory.
 
-**Note:** `---` is not a contract in that all memory is uninitialized, but that it may be. For example, as a side-effect of an implementation detail, padding in a struct must be zeroed to permit trivial bitwise memory comparison.
+> [!NOTE]
+> `---` is not a contract in that all memory is uninitialized, but that it may be. For example, as a side-effect of an implementation detail, padding in a struct must be zeroed to permit trivial bitwise memory comparison.
 
 #### Built-in procedures
 
@@ -1679,7 +1688,8 @@ d := a * b  // {2, 16, 72}
 e := c != d // true
 ```
 
-**Note:** Odin also supports [`matrix` types](#matrix-type).
+> [!NOTE]
+> Odin also supports [`matrix` types](#matrix-type).
 
 ##### Swizzle operations
 
@@ -1909,7 +1919,8 @@ delete(e)                     // slices are always deleted from context.allocato
 delete(f)                     // dynamic arrays remember their allocator
 ```
 
-**Note:** There is no automatic memory management in Odin.
+> [!NOTE]
+> There is no automatic memory management in Odin.
 
 #### Clearing a dynamic array
 
@@ -1975,7 +1986,8 @@ y := [dynamic; 8]int{1, 2, 3}
 fmt.println(len(y), cap(y)) // 3 8
 ```
 
-**Note:** This replaces the `core` library container dynamic array [Small_Array(N, T)](https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin).
+> [!NOTE]
+> This replaces the `core` library container dynamic array [Small_Array(N, T)](https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin).
 
 ### Enumerations
 Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:
@@ -2040,7 +2052,8 @@ main :: proc() {
 }
 ```
 
-**Note:** Implicit selector expression is preferred to [`using`](#using-statement) an enumeration as `using` does pollute the current scope.
+> [!NOTE]
+> Implicit selector expression is preferred to [`using`](#using-statement) an enumeration as `using` does pollute the current scope.
 
 #### Iterating an enumeration
 
@@ -2175,13 +2188,15 @@ fmt.println(p^) // read `i` through the pointer `p`
 p^ = 1337       // write `i` through the pointer `p`
 ```
 
-**Note:** C programmers may be used to using `*` to denote pointers. In Odin, the `^` syntax is borrowed from Pascal. This is to keep the convention of the type on the left and its usage on the right:
-```odin
-p: ^int // ^ on the left
-x := p^ // ^ on the right
-```
+> [!NOTE]
+> C programmers may be used to using `*` to denote pointers. In Odin, the `^` syntax is borrowed from Pascal. This is to keep the convention of the type on the left and its usage on the right:
+> ```odin
+> p: ^int // ^ on the left
+> x := p^ // ^ on the right
+> ```
 
-**Note:** Unlike C, `^T` pointers do not support pointer arithmetic. If you need a form of pointer arithmetic, please use a [multi-pointer](#multi-pointers) (`[^]T`) which supports indexing and slicing, or the `ptr_offset` and `ptr_sub` procedures in `base:intrinsics` (also available in the `core:mem` package).
+> [!NOTE]
+> Unlike C, `^T` pointers do not support pointer arithmetic. If you need a form of pointer arithmetic, please use a [multi-pointer](#multi-pointers) (`[^]T`) which supports indexing and slicing, or the `ptr_offset` and `ptr_sub` procedures in `base:intrinsics` (also available in the `core:mem` package).
 
 ### Structs
 A `struct` is a record type in Odin. It is a collection of fields. Struct fields are accessed by using a dot:
@@ -2300,7 +2315,8 @@ If multiple information is to be passed in the `"value"`, usually it is specifie
 name: string `json:"username,omitempty"`,
 ```
 
-**Note:** Field tags also exist for [`bit_field` record types](#bit-fields).
+> [!NOTE]
+> Field tags also exist for [`bit_field` record types](#bit-fields).
 
 ### Unions
 A `union` in Odin is a discriminated union, also known as a tagged union or sum type. The zero value of a union is `nil`.
@@ -2430,7 +2446,8 @@ m := map[string]int{
 }
 ```
 
-**Note:** To enable compound literals for `map`s, `#+feature dynamic-literals` must be enabled per file. This is because dynamic literals will use the current `context.allocator` and thus implicitly allocate. The opt-in feature is there in order for Odin to not implicitly allocate by default and not give the user any surprises.
+> [!NOTE]
+> To enable compound literals for `map`s, `#+feature dynamic-literals` must be enabled per file. This is because dynamic literals will use the current `context.allocator` and thus implicitly allocate. The opt-in feature is there in order for Odin to not implicitly allocate by default and not give the user any surprises.
 
 Modifying existing map slots needs to be done in two steps. However assigning to a struct field is prohibited.
 
@@ -2469,7 +2486,12 @@ Short:
 
 ### Bit fields
 
-A `bit_field` is a record type in Odin that is akin to a bit-packed struct. **Note:** `bit_field` is __not__ equivalent to `bit_set` as it has different semantics and use cases. `bit_field` fields are accessed by using a dot:
+A `bit_field` is a record type in Odin that is akin to a bit-packed struct.
+
+> [!NOTE]
+> `bit_field` is __not__ equivalent to `bit_set` as it has different semantics and use cases.
+
+`bit_field` fields are accessed by using a dot:
 ```odin
 Foo :: bit_field u16 { // backing type must be an integer or array of integers
 	x: i32     | 3, // signed integers will be signed extended on use
@@ -2571,9 +2593,11 @@ main :: proc() {
 ### `any` Type
 An `any` type can reference any data type. Internally it contains a pointer to the underlying data and its relevant `typeid`. This is a very useful construct in order to have a runtime type safe printing procedure.
 
-**Note:** The `any` value is only valid for as long as the underlying data is still valid. Passing a literal to an `any` will allocate the literal in the current stack frame.
+> [!NOTE]
+> The `any` value is only valid for as long as the underlying data is still valid. Passing a literal to an `any` will allocate the literal in the current stack frame.
 
-**Note:** It is highly recommended that you **do not** use this unless you know what you are doing. Its primary use is for printing procedures.
+> [!NOTE]
+> It is highly recommended that you **do not** use this unless you know what you are doing. Its primary use is for printing procedures.
 
 ### Multi-pointers
 
@@ -3033,7 +3057,8 @@ q.xyz = {10, 20, 30}
 fmt.println(q) // 1+10i+20j+30k
 ```
 
-**Note:** The memory layout of a quaternion is `xyzw`, i.e. the real part is stored last.
+> [!NOTE]
+> The memory layout of a quaternion is `xyzw`, i.e. the real part is stored last.
 
 `core:math/linalg` contains many more procedures for working with quaternions, such as `quaternion_angle_axis`, `quaternion_slerp`, and `quaternion_mul_vector3`.
 
@@ -3106,7 +3131,8 @@ foo :: proc(entity: ^Entity) {
 
 ### `using` as a statement
 
-**Note:** `using` as a statement, or applied to a procedure parameter, is disallowed by default as it is considered bad practice outside of immediate refactoring. It can be enabled on a per-file basis with [`#+feature using-stmt`](#feature). `using` on struct fields is always allowed.
+> [!NOTE]
+> `using` as a statement, or applied to a procedure parameter, is disallowed by default as it is considered bad practice outside of immediate refactoring. It can be enabled on a per-file basis with [`#+feature using-stmt`](#feature). `using` on struct fields is always allowed.
 
 ```odin
 #+feature using-stmt
@@ -3160,9 +3186,11 @@ frog.x = 123
 foo(frog)
 ```
 
-**Note:** `using` can be applied to arbitrarily many things, which allows the ability to have multiple subtype polymorphism (but also its issues).
+> [!NOTE]
+> `using` can be applied to arbitrarily many things, which allows the ability to have multiple subtype polymorphism (but also its issues).
 
-**Note:** `using`'d fields can still be referred by name.
+> [!NOTE]
+> `using`'d fields can still be referred by name.
 
 If the subtyping behaviour is wanted without bringing the field names into the parent struct, the `#subtype` field directive can be used instead of `using`:
 ```odin
@@ -3480,7 +3508,8 @@ The compiler provides a set of builtin constants which are available in all file
 | `ODIN_WINDOWS_SUBSYSTEM_STRING`   | A string indicating the desired Windows PE subsystem, chosen using the `-subsystem` switch. (e.g. `"CONSOLE"` (default), `"WINDOWS"`, or `""` on non-Windows platforms).                    |
 | `__ODIN_LLVM_F16_SUPPORTED`       | `true` if LLVM supports the `f16` type.                                                                                                                                                     |
 
-**Note:** The `.Playdate` subtarget targets the [Playdate](https://play.date) handheld, and is used together with the `freestanding_arm32` target: `-target:freestanding_arm32 -subtarget:playdate`.
+> [!NOTE]
+> The `.Playdate` subtarget targets the [Playdate](https://play.date) handheld, and is used together with the `freestanding_arm32` target: `-target:freestanding_arm32 -subtarget:playdate`.
 
 See the [tracking allocator](#tracking-allocator) for an example of something that uses the `ODIN_DEBUG` constant in a `when` statement.
 
@@ -3941,7 +3970,8 @@ c_sum :: proc "c" (count: c.int, #c_vararg args: ..any) -> (total: c.int) {
 }
 ```
 
-**Note:** As in C, nothing is known about the number or the types of the variadic arguments; they must be determined by other means (such as `count` above, or a format string), and read in the order in which they were passed.
+> [!NOTE]
+> As in C, nothing is known about the number or the types of the variadic arguments; they must be determined by other means (such as `count` above, or a format string), and read in the order in which they were passed.
 
 ## Inline assembly
 
@@ -3960,7 +3990,8 @@ Please see the dedicated [inline `asm` templates](/docs/inline-asm/) documentati
 
 As described in the [Foreign System](#foreign-system) we often want to use existing `C` libraries. Odin has a wide collection of maintained [bindings and ports](https://github.com/odin-lang/Odin/tree/master/vendor).
 
-**Note:** Case notation should remain the same as the original authors intended, to make porting code easier.
+> [!NOTE]
+> Case notation should remain the same as the original authors intended, to make porting code easier.
 
 Let's run through how we could use the `vendor:glfw` library. The code will be based on their [Quick Guide](https://www.glfw.org/docs/latest/quick_guide.html) but we will simplify it to only show using `glfw`.
 
@@ -4020,7 +4051,8 @@ As we can see there is little difference to how someone would use `vendor:glfw` 
 ## Parametric polymorphism
 Parametric polymorphism, commonly referred to as "generics", allow the user to create a procedure or data that can be written _generically_ so it can handle values in the same manner.
 
-**Note:** Within the Odin code base and documentation, the nickname "parapoly" is usually used.
+> [!NOTE]
+> Within the Odin code base and documentation, the nickname "parapoly" is usually used.
 
 ### Explicit parametric polymorphism
 Explicit parametric polymorphism means that the types of the parameters of a `proc` or of the data fields of a `struct` (when intended to potentially be used with multiple possible types) must be explicitly provided. This is similar to how C++ allows the use of `template`s to fill out the body of a procedure or data structure with the types that are given at compile-time as input to the `template` parameters, but in Odin explicit parametric polymorphism is safer and cleaner to work with. 
@@ -4086,7 +4118,8 @@ The `$` prefix is optional for record data types as all parameters must be "cons
 ### Implicit parametric polymorphism
 Implicit implies that the type of a parameter is inferred from its input. In this case, the dollar sign `$` can be placed on the type.
 
-**Note:** Within the Odin code base and documentation, the name "polymorphic name" is usually used.
+> [!NOTE]
+> Within the Odin code base and documentation, the name "polymorphic name" is usually used.
 
 #### Procedures using implicit parametric polymorphism (parapoly)
 ```odin
@@ -4642,7 +4675,8 @@ AutoreleasePool :: struct {using _: Object}
 
 Specifies the procedure used to provide a default `context`. It must be a procedure that takes 1 parameter (a single pointer to the `@(objc_type)` value) and only returns `runtime.Context`.
 
-**Note:** Prefer not to use this if possible.
+> [!NOTE]
+> Prefer not to use this if possible.
 
 #### `@(objc_implement=<boolean?>)`
 

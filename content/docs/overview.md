@@ -1756,7 +1756,7 @@ fmt.println(len(x), cap(x)) // 3 8
 fmt.println(x[:]) // [1, 2, 3]
 ```
 
-n.b. This replaces the `core` library container dynamic array [Small_Array(N, T)](https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin).
+n.b. This replaces the `core` library container dynamic array [Small_Array(N, T)](https://pkg.odin-lang.org/core/container/small_array/).
 
 ### Enumerations
 Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:
@@ -3235,7 +3235,7 @@ supertramp :: proc() {
 
 By default, the `context` value has default values for its parameters which is decided in the package runtime. These defaults are compiler specific.
 
-To see what the implicit `context` value contains, please see the definition of the `Context` struct in [package runtime](https://github.com/odin-lang/Odin/blob/master/base/runtime/core.odin).
+To see what the implicit `context` value contains, please see the definition of the `Context` struct in [package runtime](https://pkg.odin-lang.org/base/runtime/#Context).
 
 Limitation: Because of the way the copy-on-write `context` system works and is tied to scopes, you can't update a context value (like e.g. `context.user_index`) from within a loop. [If you need to update something](https://github.com/odin-lang/Odin/issues/7498) on the `context` within a loop to be availble to callees, try setting `context.user_ptr` to some user data outside the loop, and modify that user data from within the loop.
 
@@ -3324,7 +3324,7 @@ delete(my_string)
 delete(my_cstring)
 ```
 
-To see more uses of allocators and allocation-related procedures, please see [`package mem`](https://github.com/odin-lang/Odin/tree/master/core/mem) in the core library.
+To see more uses of allocators and allocation-related procedures, please see [`package mem`](https://pkg.odin-lang.org/core/mem/) or its sub-packages in the core library.
 
 For more information regarding memory allocation strategies in general, please see [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
 
@@ -3398,7 +3398,7 @@ glfw.SetErrorCallback(error_callback)
 
 As part of the implicit `context` system, there is a built-in logging system.
 
-To see more uses of loggers, please see [`package log`](https://github.com/odin-lang/Odin/tree/master/core/log) in the core library.
+To see more uses of loggers, please see [`package log`](https://pkg.odin-lang.org/core/log/) in the core library.
 
 ## Foreign system
 It is sometimes necessary to interface with foreign code, such as a C library. In Odin, this is achieved through the `foreign` system. You can "import" a library into the code using the same semantics as a normal import declaration:
@@ -3468,7 +3468,7 @@ Available attributes for foreign blocks:
 
 ## Using a `vendor` library
 
-As described in the [Foreign System](#foreign-system) we often want to use existing `C` libraries. Odin has a wide collection of maintained [bindings and ports](https://github.com/odin-lang/Odin/tree/master/vendor).
+As described in the [Foreign System](#foreign-system) we often want to use existing `C` libraries. Odin has a wide collection of maintained [bindings and ports](https://pkg.odin-lang.org/vendor/).
 
 **Note:** Case notation should remain the same as the original authors intended, to make porting code easier.
 
@@ -4860,7 +4860,7 @@ Odin is a strongly and `distinct`ly typed language by default. It has very few i
 
 ## What to do if you get stuck
 
-If you are unable to find the information you need on this overview page, the [FAQ](https://odin-lang.org/docs/faq/), the [wiki](https://github.com/odin-lang/Odin/wiki), the [example repository](https://github.com/odin-lang/examples) (which contains demos for using the vendor libs, e.g. [Tetris in raylib](https://github.com/odin-lang/examples/blob/master/raylib/tetroid/raylib_tetroid.odin)), or the [package documentation](https://pkg.odin-lang.org/), then you will likely find it very helpful to explore your Odin source code directory, especially the files contained in the following five subdirectories: `examples\demo`, `tests`, `core`, `vendor`, and `misc\old_demos`.  
+If you are unable to find the information you need on this overview page, the [FAQ](https://odin-lang.org/docs/faq/), the [wiki](https://github.com/odin-lang/Odin/wiki), the [Examples](https://pkg.odin-lang.org/examples/) (which contains demos for using the vendor libs, e.g. [Tetris in raylib](https://pkg.odin-lang.org/examples/raylib/tetroid/)), or the [package documentation](https://pkg.odin-lang.org/), then you will likely find it very helpful to explore your Odin source code directory, especially the files contained in the following five subdirectories: `examples\demo`, `tests`, `core`, `vendor`, and `misc\old_demos`.
 
 The following list describes why each of these may be useful:
 

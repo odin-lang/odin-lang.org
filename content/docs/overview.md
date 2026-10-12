@@ -102,6 +102,27 @@ len(some_string)
 
 If the string passed to [`len`](https://pkg.odin-lang.org/base/builtin/#len) is a compile-time constant, the value from [`len`](https://pkg.odin-lang.org/base/builtin/#len) will be a compile-time constant.
 
+#### Multi-line string literals
+
+Multi-line string literals are enclosed in triple quotes: `"""` processes escape sequences like a normal string literal, and ```` ``` ```` is raw like a back tick string literal.
+
+The text must begin on the line after the opening delimiter and the closing delimiter must be on its own line. The indentation of the closing delimiter is removed from every line, which allows the literal to be indented along with the surrounding code. The newline before the closing delimiter is not part of the string.
+
+````odin
+greeting := """
+	Hellope,
+	  "World"!
+	"""
+assert(greeting == "Hellope,\n  \"World\"!")
+
+path := ```
+	C:\Windows\notepad.exe
+	```
+assert(path == `C:\Windows\notepad.exe`)
+````
+
+Every non-blank line must start with the same indentation as the closing delimiter, otherwise it is a compile error.
+
 #### Escape Characters
 * `\a` - bell (BEL)
 * `\b` - backspace (BS)
@@ -120,9 +141,17 @@ If the string passed to [`len`](https://pkg.odin-lang.org/base/builtin/#len) is 
 * `\UNNNNNNNN` - hexadecimal 32-bit Unicode character UTF-8 encoded (8 digits)
 
 ### Numbers
-Numerical literals are written similar to most other programming languages. A useful feature in Odin is that underscores are allowed for better readability: `1_000_000_000` (one billion). A number that contains a dot is a floating point literal: `1.0e9` (one billion). If a number literal is suffixed with `i`, it is an imaginary number literal: `2i` (2 multiply the square root of -1).
+Numerical literals are written similar to most other programming languages. A useful feature in Odin is that underscores are allowed for better readability: `1_000_000_000` (one billion). A number that contains a dot is a floating point literal: `1.0e9` (one billion). If a number literal is suffixed with `i`, it is an imaginary number literal: `2i` (2 multiply the square root of -1). The suffixes `j` and `k` are the other two imaginary units of a [quaternion](#complex-numbers-and-quaternions): `1 + 2i + 3j + 4k`.
 
 Binary literals are prefixed with `0b`, octal literals with `0o`, and hexadecimal literals with `0x`. A leading zero does not produce an octal constant (unlike C).
+
+Hexadecimal float literals are prefixed with `0h` and specify the exact bit pattern of an IEEE-754 floating point value. The number of hexadecimal digits determines how the bits are interpreted: 4 digits for `f16`, 8 digits for `f32`, and 16 digits for `f64`.
+```odin
+one_f16: f16 = 0h3c00
+one_f32: f32 = 0h3f80_0000
+one_f64: f64 = 0h3ff0_0000_0000_0000
+inf:     f32 = 0h7f80_0000
+```
 
 In Odin, if a number constant can be represented by a type without precision loss, it will automatically convert to that type.
 ```odin
@@ -166,6 +195,24 @@ Constants can be explicitly typed like a variable declaration:
 ```odin
 y : int : 123
 z :: y + 7 // constant computations are possible
+```
+
+Constants are not limited to numbers, booleans, and strings (like some languages). Compound literals of structs, arrays, and enumerated arrays can be constants too, and they can be accessed, indexed, and sliced at compile time:
+```odin
+Vector2 :: struct {x, y: f32}
+Entity  :: struct {id: int, using position: Vector2}
+
+PLAYER :: Entity{id = 1, position = {3, 4}}
+#assert(PLAYER.id == 1)
+#assert(PLAYER.y  == 4) // `using` works as expected
+
+Level :: enum {Easy, Normal, Hard, Expert}
+LIVES :: [Level]int{.Easy ..= .Hard = 3, .Expert = 1}
+#assert(LIVES[.Normal] == 3)
+
+GREETING :: "Hellope!"
+#assert(GREETING[0]   == 'H')
+#assert(GREETING[0:5] == "Hello")
 ```
 
 For more information regarding value declarations in general, please see the [Odin FAQ](/docs/faq) and Ginger Bill's article [On the Aesthetics of the Syntax of Declarations](https://www.gingerbill.org/article/2018/03/12/on-the-aesthetics-of-the-syntax-of-declarations/).
@@ -621,7 +668,7 @@ Will print `3`, `2`, and then `1`.
 A real world use case for `defer` may be something like the following:
 ```odin
 f, err := os.open("my_file.txt")
-if err != os.ERROR_NONE {
+if err != nil {
 	// handle error
 }
 defer os.close(f)
@@ -814,6 +861,22 @@ a, b := swap(1, 2)
 fmt.println(a, b) // 2 1
 ```
 
+A call that returns multiple values can be passed directly as multiple arguments to another procedure, including into a variadic parameter, or used as multiple elements of a [compound literal](#struct-literals):
+```odin
+sum :: proc(nums: ..int) -> (result: int) {
+	for n in nums {
+		result += n
+	}
+	return
+}
+fmt.println(sum(swap(1, 2)))    // 3
+fmt.println(sum(swap(1, 2), 3)) // 6
+
+Pair :: struct {x, y: int}
+p := Pair{swap(1, 2)}            // Pair{x = 2, y = 1}
+xs := []int{swap(1, 2), 3}       // [2, 1, 3]
+```
+
 ### Named results
 Return values in Odin may be named. If so, they are treated as variables defined at the top of the procedure, like input parameters. A `return` statement without arguments returns the named return value (or values). "Naked" return statements should only be used in short procedures as it reduces clarity when reading.
 
@@ -929,7 +992,8 @@ rune // signed 32 bit integer
 	 // is a distinct type to `i32`
 
 // strings
-string cstring
+string   cstring   // UTF-8 based strings
+string16 cstring16 // UTF-16 based strings
 
 // raw pointer type
 rawptr
@@ -939,9 +1003,11 @@ typeid
 any
 ```
 
+`byte` is an alias for `u8`.
+
 The `uintptr` type is pointer sized, and the `int`, `uint` types are the "natural" register size, which is guaranteed to greater than or equal to the size of a pointer (i.e. `size_of(uint) >= size_of(uintptr)`). When you need an integer value, you should default to using `int` unless you have a specific reason to use a sized or unsigned integer type
 
-**Note:** The Odin `string` type stores the pointer to the data and the length of the string. `cstring` is used to interface with foreign libraries written in/for C that use zero-terminated strings.
+**Note:** The Odin `string` type stores the pointer to the data and the length of the string. `cstring` is used to interface with foreign libraries written in/for C that use zero-terminated strings. [`string16` and `cstring16`](#string16-and-cstring16-types) are their UTF-16 equivalents.
 
 ### Zero values
 Variables declared without an explicit initial value are given their _zero_ value.
@@ -981,6 +1047,8 @@ f := cast(f64)i
 u := cast(u32)f
 ```
 This is useful in some contexts but has the same semantic meaning.
+
+Conversions also apply element-wise to fixed length arrays, see [array casts](#array-casts).
 
 #### Transmute operator
 The `transmute` operator is a bit cast conversion between two types of the same size:
@@ -1044,6 +1112,93 @@ There are two kinds of built-in procedures in Odin:
 * Compiler defined
 * Core library defined
 
+The compiler defined built-in procedures include:
+
+| Procedure                         | Description                                                             |
+|-----------------------------------|-------------------------------------------------------------------------|
+| `len(x)`                          | The length of a string, array, slice, dynamic array, map, etc.          |
+| `cap(x)`                          | The capacity of an array, slice, dynamic array, map, etc.               |
+| `size_of(T)`                      | The size of a type in bytes                                             |
+| `align_of(T)`                     | The alignment of a type in bytes                                        |
+| `offset_of(T, field)`             | The byte offset of a field within a struct                              |
+| `offset_of(x.field)`              | The byte offset of a field within a struct, from a value                |
+| `offset_of_by_string(T, "field")` | The byte offset of a field within a struct, by name                     |
+| `type_of(x)`                      | The type of an expression                                               |
+| `typeid_of(T)`                    | The [`typeid`](#typeid-type) of a type                                  |
+| `type_info_of(T)`                 | The runtime type information of a type                                  |
+| `min(a, b, ...)`                  | The minimum of the values                                               |
+| `max(a, b, ...)`                  | The maximum of the values                                               |
+| `min(T)`, `max(T)`                | The smallest or largest value of a type, e.g. `min(i8)`, `max(My_Enum)` |
+| `clamp(x, lo, hi)`                | Clamps a value between two bounds                                       |
+| `abs(x)`                          | The absolute value                                                      |
+| `swizzle(x, indices...)`          | See [swizzle operations](#swizzle-operations)                           |
+| `complex`, `quaternion`           | See [complex numbers and quaternions](#complex-numbers-and-quaternions) |
+| `real`, `imag`, `jmag`, `kmag`    | See [complex numbers and quaternions](#complex-numbers-and-quaternions) |
+| `conj`                            | See [complex numbers and quaternions](#complex-numbers-and-quaternions) |
+| `expand_values(x)`                | See [`expand_values`](#expand_values-and-compress_values)               |
+| `compress_values(...)`            | See [`compress_values`](#expand_values-and-compress_values)             |
+| `soa_zip`, `soa_unzip`            | See [`soa_zip` and `soa_unzip`](#soa_zip-and-soa_unzip)                 |
+| `raw_data(x)`                     | See [`raw_data`](#raw_data-procedure)                                   |
+| `unreachable()`                   | Marks a point in the code which can never be reached                    |
+
+The core library defined built-in procedures live in [`base:runtime`](https://pkg.odin-lang.org/base/builtin/) and include the memory and container procedures such as `new`, `make`, `delete`, `append`, `pop`, `clear`, `resize`, etc. (see [allocators](#allocators) and [dynamic arrays](#dynamic-arrays)).
+
+#### `expand_values` and `compress_values`
+
+`expand_values` takes a struct or array value and expands it into multiple values, in field or element order. The prefix `**` operator is shorthand for `expand_values`:
+```odin
+Vector3 :: struct {x, y, z: f32}
+v := Vector3{1, 4, 9}
+
+x, y, z := expand_values(v)
+x, y, z  = **v // equivalent
+
+// using `sum` from the multiple results section
+arr := [3]int{7, 8, 9}
+fmt.println(sum(**arr)) // equivalent to `sum(arr[0], arr[1], arr[2])`
+```
+
+`compress_values` does the opposite: it packs multiple values (including the results of multi-valued calls) into a single struct or array value. If there is a type hint, that type is used. Otherwise, if all the values share the same type, the result is a fixed length array, else it is an anonymous struct:
+```odin
+v: Vector3 = compress_values(1, 4, 9)   // Vector3{1, 4, 9}
+a := compress_values(1, 2, 3)           // [3]int{1, 2, 3}
+s := compress_values(1, "hi", true)     // struct{v0: int, v1: string, v2: bool}{1, "hi", true}
+```
+
+#### Intrinsics
+
+Lower level compiler-specific procedures and types are available in the [`base:intrinsics`](https://pkg.odin-lang.org/base/intrinsics/) package. They are documented in the [package intrinsics](https://pkg.odin-lang.org/base/intrinsics/) documentation, and include:
+
+* Type introspection for use in [`where` clauses](#where-clauses) and `when` statements
+  * e.g. `type_is_integer(T)`, `type_elem_type(T)`, `type_has_field(T, "name")`, `type_field_bit_offset(T, "name")`, `type_canonical_name(T)`
+* Bit operations
+  * e.g. `count_ones`, `count_leading_zeros`, `reverse_bits`, `byte_swap`
+* Checked and saturating arithmetic
+  * e.g. `overflow_add`, `saturating_add`
+* Memory operations
+  * e.g. `mem_copy`, `mem_zero`, `volatile_load`, `unaligned_store`, `non_temporal_store`, `prefetch_read_data`
+* Atomic operations
+  * e.g. `atomic_load_explicit`, `atomic_compare_exchange_strong`, `atomic_thread_fence` ([`core:sync`](https://pkg.odin-lang.org/core/sync) provides friendlier wrappers)
+* [SIMD](#simd-vector-types) operations
+  * e.g. `simd_add`, `simd_shuffle`, `simd_reduce_add_ordered` ([`core:simd`](https://pkg.odin-lang.org/core/simd) provides friendlier wrappers)
+* Branch hints and miscellaneous procedures
+  * e.g. `expect`, `likely`, `unlikely`, `trap`, `debug_trap`, `cpu_relax`, `read_cycle_counter`, `alloca`
+* C variadic procedures support
+  * `c_va_start`, `c_va_arg`, `c_va_end`, `c_va_copy` (see [Implementing C variadic procedures](#implementing-c-variadic-procedures))
+
+```odin
+import "base:intrinsics"
+
+Foo :: bit_field u16 {
+	x: i32 | 3,
+	y: u16 | 5,
+}
+#assert(intrinsics.type_field_bit_offset(Foo, "y") == 3)
+#assert(intrinsics.type_field_bit_size(Foo, "y")   == 5)
+
+n := intrinsics.count_ones(u32(0b1011)) // 3
+```
+
 ### `string` type
 As previously mentioned the odin `string` type is just a `rawptr` + `len`.
 
@@ -1101,6 +1256,39 @@ cstr2 := string(cstr)     // O(n) conversion as it requires search from the zero
 nstr  := len(str)  // O(1)
 ncstr := len(cstr) // O(n)
 ```
+
+### `string16` and `cstring16` types
+
+`string16` and `cstring16` are the UTF-16 counterparts of `string` and `cstring`. They are primarily useful for interfacing with APIs which use UTF-16 strings, such as the Windows API (where `cstring16` is equivalent to `wchar_t const *`).
+
+* `string16` stores a pointer to the `u16` data and its length. `len` returns the number of `u16` code units, not the number of characters.
+* `cstring16` is a zero-terminated UTF-16 string.
+
+A constant string literal implicitly converts to either type, being encoded as UTF-16 at compile time:
+```odin
+s: string16  = "Hellope"
+c: cstring16 = "Hellope"
+assert(len(s) == 7)
+
+for r, i in s { // iterating a `string16` decodes the UTF-16 into runes
+	fmt.println(i, r)
+}
+
+emoji: string16 = "😀"
+assert(len(emoji) == 2) // encoded as a surrogate pair
+```
+
+Like their UTF-8 equivalents, they can be converted to and from related types without allocation:
+
+| From        | To          | Code                |
+|-------------|-------------|---------------------|
+| `cstring16` | `string16`  | `string16(c)`       |
+| `string16`  | `[]u16`     | `transmute([]u16)s` |
+| `[]u16`     | `string16`  | `string16(x)`       |
+| `cstring16` | `[^]u16`    | `([^]u16)(c)`       |
+| `[^]u16`    | `cstring16` | `cstring16(p)`      |
+
+Converting between UTF-8 and UTF-16 strings at runtime requires an explicit conversion, e.g. with the procedures in `core:unicode/utf16` or `core:sys/windows` (`utf8_to_wstring`, `wstring_to_utf8`).
 
 ### `string` type conversions
 
@@ -1309,6 +1497,8 @@ cond ? x : y        // ternary runtime conditional expression, equivalent to "x 
 	* Used for `bit_set` types and `map` types
 * `not_in` - not set membership (`e not_in A`, `A` does not contain `e`)
 	* Used for `bit_set` types and `map` types
+* `**` - prefix unary operator which expands a struct or array value into multiple values (`**x` is equivalent to `expand_values(x)`)
+	* see section on [`expand_values`](#expand_values-and-compress_values)
 * `..=` - inclusive range
 * `..<` - half open range
 
@@ -1530,6 +1720,18 @@ blah :: proc(a: Vector3) -> f32 {
 x := cross(a, b)
 fmt.println(x)
 fmt.println(blah(x))
+```
+
+##### Array casts
+
+A fixed length array can be converted to another fixed length array of the same length if its element type can be converted. The conversion is applied to each element, and nested arrays of the same depth are converted too:
+```odin
+a := [4]u32{1, 2, 3, 4}
+b := cast([4]f32)a      // [1.0, 2.0, 3.0, 4.0]
+c := ([4]f64)(b)        // [1.0, 2.0, 3.0, 4.0]
+
+m := [2][2]i32{{1, 2}, {3, 4}}
+n := cast([2][2]f32)m   // [[1.0, 2.0], [3.0, 4.0]]
 ```
 
 ### Slices
@@ -1756,6 +1958,23 @@ fmt.println(len(x), cap(x)) // 3 8
 fmt.println(x[:]) // [1, 2, 3]
 ```
 
+A fixed capacity dynamic array is a value type: it stores its `N` elements inline along with its length, and it never allocates, meaning it has no allocator and never needs to be deleted. Its capacity is always `N`.
+
+Because it cannot grow, `append` returns the number of elements actually appended, which is `0` if there is no room:
+```odin
+x: [dynamic; 4]int
+n := append(&x, 1, 2, 3) // n == 3
+n  = append(&x, 4, 5)    // n == 1, only `4` fits
+n  = append(&x, 6)       // n == 0, the array is full
+fmt.println(x[:])        // [1, 2, 3, 4]
+```
+
+The following built-in procedures support fixed capacity dynamic arrays: `append`, `non_zero_append`, `inject_at`, `assign_at`, `pop`, `pop_safe`, `pop_front`, `pop_front_safe`, `unordered_remove`, `ordered_remove`, `remove_range`, `clear`, `resize`, and `non_zero_resize`. They can also be sliced, iterated with `for` loops, and initialized with compound literals:
+```odin
+y := [dynamic; 8]int{1, 2, 3}
+fmt.println(len(y), cap(y)) // 3 8
+```
+
 n.b. This replaces the `core` library container dynamic array [Small_Array(N, T)](https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin).
 
 ### Enumerations
@@ -1809,14 +2028,15 @@ case .C:
 }
 ```
 
-[`using`](#using-statement) can also be used with an enumeration to bring the fields into the current scope:
+A [`using` statement](#using-statement) can also be used with an enumeration to bring the fields into the current scope, but this requires `#+feature using-stmt` in the file:
 ```odin
+#+feature using-stmt
+package main
+
 main :: proc() {
 	Foo :: enum {A, B, C}
 	using Foo
 	a := A
-
-	
 }
 ```
 
@@ -1918,6 +2138,17 @@ Char_Set :: bit_set['A'..='Z'; u64]
 #assert(size_of(Char_Set) == size_of(u64))
 ```
 
+The underlying type may also be a fixed length array of integers. Integer backed bit sets are limited to 128 bits; an array backing allows for bit sets with more elements:
+```odin
+Big :: enum {A = 0, B = 100, C = 200}
+Big_Set :: bit_set[Big; [4]u64] // 256 bits
+#assert(size_of(Big_Set) == 32)
+
+s := Big_Set{.A, .C}
+assert(.C in s)
+assert(card(s) == 2)
+```
+
 To get the number of elements set, its cardinality, of a bit_set, use the built-in card procedure:
 ```odin
 x: Direction_Set
@@ -1950,7 +2181,7 @@ p: ^int // ^ on the left
 x := p^ // ^ on the right
 ```
 
-**Note:** Unlike C, Odin has no pointer arithmetic. If you need a form of pointer arithmetic, please use the `ptr_offset` and `ptr_sub` procedures in the `"core:mem"` package.
+**Note:** Unlike C, `^T` pointers do not support pointer arithmetic. If you need a form of pointer arithmetic, please use a [multi-pointer](#multi-pointers) (`[^]T`) which supports indexing and slicing, or the `ptr_offset` and `ptr_sub` procedures in `base:intrinsics` (also available in the `core:mem` package).
 
 ### Structs
 A `struct` is a record type in Odin. It is a collection of fields. Struct fields are accessed by using a dot:
@@ -2294,8 +2525,15 @@ Odin supports the following calling conventions:
 * **cdecl** or **c** -- This is the default calling convention generated of a procedure in C.
 * **fastcall** or **fast** - This is a compiler dependent calling convention.
 * **none** - This is a compiler dependent calling convention which will do nothing to parameters.
+* **system** - **stdcall** on Windows and **c** on all other platforms. This is the convention generally used for operating system APIs, e.g. throughout `core:sys/windows`.
+* **naked** - The procedure has no prologue or epilogue generated by the compiler. This is intended for procedures whose body is entirely written in [inline assembly](/docs/inline-asm/).
+* **win64** - The Microsoft x64 calling convention, regardless of the target operating system (amd64 only).
+* **sysv** - The System V AMD64 ABI calling convention, regardless of the target operating system (amd64 only).
+* **preserve/none** - The callee does not preserve any general purpose registers. This minimizes the cost of calls (especially [`#must_tail`](#must_tail) calls), e.g. for the dispatch loop of an interpreter.
+* **preserve/most** - The callee preserves most registers, minimizing the cost for the caller. This is useful for rarely called procedures.
+* **preserve/all** - Like **preserve/most** but the callee also preserves the floating point and vector registers.
 
-Most calling conventions exist only to interface with foreign Windows code.
+Most calling conventions exist only to interface with `foreign` code.
 
 The default calling convention is **odin**, unless it is within a `foreign` block, where it is then **cdecl**.
 
@@ -2489,6 +2727,32 @@ fmt.println(len(d))
 fmt.println(cap(d))
 fmt.println(d[:])
 ```
+
+The general dynamic array built-in procedures also work with `#soa` dynamic arrays, including `make`, `delete`, `append`, `inject_at`, `pop`, `pop_safe`, `pop_front`, `pop_front_safe`, `unordered_remove`, `ordered_remove`, `clear`, `reserve`, and `resize`:
+
+```odin
+d: #soa[dynamic]Vector3
+defer delete(d)
+
+append(&d, Vector3{1, 2, 3}, Vector3{4, 5, 6}, Vector3{7, 8, 9})
+last  := pop(&d)       // Vector3{7, 8, 9}
+first := pop_front(&d) // Vector3{1, 2, 3}
+assert(len(d) == 1)
+```
+
+#### SOA Pointers
+
+Taking the address of an element of an `#soa` array, slice, or dynamic array produces an *SOA pointer*, `#soa^#soa[N]T`, `#soa^#soa[]T`, or `#soa^#soa[dynamic]T` respectively. An SOA pointer refers to a single element (a pointer to the SOA data and an index), and its fields can be accessed and modified like a normal pointer to a struct:
+
+```odin
+v: #soa[4]Vector3
+p := &v[2] // p: #soa^#soa[4]Vector3
+p.x = 123
+assert(v[2].x == 123)
+assert(v.x[2] == 123)
+```
+
+`using` can be applied to SOA pointer fields of structs, which allows the same subtyping behaviour as a normal pointer field.
 
 #### `soa_zip` and `soa_unzip`
 
@@ -2728,6 +2992,77 @@ Procedures (Runtime Level) (all square matrix procedures) in `core:math/linalg`:
 * `matrix_trace(m)`
 * `matrix_minor(m)`
 
+### Complex numbers and quaternions
+
+Odin has built-in [complex number](https://wikipedia.org/wiki/Complex_number) types (`complex32`, `complex64`, `complex128`) and [quaternion](https://wikipedia.org/wiki/Quaternion) types (`quaternion64`, `quaternion128`, `quaternion256`). The number in the type name is the total size in bits, e.g. a `complex64` is made of two `f32` values and a `quaternion256` is made of four `f64` values.
+
+Values can be written using the imaginary literal suffixes `i`, `j`, and `k`, or constructed with the built-in procedures `complex` and `quaternion`:
+```odin
+c := 1 + 2i                         // untyped complex, defaults to complex128
+f: f32 = 3
+d := complex(f, 4)                  // complex64, from the type of `f`
+e: complex64 = 3 + 4i
+
+q := 1 + 2i + 3j + 4k               // untyped quaternion, defaults to quaternion256
+r := quaternion(w=1, x=2, y=3, z=4) // `quaternion` requires named arguments
+s := quaternion(real=1, imag=2, jmag=3, kmag=4) // equivalent
+assert(q == r && r == s)
+```
+
+They support the arithmetic operators `+`, `-`, `*`, and `/`, and are [comparable](#comparison-operators) with `==` and `!=`. Floats implicitly convert to complex numbers and quaternions, and complex numbers implicitly convert to quaternions.
+
+Built-in procedures for complex numbers and quaternions:
+
+* `real(x)` - the real part
+* `imag(x)` - the `i` imaginary part
+* `jmag(q)`, `kmag(q)` - the `j` and `k` imaginary parts of a quaternion
+* `conj(x)` - the conjugate
+* `abs(x)` - the magnitude
+
+```odin
+c := 3 + 4i
+fmt.println(real(c), imag(c)) // 3 4
+fmt.println(conj(c))          // 3-4i
+fmt.println(abs(c))           // 5
+```
+
+The components of a quaternion can also be accessed as the fields `x`, `y`, `z` (the imaginary parts), and `w` (the real part). The vector part can be accessed with `xyz` as a `[3]` array of the component type:
+```odin
+q: quaternion128 = 1 + 2i + 3j + 4k
+assert(q.w == 1 && q.x == 2 && q.y == 3 && q.z == 4)
+v := q.xyz // [3]f32{2, 3, 4}
+q.xyz = {10, 20, 30}
+fmt.println(q) // 1+10i+20j+30k
+```
+
+**Note:** The memory layout of a quaternion is `xyzw`, i.e. the real part is stored last.
+
+`core:math/linalg` contains many more procedures for working with quaternions, such as `quaternion_angle_axis`, `quaternion_slerp`, and `quaternion_mul_vector3`.
+
+### SIMD vector types
+
+The `#simd[N]T` type is a vector of `N` elements of type `T` which maps directly onto the SIMD (Single Instruction, Multiple Data) registers of the target where possible. `N` must be a power of two (up to 64), and `T` must be an integer, float, boolean, or `rawptr` type.
+
+```odin
+import "core:simd"
+
+a := #simd[4]f32{1, 2, 3, 4}
+b: #simd[4]f32 = 10  // a scalar is broadcast to every lane
+c := a*b + a         // arithmetic is applied lane-wise: <11, 22, 33, 44>
+
+x := simd.extract(c, 2)          // 33
+total := simd.reduce_add_ordered(c) // 110
+arr := simd.to_array(c)          // [4]f32{11, 22, 33, 44}
+
+mask := simd.lanes_lt(a, 3)      // lane-wise comparison
+d := simd.select(mask, a, b)     // <1, 2, 10, 10>
+e := cast(#simd[4]i32)a          // lane-wise conversion
+```
+
+Unlike fixed arrays, individual lanes of a SIMD vector cannot be indexed directly or accessed with fields like `.x`. Use `simd.extract` and `simd.replace` for single lanes, and `swizzle` (or `simd.shuffle`) for rearranging lanes. Conditions (including those of ternary expressions) must be booleans; use `simd.select` for lane-wise selection.
+
+The `core:simd` package (and the architecture-specific `core:simd/x86` and `core:simd/arm` packages) provides the full set of operations, along with common vector type aliases such as `simd.f32x4` and `simd.u8x16`. The underlying operations are the `simd_*` procedures in `base:intrinsics`.
+
 ## `raw_data` procedure
 
 [raw_data](https://pkg.odin-lang.org/base/builtin/#raw_data) is a built-in procedure which returns the underlying data of a built-in data type as a [Multi-Pointer](#multi-pointers).
@@ -2742,17 +3077,9 @@ raw_data(string)            -> [^]byte //
 ```
 
 ## `using` statement
-`using` can be used to bring entities declared in a scope/namespace into the current scope. This can be applied to import names, struct fields, procedure fields, and struct values.
+`using` can be used to bring entities declared in a scope/namespace into the current scope. It can be applied to struct fields, and (as an opt-in feature) as a statement or to procedure parameters.
 
-```odin
-import "foo"
-bar :: proc() {
-	// imports all the exported entities from the `foo` package into this scope
-	using foo
-}
-```
-
-### Using statement with structs
+### `using` with struct fields
 Let's take a very simple entity struct:
 ```odin
 Vector3 :: struct{x, y, z: f32}
@@ -2765,6 +3092,34 @@ It can be used like this:
 ```odin
 foo :: proc(entity: ^Entity) {
 	fmt.println(entity.position.x, entity.position.y, entity.position.z)
+}
+```
+
+`using` can be applied to struct fields, making all the fields of `position` appear as if they are on `Entity` itself:
+```odin
+Entity :: struct {
+	using position: Vector3,
+	orientation: quaternion128,
+}
+foo :: proc(entity: ^Entity) {
+	fmt.println(entity.x, entity.y, entity.z)
+}
+```
+
+### `using` as a statement
+
+**Note:** `using` as a statement, or applied to a procedure parameter, is disallowed by default as it is considered bad practice outside of immediate refactoring. It can be enabled on a per-file basis with [`#+feature using-stmt`](#feature). `using` on struct fields is always allowed.
+
+```odin
+#+feature using-stmt
+package example
+
+import "core:fmt"
+
+bar :: proc() {
+	// brings all the exported entities from the `fmt` package into this scope
+	using fmt
+	println("Hellope")
 }
 ```
 
@@ -2789,17 +3144,6 @@ foo :: proc(entity: ^Entity) {
 }
 ```
 
-We can also apply the `using` statement to the struct fields directly, making all the fields of `position` appear as if they are on `Entity` itself:
-```odin
-Entity :: struct {
-	using position: Vector3,
-	orientation: quaternion128,
-}
-foo :: proc(entity: ^Entity) {
-	fmt.println(entity.x, entity.y, entity.z)
-}
-```
-
 ### Subtype polymorphism
 It is possible to get subtype polymorphism, similar to inheritance-like functionality in C++, but without the requirement of vtables or unknown struct layout:
 ```odin
@@ -2821,6 +3165,42 @@ foo(frog)
 **Note:** `using` can be applied to arbitrarily many things, which allows the ability to have multiple subtype polymorphism (but also its issues).
 
 **Note:** `using`'d fields can still be referred by name.
+
+If the subtyping behaviour is wanted without bringing the field names into the parent struct, the `#subtype` field directive can be used instead of `using`:
+```odin
+Frog :: struct {
+	ribbit_volume: f32,
+	#subtype entity: Entity,
+}
+
+frog: Frog
+frog.entity.x = 123 // the fields of `entity` must be accessed through `entity`
+foo(frog)           // but `Frog` can still be used where an `Entity` is expected
+```
+
+This is commonly used for COM-style interface hierarchies, e.g. in `vendor:directx`.
+
+A procedure that takes a pointer to a struct can also be assigned to a procedure type which takes a pointer to one of that struct's subtypes, as long as that subtype field is at offset `0`. This is useful for implementing vtables:
+```odin
+IFoo :: struct {
+	foo: proc(self: ^IFoo) -> string,
+}
+
+Foo :: struct {
+	using vtable: IFoo, // at offset 0
+	name: string,
+}
+
+FOO_VTABLE :: IFoo{
+	// `self` is `^Foo` rather than `^IFoo`
+	foo = proc(self: ^Foo) -> string {
+		return self.name
+	},
+}
+
+f := Foo{vtable = FOO_VTABLE, name = "Hellope"}
+fmt.println(f->foo()) // Hellope
+```
 
 ## `or_else` expression
 
@@ -3065,18 +3445,20 @@ The compiler provides a set of builtin constants which are available in all file
 | Name                              | Description                                                                                                                                                                                 |
 |-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `ODIN_ARCH`                       | An enum value indicating what the CPU architecture of the target is. (`.amd64`, `.i386`, `.arm32`, `.arm64`, `.wasm32`, `.wasm64p32`, `.riscv64`)                                           |
-| `ODIN_ARCH_STRING`                | A string indicating what the CPU architecture of the target is.  (`"amd64"`, `"i386"`, `"arm32"`, `"arm64"`, `"wasm32"`, `"wasm64p32"`, `"riscv64"`)                                       |
+| `ODIN_ARCH_STRING`                | A string indicating what the CPU architecture of the target is.  (`"amd64"`, `"i386"`, `"arm32"`, `"arm64"`, `"wasm32"`, `"wasm64p32"`, `"riscv64"`)                                        |
+| `ODIN_BEDROCK`                    | `true` if the `-bedrock` command line switch is passed, which enables the restricted [bedrock mode](#bedrock-mode).                                                                         |
 | `ODIN_BUILD_MODE`                 | An enum value indicating what type of compiled output the user desires. (`.Executable`, `.Dynamic`, `.Static`, `.Object`, `.Assembly`, or `.LLVM_IR`)                                       |
 | `ODIN_BUILD_PROJECT_NAME`         | Name of the folder that contains the entry point.                                                                                                                                           |
 | `ODIN_COMPILE_TIMESTAMP`          | An i64 containing the time at which the executable was compiled, in nanoseconds. This is compatible with the `time.Time` type, i.e. `time.Time{_nsec=ODIN_COMPILE_TIMESTAMP}`               |
 | `ODIN_DEBUG`                      | `true` if the `-debug` command line switch is passed, which enables debug info generation.                                                                                                  |
+| `ODIN_DEFAULT_CALLING_CONVENTION` | An enum value of type `runtime.Calling_Convention` indicating the default [calling convention](#calling-conventions) of procedures. (`.Odin`)                                               |
 | `ODIN_DEFAULT_TO_NIL_ALLOCATOR`   | `true` if the `-default-to-nil-allocator` command line switch is passed, which sets the initial allocator to an allocator that does nothing.                                                |
 | `ODIN_DEFAULT_TO_PANIC_ALLOCATOR` | `true` if the `-default-to-panic-allocator` command line switch is passed, which sets the initial allocator to an allocator that panics if allocated from.                                  |
 | `ODIN_DISABLE_ASSERT`             | `true` if the `-disable-assert` command line switch is passed, which removes all calls to `assert` from the compilation.                                                                    |
 | `ODIN_ENDIAN`                     | An enum value indicating the endianness of the target. (`.Little`, `.Big`)                                                                                                                  |
 | `ODIN_ENDIAN_STRING`              | A string indicating the endianness of the target. (`"little"`, `"big"`)                                                                                                                     |
 | `ODIN_ERROR_POS_STYLE`            | An enum value set using the `-error-pos-style` switch, indicating the source location style used for compile errors and warnings. (`.Default` (Odin), `.Unix`)                              |
-| `ODIN_FOREIGN_ERROR_PROCEDURES`   | `true` if the `-foreign-error-procedures` command line switch is passed, which inhibits generation of runtime error procedures, so that they can be in a separate compilation unit.         |
+| `ODIN_FOREIGN_ERROR_PROCEDURES`   | `true` if the `-foreign-error-procedures` command line switch is passed, which inhibits generation of runtime error procedures; that they can be in a separate compilation unit.            |
 | `ODIN_MICROARCH_STRING`           | A string describing the microarchitecture used for code generation. Can be set using the `-microarch` command line switch. E.g. `"sandybridge"`.                                            |
 | `ODIN_MINIMUM_OS_VERSION`         | An integer value representing the minimum OS version set using `-minimum-os-version`. Calculated as `major * 10_000 + minor * 100 + revision`, and defaults to `0` if not specified.        |
 | `ODIN_NO_BOUNDS_CHECK`            | `true` if the `-no-bounds-check` command line switch is passed, which disables bounds checking at runtime.                                                                                  |
@@ -3087,7 +3469,7 @@ The compiler provides a set of builtin constants which are available in all file
 | `ODIN_OPTIMIZATION_MODE`          | An enum value indicating the optimization level selected using the `-o` command line switch. (`.None`, `.Minimal`, `.Size`, `.Speed`, `.Aggressive`)                                        |
 | `ODIN_OS`                         | An enum value indicating what the target operating system is.                                                                                                                               |
 | `ODIN_OS_STRING`                  | A string indicating what the target operating system is.                                                                                                                                    |
-| `ODIN_PLATFORM_SUBTARGET`         | An enum value indicating the platform subtarget, chosen using the `-subtarget` switch. (`.Default`, `.iOS`, `.Android`)                                                                     |
+| `ODIN_PLATFORM_SUBTARGET`         | An enum value indicating the platform subtarget, chosen using the `-subtarget` switch. (`.Default`, `.iPhone`, `.iPhoneSimulator`, `.Android`, `.Playdate`)                                 |
 | `ODIN_ROOT`                       | Path to the folder containing the Odin compiler executable.                                                                                                                                 |
 | `ODIN_SANITIZER_FLAGS`            | A bit_set indicating the sanitizer flags set using the `-sanitize` command line switch. (`.Address`, `.Memory`, and `.Thread`).                                                             |
 | `ODIN_TEST`                       | `true` if the code is being compiled via an invocation of `odin test`.                                                                                                                      |
@@ -3096,9 +3478,11 @@ The compiler provides a set of builtin constants which are available in all file
 | `ODIN_VENDOR`                     | String which identifies the compiler being used. The official compiler sets this to `"odin"`.                                                                                               |
 | `ODIN_VERSION`                    | A string that represents the Odin compiler version being used. (e.g: `dev-2023-04`)                                                                                                         |
 | `ODIN_VERSION_HASH`               | A string containing the Git hash part of the Odin version. Empty if `.git` could not be detected at the time the compiler was built.                                                        |
-| `ODIN_WINDOWS_SUBSYSTEM`          | An enum value indicating the desired Windows PE subsystem, chosen using the `-subsystem` switch. (`.Console` (default), `.Windows`, or `.Unknown` on non-Windows platforms.                 |
-| `ODIN_WINDOWS_SUBSYSTEM_STRING`   | A string indicating the desired Windows PE subsystem, chosen using the `-subsystem` switch. (`"CONSOLE"` (default), `"WINDOWS"`, or `""` on non-Windows platforms.                          |
+| `ODIN_WINDOWS_SUBSYSTEM`          | An enum value indicating the desired Windows PE subsystem, chosen using the `-subsystem` switch. (e.g. `.Console` (default), `.Windows`, `.EFI_Application`, or `.Unknown` on non-Windows)  |
+| `ODIN_WINDOWS_SUBSYSTEM_STRING`   | A string indicating the desired Windows PE subsystem, chosen using the `-subsystem` switch. (e.g. `"CONSOLE"` (default), `"WINDOWS"`, or `""` on non-Windows platforms).                    |
 | `__ODIN_LLVM_F16_SUPPORTED`       | `true` if LLVM supports the `f16` type.                                                                                                                                                     |
+
+**Note:** The `.Playdate` subtarget targets the [Playdate](https://play.date) handheld, and is used together with the `freestanding_arm32` target: `-target:freestanding_arm32 -subtarget:playdate`.
 
 See the [tracking allocator](#tracking-allocator) for an example of something that uses the `ODIN_DEBUG` constant in a `when` statement.
 
@@ -3145,6 +3529,12 @@ The opposite, excluding the file on both Linux and Darwin, is achieved like this
 package foobar
 ```
 
+`bedrock` can also be used as a build tag, to include or exclude a file when compiling in [bedrock mode](#bedrock-mode):
+```odin
+#+build !bedrock
+package foobar
+```
+
 #### Advanced Build Tags
 
 ##### `#+vet`
@@ -3164,6 +3554,7 @@ Possible Options:
 * `tabs`
 * `unused-procedures`
 * `explicit-allocators`
+* `when-shadowing` - declarations within a global `when` which shadow a built-in or package-level name
 
 
 ##### `#+test`
@@ -3171,6 +3562,17 @@ The file is completely ignored from parsing and type checking _EXCEPT_ during `o
 
 ##### `#+ignore`
 The file is completely ignored from parsing and type checking.
+
+##### `#+build-project-name`
+Includes the file only if the name of the project being built (`ODIN_BUILD_PROJECT_NAME`, the name of the directory containing the entry point) matches. Like `#+build`, comma separated groups are alternatives, and names can be negated with `!`:
+```odin
+#+build-project-name my_game, my_game_tests
+package foobar
+```
+```odin
+#+build-project-name !my_editor
+package foobar
+```
 
 ##### `#+private`
 Using `#+private` before the package declaration will automatically add `@(private)` to everything in that file:
@@ -3196,9 +3598,32 @@ Enables a specific feature or changes the behaviour of a specific aspect of the 
 * `#+feature global-context`
 	* Enable the use of globals that require the `context` to be defined in the global scope
 	* The `context` by default does not exist in the global scope
+* `#+feature using-stmt`
+	* Enables the use of `using` as a statement and on procedure parameters within this file (see [`using` as a statement](#using-as-a-statement))
+* `#+feature force-type-assert`
+	* Keeps type assertions enabled within this file, even if `-no-type-assert` is passed
 
 ##### `#+no-instrumentation`
 Disables instrumentation within the entire file
+
+##### `#+lazy`
+**For internal use.** Declarations in this file are only type checked if they are used.
+
+### Bedrock mode
+
+The `-bedrock` command line switch enables a restricted subset of Odin, which is useful for very low level and freestanding code where the full runtime is not wanted. In bedrock mode the following are disabled:
+
+* `map` types
+* 128-bit integer types
+* Runtime type information (as if `-no-rtti` was passed)
+* Global variables which are not initialized with constants (as if `-disable-non-constant-globals` was passed)
+* `@(init)` and `@(fini)` procedures (as if `-disable-init-fini` was passed)
+* Anything Objective-C related
+* The default paths to the `core` and `vendor` library collections
+
+The default allocator is also the nil allocator (as if `-default-to-nil-allocator` was passed), and `main` may only use the `"odin"` or `"contextless"` calling conventions.
+
+Code can check for bedrock mode with the `ODIN_BEDROCK` constant, or with the [`bedrock` build tag](#build-tags).
 
 
 ## Implicit context system
@@ -3297,6 +3722,13 @@ dynamic_array_with_length_and_capacity := make([dynamic]int, 16, 64)
 
 made_map := make(map[string]int)
 made_map_with_reservation := make(map[string]int, 64)
+```
+
+* [`new_aligned`](http://pkg.odin-lang.org/base/builtin/#new_aligned) and [`make_aligned`](http://pkg.odin-lang.org/base/builtin/#make_aligned) - like `new` and `make` (for slices) but with an explicitly specified alignment.
+
+```odin
+ptr, err := new_aligned(int, 64)      // aligned to 64 bytes
+data := make_aligned([]f32, 1024, 64) // 1024 elements, aligned to 64 bytes
 ```
 
 * [`free`](http://pkg.odin-lang.org/base/builtin/#free) - frees the memory at the pointer given. **Note:** only free memory with the allocator it was allocated with.
@@ -3407,6 +3839,14 @@ foreign import kernel32 "system:kernel32.lib"
 ```
 This `foreign import` declaration will create a "foreign import name" which can then be used to associate entities within a foreign block.
 
+The path of a `foreign import` may be relative to the current file, an absolute path, a system library using the `system:` prefix, or within a library collection, including custom collections defined with the `-collection:<name>=<path>` command line switch. Multiple paths can be given within braces:
+```odin
+foreign import foo "libfoo.a"            // relative to this file
+foreign import bar "system:bar"          // a system library, e.g. `libbar.so`, `bar.lib`
+foreign import baz "shared:libbaz.a"     // with `-collection:shared=path/to/shared`
+foreign import qux {"qux.lib", "qux_extra.lib"}
+```
+
 ```odin
 foreign import kernel32 "system:kernel32.lib"
 foreign kernel32 {
@@ -3415,8 +3855,15 @@ foreign kernel32 {
 ```
 
 The Odin compiler can also automatically build and link imported assembly files.
-Depending on the host system, [`clang`](https://clang.llvm.org/), [`as`](https://www.gnu.org/software/binutils), or [`nasm`](https://nasm.us/) may be used to compile the assembly.
 Recognized file extensions for assembly files are: `asm`, `s`, and `S`.
+Depending on the target, a different assembler is used to compile the assembly:
+
+* Windows: [`nasm`](https://nasm.us/) (which is shipped with the Odin compiler)
+* macOS: `as` (which ships with macOS)
+* Other platforms on arm64 (AArch64) and riscv64: [`clang`](https://clang.llvm.org/)
+* Other platforms on amd64 and i386: [`nasm`](https://nasm.us/) (which needs to be installed separately)
+
+Extra flags can be passed to the assembler with the `-extra-assembler-flags:<string>` command line switch.
 
 For examples of how Odin uses this feature, see `base/runtime/entry_*.asm`.
 
@@ -3460,11 +3907,56 @@ foreign kernel32 {
 Available attributes for foreign blocks:
 
 - `default_calling_convention=<string>` - The default calling convention for procedures declared within this foreign block.
-- `extra_linker_flags=<string>` - Specifies additional linker flags for this foreign block.
 - `link_prefix=<string>` - This prefix is prepended to the linkage names of the entities except where the link name has been explicitly overridden.
 - `link_suffix=<string>` - This suffix is appended to the linkage names of the entities except where the link name has been explicitly overridden.
 - `private=<string>` - The default private level for all entities. Defaults to `"package"` if not set but may be set to `"file"`.
 - `require_results` - All procedures declared within this foreign block must have their return values used.
+
+Available attributes for `foreign import` declarations:
+
+- `extra_linker_flags=<string>` - Specifies additional linker flags for this foreign import.
+- `export` - Makes the foreign import name visible to every file in the package, rather than just the current file.
+- `require` - Forces the library to be linked, even if none of its entities are used.
+- `priority_index=<integer>` - Controls the order in which libraries are passed to the linker; libraries with a lower priority index are passed first.
+- `ignore_duplicates` - Skips passing the library to the linker again if it has already been passed.
+
+```odin
+@(export, extra_linker_flags="/NODEFAULTLIB:libcmt")
+foreign import lib "libfoo.lib"
+```
+
+### Implementing C variadic procedures
+
+`#c_vararg` is not only for calling foreign variadic procedures. A procedure with the `"c"` calling convention can also implement a C-style variadic procedure in Odin, reading its arguments with the `c_va_*` procedures from `base:intrinsics` (which are also available as `va_start`, `va_arg`, etc. in `core:c/libc`):
+```odin
+import "base:intrinsics"
+import "core:c"
+
+c_sum :: proc "c" (count: c.int, #c_vararg args: ..any) -> (total: c.int) {
+	list: c.va_list
+	intrinsics.c_va_start(&list, args)
+	defer intrinsics.c_va_end(&list)
+	for _ in 0..<count {
+		total += intrinsics.c_va_arg(&list, c.int)
+	}
+	return
+}
+```
+
+**Note:** As in C, nothing is known about the number or the types of the variadic arguments; they must be determined by other means (such as `count` above, or a format string), and read in the order in which they were passed.
+
+## Inline assembly
+
+Odin has experimental support for inline assembly through `asm` templates, on the amd64, arm64, and riscv64 targets. An `asm` template is a callable entity which is instantiated in place at each call, like a forced-inline procedure, and it uses a single syntax across all instruction set architectures:
+```odin
+add_one :: asm(x: u64) -> (r: u64) [ x -> r ] { inc r }
+
+mfence :: asm() [ #volatile, #clobber memory ] { mfence }
+
+y := add_one(41) // 42
+```
+
+Please see the dedicated [inline `asm` templates](/docs/inline-asm/) documentation for more information.
 
 ## Using a `vendor` library
 
@@ -3769,11 +4261,22 @@ Attributes modify the compilation details or behaviour of declarations.
 #### Foreign Blocks
 
 * [`@(default_calling_convention=<string>)`](#default_calling_conventionstring) -- `foreign` blocks
-* [`@(extra_linker_flags=<string>)`](#extra_linker_flagsstring) -- `foreign` blocks
 * [`@(link_prefix=<string>)`](#link_prefixstring) -- `foreign` blocks and declarations within `foreign` blocks
 * [`@(link_suffix=<string>)`](#link_suffixstring) -- `foreign` blocks and declarations within `foreign` blocks
 * [`@(private=<string?>)`](#privatestring)-- all declarations except `import` statements
 * [`@(require_results)`](#require_results) -- procedure declarations and `foreign` blocks
+
+#### Foreign Import Declarations
+
+* [`@(export)`](#exportboolean)
+* [`@(extra_linker_flags=<string>)`](#extra_linker_flagsstring)
+* [`@(ignore_duplicates)`](#ignore_duplicates)
+* [`@(priority_index=<integer>)`](#priority_indexinteger)
+* [`@(require)`](#requireboolean)
+
+#### Import Declarations
+
+* [`@(require)`](#requireboolean)
 
 #### Procedure Groups
 
@@ -3797,6 +4300,7 @@ Attributes modify the compilation details or behaviour of declarations.
 * [`@(enable_target_feature=<string>)`](#enable_target_featurestring)
 * [`@(entry_point_only)`](#entry_point_only)
 * [`@(export=<boolean?>)`](#exportboolean)
+* [`@(fast_math=<intrinsics.Fast_Math_Flags>)`](#fast_mathintrinsicsfast_math_flags)
 * [`@(fini)`](#fini)
 * [`@(init)`](#init)
 * [`@(instrumentation_enter)`](#instrumentation_enter)
@@ -3809,6 +4313,7 @@ Attributes modify the compilation details or behaviour of declarations.
 * [`@(no_instrumentation=<boolean?>)`](#no_instrumentationboolean)
 * [`@(no_sanitize_address)`](#no_sanitize_address)
 * [`@(no_sanitize_memory)`](#no_sanitize_memory)
+* [`@(no_sanitize_thread)`](#no_sanitize_thread)
 * [`@(objc_implement=<boolean?>)`](#objc_implementboolean)
 * [`@(objc_is_class_method=<boolean>)`](#objc_is_class_methodboolean)
 * [`@(objc_name=<string>)`](#objc_namestring)
@@ -3822,6 +4327,7 @@ Attributes modify the compilation details or behaviour of declarations.
 
 #### Variable Declarations
 
+* [`@(align=<integer>)`](#aligninteger)
 * [`@(export=<boolean?>)`](#exportboolean)
 * [`@(link_name=<string>)`](#link_namestring)
 * [`@(link_prefix=<string>)`](#link_prefixstring)
@@ -3840,6 +4346,7 @@ Attributes modify the compilation details or behaviour of declarations.
 
 #### Type Declarations
 
+* [`@(deprecated=<string>)`](#deprecatedstring)
 * [`@(objc_class=<string>)`](#objc_classstring)
 * [`@(objc_context_provider=<procedure>)`](#objc_context_providerprocedure)
 * [`@(objc_implement=<boolean?>)`](#objc_implementboolean)
@@ -3848,6 +4355,15 @@ Attributes modify the compilation details or behaviour of declarations.
 * [`@(private=<string>?)`](#privatestring)
 * [`@(raddbg_type_view=<string?>)`](#raddbg_type_viewstring)
 
+
+#### `@(align=<integer>)`
+
+Raises the alignment of a variable to at least the given number of bytes, which must be a power of two. This can be applied to global variables, local variables, `@(static)` variables, and `@(thread_local)` variables.
+
+```odin
+@(align=64)
+cache_line_data: [64]u8 // aligned to 64 bytes
+```
 
 #### `@(builtin)`
 
@@ -3905,10 +4421,15 @@ foo :: proc() {
 
 #### `@(deprecated=<string>)`
 
-Mark a procedure as deprecated. Running `odin build/run/check` will print out the message for each usage of the deprecated proc.
+Mark a procedure or type as deprecated. Running `odin build/run/check` will print out the message for each usage of the deprecated procedure or type.
 ```odin
 @(deprecated="'foo' deprecated, use 'bar' instead")
 foo :: proc() {
+    ...
+}
+
+@(deprecated="use 'New_Thing' instead")
+Old_Thing :: struct {
     ...
 }
 ```
@@ -3946,9 +4467,15 @@ Marks a procedure that can be called within the entry point only.
 
 Exports a variable or procedure symbol, useful for producing DLLs.
 
+When applied to a `foreign import` declaration, the foreign import name becomes visible to every file in the package, rather than just the file it was declared in.
+```odin
+@(export)
+foreign import lib "system:foo"
+```
+
 #### `@(extra_linker_flags=<string>)`
 
-This attribute can be attached to a foreign block to specify additional flags to be passed to the linker.
+This attribute can be attached to a `foreign import` declaration to specify additional flags to be passed to the linker.
 
 ```odin
 @(extra_linker_flags="-L/path/to/lib_dir")
@@ -3959,6 +4486,32 @@ foreign foo {
     foo_add_double :: proc(a, b: c.double) -> c.double ---
 }
 ```
+
+#### `@(fast_math=<intrinsics.Fast_Math_Flags>)`
+
+Enables the specified fast-math optimizations for the floating point operations within the procedure. These allow the compiler to produce results which differ from strict IEEE-754 semantics in exchange for speed. The value is a `bit_set` of the following `intrinsics.Fast_Math_Flag` values:
+
+* `.Allow_Reassoc` - allow reassociation of floating point operations, e.g. `(a + b) + c` to `a + (b + c)`
+* `.No_NaNs` - assume the arguments and results are never NaN
+* `.No_Infs` - assume the arguments and results are never +/-Inf
+* `.No_Signed_Zeros` - treat the sign of a zero as insignificant
+* `.Allow_Reciprocal` - allow `x / y` to be computed as `x * (1 / y)`
+* `.Allow_Contract` - allow floating point contraction, e.g. fusing a multiply and an add into a fused multiply-add
+* `.Approx_Func` - allow approximations of functions such as `sin` and `sqrt`
+
+```odin
+@(fast_math={.Allow_Reassoc, .Allow_Contract})
+dot :: proc(a, b: []f32) -> (sum: f32) {
+	for _, i in a {
+		sum += a[i]*b[i]
+	}
+	return
+}
+```
+
+#### `@(ignore_duplicates)`
+
+This attribute can be attached to a `foreign import` declaration so that the library is not passed to the linker again if it has already been passed.
 
 #### `@(init)`
 
@@ -4074,6 +4627,10 @@ This attribute will typically be used in the procedures that make up a memory al
 
 Disables checks for memory santization for the specified procedure.
 
+#### `@(no_sanitize_thread)`
+
+Disables instrumentation by [ThreadSanitizer](https://clang.llvm.org/docs/ThreadSanitizer.html) for the specified procedure when using the `-sanitize:thread` build flag.
+
 #### `@(objc_class=<string>)`
 
 Specifies the name of the Objective-C class for a type.
@@ -4138,6 +4695,15 @@ skip_whitespace :: proc(t: ^Tokenizer) {
 }
 ```
 
+#### `@(priority_index=<integer>)`
+
+This attribute can be attached to a `foreign import` declaration to control the order in which libraries are passed to the linker. Libraries with a lower priority index are passed first; the default is `0`.
+
+```odin
+@(priority_index=-1)
+foreign import first "first.lib"
+```
+
 #### `@(private=<string?>)`
 
 Prevents a top level element from being exported with the package.
@@ -4170,6 +4736,11 @@ Adds custom a debug watch window rendering for the RAD Debugger. If no custom vi
 #### `@(require=<boolean?>)`
 
 Requires that the declaration is added to the final compilation and not optimized out.
+
+When applied to an `import` declaration, the imported package is always included in the compilation (e.g. so that its `@(init)` procedures or `@(test)` procedures are run) and it is not reported as an unused import. When applied to a `foreign import` declaration, the library is always linked, even if none of its entities are used.
+```odin
+@(require) import "core:image/png" // registers the PNG loader, even though nothing from the package is used directly
+```
 
 #### `@(require_results)`
 
@@ -4250,10 +4821,18 @@ foo :: proc(_: ^testing.T) {
 
 #### `@(thread_local=<string?>)`
 
-Can be applied to a variable at file scope
+Makes a variable thread local, meaning each thread has its own copy of the variable. It can be applied to a variable at file scope, or to a local variable, which makes it a thread local [`@(static)`](#static) variable. Thread local variables cannot have initialization values.
 ```odin
 @(thread_local) foo: int
+
+counter :: proc() -> int {
+	@(thread_local) n: int // like a `@(static)` variable, but one per thread
+	n += 1
+	return n
+}
 ```
+
+Optionally, a thread local storage model can be specified: `"default"`, `"globaldynamic"`, `"localdynamic"`, `"initialexec"`, or `"localexec"`. e.g. `@(thread_local="localexec")`.
 
 
 ## Directives
@@ -4309,6 +4888,26 @@ B :: union #no_nil {int, bool}
 {bool}
 ```
 
+#### `#row_major` and `#column_major`
+
+These tags can be applied to a [`matrix`](#matrix-type) type to specify its internal storage layout. Matrices are column-major by default; `#column_major` is the same as having no tag.
+```odin
+a: #row_major matrix[2, 3]f32    // internally [2][3]f32
+b: #column_major matrix[2, 3]f32 // internally [3][2]f32, the same as `matrix[2, 3]f32`
+```
+
+### Struct fields
+
+#### `#subtype`
+
+This tag can be applied to a struct field to allow the struct to be used as a subtype of the field's type, like `using`, but without bringing the field's own fields into the struct's namespace. See [subtype polymorphism](#subtype-polymorphism).
+```odin
+Frog :: struct {
+	#subtype entity: Entity,
+	ribbit_volume: f32,
+}
+```
+
 ### Control statements
 
 #### `#partial`
@@ -4360,6 +4959,32 @@ foo :: proc(#any_int a: int) {}
 x : i32
 foo(x) // This is now allowed without an explicit cast
 ```
+
+#### `#no_broadcast`
+
+`#no_broadcast` disables the implicit broadcasting of a scalar value to every element of an array-like parameter type, which is otherwise allowed by [array programming](#array-programming). This prevents mistakes such as accidentally passing a single element where a whole array was expected.
+
+```odin
+fill :: proc(#no_broadcast value: [4]f32) {}
+fill(1)            // error: cannot broadcast `1` to `[4]f32`
+fill({1, 1, 1, 1}) // ok
+```
+
+#### `#const`
+
+`#const` requires the argument passed to a parameter to be a compile-time constant, while (unlike a `$` parameter) not making the procedure polymorphic. This is primarily used for foreign bindings to LLVM intrinsics which require immediate operands.
+
+```odin
+@(default_calling_convention="none")
+foreign _ {
+	@(link_name="llvm.x86.avx.round.ps.256")
+	round_ps256 :: proc(a: #simd[8]f32, #const mode: u32) -> #simd[8]f32 ---
+}
+```
+
+#### `#no_capture`
+
+`#no_capture` is reserved for stating that a pointer-like parameter is not captured (stored) beyond the procedure call. It is currently implied for all variadic parameters, and has no other effect.
 
 #### `#caller_location`
 
@@ -4504,7 +5129,20 @@ This is enabled for all optimization levels except `-o:none` which has all inlin
 
 #### `#must_tail`
 
-Explicitly state that a procedure call must be optimized as a tail call. This must be attached to procedure calls with the `preserve/none`, `preserve/most`, or `preserve/all` calling conventions.
+Explicitly state that a procedure call must be optimized as a tail call. If the call cannot be compiled as a tail call, it is a compile error.
+
+* The called procedure must have the same type as the procedure it is called within.
+* The called procedure must not use the `"odin"` calling convention; e.g. use `"contextless"`, `"c"`, or `"preserve/none"` (which minimizes the cost of each call).
+* On WebAssembly targets, the `tail-call` target feature is required, e.g. `-target-features:tail-call`.
+
+```odin
+count_down :: proc "contextless" (n: int) -> int {
+	if n == 0 {
+		return 0
+	}
+	return #must_tail count_down(n-1)
+}
+```
 
 ### Statements
 
@@ -4680,7 +5318,7 @@ hash :: #hash("interesting-string", "fnv32a")
 
 Returns a constant integer of the hash of a file's contents at compile time.
 
-This procedure has the same list of available hashes as [`#hash`](#hash).
+This procedure has the same list of available hashes as [`#hash`](#hashstring-text-string-hash).
 
 ```odin
 hash :: #load_hash("path/to/file", "crc32")
@@ -4740,27 +5378,26 @@ foos := make([]Foo, num)
 
 // By-value basic range-based loop, with implicit indexing
 for v, j in foos {
-	using v
-	fmt.println(j, v, f, i)
+	fmt.println(j, v, v.f, v.i)
 }
 
 // Alternative range-based loop, with explicit indexing
 for _, j in foos {
-	using foo := foos[j] // copy
-	fmt.println(j, foo, f, i)
+	foo := foos[j] // copy
+	fmt.println(j, foo, foo.f, foo.i)
 }
 
 // By-reference range-based explicit indexing loop
 for _, j in foos {
-	using foo := &foos[j] // "reference", changes to `f` or `i` are visible outside this scope
-	fmt.println(j, foo, f, i)
+	foo := &foos[j] // "reference", changes to `foo.f` or `foo.i` are visible outside this scope
+	fmt.println(j, foo, foo.f, foo.i)
 }
 
 
-// By-reference range-based through pointer
+// By-reference range-based loop
 for &v, j in foos {
-	using v // `v` is now a variable reference as `foos` was passed by pointer
-	fmt.println(j, v, f, i)
+	v.f += 1 // `v` is a reference to the element; changes are visible outside this scope
+	fmt.println(j, v, v.f, v.i)
 }
 ```
 
@@ -4786,7 +5423,7 @@ defer {
 #### `Maybe(T)`
 `Maybe(T)` is a union which *either* returns a type `T` or `nil`. In other languages this is often seen as `Option(T)`, `Result(T)`, etc. 
 
-Odin has multiple return values, so `Maybe(T)` is used less frequently or rarely in the `core` library. Instead of doing `-> Maybe(int)` you could transform it to `-> (int, bool)`.
+Odin has multiple return values; `Maybe(T)` is used less frequently or rarely in the `core` library. Instead of doing `-> Maybe(int)` you could transform it to `-> (int, bool)`.
 
 ```odin
 halve :: proc(n: int) -> Maybe(int) {
@@ -4851,7 +5488,8 @@ Odin is a strongly and `distinct`ly typed language by default. It has very few i
 * `T` -> `#simd[N]T`
 * `distinct proc` <-> `proc` (same base types)
 * `distinct matrix` <-> `matrix` (same base types)
-* Subtypes through `using`
+* Subtypes through `using` or `#subtype`
+* `proc(^T)` -> `proc(^U)` where `T` has a `using` or `#subtype` field of type `U` at offset 0 (see [subtype polymorphism](#subtype-polymorphism))
 * Untyped integers -> all numeric related types that can represent them without truncation
 * Untyped floats   -> all numeric related types that can represent them without truncation
 * Untyped booleans -> all boolean related types

@@ -17,12 +17,40 @@
                                 {{ end }}
                             {{ end }}
                         </ol>
+                    </nav>
                     <h1>{{ .Title }}</h1>
 
                     {{- if .IsPage }}
                     {{- if not .PublishDate.IsZero }}<p class="publish-date">{{ .PublishDate.Format "2006-01-02" | safeHTMLAttr }}</p>
                     {{ end }}
                     {{- end }}{{/* .IsPage */}}
+
+                    {{- if ne .TableOfContents "<nav id=\"TableOfContents\"></nav>" }}
+                    <!-- A search of the page's sections, the same look as pkg.odin-lang.org's search; js/docs-page.js -->
+                    <div class="odin-search-wrapper">
+                        <div class="odin-search-field">
+                            <input type="search" id="odin-search" autocomplete="off" spellcheck="false" placeholder="Search this page..."
+                                aria-label="Search this page's sections" role="combobox" aria-expanded="false" aria-controls="odin-search-results" aria-autocomplete="list">
+                            <div class="odin-search-shortcut">
+                                <div class="odin-search-key key-macos">⌘K</div>
+                                <div class="odin-search-key key-windows">Ctrl+K</div>
+                                <span class="odin-search-or">or</span>
+                                <div class="odin-search-key">/</div>
+                            </div>
+                            <ul id="odin-search-results" role="listbox" aria-label="Sections" hidden></ul>
+                        </div>
+                        <button type="button" class="odin-shortcuts-button" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6.5 10h.01M9.5 10h.01M12.5 10h.01M15.5 10h.01M18 10h.01M6.5 14h.01M17.5 14h.01M9.5 14h5"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- The contents, for screens too narrow for the contents sidebar. Not a <nav>, and
+                         without the sidebar's id, so the contents sidebar's highlighting ignores it -->
+                    <details class="odin-mobile-toc">
+                        <summary>Contents</summary>
+                        {{ .TableOfContents | replaceRE "<nav id=\"TableOfContents\">" "<div>" | replaceRE "</nav>" "</div>" | safeHTML }}
+                    </details>
+                    {{- end }}
                 </header>
                 <div class="odin-article">
                     <!-- Add anchors to links -->

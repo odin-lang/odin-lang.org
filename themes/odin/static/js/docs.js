@@ -21,6 +21,15 @@ function toggleSidebar(button) {
 }
 
 (() => {
+	// the operating system, as `os-windows`, `os-macos`, etc. on the <html>, e.g. for the search's
+	// "⌘K" or "Ctrl+K", and to hide the keyboard shortcuts where there is no keyboard
+	const user_agent = navigator.userAgent;
+	for (const [look_for, name] of [["Win", "windows"], ["Mac", "macos"], ["X11", "unix"], ["Linux", "linux"], ["iPhone", "ios"], ["Android", "android"]]) {
+		if (user_agent.includes(look_for)) {
+			document.documentElement.classList.add(`os-${name}`);
+		}
+	}
+
 	for (const name of ["nav-sidebar", "toc-sidebar"]) {
 		try {
 			if (window.localStorage.getItem(name) === "collapsed") {

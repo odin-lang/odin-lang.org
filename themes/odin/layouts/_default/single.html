@@ -1,7 +1,7 @@
 {{ define "main" }}
 <main id="main" tabindex="-1">
     <div class="container-xxl">
-        <div class="row odin-main">
+        <div class="row odin-main odin-docs-layout odin-site-docs">
             {{ partial "sidebar" . }}
 
             <!-- Content -->
@@ -32,8 +32,9 @@
 
             <!-- Right menu -->
             {{ if ne .TableOfContents "<nav id=\"TableOfContents\"></nav>" }}
-            <div id="TOC" class="col-lg-2 odin-toc-border">
+            <div id="TOC" class="col-lg-2 odin-toc-border navbar-light">
                 <div class="sticky-top odin-below-navbar py-3">
+                    {{ partial "sidebar-toggle" (dict "name" "toc-sidebar" "label" "Contents") }}
                     {{ .TableOfContents }}
                 </div>
             </div>

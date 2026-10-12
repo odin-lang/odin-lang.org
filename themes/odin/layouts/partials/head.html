@@ -180,6 +180,53 @@ hljs.registerLanguage("odin", function(e) {
   gtag('config', 'UA-67516878-2');
 </script>
 
+<!-- Collapsible sidebars, the same as on pkg.odin-lang.org -->
+<script>
+    function toggleSidebar(button) {
+        const name = button.dataset.sidebar;
+        const collapsed = document.documentElement.classList.toggle(name + "-collapsed");
+        button.setAttribute("aria-expanded", !collapsed);
+        window.localStorage.setItem(name, collapsed ? "collapsed" : "expanded");
+    }
+    // restored before the page is drawn, so a collapsed sidebar never flashes open
+    for (const name of ["docs-sidebar", "toc-sidebar"]) {
+        if (window.localStorage.getItem(name) === "collapsed") {
+            document.documentElement.classList.add(name + "-collapsed");
+        }
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+        for (const button of document.querySelectorAll(".odin-sidebar-toggle")) {
+            const collapsed = document.documentElement.classList.contains(button.dataset.sidebar + "-collapsed");
+            button.setAttribute("aria-expanded", !collapsed);
+        }
+
+        // keep the current page in view in a long sidebar
+        const list = document.querySelector("#docs-sidebar .odin-sidebar-content");
+        const active = list && list.querySelector("a.active");
+        if (!active || list.scrollHeight <= list.clientHeight) {
+            return;
+        }
+        const top = active.getBoundingClientRect().top - list.getBoundingClientRect().top;
+        if (top < 0 || top > list.clientHeight - active.offsetHeight) {
+            list.scrollTop += top - list.clientHeight/2;
+        }
+    });
+    // [ and ] collapse or expand the pages and contents sidebars
+    window.addEventListener("keydown", ev => {
+        if (ev.ctrlKey || ev.metaKey || ev.altKey || (ev.key !== "[" && ev.key !== "]")) {
+            return;
+        }
+        if (ev.target.closest && ev.target.closest("input, textarea, select, [contenteditable]")) {
+            return;
+        }
+        const button = document.querySelector(`.odin-sidebar-toggle[data-sidebar="${ev.key === "[" ? "docs-sidebar" : "toc-sidebar"}"]`);
+        if (button && button.offsetParent !== null) {
+            ev.preventDefault();
+            toggleSidebar(button);
+        }
+    });
+</script>
+
 <!-- Custom CSS -->
 <link href="/css/style.css" rel="stylesheet" />
 

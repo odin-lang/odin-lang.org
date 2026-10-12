@@ -630,3 +630,107 @@ h4.docs-sidebar-title a {
         transform: none;
     }
 }
+
+/* Code blocks
+
+These share the box and colours of the code on pkg.odin-lang.org, rather than highlight.js's
+github-dark theme in both light and dark mode. The `!important`s beat the inline styles Hugo
+puts on the `pre`s. */
+
+.odin-site-docs {
+    --odin-code-bg:        #f8f8f8;
+    --odin-code-border:    #c6c8ca;
+    --odin-code-text:      #202224;
+    --odin-code-keyword:   #ff5252;
+    --odin-code-string:    #093;
+    --odin-code-number:    #0b7285;
+    --odin-code-comment:   #888;
+    --odin-code-directive: #05a;
+    --odin-code-procedure: #047919;
+}
+.dark-mode .odin-site-docs {
+    --odin-code-bg:        var(--dark-code);
+    --odin-code-border:    var(--dark-border);
+    --odin-code-text:      var(--bs-light);
+    --odin-code-string:    #0a5;
+    --odin-code-number:    #79c0ff;
+    --odin-code-directive: #58a6ff;
+    --odin-code-procedure: #42b557;
+}
+
+.odin-site-docs article pre {
+    position: relative;
+    padding: 0.625rem;
+    border: 1px solid var(--odin-code-border);
+    border-radius: 0.25rem;
+    background-color: var(--odin-code-bg) !important;
+    color: var(--odin-code-text) !important;
+    tab-size: 4;
+}
+.odin-site-docs article pre > code,
+.odin-site-docs article pre > code.hljs {
+    padding: 0;
+    background: none !important;
+    color: inherit;
+}
+.odin-site-docs pre .hljs-keyword, .odin-site-docs pre .hljs-literal {
+    color: var(--odin-code-keyword);
+}
+.odin-site-docs pre .hljs-built_in {
+    color: var(--odin-code-keyword);
+    font-weight: 600;
+}
+.odin-site-docs pre .hljs-string {
+    color: var(--odin-code-string);
+}
+.odin-site-docs pre .hljs-number {
+    color: var(--odin-code-number);
+}
+.odin-site-docs pre .hljs-comment {
+    color: var(--odin-code-comment);
+}
+.odin-site-docs pre .hljs-meta {
+    color: var(--odin-code-directive);
+}
+/* other languages' tokens, e.g. in C or assembly examples, so none keep github-dark's colours */
+.odin-site-docs pre .hljs-type {
+    color: var(--odin-code-keyword);
+}
+.odin-site-docs pre .hljs-title {
+    color: var(--odin-code-procedure);
+}
+.odin-site-docs pre :is(.hljs-symbol, .hljs-attr, .hljs-attribute, .hljs-variable, .hljs-params, .hljs-property, .hljs-subst, .hljs-operator, .hljs-punctuation) {
+    color: inherit;
+}
+
+.odin-site-docs article pre .copy-code {
+    position:      absolute;
+    top:           0.4rem;
+    right:         0.4rem;
+    font:          inherit;
+    font-size:     0.75rem;
+    line-height:   1;
+    padding:       0.3em 0.55em;
+    border:        1px solid rgba(127, 127, 127, .35);
+    border-radius: 0.4em;
+    background:    rgba(127, 127, 127, 0.12);
+    color:         inherit;
+    cursor:        pointer;
+    opacity:       0;
+    transition:    opacity 0.12s ease;
+}
+.odin-site-docs article pre:hover .copy-code,
+.odin-site-docs article pre .copy-code:focus { opacity: 1; }
+.odin-site-docs article pre .copy-code:hover { background: rgba(127,127,127,.25); }
+
+/* the `#` link after each heading only shows when hovering the heading */
+@media (hover: hover) {
+    .odin-article .heading-anchor {
+        opacity: 0;
+        transition: opacity 0.12s ease;
+    }
+    .odin-article :is(h2, h3, h4, h5, h6):hover .heading-anchor,
+    .odin-article .heading-anchor:focus {
+        opacity: 1;
+    }
+}

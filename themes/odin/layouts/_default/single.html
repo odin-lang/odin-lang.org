@@ -26,7 +26,7 @@
                 </header>
                 <div class="odin-article">
                     <!-- Add anchors to links -->
-                    {{ .Content | replaceRE "(<h[2-9] id=\"([^\"]+)\".+)(</h[2-9]+>)" "${1} <a class=\"text-decoration-none\" href=\"#${2}\">#</a>${3}" | safeHTML }}
+                    {{ .Content | replaceRE "(<h[2-9] id=\"([^\"]+)\".+)(</h[2-9]+>)" "${1} <a class=\"heading-anchor text-decoration-none\" href=\"#${2}\" aria-label=\"Link to this section\">#</a>${3}" | safeHTML }}
                 </div>
             </article>
 

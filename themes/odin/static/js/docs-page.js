@@ -8,7 +8,8 @@
   being read, `?` to list them all (`[` and `]` for the sidebars are in js/docs.js)
 - the sections being read, in a label under the menu bar
 - a contents dropdown on narrow screens, where the contents sidebar is hidden
-- names in the code and inline code linked to their documentation on pkg.odin-lang.org
+- names in the code and inline code linked to their documentation on pkg.odin-lang.org, and what each
+  one is shown when it is hovered
 
 The look is shared with pkg.odin-lang.org, through css/style.css. Loaded with `defer`. */
 
@@ -543,8 +544,10 @@ The look is shared with pkg.odin-lang.org, through css/style.css. Loaded with `d
 		}
 	}
 
-	// candidates: [text node, start, end, package, name]
+	// candidates: [text node, start, end, package, name, text, whether inline code]
 	const candidates = [];
+	// the builtins the code calls, e.g. `append(`
+	const called = new Set();
 	const SKIP = ".hljs-comment, .hljs-string, .hljs-meta, a";
 
 	const collect_code = code => {
@@ -568,6 +571,7 @@ The look is shared with pkg.odin-lang.org, through css/style.css. Loaded with `d
 				const after = text.slice(m.index + m[0].length) || (node.parentElement !== code && node.parentElement.nextSibling ? node.parentElement.nextSibling.textContent : "");
 				if (/^\s*\(/.test(after)) {
 					candidates.push([node, m.index, m.index + m[0].length, BUILTIN, m[1], m[0]]);
+					called.add(m[1]);
 				}
 			}
 		}
@@ -589,7 +593,7 @@ The look is shared with pkg.odin-lang.org, through css/style.css. Loaded with `d
 		} else if ((m = /^([A-Za-z_]\w*)\.([A-Za-z_]\w*)(\(\))?$/.exec(text)) && aliases.has(m[1])) {
 			candidates.push([code.firstChild, 0, code.firstChild.nodeValue.length, aliases.get(m[1]), m[2], text]);
 		} else if ((m = /^([a-z_]\w*)(\(\))?$/.exec(text)) && !declared.has(m[1])) {
-			candidates.push([code.firstChild, 0, code.firstChild.nodeValue.length, BUILTIN, m[1], text]);
+			candidates.push([code.firstChild, 0, code.firstChild.nodeValue.length, BUILTIN, m[1], text, true]);
 		}
 	};
 
@@ -604,12 +608,17 @@ The look is shared with pkg.odin-lang.org, through css/style.css. Loaded with `d
 				const script = document.createElement("script");
 				script.src = package_url(path) + "pkg-data.js";
 				script.onload = () => {
+					// base:builtin's also has runtime's, for its `@(builtin)` procedures like `append`;
+					// those of any package after the first are marked `also`
 					const data = window.odin_pkg_data && window.odin_pkg_data.packages;
-					const pkg = data && Object.values(data)[0];
 					const names = new Map();
-					for (const e of (pkg && pkg.entities) || []) {
-						names.set(e.name, e);
-					}
+					Object.values(data || {}).forEach((pkg, i) => {
+						for (const e of pkg.entities || []) {
+							if (!names.has(e.name)) {
+								names.set(e.name, i === 0 ? e : {...e, also: true});
+							}
+						}
+					});
 					script.remove();
 					resolve(names);
 				};
@@ -663,7 +672,7 @@ The look is shared with pkg.odin-lang.org, through css/style.css. Loaded with `d
 		for (const [node, list] of by_node) {
 			list.sort((a, b) => b[1] - a[1]);
 			let limit = Infinity;
-			for (const [, start, end, path, name, text] of list) {
+			for (const [, start, end, path, name, text, inline] of list) {
 				const entity = packages.get(path).get(name);
 				if (!entity || end > limit) {
 					continue;
@@ -672,20 +681,148 @@ The look is shared with pkg.odin-lang.org, through css/style.css. Loaded with `d
 				if (path === BUILTIN && !/^[bpg]$/.test(entity.kind)) {
 					continue;
 				}
+				// and of runtime's, only those the code calls: the text also names others, like the
+				// intrinsics `mem_copy` and `trap`, which runtime has procedures of its own named
+				if (path === BUILTIN && entity.also && inline && !called.has(name)) {
+					continue;
+				}
 				const range = document.createRange();
 				range.setStart(node, start);
 				range.setEnd(node, end);
 				const a = document.createElement("a");
 				a.className = "pkg-link";
 				a.href = package_url(path) + "#" + name;
-				const label = path === BUILTIN ? name : text.replace(/\(\)$/, "");
-				const about = entity.d || (entity.comment ? entity.comment.split("\n")[0] : "");
-				a.title = about ? `${label}: ${about}` : `${label} on pkg.odin-lang.org`;
+				// for what it is to show when it is hovered
+				a.dataset.pkg   = path;
+				a.dataset.name  = name;
+				a.dataset.label = path === BUILTIN ? name : text.replace(/\(\)$/, "");
+				a.dataset.kind  = entity.kind;
+				a.dataset.about = entity.d || (entity.comment ? entity.comment.split("\n")[0] : "");
 				range.surroundContents(a);
 				limit = start;
 			}
 		}
 	};
+
+	/* hovering a linked name shows what it is, as pkg.odin-lang.org's own previews do: its summary, and
+	its definition from the "signatures.json" beside its package's page there, which is fetched the first
+	time one of that package's names is hovered; without it, just what kind of declaration it is */
+
+	const KINDS = {c: "constant", v: "variable", t: "type", p: "procedure", g: "procedure group", b: "built-in"};
+
+	const signatures = new Map();
+	const signatures_of = path => {
+		if (!signatures.has(path)) {
+			signatures.set(path, fetch(package_url(path) + "signatures.json")
+				.then(r => r.ok ? r.json() : null)
+				.catch(() => null));
+		}
+		return signatures.get(path);
+	};
+
+	const preview_text = async a => {
+		const {pkg, name, label, kind, about} = a.dataset;
+		const found = await signatures_of(pkg);
+		if (found && Object.hasOwn(found, name)) {
+			return (about ? `// ${about}\n` : "") + found[name];
+		}
+		return `${label}  // ${KINDS[kind] || "declaration"}` + (about ? `\n// ${about}` : "");
+	};
+
+	let preview = null;
+	let preview_for = null;
+	let preview_timer = 0;
+
+	const hide_preview = () => {
+		clearTimeout(preview_timer);
+		if (preview_for) {
+			preview_for.removeAttribute("aria-describedby");
+			preview_for = null;
+		}
+		if (preview) {
+			preview.hidden = true;
+		}
+	};
+
+	const show_preview = async a => {
+		const text = await preview_text(a);
+		if (preview_for !== a) {
+			return;
+		}
+		if (!preview) {
+			preview = document.createElement("div");
+			preview.id = "odin-type-preview";
+			// `documentation` gives it the box and colours of the code blocks
+			preview.className = "odin-type-preview documentation";
+			preview.setAttribute("role", "tooltip");
+			preview.innerHTML = `<pre><code class="hljs language-odin"></code></pre>`;
+			document.body.appendChild(preview);
+		}
+		const pre = preview.firstElementChild;
+		pre.firstElementChild.innerHTML = window.hljs ? hljs.highlight(text, {language: "odin", ignoreIllegals: true}).value : escape_html(text);
+		pre.style.maxHeight = "";
+		preview.hidden = false;
+		a.setAttribute("aria-describedby", preview.id);
+
+		// wholly in view: below the menu bar, within the window, and no taller than it
+		const navbar = document.querySelector(".odin-menu");
+		const top = Math.max(0, navbar ? navbar.getBoundingClientRect().bottom : 0) + 8;
+		const bottom = window.innerHeight - 8;
+		if (preview.offsetHeight > bottom - top) {
+			pre.style.maxHeight = (bottom - top) + "px";
+		}
+		pre.classList.toggle("cut-off", pre.scrollHeight > pre.clientHeight);
+
+		// under the name, or above it when there is no room below
+		const r = a.getBoundingClientRect();
+		let x = r.left;
+		let y = r.bottom + 6;
+		if (y + preview.offsetHeight > bottom) {
+			y = r.top - 6 - preview.offsetHeight;
+		}
+		x = Math.max(8, Math.min(x, document.documentElement.clientWidth - preview.offsetWidth - 8));
+		y = Math.max(top, Math.min(y, bottom - preview.offsetHeight));
+		preview.style.left = (window.scrollX + x) + "px";
+		preview.style.top  = (window.scrollY + y) + "px";
+	};
+
+	// not on touch screens, where tapping a name just follows its link
+	const can_hover = window.matchMedia("(hover: hover)");
+	const previewed = ev => ev.target.closest && ev.target.closest("a.pkg-link[data-name]");
+	document.addEventListener("mouseover", ev => {
+		const a = previewed(ev);
+		if (a && a !== preview_for && can_hover.matches) {
+			hide_preview();
+			preview_for = a;
+			preview_timer = setTimeout(() => show_preview(a), 250);
+		}
+	});
+	document.addEventListener("mouseout", ev => {
+		const a = previewed(ev);
+		if (a && !a.contains(ev.relatedTarget)) {
+			hide_preview();
+		}
+	});
+	document.addEventListener("focusin", ev => {
+		const a = previewed(ev);
+		if (a && a.matches(":focus-visible")) {
+			hide_preview();
+			preview_for = a;
+			show_preview(a);
+		}
+	});
+	document.addEventListener("focusout", ev => {
+		if (previewed(ev)) {
+			hide_preview();
+		}
+	});
+	document.addEventListener("keydown", ev => {
+		if (ev.key === "Escape") {
+			hide_preview();
+		}
+	});
+	// any scroll, the contents sidebar's included
+	document.addEventListener("scroll", hide_preview, {passive: true, capture: true});
 
 	const when_idle = window.requestIdleCallback || (fn => setTimeout(fn, 200));
 	if (document.readyState === "complete") {

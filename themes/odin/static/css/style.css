@@ -1078,6 +1078,25 @@ h4.odin-sidebar-title {
     visibility: visible;
 }
 
+/* hovering a name shows what it is: a type in pkg.odin-lang.org's signatures, and a name this site's
+   documentation links to pkg.odin-lang.org */
+.odin-type-preview {
+    position: absolute;
+    z-index: 1080;
+    max-width: min(44rem, calc(100vw - 1rem));
+    border-radius: 0.25rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
+    pointer-events: none;
+}
+.odin-type-preview pre.doc-code {
+    max-height: 22rem;
+    margin: 0;
+    overflow: hidden;
+}
+.odin-type-preview pre.doc-code.cut-off {
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
+}
+
 /* This site's own documentation pages */
 
 /* the search of the page's sections, whose results drop down over the page */
@@ -1264,6 +1283,17 @@ h4.odin-sidebar-title {
     .odin-mobile-toc {
         display: none;
     }
+}
+
+/* what a name linked to pkg.odin-lang.org is, when hovered, as one of the code blocks */
+.odin-type-preview pre:has(> code) {
+    max-height: 22rem;
+    margin: 0;
+    overflow: hidden;
+    tab-size: 4;
+}
+.odin-type-preview pre.cut-off {
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 3em), transparent);
 }
 
 /* names linked to pkg.odin-lang.org, which in code keep their colour until hovered */

@@ -41,7 +41,7 @@ my_test :: proc(t: ^testing.T) {
 }
 ```
 
-All individual tests require the [`@(test)` attribute](/docs/overview/#test). This is how the compiler knows which ones to send to the test runner. They also must accept one and only one argument: `^testing.T`. It can be named anything you want it to be, but by convention, virtually every test uses `t`.
+All individual tests require the [`@(test)` attribute](/docs/attributes/#test). This is how the compiler knows which ones to send to the test runner. They also must accept one and only one argument: `^testing.T`. It can be named anything you want it to be, but by convention, virtually every test uses `t`.
 
 `^testing.T` is a pointer to a special `struct` defined by the `core:testing` package. We'll talk more about that later. 
 
@@ -332,7 +332,7 @@ Then run `odin test tests/ -all-packages` to run every `@(test)` procedure in th
 ## Compile-Time Options
 
 There are several compile-time options that help you tailor the test runner's execution to your preferences.
-The test runner is written in Odin itself, so these are [`#config` options](/docs/overview/#configidentifer-default), as opposed to regular flags.
+The test runner is written in Odin itself, so these are [`#config` options](/docs/directives/#configidentifier-default), as opposed to regular flags.
 
 - `ODIN_TEST_THREADS=<n>` sets how many threads to use. Set to `0` to use the number of cores available.
 - `ODIN_TEST_TRACK_MEMORY=false` turns off memory tracking. It is on by default.

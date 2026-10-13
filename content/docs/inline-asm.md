@@ -1,7 +1,7 @@
 ---
 title: Inline asm Templates Overview
 summary: Overview of the inline `asm` templates in Odin
-weight: 10
+weight: 12
 ---
 
 > [!NOTE]

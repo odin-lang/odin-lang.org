@@ -56,6 +56,38 @@
                     <!-- Add anchors to links -->
                     {{ .Content | replaceRE "(<h[2-9] id=\"([^\"]+)\".+)(</h[2-9]+>)" "${1} <a class=\"heading-anchor text-decoration-none\" href=\"#${2}\" aria-label=\"Link to this section\">#</a>${3}" | safeHTML }}
                 </div>
+
+                {{- /* Links to the anchors of sections which moved to pages of their own (`moved_to`, and
+                       `moved_anchors` for any renamed) go on to them, unless the anchor is still here */}}
+                {{- if or .Params.moved_to .Params.moved_anchors }}
+                {{- $moved := dict }}
+                {{- range .Params.moved_to }}
+                    {{- with site.GetPage . }}
+                        {{- $url := .RelPermalink }}
+                        {{- range .Fragments.Identifiers }}
+                            {{- $moved = merge $moved (dict . (printf "%s#%s" $url .)) }}
+                        {{- end }}
+                    {{- else }}
+                        {{- errorf "%s: moved_to names %q, which is not a page" $.File.Path . }}
+                    {{- end }}
+                {{- end }}
+                {{- range $id, $to := .Params.moved_anchors }}
+                    {{- $moved = merge $moved (dict $id $to) }}
+                {{- end }}
+                <script>
+                    (() => {
+                        const moved = {{ $moved }};
+                        const follow = () => {
+                            const id = decodeURIComponent(location.hash.slice(1));
+                            if (id !== "" && !document.getElementById(id) && Object.hasOwn(moved, id)) {
+                                location.replace(moved[id]);
+                            }
+                        };
+                        follow();
+                        window.addEventListener("hashchange", follow);
+                    })();
+                </script>
+                {{- end }}
             </article>
 
             <!-- Right menu -->

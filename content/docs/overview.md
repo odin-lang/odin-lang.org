@@ -286,7 +286,7 @@ A package is a directory of Odin code files, all of which have the same package 
 
 ### Organizing packages
 
-Packages may be thematically organized by placing them in subdirectories of another package. For example: `core:image/png` and `core:image/tga`, as subdirectories of `core:image`. 
+Packages may be thematically organized by placing them in subdirectories of another package. For example: `core:image/png` and `core:image/tga`, as subdirectories of `core:image`.
 Nesting these packages is a helpful taxonomy. It does not imply a dependency: `core:foo/bar` does not need to import `core:foo` and reference anything from it.
 
 ## Control flow statements
@@ -926,7 +926,7 @@ create_window :: proc(title: string, x, y: int, width, height: int, monitor: ^Mo
 window, err := create_window(title="Hellope Title", monitor=nil, width=854, height=480, x=0, y=0)
 ```
 
-Named and positional arguments can be mixed. This is often useful when a procedure has a lot of arguments *or* you want to customize [default values](#default-values). 
+Named and positional arguments can be mixed. This is often useful when a procedure has a lot of arguments *or* you want to customize [default values](#default-values).
 
 ***Positional*** arguments are not allowed after ***named*** arguments.
 
@@ -1250,7 +1250,7 @@ Iteration through runes is preferred since Odin strings are UTF-8 encoded. Core 
 
 #### `string` format printing
 
-The `core:fmt` library supports printing strings from byte arrays in structs, when additional tag information is supplied. 
+The `core:fmt` library supports printing strings from byte arrays in structs, when additional tag information is supplied.
 
 ```odin
 Foo :: struct {
@@ -1317,11 +1317,11 @@ Legend:
 * ***copy*** = get a freshly allocated copy of the 'from' data
 * ***alias*** = reuse the 'from' data, without allocation
 * ***stream*** = get individual values from the string, without allocation
-* ***st*** = the input string 
+* ***st*** = the input string
 
 #### From `string` to X
 | To | Action | Code |
-| --- | --- | --- | 
+| --- | --- | --- |
 | `[]u8` | alias | `transmute([]u8)st` |
 | `string` | copy | `strings.clone(st)` |
 | `cstring` | copy | `strings.clone_to_cstring(st)` |
@@ -1332,37 +1332,37 @@ Legend:
 
 #### From `cstring` to X
 | To | Action | Code |
-| --- | --- | --- | 
+| --- | --- | --- |
 | `string` | alias | `string(st)` |
 | `[^]u8` | alias | `transmute([^]u8)st` |
 
 #### From a ***string literal*** to X
 | To | Action | Code |
-| --- | --- | --- | 
+| --- | --- | --- |
 | `string` | alias | `string(st)` or `newstr: string = st` |
 | `cstring` | alias | `cstring(st)` or `newstr: cstring = st` |
 
 #### From `[]u8` to X
 | To | Action | Code |
-| --- | --- | --- | 
+| --- | --- | --- |
 | `string` | alias | `transmute(string)st` |
 | `string` | alias | `string(st)` unless a slice literal |
 | `[^]u8` | alias | `raw_data(st)` |
 
 #### From `[]rune` to `string`
 | Action | Code |
-| --- | --- | 
+| --- | --- |
 | copy | `utf8.runes_to_string(st)` |
 
 #### From `[^]u8` to `cstring`
 | Action | Code |
-| --- | --- | 
+| --- | --- |
 | alias | `cstring(st)` |
 
 #### From `[^]u8` and length `int` to `string`
 | Action | Code |
-| --- | --- | 
-| alias | `strings.string_from_ptr(ptr, length)` | 
+| --- | --- |
+| alias | `strings.string_from_ptr(ptr, length)` |
 
 
 ## Operators
@@ -1644,7 +1644,7 @@ for i in 0..=4 {
 }
 ```
 Fixed arrays are equivalent to a struct with a field for each element. They are just a number of values in a row in memory.
- 
+
 The notation `x[i]` is used to access the i-th element of `x`; and 0-index based (like C).
 
 The above array can also be constructed with a question mark (`?`) to automatically infer its length:
@@ -1955,7 +1955,7 @@ x: [dynamic]int
 fmt.println(len(x), cap(x)) // 0 0
 append(&x, 1, 2, 3) // [1, 2, 3]
 fmt.println(len(x), cap(x)) // 3 8
-resize(&x, 5) 
+resize(&x, 5)
 fmt.println(x[:]) // [1, 2, 3, 0, 0] other values are zero'd memory
 fmt.println(len(x), cap(x)) // 5 8
 reserve(&x, 32)
@@ -1995,7 +1995,7 @@ fmt.println(len(y), cap(y)) // 3 8
 ```
 
 > [!NOTE]
-> This replaces the `core` library container dynamic array [Small_Array(N, T)](https://github.com/odin-lang/Odin/blob/master/core/container/small_array/small_array.odin).
+> This replaces the `core` library container dynamic array [Small_Array(N, T)](https://pkg.odin-lang.org/core/container/small_array/).
 
 ### Enumerations
 Enumeration types define a new type whose values consist of the ones specified. The values are ordered, for example:
@@ -2071,7 +2071,7 @@ Enums can be trivially `for` looped in odin. This way we can loop through the en
 Direction :: enum{North, East, South, West}
 
 for direction, index in Direction {
-	fmt.println(index, direction) 
+	fmt.println(index, direction)
 	// 0 North
 	// 1 East
 	// 2 South
@@ -2081,7 +2081,7 @@ for direction, index in Direction {
 
 ### Enumerated array
 
-Enumerated arrays allow an `enum` to be used as the index type of a fixed array. 
+Enumerated arrays allow an `enum` to be used as the index type of a fixed array.
 
 We'll extend the `Direction` enum used previously to add direction vectors.
 
@@ -2250,7 +2250,7 @@ Structs can be nested by defining a field as a struct.
 ```odin
 Foo :: struct {
 	a, b, c: int,
-	
+
 	bar_1: struct {
 		x, y, z: int,
 	},
@@ -2483,7 +2483,7 @@ m["Chloe"].x = 0 // PROHIBITED
 
 #### Map container calls
 
-The built-in map also supports all the standard container calls that can be found with the [dynamic array](#dynamic-arrays). 
+The built-in map also supports all the standard container calls that can be found with the [dynamic array](#dynamic-arrays).
 
 Short:
 * `len(some_map)` returns the amount of slots used up
@@ -2537,8 +2537,8 @@ proc(c: proc(x: int) -> bool) -> (i32, f32)
 
 Or you can assign them to a variable:
 ```odin
-Callback :: proc() -> int 
-a: Callback // nil 
+Callback :: proc() -> int
+a: Callback // nil
 assert(a == nil)
 a = proc() -> int { return 0 }
 fmt.println(a()) // 0
@@ -2644,9 +2644,9 @@ Interacting with Multi-Pointers is easiest using the builtin `raw_data()` call w
 a: [^]int
 fmt.println(a) // <nil>
 b := [?]int { 10, 20, 30 }
-a = raw_data(b[:]) 
+a = raw_data(b[:])
 fmt.println(a, a[1], b) // 0x7FFCBE9FE688 20 [10, 20, 30]
-``` 
+```
 
 ### SOA data types
 
@@ -2830,9 +2830,9 @@ m = matrix[2, 3]f32{
 ```
 
 Element types of integers, float, and complex numbers are supported by matrices. There is no support for booleans, quaternions, or any compound type.
-		
+
 Indexing a matrix can be used with the matrix indexing syntax. This mirrors other type usages: type on the left, usage on the right.
-		
+
 ```odin
 elem := m[1, 2] // row 1, column 2
 ```
@@ -2866,15 +2866,15 @@ fmt.println("b", b)
 
 c := a * b
 #assert(type_of(c) == matrix[2, 2]f32)
-fmt.tprintln("c = a * b", c)		
+fmt.tprintln("c = a * b", c)
 ```
 
 Matrices support multiplication between matrices and arrays:
 ```odin
 m := matrix[4, 4]f32{
-	1, 2, 3, 4, 
-	5, 5, 4, 2, 
-	0, 1, 3, 0, 
+	1, 2, 3, 4,
+	5, 5, 4, 2,
+	0, 1, 3, 0,
 	0, 1, 4, 1,
 }
 
@@ -2888,8 +2888,8 @@ fmt.println("v * m", v * m)
 
 // Support with non-square matrices
 s := matrix[2, 4]f32{ // [4][2]f32 default layout
-	2, 4, 3, 1, 
-	7, 8, 6, 5, 
+	2, 4, 3, 1,
+	7, 8, 6, 5,
 }
 
 w := [2]f32{1, 2}
@@ -2921,7 +2921,7 @@ c5 := a &~ b
 
 // component-wise multiplication
 // since a * b would be a standard matrix multiplication
-c6 := hadamard_product(a, b) 
+c6 := hadamard_product(a, b)
 
 fmt.println("a + b",  c0)
 fmt.println("a - b",  c1)
@@ -2934,7 +2934,7 @@ fmt.println("hadamard_product(a, b)", c6)
 
 #### Submatrix casting
 ##### Submatrix casting square matrices
-Casting a square matrix to another square matrix with same element type is supported. 
+Casting a square matrix to another square matrix with same element type is supported.
 
 * If the cast is to a smaller matrix type, the top-left submatrix is taken.
 * If the cast is to a larger matrix type, the matrix is extended with zeros everywhere and ones in the diagonal for the unfilled elements of the extended matrix.
@@ -2973,7 +2973,7 @@ mat2x4 :: distinct matrix[2, 4]f32
 mat4x2 :: distinct matrix[4, 2]f32
 
 x := mat2x4{
-	1, 3, 5, 7, 
+	1, 3, 5, 7,
 	2, 4, 6, 8,
 }
 
@@ -3101,10 +3101,10 @@ The `core:simd` package (and the architecture-specific `core:simd/x86` and `core
 ```odin
 raw_data([]$E)              -> [^]E    // slices
 raw_data([dynamic]$E)       -> [^]E    // dynamic arrays
-raw_data(^[$N]$E)           -> [^]E    // fixed array and enumerated arrays 
-raw_data(^#simd[$N]$E)      -> [^]E    // simd vectors 
-raw_data(^matrix[$I, $J]$E) -> [^]E    // matrices 
-raw_data(string)            -> [^]byte // 	
+raw_data(^[$N]$E)           -> [^]E    // fixed array and enumerated arrays
+raw_data(^#simd[$N]$E)      -> [^]E    // simd vectors
+raw_data(^matrix[$I, $J]$E) -> [^]E    // matrices
+raw_data(string)            -> [^]byte //
 ```
 
 ## `using` statement
@@ -3270,7 +3270,7 @@ assert(i == 456)
 
 ## `or_return` operator
 
-The concept of `or_return` will work by popping off the end value in a multiple valued expression and checking whether it was not `nil` or was `false`, and if so, sets the procedure's end return value to that value (if possible) and returns. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, `or_return` will require that all results be named so that the end value could be assigned to by name and then an empty return could be called. 
+The concept of `or_return` will work by popping off the end value in a multiple valued expression and checking whether it was not `nil` or was `false`, and if so, sets the procedure's end return value to that value (if possible) and returns. If the procedure only has one return value, it will do a simple return. If the procedure had multiple return values, `or_return` will require that all results be named so that the end value could be assigned to by name and then an empty return could be called.
 
 ```odin
 Error :: enum {
@@ -3318,8 +3318,8 @@ foo_1 :: proc() -> Error {
 }
 foo_2 :: proc() -> (n: int, err: Error) {
 	// It is more common that your procedure returns multiple values
-	// If `or_return` is used within a procedure that returns multiple 
-	// values (2+), then all the returned values must be named 
+	// If `or_return` is used within a procedure that returns multiple
+	// values (2+), then all the returned values must be named
 	// so that a bare `return` statement can be used
 
 	// This can be a common idiom in many code bases
@@ -3530,7 +3530,7 @@ You may define a constant using the `-define` command line switch. e.g: `-define
 You can then fetch its value as a constant in your code like this:
 ```odin
 FOO :: #config(FOO, false) // defines `FOO` as a constant with the default value of false
-BAR :: #config(BAR_DEBUG, true) // name can be different compared to the constant 
+BAR :: #config(BAR_DEBUG, true) // name can be different compared to the constant
 
 when FOO {
 	// only evaluated when `FOO` is true
@@ -3695,7 +3695,7 @@ supertramp :: proc() {
 
 By default, the `context` value has default values for its parameters which is decided in the package runtime. These defaults are compiler specific.
 
-To see what the implicit `context` value contains, please see the definition of the `Context` struct in [package runtime](https://github.com/odin-lang/Odin/blob/master/base/runtime/core.odin).
+To see what the implicit `context` value contains, please see the definition of the `Context` struct in [package runtime](https://pkg.odin-lang.org/base/runtime/#Context).
 
 Limitation: Because of the way the copy-on-write `context` system works and is tied to scopes, you can't update a context value (like e.g. `context.user_index`) from within a loop. [If you need to update something](https://github.com/odin-lang/Odin/issues/7498) on the `context` within a loop to be available to callees, try setting `context.user_ptr` to some user data outside the loop, and modify that user data from within the loop.
 
@@ -3724,7 +3724,7 @@ The implicit `context` stores two different forms of allocators: `context.alloca
 * `context.temp_allocator` is for temporary and short lived allocations, which are to be freed once per cycle/frame/etc.
 
 
-By default, the `context.allocator` is an OS heap allocator and the `context.temp_allocator` is assigned to a scratch allocator (a growing arena based allocator). `free_all(context.temp_allocator)` must be called to clear the contents of the temporary allocator's internal arena. 
+By default, the `context.allocator` is an OS heap allocator and the `context.temp_allocator` is assigned to a scratch allocator (a growing arena based allocator). `free_all(context.temp_allocator)` must be called to clear the contents of the temporary allocator's internal arena.
 
 
 The following procedures are built-in (and also available in `package mem` with enforced allocator errors) and are encouraged for managing memory:
@@ -3791,7 +3791,7 @@ delete(my_string)
 delete(my_cstring)
 ```
 
-To see more uses of allocators and allocation-related procedures, please see [`package mem`](https://github.com/odin-lang/Odin/tree/master/core/mem) in the core library.
+To see more uses of allocators and allocation-related procedures, please see [`package mem`](https://pkg.odin-lang.org/core/mem/) or its sub-packages in the core library.
 
 For more information regarding memory allocation strategies in general, please see [Ginger Bill's Memory Allocation Strategy](https://www.gingerbill.org/series/memory-allocation-strategies/) series.
 
@@ -3820,7 +3820,7 @@ main :: proc() {
 			mem.tracking_allocator_destroy(&track)
 		}
 	}
-	
+
 	do_stuff()
 }
 ```
@@ -3865,7 +3865,7 @@ glfw.SetErrorCallback(error_callback)
 
 As part of the implicit `context` system, there is a built-in logging system.
 
-To see more uses of loggers, please see [`package log`](https://github.com/odin-lang/Odin/tree/master/core/log) in the core library.
+To see more uses of loggers, please see [`package log`](https://pkg.odin-lang.org/core/log/) in the core library.
 
 ## Foreign system
 It is sometimes necessary to interface with foreign code, such as a C library. In Odin, this is achieved through the `foreign` system. You can "import" a library into the code using the same semantics as a normal import declaration:
@@ -3996,7 +3996,7 @@ Please see the dedicated [inline `asm` templates](/docs/inline-asm/) documentati
 
 ## Using a `vendor` library
 
-As described in the [Foreign System](#foreign-system) we often want to use existing `C` libraries. Odin has a wide collection of maintained [bindings and ports](https://github.com/odin-lang/Odin/tree/master/vendor).
+As described in the [Foreign System](#foreign-system) we often want to use existing `C` libraries. Odin has a wide collection of maintained [bindings and ports](https://pkg.odin-lang.org/vendor/).
 
 > [!NOTE]
 > Case notation should remain the same as the original authors intended, to make porting code easier.
@@ -4035,7 +4035,7 @@ main :: proc() {
 	window := glfw.CreateWindow(640, 480, "Simple example", nil, nil)
 	if window == nil {
 		panic("EXIT_FAILURE")
-	}	
+	}
 	defer glfw.DestroyWindow(window)
 
 	glfw.SetKeyCallback(window, key_callback)
@@ -4063,7 +4063,7 @@ Parametric polymorphism, commonly referred to as "generics", allow the user to c
 > Within the Odin code base and documentation, the nickname "parapoly" is usually used.
 
 ### Explicit parametric polymorphism
-Explicit parametric polymorphism means that the types of the parameters of a `proc` or of the data fields of a `struct` (when intended to potentially be used with multiple possible types) must be explicitly provided. This is similar to how C++ allows the use of `template`s to fill out the body of a procedure or data structure with the types that are given at compile-time as input to the `template` parameters, but in Odin explicit parametric polymorphism is safer and cleaner to work with. 
+Explicit parametric polymorphism means that the types of the parameters of a `proc` or of the data fields of a `struct` (when intended to potentially be used with multiple possible types) must be explicitly provided. This is similar to how C++ allows the use of `template`s to fill out the body of a procedure or data structure with the types that are given at compile-time as input to the `template` parameters, but in Odin explicit parametric polymorphism is safer and cleaner to work with.
 
 #### Procedures using explicit parametric polymorphism (parapoly)
 As a reminder, all parameters passed into a function are immutable in the sense that they can't have their value changed using `=` directly. A useful idiom is `var := var`, which expresses a variable shadowing itself. When used at the top of a procedure the compiler understands the use case of enabling local modification of the otherwise immutable parameter variable, and won't complain about the shadowing when you compile with `-vet`.
@@ -4071,7 +4071,7 @@ As a reminder, all parameters passed into a function are immutable in the sense 
 ```odin
 sin_tau :: proc(angle_in_cycles: f64) -> f64 {
 	angle_in_cycles := angle_in_cycles   // Allows `angle_in_cycles` to have its value changed
-    
+
 	TAU :: 2 * math.PI
 	angle_in_cycles *= TAU
 	return math.sin(angle_in_cycles)
@@ -4444,7 +4444,7 @@ defer {
 ```
 
 #### `Maybe(T)`
-`Maybe(T)` is a union which *either* holds a value of type `T` or is `nil`. In other languages this is often seen as `Option(T)`, `Result(T)`, etc. 
+`Maybe(T)` is a union which *either* holds a value of type `T` or is `nil`. In other languages this is often seen as `Option(T)`, `Result(T)`, etc.
 
 Odin has multiple return values; `Maybe(T)` is used less frequently or rarely in the `core` library. Instead of doing `-> Maybe(int)` you could transform it to `-> (int, bool)`.
 
@@ -4521,7 +4521,7 @@ Odin is a strongly and `distinct`ly typed language by default. It has very few i
 
 ## What to do if you get stuck
 
-If you are unable to find the information you need on this overview page, the [FAQ](https://odin-lang.org/docs/faq/), the [wiki](https://github.com/odin-lang/Odin/wiki), the [example repository](https://github.com/odin-lang/examples) (which contains demos for using the vendor libs, e.g. [Tetris in raylib](https://github.com/odin-lang/examples/blob/master/raylib/tetroid/raylib_tetroid.odin)), or the [package documentation](https://pkg.odin-lang.org/), then you will likely find it very helpful to explore your Odin source code directory, especially the files contained in the following five subdirectories: `examples\demo`, `tests`, `core`, `vendor`, and `misc\old_demos`.  
+If you are unable to find the information you need on this overview page, the [FAQ](https://odin-lang.org/docs/faq/), the [wiki](https://github.com/odin-lang/Odin/wiki), the [Examples](https://pkg.odin-lang.org/examples/) (which contains demos for using the vendor libs, e.g. [Tetris in raylib](https://pkg.odin-lang.org/examples/raylib/tetroid/)), or the [package documentation](https://pkg.odin-lang.org/), then you will likely find it very helpful to explore your Odin source code directory, especially the files contained in the following five subdirectories: `examples\demo`, `tests`, `core`, `vendor`, and `misc\old_demos`.
 
 The following list describes why each of these may be useful:
 
@@ -4534,7 +4534,7 @@ Try doing a text search in one or more of these subdirectories for what you are 
 
 Odin's documentation may be sparse at times, but this sparsity can be worked around effectively by using the above listed resources. *Don't forget they exist.*
 
-When working with any system that is still under-development these kinds of techniques are essential for maximizing your effectiveness. Many (perhaps most) real world companies, especially in intense industries such as game development and multimedia often don't have complete documentation and changes can happen rapidly. 
+When working with any system that is still under-development these kinds of techniques are essential for maximizing your effectiveness. Many (perhaps most) real world companies, especially in intense industries such as game development and multimedia often don't have complete documentation and changes can happen rapidly.
 
 Self-sufficiency in such a context requires a willingness to explore these kinds of resources proactively, rather than waiting for documentation that may be slow to come or may not fully cover what things actually do precisely enough.
 

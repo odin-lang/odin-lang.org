@@ -41,7 +41,7 @@ my_test :: proc(t: ^testing.T) {
 }
 ```
 
-All individual tests require the [`@(test)` attribute](/docs/overview/#test). This is how the compiler knows which ones to send to the test runner. They also must accept one and only one argument: `^testing.T`. It can be named anything you want it to be, but by convention, virtually every test uses `t`.
+All individual tests require the [`@(test)` attribute](/docs/attributes/#test). This is how the compiler knows which ones to send to the test runner. They also must accept one and only one argument: `^testing.T`. It can be named anything you want it to be, but by convention, virtually every test uses `t`.
 
 `^testing.T` is a pointer to a special `struct` defined by the `core:testing` package. We'll talk more about that later. 
 
@@ -96,7 +96,8 @@ Because the numeric values of each rune in `"hellope"` add up to `745`, this tes
 [ERROR] --- [2024-06-10 17:45:38] [tests.odin:16:my_test()] expected 745, got 752
 ```
 
-**Note:** A test can have multiple `expect`ations, not just one. You can use any combination of the procedures documented here.
+> [!NOTE]
+> A test can have multiple `expect`ations, not just one. You can use any combination of the procedures documented here.
 
 #### Conclusion
 
@@ -202,16 +203,15 @@ import "core:testing"
 
 @(test)
 my_test :: proc(t: ^testing.T) {
-	fd, open_error := os.open("test_data")
+	f, open_error := os.open("test_data")
 
-	if !testing.expect_value(t, open_error, os.ERROR_NONE) {
+	if !testing.expect_value(t, open_error, nil) {
 		return
 	}
 
-	testing.cleanup(t, proc (raw_handle: rawptr) {
-		handle := cast(^os.Handle)raw_handle
-		os.close(handle^)
-	}, &fd)
+	testing.cleanup(t, proc(raw_file: rawptr) {
+		os.close((^os.File)(raw_file))
+	}, f)
 
 	some_value := 5
 
@@ -221,13 +221,14 @@ my_test :: proc(t: ^testing.T) {
 }
 ```
 
-If we didn't use `cleanup`, the `fd` file handle would still be open, because `defer` statements are not run if the thread panics.
+If we didn't use `cleanup`, the file `f` would still be open, because `defer` statements are not run if the thread panics.
 
 However, for almost all situations, you should be fine trusting in `defer`; `cleanup` is for those rare times when you have a particularly unstable test case and need to clean it up afterwards.
 
 It should be noted that, if the test panics or times out, `cleanup` runs with greater privilege in the main thread, to preserve the state of the test's memory. With this in mind, all `cleanup` procedures must not, under any circumstance: fail an assertion, fail a bounds check, access invalid memory, panic, or raise a signal of any sort. Otherwise, they will take down the entire test runner.
 
-**Note:** Even if a test fails catastrophically and doesn't clean up any of the memory it used, the test runner equips each test thread with its own custom allocator that is wiped clean at the start of a new test. You do not need to worry about memory leaks in completed tests causing issues later on.
+> [!NOTE]
+> Even if a test fails catastrophically and doesn't clean up any of the memory it used, the test runner equips each test thread with its own custom allocator that is wiped clean at the start of a new test. You do not need to worry about memory leaks in completed tests causing issues later on.
 
 ### `testing.expect`
 
@@ -331,7 +332,7 @@ Then run `odin test tests/ -all-packages` to run every `@(test)` procedure in th
 ## Compile-Time Options
 
 There are several compile-time options that help you tailor the test runner's execution to your preferences.
-The test runner is written in Odin itself, so these are [`#config` options](/docs/overview/#configidentifer-default), as opposed to regular flags.
+The test runner is written in Odin itself, so these are [`#config` options](/docs/directives/#configidentifier-default), as opposed to regular flags.
 
 - `ODIN_TEST_THREADS=<n>` sets how many threads to use. Set to `0` to use the number of cores available.
 - `ODIN_TEST_TRACK_MEMORY=false` turns off memory tracking. It is on by default.

@@ -22,6 +22,12 @@ twitter = "@odinlang"
 [markup.goldmark.renderer]
 unsafe = true
 
+# Code blocks are highlighted in the browser by highlight.js, with the same grammar and colours as
+# pkg.odin-lang.org (js/highlight-odin.js and css/style.css), so Hugo leaves them as plain text
+# rather than adding its own colours, which would show through whenever highlight.js does not run
+[markup.highlight]
+codeFences = false
+
 [markup.tableOfContents]
 endLevel = 4
 

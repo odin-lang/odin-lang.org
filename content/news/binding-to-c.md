@@ -61,13 +61,13 @@ main :: proc() {
 }
 ```
 
-Note that the procedure declaration has to end in `---` inside the `foreign` block to denote that the body is found elsewhere. This is to prevent a parsing ambiguity with procedure variables and types. See the [Attributes and Directives sections](https://odin-lang.org/docs/overview/#attributes) for more information.
+Note that the procedure declaration has to end in `---` inside the `foreign` block to denote that the body is found elsewhere. This is to prevent a parsing ambiguity with procedure variables and types. See the [Attributes](/docs/attributes/) and [Directives](/docs/directives/) pages for more information.
 
 ### Foreign blocks
 
 Odin supports multiple ways of making binding to C easier.
 
-By default, the foreign block links to a function of the same name as the name you specify inside the `foreign` block. This can be explicitly changed by using the `@(link_name=<string>)` and `@(link_prefix=<string>)` [attributes](https://odin-lang.org/docs/overview/#linking-and-foreign-attributes). The following are all equivalent:
+By default, the foreign block links to a function of the same name as the name you specify inside the `foreign` block. This can be explicitly changed by using the [`@(link_name=<string>)`](/docs/attributes/#link_namestring) and [`@(link_prefix=<string>)`](/docs/attributes/#link_prefixstring) attributes. The following are all equivalent:
 
 ```odin
 foreign foo {

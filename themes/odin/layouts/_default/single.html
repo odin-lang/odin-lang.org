@@ -1,11 +1,11 @@
 {{ define "main" }}
 <main id="main" tabindex="-1">
     <div class="container-xxl">
-        <div class="row odin-main">
+        <div class="row odin-main odin-docs-layout odin-site-docs">
             {{ partial "sidebar" . }}
 
             <!-- Content -->
-            <article class="col-lg-8 p-4" {{- if .Param "autonumbering" }} autonumbering {{- end }}>
+            <article class="col-lg-8 p-4 documentation" {{- if .Param "autonumbering" }} autonumbering {{- end }}>
                 <header>
                     <nav aria-label="breadcrumb">
                         {{ $rellink := "" }}
@@ -17,23 +17,84 @@
                                 {{ end }}
                             {{ end }}
                         </ol>
+                    </nav>
                     <h1>{{ .Title }}</h1>
 
                     {{- if .IsPage }}
                     {{- if not .PublishDate.IsZero }}<p class="publish-date">{{ .PublishDate.Format "2006-01-02" | safeHTMLAttr }}</p>
                     {{ end }}
                     {{- end }}{{/* .IsPage */}}
+
+                    {{- if ne .TableOfContents "<nav id=\"TableOfContents\"></nav>" }}
+                    <!-- A search of the page's sections, the same look as pkg.odin-lang.org's search; js/docs-page.js -->
+                    <div class="odin-search-wrapper">
+                        <div class="odin-search-field">
+                            <input type="search" id="odin-search" autocomplete="off" spellcheck="false" placeholder="Search this page..."
+                                aria-label="Search this page's sections" role="combobox" aria-expanded="false" aria-controls="odin-search-results" aria-autocomplete="list">
+                            <div class="odin-search-shortcut">
+                                <div class="odin-search-key key-macos">⌘K</div>
+                                <div class="odin-search-key key-windows">Ctrl+K</div>
+                                <span class="odin-search-or">or</span>
+                                <div class="odin-search-key">/</div>
+                            </div>
+                            <ul id="odin-search-results" role="listbox" aria-label="Sections" hidden></ul>
+                        </div>
+                        <button type="button" class="odin-shortcuts-button" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6.5 10h.01M9.5 10h.01M12.5 10h.01M15.5 10h.01M18 10h.01M6.5 14h.01M17.5 14h.01M9.5 14h5"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- The contents, for screens too narrow for the contents sidebar. Not a <nav>, and
+                         without the sidebar's id, so the contents sidebar's highlighting ignores it -->
+                    <details class="odin-mobile-toc">
+                        <summary>Contents</summary>
+                        {{ .TableOfContents | replaceRE "<nav id=\"TableOfContents\">" "<div>" | replaceRE "</nav>" "</div>" | safeHTML }}
+                    </details>
+                    {{- end }}
                 </header>
                 <div class="odin-article">
                     <!-- Add anchors to links -->
-                    {{ .Content | replaceRE "(<h[2-9] id=\"([^\"]+)\".+)(</h[2-9]+>)" "${1} <a class=\"text-decoration-none\" href=\"#${2}\">#</a>${3}" | safeHTML }}
+                    {{ .Content | replaceRE "(<h[2-9] id=\"([^\"]+)\".+)(</h[2-9]+>)" "${1} <a class=\"heading-anchor text-decoration-none\" href=\"#${2}\" aria-label=\"Link to this section\">#</a>${3}" | safeHTML }}
                 </div>
+
+                {{- /* Links to the anchors of sections which moved to pages of their own (`moved_to`, and
+                       `moved_anchors` for any renamed) go on to them, unless the anchor is still here */}}
+                {{- if or .Params.moved_to .Params.moved_anchors }}
+                {{- $moved := dict }}
+                {{- range .Params.moved_to }}
+                    {{- with site.GetPage . }}
+                        {{- $url := .RelPermalink }}
+                        {{- range .Fragments.Identifiers }}
+                            {{- $moved = merge $moved (dict . (printf "%s#%s" $url .)) }}
+                        {{- end }}
+                    {{- else }}
+                        {{- errorf "%s: moved_to names %q, which is not a page" $.File.Path . }}
+                    {{- end }}
+                {{- end }}
+                {{- range $id, $to := .Params.moved_anchors }}
+                    {{- $moved = merge $moved (dict $id $to) }}
+                {{- end }}
+                <script>
+                    (() => {
+                        const moved = {{ $moved }};
+                        const follow = () => {
+                            const id = decodeURIComponent(location.hash.slice(1));
+                            if (id !== "" && !document.getElementById(id) && Object.hasOwn(moved, id)) {
+                                location.replace(moved[id]);
+                            }
+                        };
+                        follow();
+                        window.addEventListener("hashchange", follow);
+                    })();
+                </script>
+                {{- end }}
             </article>
 
             <!-- Right menu -->
             {{ if ne .TableOfContents "<nav id=\"TableOfContents\"></nav>" }}
-            <div id="TOC" class="col-lg-2 odin-toc-border">
+            <div id="TOC" class="col-lg-2 odin-toc-border navbar-light">
                 <div class="sticky-top odin-below-navbar py-3">
+                    {{ partial "sidebar-toggle" (dict "name" "toc-sidebar" "label" "Contents") }}
                     {{ .TableOfContents }}
                 </div>
             </div>

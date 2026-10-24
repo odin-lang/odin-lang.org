@@ -453,11 +453,12 @@ fmt.println(some_map["B"]) // 5
 > [!NOTE]
 > It is not possible to iterate a string in a by-reference manner as strings are immutable.
 
-Range-based `for` loops can also iterate over the results of a procedure that returns a multi-valued tuple whose last value is a `bool`. The loop continues while the boolean is `true`, and the preceding values in the tuple are available as loop variables. This is similar in concept to a "custom iterator" but is just syntactic sugar for calling the procedure in a loop.
+
+A procedure can be iterated over when the last return type is a `bool`. The other return values can be assigned to variables in the loop.
 
 ```odin
 iter_count := 0
-some_procedure :: proc() -> (int, int, int, cond: bool) {
+some_procedure :: proc() -> (a, b, c: int, cond: bool) {
 	iter_count += 1
 	if iter_count < 4 {
 		return iter_count, iter_count*2, iter_count*3, true

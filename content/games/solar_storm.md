@@ -9,6 +9,6 @@ redirect: https://store.steampowered.com/app/2754920/Solar_Storm/
 game_description: A retro turn-based artillery shooter, built from scratch in Odin and inspired by Worms and Scorched Earth.
 game_platform: Steam
 game_status: Released
-game_preview: /images/games/solar-storm.gif
+game_preview: /images/games/solar-storm.png
 game_video: /images/games/solar-storm-trailer.mp4
 ---

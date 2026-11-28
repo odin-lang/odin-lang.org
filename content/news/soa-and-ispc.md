@@ -19,7 +19,7 @@ Odin is plainer. `#soa` is just a data layout, and a loop over an `#soa` array i
 
 So ISPC is the more implicit of the two and Odin the more explicit. You'd expect that to make the Odin code longer, but it mostly doesn't, and once or twice it's actually shorter.
 
-**Note:** All the timings in this article come from an AMD Ryzen 9 7950X (Zen 4) running Windows 11, Odin, LLVM 22, and ISPC 1.32.0. Each timing is 20000 passes over 4096 elements (built with `-o:speed`).
+**Note:** All the timings in this article come from an AMD Ryzen 9 7950X (Zen 4) running Windows 11, Odin, LLVM 22, and ISPC 1.32.0. Unless a table says otherwise, each timing is 20000 passes over 4096 elements (built with `-o:speed`).
 
 ## Data Layout
 
@@ -86,11 +86,13 @@ step :: proc(ps: #soa[]Particle, dt: f32) {
 
 In ISPC, `foreach` hands each program instance its own `i`, and everything the gang shares is marked `uniform`. In Odin there's nothing to mark. `#soa[]Particle` carries all six columns and their length in a single parameter, and `for &p in ps` is a normal loop. Each iteration only touches its own particle, so LLVM is free to vectorize it at `-o:speed`.
 
-| Build                                    | Particles per instruction | 20,000 passes over 4,096 particles |
-|------------------------------------------|--------------------------:|-----------------------------------:|
-| default, `x86-64-v2` (SSE4.2)            |                         4 |                              25 ms |
-| `-microarch:x86-64-v3` (AVX2)            |                         8 |                              19 ms |
-| `-microarch:native` on a Zen 4 (AVX-512) |                        16 |                              18 ms |
+| Build                                    | Particles per instruction | 20,000 passes over 4,096 particles (96 KB) | 10 passes over 8,192,000 particles (196 MB) |
+|------------------------------------------|--------------------------:|-------------------------------------------:|--------------------------------------------:|
+| default, `x86-64-v2` (SSE4.2)            |                         4 |                                      25 ms |                                       63 ms |
+| `-microarch:x86-64-v3` (AVX2)            |                         8 |                                      19 ms |                                       59 ms |
+| `-microarch:native` on a Zen 4 (AVX-512) |                        16 |                                      18 ms |                                       58 ms |
+
+**Note:** You'll notice the gains shrink as the vectors get wider. That's because the loop does very little arithmetic for all the data it moves. Each particle means reading 24 bytes and writing 12, just for three multiplies and three adds. At 96 KB, the columns don't even fit in the Zen 4's 32 KB L1 cache. Make it 196 MB and they have to come all the way from main memory, and then every build takes about 60 ms. At that point the vectors spend most of their time waiting for data, however wide they are.
 
 ## Calling Kernels From Your Program
 

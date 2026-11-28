@@ -92,7 +92,7 @@ In ISPC, `foreach` hands each program instance its own `i`, and everything the g
 | `-microarch:x86-64-v3` (AVX2)            |                         8 |                                      19 ms |                                       59 ms |
 | `-microarch:native` on a Zen 4 (AVX-512) |                        16 |                                      18 ms |                                       58 ms |
 
-**Note:** You'll notice the gains shrink as the vectors get wider. That's because the loop does very little arithmetic for all the data it moves. Each particle means reading 24 bytes and writing 12, just for three multiplies and three adds. At 96 KB, the columns don't even fit in the Zen 4's 32 KB L1 cache. Make it 196 MB and they have to come all the way from main memory, and then every build takes about 60 ms. At that point the vectors spend most of their time waiting for data, however wide they are.
+**Note:** You'll notice the gains shrink as the vectors get wider. That's because the loop does very little arithmetic for all the data it moves. Each particle means reading 24 bytes and writing 12 bytes, just for three multiplies and three adds. At 96 KiB, the columns don't even fit in the Zen 4's 32 KiB L1 cache. Make it 196 MiB and they have to come all the way from main memory, and then every build takes about 60 ms. At that point, the vectors spend most of their time waiting for data regardless of how wide they are.
 
 ## Calling Kernels From Your Program
 

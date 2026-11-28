@@ -4,7 +4,6 @@ summary: "Common ISPC kernels side-by-side with Odin's #soa, and the trade-offs 
 slug: soa-and-ispc
 author: Ginger Bill
 date: '2026-11-28'
-draft: true
 categories:
   - soa
   - simd

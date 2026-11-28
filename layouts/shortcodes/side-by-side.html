@@ -1,0 +1,19 @@
+{{- /* Two code blocks side by side, separated by a line holding only "<--->", with the labels "left" and "right"
+       (ISPC and Odin by default) above them; they stack when the article is too narrow for both. css/style.css
+       styles them */ -}}
+{{- $parts := split (replace .Inner "\r\n" "\n") "\n<--->\n" -}}
+{{- if ne (len $parts) 2 -}}
+	{{- errorf "%s: side-by-side needs two parts separated by a line holding only <--->" .Position -}}
+{{- end -}}
+<div class="side-by-side">
+<div class="side-by-side-panes">
+<figure class="side-by-side-pane">
+<figcaption>{{ .Get "left" | default "ISPC" }}</figcaption>
+{{ .Page.RenderString (dict "display" "block") (index $parts 0) }}
+</figure>
+<figure class="side-by-side-pane">
+<figcaption>{{ .Get "right" | default "Odin" }}</figcaption>
+{{ .Page.RenderString (dict "display" "block") (index $parts 1) }}
+</figure>
+</div>
+</div>

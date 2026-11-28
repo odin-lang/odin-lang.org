@@ -761,6 +761,42 @@ h4.odin-sidebar-title {
 .documentation pre .copy-code:focus { opacity: 1; }
 .documentation pre .copy-code:hover { background: rgba(127,127,127,.25); }
 
+/* two code blocks side by side (layouts/shortcodes/side-by-side.html), with narrower tabs and type to
+   fit, which stack when the article is too narrow for two lines of about 45 characters */
+
+.side-by-side {
+    container-type: inline-size;
+    margin: 0 0 1rem;
+}
+.side-by-side-panes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+.side-by-side-pane {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin: 0;
+}
+.side-by-side-pane figcaption {
+    margin-bottom: 0.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--odin-sidebar-muted);
+}
+.documentation .side-by-side-pane pre {
+    flex: 1;
+    margin: 0;
+    font-size: 0.8125rem;
+    tab-size: 4;
+}
+@container (max-width: 48rem) {
+    .side-by-side-panes {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
 /* the search box, its results, and the keyboard shortcuts */
 
 .odin-search-wrapper {
